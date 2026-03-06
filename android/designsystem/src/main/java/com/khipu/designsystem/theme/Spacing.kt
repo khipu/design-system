@@ -24,12 +24,12 @@ data class KdsSpacingValues(
     val space4: Dp = KdsSpacing.space4,
     val space5: Dp = KdsSpacing.space5,
     val space6: Dp = KdsSpacing.space6,
+    val space7: Dp = KdsSpacing.space7,
     val space8: Dp = KdsSpacing.space8,
+    val space9: Dp = KdsSpacing.space9,
     val space10: Dp = KdsSpacing.space10,
+    val space11: Dp = KdsSpacing.space11,
     val space12: Dp = KdsSpacing.space12,
-    val space16: Dp = KdsSpacing.space16,
-    val space20: Dp = KdsSpacing.space20,
-    val space24: Dp = KdsSpacing.space24,
 
     // ==========================================================================
     // SEMANTIC SPACING ALIASES (for khipu-client-android compatibility)
