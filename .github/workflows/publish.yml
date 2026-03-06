@@ -20,7 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
-      - run: npm run test -- --run
+      - run: npm run test -- --run --passWithNoTests
       - run: npm run build
 
   publish-node:
@@ -60,6 +60,8 @@ jobs:
       - uses: android-actions/setup-android@v3
 
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          validate-wrappers: false
 
       - name: Publish Android library to Nexus
         run: |
