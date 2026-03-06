@@ -113,7 +113,7 @@ publishing {
 
         maven {
             name = "nexus"
-            url = uri("https://dev.khipu.com/nexus/content/repositories/releases")
+            url = uri("https://dev.khipu.com/nexus/content/repositories/design-system")
             credentials {
                 username = project.findProperty("khipuRepoUsername") as String? ?: ""
                 password = project.findProperty("khipuRepoPassword") as String? ?: ""
