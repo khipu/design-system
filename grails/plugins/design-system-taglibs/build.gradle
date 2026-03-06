@@ -1,0 +1,77 @@
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+
+group = 'org.grails.plugins'
+version = '0.1.0'
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencies {
+    compile 'org.grails:grails-plugin-gsp:2.5.4'
+    compile 'org.grails:grails-plugin-services:2.5.4'
+    testCompile 'org.grails:grails-plugin-testing:2.5.4'
+}
+
+task zipPlugin(type: Zip) {
+    from('.') {
+        include 'grails-app/**'
+        include 'src/**'
+        include 'DesignSystemTaglibsGrailsPlugin.groovy'
+        include 'plugin.xml'
+    }
+    archiveBaseName = 'grails-design-system-taglibs'
+    archiveVersion = version
+    archiveExtension = 'zip'
+    destinationDirectory = file("$buildDir/distributions")
+}
+
+task createPluginXml {
+    doLast {
+        def pluginXml = new File(projectDir, 'plugin.xml')
+        pluginXml.text = """<?xml version="1.0" encoding="UTF-8"?>
+<plugin name='design-system-taglibs' version='${version}' grailsVersion='2.5 &gt; *'>
+  <author>Khipu</author>
+  <title>Khipu Design System Taglibs</title>
+  <description>Grails taglibs para el Sistema de Diseño de Khipu</description>
+  <documentation>https://github.com/khipu/design-system</documentation>
+  <type>DesignSystemTaglibsGrailsPlugin</type>
+  <resources/>
+</plugin>
+"""
+    }
+}
+
+zipPlugin.dependsOn createPluginXml
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.grails.plugins'
+            artifactId = 'design-system-taglibs'
+            version = '0.1.0'
+
+            artifact(zipPlugin) {
+                extension 'zip'
+            }
+
+            pom {
+                name = 'Khipu Design System Taglibs'
+                description = 'Grails taglibs para el Sistema de Diseño de Khipu'
+                url = 'https://github.com/khipu/design-system'
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url = 'https://dev.khipu.com/nexus/content/repositories/releases/'
+            credentials {
+                username = 'deployment'
+                password = '93h50sj2di2hd923'
+            }
+        }
+    }
+}

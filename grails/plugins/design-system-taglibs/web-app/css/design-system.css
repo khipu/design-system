@@ -1,0 +1,211 @@
+/**
+ * Khipu Design System - CSS Custom Properties
+ * Use these variables for runtime theming and CSS-based styling
+ */
+
+/* Font imports - must be at the top of the file */
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* ==========================================================================
+     COLOR TOKENS
+     ========================================================================== */
+
+  /* Primary palette - Purple (Khipu brand) */
+  --kds-color-primary-main: #8347AD;
+  --kds-color-primary-light: #9B6BBD;
+  --kds-color-primary-dark: #5B3179;
+  --kds-color-primary-contrast: #FFFFFF;
+  --kds-color-primary-hover: rgba(131, 71, 173, 0.04);
+  --kds-color-primary-selected: rgba(131, 71, 173, 0.08);
+  --kds-color-primary-focus: rgba(131, 71, 173, 0.12);
+  --kds-color-primary-focus-visible: rgba(131, 71, 173, 0.30);
+
+  /* Secondary palette - Cyan/Turquoise */
+  --kds-color-secondary-main: #3CB4E5;
+  --kds-color-secondary-light: #6AC6EB;
+  --kds-color-secondary-dark: #198EBE;
+  --kds-color-secondary-contrast: #FFFFFF;
+
+  /* Semantic colors */
+  --kds-color-success-main: #2E7D32;
+  --kds-color-success-light: #4CAF50;
+  --kds-color-success-dark: #1B5E20;
+
+  --kds-color-warning-main: #ED6C02;
+  --kds-color-warning-light: #FF9800;
+  --kds-color-warning-dark: #E65100;
+
+  --kds-color-error-main: #D32F2F;
+  --kds-color-error-light: #EF5350;
+  --kds-color-error-dark: #C62828;
+
+  --kds-color-info-main: #0288D1;
+  --kds-color-info-light: #03A9F4;
+  --kds-color-info-dark: #01579B;
+
+  /* Text colors */
+  --kds-color-text-primary: rgba(0, 0, 0, 0.87);
+  --kds-color-text-secondary: rgba(0, 0, 0, 0.60);
+  --kds-color-text-disabled: rgba(0, 0, 0, 0.38);
+  --kds-color-text-hint: rgba(0, 0, 0, 0.38);
+
+  /* Background colors */
+  --kds-color-background-default: #FFFFFF;
+  --kds-color-background-paper: #FFFFFF;
+  --kds-color-background-elevated: #FAFAFA;
+
+  /* Action colors */
+  --kds-color-action-active: rgba(0, 0, 0, 0.56);
+  --kds-color-action-hover: rgba(0, 0, 0, 0.04);
+  --kds-color-action-selected: rgba(0, 0, 0, 0.08);
+  --kds-color-action-disabled: rgba(0, 0, 0, 0.26);
+  --kds-color-action-disabled-bg: rgba(0, 0, 0, 0.12);
+
+  /* Divider */
+  --kds-color-divider: rgba(0, 0, 0, 0.12);
+
+  /* Input borders */
+  --kds-color-input-border: rgba(0, 0, 0, 0.23);
+  --kds-color-input-border-hover: rgba(0, 0, 0, 0.87);
+
+  /* ==========================================================================
+     TYPOGRAPHY TOKENS
+     ========================================================================== */
+
+  /* Font families */
+  --kds-font-family-primary: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --kds-font-family-secondary: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --kds-font-family-mono: "Roboto Mono", "SF Mono", "Monaco", monospace;
+
+  /* Font weights */
+  --kds-font-weight-light: 300;
+  --kds-font-weight-regular: 400;
+  --kds-font-weight-medium: 500;
+  --kds-font-weight-semibold: 600;
+  --kds-font-weight-bold: 700;
+
+  /* Font sizes */
+  --kds-font-size-xs: 0.75rem;
+  --kds-font-size-sm: 0.875rem;
+  --kds-font-size-base: 1rem;
+  --kds-font-size-lg: 1.125rem;
+  --kds-font-size-xl: 1.25rem;
+  --kds-font-size-2xl: 1.5rem;
+  --kds-font-size-3xl: 1.875rem;
+  --kds-font-size-4xl: 2.25rem;
+
+  /* Line heights */
+  --kds-line-height-tight: 1.2;
+  --kds-line-height-snug: 1.375;
+  --kds-line-height-normal: 1.5;
+  --kds-line-height-relaxed: 1.66;
+
+  /* Letter spacing */
+  --kds-letter-spacing-normal: 0.15px;
+  --kds-letter-spacing-wide: 0.4px;
+  --kds-letter-spacing-wider: 0.46px;
+  --kds-letter-spacing-widest: 1px;
+
+  /* ==========================================================================
+     SPACING TOKENS
+     ========================================================================== */
+
+  --kds-spacing-0: 0px;
+  --kds-spacing-1: 8px;
+  --kds-spacing-2: 16px;
+  --kds-spacing-3: 24px;
+  --kds-spacing-4: 32px;
+  --kds-spacing-5: 40px;
+  --kds-spacing-6: 48px;
+  --kds-spacing-7: 56px;
+  --kds-spacing-8: 64px;
+  --kds-spacing-9: 72px;
+  --kds-spacing-10: 80px;
+  --kds-spacing-11: 88px;
+  --kds-spacing-12: 96px;
+
+  /* Semantic spacing */
+  --kds-spacing-input-x: 12px;
+  --kds-spacing-input-y: 16px;
+  --kds-spacing-button-x: 22px;
+  --kds-spacing-button-y: 8px;
+  --kds-spacing-card: 20px;
+  --kds-spacing-modal: 24px;
+  --kds-spacing-section: 32px;
+  --kds-spacing-form-gap: 20px;
+
+  /* ==========================================================================
+     BORDER RADIUS TOKENS
+     ========================================================================== */
+
+  --kds-radius-none: 0px;
+  --kds-radius-sm: 4px;
+  --kds-radius-md: 8px;
+  --kds-radius-lg: 12px;
+  --kds-radius-xl: 16px;
+  --kds-radius-2xl: 20px;
+  --kds-radius-full: 9999px;
+
+  /* Component-specific radii */
+  --kds-radius-button: 4px;
+  --kds-radius-input: 4px;
+  --kds-radius-card: 20px;
+  --kds-radius-modal: 20px;
+  --kds-radius-chip: 16px;
+  --kds-radius-icon-container: 10px;
+
+  /* ==========================================================================
+     SHADOW TOKENS
+     ========================================================================== */
+
+  --kds-shadow-none: none;
+  --kds-shadow-1: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+  --kds-shadow-2: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+  --kds-shadow-4: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+  --kds-shadow-8: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+  --kds-shadow-16: 0px 8px 10px -5px rgba(0,0,0,0.2), 0px 16px 24px 2px rgba(0,0,0,0.14), 0px 6px 30px 5px rgba(0,0,0,0.12);
+  --kds-shadow-24: 0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12);
+
+  /* Semantic shadows */
+  --kds-shadow-button: var(--kds-shadow-2);
+  --kds-shadow-card: var(--kds-shadow-1);
+  --kds-shadow-modal: var(--kds-shadow-24);
+  --kds-shadow-dropdown: var(--kds-shadow-8);
+
+  /* ==========================================================================
+     Z-INDEX TOKENS
+     ========================================================================== */
+
+  --kds-z-index-fab: 1050;
+  --kds-z-index-appbar: 1100;
+  --kds-z-index-drawer: 1200;
+  --kds-z-index-modal: 1300;
+  --kds-z-index-snackbar: 1400;
+  --kds-z-index-tooltip: 1500;
+
+  /* ==========================================================================
+     TRANSITION TOKENS
+     ========================================================================== */
+
+  --kds-transition-shortest: 150ms;
+  --kds-transition-shorter: 200ms;
+  --kds-transition-short: 250ms;
+  --kds-transition-standard: 300ms;
+  --kds-transition-complex: 375ms;
+
+  --kds-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --kds-easing-ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+  --kds-easing-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --kds-easing-sharp: cubic-bezier(0.4, 0, 0.6, 1);
+
+  /* ==========================================================================
+     BREAKPOINTS
+     ========================================================================== */
+
+  --kds-breakpoint-xs: 444px;
+  --kds-breakpoint-sm: 600px;
+  --kds-breakpoint-md: 900px;
+  --kds-breakpoint-lg: 1200px;
+  --kds-breakpoint-xl: 1536px;
+}

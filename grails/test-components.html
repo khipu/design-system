@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khipu Design System - Component Test</title>
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="src/main/resources/css/kds-tokens.css">
+    <link rel="stylesheet" href="src/main/resources/css/kds-components.css">
+
+    <style>
+        body {
+            font-family: var(--kds-font-family-primary, sans-serif);
+            padding: var(--kds-spacing-6, 24px);
+            background-color: #f5f5f5;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .test-section {
+            background: white;
+            padding: var(--kds-spacing-5, 20px);
+            margin-bottom: var(--kds-spacing-4, 16px);
+            border-radius: var(--kds-radius-card, 20px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .test-section h2 {
+            color: var(--kds-color-primary-main, #8347AD);
+            margin-top: 0;
+            margin-bottom: var(--kds-spacing-4, 16px);
+            border-bottom: 2px solid var(--kds-color-primary-main, #8347AD);
+            padding-bottom: var(--kds-spacing-2, 8px);
+        }
+
+        .test-section h3 {
+            color: var(--kds-color-text-primary, rgba(0,0,0,0.87));
+            margin-top: var(--kds-spacing-4, 16px);
+            margin-bottom: var(--kds-spacing-2, 8px);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--kds-spacing-3, 12px);
+            margin-bottom: var(--kds-spacing-4, 16px);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--kds-spacing-4, 16px);
+        }
+
+        .form-example {
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: var(--kds-color-primary-main, #8347AD); text-align: center;">
+        🎨 Khipu Design System - Component Test
+    </h1>
+
+    <p style="text-align: center; color: var(--kds-color-text-secondary, rgba(0,0,0,0.6));">
+        Testing Phase 1 Components: Button, TextField, Card
+    </p>
+
+    <!-- BUTTONS TEST -->
+    <div class="test-section">
+        <h2>Buttons</h2>
+
+        <h3>Contained Buttons</h3>
+        <div class="button-grid">
+            <button class="kds-button kds-button--contained kds-button--primary kds-button--large">
+                <span class="kds-button__label">Primary Large</span>
+            </button>
+            <button class="kds-button kds-button--contained kds-button--secondary kds-button--large">
+                <span class="kds-button__label">Secondary</span>
+            </button>
+            <button class="kds-button kds-button--contained kds-button--success kds-button--large">
+                <span class="kds-button__label">Success</span>
+            </button>
+            <button class="kds-button kds-button--contained kds-button--error kds-button--large">
+                <span class="kds-button__label">Error</span>
+            </button>
+        </div>
+
+        <h3>Outlined Buttons</h3>
+        <div class="button-grid">
+            <button class="kds-button kds-button--outlined kds-button--primary kds-button--medium">
+                <span class="kds-button__label">Primary Medium</span>
+            </button>
+            <button class="kds-button kds-button--outlined kds-button--secondary kds-button--medium">
+                <span class="kds-button__label">Secondary</span>
+            </button>
+        </div>
+
+        <h3>Text Buttons</h3>
+        <div class="button-grid">
+            <button class="kds-button kds-button--text kds-button--primary kds-button--small">
+                <span class="kds-button__label">Primary Small</span>
+            </button>
+            <button class="kds-button kds-button--text kds-button--secondary kds-button--small">
+                <span class="kds-button__label">Secondary</span>
+            </button>
+        </div>
+
+        <h3>States</h3>
+        <div class="button-grid">
+            <button class="kds-button kds-button--contained kds-button--primary kds-button--large kds-button--loading">
+                <span class="kds-button__spinner"></span>
+                <span class="kds-button__label">Loading...</span>
+            </button>
+            <button class="kds-button kds-button--contained kds-button--primary kds-button--large" disabled>
+                <span class="kds-button__label">Disabled</span>
+            </button>
+            <button class="kds-button kds-button--contained kds-button--primary kds-button--large kds-button--full-width">
+                <span class="kds-button__label">Full Width</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- TEXTFIELD TEST -->
+    <div class="test-section">
+        <h2>Text Fields</h2>
+
+        <div class="form-example">
+            <h3>Default State</h3>
+            <div class="kds-textfield">
+                <label class="kds-textfield__label" for="email">
+                    Email
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    class="kds-textfield__input"
+                    placeholder="Ingresa tu email"
+                    value="">
+                <span class="kds-textfield__helper-text">
+                    Ingresa un email válido
+                </span>
+            </div>
+
+            <h3>Required Field</h3>
+            <div class="kds-textfield">
+                <label class="kds-textfield__label" for="name">
+                    Nombre
+                    <span class="kds-textfield__required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="name"
+                    class="kds-textfield__input"
+                    placeholder="Ingresa tu nombre completo"
+                    required>
+                <span class="kds-textfield__helper-text">
+                    Campo obligatorio
+                </span>
+            </div>
+
+            <h3>Error State</h3>
+            <div class="kds-textfield kds-textfield--error">
+                <label class="kds-textfield__label" for="password">
+                    Contraseña
+                </label>
+                <input
+                    type="password"
+                    id="password"
+                    class="kds-textfield__input"
+                    value="123">
+                <span class="kds-textfield__helper-text kds-textfield__helper-text--error">
+                    La contraseña debe tener al menos 8 caracteres
+                </span>
+            </div>
+
+            <h3>Textarea</h3>
+            <div class="kds-textfield">
+                <label class="kds-textfield__label" for="description">
+                    Descripción
+                </label>
+                <textarea
+                    id="description"
+                    class="kds-textfield__textarea"
+                    rows="4"
+                    placeholder="Escribe una descripción..."></textarea>
+                <span class="kds-textfield__counter">0 / 200</span>
+            </div>
+
+            <h3>Disabled State</h3>
+            <div class="kds-textfield kds-textfield--disabled">
+                <label class="kds-textfield__label" for="disabled">
+                    Campo deshabilitado
+                </label>
+                <input
+                    type="text"
+                    id="disabled"
+                    class="kds-textfield__input"
+                    value="No editable"
+                    disabled>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD TEST -->
+    <div class="test-section">
+        <h2>Cards</h2>
+
+        <h3>Card Variants</h3>
+        <div class="card-grid">
+            <div class="kds-card kds-card--elevated">
+                <div class="kds-card__header">
+                    <h4 style="margin: 0;">Elevated Card</h4>
+                </div>
+                <div class="kds-card__content">
+                    <p style="margin: 0; color: var(--kds-color-text-secondary);">
+                        This card has elevation shadow.
+                    </p>
+                </div>
+                <div class="kds-card__actions">
+                    <button class="kds-button kds-button--text kds-button--primary kds-button--small">
+                        <span class="kds-button__label">Action</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="kds-card kds-card--outlined">
+                <div class="kds-card__header">
+                    <h4 style="margin: 0;">Outlined Card</h4>
+                </div>
+                <div class="kds-card__content">
+                    <p style="margin: 0; color: var(--kds-color-text-secondary);">
+                        This card has a border.
+                    </p>
+                </div>
+            </div>
+
+            <div class="kds-card kds-card--filled">
+                <div class="kds-card__header">
+                    <h4 style="margin: 0;">Filled Card</h4>
+                </div>
+                <div class="kds-card__content">
+                    <p style="margin: 0; color: var(--kds-color-text-secondary);">
+                        This card has a filled background.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top: var(--kds-spacing-5);">Interactive Cards</h3>
+        <div class="card-grid">
+            <div class="kds-card kds-card--outlined kds-card--clickable" onclick="alert('Card clicked!')">
+                <div class="kds-card__header">
+                    <h4 style="margin: 0;">Clickable Card</h4>
+                </div>
+                <div class="kds-card__content">
+                    <p style="margin: 0; color: var(--kds-color-text-secondary);">
+                        Click me! I have hover effects.
+                    </p>
+                </div>
+            </div>
+
+            <div class="kds-card kds-card--outlined kds-card--selected">
+                <div class="kds-card__header">
+                    <h4 style="margin: 0;">Selected Card</h4>
+                </div>
+                <div class="kds-card__content">
+                    <p style="margin: 0; color: var(--kds-color-text-secondary);">
+                        This card is selected (2px purple border).
+                    </p>
+                </div>
+            </div>
+
+            <div class="kds-card kds-card--outlined kds-card--error">
+                <div class="kds-card__header">
+                    <h4 style="margin: 0;">Error Card</h4>
+                </div>
+                <div class="kds-card__content">
+                    <p style="margin: 0; color: var(--kds-color-text-secondary);">
+                        This card shows an error state.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORM EXAMPLE -->
+    <div class="test-section">
+        <h2>Complete Form Example</h2>
+
+        <form class="form-example" onsubmit="event.preventDefault(); alert('Form submitted!');">
+            <div class="kds-textfield">
+                <label class="kds-textfield__label" for="form-name">
+                    Nombre del titular
+                    <span class="kds-textfield__required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="form-name"
+                    class="kds-textfield__input"
+                    placeholder="Ingresa tu nombre completo"
+                    required>
+                <span class="kds-textfield__helper-text">
+                    Nombre según tu documento de identidad
+                </span>
+            </div>
+
+            <div class="kds-textfield">
+                <label class="kds-textfield__label" for="form-email">
+                    Email
+                    <span class="kds-textfield__required">*</span>
+                </label>
+                <input
+                    type="email"
+                    id="form-email"
+                    class="kds-textfield__input"
+                    placeholder="ejemplo@khipu.com"
+                    required>
+            </div>
+
+            <div style="display: flex; gap: var(--kds-spacing-3); margin-top: var(--kds-spacing-4);">
+                <button type="button" class="kds-button kds-button--outlined kds-button--secondary kds-button--large" style="flex: 1;">
+                    <span class="kds-button__label">Cancelar</span>
+                </button>
+                <button type="submit" class="kds-button kds-button--contained kds-button--primary kds-button--large" style="flex: 1;">
+                    <span class="kds-button__label">Enviar</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <footer style="text-align: center; margin-top: var(--kds-spacing-6); color: var(--kds-color-text-secondary);">
+        <p>Khipu Design System v0.1.0-alpha.1 | Phase 1: Foundation</p>
+    </footer>
+</body>
+</html>

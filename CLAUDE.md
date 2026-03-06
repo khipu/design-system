@@ -1,0 +1,325 @@
+# CLAUDE.md
+
+Este archivo proporciona orientación a Claude Code (claude.ai/code) cuando trabaja con código en este repositorio.
+
+## 📚 Documentación Relacionada
+
+**Para voz y tono de marca:**
+- **[BRAND_GUIDE_FOR_AI.md](./BRAND_GUIDE_FOR_AI.md)** - Guía completa de voz, tono y copy para agentes IA
+  - Define comunicación cercana, clara, confiable y directa
+  - Incluye anti-patrones y checklist de validación
+  - Úsalo cuando generes textos de UI, mensajes de error, o documentación de cara al usuario
+
+**Este archivo (CLAUDE.md):** Aspectos técnicos, arquitectura y comandos de desarrollo
+
+### Flujo de Información para Agentes IA
+
+```
+Figma (Diseño - Fuente de verdad para el equipo)
+    ↓
+    [Solo equipo de Design System]
+    ↓
+Storybook + MD files (Documentación publicada)
+    ↓
+    [Agentes IA y desarrolladores]
+    ↓
+Claude Code (Implementación)
+```
+
+**Importante:** Como agente IA, usa **Storybook** y estos archivos MD como fuente de verdad. La conexión con Figma la mantiene exclusivamente el equipo de design system.
+
+---
+
+## 📖 Guías Detalladas
+
+Para temas específicos, consulta estas guías:
+
+| Tema | Documento | Descripción |
+|------|-----------|-------------|
+| **Build & Publishing** | [`docs/BUILD_PUBLISHING.md`](docs/BUILD_PUBLISHING.md) | Cómo construir y publicar packages (Web + Android) |
+| **Tokens de Diseño** | [`docs/TOKENS_GUIDE.md`](docs/TOKENS_GUIDE.md) | Sistema de tokens, generación multi-plataforma |
+| **Patrones de Componentes** | [`docs/COMPONENT_PATTERNS.md`](docs/COMPONENT_PATTERNS.md) | Arquitectura, plantillas, convenciones |
+| **Troubleshooting** | [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md) | Problemas comunes y sincronización de archivos |
+| **Android** | [`docs/android/`](docs/android/) | Guías completas de Android (Jetpack Compose) |
+| **Anti-patrones** | [`docs/development/PAINFUL_PATTERNS.md`](docs/development/PAINFUL_PATTERNS.md) | Código legacy y rutas de migración |
+
+---
+
+## Resumen del Proyecto
+
+El Sistema de Diseño de Khipu es una biblioteca completa de componentes React y sistema de tokens de diseño para la plataforma de pagos Khipu, construida sobre Material UI (MUI) v7 con soporte completo de TypeScript.
+
+**Detalles Clave:**
+- Paquete: `@khipu/design-system` v0.1.0
+- Stack: React 18+, TypeScript 5.3+, Material UI 7.3.6, Emotion 11.14
+- Fuente de Diseño: Figma - "Pagos Automáticos - MUI v610"
+- Herramienta de Build: tsup (empaquetador rápido de TypeScript)
+- Testing: Vitest
+- Documentación: Storybook 7.6
+
+---
+
+## Comandos Rápidos
+
+### Desarrollo
+```bash
+npm run dev                # Modo desarrollo con watch
+npm run build              # Build de producción
+npm run storybook          # Ejecutar Storybook (puerto 6006)
+npm run test               # Ejecutar tests
+npm run typecheck          # Verificación de tipos
+```
+
+### Tokens
+```bash
+npm run tokens:generate    # Generar todos los tokens (JSON, CSS, Android)
+```
+
+### Android
+```bash
+npm run android:build           # Build de la librería
+npm run android:publish-local   # Publicar a Maven Local
+npm run android:publish         # Publicar a AWS CodeArtifact
+```
+
+**📘 Guía completa:** Ver [`docs/BUILD_PUBLISHING.md`](docs/BUILD_PUBLISHING.md)
+
+---
+
+## Arquitectura de Alto Nivel
+
+### Sistema de Componentes (Tres Capas)
+
+```
+┌─────────────────────────────────────┐
+│    Componentes de Dominio (Futuro)   │ ← Lógica de negocio
+│   (BankSelector, PaymentStepper)     │
+├─────────────────────────────────────┤
+│        Componentes Core (Kds*)       │ ← Primitivos con tema Khipu
+│  (KdsButton, KdsTextField, etc.)     │
+├─────────────────────────────────────┤
+│    Material UI / Material 3          │ ← Componentes base
+│        (React / Jetpack Compose)     │
+└─────────────────────────────────────┘
+```
+
+**Patrón Clave:**
+1. Envuelve componente base (MUI o Material 3)
+2. Aplica tokens de diseño via tema
+3. Extiende con props personalizadas
+4. Usa `forwardRef` (React) / `@Composable` (Android)
+5. Exporta componente + tipos
+
+**📘 Guía completa:** Ver [`docs/COMPONENT_PATTERNS.md`](docs/COMPONENT_PATTERNS.md)
+
+---
+
+## Sistema de Tokens
+
+### Flujo de Tokens
+
+```
+src/tokens/index.ts (✍️ MANUAL - única fuente de verdad)
+        ↓
+   npm run tokens:generate
+        ↓
+        ├→ tokens.json (React)
+        ├→ css-variables.css (Web)
+        └→ KdsTokens.kt (Android)
+```
+
+**Categorías:**
+- **Colores**: Púrpura primario (#8347AD), semánticos
+- **Tipografía**: Public Sans, Roboto, 8 tamaños
+- **Espaciado**: Escala 0-96px + semántico
+- **Border Radius**: Por componente
+- **Sombras**: Basadas en elevación
+
+**📘 Guía completa:** Ver [`docs/TOKENS_GUIDE.md`](docs/TOKENS_GUIDE.md)
+
+---
+
+## Android (Jetpack Compose)
+
+### Resumen
+
+Sistema de Diseño Khipu para Android - Componentes Jetpack Compose con Material 3.
+
+**Detalles:**
+- Paquete: `com.khipu:design-system` v0.1.0-alpha.1
+- Stack: Kotlin 2.0.21, Compose, Material 3
+- Min SDK: 24, Target SDK: 35
+
+**Estado:**
+- ✅ Tokens: 100% (sincronizado con React)
+- ✅ Tema: 100% (Material 3 light/dark)
+- ✅ Build: 100% (CodeArtifact)
+- ⚠️ Componentes: 8% (1/12 - solo KdsButton)
+
+### Comandos Android
+
+```bash
+npm run android:build           # Compilar AAR
+npm run android:publish-local   # Maven Local
+npm run android:publish         # CodeArtifact
+```
+
+### Documentación Android
+
+| Documento | Uso |
+|-----------|-----|
+| [`docs/android/ANDROID_SUMMARY.md`](docs/android/ANDROID_SUMMARY.md) | Resumen ejecutivo |
+| [`docs/android/ANDROID_IMPLEMENTATION_PLAN.md`](docs/android/ANDROID_IMPLEMENTATION_PLAN.md) | Roadmap, templates |
+| [`android/USAGE_GUIDE.md`](android/USAGE_GUIDE.md) | API reference |
+| [`android/QUICK_START.md`](android/QUICK_START.md) | Guía 5 min |
+
+---
+
+## Referencia Rápida: React vs Android
+
+| Aspecto | React | Android |
+|---------|-------|---------|
+| **Lenguaje** | TypeScript | Kotlin |
+| **Framework** | React 18 | Jetpack Compose |
+| **UI Library** | Material UI v7 | Material 3 |
+| **Tema** | `<KhipuThemeProvider>` | `KdsTheme { }` |
+| **Componente** | `<KdsButton />` | `KdsButton()` |
+| **Props** | `variant="contained"` | `variant = KdsButtonVariant.CONTAINED` |
+| **Versión** | v0.1.0-alpha.5 | v0.1.0-alpha.1 |
+
+---
+
+## Índice de Documentación
+
+Para una vista completa de toda la documentación disponible, consulta: **[docs/README.md](docs/README.md)**
+
+### Documentación Organizada
+
+```
+docs/
+├── README.md                          📍 Índice principal
+├── BUILD_PUBLISHING.md                Build & Publishing
+├── TOKENS_GUIDE.md                    Tokens de diseño
+├── COMPONENT_PATTERNS.md              Patrones de componentes
+├── TROUBLESHOOTING.md                 Troubleshooting
+│
+├── android/                           Android docs
+│   ├── ANDROID_SUMMARY.md
+│   └── ANDROID_IMPLEMENTATION_PLAN.md
+│
+├── grails/                            Grails/GSP docs
+│   ├── README.md
+│   └── GRAILS_IMPLEMENTATION_PLAN.md
+│
+├── design/                            Diseño
+│   ├── DESIGN_SYSTEM_ANALYSIS.md
+│   └── DESIGN_SYSTEM_PLAN.md
+│
+├── development/                       Desarrollo
+│   └── PAINFUL_PATTERNS.md
+│
+├── deployment/                        Deployment
+│   └── DEPLOYMENT-PLAN.md
+│
+└── project/                           Gestión
+    └── BACKLOG.md
+```
+
+**Links Rápidos:**
+- Guías por plataforma (React, Android, Grails): `docs/README.md`
+- Estado del proyecto: `docs/README.md` → "Estado del Proyecto"
+- Anti-patrones: `docs/development/PAINFUL_PATTERNS.md`
+- Deployment: `docs/deployment/DEPLOYMENT-PLAN.md`
+
+---
+
+## Estructura de Archivos
+
+```
+src/
+├── index.ts                 # Exports principales
+├── components/
+│   ├── core/               # 9 componentes Kds*
+│   └── domain/             # Futuro: componentes compuestos
+├── tokens/
+│   ├── index.ts           # ✍️ Fuente de verdad
+│   ├── tokens.json        # Auto-generado
+│   └── css-variables.css  # Auto-generado
+├── theme/
+│   ├── index.ts           # Tema MUI
+│   └── ThemeProvider.tsx
+├── examples/              # Ejemplos completos
+└── stories/               # Docs de Storybook
+
+android/
+├── designsystem/
+│   └── src/main/java/com/khipu/designsystem/
+│       ├── tokens/
+│       │   └── KdsTokens.kt        # Auto-generado
+│       ├── theme/
+│       │   └── Theme.kt
+│       └── components/
+│           └── KdsButton.kt
+```
+
+---
+
+## Notas Importantes
+
+- **Enfoque token-first**: Siempre usar tokens, nunca valores hardcodeados
+- **MUI/Material 3 como base**: No es headless, aprovecha patrones establecidos
+- **Componentes sin estado**: Estado se maneja en containers/ViewModels
+- **Figma = fuente de verdad**: Valores de diseño vienen de Figma
+- **Prefijo Kds**: Todos los componentes usan prefijo `Kds` (commit 9213d43)
+
+---
+
+## Troubleshooting Rápido
+
+| Problema | Solución |
+|----------|----------|
+| **TypeScript errors** | `npm run typecheck` |
+| **Build falla** | `rm -rf dist && npm run build` |
+| **Storybook sin estilos** | Verificar `<KhipuThemeProvider>` |
+| **Tokens desincronizados** | `npm run tokens:generate` |
+| **Android build falla** | `npm run android:clean` |
+
+**📘 Guía completa:** Ver [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md)
+
+---
+
+## Custom Prompts para Claude Code
+
+### Trabajar con Tokens
+```
+Lee docs/TOKENS_GUIDE.md.
+Muestra cómo actualizar tokens de diseño y regenerar archivos derivados.
+```
+
+### Crear Componente React
+```
+Lee docs/COMPONENT_PATTERNS.md sección "Agregar un Nuevo Componente Core".
+Crea [ComponentName] siguiendo el patrón de KdsButton.
+```
+
+### Crear Componente Android
+```
+Lee docs/android/ANDROID_IMPLEMENTATION_PLAN.md sección "Component Implementation Guidelines".
+Usa android/.../components/KdsButton.kt como template.
+Implementa [ComponentName] con enums, previews, y KDoc.
+```
+
+### Build & Publishing
+```
+Lee docs/BUILD_PUBLISHING.md.
+Muestra el workflow completo desde desarrollo hasta producción.
+```
+
+---
+
+## Para Más Información
+
+- **Documentación completa:** [`docs/README.md`](docs/README.md)
+- **CI/CD:** [`docs/CI_CD_SETUP.md`](docs/CI_CD_SETUP.md)
+- **Deployment:** [`docs/deployment/DEPLOYMENT-PLAN.md`](docs/deployment/DEPLOYMENT-PLAN.md)
+- **Voz y tono:** [`BRAND_GUIDE_FOR_AI.md`](BRAND_GUIDE_FOR_AI.md)

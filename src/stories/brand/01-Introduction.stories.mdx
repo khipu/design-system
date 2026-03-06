@@ -1,0 +1,137 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Brand/Introduccion" />
+
+# Introducción
+
+Bienvenido a la guía de marca digital de Khipu. Este documento establece los fundamentos visuales y comunicacionales que definen nuestra identidad como plataforma de pagos.
+
+<h2 style={{ marginTop: '64px', border: 'none', borderBottom: 'none' }}>📚 Navegación de la guía</h2>
+
+Esta guía está organizada en las siguientes secciones:
+
+1. **Uso de marca**: Uso correcto del logotipo y variantes
+2. **Uso de colores**: Paleta de colores y aplicación
+3. **Uso tipográfico**: Fundamentos de la familia tipográfica
+4. **Voz y tono**: Guías de comunicación y redacción
+
+<h2 style={{ marginTop: '64px', border: 'none', borderBottom: 'none' }}>🤖 Uso con agentes de IA</h2>
+
+Esta guía puede ser utilizada como contexto para agentes de IA que generen contenido para Khipu.
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px', marginBottom: '32px' }}>
+
+<div style={{ padding: '24px', background: '#F8F5FA', borderRadius: '12px', borderLeft: '4px solid #8347AD' }}>
+  <h3 style={{ fontSize: '18px', marginTop: 0, color: '#8347AD' }}>📄 Opción 1: Archivo markdown</h3>
+
+  <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '16px' }}>
+    Usa el archivo optimizado para agentes de IA ubicado en la raíz del proyecto:
+  </p>
+
+  <div style={{ marginBottom: '16px' }}>
+    <div style={{ marginBottom: '12px' }}>
+      <code style={{ fontSize: '14px', fontWeight: 600, color: '#8347AD' }}>BRAND_GUIDE_FOR_AI.md</code>
+    </div>
+
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <button
+        onClick={() => window.open('https://bitbucket.org/khipu/design-system/src/master/BRAND_GUIDE_FOR_AI.md', '_blank')}
+        style={{
+          padding: '12px 16px',
+          background: '#F8F5FA',
+          color: '#8347AD',
+          border: '2px solid #8347AD',
+          borderRadius: '6px',
+          fontSize: '14px',
+          fontWeight: 600,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px'
+        }}
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        Ver en línea
+      </button>
+
+      <a
+        href="/BRAND_GUIDE_FOR_AI.md"
+        download="BRAND_GUIDE_FOR_AI.md"
+        style={{
+          padding: '12px 16px',
+          background: '#F8F5FA',
+          color: '#8347AD',
+          border: '2px solid #8347AD',
+          borderRadius: '6px',
+          fontSize: '14px',
+          fontWeight: 600,
+          cursor: 'pointer',
+          textDecoration: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px'
+        }}
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  </div>
+
+  <p style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Cómo funciona:</p>
+  <ol style={{ fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px' }}>
+    <li>Proporciona la URL del archivo al modelo de IA (si soporta importación de archivos)</li>
+    <li>O descarga y copia el contenido completo al inicio de tu conversación</li>
+    <li>Agrega tu solicitud específica</li>
+  </ol>
+</div>
+
+<div style={{ padding: '24px', background: '#F0E6F6', borderRadius: '12px', borderLeft: '4px solid #6B2E98' }}>
+  <h3 style={{ fontSize: '18px', marginTop: 0, color: '#6B2E98' }}>🔌 Opción 2: Claude con MCP</h3>
+
+  <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+    Conecta Claude a Storybook mediante un servidor MCP (Model Context Protocol) que exponga <strong>BRAND_GUIDE_FOR_AI.md</strong> como recurso contextual.
+  </p>
+
+  <p style={{ fontSize: '13px', lineHeight: '1.6', marginBottom: '16px', color: '#666' }}>
+    Documentación MCP: <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer" style={{ color: '#6B2E98', textDecoration: 'underline' }}>modelcontextprotocol.io</a>
+  </p>
+
+  <p style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Cómo funciona:</p>
+  <ol style={{ fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px' }}>
+    <li>Un servidor MCP sirve <code>BRAND_GUIDE_FOR_AI.md</code> como recurso</li>
+    <li>Claude consulta automáticamente las guías cuando genera contenido</li>
+    <li>Mantiene consistencia con voz, tono y marca de Khipu sin copiar/pegar</li>
+  </ol>
+</div>
+
+</div>
+
+### Ejemplos de uso
+
+**Revisar un texto:**
+```
+Revisa este texto siguiendo las guías de marca de Khipu:
+[tu texto aquí]
+```
+
+**Generar microcopy:**
+```
+Genera 3 opciones de texto para un botón de confirmación de pago,
+siguiendo las guías de voz y tono de Khipu.
+```
+
+**Mejorar redacción:**
+```
+Reescribe este mensaje de error para que sea más claro y cercano,
+según las guías de comunicación de Khipu.
+```

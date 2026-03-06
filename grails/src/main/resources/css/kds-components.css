@@ -1,0 +1,424 @@
+/**
+ * Khipu Design System - Component Styles
+ * Uses CSS Variables from kds-tokens.css
+ *
+ * Version: 0.1.0-alpha.1
+ * Technology: Pure CSS with CSS Variables
+ *
+ * Usage:
+ *   1. Include kds-tokens.css first (CSS Variables)
+ *   2. Include this file (Component styles)
+ *
+ * Example:
+ *   <link rel="stylesheet" href="css/kds-tokens.css">
+ *   <link rel="stylesheet" href="css/kds-components.css">
+ */
+
+/* =============================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+/* =============================================================================
+   KDS BUTTON
+   ========================================================================== */
+
+.kds-button {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: var(--kds-spacing-button-y, 12px) var(--kds-spacing-button-x, 24px);
+  position: relative;
+
+  /* Typography */
+  font-family: var(--kds-font-family-primary, sans-serif);
+  font-size: var(--kds-font-size-body, 1rem);
+  font-weight: var(--kds-font-weight-medium, 500);
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1.5;
+
+  /* Appearance */
+  border: none;
+  border-radius: var(--kds-radius-button, 4px);
+  cursor: pointer;
+  user-select: none;
+
+  /* Transitions */
+  transition: all var(--kds-transition-duration, 300ms) var(--kds-transition-easing, ease);
+}
+
+.kds-button:focus {
+  outline: 2px solid var(--kds-color-primary-main, #8347AD);
+  outline-offset: 2px;
+}
+
+.kds-button__label {
+  display: inline-block;
+}
+
+.kds-button__spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: kds-spin 0.6s linear infinite;
+  margin-right: var(--kds-spacing-2, 8px);
+}
+
+@keyframes kds-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Button Variants - Contained */
+.kds-button--contained {
+  box-shadow: var(--kds-shadow-2,
+    0px 3px 1px -2px rgba(0,0,0,0.2),
+    0px 2px 2px 0px rgba(0,0,0,0.14),
+    0px 1px 5px 0px rgba(0,0,0,0.12)
+  );
+}
+
+.kds-button--contained.kds-button--primary {
+  background-color: var(--kds-color-primary-main, #8347AD);
+  color: var(--kds-color-primary-contrast, #FFFFFF);
+}
+
+.kds-button--contained.kds-button--primary:hover:not([disabled]) {
+  background-color: var(--kds-color-primary-dark, #6B3A8C);
+  box-shadow: var(--kds-shadow-4,
+    0px 4px 5px -2px rgba(0,0,0,0.2),
+    0px 7px 10px 1px rgba(0,0,0,0.14),
+    0px 2px 16px 1px rgba(0,0,0,0.12)
+  );
+}
+
+.kds-button--contained.kds-button--secondary {
+  background-color: var(--kds-color-secondary-main, #9C27B0);
+  color: var(--kds-color-secondary-contrast, #FFFFFF);
+}
+
+.kds-button--contained.kds-button--secondary:hover:not([disabled]) {
+  background-color: var(--kds-color-secondary-dark, #7B1FA2);
+  box-shadow: var(--kds-shadow-4);
+}
+
+.kds-button--contained.kds-button--success {
+  background-color: var(--kds-color-success-main, #4CAF50);
+  color: #FFFFFF;
+}
+
+.kds-button--contained.kds-button--error {
+  background-color: var(--kds-color-error-main, #F44336);
+  color: #FFFFFF;
+}
+
+.kds-button--contained.kds-button--warning {
+  background-color: var(--kds-color-warning-main, #FF9800);
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.kds-button--contained.kds-button--info {
+  background-color: var(--kds-color-info-main, #2196F3);
+  color: #FFFFFF;
+}
+
+/* Button Variants - Outlined */
+.kds-button--outlined {
+  background-color: transparent;
+  border: 1px solid;
+}
+
+.kds-button--outlined.kds-button--primary {
+  border-color: var(--kds-color-primary-main, #8347AD);
+  color: var(--kds-color-primary-main, #8347AD);
+}
+
+.kds-button--outlined.kds-button--primary:hover:not([disabled]) {
+  background-color: rgba(131, 71, 173, 0.04);
+  border-color: var(--kds-color-primary-dark, #6B3A8C);
+}
+
+.kds-button--outlined.kds-button--secondary {
+  border-color: var(--kds-color-secondary-main, #9C27B0);
+  color: var(--kds-color-secondary-main, #9C27B0);
+}
+
+.kds-button--outlined.kds-button--secondary:hover:not([disabled]) {
+  background-color: rgba(156, 39, 176, 0.04);
+}
+
+/* Button Variants - Text */
+.kds-button--text {
+  background-color: transparent;
+  box-shadow: none;
+  padding: var(--kds-spacing-2, 8px) var(--kds-spacing-3, 12px);
+}
+
+.kds-button--text.kds-button--primary {
+  color: var(--kds-color-primary-main, #8347AD);
+}
+
+.kds-button--text.kds-button--primary:hover:not([disabled]) {
+  background-color: rgba(131, 71, 173, 0.04);
+}
+
+.kds-button--text.kds-button--secondary {
+  color: var(--kds-color-secondary-main, #9C27B0);
+}
+
+.kds-button--text.kds-button--secondary:hover:not([disabled]) {
+  background-color: rgba(156, 39, 176, 0.04);
+}
+
+/* Button Sizes */
+.kds-button--small {
+  min-height: 36px;
+  padding: 4px 10px;
+  font-size: 0.8125rem;
+}
+
+.kds-button--medium {
+  min-height: 44px;
+  padding: 8px 20px;
+  font-size: 0.875rem;
+}
+
+.kds-button--large {
+  min-height: 50px;
+  padding: var(--kds-spacing-button-y, 12px) var(--kds-spacing-button-x, 24px);
+  font-size: var(--kds-font-size-body, 1rem);
+}
+
+/* Button States */
+.kds-button--full-width {
+  width: 100%;
+}
+
+.kds-button--disabled,
+.kds-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.kds-button--loading {
+  pointer-events: none;
+}
+
+/* =============================================================================
+   KDS TEXTFIELD
+   ========================================================================== */
+
+.kds-textfield {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--kds-spacing-4, 16px);
+  width: 100%;
+}
+
+.kds-textfield__label {
+  font-family: var(--kds-font-family-primary, sans-serif);
+  font-size: var(--kds-font-size-label, 0.875rem);
+  font-weight: var(--kds-font-weight-medium, 500);
+  color: var(--kds-color-text-secondary, rgba(0, 0, 0, 0.6));
+  margin-bottom: 4px;
+  transition: color var(--kds-transition-duration, 300ms) var(--kds-transition-easing, ease);
+}
+
+.kds-textfield__required {
+  color: var(--kds-color-error-main, #F44336);
+  margin-left: 2px;
+}
+
+.kds-textfield__input,
+.kds-textfield__textarea {
+  padding: 12px var(--kds-spacing-3, 12px);
+  border: 1px solid var(--kds-color-border, rgba(0, 0, 0, 0.23));
+  border-radius: var(--kds-radius-input, 4px);
+  font-family: var(--kds-font-family-primary, sans-serif);
+  font-size: var(--kds-font-size-body, 1rem);
+  color: var(--kds-color-text-primary, rgba(0, 0, 0, 0.87));
+  background-color: var(--kds-color-background-paper, #FFFFFF);
+  transition: all var(--kds-transition-duration, 300ms) var(--kds-transition-easing, ease);
+  width: 100%;
+}
+
+.kds-textfield__input:focus,
+.kds-textfield__textarea:focus {
+  outline: none;
+  border-color: var(--kds-color-primary-main, #8347AD);
+  box-shadow: 0 0 0 2px rgba(131, 71, 173, 0.1);
+}
+
+.kds-textfield__textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Error State */
+.kds-textfield--error .kds-textfield__input,
+.kds-textfield--error .kds-textfield__textarea {
+  border-color: var(--kds-color-error-main, #F44336);
+}
+
+.kds-textfield--error .kds-textfield__input:focus,
+.kds-textfield--error .kds-textfield__textarea:focus {
+  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.1);
+}
+
+.kds-textfield--error .kds-textfield__label {
+  color: var(--kds-color-error-main, #F44336);
+}
+
+/* Helper Text */
+.kds-textfield__helper-text {
+  font-size: 0.75rem;
+  color: var(--kds-color-text-secondary, rgba(0, 0, 0, 0.6));
+  margin-top: 4px;
+  min-height: 20px;
+}
+
+.kds-textfield__helper-text--error {
+  color: var(--kds-color-error-main, #F44336);
+}
+
+/* Disabled State */
+.kds-textfield--disabled .kds-textfield__input,
+.kds-textfield--disabled .kds-textfield__textarea {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--kds-color-action-disabled-bg, rgba(0, 0, 0, 0.12));
+}
+
+/* Character Counter */
+.kds-textfield__counter {
+  font-size: 0.75rem;
+  color: var(--kds-color-text-secondary, rgba(0, 0, 0, 0.6));
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* =============================================================================
+   KDS CARD
+   ========================================================================== */
+
+.kds-card {
+  border-radius: var(--kds-radius-card, 20px);
+  padding: var(--kds-spacing-card-padding-y, 20px) var(--kds-spacing-card-padding-x, 20px);
+  background-color: var(--kds-color-background-paper, #FFFFFF);
+  transition: all var(--kds-transition-duration, 300ms) var(--kds-transition-easing, ease);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Variants */
+.kds-card--elevated {
+  box-shadow: var(--kds-shadow-1,
+    0px 2px 1px -1px rgba(0,0,0,0.2),
+    0px 1px 1px 0px rgba(0,0,0,0.14),
+    0px 1px 3px 0px rgba(0,0,0,0.12)
+  );
+}
+
+.kds-card--outlined {
+  border: 1px solid var(--kds-color-border, rgba(0, 0, 0, 0.23));
+}
+
+.kds-card--filled {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Card States */
+.kds-card--clickable {
+  cursor: pointer;
+}
+
+.kds-card--clickable:hover {
+  box-shadow: var(--kds-shadow-4,
+    0px 4px 5px -2px rgba(0,0,0,0.2),
+    0px 7px 10px 1px rgba(0,0,0,0.14),
+    0px 2px 16px 1px rgba(0,0,0,0.12)
+  );
+  transform: translateY(-2px);
+}
+
+.kds-card--selected {
+  border: 2px solid var(--kds-color-primary-main, #8347AD);
+  padding: calc(var(--kds-spacing-card-padding-y, 20px) - 1px) calc(var(--kds-spacing-card-padding-x, 20px) - 1px);
+}
+
+.kds-card--error {
+  border: 2px solid var(--kds-color-error-main, #F44336);
+  padding: calc(var(--kds-spacing-card-padding-y, 20px) - 1px) calc(var(--kds-spacing-card-padding-x, 20px) - 1px);
+}
+
+/* Card Sections */
+.kds-card__header {
+  margin-bottom: var(--kds-spacing-3, 12px);
+}
+
+.kds-card__content {
+  flex: 1;
+  margin-bottom: var(--kds-spacing-3, 12px);
+}
+
+.kds-card__content:last-child {
+  margin-bottom: 0;
+}
+
+.kds-card__actions {
+  display: flex;
+  gap: var(--kds-spacing-2, 8px);
+  justify-content: flex-end;
+  margin-top: var(--kds-spacing-3, 12px);
+}
+
+.kds-card__actions--start {
+  justify-content: flex-start;
+}
+
+.kds-card__actions--center {
+  justify-content: center;
+}
+
+/* =============================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+/* Spacing utilities */
+.kds-mt-0 { margin-top: 0; }
+.kds-mt-1 { margin-top: var(--kds-spacing-1, 4px); }
+.kds-mt-2 { margin-top: var(--kds-spacing-2, 8px); }
+.kds-mt-3 { margin-top: var(--kds-spacing-3, 12px); }
+.kds-mt-4 { margin-top: var(--kds-spacing-4, 16px); }
+.kds-mt-5 { margin-top: var(--kds-spacing-5, 20px); }
+
+.kds-mb-0 { margin-bottom: 0; }
+.kds-mb-1 { margin-bottom: var(--kds-spacing-1, 4px); }
+.kds-mb-2 { margin-bottom: var(--kds-spacing-2, 8px); }
+.kds-mb-3 { margin-bottom: var(--kds-spacing-3, 12px); }
+.kds-mb-4 { margin-bottom: var(--kds-spacing-4, 16px); }
+.kds-mb-5 { margin-bottom: var(--kds-spacing-5, 20px); }
+
+/* Display utilities */
+.kds-flex { display: flex; }
+.kds-flex-column { flex-direction: column; }
+.kds-flex-row { flex-direction: row; }
+.kds-justify-center { justify-content: center; }
+.kds-justify-between { justify-content: space-between; }
+.kds-align-center { align-items: center; }
+.kds-gap-2 { gap: var(--kds-spacing-2, 8px); }
+.kds-gap-3 { gap: var(--kds-spacing-3, 12px); }
+.kds-gap-4 { gap: var(--kds-spacing-4, 16px); }
+
+/* Width utilities */
+.kds-w-full { width: 100%; }
+.kds-w-auto { width: auto; }

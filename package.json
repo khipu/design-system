@@ -1,0 +1,124 @@
+{
+  "name": "@khipu/design-system",
+  "version": "0.1.0-alpha.6",
+  "description": "Khipu Design System - UI components and design tokens for the Khipu payment platform",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./tokens": {
+      "types": "./dist/tokens/index.d.ts",
+      "import": "./dist/tokens/index.esm.js",
+      "require": "./dist/tokens/index.js"
+    },
+    "./css": "./dist/tokens/css-variables.css",
+    "./components/core": {
+      "types": "./dist/components/core/index.d.ts",
+      "import": "./dist/components/core/index.esm.js",
+      "require": "./dist/components/core/index.js"
+    },
+    "./components/domain": {
+      "types": "./dist/components/domain/index.d.ts",
+      "import": "./dist/components/domain/index.esm.js",
+      "require": "./dist/components/domain/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "demo": "vite --config demo/vite.config.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "prepublishOnly": "npm run build",
+    "tokens:export": "node scripts/export-tokens-json.js",
+    "tokens:generate": "npm run build && npm run tokens:export && node scripts/generate-css-variables.js && node scripts/generate-tokens.js --kotlin-output=android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt",
+    "generate:tokens": "npm run tokens:generate",
+    "generate:tokens:android": "npm run tokens:generate",
+    "android:build": "cd android && ./gradlew :designsystem:assembleRelease",
+    "android:test": "cd android && ./gradlew :designsystem:testDebugUnitTest",
+    "android:publish-local": "cd android && ./gradlew :designsystem:publishToMavenLocal",
+    "android:publish": "cd android && ./gradlew :designsystem:publish",
+    "android:clean": "cd android && ./gradlew clean",
+    "grails:build": "cd grails && ../android/gradlew build -x test",
+    "grails:test": "cd grails && ../android/gradlew test",
+    "grails:publish-local": "cd grails && ../android/gradlew publishToMavenLocal",
+    "grails:publish": "cd grails && ../android/gradlew publish",
+    "grails:clean": "cd grails && ../android/gradlew clean",
+    "grails:info": "cd grails && ../android/gradlew printInfo"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.0",
+    "@storybook/addon-interactions": "^7.6.0",
+    "@storybook/addon-links": "^7.6.0",
+    "@storybook/react": "^7.6.0",
+    "@storybook/react-vite": "^7.6.0",
+    "@testing-library/jest-dom": "^6.1.0",
+    "@testing-library/react": "^12.1.5",
+    "@types/react": "17.0.0",
+    "@types/react-dom": "17.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "eslint": "^8.50.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react": "17.0.0",
+    "react-dom": "17.0.0",
+    "react-router-dom": "^6.28.0",
+    "storybook": "^7.6.20",
+    "tsup": "^8.0.0",
+    "typescript": "5.4.5",
+    "vite": "^5.4.0",
+    "vitest": "^1.0.0"
+  },
+  "keywords": [
+    "khipu",
+    "design-system",
+    "react",
+    "components",
+    "ui",
+    "payment",
+    "fintech"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/khipu/design-system.git"
+  },
+  "license": "UNLICENSED",
+  "private": false,
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@emotion/react": "11.11.4",
+    "@emotion/styled": "11.11.5",
+    "@mui/icons-material": "7.3.4",
+    "@mui/material": "7.3.4"
+  }
+}
