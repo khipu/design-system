@@ -1,0 +1,7 @@
+<plugin name='design-system-taglibs' version='0.1.0' grailsVersion='2.5 &gt; *'>
+  <author>Khipu</author>
+  <title>Khipu Design System Taglibs</title>
+  <description>Grails taglibs para el Sistema de Diseño de Khipu</description>
+  <type>DesignSystemTaglibsGrailsPlugin</type>
+  <resources />
+</plugin>

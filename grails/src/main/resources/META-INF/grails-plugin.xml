@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin name="design-system" version="0.1.0-alpha.1">
+    <author>Khipu Team</author>
+    <authorEmail>dev@khipu.com</authorEmail>
+    <title>Khipu Design System</title>
+    <description>
+        Khipu Design System taglibs and styles for Grails/GSP applications.
+        Provides consistent UI components matching React and Android implementations.
+        Uses pure CSS with CSS Variables (no preprocessor required).
+    </description>
+    <documentation>https://github.com/khipu/design-system/blob/main/docs/grails/README.md</documentation>
+
+    <type>KhipuDesignSystemGrailsPlugin</type>
+
+    <!-- Grails version compatibility -->
+    <grailsVersion>2.0 &gt; *</grailsVersion>
+
+    <!-- Resources included in plugin -->
+    <resources>
+        <!-- Taglibs -->
+        <resource>com.khipu.designsystem.taglib.KdsButtonTagLib</resource>
+        <!-- To be implemented:
+        <resource>com.khipu.designsystem.taglib.KdsTextFieldTagLib</resource>
+        <resource>com.khipu.designsystem.taglib.KdsCardTagLib</resource>
+        <resource>com.khipu.designsystem.taglib.KdsCheckboxTagLib</resource>
+        <resource>com.khipu.designsystem.taglib.KdsSelectTagLib</resource>
+        <resource>com.khipu.designsystem.taglib.KdsFormTagLib</resource>
+        <resource>com.khipu.designsystem.taglib.KdsAlertTagLib</resource>
+        -->
+    </resources>
+
+    <!-- Plugin dependencies -->
+    <dependencies>
+        <plugin name="core" version="2.5.4" />
+    </dependencies>
+
+    <!-- Repositories -->
+    <repositories>
+        <repository name="grailsCentral" url="https://repo.grails.org/grails/core" />
+    </repositories>
+</plugin>

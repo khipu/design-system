@@ -1,0 +1,62 @@
+./node_modules
+node_modules
+.env
+
+# Build outputs
+dist
+*.tsbuildinfo
+build/
+storybook-static/
+
+# Figma sync cache (regenerable with npm run sync:figma:*)
+figma-mui-components.json
+figma-k-tokens.json
+figma-sync-report.json
+# figma-tokens-extracted.json  # uncomment to ignore extracted tokens
+
+# Token backups
+src/tokens/*.backup.ts
+
+# Auto-generated tokens (regenerable with npm run tokens:generate)
+src/tokens/generated.ts
+src/tokens/tokens.json
+src/tokens/css-variables.css
+tokens/tokens.json
+tokens/generators/
+android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.cache
+.turbo
+
+# Android
+android/build/
+android/.gradle/
+android/local.properties
+android/**/*.iml
+android/.idea/
+android/designsystem/build/
+android/captures/
+*.apk
+*.aab
+
+# Grails
+grails/bin/
+grails/.gradle/
+grails/build/
+grails/target/

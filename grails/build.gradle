@@ -1,0 +1,218 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
+
+group = 'com.khipu'
+version = '0.1.0-alpha.2'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+dependencies {
+    // Grails dependencies (compatible with Grails 2.5.4)
+    implementation 'org.grails:grails-core:2.5.4'
+    implementation 'org.grails:grails-plugin-gsp:2.5.4'
+    implementation 'org.codehaus.groovy:groovy-all:2.4.15'
+
+    // Servlet API (required for taglib testing)
+    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+
+    // Testing
+    testImplementation 'org.grails:grails-plugin-testing:2.5.4'
+    testImplementation 'org.grails:grails-web:2.5.4'
+    testImplementation 'javax.servlet:javax.servlet-api:3.1.0'
+    testImplementation 'org.spockframework:spock-core:1.3-groovy-2.4'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+// ============================================================================
+// CSS SETUP - Copy tokens from React
+// ============================================================================
+
+task copyTokensCSS(type: Copy) {
+    description = 'Copy CSS Variables from React tokens'
+    group = 'build'
+
+    from '../src/tokens/css-variables.css'
+    into 'src/main/resources/css'
+    rename { fileName -> 'kds-tokens.css' }
+
+    doLast {
+        println "✅ CSS Variables copied to grails/src/main/resources/css/kds-tokens.css"
+    }
+}
+
+// Ensure CSS is copied before processing resources
+processResources.dependsOn copyTokensCSS
+
+// ============================================================================
+// JAR CONFIGURATION
+// ============================================================================
+
+jar {
+    archiveBaseName = 'design-system-grails'
+    archiveVersion = version
+
+    // Handle duplicate files
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes(
+            'Implementation-Title': 'Khipu Design System - Grails Plugin',
+            'Implementation-Version': version,
+            'Implementation-Vendor': 'Khipu',
+            'Built-By': System.getProperty('user.name'),
+            'Built-Date': new Date().format('yyyy-MM-dd HH:mm:ss'),
+            'Built-JDK': System.getProperty('java.version')
+        )
+    }
+}
+
+// ============================================================================
+// GRAILS 2.x PLUGIN ZIP
+// ============================================================================
+
+task pluginZip(type: Zip) {
+    description = 'Create Grails 2.x plugin ZIP'
+    group = 'build'
+
+    archiveBaseName = 'design-system-grails'
+    archiveVersion = version
+    archiveExtension = 'zip'
+
+    from(jar.outputs.files) {
+        into 'lib'
+    }
+
+    from('src/main/resources') {
+        into 'grails-app/conf'
+        include 'META-INF/grails-plugin.xml'
+    }
+
+    from('src/main/resources/css') {
+        into 'web-app/css'
+    }
+
+    from('src/main/groovy') {
+        into 'src/groovy'
+    }
+}
+
+pluginZip.dependsOn jar
+assemble.dependsOn pluginZip
+
+// ============================================================================
+// MAVEN PUBLISHING
+// ============================================================================
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.khipu'
+            artifactId = 'design-system-grails'
+            version = project.version
+
+            from components.java
+
+            // Add the plugin ZIP
+            artifact(pluginZip) {
+                extension 'zip'
+            }
+
+            pom {
+                name = 'Khipu Design System - Grails Plugin'
+                description = 'Khipu Design System taglibs and styles for Grails/GSP applications. ' +
+                              'Uses pure CSS with CSS Variables (no preprocessor required).'
+                url = 'https://github.com/khipu/design-system'
+
+                licenses {
+                    license {
+                        name = 'Proprietary'
+                        url = 'https://khipu.com'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'khipu'
+                        name = 'Khipu Team'
+                        email = 'dev@khipu.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/khipu/design-system.git'
+                    developerConnection = 'scm:git:ssh://github.com/khipu/design-system.git'
+                    url = 'https://github.com/khipu/design-system'
+                }
+            }
+        }
+    }
+
+    repositories {
+        mavenLocal()
+
+        maven {
+            name = 'CodeArtifact'
+            url = uri(System.getenv('CODEARTIFACT_URL') ?:
+                     'https://khipu-375783675928.d.codeartifact.us-east-1.amazonaws.com/maven/maven-packages/')
+            credentials {
+                username = 'aws'
+                password = System.getenv('CODEARTIFACT_TOKEN') ?: ''
+            }
+        }
+    }
+}
+
+// ============================================================================
+// CUSTOM TASKS
+// ============================================================================
+
+task printInfo {
+    description = 'Print build information'
+    group = 'help'
+
+    doLast {
+        println """
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  Khipu Design System - Grails Plugin                                      ║
+╟───────────────────────────────────────────────────────────────────────────╢
+║  Version:        ${version}                                              ║
+║  Group:          ${group}                                                  ║
+║  Artifact:       design-system-grails                                      ║
+║                                                                            ║
+║  Technology:     Pure CSS with CSS Variables                              ║
+║  Grails:         2.5.4                                                     ║
+║  Groovy:         2.4.15                                                    ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+Available tasks:
+  ./gradlew build              - Build plugin (includes copying CSS)
+  ./gradlew copyTokensCSS      - Copy CSS Variables from React
+  ./gradlew test               - Run tests
+  ./gradlew publishToMavenLocal - Publish to local Maven repo
+  ./gradlew publish            - Publish to AWS CodeArtifact
+  ./gradlew printInfo          - Show this info
+        """
+    }
+}
+
+// Show info after successful build
+build.doLast {
+    println """
+✅ Build successful!
+
+JAR location: build/libs/${jar.archiveFileName.get()}
+CSS copied:   src/main/resources/css/kds-tokens.css
+
+Next steps:
+  ./gradlew publishToMavenLocal  # Test locally
+  ./gradlew publish              # Publish to CodeArtifact
+    """
+}
