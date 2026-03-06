@@ -52,6 +52,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -62,6 +67,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           validate-wrappers: false
+
+      - run: npm ci
+      - run: npm run tokens:generate
 
       - name: Publish Android library to Nexus
         run: |
