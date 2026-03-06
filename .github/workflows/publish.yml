@@ -1,0 +1,105 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  ci:
+    name: CI Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test -- --run
+      - run: npm run build
+
+  publish-node:
+    name: Publish to npm
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-android:
+    name: Publish to Nexus
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: android-actions/setup-android@v3
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Publish Android library to Nexus
+        run: |
+          cd android
+          chmod +x ./gradlew
+          printf "\nkhipuRepoUsername=${{ secrets.KHIPU_REPO_USERNAME }}" >> gradle.properties
+          printf "\nkhipuRepoPassword=${{ secrets.KHIPU_REPO_PASSWORD }}" >> gradle.properties
+          ./gradlew :designsystem:publish --no-daemon
+
+  publish-ios:
+    name: Publish to CocoaPods
+    needs: ci
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate podspec
+        run: pod lib lint KhipuDesignSystem.podspec --allow-warnings
+
+      - name: Push to CocoaPods trunk
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: pod trunk push KhipuDesignSystem.podspec --allow-warnings
+
+  sync-tag:
+    name: Sync tag to master
+    needs: [publish-node, publish-android, publish-ios]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure master is up to date
+        run: |
+          git fetch origin main
+          git checkout main
+          git merge ${{ github.ref_name }} --no-edit || echo "Already up to date"
+          git push origin main
