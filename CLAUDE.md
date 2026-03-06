@@ -36,7 +36,7 @@ Para temas específicos, consulta estas guías:
 
 | Tema | Documento | Descripción |
 |------|-----------|-------------|
-| **Build & Publishing** | [`docs/BUILD_PUBLISHING.md`](docs/BUILD_PUBLISHING.md) | Cómo construir y publicar packages (Web + Android) |
+| **Build & Publishing** | [`docs/BUILD_PUBLISHING.md`](docs/BUILD_PUBLISHING.md) | Cómo construir y publicar packages (Web + Android + iOS) |
 | **Tokens de Diseño** | [`docs/TOKENS_GUIDE.md`](docs/TOKENS_GUIDE.md) | Sistema de tokens, generación multi-plataforma |
 | **Patrones de Componentes** | [`docs/COMPONENT_PATTERNS.md`](docs/COMPONENT_PATTERNS.md) | Arquitectura, plantillas, convenciones |
 | **Troubleshooting** | [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md) | Problemas comunes y sincronización de archivos |
@@ -47,13 +47,19 @@ Para temas específicos, consulta estas guías:
 
 ## Resumen del Proyecto
 
-El Sistema de Diseño de Khipu es una biblioteca completa de componentes React y sistema de tokens de diseño para la plataforma de pagos Khipu, construida sobre Material UI (MUI) v7 con soporte completo de TypeScript.
+El Sistema de Diseño de Khipu es una biblioteca multi-plataforma de componentes y tokens de diseño para la plataforma de pagos Khipu.
+
+**Plataformas:**
+- **Web**: React 18+ / TypeScript 5.3+ / Material UI v7 → publicado en **npmjs.org** (`@khipu/design-system`)
+- **Android**: Kotlin / Jetpack Compose / Material 3 → publicado en **Nexus** (`com.khipu:design-system`)
+- **iOS**: Swift / SwiftUI → publicado en **CocoaPods** (`KhipuDesignSystem`)
 
 **Detalles Clave:**
-- Paquete: `@khipu/design-system` v0.1.0
-- Stack: React 18+, TypeScript 5.3+, Material UI 7.3.6, Emotion 11.14
+- Repo: github.com/khipu/design-system
+- CI/CD: GitHub Actions (CI + Publish + Storybook deploy)
+- Storybook: design.khipu.com
 - Fuente de Diseño: Figma - "Pagos Automáticos - MUI v610"
-- Herramienta de Build: tsup (empaquetador rápido de TypeScript)
+- Herramienta de Build: tsup (Web), Gradle (Android), CocoaPods (iOS)
 - Testing: Vitest
 - Documentación: Storybook 7.6
 
@@ -79,7 +85,12 @@ npm run tokens:generate    # Generar todos los tokens (JSON, CSS, Android)
 ```bash
 npm run android:build           # Build de la librería
 npm run android:publish-local   # Publicar a Maven Local
-npm run android:publish         # Publicar a AWS CodeArtifact
+npm run android:publish         # Publicar a Nexus
+```
+
+### Version Sync
+```bash
+./scripts/sync-version.sh 0.2.0  # Sincronizar versión en todas las plataformas
 ```
 
 **📘 Guía completa:** Ver [`docs/BUILD_PUBLISHING.md`](docs/BUILD_PUBLISHING.md)
@@ -146,14 +157,15 @@ src/tokens/index.ts (✍️ MANUAL - única fuente de verdad)
 Sistema de Diseño Khipu para Android - Componentes Jetpack Compose con Material 3.
 
 **Detalles:**
-- Paquete: `com.khipu:design-system` v0.1.0-alpha.1
+- Paquete: `com.khipu:design-system`
 - Stack: Kotlin 2.0.21, Compose, Material 3
 - Min SDK: 24, Target SDK: 35
+- Registro: Nexus (`dev.khipu.com/nexus/content/repositories/design-system`)
 
 **Estado:**
 - ✅ Tokens: 100% (sincronizado con React)
 - ✅ Tema: 100% (Material 3 light/dark)
-- ✅ Build: 100% (CodeArtifact)
+- ✅ Build: 100% (Nexus)
 - ⚠️ Componentes: 8% (1/12 - solo KdsButton)
 
 ### Comandos Android
@@ -161,7 +173,7 @@ Sistema de Diseño Khipu para Android - Componentes Jetpack Compose con Material
 ```bash
 npm run android:build           # Compilar AAR
 npm run android:publish-local   # Maven Local
-npm run android:publish         # CodeArtifact
+npm run android:publish         # Nexus
 ```
 
 ### Documentación Android
@@ -185,7 +197,8 @@ npm run android:publish         # CodeArtifact
 | **Tema** | `<KhipuThemeProvider>` | `KdsTheme { }` |
 | **Componente** | `<KdsButton />` | `KdsButton()` |
 | **Props** | `variant="contained"` | `variant = KdsButtonVariant.CONTAINED` |
-| **Versión** | v0.1.0-alpha.5 | v0.1.0-alpha.1 |
+| **iOS** | - | SwiftUI |
+| **Registro** | npmjs.org | Nexus / CocoaPods |
 
 ---
 
@@ -260,6 +273,17 @@ android/
 │       │   └── Theme.kt
 │       └── components/
 │           └── KdsButton.kt
+
+ios/
+├── Sources/              # Código Swift
+│   ├── Tokens/           # Design tokens
+│   ├── Theme/            # KdsTheme
+│   └── Components/       # Componentes SwiftUI
+
+.github/workflows/
+├── ci.yml               # CI en PRs y pushes a main
+├── publish.yml          # Publish a npm + Nexus + CocoaPods en tags v*
+└── storybook.yml        # Deploy Storybook a GitHub Pages
 ```
 
 ---
@@ -320,6 +344,7 @@ Muestra el workflow completo desde desarrollo hasta producción.
 ## Para Más Información
 
 - **Documentación completa:** [`docs/README.md`](docs/README.md)
-- **CI/CD:** [`docs/CI_CD_SETUP.md`](docs/CI_CD_SETUP.md)
+- **CI/CD (GitHub Actions):** [`docs/CI_CD_SETUP.md`](docs/CI_CD_SETUP.md)
 - **Deployment:** [`docs/deployment/DEPLOYMENT-PLAN.md`](docs/deployment/DEPLOYMENT-PLAN.md)
+- **Storybook:** [design.khipu.com](https://design.khipu.com)
 - **Voz y tono:** [`BRAND_GUIDE_FOR_AI.md`](BRAND_GUIDE_FOR_AI.md)
