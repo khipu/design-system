@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+env:
+  VERSION: ${{ github.ref_name }}
+
 jobs:
   ci:
     name: CI Checks
@@ -16,6 +19,9 @@ jobs:
         with:
           node-version: 18
           cache: npm
+
+      - name: Sync version from tag
+        run: ./scripts/sync-version.sh "${VERSION#v}"
 
       - run: npm ci
       - run: npm run typecheck
@@ -38,6 +44,9 @@ jobs:
           node-version: 18
           cache: npm
           registry-url: https://registry.npmjs.org
+
+      - name: Sync version from tag
+        run: ./scripts/sync-version.sh "${VERSION#v}"
 
       - run: npm ci
       - run: npm run build
@@ -68,6 +77,9 @@ jobs:
         with:
           validate-wrappers: false
 
+      - name: Sync version from tag
+        run: ./scripts/sync-version.sh "${VERSION#v}"
+
       - run: npm ci
       - run: npm run tokens:generate
 
@@ -88,6 +100,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Sync version from tag
+        run: |
+          sed -i '' "s/s.version          = '.*'/s.version          = '${VERSION#v}'/" KhipuDesignSystem.podspec
+
       - name: Validate podspec
         run: pod lib lint KhipuDesignSystem.podspec --allow-warnings
 
@@ -95,21 +111,3 @@ jobs:
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: pod trunk push KhipuDesignSystem.podspec --allow-warnings
-
-  sync-tag:
-    name: Sync tag to master
-    needs: [publish-node, publish-android, publish-ios]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Ensure master is up to date
-        run: |
-          git fetch origin main
-          git checkout main
-          git merge ${{ github.ref_name }} --no-edit || echo "Already up to date"
-          git push origin main

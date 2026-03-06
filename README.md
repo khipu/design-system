@@ -1,17 +1,40 @@
 # Khipu Design System
 
-A comprehensive design system for the Khipu payment platform, built with TypeScript and React.
+A multi-platform design system for the Khipu payment platform.
+
+| Platform | Package | Registry |
+|----------|---------|----------|
+| **Web** (React/TypeScript) | `@khipu/design-system` | [npmjs.org](https://www.npmjs.com/package/@khipu/design-system) |
+| **Android** (Kotlin/Compose) | `com.khipu:design-system` | [Nexus](https://dev.khipu.com/nexus/content/repositories/design-system) |
+| **iOS** (Swift/SwiftUI) | `KhipuDesignSystem` | [CocoaPods](https://cocoapods.org/pods/KhipuDesignSystem) |
+
+**Storybook:** [design.khipu.com](https://design.khipu.com)
+
+## Installation
+
+### Web
+```bash
+npm install @khipu/design-system
+```
+
+### Android
+```kotlin
+// build.gradle.kts
+dependencies {
+    implementation("com.khipu:design-system:0.1.0-alpha.6")
+}
+```
+
+### iOS
+```ruby
+# Podfile
+pod 'KhipuDesignSystem'
+```
 
 ## Prerequisites
 
 - Node.js >= 18.0.0
 - React >= 17.0.0
-
-## Installation
-
-```bash
-npm install @khipu/design-system
-```
 
 ## Quick Start
 
@@ -58,7 +81,7 @@ import '@khipu/design-system/css';
 
 ```bash
 # Clone the repository
-git clone https://github.com/khipu/design-system.git
+git clone git@github.com:khipu/design-system.git
 cd design-system
 
 # Install dependencies
