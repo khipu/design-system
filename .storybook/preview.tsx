@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react';
 import React from 'react';
-import { create } from '@storybook/theming/create';
+import { create } from 'storybook/theming';
 import { KhipuThemeProvider } from '../src/theme/ThemeProvider';
 import '../src/tokens/css-variables.css';
 
