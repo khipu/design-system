@@ -72,22 +72,25 @@ Buscamos influir positivamente en la industria, porque entendemos el aporte a la
 Nuestra marca se caracteriza por tres pilares de comunicación:
 
 ### Eficiente
+*Somos competentes, cuidando las formas.*
+
 - **Vocabulario:** Directo, neutro, simple
 - **Verbosidad:** Evitamos expresiones de género o cargo
 - **Gramática:** Oraciones o frases simples
-- *Competente, cuidando las formas*
 
 ### Transparente
+*Diseñamos procesos de pago confiables.*
+
 - **Vocabulario:** Transparente, explícito
 - **Verbosidad:** Palabras suficientes con información precisa
 - **Gramática:** Oraciones completas sin obviar datos
-- *Procesos de pago confiables*
 
 ### Cercana
+*Somos facilitadores de procesos.*
+
 - **Vocabulario:** Confiable, inclusivo, amistoso
 - **Verbosidad:** Palabras que entreguen información de ayuda
 - **Gramática:** Oraciones o frases simples
-- *Facilitadores de procesos*
 
 ---
 
@@ -173,6 +176,29 @@ Vamos al grano. Respetamos el tiempo del usuario
 - Error en el campo
 - Formato inválido
 - Error de validación
+
+---
+
+## Uso de puntuación
+
+> ⚠️ **Contexto de aplicación:** Estas reglas son preferentemente usadas en lenguaje digital en el uso de interfaces de pago para facilitar la concisión. Las excepciones son permitidas en redacciones de otro tipo de contenidos (documentación extensa, artículos, comunicados oficiales, etc.).
+
+| Contexto | Usa punto final |
+|----------|----------------|
+| **Mensajes completos** (alertas, confirmación, error, info, etc.) | ✅ Sí |
+| **Oraciones descriptivas** | ✅ Sí |
+| **Botones/CTAs** | ❌ No |
+| **Labels de formularios** | ❌ No |
+| **Títulos** | ❌ No |
+| **Frases cortas de UI** | ❌ No |
+| **Listas** (tabuladas/bullet points) | ❌ No |
+
+**Ejemplos:**
+- ✅ "Tu pago fue procesado exitosamente." *(mensaje completo)*
+- ✅ "Conectamos con tu banco para verificar tu cuenta." *(oración descriptiva)*
+- ❌ "Continuar" *(botón)*
+- ❌ "Correo electrónico" *(label)*
+- ❌ "• Pagar ahora" *(lista)*
 
 ---
 
@@ -284,7 +310,7 @@ Usa este checklist para validar tu output:
 ### Fuentes de Información
 
 Este archivo está alineado con:
-- **Storybook**: `src/stories/brand/05-VoiceAndTone.stories.mdx` (versión visual)
+- **Storybook**: `src/stories/brand/*.stories.mdx` (documentación visual detallada)
 - **CLAUDE.md**: Sección "Android" y "Patrones de Desarrollo"
 - **Tokens visuales**: `src/tokens/index.ts` (colores, tipografía)
 
@@ -304,5 +330,26 @@ Implementaciones (React, Android, Grails, etc.)
 
 **Para agentes de IA:** Usa Storybook y estos archivos MD como fuente de verdad. No necesitas acceder a Figma directamente.
 
-**Última revisión:** 2026-02-26
+### 📝 Proceso de Sincronización
+
+> ⚠️ **IMPORTANTE:** Cuando se realizan cambios en los archivos de Brand (`src/stories/brand/*.stories.mdx`), estos cambios **DEBEN** reflejarse manualmente en `BRAND_GUIDE_FOR_AI.md`.
+
+**Archivos que requieren sincronización:**
+
+| Archivo Storybook | Sección en BRAND_GUIDE_FOR_AI.md | ¿Cuándo sincronizar? |
+|-------------------|-----------------------------------|---------------------|
+| `02-Logo.stories.mdx` | Personalidad de marca, Valores de marca | Al actualizar frases descriptivas o valores |
+| `03-Colors.stories.mdx` | Identidad visual clave (colores HEX) | Al cambiar colores primarios/secundarios |
+| `05-VoiceAndTone.stories.mdx` | Voz de marca, Guías de redacción, Microcopy, Uso de puntuación | Al agregar/modificar reglas de escritura |
+
+**Checklist de sincronización:**
+1. [ ] ¿Se actualizaron frases de personalidad de marca?
+2. [ ] ¿Se agregaron o modificaron reglas de redacción?
+3. [ ] ¿Se cambiaron valores de colores primarios/secundarios?
+4. [ ] ¿Se agregaron nuevas secciones de guías de escritura?
+5. [ ] Si respondiste "Sí" a alguna → actualiza `BRAND_GUIDE_FOR_AI.md`
+
+**Razón:** Este archivo es la fuente principal para agentes de IA que generan contenido. Mantenerlo sincronizado asegura consistencia en la comunicación de marca.
+
+**Última revisión:** 2026-03-02
 **Próxima actualización:** Al agregar nuevos componentes o actualizar guías de marca
