@@ -10,6 +10,12 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) cuando trab
   - Incluye anti-patrones y checklist de validación
   - Úsalo cuando generes textos de UI, mensajes de error, o documentación de cara al usuario
 
+**Para integración MCP con Storybook:**
+- **[docs/STORYBOOK_MCP.md](./docs/STORYBOOK_MCP.md)** - Integración completa de MCP con Storybook 10
+  - Servidor MCP nativo en http://localhost:6006/mcp
+  - Herramientas para obtener previews y documentación de componentes
+  - Configuración local y producción
+
 **Este archivo (CLAUDE.md):** Aspectos técnicos, arquitectura y comandos de desarrollo
 
 ### Flujo de Información para Agentes IA
@@ -39,6 +45,7 @@ Para temas específicos, consulta estas guías:
 | **Build & Publishing** | [`docs/BUILD_PUBLISHING.md`](docs/BUILD_PUBLISHING.md) | Cómo construir y publicar packages (Web + Android + iOS) |
 | **Tokens de Diseño** | [`docs/TOKENS_GUIDE.md`](docs/TOKENS_GUIDE.md) | Sistema de tokens, generación multi-plataforma |
 | **Patrones de Componentes** | [`docs/COMPONENT_PATTERNS.md`](docs/COMPONENT_PATTERNS.md) | Arquitectura, plantillas, convenciones |
+| **Storybook MCP** | [`docs/STORYBOOK_MCP.md`](docs/STORYBOOK_MCP.md) | Integración MCP con Storybook 10, herramientas para agentes IA |
 | **Troubleshooting** | [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md) | Problemas comunes y sincronización de archivos |
 | **Android** | [`docs/android/`](docs/android/) | Guías completas de Android (Jetpack Compose) |
 | **Grails** | [`docs/grails/`](docs/grails/) | Guías de integración con Grails/GSP |

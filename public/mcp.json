@@ -1,11 +1,14 @@
 {
   "mcpServers": {
     "storybook": {
-      "command": "npx",
-      "args": ["-y", "storybook-mcp@latest"],
-      "env": {
-        "STORYBOOK_URL": "https://design.khipu.com/index.json"
-      }
+      "transport": "http",
+      "url": "https://design.khipu.com/mcp",
+      "description": "Production Storybook MCP server (native addon) - Always available"
+    },
+    "storybook-local": {
+      "transport": "http",
+      "url": "http://localhost:6006/mcp",
+      "description": "Local development MCP server (requires npm run storybook)"
     }
   }
 }
