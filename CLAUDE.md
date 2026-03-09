@@ -41,6 +41,7 @@ Para temas específicos, consulta estas guías:
 | **Patrones de Componentes** | [`docs/COMPONENT_PATTERNS.md`](docs/COMPONENT_PATTERNS.md) | Arquitectura, plantillas, convenciones |
 | **Troubleshooting** | [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md) | Problemas comunes y sincronización de archivos |
 | **Android** | [`docs/android/`](docs/android/) | Guías completas de Android (Jetpack Compose) |
+| **Grails** | [`docs/grails/`](docs/grails/) | Guías de integración con Grails/GSP |
 | **Anti-patrones** | [`docs/development/PAINFUL_PATTERNS.md`](docs/development/PAINFUL_PATTERNS.md) | Código legacy y rutas de migración |
 
 ---
@@ -53,13 +54,14 @@ El Sistema de Diseño de Khipu es una biblioteca multi-plataforma de componentes
 - **Web**: React 18+ / TypeScript 5.3+ / Material UI v7 → publicado en **npmjs.org** (`@khipu/design-system`)
 - **Android**: Kotlin / Jetpack Compose / Material 3 → publicado en **Nexus** (`com.khipu:design-system`)
 - **iOS**: Swift / SwiftUI → publicado en **CocoaPods** (`KhipuDesignSystem`)
+- **Grails**: Plugin para integración con Grails/GSP → publicado en **Nexus** (`com.khipu:design-system-grails`)
 
 **Detalles Clave:**
-- Repo: github.com/khipu/design-system
+- Repo: bitbucket.org/khipu/design-system
 - CI/CD: GitHub Actions (CI + Publish + Storybook deploy)
 - Storybook: design.khipu.com
 - Fuente de Diseño: Figma - "Pagos Automáticos - MUI v610"
-- Herramienta de Build: tsup (Web), Gradle (Android), CocoaPods (iOS)
+- Herramienta de Build: tsup (Web), Gradle (Android + Grails), CocoaPods (iOS)
 - Testing: Vitest
 - Documentación: Storybook 7.6
 
@@ -71,9 +73,14 @@ El Sistema de Diseño de Khipu es una biblioteca multi-plataforma de componentes
 ```bash
 npm run dev                # Modo desarrollo con watch
 npm run build              # Build de producción
+npm run demo               # Ejecutar demo app
 npm run storybook          # Ejecutar Storybook (puerto 6006)
+npm run build-storybook    # Build estático de Storybook
 npm run test               # Ejecutar tests
+npm run test:ui            # Ejecutar tests con UI de Vitest
+npm run coverage           # Ejecutar tests con cobertura
 npm run typecheck          # Verificación de tipos
+npm run lint               # Ejecutar linter
 ```
 
 ### Tokens
@@ -84,8 +91,20 @@ npm run tokens:generate    # Generar todos los tokens (JSON, CSS, Android)
 ### Android
 ```bash
 npm run android:build           # Build de la librería
+npm run android:test            # Ejecutar tests de Android
 npm run android:publish-local   # Publicar a Maven Local
 npm run android:publish         # Publicar a Nexus
+npm run android:clean           # Limpiar build de Android
+```
+
+### Grails
+```bash
+npm run grails:build            # Build del plugin Grails
+npm run grails:test             # Ejecutar tests de Grails
+npm run grails:publish-local    # Publicar a Maven Local
+npm run grails:publish          # Publicar a Nexus
+npm run grails:clean            # Limpiar build de Grails
+npm run grails:info             # Mostrar info del plugin
 ```
 
 ### Version Sync
@@ -172,8 +191,10 @@ Sistema de Diseño Khipu para Android - Componentes Jetpack Compose con Material
 
 ```bash
 npm run android:build           # Compilar AAR
+npm run android:test            # Ejecutar tests
 npm run android:publish-local   # Maven Local
 npm run android:publish         # Nexus
+npm run android:clean           # Limpiar build
 ```
 
 ### Documentación Android
@@ -187,18 +208,17 @@ npm run android:publish         # Nexus
 
 ---
 
-## Referencia Rápida: React vs Android
+## Referencia Rápida: Multi-plataforma
 
-| Aspecto | React | Android |
-|---------|-------|---------|
-| **Lenguaje** | TypeScript | Kotlin |
-| **Framework** | React 18 | Jetpack Compose |
-| **UI Library** | Material UI v7 | Material 3 |
-| **Tema** | `<KhipuThemeProvider>` | `KdsTheme { }` |
-| **Componente** | `<KdsButton />` | `KdsButton()` |
-| **Props** | `variant="contained"` | `variant = KdsButtonVariant.CONTAINED` |
-| **iOS** | - | SwiftUI |
-| **Registro** | npmjs.org | Nexus / CocoaPods |
+| Aspecto | React | Android | Grails | iOS |
+|---------|-------|---------|--------|-----|
+| **Lenguaje** | TypeScript | Kotlin | Groovy/GSP | Swift |
+| **Framework** | React 18 | Jetpack Compose | Grails | SwiftUI |
+| **UI Library** | Material UI v7 | Material 3 | Bootstrap-like | Material-inspired |
+| **Tema** | `<KhipuThemeProvider>` | `KdsTheme { }` | Tag library | `KdsTheme` |
+| **Componente** | `<KdsButton />` | `KdsButton()` | `<kds:button>` | `KdsButton()` |
+| **Props** | `variant="contained"` | `variant = CONTAINED` | `variant="contained"` | `variant: .contained` |
+| **Registro** | npmjs.org | Nexus | Nexus | CocoaPods |
 
 ---
 
@@ -280,6 +300,12 @@ ios/
 │   ├── Theme/            # KdsTheme
 │   └── Components/       # Componentes SwiftUI
 
+grails/
+├── src/main/
+│   ├── groovy/           # Tag libraries
+│   └── resources/        # Assets y configuración
+└── build.gradle          # Build del plugin
+
 .github/workflows/
 ├── ci.yml               # CI en PRs y pushes a main
 ├── publish.yml          # Publish a npm + Nexus + CocoaPods en tags v*
@@ -331,6 +357,12 @@ Crea [ComponentName] siguiendo el patrón de KdsButton.
 Lee docs/android/ANDROID_IMPLEMENTATION_PLAN.md sección "Component Implementation Guidelines".
 Usa android/.../components/KdsButton.kt como template.
 Implementa [ComponentName] con enums, previews, y KDoc.
+```
+
+### Trabajar con Grails
+```
+Lee docs/grails/README.md.
+Muestra cómo crear tag libraries y usar componentes en GSP.
 ```
 
 ### Build & Publishing

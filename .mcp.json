@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "storybook": {
+      "command": "npx",
+      "args": ["-y", "storybook-mcp@latest"],
+      "env": {
+        "STORYBOOK_URL": "https://design.khipu.com/index.json"
+      }
+    }
+  }
+}
