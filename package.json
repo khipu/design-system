@@ -112,7 +112,7 @@
   "license": "UNLICENSED",
   "private": false,
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@emotion/react": "11.11.4",
