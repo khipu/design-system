@@ -43,18 +43,25 @@ const config: StorybookConfig = {
 
 ### Configuración MCP
 
-El proyecto incluye dos configuraciones de servidor MCP:
+El proyecto incluye dos configuraciones de servidor MCP complementarias:
 
 **1. Producción (Predeterminado):**
 ```json
 {
   "storybook": {
-    "transport": "http",
-    "url": "https://design.khipu.com/mcp",
-    "description": "Production Storybook MCP server - Always available"
+    "command": "npx",
+    "args": ["-y", "storybook-mcp@latest"],
+    "env": {
+      "STORYBOOK_URL": "https://design.khipu.com/index.json"
+    },
+    "description": "Production - reads static JSON (always available)"
   }
 }
 ```
+- ✅ Siempre disponible (24/7)
+- ✅ Funciona con GitHub Pages (sitio estático)
+- ⚠️ Herramientas limitadas (list-stories, get-story)
+- 📦 Usa paquete externo `storybook-mcp`
 
 **2. Local (Desarrollo):**
 ```json
@@ -62,12 +69,16 @@ El proyecto incluye dos configuraciones de servidor MCP:
   "storybook-local": {
     "transport": "http",
     "url": "http://localhost:6006/mcp",
-    "description": "Local development MCP server (requires npm run storybook)"
+    "description": "Local development - native addon (full features)"
   }
 }
 ```
+- ✅ Todas las herramientas MCP (preview-stories, story-instructions)
+- ✅ Latencia mínima (local)
+- ⚠️ Requiere `npm run storybook` corriendo
+- 🔧 Usa addon nativo `@storybook/addon-mcp`
 
-**Nota:** El servidor de producción estará disponible después de desplegar Storybook 10 a GitHub Pages.
+**Nota:** Claude Code usará automáticamente el servidor local si Storybook está corriendo, o el de producción como fallback.
 
 ## 🚀 Uso
 
@@ -178,16 +189,19 @@ Claude Code:
 
 ## 🔄 Comparación: Local vs Producción
 
-| Aspecto | Local | Producción |
-|---------|-------|------------|
+| Aspecto | Local (Nativo) | Producción (Externo) |
+|---------|----------------|---------------------|
+| **Implementación** | Addon `@storybook/addon-mcp` | Paquete `storybook-mcp` |
 | **Requiere Storybook corriendo** | ✅ Sí (npm run storybook) | ❌ No (siempre disponible) |
-| **URL** | http://localhost:6006/mcp | https://design.khipu.com/mcp |
-| **Datos** | Componentes locales (WIP) | Componentes publicados estables |
+| **Endpoint** | http://localhost:6006/mcp | Proceso NPX separado |
+| **Fuente de datos** | Servidor Storybook en vivo | JSON estático (index.json) |
+| **Herramientas disponibles** | 🎯 Completas (preview, instructions) | ⚠️ Limitadas (list, get) |
 | **Velocidad** | ⚡ Instantánea | 🌐 Rápida (CDN) |
 | **Disponibilidad** | Solo con servidor local | ✅ 24/7 |
-| **Uso recomendado** | Desarrollo activo, testing | Integración CI/CD, consultas generales |
+| **Actualización de datos** | Tiempo real | Última publicación |
+| **Uso recomendado** | Desarrollo activo, testing local | Consultas generales, CI/CD |
 
-**Ambos servidores usan el mismo addon nativo `@storybook/addon-mcp` - sin dependencias externas.**
+**Estrategia híbrida:** Ambos configurados para complementarse según el contexto de uso.
 
 ## 🐛 Troubleshooting
 
