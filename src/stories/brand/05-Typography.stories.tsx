@@ -2,20 +2,22 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { PublicSansReasons, FontWeightSamples } from './components/TypographyComponents';
 
 const meta: Meta = {
-  title: 'Brand/Uso tipográfico',
+  title: 'Brand',
   parameters: {
     layout: 'fullscreen',
     docs: {
       page: null,
     },
   },
+  tags: ['!autodocs'],
 };
 
 export default meta;
 
-export const Page: StoryObj = {
+export const Uso_tipográfico: StoryObj = {
+  name: 'Uso tipográfico',
   render: () => (
-    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 20px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
       <h1>Uso tipográfico</h1>
 
       <p>La tipografía es la voz visual de Khipu. Nuestra tipografía comunica <strong>profesionalismo, claridad y modernidad</strong> en cada interacción con nuestros usuarios.</p>

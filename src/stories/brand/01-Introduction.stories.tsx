@@ -1,20 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta = {
-  title: 'Brand/Introducción',
+  title: 'Brand',
   parameters: {
     layout: 'fullscreen',
     docs: {
       page: null,
     },
   },
+  tags: ['!autodocs'],
 };
 
 export default meta;
 
-export const Page: StoryObj = {
+export const Introducción: StoryObj = {
   render: () => (
-    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 20px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
       <h1>Introducción</h1>
 
       <p>Bienvenido a la guía de marca digital de Khipu. Este documento establece los fundamentos visuales y comunicacionales que definen nuestra identidad como plataforma de pagos.</p>
