@@ -1,20 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta = {
-  title: 'Brand/Cómo funciona',
+  title: 'Brand',
   parameters: {
     layout: 'fullscreen',
     docs: {
       page: null,
     },
   },
+  tags: ['!autodocs'],
 };
 
 export default meta;
 
-export const Page: StoryObj = {
+export const Cómo_funciona: StoryObj = {
+  name: 'Cómo funciona',
   render: () => (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
       <h1>Cómo funciona</h1>
 
       <p>Aprende a integrar el Design System de Khipu con agentes de IA para generar contenido consistente con la marca.</p>
@@ -83,76 +85,72 @@ export const Page: StoryObj = {
 
         {/* Opción 2: MCP */}
         <div style={{ padding: '24px', background: '#F0E6F6', borderRadius: '12px', borderLeft: '4px solid #6B2E98' }}>
-          <h3 style={{ fontSize: '18px', marginTop: 0, color: '#6B2E98' }}>Opción 2: Claude Code/Cursor/Windsurf con MCP</h3>
+          <h3 style={{ fontSize: '18px', marginTop: 0, color: '#6B2E98' }}>Opción 2: Conectar el Design System Khipu a tu agente de IA</h3>
           <p style={{ fontSize: '12px', fontWeight: 600, color: '#6B2E98', marginTop: '-8px', marginBottom: '12px' }}>
             Ideal para componentes e implementación
           </p>
 
           <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '16px' }}>
-            Conecta tu agente de IA (Claude Code, Cursor, Windsurf, etc.) directamente a <strong>Storybook</strong> mediante <strong>Model Context Protocol (MCP)</strong>.
-            El agente tendrá acceso automático a toda la documentación del Design System: componentes, tokens, páginas de marca y ejemplos de código.
+            Este MCP permite que tu agente (Claude Code, Cursor, etc.) acceda directamente a los componentes y definiciones del Design System de Khipu mientras desarrollas.
           </p>
 
-          <p style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Cómo funciona:</p>
-          <ol style={{ fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', marginBottom: '16px' }}>
-            <li>Descarga el archivo <code>.mcp.json</code> y cópialo en la raíz de tu proyecto</li>
-            <li>Abre el proyecto con tu agente de IA (Claude Code, Cursor, etc.)</li>
-            <li>El agente detecta automáticamente la conexión a <strong>design.khipu.com</strong></li>
-            <li>Todo el Design System de Khipu está disponible como contexto en tus conversaciones</li>
-          </ol>
+          <h4 style={{ fontSize: '16px', marginTop: '20px', marginBottom: '12px', color: '#6B2E98' }}>Requisitos previos</h4>
+          <ul style={{ fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', marginBottom: '16px' }}>
+            <li>Node.js instalado → <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" style={{ color: '#6B2E98', textDecoration: 'underline' }}>descargar aquí</a></li>
+            <li>Claude Code instalado → <code style={{ fontSize: '13px', background: '#FFF', padding: '2px 6px', borderRadius: '4px' }}>npm install -g @anthropic-ai/claude-code</code></li>
+          </ul>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
-            <button
-              onClick={() => window.open('https://github.com/khipu/design-system/blob/main/.mcp.json', '_blank')}
-              style={{
-                padding: '12px 16px',
-                background: '#F0E6F6',
-                color: '#6B2E98',
-                border: '2px solid #6B2E98',
-                borderRadius: '6px',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-              Ver .mcp.json en GitHub
-            </button>
-
-            <a
-              href="/mcp.json"
-              download="mcp.json"
-              style={{
-                padding: '12px 16px',
-                background: '#F0E6F6',
-                color: '#6B2E98',
-                border: '2px solid #6B2E98',
-                borderRadius: '6px',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              Descargar .mcp.json
-            </a>
+          <h4 style={{ fontSize: '16px', marginTop: '20px', marginBottom: '12px', color: '#6B2E98' }}>Instalación</h4>
+          <p style={{ fontSize: '14px', marginBottom: '8px' }}>Ejecuta este comando en tu terminal:</p>
+          <div style={{ marginBottom: '16px', padding: '12px', background: '#FFF', borderRadius: '8px', border: '2px solid #6B2E98' }}>
+            <code style={{
+              display: 'block',
+              fontSize: '12px',
+              fontFamily: 'monospace',
+              wordBreak: 'break-all',
+              lineHeight: '1.5'
+            }}>
+              claude mcp add storybook-mcp -e STORYBOOK_URL=https://design.khipu.com/index.json --scope user -- npx -y storybook-mcp@latest
+            </code>
           </div>
+
+          <h4 style={{ fontSize: '16px', marginTop: '20px', marginBottom: '12px', color: '#6B2E98' }}>Verificar la conexión</h4>
+          <div style={{ marginBottom: '8px', padding: '12px', background: '#FFF', borderRadius: '8px', border: '2px solid #6B2E98' }}>
+            <code style={{ display: 'block', fontSize: '12px', fontFamily: 'monospace' }}>
+              claude mcp list
+            </code>
+          </div>
+          <p style={{ fontSize: '14px', marginBottom: '16px' }}>Deberías ver:</p>
+          <div style={{ marginBottom: '16px', padding: '12px', background: '#F5F5F5', borderRadius: '8px' }}>
+            <code style={{ display: 'block', fontSize: '12px', fontFamily: 'monospace', color: '#22863a' }}>
+              storybook-mcp: npx ... ✓ Connected
+            </code>
+          </div>
+
+          <h4 style={{ fontSize: '16px', marginTop: '20px', marginBottom: '12px', color: '#6B2E98' }}>Cómo usarlo</h4>
+          <p style={{ fontSize: '14px', marginBottom: '8px' }}>Abre Claude Code en tu terminal:</p>
+          <div style={{ marginBottom: '16px', padding: '12px', background: '#FFF', borderRadius: '8px', border: '2px solid #6B2E98' }}>
+            <code style={{ display: 'block', fontSize: '12px', fontFamily: 'monospace' }}>
+              claude
+            </code>
+          </div>
+
+          <p style={{ fontSize: '14px', marginBottom: '8px' }}>Y pregunta directamente sobre el design system, por ejemplo:</p>
+          <ul style={{ fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', marginBottom: '16px' }}>
+            <li><em>¿Qué componentes están disponibles?</em></li>
+            <li><em>¿Qué definiciones de marca tiene el design system?</em></li>
+            <li><em>¿Cómo se usa el componente Button?</em></li>
+          </ul>
+          <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '16px' }}>
+            El agente consultará el design system en tiempo real y usará los componentes correctos al generar código.
+          </p>
+
+          <h4 style={{ fontSize: '16px', marginTop: '20px', marginBottom: '12px', color: '#6B2E98' }}>Notas</h4>
+          <ul style={{ fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', marginBottom: '16px' }}>
+            <li>La configuración es <strong>global</strong>: aplica a todos tus proyectos automáticamente</li>
+            <li>Solo necesitas instalarlo <strong>una vez</strong> por máquina</li>
+            <li>Si cambias de computador, repite el paso de instalación</li>
+          </ul>
 
           <p style={{ fontSize: '13px', lineHeight: '1.6', color: '#666', marginTop: '12px' }}>
             Más información: <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer" style={{ color: '#6B2E98', textDecoration: 'underline' }}>modelcontextprotocol.io</a>
