@@ -2,10 +2,12 @@
 
 ## 🎯 Resumen
 
-Después de actualizar a Storybook 10 con el addon MCP nativo, tendrás **dos servidores MCP disponibles**:
+El proyecto utiliza una **estrategia híbrida** con dos servidores MCP complementarios:
 
-1. **Producción**: `https://design.khipu.com/mcp` (siempre disponible)
-2. **Local**: `http://localhost:6006/mcp` (solo cuando corres Storybook localmente)
+1. **Producción**: `storybook-mcp` externo (siempre disponible, herramientas limitadas)
+2. **Local**: Addon nativo en `http://localhost:6006/mcp` (requiere Storybook corriendo, herramientas completas)
+
+**Importante:** El addon nativo `@storybook/addon-mcp` NO funciona con GitHub Pages (requiere servidor Node.js). Por eso usamos el paquete externo `storybook-mcp` para producción.
 
 ---
 
@@ -39,32 +41,18 @@ jobs:
 
 ### Paso 3: Verificación Post-Deploy
 
-Una vez completado el workflow, verifica que el endpoint MCP esté disponible:
+Una vez completado el workflow, verifica que el sitio esté disponible:
 
 ```bash
-# Verificar disponibilidad
-curl -I https://design.khipu.com/mcp
+# Verificar sitio principal
+curl -I https://design.khipu.com
+# Debe retornar: HTTP/2 200
 
-# Probar inicialización MCP
-curl -X POST https://design.khipu.com/mcp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "jsonrpc":"2.0",
-    "method":"initialize",
-    "params":{
-      "protocolVersion":"2024-11-05",
-      "capabilities":{},
-      "clientInfo":{"name":"test","version":"1.0"}
-    },
-    "id":1
-  }'
+# Verificar que index.json esté disponible
+curl https://design.khipu.com/index.json | head -20
 ```
 
-**Respuesta esperada:**
-```
-event: message
-data: {"jsonrpc":"2.0","id":1,"result":{...,"serverInfo":{"name":"@storybook/addon-mcp","version":"0.3.4"}}}
-```
+**Nota:** El endpoint `/mcp` NO estará disponible porque GitHub Pages sirve archivos estáticos. El servidor MCP de producción usa el paquete externo `storybook-mcp` que lee `index.json` directamente.
 
 ---
 
@@ -102,26 +90,28 @@ Los archivos `.mcp.json` y `public/mcp.json` ahora apuntan al servidor de produc
 ## 📊 Comparación de Servidores
 
 ### Servidor de Producción (`storybook`)
-- **URL**: https://design.khipu.com/mcp
+- **Implementación**: `storybook-mcp` (paquete NPM externo)
+- **Fuente de datos**: https://design.khipu.com/index.json (estático)
 - **Disponibilidad**: 24/7
 - **Requiere**: Nada (siempre activo)
-- **Datos**: Última versión desplegada
+- **Herramientas**: Limitadas (list-stories, get-story)
 - **Uso ideal**:
-  - Consultas de documentación
+  - Consultas de documentación publicada
   - Integración en CI/CD
   - Uso desde cualquier ubicación
   - Claude Code sin Storybook local
 
 ### Servidor Local (`storybook-local`)
-- **URL**: http://localhost:6006/mcp
+- **Implementación**: `@storybook/addon-mcp` (addon nativo)
+- **Fuente de datos**: http://localhost:6006/mcp (servidor en vivo)
 - **Disponibilidad**: Solo con `npm run storybook`
 - **Requiere**: Storybook corriendo localmente
-- **Datos**: Cambios en desarrollo (WIP)
+- **Herramientas**: Completas (preview-stories, story-instructions)
 - **Uso ideal**:
   - Desarrollo activo de componentes
   - Testing de cambios antes de commit
-  - Debugging de stories
-  - Iteración rápida
+  - Obtener URLs de preview
+  - Instrucciones para escribir stories
 
 ---
 
