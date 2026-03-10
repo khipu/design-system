@@ -6,6 +6,7 @@ const config: StorybookConfig = {
     '../src/**/*.mdx',
   ],
   addons: [
+    '@storybook/addon-docs',
     '@storybook/addon-links',
     '@storybook/addon-mcp',
   ],
@@ -13,7 +14,9 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  docs: {},
+  docs: {
+    autodocs: 'tag',
+  },
   typescript: {
     reactDocgen: 'react-docgen-typescript',
   },
