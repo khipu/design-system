@@ -35,7 +35,7 @@ export const Introducción: StoryObj = {
 
       <p>Esta guía puede ser utilizada como contexto para agentes de IA que generen contenido para Khipu.</p>
 
-      <p><strong>👉 Consulta la página <a href="/?path=/story/brand-cómo-funciona--page">Cómo funciona</a> para ver las opciones de integración disponibles.</strong></p>
+      <p><strong>👉 Consulta la página <a href="/?path=/story/brand--cómo-funciona">Cómo funciona</a> para ver las opciones de integración disponibles.</strong></p>
     </div>
   ),
 };
