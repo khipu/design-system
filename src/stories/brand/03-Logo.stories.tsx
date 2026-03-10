@@ -7,10 +7,7 @@ import Logo200x75Black from './assets/logos/khipu-200x75-black.svg';
 
 // Logos Cuadrados
 import Logo140Purple from './assets/logos/khipu-140x140-purple.svg';
-import Logo140PurpleNeg from './assets/logos/khipu-140x140-purple-negative.svg';
 import Logo140Simple from './assets/logos/khipu-140x140-simple.svg';
-import Logo140Black from './assets/logos/khipu-140x140-black.svg';
-import Logo140BlackNeg from './assets/logos/khipu-140x140-black-negative.svg';
 import Logo140White from './assets/logos/khipu-140x140-white.svg';
 import Logo140WhiteNeg from './assets/logos/khipu-140x140-white-negative.svg';
 
