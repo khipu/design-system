@@ -112,7 +112,7 @@ export function SemanticColorCards() {
           </ul>
           <strong>Ejemplos:</strong>
           <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
-            <li>"Tu pago será procesado en 24-48 horas"</li>
+            <li>&quot;Tu pago será procesado en 24-48 horas&quot;</li>
           </ul>
         </div>
       </div>
@@ -142,7 +142,7 @@ export function SemanticColorCards() {
           </ul>
           <strong>Ejemplos:</strong>
           <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
-            <li>"¡Pago realizado exitosamente!"</li>
+            <li>&quot;¡Pago realizado exitosamente!&quot;</li>
           </ul>
         </div>
       </div>
@@ -172,7 +172,7 @@ export function SemanticColorCards() {
           </ul>
           <strong>Ejemplos:</strong>
           <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
-            <li>"Esta acción no se puede deshacer"</li>
+            <li>&quot;Esta acción no se puede deshacer&quot;</li>
           </ul>
         </div>
       </div>
@@ -202,7 +202,7 @@ export function SemanticColorCards() {
           </ul>
           <strong>Ejemplos:</strong>
           <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
-            <li>"El pago no pudo ser procesado"</li>
+            <li>&quot;El pago no pudo ser procesado&quot;</li>
           </ul>
         </div>
       </div>

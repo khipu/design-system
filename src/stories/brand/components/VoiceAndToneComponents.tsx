@@ -134,7 +134,7 @@ export function WritingGuidelinesTable() {
           <td style={{ padding: '12px', fontSize: '14px', verticalAlign: 'top' }}>
             CamelCase en contexto de usuarios<br/>
             <span style={{ fontSize: '12px', color: '#666', fontStyle: 'italic' }}>
-              (ej: "Ver Factura", "Mi Cuenta")
+              (ej: &quot;Ver Factura&quot;, &quot;Mi Cuenta&quot;)
             </span>
           </td>
         </tr>
@@ -154,20 +154,20 @@ export function SpecificExamplesTable() {
       </thead>
       <tbody>
         <tr style={{ borderBottom: '1px solid #F0F0F0' }}>
-          <td style={{ padding: '12px', fontSize: '14px' }}>"Ingresa tu RUT y contraseña"</td>
-          <td style={{ padding: '12px', fontSize: '14px' }}>"El usuario debe ingresar sus credenciales"</td>
+          <td style={{ padding: '12px', fontSize: '14px' }}>&quot;Ingresa tu RUT y contraseña&quot;</td>
+          <td style={{ padding: '12px', fontSize: '14px' }}>&quot;El usuario debe ingresar sus credenciales&quot;</td>
         </tr>
         <tr style={{ borderBottom: '1px solid #F0F0F0' }}>
-          <td style={{ padding: '12px', fontSize: '14px' }}>"Completa estos datos"</td>
-          <td style={{ padding: '12px', fontSize: '14px' }}>"Favor de completar el formulario"</td>
+          <td style={{ padding: '12px', fontSize: '14px' }}>&quot;Completa estos datos&quot;</td>
+          <td style={{ padding: '12px', fontSize: '14px' }}>&quot;Favor de completar el formulario&quot;</td>
         </tr>
         <tr style={{ borderBottom: '1px solid #F0F0F0' }}>
-          <td style={{ padding: '12px', fontSize: '14px' }}>"Tu pago fue procesado"</td>
-          <td style={{ padding: '12px', fontSize: '14px' }}>"Su transacción ha sido procesada exitosamente"</td>
+          <td style={{ padding: '12px', fontSize: '14px' }}>&quot;Tu pago fue procesado&quot;</td>
+          <td style={{ padding: '12px', fontSize: '14px' }}>&quot;Su transacción ha sido procesada exitosamente&quot;</td>
         </tr>
         <tr>
-          <td style={{ padding: '12px', fontSize: '14px' }}>"Continuar" (en el botón)</td>
-          <td style={{ padding: '12px', fontSize: '14px' }}>"Click aquí para continuar"</td>
+          <td style={{ padding: '12px', fontSize: '14px' }}>&quot;Continuar&quot; (en el botón)</td>
+          <td style={{ padding: '12px', fontSize: '14px' }}>&quot;Click aquí para continuar&quot;</td>
         </tr>
       </tbody>
     </table>
