@@ -1,4 +1,3 @@
-import React from 'react';
 import { colors } from '../../../tokens';
 
 export function BrandColorCards() {
