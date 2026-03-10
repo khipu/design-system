@@ -1,4 +1,3 @@
-import React from 'react';
 import { KdsTypography as Typography } from '../../../components/core';
 
 export function BrandVoiceCards() {
