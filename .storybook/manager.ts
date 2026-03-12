@@ -5,7 +5,7 @@ const khipuTheme = create({
   base: 'light',
   brandTitle: 'Khipu Design System',
   brandUrl: 'https://design.khipu.com',
-  brandImage: '/khipu-200x75-color.svg',
+  brandImage: '/khipu-ds-logo.svg',
   brandTarget: '_self',
 
   colorPrimary: '#8347AD',
