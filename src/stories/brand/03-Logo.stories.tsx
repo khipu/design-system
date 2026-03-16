@@ -12,20 +12,22 @@ import Logo140White from './assets/logos/khipu-140x140-white.svg';
 import Logo140WhiteNeg from './assets/logos/khipu-140x140-white-negative.svg';
 
 const meta: Meta = {
-  title: 'Brand/Uso de marca',
+  title: 'Brand',
   parameters: {
     layout: 'fullscreen',
     docs: {
       page: null,
     },
   },
+  tags: ['!autodocs'],
 };
 
 export default meta;
 
-export const Page: StoryObj = {
+export const Uso_de_marca: StoryObj = {
+  name: 'Uso de marca',
   render: () => (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
       <h1>Uso de marca</h1>
 
       <p>El logotipo de Khipu es el elemento más importante de nuestra identidad visual. Su uso correcto garantiza el reconocimiento y la consistencia de la marca.</p>
