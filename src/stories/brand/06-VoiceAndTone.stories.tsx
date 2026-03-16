@@ -10,20 +10,22 @@ import {
 } from './components/VoiceAndToneComponents';
 
 const meta: Meta = {
-  title: 'Brand/Voz y Tono',
+  title: 'Brand',
   parameters: {
     layout: 'fullscreen',
     docs: {
       page: null,
     },
   },
+  tags: ['!autodocs'],
 };
 
 export default meta;
 
-export const Page: StoryObj = {
+export const Voz_y_tono: StoryObj = {
+  name: 'Voz y tono',
   render: () => (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
       <h1>Voz y Tono</h1>
 
       <p>La forma en que comunicamos es tan importante como lo que comunicamos. La voz de Khipu es consistente, mientras que el tono se adapta al contexto.</p>
