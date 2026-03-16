@@ -9,11 +9,19 @@ import SwiftUI
 /// ```swift
 /// import KhipuDesignSystem
 ///
+/// // Use components
+/// KdsButton("Pay Now") {
+///     // Handle payment
+/// }
+///
 /// // Use design tokens
 /// Text("Hello Khipu")
 ///     .foregroundColor(KdsTokens.Colors.primaryMain)
 ///     .font(.system(size: KdsTokens.Typography.fontSizeLg))
 /// ```
+///
+/// **Available Components:**
+/// - `KdsButton` - Primary action button with variants and states
 ///
 /// **Available Tokens:**
 /// - `KdsTokens.Colors` - Color palette (primary, secondary, semantic colors)
@@ -22,5 +30,5 @@ import SwiftUI
 /// - `KdsTokens.BorderRadius` - Border radius values
 /// - `KdsTokens.Transitions` - Animation durations
 public enum KhipuDesignSystem {
-    public static let version = "0.1.0-alpha.13"
+    public static let version = "0.1.0-alpha.14"
 }
