@@ -213,6 +213,6 @@ CSS copied:   src/main/resources/css/kds-tokens.css
 
 Next steps:
   ./gradlew publishToMavenLocal  # Test locally
-  ./gradlew publish              # Publish to CodeArtifact
+  ./gradlew publish              # Publish to Nexus
     """
 }

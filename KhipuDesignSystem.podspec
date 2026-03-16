@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'KhipuDesignSystem'
-  s.version          = '0.1.0-alpha.10'
+  s.version          = '0.1.0-alpha.11'
   s.summary          = 'Khipu Design System for iOS - SwiftUI components and design tokens'
 
   s.description      = <<-DESC
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/khipu/design-system'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Khipu' => 'developers@khipu.com' }
-  s.source           = { :git => 'https://github.com/khipu/design-system.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/khipu/design-system.git', :tag => "v#{s.version}" }
 
   s.ios.deployment_target = '15.0'
   s.swift_versions = '5.9'
