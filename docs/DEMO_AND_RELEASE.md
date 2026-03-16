@@ -1,51 +1,90 @@
 # Design System - Cross-Platform Demo & Release
 
-Complete workflow for demonstrating token changes across **Web, Android, and Grails**, then publishing.
+Complete workflow for demonstrating token changes across **Web, Android, and iOS**, then publishing **automatically via GitHub Actions**.
+
+**⚡ Key Concept:** We NEVER publish manually. GitHub Actions handles ALL publishing when we push a git tag.
 
 ---
 
-## 🎨 The Demo: Change Primary Color Across All Platforms
+## 🎨 The Demo: Complete Build-Publish-Install Workflow
 
-**Goal:** Demonstrate that changing a design token in ONE place automatically updates ALL THREE platforms.
+**Goal:** Demonstrate the complete workflow from token change to deployed apps across ALL THREE platforms using GitHub Actions automation.
 
-**What we'll show:**
-1. Change primary color from purple to blue in design tokens (`src/tokens/index.ts`)
-2. Generate tokens for Web, Android, and Grails with one command
-3. See button color change in Storybook (web)
-4. See button color change in Android app
-5. See button color change in Grails app (payment)
-6. Publish all three packages to npmjs.org (Web) + Nexus (Android + Grails)
-7. Install in real apps and verify changes
+**Complete workflow (Local work → GitHub Actions → Install):**
 
-**Time:** ~15 minutes
-**Platforms:** Web (Storybook) + Android (Test App) + Grails (Payment App via Nexus)
+### 🏠 Local Work (5 minutes)
+1. **Prepare**: Change primary color from purple to blue in design tokens
+2. **Generate**: Create platform-specific token files with `npm run tokens:generate`
+3. **Verify**: Check changes in Storybook (auto-reload)
+4. **Version**: Sync version across all platforms with `./scripts/sync-version.sh`
+5. **Commit & Tag**: Create Git tag matching `v*` pattern (e.g., `v0.1.0-alpha.7`)
+6. **Push**: Push to GitHub with `git push origin main --tags`
+
+### 🤖 GitHub Actions (10 minutes - automatic)
+7. **CI Checks**: GitHub Actions runs lint, typecheck, test, build
+8. **Parallel Publishing**: GitHub Actions publishes to all 3 registries simultaneously
+   - ✅ Publish to npmjs.org (Web)
+   - ✅ Publish to Nexus (Android)
+   - ✅ Publish to CocoaPods (iOS)
+
+### 📦 Install & Verify (5 minutes)
+9. **Platform 1 - Web**: Install from npmjs.org in React app
+10. **Platform 2 - Android**: Install from Nexus in Android app
+11. **Platform 3 - iOS**: Install from CocoaPods in iOS app
+12. **Verify**: All three apps showing blue color from ONE source
+
+**Total Time:** ~20 minutes (5 min local + 10 min automated + 5 min install/verify)
+**Platforms:** Web (React) + Android (Kotlin) + iOS (Swift)
 
 **📦 Publishing Targets:**
-- **Web**: npmjs.org (public registry)
-- **Android**: Nexus (dev.khipu.com/nexus/content/repositories/design-system)
-- **Grails**: Nexus thirdparty (dev.khipu.com/nexus/content/repositories/thirdparty)
+- **Web**: npmjs.org (public registry) - `@khipu/design-system`
+- **Android**: Nexus (dev.khipu.com) - `com.khipu:design-system`
+- **iOS**: CocoaPods trunk (public) - `KhipuDesignSystem`
+
+**🤖 GitHub Actions Automation (100% Automated):**
+- **Workflow file**: `.github/workflows/publish.yml`
+- **Trigger**: Git tags matching `v*` (e.g., `v0.1.0-alpha.7`)
+- **Jobs run in parallel**: CI checks, then npm, Nexus, and CocoaPods publish
+- **Version sync**: Automatic via `scripts/sync-version.sh` script
+- **Security**: Uses GitHub Secrets for credentials (no manual auth needed!)
+- **Zero manual publishing**: You NEVER run `npm publish`, `gradle publish`, or `pod trunk push` manually!
 
 ---
 
 ## 🛠️ Setup (Before Recording)
 
 **Requirements:**
-- [ ] `design-system` repo ready
-- [ ] `khipu-client-android` repo ready (optional)
-- [ ] `payment` Grails app ready
+
+### Local Environment
+- [ ] `design-system` repo cloned from GitHub
+- [ ] Node.js 18+ installed
+- [ ] Dependencies installed: `npm ci`
 - [ ] Storybook running: `npm run storybook` (port 6006)
-- [ ] Android emulator with test app (optional)
-- [ ] Grails payment app: `grails run-app` (port 8080)
+- [ ] iOS simulator with test app (optional for demo)
+- [ ] Android emulator with test app (optional for demo)
 - [ ] Screen recording tool ready
-- [ ] NPM logged in to npmjs.org: `npm login`
-- [ ] Nexus credentials configured in `~/.gradle/gradle.properties`
-- [ ] Maven installed: `brew install maven` (for Grails plugin publishing)
+
+### GitHub Actions Configuration
+- [ ] Repository: `github.com/khipu/design-system` (or your fork)
+- [ ] GitHub Actions enabled (enabled by default)
+- [ ] Required secrets configured in `Settings → Secrets and variables → Actions`:
+  - [ ] `NPM_TOKEN` - Token from npmjs.org (Settings → Access Tokens → Generate New Token → Automation)
+  - [ ] `KHIPU_REPO_USERNAME` - Nexus username for dev.khipu.com
+  - [ ] `KHIPU_REPO_PASSWORD` - Nexus password for dev.khipu.com
+  - [ ] `COCOAPODS_TRUNK_TOKEN` - CocoaPods trunk token (get via `pod trunk register`)
+
+### Verification
+- [ ] Check CI workflow passes: Push to `main` branch should trigger `.github/workflows/ci.yml`
+- [ ] Check Storybook deploys: Push to `main` should update GitHub Pages
+- [ ] Test version sync script: `./scripts/sync-version.sh 0.1.0-test` (then revert)
 
 ---
 
-## 🎬 Demo Script (Step-by-Step)
+## 🎬 Complete Workflow (Step-by-Step)
 
-### Part 1: Show Current State (Purple)
+### Phase 1: Preparation - Show Current State & Change Token
+
+#### Step 1.1: Show Current State (Purple)
 
 **📹 Record Storybook (Web)**
 ```bash
@@ -54,17 +93,17 @@ Complete workflow for demonstrating token changes across **Web, Android, and Gra
 ```
 **Show:** Purple button (#8347AD)
 
+**📹 Record iOS App (Optional)**
+```bash
+# DesignSystemTestScreen running on simulator
+```
+**Show:** Purple primary buttons
+
 **📹 Record Android App (Optional)**
 ```bash
 # DesignSystemTestScreen running on emulator
 ```
 **Show:** Purple primary buttons
-
-**📹 Record Grails Payment App**
-```bash
-# Navigate to http://localhost:8080/payment/designSystemTest
-```
-**Show:** Purple primary buttons rendered with `<kds:button>` taglib
 
 **📹 Show Token Source (Single Source of Truth)**
 ```typescript
@@ -80,7 +119,7 @@ export const colors = {
 
 ---
 
-### Part 2: Change Color (Purple → Blue)
+#### Step 1.2: Change Color (Purple → Blue)
 
 **📹 Edit Token File**
 ```bash
@@ -109,7 +148,9 @@ primary: {
 
 ---
 
-### Part 3: Generate Tokens for All Platforms
+### Phase 2: Generate Platform-Specific Tokens
+
+#### Step 2.1: Generate Tokens for All Platforms
 
 **📹 Single Command for All Platforms**
 ```bash
@@ -119,507 +160,424 @@ npm run tokens:generate
 **What happens behind the scenes:**
 1. ✅ Builds TypeScript (`npm run build`) → `dist/`
 2. ✅ Exports tokens to JSON (`tokens:export`) → `src/tokens/tokens.json`
-3. ✅ Generates CSS variables → `src/tokens/css-variables.css` (Web + Grails)
-4. ✅ Generates Kotlin tokens → `android/.../KdsTokens.kt` (Android)
+3. ✅ Generates CSS variables → `src/tokens/css-variables.css` (Web)
+4. ✅ Generates Swift tokens → `ios/Sources/Tokens/KdsTokens.swift` (iOS)
 
-**Result:** Design tokens converted from TypeScript → JSON → CSS (Web/Grails) + Kotlin (Android)
+**Result:** Design tokens converted from TypeScript → JSON → CSS (Web) + Swift (iOS)
 
 **💡 Single source of truth → THREE platforms!**
 
 ---
 
-### Part 4: Show Changes Without Publishing
+### Phase 3: Commit, Tag & Push → GitHub Actions Does the Rest!
 
-**📹 Show Web Changes (Storybook)**
+#### Step 3.1: Verify Changes in Storybook (Local Preview)
+
 ```bash
-# Storybook auto-reloads (or refresh browser)
-# Navigate to Button → Primary
+# Storybook auto-reloads with new tokens
+# Navigate to: http://localhost:6006 → Components → Core → Button → Primary
 ```
 **Show:** 🔵 **Blue button** (was purple!)
 
-**📹 Show Android Changes (Optional)**
-```bash
-# Rebuild Android library
-npm run android:build
-
-# In khipu-client-android, sync and run
-./gradlew :app:assembleDebug :app:installDebug
-```
-**Show:** 🔵 **Blue buttons** (was purple!)
-
-**📹 Show Grails Changes**
-```bash
-# Grails plugin uses CSS from web-app/css/design-system.css
-# The CSS was auto-generated by tokens:generate
-
-# To test locally WITHOUT publishing:
-cd grails/plugins/design-system-taglibs
-
-# Update version in 3 files (required for testing):
-# - DesignSystemTaglibsGrailsPlugin.groovy → version = "0.1.1"
-# - plugin.xml → version='0.1.1'
-# - publish-to-nexus.sh → PLUGIN_VERSION="0.1.1"
-
-# Create plugin ZIP
-zip -r grails-design-system-taglibs-0.1.1.zip \
-    DesignSystemTaglibsGrailsPlugin.groovy \
-    application.properties \
-    plugin.xml \
-    grails-app/ \
-    web-app/ \
-    src/
-
-# Install to Maven Local (for testing)
-mvn install:install-file \
-  -Dfile=grails-design-system-taglibs-0.1.1.zip \
-  -DgroupId=org.grails.plugins \
-  -DartifactId=design-system-taglibs \
-  -Dversion=0.1.1 \
-  -Dpackaging=zip \
-  -DgeneratePom=true
-
-# In payment repo:
-cd /path/to/payment
-
-# Update BuildConfig.groovy version:
-# compile ':design-system-taglibs:0.1.1'
-
-# Refresh
-./refresh-design-system.sh 0.1.1
-
-# Start payment
-grails run-app
-```
-
-**Navigate to:** `http://localhost:8080/payment/designSystemTest`
-
-**Show:** 🔵 **Blue buttons** (was purple!)
-
-**💡 Key Point:** Both Web and Grails use the same CSS variables - zero duplication!
+**💡 Key:** Changes visible immediately in Storybook without publishing
 
 ---
 
-### Part 5: Publish & Deploy Libraries
+#### Step 3.2: Bump Versions (All Platforms)
 
-**⚠️ CRITICAL: Bump Version BEFORE Publishing**
+**📝 Two options for version sync:**
 
-You **must** increment the version number before publishing. CodeArtifact/Nexus will reject duplicate versions.
-
-**📹 Check Current Version**
+**Option A: Automated Script (Recommended)**
 ```bash
-# Web package version
+# Sync version across ALL platforms with one command
+./scripts/sync-version.sh 0.1.0-alpha.7
+
+# This updates:
+# - package.json (Web)
+# - android/designsystem/build.gradle.kts (Android)
+# - KhipuDesignSystem.podspec (iOS)
+```
+
+**Option B: Manual Update (For demo purposes)**
+```bash
+# 1. Web - package.json
+sed -i '' 's/"version": "0.1.0-alpha.6"/"version": "0.1.0-alpha.7"/' package.json
+
+# 2. Android - android/designsystem/build.gradle.kts
+sed -i '' 's/val libraryVersion = "0.1.0-alpha.6"/val libraryVersion = "0.1.0-alpha.7"/' android/designsystem/build.gradle.kts
+
+# 3. iOS - KhipuDesignSystem.podspec
+sed -i '' "s/s.version.*=.*/s.version          = '0.1.0-alpha.7'/" KhipuDesignSystem.podspec
+```
+
+**Verify all versions synchronized:**
+```bash
 grep '"version"' package.json
-# Output: "version": "0.1.0-alpha.5"
-
-# Android library version
 grep 'libraryVersion' android/designsystem/build.gradle.kts
-# Output: val libraryVersion = "0.1.0-alpha.5"
-
-# Grails plugin version
-grep 'def version' grails/plugins/design-system-taglibs/DesignSystemTaglibsGrailsPlugin.groovy
-# Output: def version = "0.1.0"
+grep 's.version' KhipuDesignSystem.podspec
 ```
 
-**📹 Bump Version (All Three Platforms)**
-```bash
-# Web: Edit package.json
-# "version": "0.1.0-alpha.5" → "0.1.0-alpha.6"
-
-# Android: Edit android/designsystem/build.gradle.kts
-# val libraryVersion = "0.1.0-alpha.5" → "0.1.0-alpha.6"
-
-# Grails: Edit 3 files for plugin
-# 1. grails/plugins/design-system-taglibs/DesignSystemTaglibsGrailsPlugin.groovy
-#    def version = "0.1.0" → "0.1.1"
-# 2. grails/plugins/design-system-taglibs/plugin.xml
-#    version='0.1.0' → version='0.1.1'
-# 3. grails/plugins/design-system-taglibs/publish-to-nexus.sh
-#    PLUGIN_VERSION="0.1.0" → "0.1.1"
-
-# Or use sed for faster demo:
-sed -i '' 's/"version": "0.1.0-alpha.5"/"version": "0.1.0-alpha.6"/' package.json
-sed -i '' 's/val libraryVersion = "0.1.0-alpha.5"/val libraryVersion = "0.1.0-alpha.6"/' android/designsystem/build.gradle.kts
-sed -i '' 's/def version = "0.1.0"/def version = "0.1.1"/' grails/plugins/design-system-taglibs/DesignSystemTaglibsGrailsPlugin.groovy
-sed -i '' "s/version='0.1.0'/version='0.1.1'/" grails/plugins/design-system-taglibs/plugin.xml
-sed -i '' 's/PLUGIN_VERSION="0.1.0"/PLUGIN_VERSION="0.1.1"/' grails/plugins/design-system-taglibs/publish-to-nexus.sh
-```
+**💡 Note:** GitHub Actions workflow automatically runs `sync-version.sh` from the git tag, but for local builds we sync manually first.
 
 ---
 
-#### 📦 Publish Web Package (npmjs.org)
+#### Step 3.3: Commit, Tag, and Push
 
+**📹 Show Git workflow**
 ```bash
-# Login to npmjs.org (first time only)
-npm login
+# Commit changes
+git add .
+git commit -m "feat: change primary color from purple to blue
 
-# Build and publish
-npm run build
-npm publish --tag alpha --access public
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+
+# Create version tag (triggers GitHub Actions)
+git tag v0.1.0-alpha.7
+
+# Push to GitHub (triggers publish workflow)
+git push origin main --tags
 ```
 
-**💡 Note:**
-- The `--tag alpha` flag is required for prerelease versions
-- The `--access public` flag ensures the package is publicly accessible
-
-**Output:** `✅ @khipu/design-system@0.1.0-alpha.6 published to npmjs.org`
+**💡 Key:** Pushing the tag `v0.1.0-alpha.7` triggers GitHub Actions!
 
 ---
 
-#### 📦 Publish Android Package (Nexus)
+#### Step 3.4: Watch GitHub Actions Publish
 
-```bash
-# Ensure Nexus credentials are configured in ~/.gradle/gradle.properties:
-# khipuRepoUsername=deployment
-# khipuRepoPassword=<password>
-
-npm run android:publish
+**📹 Navigate to GitHub Actions**
+```
+https://github.com/khipu/design-system/actions
 ```
 
-**Output:** `✅ com.khipu:design-system:0.1.0-alpha.6 published to Nexus (dev.khipu.com/nexus)`
+**The Publish Workflow (`.github/workflows/publish.yml`)**
+
+**Job 1: CI Checks** (runs first, blocking)
+```yaml
+✅ Checkout code
+✅ Setup Node.js 18
+✅ Sync version from tag (./scripts/sync-version.sh)
+✅ Install dependencies (npm ci)
+✅ Typecheck (npm run typecheck)
+✅ Lint (npm run lint)
+✅ Test (npm run test)
+✅ Build (npm run build)
+```
+
+**Job 2-4: Parallel Publishing** (only run if CI passes)
+
+**Publish to npm** (ubuntu-latest)
+```yaml
+✅ Setup Node.js with npmjs.org registry
+✅ Sync version from tag
+✅ Install dependencies
+✅ Build package
+✅ Publish with provenance (npm publish --provenance --access public)
+   → Uses: NPM_TOKEN secret
+   → Result: Package on npmjs.org
+```
+
+**Publish to Nexus** (ubuntu-latest)
+```yaml
+✅ Setup Node.js + Java 17 + Android SDK
+✅ Setup Gradle
+✅ Sync version from tag
+✅ Generate tokens (npm run tokens:generate)
+✅ Configure Nexus credentials
+✅ Publish Android library (./gradlew :designsystem:publish)
+   → Uses: KHIPU_REPO_USERNAME, KHIPU_REPO_PASSWORD secrets
+   → Result: AAR on dev.khipu.com/nexus
+```
+
+**Publish to CocoaPods** (macos-latest)
+```yaml
+✅ Checkout with full git history
+✅ Sync version in podspec
+✅ Validate podspec (pod lib lint --allow-warnings)
+✅ Push to CocoaPods trunk (pod trunk push --allow-warnings)
+   → Uses: COCOAPODS_TRUNK_TOKEN secret
+   → Result: Pod on cocoapods.org
+```
+
+**⏱️ Timing:**
+- CI Checks: ~2-3 minutes
+- Parallel publishing: ~5-7 minutes
+- **Total: ~8-10 minutes** ⚡
+
+**Result:** 📦 All three packages published automatically in parallel!
 
 ---
 
-#### 📦 Publish Grails Plugin (Nexus Thirdparty)
+### Phase 4: Platform 1 - Web (React/TypeScript)
 
-**Important:** Grails plugin uses **Nexus**, not npmjs.org, and is published as a **ZIP file** to the **thirdparty** repository.
+**Complete workflow: GitHub Actions published → Install**
 
-**Step 1: Prepare Plugin Files**
-
-```bash
-cd grails/plugins/design-system-taglibs
-
-# Verify CSS was updated by tokens:generate
-cat web-app/css/design-system.css | grep "color-primary-main"
-# Should show: --kds-color-primary-main: #2196F3; (blue)
-
-# Verify version is correct in all 3 files:
-grep "def version" DesignSystemTaglibsGrailsPlugin.groovy
-grep "version=" plugin.xml
-grep "PLUGIN_VERSION" publish-to-nexus.sh
-# All should show: 0.1.1
-```
-
-**Step 2: Create Plugin ZIP**
+#### Step 4.1: Install in Web App
 
 ```bash
-# Create plugin ZIP with updated CSS (includes new blue color)
-zip -r grails-design-system-taglibs-0.1.1.zip \
-    DesignSystemTaglibsGrailsPlugin.groovy \
-    application.properties \
-    plugin.xml \
-    grails-app/ \
-    web-app/ \
-    src/
+cd /path/to/web-app  # Your React app
 
-# Verify ZIP size (should be ~11 KB)
-ls -lh grails-design-system-taglibs-0.1.1.zip
-```
+# Install from npmjs.org (public, no auth needed!)
+npm install @khipu/design-system@0.1.0-alpha.7
 
-**Step 3: Publish to Nexus**
-
-```bash
-# Publish to Nexus using Maven
-./publish-to-nexus.sh
-```
-
-**What the script does:**
-1. Creates POM file with plugin metadata
-2. Uses `mvn deploy:deploy-file` to upload ZIP to Nexus thirdparty
-3. Uploads to: `https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.1/`
-
-**Output:**
-```
-📦 Publicando Design System Taglibs v0.1.1 a Nexus usando Maven...
-📝 Creando POM...
-📤 Subiendo plugin a Nexus con Maven...
-Uploaded to khipu-nexus-thirdparty: .../design-system-taglibs-0.1.1.zip (11 kB at 4.4 kB/s)
-Uploaded to khipu-nexus-thirdparty: .../design-system-taglibs-0.1.1.pom (592 B at 238 B/s)
-✅ Plugin publicado exitosamente!
-```
-
-**Verify upload:**
-```bash
-# Check file exists and is complete (should be ~11 KB, NOT 8.7K)
-curl -I -u deployment:93h50sj2di2hd923 \
-  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.1/design-system-taglibs-0.1.1.zip"
-```
-
-**💡 Three platforms, three different publishing methods:**
-- **Web:** npm → npmjs.org (public registry)
-- **Android:** Maven → Nexus (design-system repo)
-- **Grails:** Maven → Nexus (thirdparty repo, ZIP format)
-
----
-
-#### 🔧 Configure Payment App to Use Plugin
-
-**Important:** Before installing the plugin in payment, ensure the app is configured correctly.
-
-**Step 1: Verify Nexus Repository Configuration**
-
-```bash
-cd /path/to/payment
-
-# Check BuildConfig.groovy has thirdparty repo BEFORE releases
-cat grails-app/conf/BuildConfig.groovy | grep -A 5 "repositories"
-```
-
-**Expected configuration:**
-```groovy
-repositories {
-    grailsPlugins()
-    grailsHome()
-    grailsCentral()
-    mavenLocal()
-
-    // IMPORTANT: thirdparty MUST be listed BEFORE releases
-    mavenRepo "https://dev.khipu.com/nexus/content/repositories/thirdparty"
-    mavenRepo "https://dev.khipu.com/nexus/content/repositories/releases"
-}
-```
-
-**Step 2: Verify Plugin Dependency**
-
-```bash
-# Check current plugin version in BuildConfig.groovy
-grep "design-system-taglibs" grails-app/conf/BuildConfig.groovy
-```
-
-**Expected:**
-```groovy
-plugins {
-    compile ':design-system-taglibs:0.1.1'
-}
-```
-
----
-
-### Part 6: Install & Show Changes in Client Apps
-
-#### 🌐 Update Web Client
-
-```bash
-cd ../khenshin-web  # Or your web app
-
-# Update package.json dependency
-# "@khipu/design-system": "^0.1.0-alpha.6"
-
-# Install from npmjs.org (public registry)
-npm install
+# Start dev server
 npm run dev
 ```
 
-**Show:** 🔵 **Blue buttons and components** across the entire web app!
+**Navigate to app:** `http://localhost:3000`
 
-**Note:** Package is now publicly available on npmjs.org - no authentication required!
+**Show:** 🔵 **All buttons and components are now blue!**
+
+**💡 Complete cycle:** Token change → Tag → GitHub Actions → npmjs.org → Install → Working! ✅
+
+**Verify package:**
+```bash
+# View on npmjs.org
+open https://www.npmjs.com/package/@khipu/design-system
+```
 
 ---
 
-#### 🤖 Update Android Client
+### Phase 5: Platform 2 - Android (Kotlin/Compose)
+
+**Complete workflow: GitHub Actions published → Install**
+
+#### Step 5.1: Verify Android Tokens Generated
 
 ```bash
-cd ../khipu-client-android
+# Check KdsTokens.kt was updated
+cat android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt | grep "primaryMain"
+
+# Should show:
+# val primaryMain = Color(0xFF2196F3)  // Blue!
+```
+
+---
+
+#### Step 5.2: Install in Android App
+
+```bash
+cd /path/to/android-app  # Your Android app
 
 # Update app/build.gradle.kts dependency
-# implementation("com.khipu:design-system:0.1.0-alpha.6")
+# implementation("com.khipu:design-system:0.1.0-alpha.7")
 
-# Ensure build.gradle.kts includes Nexus repository:
-# maven {
-#     url = uri("https://dev.khipu.com/nexus/content/repositories/design-system")
-#     credentials {
-#         username = project.findProperty("khipuRepoUsername") as String? ?: ""
-#         password = project.findProperty("khipuRepoPassword") as String? ?: ""
-#     }
-# }
-
-./gradlew :app:assembleDebug :app:installDebug
+# Sync and build
+./gradlew --refresh-dependencies
+./gradlew :app:assembleDebug
+./gradlew :app:installDebug
 ```
 
-**Show:** 🔵 **Blue buttons and components** across the entire Android app!
+**Run app on emulator**
 
-**Note:** Package is now hosted on Nexus instead of CodeArtifact
+**Show:** 🔵 **All buttons and components are now blue!**
+
+**💡 Complete cycle:** Token change → Tag → GitHub Actions → Nexus → Install → Working! ✅
 
 ---
 
-#### 🏛️ Update Grails Client (Payment App)
+### Phase 6: Platform 3 - iOS (Swift/SwiftUI)
 
-**Prerequisites:**
-- Plugin published to Nexus thirdparty (see above)
-- Payment app has correct repository configuration (see above)
-- Maven Local cache cleared if testing multiple versions
+**Complete workflow: GitHub Actions published → Install**
 
-**Method 1: Using refresh script (recommended):**
+#### Step 6.1: Verify Swift Tokens Generated
 
 ```bash
-cd /path/to/payment
+# Check KdsTokens.swift was updated
+cat ios/Sources/Tokens/KdsTokens.swift | grep "primaryMain"
 
-# Update version with script (cleans cache + updates BuildConfig.groovy + refreshes)
-./refresh-design-system.sh 0.1.1
-```
-
-**What the script does:**
-1. Cleans Maven Local cache for design-system-taglibs
-2. Cleans Grails work directory
-3. Updates BuildConfig.groovy to new version
-4. Runs `grails refresh-dependencies`
-
-**Expected output:**
-```
-🧹 Limpiando cache de Maven Local...
-Removed: ~/.m2/repository/org/grails/plugins/design-system-taglibs
-
-🧹 Limpiando directorio de trabajo de Grails...
-Removed: target/work/plugins/design-system-taglibs-*
-
-📝 Actualizando BuildConfig.groovy a versión 0.1.1...
-Updated: grails-app/conf/BuildConfig.groovy
-
-📥 Descargando plugin desde Nexus...
-Downloading: org/grails/plugins/design-system-taglibs/0.1.1/design-system-taglibs-0.1.1.zip
-Installing zip design-system-taglibs-0.1.1.zip...
-Installed plugin design-system-taglibs-0.1.1
-
-✅ Plugin actualizado exitosamente!
+# Should show:
+# public static let primaryMain = Color(hex: "2196F3")  // Blue!
 ```
 
 ---
 
-**Method 2: Manual installation (if script not available):**
+#### Step 6.2: Install in iOS App
 
 ```bash
-cd /path/to/payment
+cd /path/to/ios-app  # Your iOS app
 
-# Step 1: Clean cache completely
-rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
-rm -rf target/work/plugins/design-system-taglibs-*
+# Update Podfile
+# pod 'KhipuDesignSystem', '~> 0.1.0-alpha.7'
 
-# Step 2: Update BuildConfig.groovy dependency
-# Edit: grails-app/conf/BuildConfig.groovy
-# Change: compile ':design-system-taglibs:0.1.0'
-# To:     compile ':design-system-taglibs:0.1.1'
+# Install from CocoaPods trunk
+pod install --repo-update
 
-# Step 3: Refresh dependencies (downloads from Nexus thirdparty)
-grails refresh-dependencies
+# Open workspace
+open YourApp.xcworkspace
 ```
+
+**Run app on simulator**
+
+**Show:** 🔵 **All buttons and components are now blue!**
+
+**💡 Complete cycle:** Token change → Tag → GitHub Actions → CocoaPods → Install → Working! ✅
 
 ---
 
-**Verify Installation:**
+## 🤖 GitHub Actions Workflows Explained
 
-```bash
-# Check plugin was downloaded and installed
-ls -lh target/work/plugins/design-system-taglibs-0.1.1/
+**Three automated workflows protect and publish the design system:**
 
-# Should show plugin directory with:
-# - grails-app/ (taglibs)
-# - web-app/ (CSS with blue color)
-# - DesignSystemTaglibsGrailsPlugin.groovy
+### 1. CI Workflow (`.github/workflows/ci.yml`)
 
-# Verify CSS contains blue color
-grep "color-primary-main" target/work/plugins/design-system-taglibs-0.1.1/web-app/css/design-system.css
-# Should show: --kds-color-primary-main: #2196F3;
+**Trigger:** Every push to `main` or PR to `main`
+
+**Purpose:** Continuous integration checks
+
+**Jobs (run in parallel):**
+```yaml
+Lint & Typecheck:
+  - npm run typecheck
+  - npm run lint
+
+Test:
+  - npm run test
+
+Build Web:
+  - npm run build
+
+Build Android:
+  - npm run tokens:generate
+  - npm run android:build
 ```
+
+**Result:** Ensures code quality before merging
 
 ---
 
-**Start Payment App:**
+### 2. Publish Workflow (`.github/workflows/publish.yml`)
 
-```bash
-grails run-app
-```
+**Trigger:** Git tags matching `v*` (e.g., `v0.1.0-alpha.7`)
 
-**Expected startup output:**
-```
-| Loading Grails 2.5.6
-| Configuring classpath
-| Environment set to development
-...
-| Running Grails application
-| Server running. Browse to http://localhost:8080/payment
-```
+**Purpose:** Automated publishing to all registries
 
----
+**Jobs:**
+1. **CI Checks** (sequential) - Same checks as CI workflow
+2. **Publish to npm** (parallel after CI) - npmjs.org
+3. **Publish to Nexus** (parallel after CI) - dev.khipu.com/nexus
+4. **Publish to CocoaPods** (parallel after CI) - cocoapods.org
 
-**Test Plugin Integration:**
-
-**Navigate to test page:**
-```
-http://localhost:8080/payment/designSystemTest
-```
-
-**Show:** 🔵 **Blue buttons rendered by `<kds:button>` taglibs** - color from CSS variables!
-
-**Available taglibs to demo:**
-- `<kds:button variant="contained">` - Blue primary button
-- `<kds:button variant="outlined">` - Blue outlined button
-- `<kds:textField label="Email">` - Input with blue focus state
-- `<kds:card>` - Card component with blue accents
-- `<kds:alert type="info">` - Blue info alert
-- `<kds:checkbox label="Accept">` - Checkbox with blue check
-- `<kds:tabs>` - Tabs with blue indicator
-- `<kds:spinner>` - Blue loading spinner
-
-**Verify CSS in browser:**
-1. Open DevTools (F12)
-2. Inspect a button element
-3. Check computed styles
-4. Verify `--kds-color-primary-main: #2196F3` is applied
+**Key features:**
+- ✅ Version auto-synced from git tag
+- ✅ Parallel publishing (fast!)
+- ✅ Secure (GitHub Secrets)
+- ✅ Provenance attestation (npm)
 
 ---
 
-## 🎯 The Magic: How Grails Gets the Colors
+### 3. Storybook Deployment (`.github/workflows/storybook.yml`)
 
-**Grails doesn't use React or Kotlin - it uses plain CSS!**
+**Trigger:** Every push to `main` or manual dispatch
+
+**Purpose:** Deploy documentation to GitHub Pages
+
+**Jobs:**
+1. **Build** - Generate static Storybook
+2. **Deploy** - Upload to GitHub Pages
+
+**Result:** Live docs at design.khipu.com (or GitHub Pages URL)
+
+---
+
+### Workflow Comparison
+
+| Workflow | Trigger | Duration | Purpose |
+|----------|---------|----------|---------|
+| **CI** | Push/PR to `main` | ~5-7 min | Quality checks |
+| **Publish** | Tags `v*` | ~8-10 min | Multi-platform publish |
+| **Storybook** | Push to `main` | ~3-5 min | Deploy docs |
+
+---
+
+### 🎉 Summary: Complete Workflow Demonstrated
+
+**What we accomplished:**
+
+✅ **Phase 1**: Changed ONE token file (`src/tokens/index.ts`)
+✅ **Phase 2**: Generated platform-specific tokens with ONE command
+✅ **Phase 3**: Created Git tag → GitHub Actions published automatically to 3 registries
+✅ **Phase 4 - Web**: Install from npmjs.org → **BLUE! ✨**
+✅ **Phase 5 - Android**: Install from Nexus → **BLUE! ✨**
+✅ **Phase 6 - iOS**: Install from CocoaPods → **BLUE! ✨**
+
+**Result:** THREE completely different platforms, perfectly in sync from ONE source of truth! 🚀
+
+**Publishing summary:**
+- 📦 **Web**: `@khipu/design-system@0.1.0-alpha.7` → npmjs.org (public)
+- 📦 **Android**: `com.khipu:design-system:0.1.0-alpha.7` → Nexus
+- 📦 **iOS**: `KhipuDesignSystem (0.1.0-alpha.7)` → CocoaPods trunk
+
+**Automation:**
+- 🤖 **GitHub Actions** handles all publishing (no manual commands needed!)
+- ⚡ **Parallel publishing** - all three platforms publish simultaneously
+- 🔒 **Secure** - uses GitHub Secrets for credentials
+
+---
+
+## 🎯 The Magic: How Each Platform Gets Tokens
+
+**Three completely different tech stacks, one source:**
 
 ```
-src/tokens/index.ts (TypeScript)
+src/tokens/index.ts (TypeScript - Single Source of Truth)
          ↓
   npm run tokens:generate
          ↓
-src/tokens/css-variables.css (auto-generated)
-         ↓
-grails/plugins/.../web-app/css/design-system.css (copied during ZIP creation)
-         ↓
-Payment downloads plugin from Nexus
-         ↓
-GSP pages use <kds:button> which renders HTML with CSS classes
-         ↓
-CSS variables apply: var(--kds-color-primary-main) = #2196F3 (blue!)
+    ┌────────┴────────┬────────────────┐
+    ↓                 ↓                ↓
+CSS Variables    KdsTokens.kt    KdsTokens.swift
+(Web/React)      (Android)       (iOS)
+    ↓                 ↓                ↓
+MUI Theme        Material 3      SwiftUI Theme
 ```
 
-**Three completely different tech stacks, perfectly in sync:**
-- ⚛️ **React** (TypeScript + MUI + JS imports)
-- 🤖 **Android** (Kotlin + Jetpack Compose + KdsTokens object)
-- 🏛️ **Grails** (Groovy + GSP + CSS variables, NO JavaScript bundling!)
+**Implementation differences:**
+- ⚛️ **React**: TypeScript imports → MUI theme → CSS-in-JS
+- 🤖 **Android**: Kotlin object → Jetpack Compose → Material 3
+- 🍎 **iOS**: Swift struct → SwiftUI → Native iOS components
 
 ---
 
 ## 💬 Demo Narration Script
 
 **Introduction (30 seconds)**
-> "Today I'm showing how our design system maintains consistency across THREE platforms: React web, Android native, and Grails. We'll change the primary color from purple to blue in ONE file, and watch it update automatically across all three."
+> "Today I'm showing how our design system maintains consistency across THREE platforms: React web, Android native, and iOS native. We'll change the primary color from purple to blue in ONE file, and watch GitHub Actions automatically publish to all three platforms."
 
 **Part 1 - Current State (45 seconds)**
-> "Here's our current design system. In Storybook, our primary button is purple. In the Android app, same purple. In our Grails payment app at the test page, also purple. Three completely different tech stacks - React with TypeScript, Kotlin with Jetpack Compose, and Groovy with GSP taglibs."
+> "Here's our current design system. In Storybook, our primary button is purple. In the Android app, same purple. In our iOS app, also purple. Three completely different tech stacks - React with TypeScript, Kotlin with Jetpack Compose, and Swift with SwiftUI."
 
 **Part 2 - Change Token (1 minute)**
 > "Now let's change the primary color. I'm opening our design tokens file - the single source of truth. Here's the current purple: #8347AD. I'll change it to Material Blue: #2196F3. Notice - ONE file, but this affects all three platforms."
 
-**Part 3 - Generate Tokens (1.5 minutes)**
-> "Now I generate tokens for all platforms: `npm run tokens:generate`. This builds TypeScript, exports to JSON, generates CSS variables for web and Grails, and creates Kotlin tokens for Android. One command, three platforms. Look - Storybook auto-reloaded, button is now blue! For Grails, the CSS with the blue color is in the web-app folder, ready to be packaged."
+**Part 3 - Generate Tokens (1 minute)**
+> "Now I generate tokens for all platforms: `npm run tokens:generate`. This builds TypeScript, exports to JSON, generates CSS variables for web, Kotlin tokens for Android, and Swift tokens for iOS. One command, three platforms. Look - Storybook auto-reloaded, button is now blue!"
 
-**Part 4 - Publish Libraries (2.5 minutes)**
-> "Time to publish. I bump versions - package.json for web, Gradle for Android, and THREE files for the Grails plugin. I publish the web package to npmjs.org - now it's publicly available! Then I publish Android to our Nexus server. For Grails, it's different - I create a ZIP with the plugin code and CSS, then publish to Nexus thirdparty repository using Maven. The script uploads an 11 KB ZIP file. All three packages published to their respective registries!"
+**Part 4 - Publish via GitHub Actions (3-4 minutes)**
+> "Time to publish. First, I'll sync versions across all platforms using our script: `./scripts/sync-version.sh 0.1.0-alpha.7`. This updates package.json for web, build.gradle.kts for Android, and the podspec for iOS - one command, three files!"
+>
+> "Now I commit the changes, create a version tag v0.1.0-alpha.7, and push to GitHub with tags. And here's what's important - **this is the ONLY publishing command I run**: `git push origin main --tags`. That's it!"
+>
+> "I don't run `npm publish`. I don't run any Gradle commands. I don't run `pod trunk push`. I don't type any credentials. **I never publish manually from my machine**. GitHub Actions does everything!"
+>
+> "Watch - GitHub Actions immediately detects the `v*` tag and triggers the publish workflow. Let's watch it in real-time at github.com/khipu/design-system/actions."
+>
+> "First, the CI job runs - typecheck, lint, test, and build. This ensures we're not publishing broken code. If any of these fail, the publish is automatically canceled. Green checkmarks - we're good!"
+>
+> "Now look - three publish jobs kick off **in parallel**! One publishes to npmjs.org for React developers. Another builds the Android AAR and pushes to our private Nexus. And the third validates and pushes the iOS pod to CocoaPods trunk. All running simultaneously in the cloud!"
+>
+> "GitHub Secrets handles all authentication. I never typed a password. I never configured credentials on my machine. My laptop could break right now and the publish would still complete successfully in GitHub Actions!"
+>
+> "And... done! All three packages published in about 8-10 minutes. Check those green checkmarks - npm published, Nexus published, CocoaPods published. Three completely different registries, three different package managers, **one git tag**, **zero manual commands**. This is modern CI/CD!"
 
-**Part 5 - Install & Show (2.5 minutes)**
-> "Now the payoff. Web app - update dependency, npm install from npmjs.org - no authentication needed since it's public! Start dev server. Blue buttons everywhere!"
+**Part 5 - Install & Show (2 minutes)**
+> "Now the payoff. Web app - npm install from npmjs.org, no authentication needed since it's public! Start dev server. Blue buttons everywhere!"
 
-> "Android - update dependency, sync with Nexus, rebuild. Blue buttons!"
+> "Android - update dependency in Gradle, sync from Nexus, rebuild. Blue buttons!"
 
-> "And Grails - here's where it gets interesting. I update the plugin version in BuildConfig, then run our refresh script. Watch - it cleans the cache, downloads the plugin ZIP from Nexus - you can see it's the full 11 KB - extracts it, and installs. I start the payment app and go to the test page. Look at that - blue buttons rendered with Grails taglibs! The CSS variables from our design system, working perfectly in a Groovy/GSP app!"
+> "And iOS - update Podfile, pod install from CocoaPods trunk. Open in Xcode, run on simulator. Blue buttons!"
 
 **Conclusion (30 seconds)**
-> "One token change in TypeScript, THREE different platforms in perfect sync. React importing from public npmjs.org, Android with compiled Kotlin tokens from Nexus, and Grails downloading a plugin ZIP from Nexus with CSS variables. No JavaScript, no bundlers - just plain CSS. That's a true cross-platform design system."
+> "One token change in TypeScript, ONE git tag, and GitHub Actions handled the rest. THREE different platforms in perfect sync. React importing from public npm, Android with compiled Kotlin from Nexus, and iOS with Swift from CocoaPods. All published automatically. That's a true cross-platform design system with modern CI/CD."
 
 ---
 
@@ -629,24 +587,26 @@ CSS variables apply: var(--kds-color-primary-main) = #2196F3 (blue!)
 
 ✅ **Single source of truth in code** - Changed ONE file (`src/tokens/index.ts`)
 ✅ **Automatic generation** - Tokens for all three platforms from one command
-✅ **Consistent design** - Same blue (#2196F3) on Web, Android, and Grails
-✅ **Zero component changes** - Buttons updated automatically
-✅ **Different distribution methods** - npmjs.org (Web), Nexus (Android), Nexus ZIP (Grails)
+✅ **100% automated publishing** - GitHub Actions publishes on git tag
+✅ **Zero manual publish commands** - Never run npm/gradle/pod publish locally
+✅ **Parallel publishing** - All 3 platforms publish simultaneously in ~10 minutes
+✅ **Consistent design** - Same blue (#2196F3) on Web, Android, and iOS
+✅ **Zero component changes** - Buttons updated automatically via tokens
+✅ **Different distribution methods** - npmjs.org (Web), Nexus (Android), CocoaPods (iOS)
 ✅ **Real-world usage** - Consuming apps get updates immediately
-✅ **True cross-platform** - React + Android + Grails from one codebase
-✅ **Grails via CSS variables** - No JS bundling, pure CSS, works with Java 7!
+✅ **True cross-platform** - React + Android + iOS from one codebase
 
 **Platform coverage:**
-- ⚛️ **Web**: React 18 + TypeScript + Material UI v7 (npmjs.org - public package)
-- 🤖 **Android**: Kotlin + Jetpack Compose + Material 3 (Nexus Maven repository)
-- 🏛️ **Grails**: Groovy 2.5 + GSP + CSS Variables (Nexus ZIP plugin - thirdparty repo)
+- ⚛️ **Web**: React 18 + TypeScript + Material UI v7 (npmjs.org - public)
+- 🤖 **Android**: Kotlin + Jetpack Compose + Material 3 (Nexus - private)
+- 🍎 **iOS**: Swift + SwiftUI (CocoaPods trunk - public)
 
-**Grails specifics:**
-- 📦 Published as Grails plugin ZIP to Nexus thirdparty repository
-- 🎨 Includes 8 taglibs: Button, TextField, Card, Typography, Alert, Checkbox, Tabs, Spinner
-- 🔄 Payment downloads from internet (Nexus), not copy-paste
-- 💾 Must be 11 KB complete (8.7 KB = corrupted)
-- 🏗️ Uses Maven for publishing, compatible with Grails 2.x dependency system
+**Automation benefits:**
+- 🤖 No manual publish commands (GitHub Actions handles it)
+- 🔒 Secure credential management (GitHub Secrets)
+- ⚡ Parallel publishing (all platforms publish simultaneously)
+- ✅ Built-in validation (CI checks before publish)
+- 📝 Automatic changelog (from git history)
 
 ---
 
@@ -673,25 +633,25 @@ primary: { main: '#009688', light: '#4DB6AC', dark: '#00796B' }
 ## 🎥 Recording Tips
 
 **Screen layout:**
-- Split screen: Editor (left) + Storybook/Payment (right)
+- Split screen: Editor (left) + Storybook/GitHub (right)
 - Or: Picture-in-picture for platforms simultaneously
 
 **Key moments to capture:**
 1. Changing `#8347AD` → `#2196F3` in editor
 2. Running `npm run tokens:generate` (show completion)
 3. Storybook auto-refresh showing blue button
-4. Grails test page (`/payment/designSystemTest`) with blue buttons
-5. Bumping versions (3 files for Grails plugin!)
-6. Publishing - show all three: npm, Android Maven, Grails ZIP upload
-7. Installing in payment - show "Installed plugin" message
-8. Final: blue buttons from `<kds:button>` taglib
+4. Bumping versions (3 files!)
+5. Git commit + tag + push
+6. **GitHub Actions running** (show workflow in browser)
+7. All three publish jobs completing
+8. Installing in each platform's app
+9. Final: blue buttons in Web, Android, and iOS apps
 
-**Grails-specific highlights:**
-- Show BuildConfig.groovy with `compile ':design-system-taglibs:0.1.1'`
-- Show refresh-design-system.sh script in action
-- Show terminal output: "Downloading .../design-system-taglibs-0.1.1.zip"
-- Show test page with all 8 taglib components
-- Inspect element: show CSS variables (--kds-color-primary-main)
+**GitHub Actions highlights:**
+- Show workflow file: `.github/workflows/publish.yml`
+- Show Actions tab with running workflow
+- Show parallel publish jobs (npm, Nexus, CocoaPods)
+- Show successful completion with green checkmarks
 
 ---
 
@@ -703,45 +663,30 @@ primary: { main: '#009688', light: '#4DB6AC', dark: '#00796B' }
 - [ ] Verify Storybook shows new color
 - [ ] **CRITICAL:** Check and bump versions:
   - [ ] `package.json` → 0.1.0-alpha.X
-  - [ ] `android/.../build.gradle.kts` → 0.1.0-alpha.X
-  - [ ] **Grails (3 files):**
-    - [ ] `DesignSystemTaglibsGrailsPlugin.groovy` → 0.1.X
-    - [ ] `plugin.xml` → 0.1.X
-    - [ ] `publish-to-nexus.sh` → PLUGIN_VERSION="0.1.X"
-- [ ] Create Grails plugin ZIP
-- [ ] Test Grails publish: `./publish-to-nexus.sh`
-- [ ] Verify ZIP on Nexus is 11 KB (not 8.7K!)
-- [ ] Login to npmjs.org: `npm login`
-- [ ] Verify Nexus credentials in `~/.gradle/gradle.properties`
-- [ ] Test web publish: `npm publish --tag alpha --access public`
-- [ ] Test payment refresh: `./refresh-design-system.sh 0.1.X`
+  - [ ] `android/designsystem/build.gradle.kts` → 0.1.0-alpha.X
+  - [ ] `KhipuDesignSystem.podspec` → 0.1.0-alpha.X
+- [ ] Test local builds:
+  - [ ] `npm run build`
+  - [ ] `npm run android:build`
+  - [ ] `pod lib lint KhipuDesignSystem.podspec --allow-warnings`
+- [ ] Verify GitHub Actions secrets are configured
+- [ ] Test git tag + push (to a test branch first)
 - [ ] Revert: `git reset --hard && npm run tokens:generate`
 - [ ] Ready to record!
 
 **Environment check:**
 - [ ] Storybook running on port 6006
-- [ ] Android emulator with test app (optional)
-- [ ] Payment app configured and able to start
-- [ ] Maven installed (`which mvn` returns path)
-- [ ] NPM logged in to npmjs.org (`npm whoami` returns username)
-- [ ] Nexus credentials in `~/.gradle/gradle.properties` (khipuRepoUsername, khipuRepoPassword)
-- [ ] Nexus credentials working (test with curl to design-system and thirdparty repos)
+- [ ] iOS simulator ready (optional)
+- [ ] Android emulator ready (optional)
+- [ ] GitHub Actions secrets configured:
+  - [ ] `NPM_TOKEN` (npmjs.org)
+  - [ ] `KHIPU_REPO_USERNAME` (Nexus)
+  - [ ] `KHIPU_REPO_PASSWORD` (Nexus)
+  - [ ] `COCOAPODS_TRUNK_TOKEN` (CocoaPods)
 - [ ] All repos clean (no uncommitted changes)
 - [ ] Screen recording tool tested
 - [ ] Close unnecessary windows/notifications
-- [ ] Test page accessible: http://localhost:8080/payment/designSystemTest
-
-**Grails/Payment specific checks:**
-- [ ] Payment `BuildConfig.groovy` has thirdparty repo BEFORE releases
-- [ ] Payment has `refresh-design-system.sh` script
-- [ ] Test Grails plugin creation: `zip -r test.zip ...` works
-- [ ] Test Nexus thirdparty upload: `curl -I ...` returns 200
-- [ ] Grails 2.5.6 installed (`grails -version`)
-- [ ] Payment can start without errors (`grails run-app`)
-- [ ] Design system test page loads: http://localhost:8080/payment/designSystemTest
-- [ ] Current plugin version visible in test page
-- [ ] Maven Local cleared: `rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs`
-- [ ] Grails work directory clean: `rm -rf target/work/plugins/design-system-taglibs-*`
+- [ ] Browser tab open: GitHub Actions page
 
 ---
 
@@ -754,352 +699,314 @@ primary: { main: '#009688', light: '#4DB6AC', dark: '#00796B' }
 npm run tokens:generate           # Generate tokens for all platforms
 npm run build                     # Build web package
 npm run android:build             # Build Android AAR
+pod lib lint --allow-warnings     # Validate iOS podspec
 ```
 
-### Publishing
+### Publishing (GitHub Actions Only)
+
+**⚠️ IMPORTANT: We ONLY publish via GitHub Actions. Never run `npm publish`, `gradle publish`, or `pod trunk push` manually!**
 
 ```bash
-# === WEB → npmjs.org ===
-npm login                                   # First time only
-npm run build
-npm publish --tag alpha --access public
+# === PUBLISH VIA GITHUB ACTIONS (ONLY METHOD) ===
 
-# === ANDROID → Nexus ===
-npm run android:publish
+# 1. Sync versions across all platforms
+./scripts/sync-version.sh 0.1.0-alpha.X
 
-# === GRAILS PLUGIN → Nexus Thirdparty ===
-cd grails/plugins/design-system-taglibs
+# 2. Commit and tag
+git add .
+git commit -m "chore: bump version to 0.1.0-alpha.X"
+git tag v0.1.0-alpha.X
 
-# Step 1: Update versions in 3 files
-# - DesignSystemTaglibsGrailsPlugin.groovy → version = "0.1.X"
-# - plugin.xml → version='0.1.X'
-# - publish-to-nexus.sh → PLUGIN_VERSION="0.1.X"
+# 3. Push tag (this triggers GitHub Actions to publish everything)
+git push origin main --tags
 
-# Step 2: Verify CSS was updated
-cat web-app/css/design-system.css | grep "color-primary-main"
+# 4. Watch GitHub Actions publish automatically:
+# https://github.com/khipu/design-system/actions
+# → CI Checks (lint, typecheck, test, build)
+# → Publish to npm (parallel)
+# → Publish to Nexus (parallel)
+# → Publish to CocoaPods (parallel)
 
-# Step 3: Create ZIP
-zip -r grails-design-system-taglibs-0.1.X.zip \
-    DesignSystemTaglibsGrailsPlugin.groovy \
-    application.properties \
-    plugin.xml \
-    grails-app/ \
-    web-app/ \
-    src/
-
-# Step 4: Verify ZIP size (~11 KB)
-ls -lh grails-design-system-taglibs-0.1.X.zip
-
-# Step 5: Publish to Nexus
-./publish-to-nexus.sh
-
-# Step 6: Verify upload
-curl -I -u deployment:PASSWORD \
-  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.X/design-system-taglibs-0.1.X.zip"
+# That's it! No manual publish commands needed!
 ```
 
 ### Installation in Client Apps
 
+**After GitHub Actions publishes (green checkmarks in Actions tab):**
+
 ```bash
 # === WEB ===
-cd /path/to/khenshin-web
-# Update package.json: "@khipu/design-system": "^0.1.0-alpha.X"
-npm install
+cd /path/to/web-app
+npm install @khipu/design-system@0.1.0-alpha.X
 npm run dev
 
 # === ANDROID ===
-cd /path/to/khipu-client-android
+cd /path/to/android-app
 # Update build.gradle.kts: implementation("com.khipu:design-system:0.1.0-alpha.X")
 ./gradlew --refresh-dependencies
 ./gradlew :app:assembleDebug
 
-# === GRAILS (PAYMENT) ===
-cd /path/to/payment
-
-# Method 1: Using refresh script (recommended)
-./refresh-design-system.sh 0.1.X
-
-# Method 2: Manual
-# 1. Update BuildConfig.groovy: compile ':design-system-taglibs:0.1.X'
-# 2. Clean cache
-rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
-rm -rf target/work/plugins/design-system-taglibs-*
-# 3. Refresh
-grails refresh-dependencies
-# 4. Start
-grails run-app
-# 5. Test: http://localhost:8080/payment/designSystemTest
-```
-
-### Grails Plugin - Detailed Workflow
-
-```bash
-# === COMPLETE GRAILS WORKFLOW ===
-
-# 1. UPDATE TOKENS
-cd /path/to/design-system
-vim src/tokens/index.ts              # Change colors
-npm run tokens:generate              # Regenerate all tokens
-
-# 2. VERIFY CSS
-cat grails/plugins/design-system-taglibs/web-app/css/design-system.css | grep "primary-main"
-
-# 3. BUMP VERSION (3 files)
-cd grails/plugins/design-system-taglibs
-vim DesignSystemTaglibsGrailsPlugin.groovy  # version = "0.1.X"
-vim plugin.xml                               # version='0.1.X'
-vim publish-to-nexus.sh                      # PLUGIN_VERSION="0.1.X"
-
-# 4. CREATE & PUBLISH
-zip -r grails-design-system-taglibs-0.1.X.zip \
-    DesignSystemTaglibsGrailsPlugin.groovy \
-    application.properties plugin.xml \
-    grails-app/ web-app/ src/
-ls -lh grails-design-system-taglibs-0.1.X.zip  # Verify ~11 KB
-./publish-to-nexus.sh
-
-# 5. VERIFY ON NEXUS
-curl -I -u deployment:PASSWORD \
-  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.X/design-system-taglibs-0.1.X.zip"
-
-# 6. INSTALL IN PAYMENT
-cd /path/to/payment
-./refresh-design-system.sh 0.1.X
-
-# 7. VERIFY INSTALLATION
-ls -la target/work/plugins/design-system-taglibs-0.1.X/
-cat target/work/plugins/design-system-taglibs-0.1.X/web-app/css/design-system.css | grep "primary-main"
-
-# 8. TEST
-grails run-app
-# Navigate to: http://localhost:8080/payment/designSystemTest
-# Check: Buttons should show new color
+# === iOS ===
+cd /path/to/ios-app
+# Update Podfile: pod 'KhipuDesignSystem', '~> 0.1.0-alpha.X'
+pod install --repo-update
+open YourApp.xcworkspace
 ```
 
 ---
 
-## 🐛 Troubleshooting Common Errors
+## 🐛 Troubleshooting
 
-### Grails Plugin Errors
+### GitHub Actions Failures
 
-#### Error: "Zip is not a valid plugin" (Grails)
+#### ❌ "Workflow not triggered after pushing tag"
 
-```bash
-Error Zip /Users/.../design-system-taglibs-X.Y.Z.zip is not a valid plugin
-```
-
-**Cause:** Downloaded ZIP is corrupted (8.7K instead of 11K) or missing required files.
+**Cause:** Tag format doesn't match `v*` pattern
 
 **Solution:**
 ```bash
-# 1. Check ZIP size in Maven Local
-ls -lh ~/.m2/repository/org/grails/plugins/design-system-taglibs/X.Y.Z/*.zip
-# Should be ~11 KB, NOT 8.7K
-
-# 2. Check which repository was used
-cat ~/.m2/repository/org/grails/plugins/design-system-taglibs/X.Y.Z/_remote.repositories
-# Should say "thirdparty", NOT "releases"
-
-# 3. Verify ZIP on Nexus is complete
-curl -I -u deployment:93h50sj2di2hd923 \
-  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/X.Y.Z/design-system-taglibs-X.Y.Z.zip"
-# Should return 11K content-length
-
-# 4. Clean and retry
-rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
-rm -rf target/work/plugins/design-system-taglibs-*
-./refresh-design-system.sh X.Y.Z
+# Check tag format - must start with 'v'
+git tag                     # List tags
+git tag -d v0.1.0-alpha.7  # Delete local tag if wrong
+git tag v0.1.0-alpha.7     # Create with correct format
+git push origin v0.1.0-alpha.7  # Push tag
 ```
 
-**Prevention:** Always verify `thirdparty` repository is listed BEFORE `releases` in BuildConfig.groovy.
-
----
-
-#### Error: "Plugin not found" (Grails)
-
+**View workflow triggers:**
 ```bash
-Error resolving plugin [design-system-taglibs:0.1.1]. Plugin not found
-```
-
-**Cause:** Payment app cannot reach Nexus thirdparty repository.
-
-**Solution:**
-```bash
-# 1. Verify Nexus is accessible
-curl -I "https://dev.khipu.com/nexus/content/repositories/thirdparty/"
-# Should return HTTP 200
-
-# 2. Check plugin exists on Nexus
-curl -I "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.1/design-system-taglibs-0.1.1.zip"
-# Should return HTTP 200 and Content-Length: ~11000
-
-# 3. Verify BuildConfig.groovy has thirdparty repo
-grep "thirdparty" grails-app/conf/BuildConfig.groovy
-
-# 4. Try manual download to test connectivity
-curl -O "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.1/design-system-taglibs-0.1.1.zip"
-ls -lh design-system-taglibs-0.1.1.zip  # Should be ~11 KB
+# Check .github/workflows/publish.yml
+# Should have: on: push: tags: - 'v*'
 ```
 
 ---
 
-#### Error: CSS variables not applied (Grails)
+#### ❌ "CI Checks failed - typecheck errors"
 
-```bash
-# Buttons appear without styling or with wrong colors
-```
-
-**Cause:** CSS file not loaded or plugin installed from wrong repository.
+**Cause:** TypeScript errors in code
 
 **Solution:**
 ```bash
-# 1. Verify plugin installation directory
-ls -la target/work/plugins/design-system-taglibs-0.1.1/web-app/css/
-# Should contain design-system.css
+# Run locally first
+npm run typecheck
+npm run lint
+npm run test
 
-# 2. Check CSS file content
-cat target/work/plugins/design-system-taglibs-0.1.1/web-app/css/design-system.css | head -20
-# Should show CSS variables like --kds-color-primary-main
-
-# 3. Verify CSS is referenced in GSP
-# In your layout file (e.g., main.gsp), ensure:
-<link rel="stylesheet" href="${resource(plugin: 'design-system-taglibs', dir: 'css', file: 'design-system.css')}" />
-
-# 4. Check browser DevTools
-# - Open http://localhost:8080/payment/designSystemTest
-# - F12 → Network tab
-# - Look for design-system.css (should return 200 OK)
-# - Check Console for CSS errors
+# Fix errors before pushing
 ```
 
 ---
 
-#### Error: Old version still cached (Grails)
+#### ❌ "NPM publish failed - 401 Unauthorized"
 
-```bash
-# Updated plugin but still seeing old colors/styles
-```
-
-**Cause:** Maven Local or Grails work directory has cached old version.
+**Cause:** Invalid or expired NPM_TOKEN
 
 **Solution:**
 ```bash
-# Nuclear option: Clean everything
-cd /path/to/payment
+# Generate new token at npmjs.com:
+# 1. Login to npmjs.com
+# 2. Settings → Access Tokens → Generate New Token → Automation
+# 3. Copy token
 
-# 1. Stop Grails if running
-# Ctrl+C
-
-# 2. Clean all caches
-rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
-rm -rf ~/.grails/2.5.6/projects/payment
-rm -rf target/work/plugins/design-system-taglibs-*
-rm -rf target/
-
-# 3. Verify BuildConfig.groovy has correct version
-grep "design-system-taglibs" grails-app/conf/BuildConfig.groovy
-
-# 4. Refresh and rebuild
-grails clean
-grails refresh-dependencies
-grails run-app
+# Add to GitHub Secrets:
+# Repo → Settings → Secrets and variables → Actions
+# → New repository secret
+# Name: NPM_TOKEN
+# Secret: (paste token)
 ```
 
 ---
 
-#### Error: Taglib not found in GSP
+#### ❌ "NPM publish failed - 403 Forbidden"
 
-```bash
-# Error: Tag [kds:button] does not exist
-```
-
-**Cause:** Plugin not loaded or namespace not imported.
+**Cause:** Package name already taken or scope access denied
 
 **Solution:**
 ```bash
-# 1. Verify plugin is installed
-ls -la target/work/plugins/ | grep design-system-taglibs
-# Should show: design-system-taglibs-0.1.1
+# Check package name in package.json
+# For scoped packages: must be @khipu/design-system
+# Verify you have access to @khipu scope
 
-# 2. Check taglib exists
-ls -la target/work/plugins/design-system-taglibs-0.1.1/grails-app/taglib/
-# Should show: KdsButtonTagLib.groovy, etc.
-
-# 3. Add namespace to GSP (if not already present)
-# At top of your .gsp file:
-<%@ page contentType="text/html;charset=UTF-8" %>
-<html>
-<head>
-    <meta name="layout" content="main"/>
-</head>
-<body>
-    <!-- Taglibs should work without explicit namespace -->
-    <kds:button variant="contained">Click me</kds:button>
-</body>
-</html>
-
-# 4. Restart Grails
-# Ctrl+C
-grails run-app
+# Check existing package:
+npm view @khipu/design-system
 ```
 
 ---
 
-### NPM and Build Errors
+#### ❌ "NPM publish failed - Version already exists"
 
-#### Error: "Package version already exists" (409 Conflict)
-
-```bash
-npm error code E409
-npm error 409 Conflict - Package version already exists.
-```
-
-**Cause:** Trying to publish a version that exists in CodeArtifact/Nexus.
-
-**Solution:** Bump version in all files before publishing.
-
-```bash
-# Web & Android: Increment normally
-sed -i '' 's/alpha.5/alpha.6/' package.json
-sed -i '' 's/alpha.5/alpha.6/' android/designsystem/build.gradle.kts
-
-# Grails: Increment in 3 files
-sed -i '' 's/def version = "0.1.0"/def version = "0.1.1"/' grails/plugins/design-system-taglibs/DesignSystemTaglibsGrailsPlugin.groovy
-sed -i '' "s/version='0.1.0'/version='0.1.1'/" grails/plugins/design-system-taglibs/plugin.xml
-sed -i '' 's/PLUGIN_VERSION="0.1.0"/PLUGIN_VERSION="0.1.1"/' grails/plugins/design-system-taglibs/publish-to-nexus.sh
-```
-
-### Error: Maven not found (macOS)
-
-```bash
-(eval):1: command not found: mvn
-```
-
-**Cause:** Maven not installed.
+**Cause:** Trying to publish a version that already exists
 
 **Solution:**
 ```bash
-brew install maven
-mvn -version  # Verify installation
+# Check published versions:
+npm view @khipu/design-system versions
+
+# Bump to new version:
+./scripts/sync-version.sh 0.1.0-alpha.8
+
+# Commit and create new tag:
+git add .
+git commit -m "chore: bump to 0.1.0-alpha.8"
+git tag v0.1.0-alpha.8
+git push origin main --tags
 ```
 
-### Error: "Could not transfer artifact" (Grails)
+---
 
-```bash
-[ERROR] Failed to deploy artifacts: Could not transfer artifact
-```
+#### ❌ "Android publish failed - 401 Unauthorized"
 
-**Cause:** Nexus authentication or network issue.
+**Cause:** Invalid Nexus credentials in GitHub Secrets
 
 **Solution:**
 ```bash
-# Test Nexus connectivity
-curl -I -u deployment:93h50sj2di2hd923 \
-  "https://dev.khipu.com/nexus/content/repositories/thirdparty/"
-# Should return HTTP 200
+# Verify credentials in GitHub Secrets:
+# KHIPU_REPO_USERNAME - Nexus username
+# KHIPU_REPO_PASSWORD - Nexus password
 
-# Check credentials in publish-to-nexus.sh
-cat grails/plugins/design-system-taglibs/publish-to-nexus.sh | grep -A 2 "USERNAME\|PASSWORD"
+# Test credentials locally:
+curl -u username:password https://dev.khipu.com/nexus/status
+
+# Update secrets in:
+# Repo → Settings → Secrets and variables → Actions
+```
+
+---
+
+#### ❌ "Android build failed - tokens not generated"
+
+**Cause:** Tokens not generated before Android build
+
+**Solution:**
+```bash
+# Check workflow has token generation step:
+# - run: npm run tokens:generate
+
+# This generates android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt
+
+# Verify locally:
+npm run tokens:generate
+npm run android:build
+```
+
+---
+
+#### ❌ "CocoaPods publish failed - Pod validation failed"
+
+**Cause:** Podspec has errors or iOS sources invalid
+
+**Solution:**
+```bash
+# Validate locally first:
+pod lib lint KhipuDesignSystem.podspec --allow-warnings
+
+# Common issues:
+# - Swift syntax errors in ios/Sources/
+# - Missing files referenced in podspec
+# - Invalid version format in podspec
+```
+
+---
+
+#### ❌ "CocoaPods publish failed - 401 Unauthorized"
+
+**Cause:** Invalid or expired COCOAPODS_TRUNK_TOKEN
+
+**Solution:**
+```bash
+# Register or re-register with CocoaPods trunk:
+pod trunk register email@example.com 'Your Name'
+# Check email for confirmation link
+
+# Get your session token:
+cat ~/.netrc | grep cocoapods.org
+
+# Or use pod trunk me to verify:
+pod trunk me
+
+# Add token to GitHub Secrets:
+# COCOAPODS_TRUNK_TOKEN = (token from ~/.netrc)
+```
+
+---
+
+#### ❌ "sync-version.sh not found or permission denied"
+
+**Cause:** Script doesn't exist or not executable
+
+**Solution:**
+```bash
+# Check script exists:
+ls -la scripts/sync-version.sh
+
+# Make executable:
+chmod +x scripts/sync-version.sh
+
+# Commit if changed:
+git add scripts/sync-version.sh
+git commit -m "fix: make sync-version.sh executable"
+```
+
+---
+
+#### ❌ "Workflow stuck on 'Waiting for approval'"
+
+**Cause:** Environment protection rules enabled
+
+**Solution:**
+```bash
+# Check repository settings:
+# Settings → Environments → (environment name)
+# Remove protection rules if not needed
+
+# Or approve deployment:
+# Actions → Select workflow run → Review deployments → Approve
+```
+
+---
+
+### Local Development Issues
+
+#### ❌ "Cannot install @khipu/design-system"
+**Cause:** Package not yet published or wrong version
+
+**Solution:**
+```bash
+# Check if version exists:
+npm view @khipu/design-system versions --json
+
+# View package on npmjs.org:
+open https://www.npmjs.com/package/@khipu/design-system
+```
+
+---
+
+#### ❌ "Android: Cannot resolve com.khipu:design-system"
+**Cause:** Nexus not accessible or version doesn't exist
+
+**Solution:**
+```bash
+# Verify Nexus is accessible:
+curl -I https://dev.khipu.com/nexus/status
+
+# Check if version exists:
+curl -I "https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/0.1.0-alpha.X/"
+```
+
+---
+
+#### ❌ "iOS: Pod not found"
+**Cause:** Pod not published or trunk not synced
+
+**Solution:**
+```bash
+# Update CocoaPods repo:
+pod repo update
+
+# Search for pod:
+pod search KhipuDesignSystem
+
+# View on CocoaPods.org:
+open https://cocoapods.org/pods/KhipuDesignSystem
 ```
 
 ---
@@ -1116,105 +1023,143 @@ git reset --hard HEAD
 # Regenerate tokens with original purple color
 npm run tokens:generate
 
-# Optional: Rebuild libraries
-npm run build
-npm run android:build
-
-# Optional: Recreate Grails plugin with original color
-cd grails/plugins/design-system-taglibs
-zip -r grails-design-system-taglibs-0.1.0.zip \
-    DesignSystemTaglibsGrailsPlugin.groovy \
-    application.properties plugin.xml \
-    grails-app/ web-app/ src/
+# Optional: Delete test tag
+git tag -d v0.1.0-alpha.X
+git push origin :refs/tags/v0.1.0-alpha.X  # Delete from remote
 ```
 
 ---
 
 ## 📚 Additional Resources
 
-### Grails Plugin Documentation
+### GitHub Actions Workflows
 
-**Plugin Code:**
-- Plugin directory: `grails/plugins/design-system-taglibs/`
-- Plugin README: `grails/plugins/design-system-taglibs/README.md`
-- Taglibs source: `grails/plugins/design-system-taglibs/grails-app/taglib/`
-- CSS variables: `grails/plugins/design-system-taglibs/web-app/css/design-system.css`
+**Workflow files:**
+```
+.github/workflows/
+├── publish.yml     # 🚀 Publish to npm + Nexus + CocoaPods (on tags v*)
+├── ci.yml          # ✅ CI checks on PRs and main branch
+└── storybook.yml   # 📚 Deploy docs to GitHub Pages (on main)
+```
 
-**Publishing Scripts:**
-- Publish script: `grails/plugins/design-system-taglibs/publish-to-nexus.sh`
-- POM template: Generated by script
-- Target repository: Nexus thirdparty (`https://dev.khipu.com/nexus/content/repositories/thirdparty`)
+**Key scripts used by workflows:**
+```
+scripts/
+└── sync-version.sh # 🔄 Sync version across package.json, Gradle, podspec
+```
 
-**Grails Implementation Guides:**
-- `docs/grails/GRAILS_IMPLEMENTATION_PLAN.md` - Full technical details
-- `docs/grails/README.md` - Overview and getting started
-- `docs/grails/PAYMENT_MIGRATION_GUIDE.md` - Migration guide for payment app
+**GitHub Actions URLs:**
+- **Actions dashboard**: `https://github.com/khipu/design-system/actions`
+- **Workflow runs**: View status of recent publishes and CI checks
+- **Configure secrets**: `Repo → Settings → Secrets and variables → Actions`
+- **Required secrets**:
+  - `NPM_TOKEN` - npmjs.org automation token
+  - `KHIPU_REPO_USERNAME` - Nexus username
+  - `KHIPU_REPO_PASSWORD` - Nexus password
+  - `COCOAPODS_TRUNK_TOKEN` - CocoaPods trunk session token
 
-### Payment App Integration
+**Workflow features:**
+- ✅ **Parallel jobs** - Publish to all 3 platforms simultaneously
+- ✅ **Version sync** - Automatic from git tag
+- ✅ **Security** - Credentials stored as GitHub Secrets
+- ✅ **Provenance** - npm packages include attestation
+- ✅ **Validation** - CI checks before publish
+- ✅ **Caching** - Fast dependency installation
 
-**Configuration:**
-- BuildConfig: `payment/grails-app/conf/BuildConfig.groovy`
-- Repository setup: Must include Nexus thirdparty BEFORE releases
-- Plugin dependency: `compile ':design-system-taglibs:0.1.X'`
+### Platform Documentation
 
-**Scripts:**
-- Refresh script: `payment/refresh-design-system.sh`
-- Usage: `./refresh-design-system.sh 0.1.X`
-- What it does: Cleans cache, updates BuildConfig, refreshes dependencies
+**Web:**
+- Package: https://www.npmjs.com/package/@khipu/design-system
+- Docs: Storybook deployed to GitHub Pages
 
-**Test Pages:**
-- Test page URL: http://localhost:8080/payment/designSystemTest
-- Available taglibs: Button, TextField, Card, Alert, Checkbox, Tabs, Spinner, Typography
-- CSS inspection: Use DevTools to verify `--kds-color-primary-main` variable
+**Android:**
+- Nexus: https://dev.khipu.com/nexus
+- Repository: `design-system`
+- Installation: See `android/QUICK_START.md`
 
-**Common Locations:**
-- Plugin installation: `payment/target/work/plugins/design-system-taglibs-X.Y.Z/`
-- Maven Local cache: `~/.m2/repository/org/grails/plugins/design-system-taglibs/`
-- Grails cache: `~/.grails/2.5.6/projects/payment/`
-
-### Nexus Repository
-
-**Grails Plugin (Thirdparty):**
-- URL: https://dev.khipu.com/nexus/content/repositories/thirdparty
-- GroupId: `org.grails.plugins`
-- ArtifactId: `design-system-taglibs`
-- Packaging: ZIP
-- Credentials: deployment / [password in publish-to-nexus.sh]
-
-**Android Library (Design System):**
-- URL: https://dev.khipu.com/nexus/content/repositories/design-system
-- GroupId: `com.khipu`
-- ArtifactId: `design-system`
-- Packaging: AAR
-- Credentials: In `~/.gradle/gradle.properties`
+**iOS:**
+- CocoaPods: https://cocoapods.org/pods/KhipuDesignSystem
+- Installation: See `ios/QUICK_START.md`
 
 ### Verification Commands
 
 ```bash
-# Check Grails plugin on Nexus
-curl -I -u deployment:PASSWORD \
-  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.X/design-system-taglibs-0.1.X.zip"
-
-# Check Android library on Nexus
-curl -I -u USERNAME:PASSWORD \
-  "https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/0.1.0-alpha.X/design-system-0.1.0-alpha.X.aar"
-
-# Check Web package on npmjs.org
+# Check Web package on npm
 npm view @khipu/design-system versions --json
 npm view @khipu/design-system@0.1.0-alpha.X
+
+# Check Android library on Nexus
+curl -I "https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/0.1.0-alpha.X/design-system-0.1.0-alpha.X.aar"
+
+# Check iOS pod
+pod search KhipuDesignSystem
+pod spec cat KhipuDesignSystem
 ```
 
 ---
 
+---
+
+## 📋 Document Info
+
 **Last Updated:** 2026-03-16
-**Demo Time:** ~15 minutes
-**Platforms:** Web (React) + Android (Kotlin) + Grails (Groovy GSP)
+**Demo Duration:** ~20 minutes total (5 min local changes + 10 min GitHub Actions + 5 min install/verify)
+**Platforms:** Web (React) + Android (Kotlin) + iOS (Swift)
+**Publishing Method:** GitHub Actions ONLY (100% automated, zero manual commands)
+**CI/CD:** 3 workflows (CI, Publish, Storybook)
+**Key Message:** We NEVER run `npm publish`, `gradle publish`, or `pod trunk push` manually!
+
 **Publishing Targets:**
-- **Web:** npmjs.org (public npm registry)
-- **Android:** Nexus design-system repository (Maven)
-- **Grails:** Nexus thirdparty repository (ZIP format via Maven)
+- **Web:** [npmjs.org](https://www.npmjs.com/package/@khipu/design-system) (public npm registry)
+- **Android:** [Nexus](https://dev.khipu.com/nexus) (private Maven repository)
+- **iOS:** [CocoaPods](https://cocoapods.org/pods/KhipuDesignSystem) (public pod trunk)
+
 **Maintained by:** Design System Team
 
-**Recent Changes:**
-- 2026-03-16: Migrated npm publishing from AWS CodeArtifact to public npmjs.org
-- 2026-03-16: Migrated Android publishing from AWS CodeArtifact to Nexus
+---
+
+## 🎯 Quick Reference
+
+**Trigger automated publish (ONLY method):**
+```bash
+# 1. Sync versions
+./scripts/sync-version.sh 0.1.0-alpha.X
+
+# 2. Commit, tag, and push
+git add .
+git commit -m "chore: release version 0.1.0-alpha.X"
+git tag v0.1.0-alpha.X
+git push origin main --tags
+
+# 3. GitHub Actions does the rest automatically!
+# → CI Checks
+# → Publish to npm, Nexus, CocoaPods (in parallel)
+# → Done in ~10 minutes
+```
+
+**Watch GitHub Actions progress:**
+```
+https://github.com/khipu/design-system/actions
+```
+
+**⚠️ NEVER run these commands manually:**
+```bash
+npm publish              # ❌ NO!
+gradle publish           # ❌ NO!
+pod trunk push           # ❌ NO!
+```
+**GitHub Actions does ALL publishing for us!**
+
+**Verify packages published:**
+```bash
+# Web
+npm view @khipu/design-system@0.1.0-alpha.X
+
+# Android
+curl -I https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/0.1.0-alpha.X/
+
+# iOS
+pod search KhipuDesignSystem
+```
+
+**Need help?** See troubleshooting section above or check GitHub Actions logs.
