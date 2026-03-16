@@ -18,9 +18,10 @@ Pod::Spec.new do |s|
   s.swift_versions = '5.9'
 
   s.source_files = 'ios/Sources/**/*.swift'
-  s.resource_bundles = {
-    'KhipuDesignSystem' => ['ios/Resources/**/*.{xcassets,json,ttf}']
-  }
+  # Resource bundles commented out - no resources yet
+  # s.resource_bundles = {
+  #   'KhipuDesignSystem' => ['ios/Resources/**/*.{xcassets,json,ttf}']
+  # }
 
   s.frameworks = 'SwiftUI', 'Foundation'
 end
