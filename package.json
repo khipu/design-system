@@ -1,6 +1,6 @@
 {
   "name": "@khipu/design-system",
-  "version": "0.1.0-alpha.12",
+  "version": "0.1.0-alpha.13",
   "description": "Khipu Design System - UI components and design tokens for the Khipu payment platform",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -53,7 +53,7 @@
     "build-storybook": "bash scripts/sync-brand-guide.sh && storybook build",
     "prepublishOnly": "npm run build",
     "tokens:export": "node scripts/export-tokens-json.js",
-    "tokens:generate": "npm run build && npm run tokens:export && node scripts/generate-css-variables.js && node scripts/generate-tokens.js --kotlin-output=android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt",
+    "tokens:generate": "npm run build && npm run tokens:export && node scripts/generate-css-variables.js && node scripts/generate-tokens.js --kotlin-output=android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt --swift-output=ios/Sources/Tokens/KdsTokens.swift",
     "generate:tokens": "npm run tokens:generate",
     "generate:tokens:android": "npm run tokens:generate",
     "android:build": "cd android && ./gradlew :designsystem:assembleRelease",
