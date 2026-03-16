@@ -70,7 +70,29 @@ El Sistema de Diseño de Khipu es una biblioteca multi-plataforma de componentes
 - Fuente de Diseño: Figma - "Pagos Automáticos - MUI v610"
 - Herramienta de Build: tsup (Web), Gradle (Android + Grails), CocoaPods (iOS)
 - Testing: Vitest
-- Documentación: Storybook 7.6
+- Documentación: Storybook 10.2.16 (con MCP nativo para agentes IA)
+- Node.js: >= 20.0.0
+
+---
+
+## 🤖 Integración MCP (Model Context Protocol)
+
+**Este proyecto tiene integración MCP nativa para agentes IA.** Cuando Storybook está corriendo, puedes:
+
+- **Obtener previews de componentes**: URLs directas a stories para verificación visual
+- **Consultar documentación**: Acceso a props, variantes y ejemplos de uso
+- **Instrucciones para crear stories**: Guías automáticas con las convenciones del proyecto
+
+**Cómo activar MCP:**
+```bash
+npm run storybook  # El servidor MCP estará en http://localhost:6006/mcp
+```
+
+Las herramientas MCP disponibles son:
+- `mcp__storybook__preview-stories` - Obtener URLs de preview
+- `mcp__storybook__get-storybook-story-instructions` - Guías para escribir stories
+
+**📘 Documentación completa:** [`docs/STORYBOOK_MCP.md`](docs/STORYBOOK_MCP.md)
 
 ---
 
@@ -81,10 +103,11 @@ El Sistema de Diseño de Khipu es una biblioteca multi-plataforma de componentes
 npm run dev                # Modo desarrollo con watch
 npm run build              # Build de producción
 npm run demo               # Ejecutar demo app
-npm run storybook          # Ejecutar Storybook (puerto 6006)
+npm run storybook          # Ejecutar Storybook (puerto 6006) - activa MCP en /mcp
 npm run build-storybook    # Build estático de Storybook
 npm run test               # Ejecutar tests
 npm run test:ui            # Ejecutar tests con UI de Vitest
+npm run test -- path/to/test.test.ts  # Ejecutar test específico
 npm run coverage           # Ejecutar tests con cobertura
 npm run typecheck          # Verificación de tipos
 npm run lint               # Ejecutar linter
@@ -279,7 +302,7 @@ docs/
 src/
 ├── index.ts                 # Exports principales
 ├── components/
-│   ├── core/               # 9 componentes Kds*
+│   ├── core/               # 12 componentes Kds* (Alert, Button, Card, Checkbox, LinearProgress, LogoHeader, Modal, Spinner, Tabs, TextField, Typography)
 │   └── domain/             # Futuro: componentes compuestos
 ├── tokens/
 │   ├── index.ts           # ✍️ Fuente de verdad
@@ -327,7 +350,36 @@ grails/
 - **MUI/Material 3 como base**: No es headless, aprovecha patrones establecidos
 - **Componentes sin estado**: Estado se maneja en containers/ViewModels
 - **Figma = fuente de verdad**: Valores de diseño vienen de Figma
-- **Prefijo Kds**: Todos los componentes usan prefijo `Kds` (commit 9213d43)
+- **Prefijo Kds**: Todos los componentes usan prefijo `Kds` (commit 9213d43). Ejemplo: `import { KdsButton } from '@khipu/design-system'` luego `<KdsButton />`
+- **Archivos generados**: Los archivos `tokens.json`, `css-variables.css` y `KdsTokens.kt` son auto-generados. NO editar manualmente.
+- **Sección Brand en Storybook**: Todas las páginas de documentación de marca (`src/stories/brand/*.stories.tsx`) usan:
+  - Mismo título: `title: 'Brand'` (sin sub-rutas)
+  - Ancho consistente: `maxWidth: '1000px'`
+  - Nombres con espacios: Usar propiedad `name` para mostrar texto legible (ej: `name: 'Cómo funciona'`)
+  - Mayúsculas solo al inicio: Seguir guía de marca (ej: "Voz y tono", no "Voz Y Tono")
+
+---
+
+## CI/CD Pipeline
+
+El proyecto usa GitHub Actions para automatizar testing, builds y deployments:
+
+**En PRs y pushes a `main`:**
+- ✅ Lint & Typecheck (`npm run lint && npm run typecheck`)
+- ✅ Tests (`npm run test`)
+- ✅ Build Web (`npm run build`)
+- ✅ Build Android (requiere `npm run tokens:generate` primero)
+
+**En tags `v*` (ej: v0.1.0-alpha.6):**
+- 📦 Publish a npm (`@khipu/design-system`)
+- 📦 Publish a Nexus (Android + Grails)
+- 📦 Publish a CocoaPods (iOS)
+- 🚀 Deploy Storybook a GitHub Pages
+
+**Workflows:**
+- `.github/workflows/ci.yml` - CI en PRs y main
+- `.github/workflows/publish.yml` - Publishing en tags
+- `.github/workflows/storybook.yml` - Deploy de Storybook
 
 ---
 
@@ -339,7 +391,8 @@ grails/
 | **Build falla** | `rm -rf dist && npm run build` |
 | **Storybook sin estilos** | Verificar `<KhipuThemeProvider>` |
 | **Tokens desincronizados** | `npm run tokens:generate` |
-| **Android build falla** | `npm run android:clean` |
+| **Android build falla** | `npm run android:clean` o verificar que tokens estén generados |
+| **CI falla en Android** | Asegurar que `npm run tokens:generate` se ejecutó antes del build |
 
 **📘 Guía completa:** Ver [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md)
 
