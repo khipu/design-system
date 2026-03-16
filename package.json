@@ -1,6 +1,6 @@
 {
   "name": "@khipu/design-system",
-  "version": "0.1.0-alpha.11",
+  "version": "0.1.0-alpha.12",
   "description": "Khipu Design System - UI components and design tokens for the Khipu payment platform",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -109,7 +109,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/khipu/design-system.git"
+    "url": "git+https://github.com/khipu/design-system.git"
   },
   "license": "UNLICENSED",
   "private": false,
