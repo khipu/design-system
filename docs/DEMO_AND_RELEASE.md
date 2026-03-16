@@ -57,12 +57,13 @@ Complete workflow for demonstrating token changes across **Web, Android, and iOS
 
 ### Local Environment
 - [ ] `design-system` repo cloned from GitHub
-- [ ] Node.js 18+ installed
+- [ ] Node.js 20+ installed
 - [ ] Dependencies installed: `npm ci`
 - [ ] Storybook running: `npm run storybook` (port 6006)
-- [ ] iOS simulator with test app (optional for demo)
-- [ ] Android emulator with test app (optional for demo)
+- [ ] **iOS simulator with test app** (required for demo) - Show native iOS app
+- [ ] Android emulator with test app (optional - can skip to save time)
 - [ ] Screen recording tool ready
+- [ ] Xcode installed (for iOS simulator)
 
 ### GitHub Actions Configuration
 - [ ] Repository: `github.com/khipu/design-system` (or your fork)
@@ -78,32 +79,87 @@ Complete workflow for demonstrating token changes across **Web, Android, and iOS
 - [ ] Check Storybook deploys: Push to `main` should update GitHub Pages
 - [ ] Test version sync script: `./scripts/sync-version.sh 0.1.0-test` (then revert)
 
+### iOS Test App Setup (REQUIRED for demo)
+
+**Create a simple iOS test app to showcase the design system:**
+
+```bash
+# 1. Create new iOS app (or use existing)
+# File → New → Project → App
+# Name: "DesignSystemDemo"
+# Interface: SwiftUI
+# Language: Swift
+
+# 2. Add KhipuDesignSystem to Podfile
+echo "pod 'KhipuDesignSystem', '~> 0.1.0-alpha.12'" >> Podfile
+pod install
+
+# 3. Create simple test view with KdsButton components
+# See ios/Examples/ for sample code
+
+# 4. Test that app builds and runs:
+open DesignSystemDemo.xcworkspace
+# Cmd+R to build and run
+```
+
+**Test app should include:**
+- Multiple `KdsButton` components with different variants
+- Clear visual demonstration of the primary color
+- Simple, uncluttered UI that focuses on the buttons
+- Big enough buttons to be clearly visible in recordings
+
+**Sample SwiftUI code:**
+```swift
+import SwiftUI
+import KhipuDesignSystem
+
+struct ContentView: View {
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Khipu Design System Demo")
+                .font(.largeTitle)
+
+            KdsButton(text: "Primary Button", variant: .contained)
+            KdsButton(text: "Secondary Button", variant: .outlined)
+            KdsButton(text: "Text Button", variant: .text)
+        }
+        .padding()
+    }
+}
+```
+
 ---
 
 ## 🎬 Complete Workflow (Step-by-Step)
 
 ### Phase 1: Preparation - Show Current State & Change Token
 
-#### Step 1.1: Show Current State (Purple)
+#### Step 1.1: Show Current State (Purple) - Three Platforms
 
 **📹 Record Storybook (Web)**
 ```bash
 # Navigate to http://localhost:6006
 # Go to: Components → Core → Button → Primary
 ```
-**Show:** Purple button (#8347AD)
+**Show:** 🟣 Purple button (#8347AD)
 
-**📹 Record iOS App (Optional)**
+**📹 Record iOS App** ⭐ **REQUIRED FOR DEMO**
 ```bash
-# DesignSystemTestScreen running on simulator
+# Launch iOS test app on simulator
+# Show: DesignSystemTestScreen with KdsButton components
+open -a Simulator
+# Run test app (from ios test project)
 ```
-**Show:** Purple primary buttons
+**Show:** 🟣 Purple primary buttons in native iOS app
 
-**📹 Record Android App (Optional)**
+**💡 Demo narration:**
+> "Here's our iOS app running in the simulator. Notice the purple buttons - this is using our design system with SwiftUI. Same purple as the web version."
+
+**📹 Record Android App (Optional - can skip to save time)**
 ```bash
 # DesignSystemTestScreen running on emulator
 ```
-**Show:** Purple primary buttons
+**Show:** 🟣 Purple primary buttons
 
 **📹 Show Token Source (Single Source of Truth)**
 ```typescript
@@ -115,7 +171,7 @@ export const colors = {
 }
 ```
 
-**💡 Key Point:** This ONE file controls colors across ALL THREE platforms!
+**💡 Key Point:** This ONE file controls colors across ALL THREE platforms - Web, iOS, and Android!
 
 ---
 
@@ -375,12 +431,13 @@ cd /path/to/android-app  # Your Android app
 
 ---
 
-### Phase 6: Platform 3 - iOS (Swift/SwiftUI)
+### Phase 6: Platform 3 - iOS (Swift/SwiftUI) ⭐ **STAR OF THE DEMO**
 
-**Complete workflow: GitHub Actions published → Install**
+**Complete workflow: Git tag → GitHub Actions → CocoaPods → Install → Native iOS app**
 
 #### Step 6.1: Verify Swift Tokens Generated
 
+**📹 Show the generated Swift tokens**
 ```bash
 # Check KdsTokens.swift was updated
 cat ios/Sources/Tokens/KdsTokens.swift | grep "primaryMain"
@@ -389,28 +446,78 @@ cat ios/Sources/Tokens/KdsTokens.swift | grep "primaryMain"
 # public static let primaryMain = Color(hex: "2196F3")  // Blue!
 ```
 
+**💡 Demo narration:**
+> "The same git tag that published to npm and Nexus also generated these Swift tokens. One source of truth in TypeScript, automatically converted to Swift."
+
 ---
 
 #### Step 6.2: Install in iOS App
 
+**📹 Show Podfile update**
 ```bash
-cd /path/to/ios-app  # Your iOS app
+cd /path/to/ios-app  # Your iOS test app
 
-# Update Podfile
-# pod 'KhipuDesignSystem', '~> 0.1.0-alpha.7'
+# Show current Podfile
+cat Podfile | grep KhipuDesignSystem
 
-# Install from CocoaPods trunk
-pod install --repo-update
-
-# Open workspace
-open YourApp.xcworkspace
+# Update to new version (edit Podfile)
+# pod 'KhipuDesignSystem', '~> 0.1.0-alpha.12'
 ```
 
-**Run app on simulator**
+**📹 Install from CocoaPods**
+```bash
+# This pulls from CocoaPods trunk (public registry)
+pod install --repo-update
 
-**Show:** 🔵 **All buttons and components are now blue!**
+# Watch CocoaPods fetch the new version
+# Should show: "Installing KhipuDesignSystem 0.1.0-alpha.12"
+```
 
-**💡 Complete cycle:** Token change → Tag → GitHub Actions → CocoaPods → Install → Working! ✅
+**📹 Open and run in Xcode**
+```bash
+# Open workspace (NOT .xcodeproj!)
+open YourApp.xcworkspace
+
+# In Xcode:
+# 1. Select target device (iPhone simulator)
+# 2. Click Run (Cmd+R)
+# 3. Wait for build and launch
+```
+
+---
+
+#### Step 6.3: Show the Magic! 🎉
+
+**📹 Record iOS simulator with blue buttons**
+
+**Show in the simulator:**
+- 🔵 **All KdsButton components are now blue!**
+- Native iOS app, SwiftUI
+- Same blue (#2196F3) as web and Android
+- Smooth animations, native feel
+
+**💡 Demo narration:**
+> "And here's the payoff - our iOS app, completely native SwiftUI, showing the exact same blue color. We changed ONE file in TypeScript, pushed a git tag, and now we have perfectly synchronized design across web React, native iOS, and native Android. That's the power of a true cross-platform design system with modern CI/CD!"
+
+**💡 Complete cycle:**
+```
+Token change (TypeScript)
+    ↓
+Git tag (one command)
+    ↓
+GitHub Actions (automatic)
+    ↓
+CocoaPods Trunk (automatic)
+    ↓
+pod install (any iOS dev)
+    ↓
+Native iOS app with blue! ✅
+```
+
+**Key accomplishment:** Same design token flowing through THREE completely different tech stacks:
+- ⚛️ React + TypeScript + CSS-in-JS
+- 🤖 Kotlin + Jetpack Compose + Material 3
+- 🍎 **Swift + SwiftUI + Native iOS** ⭐
 
 ---
 
@@ -569,15 +676,28 @@ MUI Theme        Material 3      SwiftUI Theme
 >
 > "And... done! All three packages published in about 8-10 minutes. Check those green checkmarks - npm published, Nexus published, CocoaPods published. Three completely different registries, three different package managers, **one git tag**, **zero manual commands**. This is modern CI/CD!"
 
-**Part 5 - Install & Show (2 minutes)**
-> "Now the payoff. Web app - npm install from npmjs.org, no authentication needed since it's public! Start dev server. Blue buttons everywhere!"
+**Part 5 - Install & Show (3-4 minutes, focus on iOS!)**
 
-> "Android - update dependency in Gradle, sync from Nexus, rebuild. Blue buttons!"
+> "Now for the grand finale. Let me show you these packages being consumed in real apps."
 
-> "And iOS - update Podfile, pod install from CocoaPods trunk. Open in Xcode, run on simulator. Blue buttons!"
+> "First, the web app - npm install from npmjs.org, it's public so no authentication needed. Start the dev server, and boom - blue buttons everywhere! React app, perfect."
 
-**Conclusion (30 seconds)**
-> "One token change in TypeScript, ONE git tag, and GitHub Actions handled the rest. THREE different platforms in perfect sync. React importing from public npm, Android with compiled Kotlin from Nexus, and iOS with Swift from CocoaPods. All published automatically. That's a true cross-platform design system with modern CI/CD."
+> "But the real magic is iOS. Watch this."
+
+> "I'm opening the iOS test app, updating the Podfile to the new version - 0.1.0-alpha.12. Now `pod install` - watch CocoaPods pull from the public trunk registry. 'Installing KhipuDesignSystem 0.1.0-alpha.12' - that's our package!"
+
+> "Opening in Xcode... selecting iPhone 15 Pro simulator... and run. Watch the build - it's compiling Swift, linking our design system pod, and..."
+
+> "There it is! Native iOS app, pure SwiftUI, and look at those buttons - BLUE! The exact same blue we defined in TypeScript five minutes ago. Same color value, #2196F3, flowing from TypeScript through our CI/CD pipeline, converted to Swift, published to CocoaPods, and now running on iOS."
+
+> "This isn't a web view. This isn't React Native. This is native iOS code, native SwiftUI components, using our design system that started as TypeScript. That's the power of treating design tokens as the single source of truth."
+
+**Conclusion (45 seconds)**
+> "Let me recap what just happened. I changed ONE file - src/tokens/index.ts in TypeScript. I ran ONE command - git push with a tag. GitHub Actions did everything else - built for three platforms, published to three completely different registries, all in parallel, all automatically, all secured with GitHub Secrets."
+
+> "And now we have perfect synchronization. Web with React and npm. iOS with Swift and CocoaPods. Android with Kotlin and Maven. Three completely different tech stacks, three different package managers, ONE source of truth, ZERO manual publish commands."
+
+> "This is what a modern, production-ready, multi-platform design system looks like. Not just components - but automated workflows, CI/CD, provenance, security, and perfect cross-platform consistency. And it all started with one color change in TypeScript."
 
 ---
 
@@ -632,20 +752,30 @@ primary: { main: '#009688', light: '#4DB6AC', dark: '#00796B' }
 
 ## 🎥 Recording Tips
 
-**Screen layout:**
-- Split screen: Editor (left) + Storybook/GitHub (right)
-- Or: Picture-in-picture for platforms simultaneously
+**Screen layout suggestions:**
+- **Split screen**: Editor (left) + Storybook/GitHub/Simulator (right)
+- **Picture-in-picture**: Show iOS simulator in corner while showing web/GitHub
+- **Multi-window**: Storybook + GitHub Actions + iOS Simulator visible
 
-**Key moments to capture:**
-1. Changing `#8347AD` → `#2196F3` in editor
-2. Running `npm run tokens:generate` (show completion)
-3. Storybook auto-refresh showing blue button
-4. Bumping versions (3 files!)
-5. Git commit + tag + push
-6. **GitHub Actions running** (show workflow in browser)
-7. All three publish jobs completing
-8. Installing in each platform's app
-9. Final: blue buttons in Web, Android, and iOS apps
+**Key moments to capture (with timing):**
+1. **Current state** (30s): Purple buttons in Storybook + iOS simulator side-by-side
+2. **Token change** (30s): Changing `#8347AD` → `#2196F3` in editor
+3. **Token generation** (15s): Running `npm run tokens:generate` (show completion)
+4. **Storybook preview** (15s): Auto-refresh showing blue button
+5. **Version sync** (15s): Running `./scripts/sync-version.sh`
+6. **Git operations** (30s): Commit + tag + push
+7. **GitHub Actions** (2-3 min): Show workflow running in browser with all 3 publish jobs
+8. **npm install** (30s): Installing in web app, show blue buttons
+9. **iOS install** ⭐ (1-2 min): `pod install`, run in Xcode, show simulator
+10. **Grand finale** (30s): iOS simulator with blue buttons, zoom in, celebrate! 🎉
+
+**iOS-specific tips:**
+- Use **iPhone 15 Pro** simulator (modern, recognizable)
+- Enable **"Show Device Bezels"** in Simulator for professional look
+- Use **Cmd+S** in Simulator to save screenshots
+- **Record simulator screen** directly: `xcrun simctl io booted recordVideo demo.mov`
+- Show **Xcode build logs** briefly (builds fast, looks professional)
+- Demonstrate **live refresh** if using SwiftUI previews
 
 **GitHub Actions highlights:**
 - Show workflow file: `.github/workflows/publish.yml`
@@ -676,17 +806,24 @@ primary: { main: '#009688', light: '#4DB6AC', dark: '#00796B' }
 
 **Environment check:**
 - [ ] Storybook running on port 6006
-- [ ] iOS simulator ready (optional)
-- [ ] Android emulator ready (optional)
+- [ ] **iOS simulator ready** ⭐ **REQUIRED**
+  - [ ] Xcode installed and working
+  - [ ] iOS test app built and ready to run
+  - [ ] Simulator launched (iPhone 15 Pro recommended)
+  - [ ] Test app can be launched with one click
+- [ ] Android emulator ready (optional - can skip to save time)
 - [ ] GitHub Actions secrets configured:
-  - [ ] `NPM_TOKEN` (npmjs.org)
+  - [ ] `NPM_TOKEN` (npmjs.org - Automation token without 2FA)
   - [ ] `KHIPU_REPO_USERNAME` (Nexus)
   - [ ] `KHIPU_REPO_PASSWORD` (Nexus)
   - [ ] `COCOAPODS_TRUNK_TOKEN` (CocoaPods)
 - [ ] All repos clean (no uncommitted changes)
 - [ ] Screen recording tool tested
 - [ ] Close unnecessary windows/notifications
-- [ ] Browser tab open: GitHub Actions page
+- [ ] Browser tabs open:
+  - [ ] GitHub Actions page
+  - [ ] npmjs.org package page (to show published package)
+  - [ ] CocoaPods.org (optional)
 
 ---
 
@@ -1103,11 +1240,12 @@ pod spec cat KhipuDesignSystem
 ## 📋 Document Info
 
 **Last Updated:** 2026-03-16
-**Demo Duration:** ~20 minutes total (5 min local changes + 10 min GitHub Actions + 5 min install/verify)
-**Platforms:** Web (React) + Android (Kotlin) + iOS (Swift)
+**Demo Duration:** ~20-25 minutes total (5 min local + 10 min GitHub Actions + 5-10 min install/verify with iOS focus)
+**Platforms:** Web (React) + **iOS (Swift/SwiftUI)** ⭐ + Android (Kotlin) [optional]
 **Publishing Method:** GitHub Actions ONLY (100% automated, zero manual commands)
 **CI/CD:** 3 workflows (CI, Publish, Storybook)
 **Key Message:** We NEVER run `npm publish`, `gradle publish`, or `pod trunk push` manually!
+**Demo Focus:** Native iOS app showing design system integration (star of the show! 🍎)
 
 **Publishing Targets:**
 - **Web:** [npmjs.org](https://www.npmjs.com/package/@khipu/design-system) (public npm registry)

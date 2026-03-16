@@ -15,9 +15,13 @@ const path = require('path');
 // Parse command line arguments
 const args = process.argv.slice(2);
 const kotlinOutputArg = args.find(arg => arg.startsWith('--kotlin-output='));
+const swiftOutputArg = args.find(arg => arg.startsWith('--swift-output='));
 const kotlinOutput = kotlinOutputArg
   ? kotlinOutputArg.split('=')[1]
   : path.join(__dirname, '../dist/DesignTokens.kt');
+const swiftOutput = swiftOutputArg
+  ? swiftOutputArg.split('=')[1]
+  : path.join(__dirname, '../dist/DesignTokens.swift');
 
 // Load tokens
 const tokensPath = path.join(__dirname, '../src/tokens/tokens.json');
@@ -89,6 +93,298 @@ function remToPixels(remValue) {
     return parseFloat(remValue) * 16;
   }
   return stripUnits(remValue);
+}
+
+/**
+ * Convert hex color to Swift Color format
+ */
+function hexToSwiftColor(colorValue) {
+  if (!colorValue) return 'Color.clear';
+
+  // Handle rgba() format
+  if (colorValue.startsWith('rgba(')) {
+    const match = colorValue.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
+    if (match) {
+      const [, r, g, b, a] = match;
+      return `Color(red: ${parseInt(r)/255}, green: ${parseInt(g)/255}, blue: ${parseInt(b)/255}, opacity: ${a})`;
+    }
+  }
+
+  // Handle rgb() format
+  if (colorValue.startsWith('rgb(')) {
+    const match = colorValue.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (match) {
+      const [, r, g, b] = match;
+      return `Color(red: ${parseInt(r)/255}, green: ${parseInt(g)/255}, blue: ${parseInt(b)/255})`;
+    }
+  }
+
+  // Handle hex colors - return hex string for Color extension
+  const cleanHex = colorValue.replace('#', '');
+  return `Color(hex: "${cleanHex}")`;
+}
+
+/**
+ * Generate Swift code
+ */
+function generateSwift(tokens) {
+  const lines = [];
+
+  lines.push(`import SwiftUI`);
+  lines.push(``);
+  lines.push(`/**`);
+  lines.push(` * Khipu Design System - Design Tokens`);
+  lines.push(` * `);
+  lines.push(` * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY`);
+  lines.push(` * Source: design-system/src/tokens/tokens.json`);
+  lines.push(` * Generated: ${new Date().toISOString()}`);
+  lines.push(` * `);
+  lines.push(` * To regenerate:`);
+  lines.push(` *   cd design-system && npm run tokens:generate`);
+  lines.push(` */`);
+  lines.push(``);
+
+  // Color extension for hex support
+  lines.push(`// MARK: - Color Extension`);
+  lines.push(`extension Color {`);
+  lines.push(`    init(hex: String) {`);
+  lines.push(`        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)`);
+  lines.push(`        var int: UInt64 = 0`);
+  lines.push(`        Scanner(string: hex).scanHexInt64(&int)`);
+  lines.push(`        let a, r, g, b: UInt64`);
+  lines.push(`        switch hex.count {`);
+  lines.push(`        case 3: // RGB (12-bit)`);
+  lines.push(`            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)`);
+  lines.push(`        case 6: // RGB (24-bit)`);
+  lines.push(`            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)`);
+  lines.push(`        case 8: // ARGB (32-bit)`);
+  lines.push(`            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)`);
+  lines.push(`        default:`);
+  lines.push(`            (a, r, g, b) = (255, 0, 0, 0)`);
+  lines.push(`        }`);
+  lines.push(`        self.init(`);
+  lines.push(`            .sRGB,`);
+  lines.push(`            red: Double(r) / 255,`);
+  lines.push(`            green: Double(g) / 255,`);
+  lines.push(`            blue:  Double(b) / 255,`);
+  lines.push(`            opacity: Double(a) / 255`);
+  lines.push(`        )`);
+  lines.push(`    }`);
+  lines.push(`}`);
+  lines.push(``);
+
+  // =============================================================================
+  // KdsTokens - Main struct
+  // =============================================================================
+  lines.push(`// MARK: - Design Tokens`);
+  lines.push(`public struct KdsTokens {`);
+  lines.push(`    `);
+
+  // =============================================================================
+  // Colors
+  // =============================================================================
+  lines.push(`    // MARK: - Colors`);
+  lines.push(`    public struct Colors {`);
+  lines.push(`        // Primary palette`);
+  lines.push(`        public static let primaryMain = ${hexToSwiftColor(tokens.colors.primary.main)}`);
+  lines.push(`        public static let primaryLight = ${hexToSwiftColor(tokens.colors.primary.light)}`);
+  lines.push(`        public static let primaryDark = ${hexToSwiftColor(tokens.colors.primary.dark)}`);
+  lines.push(`        public static let primaryContrastText = ${hexToSwiftColor(tokens.colors.primary.contrastText)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Secondary palette`);
+  lines.push(`        public static let secondaryMain = ${hexToSwiftColor(tokens.colors.secondary.main)}`);
+  lines.push(`        public static let secondaryLight = ${hexToSwiftColor(tokens.colors.secondary.light)}`);
+  lines.push(`        public static let secondaryDark = ${hexToSwiftColor(tokens.colors.secondary.dark)}`);
+  lines.push(`        public static let secondaryContrastText = ${hexToSwiftColor(tokens.colors.secondary.contrastText)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Success`);
+  lines.push(`        public static let successMain = ${hexToSwiftColor(tokens.colors.success.main)}`);
+  lines.push(`        public static let successLight = ${hexToSwiftColor(tokens.colors.success.light)}`);
+  lines.push(`        public static let successDark = ${hexToSwiftColor(tokens.colors.success.dark)}`);
+  lines.push(`        public static let successContrastText = ${hexToSwiftColor(tokens.colors.success.contrastText)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Warning`);
+  lines.push(`        public static let warningMain = ${hexToSwiftColor(tokens.colors.warning.main)}`);
+  lines.push(`        public static let warningLight = ${hexToSwiftColor(tokens.colors.warning.light)}`);
+  lines.push(`        public static let warningDark = ${hexToSwiftColor(tokens.colors.warning.dark)}`);
+  lines.push(`        public static let warningContrastText = ${hexToSwiftColor(tokens.colors.warning.contrastText)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Error`);
+  lines.push(`        public static let errorMain = ${hexToSwiftColor(tokens.colors.error.main)}`);
+  lines.push(`        public static let errorLight = ${hexToSwiftColor(tokens.colors.error.light)}`);
+  lines.push(`        public static let errorDark = ${hexToSwiftColor(tokens.colors.error.dark)}`);
+  lines.push(`        public static let errorContrastText = ${hexToSwiftColor(tokens.colors.error.contrastText)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Info`);
+  lines.push(`        public static let infoMain = ${hexToSwiftColor(tokens.colors.info.main)}`);
+  lines.push(`        public static let infoLight = ${hexToSwiftColor(tokens.colors.info.light)}`);
+  lines.push(`        public static let infoDark = ${hexToSwiftColor(tokens.colors.info.dark)}`);
+  lines.push(`        public static let infoContrastText = ${hexToSwiftColor(tokens.colors.info.contrastText)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Text colors`);
+  lines.push(`        public static let textPrimary = ${hexToSwiftColor(tokens.colors.text.primary)}`);
+  lines.push(`        public static let textSecondary = ${hexToSwiftColor(tokens.colors.text.secondary)}`);
+  lines.push(`        public static let textDisabled = ${hexToSwiftColor(tokens.colors.text.disabled)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Background colors`);
+  lines.push(`        public static let backgroundDefault = ${hexToSwiftColor(tokens.colors.background.default)}`);
+  lines.push(`        public static let backgroundPaper = ${hexToSwiftColor(tokens.colors.background.paper)}`);
+  lines.push(`        public static let backgroundElevated = ${hexToSwiftColor(tokens.colors.background.elevated)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Action colors`);
+  lines.push(`        public static let actionActive = ${hexToSwiftColor(tokens.colors.action.active)}`);
+  lines.push(`        public static let actionHover = ${hexToSwiftColor(tokens.colors.action.hover)}`);
+  lines.push(`        public static let actionSelected = ${hexToSwiftColor(tokens.colors.action.selected)}`);
+  lines.push(`        public static let actionDisabled = ${hexToSwiftColor(tokens.colors.action.disabled)}`);
+  lines.push(`        public static let actionDisabledBackground = ${hexToSwiftColor(tokens.colors.action.disabledBackground)}`);
+  lines.push(`        public static let actionFocus = ${hexToSwiftColor(tokens.colors.action.focus)}`);
+  lines.push(`        `);
+
+  lines.push(`        // Divider`);
+  lines.push(`        public static let divider = ${hexToSwiftColor(tokens.colors.divider)}`);
+  lines.push(`    }`);
+  lines.push(`    `);
+
+  // =============================================================================
+  // Typography
+  // =============================================================================
+  lines.push(`    // MARK: - Typography`);
+  lines.push(`    public struct Typography {`);
+  lines.push(`        // Font weights`);
+  lines.push(`        public static let fontWeightRegular: Font.Weight = .regular`);
+  lines.push(`        public static let fontWeightMedium: Font.Weight = .medium`);
+  lines.push(`        public static let fontWeightSemiBold: Font.Weight = .semibold`);
+  lines.push(`        public static let fontWeightBold: Font.Weight = .bold`);
+  lines.push(`        `);
+
+  lines.push(`        // Font sizes`);
+  Object.entries(tokens.typography.fontSizes).forEach(([key, value]) => {
+    const pixels = remToPixels(value);
+    const safeName = key.replace(/^(\d)/, 'size$1').replace(/xl/gi, 'Xl');
+    const capitalizedName = safeName.charAt(0).toUpperCase() + safeName.slice(1);
+    lines.push(`        public static let fontSize${capitalizedName}: CGFloat = ${pixels}`);
+  });
+  lines.push(`        `);
+
+  lines.push(`        // Line heights`);
+  Object.entries(tokens.typography.lineHeights).forEach(([key, value]) => {
+    const capitalizedName = key.charAt(0).toUpperCase() + key.slice(1);
+    lines.push(`        public static let lineHeight${capitalizedName}: CGFloat = ${value}`);
+  });
+  lines.push(`    }`);
+  lines.push(`    `);
+
+  // =============================================================================
+  // Spacing
+  // =============================================================================
+  lines.push(`    // MARK: - Spacing`);
+  lines.push(`    public struct Spacing {`);
+  lines.push(`        // Base spacing scale`);
+  Object.entries(tokens.spacing).forEach(([key, value]) => {
+    const pixels = stripUnits(value);
+    lines.push(`        public static let space${key}: CGFloat = ${pixels}`);
+  });
+  lines.push(`        `);
+
+  if (tokens.semanticSpacing) {
+    lines.push(`        // Semantic spacing`);
+    if (tokens.semanticSpacing.card) {
+      lines.push(`        public static let cardPaddingX: CGFloat = ${stripUnits(tokens.semanticSpacing.card.paddingX)}`);
+      lines.push(`        public static let cardPaddingY: CGFloat = ${stripUnits(tokens.semanticSpacing.card.paddingY)}`);
+      lines.push(`        public static let cardGap: CGFloat = ${stripUnits(tokens.semanticSpacing.card.gap)}`);
+      lines.push(`        public static let cardListGap: CGFloat = ${stripUnits(tokens.semanticSpacing.card.listGap)}`);
+    }
+    if (tokens.semanticSpacing.box) {
+      lines.push(`        public static let boxPaddingX: CGFloat = ${stripUnits(tokens.semanticSpacing.box.paddingX)}`);
+      lines.push(`        public static let boxPaddingY: CGFloat = ${stripUnits(tokens.semanticSpacing.box.paddingY)}`);
+    }
+    if (tokens.semanticSpacing.input) {
+      lines.push(`        public static let inputPaddingX: CGFloat = ${stripUnits(tokens.semanticSpacing.input.paddingX)}`);
+      lines.push(`        public static let inputPaddingY: CGFloat = ${stripUnits(tokens.semanticSpacing.input.paddingY)}`);
+    }
+    if (tokens.semanticSpacing.button) {
+      lines.push(`        public static let buttonPaddingX: CGFloat = ${stripUnits(tokens.semanticSpacing.button.paddingX)}`);
+      lines.push(`        public static let buttonPaddingY: CGFloat = ${stripUnits(tokens.semanticSpacing.button.paddingY)}`);
+    }
+    lines.push(`        public static let sectionGap: CGFloat = ${stripUnits(tokens.semanticSpacing.sectionGap)}`);
+    lines.push(`        public static let formGap: CGFloat = ${stripUnits(tokens.semanticSpacing.formGap)}`);
+    lines.push(`        public static let stackGap: CGFloat = ${stripUnits(tokens.semanticSpacing.stackGap)}`);
+    lines.push(`        public static let inlineGap: CGFloat = ${stripUnits(tokens.semanticSpacing.inlineGap)}`);
+    lines.push(`        public static let modalPadding: CGFloat = ${stripUnits(tokens.semanticSpacing.modalPadding)}`);
+  }
+  lines.push(`    }`);
+  lines.push(`    `);
+
+  // =============================================================================
+  // Border Radius
+  // =============================================================================
+  lines.push(`    // MARK: - Border Radius`);
+  lines.push(`    public struct BorderRadius {`);
+  lines.push(`        // Base radius scale`);
+  Object.entries(tokens.borderRadius).forEach(([key, value]) => {
+    const pixels = value === '9999px' ? 9999 : stripUnits(value);
+
+    if (['button', 'input', 'card', 'modal', 'chip', 'avatar', 'iconContainer'].includes(key)) {
+      return;
+    }
+
+    if (key === 'full') {
+      lines.push(`        public static let radiusFull: CGFloat = ${pixels} // Use for pills/circles`);
+    } else if (key.match(/^\d/)) {
+      lines.push(`        public static let radius${key.replace(/xl/gi, 'Xl')}: CGFloat = ${pixels}`);
+    } else {
+      const safeName = key.charAt(0).toUpperCase() + key.slice(1);
+      lines.push(`        public static let radius${safeName}: CGFloat = ${pixels}`);
+    }
+  });
+
+  lines.push(`        `);
+  lines.push(`        // Component-specific radii`);
+  if (tokens.borderRadius.button !== undefined) {
+    lines.push(`        public static let button: CGFloat = ${stripUnits(tokens.borderRadius.button)}`);
+  }
+  if (tokens.borderRadius.input !== undefined) {
+    lines.push(`        public static let input: CGFloat = ${stripUnits(tokens.borderRadius.input)}`);
+  }
+  if (tokens.borderRadius.card !== undefined) {
+    lines.push(`        public static let card: CGFloat = ${stripUnits(tokens.borderRadius.card)}`);
+  }
+  if (tokens.borderRadius.modal !== undefined) {
+    lines.push(`        public static let modal: CGFloat = ${stripUnits(tokens.borderRadius.modal)}`);
+  }
+  if (tokens.borderRadius.chip !== undefined) {
+    lines.push(`        public static let chip: CGFloat = ${stripUnits(tokens.borderRadius.chip)}`);
+  }
+  if (tokens.borderRadius.avatar !== undefined) {
+    lines.push(`        public static let avatar: CGFloat = ${stripUnits(tokens.borderRadius.avatar)}`);
+  }
+  if (tokens.borderRadius.iconContainer !== undefined) {
+    lines.push(`        public static let iconContainer: CGFloat = ${stripUnits(tokens.borderRadius.iconContainer)}`);
+  }
+  lines.push(`    }`);
+  lines.push(`    `);
+
+  // =============================================================================
+  // Transitions
+  // =============================================================================
+  lines.push(`    // MARK: - Transitions`);
+  lines.push(`    public struct Transitions {`);
+  Object.entries(tokens.transitions.duration).forEach(([key, value]) => {
+    const capitalizedName = key.charAt(0).toUpperCase() + key.slice(1);
+    lines.push(`        public static let duration${capitalizedName}: Double = ${value / 1000} // ${value}ms`);
+  });
+  lines.push(`    }`);
+  lines.push(`}`);
+
+  return lines.join('\n');
 }
 
 /**
@@ -456,26 +752,32 @@ function generateKotlin(tokens) {
 // Generate files
 console.log('🎨 Khipu Design System - Token Generator\n');
 
-// Ensure output directory exists
-const outputDir = path.dirname(kotlinOutput);
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
+// Generate Kotlin
+if (kotlinOutputArg) {
+  const outputDir = path.dirname(kotlinOutput);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+  const kotlinCode = generateKotlin(tokens);
+  fs.writeFileSync(kotlinOutput, kotlinCode);
+  console.log(`✅ Generated Kotlin tokens: ${kotlinOutput}`);
 }
 
-// Generate Kotlin
-const kotlinCode = generateKotlin(tokens);
-fs.writeFileSync(kotlinOutput, kotlinCode);
-console.log(`✅ Generated Kotlin tokens: ${kotlinOutput}`);
+// Generate Swift
+if (swiftOutputArg) {
+  const outputDir = path.dirname(swiftOutput);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+  const swiftCode = generateSwift(tokens);
+  fs.writeFileSync(swiftOutput, swiftCode);
+  console.log(`✅ Generated Swift tokens: ${swiftOutput}`);
+}
 
 console.log('\n📦 Done! Tokens generated successfully.');
-console.log('\n🔄 Next steps:');
-console.log('   1. Build Android library: npm run android:build');
-console.log('   2. Publish to Nexus: npm run android:publish');
-console.log('   3. Update version in consuming apps');
-console.log('\n💡 Publishing targets:');
-console.log('   • Web: npmjs.org (npm publish --tag alpha --access public)');
-console.log('   • Android: Nexus design-system repo (npm run android:publish)');
-console.log('   • Grails: Nexus thirdparty repo (manual ZIP upload)');
-console.log('\n💡 Tokens are included in the published library:');
-console.log('   Import: import com.khipu.designsystem.tokens.KdsColors');
-console.log('   Usage:  KdsColors.primaryMain, KdsSpacing.space4, etc.');
+console.log('\n💡 Generated tokens for:');
+if (kotlinOutputArg) console.log('   • Android (Kotlin) - Jetpack Compose');
+if (swiftOutputArg) console.log('   • iOS (Swift) - SwiftUI');
+console.log('\n💡 Usage:');
+if (kotlinOutputArg) console.log('   • Kotlin: import com.khipu.designsystem.tokens.KdsColors');
+if (swiftOutputArg) console.log('   • Swift: import KhipuDesignSystem; KdsTokens.Colors.primaryMain');
