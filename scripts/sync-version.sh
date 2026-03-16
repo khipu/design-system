@@ -21,8 +21,8 @@ echo "  ✅ package.json -> $VERSION"
 sed -i.bak "s/val libraryVersion = \".*\"/val libraryVersion = \"$VERSION\"/" android/designsystem/build.gradle.kts && rm -f android/designsystem/build.gradle.kts.bak
 echo "  ✅ build.gradle.kts -> $VERSION"
 
-# iOS - podspec
-sed -i.bak "s/s.version          = '.*'/s.version          = '$VERSION'/" KhipuDesignSystem.podspec && rm -f KhipuDesignSystem.podspec.bak
+# iOS - podspec (use \s+ to match any amount of whitespace)
+sed -i.bak "s/s\.version[[:space:]]*=[[:space:]]*'.*'/s.version          = '$VERSION'/" KhipuDesignSystem.podspec && rm -f KhipuDesignSystem.podspec.bak
 echo "  ✅ KhipuDesignSystem.podspec -> $VERSION"
 
 echo "✨ Done! Version synced to $VERSION across all platforms."
