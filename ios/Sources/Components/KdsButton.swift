@@ -178,7 +178,7 @@ public class KdsButton: UIButton {
         switch variant {
         case .outlined:
             layer.borderWidth = 1
-            layer.borderColor = mainColor.cgColor
+            layer.borderColor = mainColorForScheme(colorScheme).cgColor
         case .contained, .text:
             layer.borderWidth = 0
         }
@@ -287,14 +287,6 @@ public class KdsButton: UIButton {
         }
     }
 
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-
-        // Ensure background color fills the entire button
-        if let bgColor = backgroundColor(for: .normal) {
-            layer.backgroundColor = bgColor.cgColor
-        }
-    }
 }
 
 // MARK: - UIButton Background Color Extension
