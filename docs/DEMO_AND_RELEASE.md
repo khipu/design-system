@@ -14,11 +14,16 @@ Complete workflow for demonstrating token changes across **Web, Android, and Gra
 3. See button color change in Storybook (web)
 4. See button color change in Android app
 5. See button color change in Grails app (payment)
-6. Publish all three packages to AWS CodeArtifact + Nexus
+6. Publish all three packages to npmjs.org (Web) + Nexus (Android + Grails)
 7. Install in real apps and verify changes
 
 **Time:** ~15 minutes
 **Platforms:** Web (Storybook) + Android (Test App) + Grails (Payment App via Nexus)
+
+**📦 Publishing Targets:**
+- **Web**: npmjs.org (public registry)
+- **Android**: Nexus (dev.khipu.com/nexus/content/repositories/design-system)
+- **Grails**: Nexus thirdparty (dev.khipu.com/nexus/content/repositories/thirdparty)
 
 ---
 
@@ -32,7 +37,8 @@ Complete workflow for demonstrating token changes across **Web, Android, and Gra
 - [ ] Android emulator with test app (optional)
 - [ ] Grails payment app: `grails run-app` (port 8080)
 - [ ] Screen recording tool ready
-- [ ] AWS CodeArtifact authentication: `source ~/scripts/khipu-codeartifact.sh`
+- [ ] NPM logged in to npmjs.org: `npm login`
+- [ ] Nexus credentials configured in `~/.gradle/gradle.properties`
 - [ ] Maven installed: `brew install maven` (for Grails plugin publishing)
 
 ---
@@ -240,44 +246,63 @@ sed -i '' 's/PLUGIN_VERSION="0.1.0"/PLUGIN_VERSION="0.1.1"/' grails/plugins/desi
 
 ---
 
-#### 📦 Publish Web Package (AWS CodeArtifact)
+#### 📦 Publish Web Package (npmjs.org)
 
 ```bash
-aws codeartifact login --tool npm \
-  --domain khipu \
-  --domain-owner 375783675928 \
-  --repository npm-packages \
-  --region us-east-1
+# Login to npmjs.org (first time only)
+npm login
 
+# Build and publish
 npm run build
-npm publish --tag alpha
+npm publish --tag alpha --access public
 ```
 
-**💡 Note:** The `--tag alpha` flag is required for prerelease versions
+**💡 Note:**
+- The `--tag alpha` flag is required for prerelease versions
+- The `--access public` flag ensures the package is publicly accessible
 
-**Output:** `✅ @khipu/design-system@0.1.0-alpha.6 published to CodeArtifact`
+**Output:** `✅ @khipu/design-system@0.1.0-alpha.6 published to npmjs.org`
 
 ---
 
-#### 📦 Publish Android Package (AWS CodeArtifact)
+#### 📦 Publish Android Package (Nexus)
 
 ```bash
-source ~/scripts/khipu-codeartifact.sh
+# Ensure Nexus credentials are configured in ~/.gradle/gradle.properties:
+# khipuRepoUsername=deployment
+# khipuRepoPassword=<password>
+
 npm run android:publish
 ```
 
-**Output:** `✅ com.khipu:design-system:0.1.0-alpha.6 published to CodeArtifact`
+**Output:** `✅ com.khipu:design-system:0.1.0-alpha.6 published to Nexus (dev.khipu.com/nexus)`
 
 ---
 
 #### 📦 Publish Grails Plugin (Nexus Thirdparty)
 
-**Important:** Grails plugin uses **Nexus**, not CodeArtifact, and is published as a **ZIP file** to the **thirdparty** repository.
+**Important:** Grails plugin uses **Nexus**, not npmjs.org, and is published as a **ZIP file** to the **thirdparty** repository.
+
+**Step 1: Prepare Plugin Files**
 
 ```bash
 cd grails/plugins/design-system-taglibs
 
-# 1. Create plugin ZIP with updated CSS (includes new blue color)
+# Verify CSS was updated by tokens:generate
+cat web-app/css/design-system.css | grep "color-primary-main"
+# Should show: --kds-color-primary-main: #2196F3; (blue)
+
+# Verify version is correct in all 3 files:
+grep "def version" DesignSystemTaglibsGrailsPlugin.groovy
+grep "version=" plugin.xml
+grep "PLUGIN_VERSION" publish-to-nexus.sh
+# All should show: 0.1.1
+```
+
+**Step 2: Create Plugin ZIP**
+
+```bash
+# Create plugin ZIP with updated CSS (includes new blue color)
 zip -r grails-design-system-taglibs-0.1.1.zip \
     DesignSystemTaglibsGrailsPlugin.groovy \
     application.properties \
@@ -286,7 +311,14 @@ zip -r grails-design-system-taglibs-0.1.1.zip \
     web-app/ \
     src/
 
-# 2. Publish to Nexus using Maven
+# Verify ZIP size (should be ~11 KB)
+ls -lh grails-design-system-taglibs-0.1.1.zip
+```
+
+**Step 3: Publish to Nexus**
+
+```bash
+# Publish to Nexus using Maven
 ./publish-to-nexus.sh
 ```
 
@@ -313,9 +345,52 @@ curl -I -u deployment:93h50sj2di2hd923 \
 ```
 
 **💡 Three platforms, three different publishing methods:**
-- **Web:** npm → CodeArtifact
-- **Android:** Maven → CodeArtifact
+- **Web:** npm → npmjs.org (public registry)
+- **Android:** Maven → Nexus (design-system repo)
 - **Grails:** Maven → Nexus (thirdparty repo, ZIP format)
+
+---
+
+#### 🔧 Configure Payment App to Use Plugin
+
+**Important:** Before installing the plugin in payment, ensure the app is configured correctly.
+
+**Step 1: Verify Nexus Repository Configuration**
+
+```bash
+cd /path/to/payment
+
+# Check BuildConfig.groovy has thirdparty repo BEFORE releases
+cat grails-app/conf/BuildConfig.groovy | grep -A 5 "repositories"
+```
+
+**Expected configuration:**
+```groovy
+repositories {
+    grailsPlugins()
+    grailsHome()
+    grailsCentral()
+    mavenLocal()
+
+    // IMPORTANT: thirdparty MUST be listed BEFORE releases
+    mavenRepo "https://dev.khipu.com/nexus/content/repositories/thirdparty"
+    mavenRepo "https://dev.khipu.com/nexus/content/repositories/releases"
+}
+```
+
+**Step 2: Verify Plugin Dependency**
+
+```bash
+# Check current plugin version in BuildConfig.groovy
+grep "design-system-taglibs" grails-app/conf/BuildConfig.groovy
+```
+
+**Expected:**
+```groovy
+plugins {
+    compile ':design-system-taglibs:0.1.1'
+}
+```
 
 ---
 
@@ -329,11 +404,14 @@ cd ../khenshin-web  # Or your web app
 # Update package.json dependency
 # "@khipu/design-system": "^0.1.0-alpha.6"
 
+# Install from npmjs.org (public registry)
 npm install
 npm run dev
 ```
 
 **Show:** 🔵 **Blue buttons and components** across the entire web app!
+
+**Note:** Package is now publicly available on npmjs.org - no authentication required!
 
 ---
 
@@ -345,64 +423,147 @@ cd ../khipu-client-android
 # Update app/build.gradle.kts dependency
 # implementation("com.khipu:design-system:0.1.0-alpha.6")
 
-source ~/scripts/khipu-codeartifact.sh
+# Ensure build.gradle.kts includes Nexus repository:
+# maven {
+#     url = uri("https://dev.khipu.com/nexus/content/repositories/design-system")
+#     credentials {
+#         username = project.findProperty("khipuRepoUsername") as String? ?: ""
+#         password = project.findProperty("khipuRepoPassword") as String? ?: ""
+#     }
+# }
+
 ./gradlew :app:assembleDebug :app:installDebug
 ```
 
 **Show:** 🔵 **Blue buttons and components** across the entire Android app!
 
+**Note:** Package is now hosted on Nexus instead of CodeArtifact
+
 ---
 
 #### 🏛️ Update Grails Client (Payment App)
 
-**Using the refresh script (recommended):**
+**Prerequisites:**
+- Plugin published to Nexus thirdparty (see above)
+- Payment app has correct repository configuration (see above)
+- Maven Local cache cleared if testing multiple versions
+
+**Method 1: Using refresh script (recommended):**
 
 ```bash
-cd ../payment
+cd /path/to/payment
 
-# Option 1: Update version with script (cleans cache + updates BuildConfig.groovy)
+# Update version with script (cleans cache + updates BuildConfig.groovy + refreshes)
 ./refresh-design-system.sh 0.1.1
 ```
 
-**Manual method (if needed):**
-
-```bash
-cd ../payment
-
-# 1. Update BuildConfig.groovy dependency
-# Change: compile ':design-system-taglibs:0.1.0'
-# To:     compile ':design-system-taglibs:0.1.1'
-
-# 2. Clean cache completely
-rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
-rm -rf target/work/plugins/design-system-taglibs-*
-
-# 3. Refresh dependencies (downloads from Nexus)
-grails refresh-dependencies
-```
+**What the script does:**
+1. Cleans Maven Local cache for design-system-taglibs
+2. Cleans Grails work directory
+3. Updates BuildConfig.groovy to new version
+4. Runs `grails refresh-dependencies`
 
 **Expected output:**
 ```
+🧹 Limpiando cache de Maven Local...
+Removed: ~/.m2/repository/org/grails/plugins/design-system-taglibs
+
+🧹 Limpiando directorio de trabajo de Grails...
+Removed: target/work/plugins/design-system-taglibs-*
+
+📝 Actualizando BuildConfig.groovy a versión 0.1.1...
+Updated: grails-app/conf/BuildConfig.groovy
+
+📥 Descargando plugin desde Nexus...
 Downloading: org/grails/plugins/design-system-taglibs/0.1.1/design-system-taglibs-0.1.1.zip
 Installing zip design-system-taglibs-0.1.1.zip...
 Installed plugin design-system-taglibs-0.1.1
+
+✅ Plugin actualizado exitosamente!
 ```
 
-**Start payment app:**
+---
+
+**Method 2: Manual installation (if script not available):**
+
+```bash
+cd /path/to/payment
+
+# Step 1: Clean cache completely
+rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
+rm -rf target/work/plugins/design-system-taglibs-*
+
+# Step 2: Update BuildConfig.groovy dependency
+# Edit: grails-app/conf/BuildConfig.groovy
+# Change: compile ':design-system-taglibs:0.1.0'
+# To:     compile ':design-system-taglibs:0.1.1'
+
+# Step 3: Refresh dependencies (downloads from Nexus thirdparty)
+grails refresh-dependencies
+```
+
+---
+
+**Verify Installation:**
+
+```bash
+# Check plugin was downloaded and installed
+ls -lh target/work/plugins/design-system-taglibs-0.1.1/
+
+# Should show plugin directory with:
+# - grails-app/ (taglibs)
+# - web-app/ (CSS with blue color)
+# - DesignSystemTaglibsGrailsPlugin.groovy
+
+# Verify CSS contains blue color
+grep "color-primary-main" target/work/plugins/design-system-taglibs-0.1.1/web-app/css/design-system.css
+# Should show: --kds-color-primary-main: #2196F3;
+```
+
+---
+
+**Start Payment App:**
+
 ```bash
 grails run-app
 ```
 
-**Navigate to:** `http://localhost:8080/payment/designSystemTest`
+**Expected startup output:**
+```
+| Loading Grails 2.5.6
+| Configuring classpath
+| Environment set to development
+...
+| Running Grails application
+| Server running. Browse to http://localhost:8080/payment
+```
+
+---
+
+**Test Plugin Integration:**
+
+**Navigate to test page:**
+```
+http://localhost:8080/payment/designSystemTest
+```
 
 **Show:** 🔵 **Blue buttons rendered by `<kds:button>` taglibs** - color from CSS variables!
 
 **Available taglibs to demo:**
-- `<kds:button>` - Blue primary button
-- `<kds:textField>` - Input with blue focus state
-- `<kds:card>` - Card component
+- `<kds:button variant="contained">` - Blue primary button
+- `<kds:button variant="outlined">` - Blue outlined button
+- `<kds:textField label="Email">` - Input with blue focus state
+- `<kds:card>` - Card component with blue accents
 - `<kds:alert type="info">` - Blue info alert
-- `<kds:checkbox>` - Checkbox with blue check
+- `<kds:checkbox label="Accept">` - Checkbox with blue check
+- `<kds:tabs>` - Tabs with blue indicator
+- `<kds:spinner>` - Blue loading spinner
+
+**Verify CSS in browser:**
+1. Open DevTools (F12)
+2. Inspect a button element
+3. Check computed styles
+4. Verify `--kds-color-primary-main: #2196F3` is applied
 
 ---
 
@@ -448,17 +609,17 @@ CSS variables apply: var(--kds-color-primary-main) = #2196F3 (blue!)
 > "Now I generate tokens for all platforms: `npm run tokens:generate`. This builds TypeScript, exports to JSON, generates CSS variables for web and Grails, and creates Kotlin tokens for Android. One command, three platforms. Look - Storybook auto-reloaded, button is now blue! For Grails, the CSS with the blue color is in the web-app folder, ready to be packaged."
 
 **Part 4 - Publish Libraries (2.5 minutes)**
-> "Time to publish. I bump versions - package.json for web, Gradle for Android, and THREE files for the Grails plugin. I publish npm for web using the alpha tag, then Maven for Android to CodeArtifact. For Grails, it's different - I create a ZIP with the plugin code and CSS, then publish to Nexus using Maven. The script uploads an 11 KB ZIP file to the thirdparty repository. All three packages published!"
+> "Time to publish. I bump versions - package.json for web, Gradle for Android, and THREE files for the Grails plugin. I publish the web package to npmjs.org - now it's publicly available! Then I publish Android to our Nexus server. For Grails, it's different - I create a ZIP with the plugin code and CSS, then publish to Nexus thirdparty repository using Maven. The script uploads an 11 KB ZIP file. All three packages published to their respective registries!"
 
 **Part 5 - Install & Show (2.5 minutes)**
-> "Now the payoff. Web app - update dependency, npm install, start dev server. Blue buttons everywhere!"
+> "Now the payoff. Web app - update dependency, npm install from npmjs.org - no authentication needed since it's public! Start dev server. Blue buttons everywhere!"
 
-> "Android - update dependency, sync with CodeArtifact, rebuild. Blue buttons!"
+> "Android - update dependency, sync with Nexus, rebuild. Blue buttons!"
 
 > "And Grails - here's where it gets interesting. I update the plugin version in BuildConfig, then run our refresh script. Watch - it cleans the cache, downloads the plugin ZIP from Nexus - you can see it's the full 11 KB - extracts it, and installs. I start the payment app and go to the test page. Look at that - blue buttons rendered with Grails taglibs! The CSS variables from our design system, working perfectly in a Groovy/GSP app!"
 
 **Conclusion (30 seconds)**
-> "One token change in TypeScript, THREE different platforms in perfect sync. React importing via npm, Android with compiled Kotlin tokens, and Grails downloading a plugin ZIP from Nexus with CSS variables. No JavaScript, no bundlers - just plain CSS. That's a true cross-platform design system."
+> "One token change in TypeScript, THREE different platforms in perfect sync. React importing from public npmjs.org, Android with compiled Kotlin tokens from Nexus, and Grails downloading a plugin ZIP from Nexus with CSS variables. No JavaScript, no bundlers - just plain CSS. That's a true cross-platform design system."
 
 ---
 
@@ -470,15 +631,15 @@ CSS variables apply: var(--kds-color-primary-main) = #2196F3 (blue!)
 ✅ **Automatic generation** - Tokens for all three platforms from one command
 ✅ **Consistent design** - Same blue (#2196F3) on Web, Android, and Grails
 ✅ **Zero component changes** - Buttons updated automatically
-✅ **Different distribution methods** - npm (Web), Maven (Android), Nexus ZIP (Grails)
+✅ **Different distribution methods** - npmjs.org (Web), Nexus (Android), Nexus ZIP (Grails)
 ✅ **Real-world usage** - Consuming apps get updates immediately
 ✅ **True cross-platform** - React + Android + Grails from one codebase
 ✅ **Grails via CSS variables** - No JS bundling, pure CSS, works with Java 7!
 
 **Platform coverage:**
-- ⚛️ **Web**: React 18 + TypeScript + Material UI v7 (npm package)
-- 🤖 **Android**: Kotlin + Jetpack Compose + Material 3 (Maven AAR)
-- 🏛️ **Grails**: Groovy 2.5 + GSP + CSS Variables (Nexus ZIP plugin)
+- ⚛️ **Web**: React 18 + TypeScript + Material UI v7 (npmjs.org - public package)
+- 🤖 **Android**: Kotlin + Jetpack Compose + Material 3 (Nexus Maven repository)
+- 🏛️ **Grails**: Groovy 2.5 + GSP + CSS Variables (Nexus ZIP plugin - thirdparty repo)
 
 **Grails specifics:**
 - 📦 Published as Grails plugin ZIP to Nexus thirdparty repository
@@ -550,8 +711,9 @@ primary: { main: '#009688', light: '#4DB6AC', dark: '#00796B' }
 - [ ] Create Grails plugin ZIP
 - [ ] Test Grails publish: `./publish-to-nexus.sh`
 - [ ] Verify ZIP on Nexus is 11 KB (not 8.7K!)
-- [ ] Authenticate: `aws codeartifact login...`
-- [ ] Test web publish: `npm publish --tag alpha`
+- [ ] Login to npmjs.org: `npm login`
+- [ ] Verify Nexus credentials in `~/.gradle/gradle.properties`
+- [ ] Test web publish: `npm publish --tag alpha --access public`
 - [ ] Test payment refresh: `./refresh-design-system.sh 0.1.X`
 - [ ] Revert: `git reset --hard && npm run tokens:generate`
 - [ ] Ready to record!
@@ -561,58 +723,166 @@ primary: { main: '#009688', light: '#4DB6AC', dark: '#00796B' }
 - [ ] Android emulator with test app (optional)
 - [ ] Payment app configured and able to start
 - [ ] Maven installed (`which mvn` returns path)
-- [ ] CodeArtifact authenticated
-- [ ] Nexus credentials working (test with curl)
+- [ ] NPM logged in to npmjs.org (`npm whoami` returns username)
+- [ ] Nexus credentials in `~/.gradle/gradle.properties` (khipuRepoUsername, khipuRepoPassword)
+- [ ] Nexus credentials working (test with curl to design-system and thirdparty repos)
 - [ ] All repos clean (no uncommitted changes)
 - [ ] Screen recording tool tested
 - [ ] Close unnecessary windows/notifications
 - [ ] Test page accessible: http://localhost:8080/payment/designSystemTest
 
+**Grails/Payment specific checks:**
+- [ ] Payment `BuildConfig.groovy` has thirdparty repo BEFORE releases
+- [ ] Payment has `refresh-design-system.sh` script
+- [ ] Test Grails plugin creation: `zip -r test.zip ...` works
+- [ ] Test Nexus thirdparty upload: `curl -I ...` returns 200
+- [ ] Grails 2.5.6 installed (`grails -version`)
+- [ ] Payment can start without errors (`grails run-app`)
+- [ ] Design system test page loads: http://localhost:8080/payment/designSystemTest
+- [ ] Current plugin version visible in test page
+- [ ] Maven Local cleared: `rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs`
+- [ ] Grails work directory clean: `rm -rf target/work/plugins/design-system-taglibs-*`
+
 ---
 
 ## 📝 Quick Command Reference
+
+### Development & Build
 
 ```bash
 # === TOKENS & BUILD ===
 npm run tokens:generate           # Generate tokens for all platforms
 npm run build                     # Build web package
 npm run android:build             # Build Android AAR
+```
 
-# === GRAILS PLUGIN ===
+### Publishing
+
+```bash
+# === WEB → npmjs.org ===
+npm login                                   # First time only
+npm run build
+npm publish --tag alpha --access public
+
+# === ANDROID → Nexus ===
+npm run android:publish
+
+# === GRAILS PLUGIN → Nexus Thirdparty ===
 cd grails/plugins/design-system-taglibs
-# Update versions in 3 files first!
-zip -r grails-design-system-taglibs-X.Y.Z.zip \
+
+# Step 1: Update versions in 3 files
+# - DesignSystemTaglibsGrailsPlugin.groovy → version = "0.1.X"
+# - plugin.xml → version='0.1.X'
+# - publish-to-nexus.sh → PLUGIN_VERSION="0.1.X"
+
+# Step 2: Verify CSS was updated
+cat web-app/css/design-system.css | grep "color-primary-main"
+
+# Step 3: Create ZIP
+zip -r grails-design-system-taglibs-0.1.X.zip \
+    DesignSystemTaglibsGrailsPlugin.groovy \
+    application.properties \
+    plugin.xml \
+    grails-app/ \
+    web-app/ \
+    src/
+
+# Step 4: Verify ZIP size (~11 KB)
+ls -lh grails-design-system-taglibs-0.1.X.zip
+
+# Step 5: Publish to Nexus
+./publish-to-nexus.sh
+
+# Step 6: Verify upload
+curl -I -u deployment:PASSWORD \
+  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.X/design-system-taglibs-0.1.X.zip"
+```
+
+### Installation in Client Apps
+
+```bash
+# === WEB ===
+cd /path/to/khenshin-web
+# Update package.json: "@khipu/design-system": "^0.1.0-alpha.X"
+npm install
+npm run dev
+
+# === ANDROID ===
+cd /path/to/khipu-client-android
+# Update build.gradle.kts: implementation("com.khipu:design-system:0.1.0-alpha.X")
+./gradlew --refresh-dependencies
+./gradlew :app:assembleDebug
+
+# === GRAILS (PAYMENT) ===
+cd /path/to/payment
+
+# Method 1: Using refresh script (recommended)
+./refresh-design-system.sh 0.1.X
+
+# Method 2: Manual
+# 1. Update BuildConfig.groovy: compile ':design-system-taglibs:0.1.X'
+# 2. Clean cache
+rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
+rm -rf target/work/plugins/design-system-taglibs-*
+# 3. Refresh
+grails refresh-dependencies
+# 4. Start
+grails run-app
+# 5. Test: http://localhost:8080/payment/designSystemTest
+```
+
+### Grails Plugin - Detailed Workflow
+
+```bash
+# === COMPLETE GRAILS WORKFLOW ===
+
+# 1. UPDATE TOKENS
+cd /path/to/design-system
+vim src/tokens/index.ts              # Change colors
+npm run tokens:generate              # Regenerate all tokens
+
+# 2. VERIFY CSS
+cat grails/plugins/design-system-taglibs/web-app/css/design-system.css | grep "primary-main"
+
+# 3. BUMP VERSION (3 files)
+cd grails/plugins/design-system-taglibs
+vim DesignSystemTaglibsGrailsPlugin.groovy  # version = "0.1.X"
+vim plugin.xml                               # version='0.1.X'
+vim publish-to-nexus.sh                      # PLUGIN_VERSION="0.1.X"
+
+# 4. CREATE & PUBLISH
+zip -r grails-design-system-taglibs-0.1.X.zip \
     DesignSystemTaglibsGrailsPlugin.groovy \
     application.properties plugin.xml \
     grails-app/ web-app/ src/
-./publish-to-nexus.sh             # Publish to Nexus thirdparty
+ls -lh grails-design-system-taglibs-0.1.X.zip  # Verify ~11 KB
+./publish-to-nexus.sh
 
-# === PUBLISH WEB & ANDROID ===
-aws codeartifact login --tool npm --domain khipu --repository npm-packages
-npm publish --tag alpha                                      # Web
-source ~/scripts/khipu-codeartifact.sh && npm run android:publish  # Android
+# 5. VERIFY ON NEXUS
+curl -I -u deployment:PASSWORD \
+  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.X/design-system-taglibs-0.1.X.zip"
 
-# === INSTALL IN APPS ===
-# Web
-npm install @khipu/design-system@X.Y.Z
-
-# Android
-./gradlew --refresh-dependencies
-
-# Grails (payment)
+# 6. INSTALL IN PAYMENT
 cd /path/to/payment
-./refresh-design-system.sh X.Y.Z   # Cleans cache + updates + refreshes
-# OR manually:
-# 1. Update BuildConfig.groovy version
-# 2. rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
-# 3. grails refresh-dependencies
+./refresh-design-system.sh 0.1.X
+
+# 7. VERIFY INSTALLATION
+ls -la target/work/plugins/design-system-taglibs-0.1.X/
+cat target/work/plugins/design-system-taglibs-0.1.X/web-app/css/design-system.css | grep "primary-main"
+
+# 8. TEST
+grails run-app
+# Navigate to: http://localhost:8080/payment/designSystemTest
+# Check: Buttons should show new color
 ```
 
 ---
 
 ## 🐛 Troubleshooting Common Errors
 
-### Error: "Zip is not a valid plugin" (Grails)
+### Grails Plugin Errors
+
+#### Error: "Zip is not a valid plugin" (Grails)
 
 ```bash
 Error Zip /Users/.../design-system-taglibs-X.Y.Z.zip is not a valid plugin
@@ -643,7 +913,141 @@ rm -rf target/work/plugins/design-system-taglibs-*
 
 **Prevention:** Always verify `thirdparty` repository is listed BEFORE `releases` in BuildConfig.groovy.
 
-### Error: "Package version already exists" (409 Conflict)
+---
+
+#### Error: "Plugin not found" (Grails)
+
+```bash
+Error resolving plugin [design-system-taglibs:0.1.1]. Plugin not found
+```
+
+**Cause:** Payment app cannot reach Nexus thirdparty repository.
+
+**Solution:**
+```bash
+# 1. Verify Nexus is accessible
+curl -I "https://dev.khipu.com/nexus/content/repositories/thirdparty/"
+# Should return HTTP 200
+
+# 2. Check plugin exists on Nexus
+curl -I "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.1/design-system-taglibs-0.1.1.zip"
+# Should return HTTP 200 and Content-Length: ~11000
+
+# 3. Verify BuildConfig.groovy has thirdparty repo
+grep "thirdparty" grails-app/conf/BuildConfig.groovy
+
+# 4. Try manual download to test connectivity
+curl -O "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.1/design-system-taglibs-0.1.1.zip"
+ls -lh design-system-taglibs-0.1.1.zip  # Should be ~11 KB
+```
+
+---
+
+#### Error: CSS variables not applied (Grails)
+
+```bash
+# Buttons appear without styling or with wrong colors
+```
+
+**Cause:** CSS file not loaded or plugin installed from wrong repository.
+
+**Solution:**
+```bash
+# 1. Verify plugin installation directory
+ls -la target/work/plugins/design-system-taglibs-0.1.1/web-app/css/
+# Should contain design-system.css
+
+# 2. Check CSS file content
+cat target/work/plugins/design-system-taglibs-0.1.1/web-app/css/design-system.css | head -20
+# Should show CSS variables like --kds-color-primary-main
+
+# 3. Verify CSS is referenced in GSP
+# In your layout file (e.g., main.gsp), ensure:
+<link rel="stylesheet" href="${resource(plugin: 'design-system-taglibs', dir: 'css', file: 'design-system.css')}" />
+
+# 4. Check browser DevTools
+# - Open http://localhost:8080/payment/designSystemTest
+# - F12 → Network tab
+# - Look for design-system.css (should return 200 OK)
+# - Check Console for CSS errors
+```
+
+---
+
+#### Error: Old version still cached (Grails)
+
+```bash
+# Updated plugin but still seeing old colors/styles
+```
+
+**Cause:** Maven Local or Grails work directory has cached old version.
+
+**Solution:**
+```bash
+# Nuclear option: Clean everything
+cd /path/to/payment
+
+# 1. Stop Grails if running
+# Ctrl+C
+
+# 2. Clean all caches
+rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
+rm -rf ~/.grails/2.5.6/projects/payment
+rm -rf target/work/plugins/design-system-taglibs-*
+rm -rf target/
+
+# 3. Verify BuildConfig.groovy has correct version
+grep "design-system-taglibs" grails-app/conf/BuildConfig.groovy
+
+# 4. Refresh and rebuild
+grails clean
+grails refresh-dependencies
+grails run-app
+```
+
+---
+
+#### Error: Taglib not found in GSP
+
+```bash
+# Error: Tag [kds:button] does not exist
+```
+
+**Cause:** Plugin not loaded or namespace not imported.
+
+**Solution:**
+```bash
+# 1. Verify plugin is installed
+ls -la target/work/plugins/ | grep design-system-taglibs
+# Should show: design-system-taglibs-0.1.1
+
+# 2. Check taglib exists
+ls -la target/work/plugins/design-system-taglibs-0.1.1/grails-app/taglib/
+# Should show: KdsButtonTagLib.groovy, etc.
+
+# 3. Add namespace to GSP (if not already present)
+# At top of your .gsp file:
+<%@ page contentType="text/html;charset=UTF-8" %>
+<html>
+<head>
+    <meta name="layout" content="main"/>
+</head>
+<body>
+    <!-- Taglibs should work without explicit namespace -->
+    <kds:button variant="contained">Click me</kds:button>
+</body>
+</html>
+
+# 4. Restart Grails
+# Ctrl+C
+grails run-app
+```
+
+---
+
+### NPM and Build Errors
+
+#### Error: "Package version already exists" (409 Conflict)
 
 ```bash
 npm error code E409
@@ -728,23 +1132,89 @@ zip -r grails-design-system-taglibs-0.1.0.zip \
 
 ## 📚 Additional Resources
 
-**Grails Plugin Documentation:**
-- Plugin README: `grails/plugins/design-system-taglibs/README.md`
-- Complete workflow, troubleshooting, and API reference
+### Grails Plugin Documentation
 
-**Grails Implementation Guide:**
+**Plugin Code:**
+- Plugin directory: `grails/plugins/design-system-taglibs/`
+- Plugin README: `grails/plugins/design-system-taglibs/README.md`
+- Taglibs source: `grails/plugins/design-system-taglibs/grails-app/taglib/`
+- CSS variables: `grails/plugins/design-system-taglibs/web-app/css/design-system.css`
+
+**Publishing Scripts:**
+- Publish script: `grails/plugins/design-system-taglibs/publish-to-nexus.sh`
+- POM template: Generated by script
+- Target repository: Nexus thirdparty (`https://dev.khipu.com/nexus/content/repositories/thirdparty`)
+
+**Grails Implementation Guides:**
 - `docs/grails/GRAILS_IMPLEMENTATION_PLAN.md` - Full technical details
 - `docs/grails/README.md` - Overview and getting started
+- `docs/grails/PAYMENT_MIGRATION_GUIDE.md` - Migration guide for payment app
 
-**Payment Integration:**
-- Test page: http://localhost:8080/payment/designSystemTest
-- Refresh script: `/path/to/payment/refresh-design-system.sh`
-- BuildConfig location: `payment/grails-app/conf/BuildConfig.groovy`
+### Payment App Integration
+
+**Configuration:**
+- BuildConfig: `payment/grails-app/conf/BuildConfig.groovy`
+- Repository setup: Must include Nexus thirdparty BEFORE releases
+- Plugin dependency: `compile ':design-system-taglibs:0.1.X'`
+
+**Scripts:**
+- Refresh script: `payment/refresh-design-system.sh`
+- Usage: `./refresh-design-system.sh 0.1.X`
+- What it does: Cleans cache, updates BuildConfig, refreshes dependencies
+
+**Test Pages:**
+- Test page URL: http://localhost:8080/payment/designSystemTest
+- Available taglibs: Button, TextField, Card, Alert, Checkbox, Tabs, Spinner, Typography
+- CSS inspection: Use DevTools to verify `--kds-color-primary-main` variable
+
+**Common Locations:**
+- Plugin installation: `payment/target/work/plugins/design-system-taglibs-X.Y.Z/`
+- Maven Local cache: `~/.m2/repository/org/grails/plugins/design-system-taglibs/`
+- Grails cache: `~/.grails/2.5.6/projects/payment/`
+
+### Nexus Repository
+
+**Grails Plugin (Thirdparty):**
+- URL: https://dev.khipu.com/nexus/content/repositories/thirdparty
+- GroupId: `org.grails.plugins`
+- ArtifactId: `design-system-taglibs`
+- Packaging: ZIP
+- Credentials: deployment / [password in publish-to-nexus.sh]
+
+**Android Library (Design System):**
+- URL: https://dev.khipu.com/nexus/content/repositories/design-system
+- GroupId: `com.khipu`
+- ArtifactId: `design-system`
+- Packaging: AAR
+- Credentials: In `~/.gradle/gradle.properties`
+
+### Verification Commands
+
+```bash
+# Check Grails plugin on Nexus
+curl -I -u deployment:PASSWORD \
+  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.X/design-system-taglibs-0.1.X.zip"
+
+# Check Android library on Nexus
+curl -I -u USERNAME:PASSWORD \
+  "https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/0.1.0-alpha.X/design-system-0.1.0-alpha.X.aar"
+
+# Check Web package on npmjs.org
+npm view @khipu/design-system versions --json
+npm view @khipu/design-system@0.1.0-alpha.X
+```
 
 ---
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-03-16
 **Demo Time:** ~15 minutes
 **Platforms:** Web (React) + Android (Kotlin) + Grails (Groovy GSP)
-**Grails Publishing:** Nexus thirdparty repository (ZIP format via Maven)
+**Publishing Targets:**
+- **Web:** npmjs.org (public npm registry)
+- **Android:** Nexus design-system repository (Maven)
+- **Grails:** Nexus thirdparty repository (ZIP format via Maven)
 **Maintained by:** Design System Team
+
+**Recent Changes:**
+- 2026-03-16: Migrated npm publishing from AWS CodeArtifact to public npmjs.org
+- 2026-03-16: Migrated Android publishing from AWS CodeArtifact to Nexus

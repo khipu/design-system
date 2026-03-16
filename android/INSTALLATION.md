@@ -2,56 +2,31 @@
 
 Complete guide to install and use the Khipu Design System in your Android project.
 
-**Library Version:** `0.1.0-alpha.1`
-**Published:** ✅ Available in AWS CodeArtifact
+**Library Version:** `0.1.0-alpha.6`
+**Published:** ✅ Available in Nexus (dev.khipu.com)
 
 ---
 
 ## 📦 Quick Installation (5 Minutes)
 
-### Step 1: Configure AWS CodeArtifact Access
+### Step 1: Configure Nexus Credentials
 
 **One-time setup per machine:**
 
-```bash
-# 1. Create authentication script
-cat > ~/scripts/khipu-codeartifact.sh << 'EOF'
-#!/bin/bash
-export CODEARTIFACT_DOMAIN="khipu"
-export CODEARTIFACT_REPO="maven-packages"
-export CODEARTIFACT_REGION="us-east-1"
-export CODEARTIFACT_ACCOUNT_ID="375783675928"
+Create or edit `~/.gradle/gradle.properties`:
 
-export CODEARTIFACT_TOKEN=$(aws codeartifact get-authorization-token \
-  --domain $CODEARTIFACT_DOMAIN \
-  --domain-owner $CODEARTIFACT_ACCOUNT_ID \
-  --region $CODEARTIFACT_REGION \
-  --query authorizationToken \
-  --output text)
+```properties
+# Nexus Khipu Credentials
+khipuRepoUsername=deployment
+khipuRepoPassword=93h50sj2di2hd923
 
-export CODEARTIFACT_URL="https://${CODEARTIFACT_DOMAIN}-${CODEARTIFACT_ACCOUNT_ID}.d.codeartifact.${CODEARTIFACT_REGION}.amazonaws.com/maven/${CODEARTIFACT_REPO}/"
-
-echo "✅ CodeArtifact configured!"
-echo "⏰ Token expires in 12 hours"
-EOF
-
-# 2. Make it executable
-chmod +x ~/scripts/khipu-codeartifact.sh
-
-# 3. Run it (token expires every 12 hours)
-source ~/scripts/khipu-codeartifact.sh
+# Android SDK path (adjust to your system)
+sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk
+# Windows: sdk.dir=C\:\\Users\\YOUR_USERNAME\\AppData\\Local\\Android\\Sdk
+# Linux: sdk.dir=/home/YOUR_USERNAME/Android/Sdk
 ```
 
-**Output:**
-```
-✅ CodeArtifact configured!
-⏰ Token expires in 12 hours
-```
-
-**Optional:** Add to your shell profile to run automatically:
-```bash
-echo 'source ~/scripts/khipu-codeartifact.sh' >> ~/.zshrc
-```
+**⚠️ Security:** This file is local and should NOT be committed to Git (already in `.gitignore`)
 
 ---
 
@@ -59,7 +34,7 @@ echo 'source ~/scripts/khipu-codeartifact.sh' >> ~/.zshrc
 
 #### 2.1: Update `settings.gradle.kts`
 
-Add CodeArtifact repository:
+Add Nexus repository:
 
 ```kotlin
 pluginManagement {
@@ -76,14 +51,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 
-        // ✅ ADD THIS: Khipu CodeArtifact
+        // ✅ ADD THIS: Khipu Nexus Design System
         maven {
-            name = "KhipuCodeArtifact"
-            url = uri(System.getenv("CODEARTIFACT_URL") ?:
-                "https://khipu-375783675928.d.codeartifact.us-east-1.amazonaws.com/maven/maven-packages/")
+            name = "KhipuNexusDesignSystem"
+            url = uri("https://dev.khipu.com/nexus/content/repositories/design-system")
             credentials {
-                username = "aws"
-                password = System.getenv("CODEARTIFACT_TOKEN") ?: ""
+                username = extra.properties["khipuRepoUsername"] as String? ?: ""
+                password = extra.properties["khipuRepoPassword"] as String? ?: ""
             }
         }
     }
@@ -125,7 +99,7 @@ android {
 
 dependencies {
     // ✅ ADD THIS: Khipu Design System
-    implementation("com.khipu:design-system:0.1.0-alpha.1")
+    implementation("com.khipu:design-system:0.1.0-alpha.6")
 
     // Required: Compose BOM (if not already present)
     implementation(platform("androidx.compose:compose-bom:2024.11.00"))
@@ -157,7 +131,7 @@ dependencies {
 ```
 > Configure project :app
 Resolving dependencies...
-  Found: com.khipu:design-system:0.1.0-alpha.1 from KhipuCodeArtifact
+  Found: com.khipu:design-system:0.1.0-alpha.6 from KhipuNexusDesignSystem
 
 BUILD SUCCESSFUL
 ```
@@ -308,18 +282,18 @@ Run this preview in Android Studio. If it renders, installation is successful! �
 
 ## 🔧 Troubleshooting
 
-### "Failed to resolve: com.khipu:design-system:0.1.0-alpha.1"
+### "Failed to resolve: com.khipu:design-system:0.1.0-alpha.6"
 
-**Cause:** CodeArtifact token expired or not set.
+**Cause:** Nexus credentials not set or incorrect.
 
 **Solution:**
 ```bash
-# Regenerate token
-source ~/scripts/khipu-codeartifact.sh
+# Verify credentials in ~/.gradle/gradle.properties
+cat ~/.gradle/gradle.properties | grep khipuRepo
 
-# Verify environment variables
-echo $CODEARTIFACT_URL
-echo $CODEARTIFACT_TOKEN
+# Expected output:
+# khipuRepoUsername=deployment
+# khipuRepoPassword=93h50sj2di2hd923
 
 # Clean and rebuild
 ./gradlew clean build --refresh-dependencies
@@ -347,17 +321,25 @@ import com.khipu.designsystem.components.KdsButtonVariant
 import com.khipu.designsystem.components.KdsButtonColor
 ```
 
-### Token expires error
+### Nexus authentication error
 
-**Cause:** CodeArtifact tokens expire after 12 hours.
+**Cause:** Incorrect credentials or network issues.
 
 **Solution:**
 ```bash
-# Re-run the authentication script
-source ~/scripts/khipu-codeartifact.sh
+# Verify Nexus is accessible
+curl -I "https://dev.khipu.com/nexus/content/repositories/design-system/"
+# Should return HTTP 200
 
-# Then sync Gradle again
-./gradlew build --refresh-dependencies
+# Verify credentials
+cat ~/.gradle/gradle.properties | grep khipuRepo
+
+# Try manual download to test credentials
+curl -u deployment:93h50sj2di2hd923 \
+  "https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/maven-metadata.xml"
+
+# Clean and rebuild
+./gradlew clean build --refresh-dependencies
 ```
 
 ### "SDK location not found"
@@ -375,7 +357,7 @@ sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk
 
 ## 📚 Available Components
 
-Currently available in v0.1.0-alpha.1:
+Currently available in v0.1.0-alpha.6:
 
 ### KdsButton
 Full-featured button component with:
@@ -388,24 +370,24 @@ Full-featured button component with:
 - ✅ Full-width option
 
 **More components coming soon:**
-- TextField (next release)
-- Card (next release)
-- Typography helpers
-- Checkbox
-- Modal/Dialog
+- TextField (planned)
+- Card (planned)
+- Typography helpers (planned)
+- Checkbox (planned)
+- Modal/Dialog (planned)
 - And more...
 
 ---
 
 ## 🔄 Updating to Newer Versions
 
-When a new version is published:
+When a new version is published to Nexus:
 
 ### 1. Update dependency version
 
 **app/build.gradle.kts:**
 ```kotlin
-implementation("com.khipu:design-system:0.1.0-alpha.2") // Updated version
+implementation("com.khipu:design-system:0.1.0-alpha.7") // Updated version
 ```
 
 ### 2. Sync Gradle
@@ -420,6 +402,13 @@ Check the design system repository for:
 - New components
 - Breaking changes
 - Migration guides
+
+### 4. Verify Nexus has the new version
+
+```bash
+curl -u deployment:93h50sj2di2hd923 \
+  "https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/maven-metadata.xml"
+```
 
 ---
 
@@ -546,10 +535,11 @@ fun PaymentApp() {
 
 Before deploying your app with the design system:
 
-- [ ] CodeArtifact authentication configured
-- [ ] settings.gradle.kts updated with repository
-- [ ] app/build.gradle.kts updated with dependency
+- [ ] Nexus credentials configured in `~/.gradle/gradle.properties`
+- [ ] settings.gradle.kts updated with Nexus repository
+- [ ] app/build.gradle.kts updated with dependency (0.1.0-alpha.6)
 - [ ] Gradle synced successfully
+- [ ] Dependency downloaded from Nexus (check build output)
 - [ ] App wrapped with `KdsTheme`
 - [ ] Components rendering correctly
 - [ ] Light and dark modes tested
@@ -560,5 +550,8 @@ Before deploying your app with the design system:
 **Installation complete!** 🎉
 
 You're now ready to use the Khipu Design System in your Android app.
+
+**Published to:** Nexus (dev.khipu.com/nexus/content/repositories/design-system)
+**Current version:** 0.1.0-alpha.6
 
 For detailed component documentation, see [USAGE_GUIDE.md](USAGE_GUIDE.md).

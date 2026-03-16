@@ -2,69 +2,20 @@
 
 ## 📦 Plugin Publicado
 
-**Artifact:** `com.khipu:design-system-grails:0.1.0-alpha.1`
-**Ubicación:** AWS CodeArtifact
-**Repositorio:** `maven-packages`
-**Dominio:** `khipu`
+**Artifact:** `org.grails.plugins:design-system-taglibs:0.1.1`
+**Ubicación:** Nexus Thirdparty
+**Repositorio:** `https://dev.khipu.com/nexus/content/repositories/thirdparty`
+**Formato:** ZIP (Grails 2.x plugin)
 
 ---
 
 ## 🚀 Integración en ~/Code/payment
 
-### Paso 1: Configurar Autenticación con CodeArtifact
+### Paso 1: Configurar Repositorio Nexus
 
-#### Opción A: Usando AWS CLI (Recomendado)
+**Importante:** El plugin se publica como ZIP en Nexus **thirdparty**, no en CodeArtifact.
 
-Crea el archivo `~/.gradle/init.gradle` si no existe:
-
-```groovy
-import java.util.concurrent.TimeUnit
-
-def getCodeArtifactToken() {
-    def domain = 'khipu'
-    def domainOwner = '375783675928'
-    def region = 'us-east-1'
-
-    try {
-        def proc = ['aws', 'codeartifact', 'get-authorization-token',
-                    '--domain', domain,
-                    '--domain-owner', domainOwner,
-                    '--region', region,
-                    '--query', 'authorizationToken',
-                    '--output', 'text'].execute()
-
-        proc.waitFor(10, TimeUnit.SECONDS)
-        if (proc.exitValue() == 0) {
-            return proc.text.trim()
-        }
-    } catch (Exception e) {
-        println "⚠️ Warning: Could not get CodeArtifact token: ${e.message}"
-    }
-    return null
-}
-
-allprojects {
-    repositories {
-        maven {
-            name 'CodeArtifact'
-            url 'https://khipu-375783675928.d.codeartifact.us-east-1.amazonaws.com/maven/maven-packages/'
-            credentials {
-                username 'aws'
-                password getCodeArtifactToken()
-            }
-        }
-    }
-}
-```
-
-#### Opción B: Variables de Entorno
-
-Antes de ejecutar comandos Grails, configura las credenciales:
-
-```bash
-# Ejecutar antes de grails run-app o cualquier comando
-source ~/scripts/khipu-codeartifact-grails.sh
-```
+No se requiere configuración especial de Gradle. Las credenciales se configuran directamente en `BuildConfig.groovy`.
 
 ### Paso 2: Configurar BuildConfig.groovy
 
@@ -86,16 +37,29 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         mavenLocal()
+
+        // ⚠️ CRÍTICO: thirdparty DEBE ir ANTES de releases
+        // El repositorio releases tiene un ZIP corrupto del plugin
+        mavenRepo('https://dev.khipu.com/nexus/content/repositories/thirdparty') {
+            auth([
+                username: "deployment",
+                password: "93h50sj2di2hd923"
+            ])
+            grailsPlugins()
+        }
+
+        mavenRepo('https://dev.khipu.com/nexus/content/repositories/releases') {
+            auth([
+                username: "deployment",
+                password: "93h50sj2di2hd923"
+            ])
+            grailsPlugins()
+            grailsHome()
+            mavenLocal()
+        }
+
         grailsCentral()
         mavenCentral()
-
-        // AWS CodeArtifact para Design System
-        mavenRepo([
-            name: 'CodeArtifact',
-            url: 'https://khipu-375783675928.d.codeartifact.us-east-1.amazonaws.com/maven/maven-packages/'
-        ]) {
-            // Las credenciales se obtienen de ~/.gradle/init.gradle
-        }
     }
 
     dependencies {
@@ -105,17 +69,22 @@ grails.project.dependency.resolution = {
     plugins {
         // Tus plugins existentes...
 
-        // ✨ Khipu Design System
-        compile 'com.khipu:design-system-grails:0.1.0-alpha.1'
+        // ✨ Khipu Design System Taglibs
+        compile ':design-system-taglibs:0.1.1'
 
         // Otros plugins...
     }
 }
 ```
 
-### Paso 3: Incluir CSS en el Layout
+### Paso 3: Usar Taglibs (CSS se carga automáticamente)
 
-Edita tu layout principal (ej: `grails-app/views/layouts/main.gsp`):
+El plugin incluye CSS en `web-app/css/design-system.css` que se sirve automáticamente desde:
+```
+http://localhost:8080/payment/plugins/design-system-taglibs-0.1.1/css/design-system.css
+```
+
+**Opcional:** Si necesitas incluir el CSS explícitamente en tu layout:
 
 ```gsp
 <!DOCTYPE html>
@@ -123,9 +92,8 @@ Edita tu layout principal (ej: `grails-app/views/layouts/main.gsp`):
 <head>
     <title><g:layoutTitle default="Khipu Payment"/></title>
 
-    <!-- ✨ Khipu Design System CSS -->
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'kds-tokens.css', plugin: 'design-system-grails')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'kds-components.css', plugin: 'design-system-grails')}"/>
+    <!-- ✨ Khipu Design System CSS (opcional - se carga automáticamente) -->
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'design-system.css', plugin: 'design-system-taglibs')}"/>
 
     <!-- CSS existente -->
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}"/>
@@ -193,34 +161,53 @@ Ahora puedes usar el taglib `kds:button` en cualquier vista:
 
 ## 🔄 Actualizar el Plugin
 
-Cuando se publique una nueva versión:
+Cuando se publique una nueva versión en Nexus thirdparty:
 
 ```bash
 # 1. Actualizar versión en BuildConfig.groovy
 plugins {
-    compile 'com.khipu:design-system-grails:0.1.0-alpha.2'  // Nueva versión
+    compile ':design-system-taglibs:0.1.2'  // Nueva versión
 }
 
-# 2. Limpiar y refrescar dependencias
-grails clean
+# 2. Limpiar cache completamente
+rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
+rm -rf target/work/plugins/design-system-taglibs-*
+
+# 3. Refrescar dependencias
 grails refresh-dependencies
+
+# 4. Ejecutar app
 grails run-app
+```
+
+**O usar el script de actualización:**
+```bash
+./refresh-design-system.sh 0.1.2
 ```
 
 ---
 
 ## 🧪 Verificar Instalación
 
-### Verificar que el plugin se cargó
+### Verificar que el plugin se descargó
 
 ```bash
-# En el proyecto payment
-grails list-plugins | grep design-system
+# Verificar plugin instalado en directorio de trabajo
+ls -la target/work/plugins/ | grep design-system-taglibs
+
+# Debería mostrar:
+# design-system-taglibs-0.1.1/
 ```
 
-Debería mostrar:
-```
-design-system-grails-0.1.0-alpha.1
+### Verificar ZIP descargado correctamente
+
+```bash
+# Verificar tamaño del ZIP en Maven Local (debe ser ~11 KB, NO 8.7K)
+ls -lh ~/.m2/repository/org/grails/plugins/design-system-taglibs/0.1.1/*.zip
+
+# Verificar contenido del plugin
+ls -la target/work/plugins/design-system-taglibs-0.1.1/
+# Debe contener: grails-app/, web-app/, src/, plugin.xml, etc.
 ```
 
 ### Verificar CSS disponible
@@ -228,8 +215,13 @@ design-system-grails-0.1.0-alpha.1
 Después de ejecutar `grails run-app`, verifica en el navegador:
 
 ```
-http://localhost:8080/payment/static/plugins/design-system-grails/css/kds-tokens.css
-http://localhost:8080/payment/static/plugins/design-system-grails/css/kds-components.css
+http://localhost:8080/payment/plugins/design-system-taglibs-0.1.1/css/design-system.css
+```
+
+O verificar contenido:
+```bash
+cat target/work/plugins/design-system-taglibs-0.1.1/web-app/css/design-system.css | head -20
+# Debe mostrar CSS variables como --kds-color-primary-main
 ```
 
 ### Verificar taglib disponible
@@ -329,12 +321,50 @@ Crea una vista de prueba en `grails-app/views/test/button.gsp`:
 
 ## 🐛 Troubleshooting
 
-### Error: "Plugin design-system-grails not found"
+### Error: "Plugin design-system-taglibs not found"
 
-1. Verificar que CodeArtifact esté configurado en `~/.gradle/init.gradle`
-2. Regenerar token: `source ~/scripts/khipu-codeartifact-grails.sh`
-3. Limpiar caché: `grails clean && rm -rf ~/.grails/2.5.4/cached-installed-plugins`
-4. Refrescar: `grails refresh-dependencies`
+**Causa:** Nexus thirdparty no está configurado o está en el orden incorrecto.
+
+**Solución:**
+1. Verificar BuildConfig.groovy:
+   ```bash
+   grep -A 10 "repositories {" grails-app/conf/BuildConfig.groovy
+   ```
+
+2. Verificar que thirdparty esté ANTES de releases
+
+3. Limpiar caché completamente:
+   ```bash
+   rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
+   rm -rf target/work/plugins/design-system-taglibs-*
+   grails clean
+   ```
+
+4. Refrescar dependencias:
+   ```bash
+   grails refresh-dependencies
+   ```
+
+### Error: "Zip is not a valid plugin"
+
+**Causa:** ZIP descargado está corrupto (8.7K en lugar de 11K).
+
+**Solución:**
+```bash
+# Verificar orden de repositorios - thirdparty DEBE estar ANTES de releases
+grep -B 5 -A 10 "thirdparty\|releases" grails-app/conf/BuildConfig.groovy
+
+# Limpiar completamente
+rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
+rm -rf target/work/plugins/design-system-taglibs-*
+
+# Refrescar
+grails refresh-dependencies
+
+# Verificar descarga correcta
+ls -lh ~/.m2/repository/org/grails/plugins/design-system-taglibs/0.1.1/*.zip
+# Debe mostrar ~11 KB, NO 8.7K
+```
 
 ### Error: "Tag [button] does not exist. No tag library found for namespace: kds"
 
@@ -351,24 +381,38 @@ grails run-app
 
 ### CSS no se aplica
 
-1. Verificar que los archivos CSS estén accesibles:
-   ```
-   http://localhost:8080/[app-name]/static/plugins/design-system-grails/css/kds-tokens.css
-   ```
-
-2. Verificar en el HTML generado que los links estén presentes:
+1. Verificar que el archivo CSS esté en el plugin:
    ```bash
-   curl http://localhost:8080/[app-name]/[controller]/[action] | grep kds
+   ls target/work/plugins/design-system-taglibs-0.1.1/web-app/css/design-system.css
    ```
 
-3. Verificar orden de carga (Design System CSS debe ir antes del CSS de la app)
+2. Verificar que el CSS esté accesible (con grails run-app corriendo):
+   ```
+   http://localhost:8080/payment/plugins/design-system-taglibs-0.1.1/css/design-system.css
+   ```
 
-### Token de CodeArtifact expiró
+3. Verificar contenido del CSS:
+   ```bash
+   cat target/work/plugins/design-system-taglibs-0.1.1/web-app/css/design-system.css | grep "color-primary-main"
+   # Debe mostrar: --kds-color-primary-main: #8347AD;
+   ```
 
-Los tokens duran 12 horas. Regenerar:
+4. Verificar en el HTML generado:
+   ```bash
+   curl http://localhost:8080/payment/[controller]/[action] | grep design-system
+   ```
+
+### Nexus no accesible
+
+**Verificar conectividad:**
 ```bash
-source ~/scripts/khipu-codeartifact-grails.sh
-# Luego reiniciar la app
+# Probar acceso a Nexus thirdparty
+curl -I "https://dev.khipu.com/nexus/content/repositories/thirdparty/"
+# Debe retornar HTTP 200
+
+# Probar con credenciales
+curl -u deployment:93h50sj2di2hd923 \
+  "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/maven-metadata.xml"
 ```
 
 ---
@@ -378,15 +422,25 @@ source ~/scripts/khipu-codeartifact-grails.sh
 **Documentación completa:**
 - `grails/README.md` - Overview del módulo Grails
 - `grails/PUBLISHING.md` - Guía de publicación
+- `docs/grails/PAYMENT_MIGRATION_GUIDE.md` - ✅ Guía de migración completa (actualizada)
 - `docs/grails/GRAILS_IMPLEMENTATION_PLAN.md` - Plan de implementación
-- `docs/grails/FORM_COMPONENTS_PLAN.md` - Plan de componentes de formulario
+- `docs/grails/README.md` - Overview y getting started
+
+**Componentes disponibles (v0.1.1):**
+- ✅ KdsButton (3 variantes, 6 colores, 3 tamaños)
+- ✅ KdsTextField (text, email, number, password)
+- ✅ KdsCard (header, content, actions)
+- ✅ KdsAlert (success, error, warning, info)
+- ✅ KdsCheckbox
+- ✅ KdsTypography (10 variantes)
+- ✅ KdsTabs
+- ✅ KdsSpinner
 
 **Próximos componentes:**
-- KdsAlertTagLib
-- KdsTextFieldTagLib
-- KdsCheckboxTagLib
-- KdsSelectTagLib
-- KdsFormTagLib
+- KdsSelect (planned)
+- KdsRadio (planned)
+- KdsModal (planned)
 
-**Versión actual:** 0.1.0-alpha.1
-**Componentes disponibles:** KdsButton
+**Versión actual:** 0.1.1
+**Publicado en:** Nexus Thirdparty (dev.khipu.com/nexus/content/repositories/thirdparty)
+**Formato:** ZIP (Grails 2.x plugin)
