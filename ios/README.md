@@ -1,6 +1,6 @@
-# Khipu Design System - iOS
+# Khipu Design System - iOS (UIKit)
 
-SwiftUI components and design tokens for building consistent payment experiences on iOS.
+UIKit components and design tokens for building consistent payment experiences on iOS.
 
 ## Installation
 
@@ -9,7 +9,7 @@ SwiftUI components and design tokens for building consistent payment experiences
 Add to your `Podfile`:
 
 ```ruby
-pod 'KhipuDesignSystem', '~> 0.1.0-alpha.13'
+pod 'KhipuDesignSystem', '~> 0.1.0-alpha.15'
 ```
 
 Then run:
@@ -21,45 +21,63 @@ pod install
 ## Quick Start
 
 ```swift
-import SwiftUI
+import UIKit
 import KhipuDesignSystem
 
-struct PaymentView: View {
-    @State private var isProcessing = false
+class PaymentViewController: UIViewController {
+    private let payButton = KdsButton()
+    private let cancelButton = KdsButton()
+    private var isProcessing = false
 
-    var body: some View {
-        VStack(spacing: KdsTokens.Spacing.space3) {
-            // Primary action button
-            KdsButton("Pagar Ahora") {
-                handlePayment()
-            }
-            .loading(isProcessing)
-
-            // Secondary action
-            KdsButton("Cancelar", variant: .outlined, color: .error) {
-                handleCancel()
-            }
-
-            // Text button
-            KdsButton("Más información", variant: .text, color: .info) {
-                showInfo()
-            }
-            .fullWidth(false)
-        }
-        .padding(KdsTokens.Spacing.space2)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
     }
 
-    private func handlePayment() {
-        isProcessing = true
+    private func setupUI() {
+        view.backgroundColor = KdsTokens.Colors.backgroundDefault
+
+        // Primary action button
+        payButton.setTitle("Pagar Ahora", for: .normal)
+        payButton.variant = .contained
+        payButton.colorScheme = .primary
+        payButton.buttonSize = .large
+        payButton.fullWidth = true
+        payButton.addTarget(self, action: #selector(handlePayment), for: .touchUpInside)
+
+        // Secondary action button
+        cancelButton.setTitle("Cancelar", for: .normal)
+        cancelButton.variant = .outlined
+        cancelButton.colorScheme = .error
+        cancelButton.buttonSize = .large
+        cancelButton.fullWidth = true
+        cancelButton.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
+
+        // Layout
+        let stackView = UIStackView(arrangedSubviews: [payButton, cancelButton])
+        stackView.axis = .vertical
+        stackView.spacing = KdsTokens.Spacing.space2
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(stackView)
+
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: KdsTokens.Spacing.space3),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -KdsTokens.Spacing.space3),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -KdsTokens.Spacing.space3)
+        ])
+    }
+
+    @objc private func handlePayment() {
+        payButton.isLoading = true
         // Process payment...
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.payButton.isLoading = false
+        }
     }
 
-    private func handleCancel() {
+    @objc private func handleCancel() {
         // Handle cancellation
-    }
-
-    private func showInfo() {
-        // Show info
     }
 }
 ```
@@ -92,45 +110,54 @@ A versatile button component with multiple variants, colors, and states.
 
 ```swift
 // Basic button
-KdsButton("Confirmar") {
-    // Action
-}
+let button = KdsButton()
+button.setTitle("Confirmar", for: .normal)
+button.variant = .contained
+button.colorScheme = .primary
+button.addTarget(self, action: #selector(confirm), for: .touchUpInside)
+view.addSubview(button)
 
 // Outlined error button
-KdsButton("Eliminar", variant: .outlined, color: .error) {
-    // Delete action
-}
+let deleteButton = KdsButton()
+deleteButton.setTitle("Eliminar", for: .normal)
+deleteButton.variant = .outlined
+deleteButton.colorScheme = .error
+deleteButton.addTarget(self, action: #selector(delete), for: .touchUpInside)
 
 // Small text button
-KdsButton("Cancelar", variant: .text, size: .small) {
-    // Cancel
-}
-.fullWidth(false)
+let textButton = KdsButton()
+textButton.setTitle("Cancelar", for: .normal)
+textButton.variant = .text
+textButton.buttonSize = .small
+textButton.fullWidth = false
 
 // Loading state
-KdsButton("Procesando...") {
-    // Action
-}
-.loading(true)
+button.isLoading = true
+// Later...
+button.isLoading = false
 
 // Disabled state
-KdsButton("Continuar") {
-    // Action
-}
-.enabled(false)
+button.isEnabled = false
 
-// With custom width
-KdsButton("Aceptar") {
-    // Action
-}
-.fullWidth(false)
+// Programmatic layout with Auto Layout
+button.translatesAutoresizingMaskIntoConstraints = false
+NSLayoutConstraint.activate([
+    button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+    button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+    button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+])
+
+// Or with Interface Builder
+// 1. Add UIButton to storyboard
+// 2. Set custom class to "KdsButton"
+// 3. Configure in Interface Builder or code
 ```
 
 ## Design Tokens
 
 All design tokens are available through the `KdsTokens` struct.
 
-### Colors
+### Colors (UIColor)
 
 ```swift
 // Primary palette
@@ -165,9 +192,13 @@ KdsTokens.Colors.backgroundElevated
 KdsTokens.Colors.actionActive
 KdsTokens.Colors.actionHover
 KdsTokens.Colors.actionDisabled
+
+// Example usage
+label.textColor = KdsTokens.Colors.textPrimary
+view.backgroundColor = KdsTokens.Colors.backgroundDefault
 ```
 
-### Typography
+### Typography (CGFloat)
 
 ```swift
 // Font sizes
@@ -181,10 +212,10 @@ KdsTokens.Typography.fontSizeSize3Xl  // 30pt
 KdsTokens.Typography.fontSizeSize4Xl  // 36pt
 
 // Font weights
-KdsTokens.Typography.fontWeightRegular    // .regular
-KdsTokens.Typography.fontWeightMedium     // .medium
-KdsTokens.Typography.fontWeightSemiBold   // .semibold
-KdsTokens.Typography.fontWeightBold       // .bold
+KdsTokens.Typography.fontWeightRegular    // UIFont.Weight.regular
+KdsTokens.Typography.fontWeightMedium     // UIFont.Weight.medium
+KdsTokens.Typography.fontWeightSemiBold   // UIFont.Weight.semibold
+KdsTokens.Typography.fontWeightBold       // UIFont.Weight.bold
 
 // Line heights
 KdsTokens.Typography.lineHeightTight      // 1.2
@@ -194,15 +225,15 @@ KdsTokens.Typography.lineHeightRelaxed    // 1.66
 KdsTokens.Typography.lineHeightLoose      // 2.0
 
 // Example usage
-Text("Título")
-    .font(.system(
-        size: KdsTokens.Typography.fontSizeLg,
-        weight: KdsTokens.Typography.fontWeightBold
-    ))
-    .foregroundColor(KdsTokens.Colors.textPrimary)
+let titleLabel = UILabel()
+titleLabel.font = UIFont.systemFont(
+    ofSize: KdsTokens.Typography.fontSizeLg,
+    weight: KdsTokens.Typography.fontWeightBold
+)
+titleLabel.textColor = KdsTokens.Colors.textPrimary
 ```
 
-### Spacing
+### Spacing (CGFloat)
 
 ```swift
 // Base spacing scale (8pt grid)
@@ -229,13 +260,18 @@ KdsTokens.Spacing.buttonPaddingX
 KdsTokens.Spacing.sectionGap
 
 // Example usage
-VStack(spacing: KdsTokens.Spacing.space2) {
-    // Content
-}
-.padding(KdsTokens.Spacing.space3)
+let stackView = UIStackView()
+stackView.spacing = KdsTokens.Spacing.space2
+
+view.layoutMargins = UIEdgeInsets(
+    top: KdsTokens.Spacing.space3,
+    left: KdsTokens.Spacing.space3,
+    bottom: KdsTokens.Spacing.space3,
+    right: KdsTokens.Spacing.space3
+)
 ```
 
-### Border Radius
+### Border Radius (CGFloat)
 
 ```swift
 KdsTokens.BorderRadius.button     // 4pt
@@ -244,10 +280,11 @@ KdsTokens.BorderRadius.input      // 4pt
 KdsTokens.BorderRadius.dialog     // 8pt
 
 // Example usage
-RoundedRectangle(cornerRadius: KdsTokens.BorderRadius.card)
+cardView.layer.cornerRadius = KdsTokens.BorderRadius.card
+cardView.clipsToBounds = true
 ```
 
-### Transitions
+### Transitions (milliseconds)
 
 ```swift
 KdsTokens.Transitions.fast      // 150ms
@@ -255,70 +292,100 @@ KdsTokens.Transitions.normal    // 300ms
 KdsTokens.Transitions.slow      // 500ms
 
 // Example usage
-.animation(.easeInOut(duration: KdsTokens.Transitions.normal / 1000))
+UIView.animate(withDuration: KdsTokens.Transitions.normal / 1000) {
+    view.alpha = 0
+}
 ```
 
 ## Complete Example
 
 ```swift
-import SwiftUI
+import UIKit
 import KhipuDesignSystem
 
-struct PaymentFlowView: View {
-    @State private var amount: String = ""
-    @State private var isProcessing = false
+class PaymentFlowViewController: UIViewController {
+    // UI Components
+    private let amountLabel = UILabel()
+    private let payButton = KdsButton()
+    private let cancelButton = KdsButton()
+    private let cardView = UIView()
 
-    var body: some View {
-        VStack(spacing: KdsTokens.Spacing.space3) {
-            // Header
-            Text("Confirmar Pago")
-                .font(.system(
-                    size: KdsTokens.Typography.fontSizeSize2Xl,
-                    weight: KdsTokens.Typography.fontWeightBold
-                ))
-                .foregroundColor(KdsTokens.Colors.textPrimary)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+    }
 
-            // Amount display
-            HStack {
-                Text("Monto:")
-                    .foregroundColor(KdsTokens.Colors.textSecondary)
-                Spacer()
-                Text("$\(amount)")
-                    .font(.system(
-                        size: KdsTokens.Typography.fontSizeXl,
-                        weight: KdsTokens.Typography.fontWeightBold
-                    ))
-                    .foregroundColor(KdsTokens.Colors.primaryMain)
-            }
-            .padding(KdsTokens.Spacing.cardPaddingX)
-            .background(KdsTokens.Colors.backgroundElevated)
-            .cornerRadius(KdsTokens.BorderRadius.card)
+    private func setupUI() {
+        view.backgroundColor = KdsTokens.Colors.backgroundDefault
 
-            Spacer()
+        // Card container
+        cardView.backgroundColor = KdsTokens.Colors.backgroundElevated
+        cardView.layer.cornerRadius = KdsTokens.BorderRadius.card
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(cardView)
 
-            // Action buttons
-            VStack(spacing: KdsTokens.Spacing.space2) {
-                KdsButton("Pagar Ahora") {
-                    processPayment()
-                }
-                .loading(isProcessing)
+        // Amount label
+        amountLabel.text = "$50.000"
+        amountLabel.font = UIFont.systemFont(
+            ofSize: KdsTokens.Typography.fontSizeSize2Xl,
+            weight: KdsTokens.Typography.fontWeightBold
+        )
+        amountLabel.textColor = KdsTokens.Colors.primaryMain
+        amountLabel.textAlignment = .center
+        amountLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(amountLabel)
 
-                KdsButton("Cancelar", variant: .outlined, color: .error) {
-                    cancelPayment()
-                }
-            }
+        // Pay button
+        payButton.setTitle("Pagar Ahora", for: .normal)
+        payButton.variant = .contained
+        payButton.colorScheme = .primary
+        payButton.fullWidth = true
+        payButton.addTarget(self, action: #selector(processPayment), for: .touchUpInside)
+
+        // Cancel button
+        cancelButton.setTitle("Cancelar", for: .normal)
+        cancelButton.variant = .outlined
+        cancelButton.colorScheme = .error
+        cancelButton.fullWidth = true
+        cancelButton.addTarget(self, action: #selector(cancelPayment), for: .touchUpInside)
+
+        // Button stack
+        let buttonStack = UIStackView(arrangedSubviews: [payButton, cancelButton])
+        buttonStack.axis = .vertical
+        buttonStack.spacing = KdsTokens.Spacing.space2
+        buttonStack.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(buttonStack)
+
+        // Layout constraints
+        NSLayoutConstraint.activate([
+            // Card
+            cardView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: KdsTokens.Spacing.space4),
+            cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: KdsTokens.Spacing.space3),
+            cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -KdsTokens.Spacing.space3),
+            cardView.heightAnchor.constraint(equalToConstant: 120),
+
+            // Amount label
+            amountLabel.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
+            amountLabel.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
+
+            // Buttons
+            buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: KdsTokens.Spacing.space3),
+            buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -KdsTokens.Spacing.space3),
+            buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -KdsTokens.Spacing.space3)
+        ])
+    }
+
+    @objc private func processPayment() {
+        payButton.isLoading = true
+        // Simulate API call
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.payButton.isLoading = false
+            // Handle success
         }
-        .padding(KdsTokens.Spacing.space3)
-        .background(KdsTokens.Colors.backgroundDefault)
     }
 
-    private func processPayment() {
-        isProcessing = true
-        // Process payment...
-    }
-
-    private func cancelPayment() {
-        // Handle cancellation
+    @objc private func cancelPayment() {
+        dismiss(animated: true)
     }
 }
 ```
@@ -326,7 +393,7 @@ struct PaymentFlowView: View {
 ## Requirements
 
 - iOS 15.0+
-- Swift 5.9+
+- UIKit
 - Xcode 14.0+
 
 ## Documentation

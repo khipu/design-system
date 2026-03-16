@@ -96,17 +96,17 @@ function remToPixels(remValue) {
 }
 
 /**
- * Convert hex color to Swift Color format
+ * Convert hex color to UIColor format
  */
-function hexToSwiftColor(colorValue) {
-  if (!colorValue) return 'Color.clear';
+function hexToUIColor(colorValue) {
+  if (!colorValue) return 'UIColor.clear';
 
   // Handle rgba() format
   if (colorValue.startsWith('rgba(')) {
     const match = colorValue.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
     if (match) {
       const [, r, g, b, a] = match;
-      return `Color(red: ${parseInt(r)/255}, green: ${parseInt(g)/255}, blue: ${parseInt(b)/255}, opacity: ${a})`;
+      return `UIColor(red: ${parseInt(r)/255}, green: ${parseInt(g)/255}, blue: ${parseInt(b)/255}, alpha: ${a})`;
     }
   }
 
@@ -115,13 +115,16 @@ function hexToSwiftColor(colorValue) {
     const match = colorValue.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
     if (match) {
       const [, r, g, b] = match;
-      return `Color(red: ${parseInt(r)/255}, green: ${parseInt(g)/255}, blue: ${parseInt(b)/255})`;
+      return `UIColor(red: ${parseInt(r)/255}, green: ${parseInt(g)/255}, blue: ${parseInt(b)/255}, alpha: 1.0)`;
     }
   }
 
-  // Handle hex colors - return hex string for Color extension
+  // Handle hex colors
   const cleanHex = colorValue.replace('#', '');
-  return `Color(hex: "${cleanHex}")`;
+  const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
+  const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
+  const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
+  return `UIColor(red: ${r.toFixed(3)}, green: ${g.toFixed(3)}, blue: ${b.toFixed(3)}, alpha: 1.0)`;
 }
 
 /**
@@ -130,7 +133,7 @@ function hexToSwiftColor(colorValue) {
 function generateSwift(tokens) {
   const lines = [];
 
-  lines.push(`import SwiftUI`);
+  lines.push(`import UIKit`);
   lines.push(``);
   lines.push(`/**`);
   lines.push(` * Khipu Design System - Design Tokens`);
@@ -142,35 +145,6 @@ function generateSwift(tokens) {
   lines.push(` * To regenerate:`);
   lines.push(` *   cd design-system && npm run tokens:generate`);
   lines.push(` */`);
-  lines.push(``);
-
-  // Color extension for hex support
-  lines.push(`// MARK: - Color Extension`);
-  lines.push(`extension Color {`);
-  lines.push(`    init(hex: String) {`);
-  lines.push(`        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)`);
-  lines.push(`        var int: UInt64 = 0`);
-  lines.push(`        Scanner(string: hex).scanHexInt64(&int)`);
-  lines.push(`        let a, r, g, b: UInt64`);
-  lines.push(`        switch hex.count {`);
-  lines.push(`        case 3: // RGB (12-bit)`);
-  lines.push(`            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)`);
-  lines.push(`        case 6: // RGB (24-bit)`);
-  lines.push(`            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)`);
-  lines.push(`        case 8: // ARGB (32-bit)`);
-  lines.push(`            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)`);
-  lines.push(`        default:`);
-  lines.push(`            (a, r, g, b) = (255, 0, 0, 0)`);
-  lines.push(`        }`);
-  lines.push(`        self.init(`);
-  lines.push(`            .sRGB,`);
-  lines.push(`            red: Double(r) / 255,`);
-  lines.push(`            green: Double(g) / 255,`);
-  lines.push(`            blue:  Double(b) / 255,`);
-  lines.push(`            opacity: Double(a) / 255`);
-  lines.push(`        )`);
-  lines.push(`    }`);
-  lines.push(`}`);
   lines.push(``);
 
   // =============================================================================
@@ -186,70 +160,70 @@ function generateSwift(tokens) {
   lines.push(`    // MARK: - Colors`);
   lines.push(`    public struct Colors {`);
   lines.push(`        // Primary palette`);
-  lines.push(`        public static let primaryMain = ${hexToSwiftColor(tokens.colors.primary.main)}`);
-  lines.push(`        public static let primaryLight = ${hexToSwiftColor(tokens.colors.primary.light)}`);
-  lines.push(`        public static let primaryDark = ${hexToSwiftColor(tokens.colors.primary.dark)}`);
-  lines.push(`        public static let primaryContrastText = ${hexToSwiftColor(tokens.colors.primary.contrastText)}`);
+  lines.push(`        public static let primaryMain = ${hexToUIColor(tokens.colors.primary.main)}`);
+  lines.push(`        public static let primaryLight = ${hexToUIColor(tokens.colors.primary.light)}`);
+  lines.push(`        public static let primaryDark = ${hexToUIColor(tokens.colors.primary.dark)}`);
+  lines.push(`        public static let primaryContrastText = ${hexToUIColor(tokens.colors.primary.contrastText)}`);
   lines.push(`        `);
 
   lines.push(`        // Secondary palette`);
-  lines.push(`        public static let secondaryMain = ${hexToSwiftColor(tokens.colors.secondary.main)}`);
-  lines.push(`        public static let secondaryLight = ${hexToSwiftColor(tokens.colors.secondary.light)}`);
-  lines.push(`        public static let secondaryDark = ${hexToSwiftColor(tokens.colors.secondary.dark)}`);
-  lines.push(`        public static let secondaryContrastText = ${hexToSwiftColor(tokens.colors.secondary.contrastText)}`);
+  lines.push(`        public static let secondaryMain = ${hexToUIColor(tokens.colors.secondary.main)}`);
+  lines.push(`        public static let secondaryLight = ${hexToUIColor(tokens.colors.secondary.light)}`);
+  lines.push(`        public static let secondaryDark = ${hexToUIColor(tokens.colors.secondary.dark)}`);
+  lines.push(`        public static let secondaryContrastText = ${hexToUIColor(tokens.colors.secondary.contrastText)}`);
   lines.push(`        `);
 
   lines.push(`        // Success`);
-  lines.push(`        public static let successMain = ${hexToSwiftColor(tokens.colors.success.main)}`);
-  lines.push(`        public static let successLight = ${hexToSwiftColor(tokens.colors.success.light)}`);
-  lines.push(`        public static let successDark = ${hexToSwiftColor(tokens.colors.success.dark)}`);
-  lines.push(`        public static let successContrastText = ${hexToSwiftColor(tokens.colors.success.contrastText)}`);
+  lines.push(`        public static let successMain = ${hexToUIColor(tokens.colors.success.main)}`);
+  lines.push(`        public static let successLight = ${hexToUIColor(tokens.colors.success.light)}`);
+  lines.push(`        public static let successDark = ${hexToUIColor(tokens.colors.success.dark)}`);
+  lines.push(`        public static let successContrastText = ${hexToUIColor(tokens.colors.success.contrastText)}`);
   lines.push(`        `);
 
   lines.push(`        // Warning`);
-  lines.push(`        public static let warningMain = ${hexToSwiftColor(tokens.colors.warning.main)}`);
-  lines.push(`        public static let warningLight = ${hexToSwiftColor(tokens.colors.warning.light)}`);
-  lines.push(`        public static let warningDark = ${hexToSwiftColor(tokens.colors.warning.dark)}`);
-  lines.push(`        public static let warningContrastText = ${hexToSwiftColor(tokens.colors.warning.contrastText)}`);
+  lines.push(`        public static let warningMain = ${hexToUIColor(tokens.colors.warning.main)}`);
+  lines.push(`        public static let warningLight = ${hexToUIColor(tokens.colors.warning.light)}`);
+  lines.push(`        public static let warningDark = ${hexToUIColor(tokens.colors.warning.dark)}`);
+  lines.push(`        public static let warningContrastText = ${hexToUIColor(tokens.colors.warning.contrastText)}`);
   lines.push(`        `);
 
   lines.push(`        // Error`);
-  lines.push(`        public static let errorMain = ${hexToSwiftColor(tokens.colors.error.main)}`);
-  lines.push(`        public static let errorLight = ${hexToSwiftColor(tokens.colors.error.light)}`);
-  lines.push(`        public static let errorDark = ${hexToSwiftColor(tokens.colors.error.dark)}`);
-  lines.push(`        public static let errorContrastText = ${hexToSwiftColor(tokens.colors.error.contrastText)}`);
+  lines.push(`        public static let errorMain = ${hexToUIColor(tokens.colors.error.main)}`);
+  lines.push(`        public static let errorLight = ${hexToUIColor(tokens.colors.error.light)}`);
+  lines.push(`        public static let errorDark = ${hexToUIColor(tokens.colors.error.dark)}`);
+  lines.push(`        public static let errorContrastText = ${hexToUIColor(tokens.colors.error.contrastText)}`);
   lines.push(`        `);
 
   lines.push(`        // Info`);
-  lines.push(`        public static let infoMain = ${hexToSwiftColor(tokens.colors.info.main)}`);
-  lines.push(`        public static let infoLight = ${hexToSwiftColor(tokens.colors.info.light)}`);
-  lines.push(`        public static let infoDark = ${hexToSwiftColor(tokens.colors.info.dark)}`);
-  lines.push(`        public static let infoContrastText = ${hexToSwiftColor(tokens.colors.info.contrastText)}`);
+  lines.push(`        public static let infoMain = ${hexToUIColor(tokens.colors.info.main)}`);
+  lines.push(`        public static let infoLight = ${hexToUIColor(tokens.colors.info.light)}`);
+  lines.push(`        public static let infoDark = ${hexToUIColor(tokens.colors.info.dark)}`);
+  lines.push(`        public static let infoContrastText = ${hexToUIColor(tokens.colors.info.contrastText)}`);
   lines.push(`        `);
 
   lines.push(`        // Text colors`);
-  lines.push(`        public static let textPrimary = ${hexToSwiftColor(tokens.colors.text.primary)}`);
-  lines.push(`        public static let textSecondary = ${hexToSwiftColor(tokens.colors.text.secondary)}`);
-  lines.push(`        public static let textDisabled = ${hexToSwiftColor(tokens.colors.text.disabled)}`);
+  lines.push(`        public static let textPrimary = ${hexToUIColor(tokens.colors.text.primary)}`);
+  lines.push(`        public static let textSecondary = ${hexToUIColor(tokens.colors.text.secondary)}`);
+  lines.push(`        public static let textDisabled = ${hexToUIColor(tokens.colors.text.disabled)}`);
   lines.push(`        `);
 
   lines.push(`        // Background colors`);
-  lines.push(`        public static let backgroundDefault = ${hexToSwiftColor(tokens.colors.background.default)}`);
-  lines.push(`        public static let backgroundPaper = ${hexToSwiftColor(tokens.colors.background.paper)}`);
-  lines.push(`        public static let backgroundElevated = ${hexToSwiftColor(tokens.colors.background.elevated)}`);
+  lines.push(`        public static let backgroundDefault = ${hexToUIColor(tokens.colors.background.default)}`);
+  lines.push(`        public static let backgroundPaper = ${hexToUIColor(tokens.colors.background.paper)}`);
+  lines.push(`        public static let backgroundElevated = ${hexToUIColor(tokens.colors.background.elevated)}`);
   lines.push(`        `);
 
   lines.push(`        // Action colors`);
-  lines.push(`        public static let actionActive = ${hexToSwiftColor(tokens.colors.action.active)}`);
-  lines.push(`        public static let actionHover = ${hexToSwiftColor(tokens.colors.action.hover)}`);
-  lines.push(`        public static let actionSelected = ${hexToSwiftColor(tokens.colors.action.selected)}`);
-  lines.push(`        public static let actionDisabled = ${hexToSwiftColor(tokens.colors.action.disabled)}`);
-  lines.push(`        public static let actionDisabledBackground = ${hexToSwiftColor(tokens.colors.action.disabledBackground)}`);
-  lines.push(`        public static let actionFocus = ${hexToSwiftColor(tokens.colors.action.focus)}`);
+  lines.push(`        public static let actionActive = ${hexToUIColor(tokens.colors.action.active)}`);
+  lines.push(`        public static let actionHover = ${hexToUIColor(tokens.colors.action.hover)}`);
+  lines.push(`        public static let actionSelected = ${hexToUIColor(tokens.colors.action.selected)}`);
+  lines.push(`        public static let actionDisabled = ${hexToUIColor(tokens.colors.action.disabled)}`);
+  lines.push(`        public static let actionDisabledBackground = ${hexToUIColor(tokens.colors.action.disabledBackground)}`);
+  lines.push(`        public static let actionFocus = ${hexToUIColor(tokens.colors.action.focus)}`);
   lines.push(`        `);
 
   lines.push(`        // Divider`);
-  lines.push(`        public static let divider = ${hexToSwiftColor(tokens.colors.divider)}`);
+  lines.push(`        public static let divider = ${hexToUIColor(tokens.colors.divider)}`);
   lines.push(`    }`);
   lines.push(`    `);
 
@@ -259,10 +233,10 @@ function generateSwift(tokens) {
   lines.push(`    // MARK: - Typography`);
   lines.push(`    public struct Typography {`);
   lines.push(`        // Font weights`);
-  lines.push(`        public static let fontWeightRegular: Font.Weight = .regular`);
-  lines.push(`        public static let fontWeightMedium: Font.Weight = .medium`);
-  lines.push(`        public static let fontWeightSemiBold: Font.Weight = .semibold`);
-  lines.push(`        public static let fontWeightBold: Font.Weight = .bold`);
+  lines.push(`        public static let fontWeightRegular: UIFont.Weight = .regular`);
+  lines.push(`        public static let fontWeightMedium: UIFont.Weight = .medium`);
+  lines.push(`        public static let fontWeightSemiBold: UIFont.Weight = .semibold`);
+  lines.push(`        public static let fontWeightBold: UIFont.Weight = .bold`);
   lines.push(`        `);
 
   lines.push(`        // Font sizes`);

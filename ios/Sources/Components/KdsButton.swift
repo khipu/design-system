@@ -1,18 +1,25 @@
-import SwiftUI
+import UIKit
 
 /**
- * Khipu Design System - Button Component
+ * Khipu Design System - Button Component (UIKit)
  *
- * A themed button component with variants (contained, outlined, text),
- * color schemes, sizes, and loading state support.
+ * A themed button component built on UIButton with variants, colors, sizes,
+ * and loading state support.
  *
- * Built with SwiftUI following Material Design principles.
+ * Usage:
+ * ```swift
+ * let button = KdsButton()
+ * button.setTitle("Pagar Ahora", for: .normal)
+ * button.variant = .contained
+ * button.color = .primary
+ * button.addTarget(self, action: #selector(handlePayment), for: .touchUpInside)
+ * ```
  */
 
 // MARK: - Button Variant
 
 /// Visual style variant for KdsButton
-public enum KdsButtonVariant {
+@objc public enum KdsButtonVariant: Int {
     /// Filled button with solid background color
     case contained
     /// Button with border and transparent background
@@ -24,7 +31,7 @@ public enum KdsButtonVariant {
 // MARK: - Button Color
 
 /// Color scheme for KdsButton
-public enum KdsButtonColor {
+@objc public enum KdsButtonColor: Int {
     case primary
     case secondary
     case success
@@ -36,7 +43,7 @@ public enum KdsButtonColor {
 // MARK: - Button Size
 
 /// Size variant for KdsButton
-public enum KdsButtonSize {
+@objc public enum KdsButtonSize: Int {
     case small
     case medium
     case large
@@ -57,14 +64,6 @@ public enum KdsButtonSize {
         }
     }
 
-    var verticalPadding: CGFloat {
-        switch self {
-        case .small: return 6
-        case .medium: return 10
-        case .large: return 14
-        }
-    }
-
     var fontSize: CGFloat {
         switch self {
         case .small: return KdsTokens.Typography.fontSizeSm
@@ -76,156 +75,166 @@ public enum KdsButtonSize {
 
 // MARK: - Button Component
 
-/// Khipu Design System Button
+/// Khipu Design System Button (UIKit)
 ///
 /// A versatile button component with multiple variants, colors, and states.
 ///
 /// **Example:**
 /// ```swift
-/// KdsButton("Pay Now") {
-///     // Handle tap
-/// }
-/// .variant(.contained)
-/// .color(.primary)
-/// .loading(isProcessing)
-///
-/// KdsButton("Cancel", variant: .outlined, color: .error) {
-///     // Handle tap
-/// }
+/// let button = KdsButton()
+/// button.setTitle("Pagar Ahora", for: .normal)
+/// button.variant = .contained
+/// button.color = .primary
+/// button.size = .large
+/// button.addTarget(self, action: #selector(handlePayment), for: .touchUpInside)
+/// view.addSubview(button)
 /// ```
-public struct KdsButton: View {
+@IBDesignable
+public class KdsButton: UIButton {
+
     // MARK: - Properties
 
-    private let title: String
-    private let action: () -> Void
-    private var variant: KdsButtonVariant
-    private var color: KdsButtonColor
-    private var size: KdsButtonSize
-    private var isEnabled: Bool
-    private var isLoading: Bool
-    private var fullWidth: Bool
-    private var leadingIcon: Image?
-    private var trailingIcon: Image?
-
-    // MARK: - Initializer
-
-    /// Creates a button with the specified title and action
-    ///
-    /// - Parameters:
-    ///   - title: The button label text
-    ///   - variant: Visual style variant (default: .contained)
-    ///   - color: Color scheme (default: .primary)
-    ///   - size: Button size (default: .large)
-    ///   - action: Callback when button is tapped
-    public init(
-        _ title: String,
-        variant: KdsButtonVariant = .contained,
-        color: KdsButtonColor = .primary,
-        size: KdsButtonSize = .large,
-        action: @escaping () -> Void
-    ) {
-        self.title = title
-        self.action = action
-        self.variant = variant
-        self.color = color
-        self.size = size
-        self.isEnabled = true
-        self.isLoading = false
-        self.fullWidth = false
-        self.leadingIcon = nil
-        self.trailingIcon = nil
+    /// Visual style variant
+    @IBInspectable public var variant: KdsButtonVariant = .contained {
+        didSet { updateAppearance() }
     }
 
-    // MARK: - Body
+    /// Color scheme
+    @IBInspectable public var colorScheme: KdsButtonColor = .primary {
+        didSet { updateAppearance() }
+    }
 
-    public var body: some View {
-        Button(action: {
-            if !isLoading && isEnabled {
-                action()
-            }
-        }) {
-            HStack(spacing: 8) {
-                if isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: contentColor))
-                        .scaleEffect(0.8)
-                } else {
-                    if let icon = leadingIcon {
-                        icon
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20, height: 20)
-                    }
+    /// Button size
+    @IBInspectable public var buttonSize: KdsButtonSize = .large {
+        didSet { updateAppearance() }
+    }
 
-                    Text(title)
-                        .font(.system(size: size.fontSize, weight: .medium))
-                        .lineLimit(1)
+    /// Loading state - shows activity indicator
+    @IBInspectable public var isLoading: Bool = false {
+        didSet { updateLoadingState() }
+    }
 
-                    if let icon = trailingIcon {
-                        icon
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20, height: 20)
-                    }
-                }
-            }
-            .foregroundColor(contentColor)
-            .frame(maxWidth: fullWidth ? .infinity : nil)
-            .frame(height: size.height)
-            .padding(.horizontal, size.horizontalPadding)
-            .background(backgroundColor)
-            .cornerRadius(KdsTokens.BorderRadius.button)
-            .overlay(
-                RoundedRectangle(cornerRadius: KdsTokens.BorderRadius.button)
-                    .stroke(borderColor, lineWidth: borderWidth)
-            )
+    /// Full width button
+    @IBInspectable public var fullWidth: Bool = false {
+        didSet { invalidateIntrinsicContentSize() }
+    }
+
+    // Private properties
+    private let activityIndicator = UIActivityIndicatorView(style: .medium)
+    private var originalTitle: String?
+
+    // MARK: - Initializers
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+
+    private func commonInit() {
+        setupActivityIndicator()
+        updateAppearance()
+
+        // Set default font
+        titleLabel?.font = UIFont.systemFont(ofSize: buttonSize.fontSize, weight: .medium)
+    }
+
+    // MARK: - Setup
+
+    private func setupActivityIndicator() {
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
+        addSubview(activityIndicator)
+
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+
+    // MARK: - Appearance
+
+    private func updateAppearance() {
+        layer.cornerRadius = KdsTokens.BorderRadius.button
+        clipsToBounds = true
+
+        // Content edge insets
+        let horizontalPadding = buttonSize.horizontalPadding
+        contentEdgeInsets = UIEdgeInsets(
+            top: 0,
+            left: horizontalPadding,
+            bottom: 0,
+            right: horizontalPadding
+        )
+
+        // Update colors
+        updateColors()
+
+        // Update border
+        switch variant {
+        case .outlined:
+            layer.borderWidth = 1
+            layer.borderColor = mainColor.cgColor
+        case .contained, .text:
+            layer.borderWidth = 0
         }
-        .disabled(!isEnabled || isLoading)
-        .opacity(isEnabled && !isLoading ? 1.0 : 0.6)
+
+        // Update font
+        titleLabel?.font = UIFont.systemFont(ofSize: buttonSize.fontSize, weight: .medium)
+
+        invalidateIntrinsicContentSize()
     }
 
-    // MARK: - Color Helpers
+    private func updateColors() {
+        let bgColor = backgroundColor(for: variant, color: colorScheme, state: state)
+        let textColor = contentColor(for: variant, color: colorScheme, state: state)
 
-    private var backgroundColor: Color {
-        guard isEnabled || isLoading else {
+        setBackgroundColor(bgColor, for: .normal)
+        setTitleColor(textColor, for: .normal)
+
+        // Disabled state
+        let disabledBg = backgroundColor(for: variant, color: colorScheme, state: .disabled)
+        let disabledText = KdsTokens.Colors.actionDisabled
+
+        setBackgroundColor(disabledBg, for: .disabled)
+        setTitleColor(disabledText, for: .disabled)
+
+        // Highlighted state (when pressed)
+        setBackgroundColor(bgColor.withAlphaComponent(0.8), for: .highlighted)
+    }
+
+    private func backgroundColor(for variant: KdsButtonVariant, color: KdsButtonColor, state: UIControl.State) -> UIColor {
+        if state == .disabled {
             return variant == .contained ? KdsTokens.Colors.actionDisabledBackground : .clear
         }
 
         switch variant {
         case .contained:
-            return mainColor
+            return mainColorForScheme(color)
         case .outlined, .text:
             return .clear
         }
     }
 
-    private var contentColor: Color {
-        guard isEnabled || isLoading else {
+    private func contentColor(for variant: KdsButtonVariant, color: KdsButtonColor, state: UIControl.State) -> UIColor {
+        if state == .disabled {
             return KdsTokens.Colors.actionDisabled
         }
 
         switch variant {
         case .contained:
-            return contrastColor
+            return contrastColorForScheme(color)
         case .outlined, .text:
-            return mainColor
+            return mainColorForScheme(color)
         }
     }
 
-    private var borderColor: Color {
-        guard isEnabled || isLoading else {
-            return KdsTokens.Colors.actionDisabled
-        }
-
-        return variant == .outlined ? mainColor : .clear
-    }
-
-    private var borderWidth: CGFloat {
-        return variant == .outlined ? 1 : 0
-    }
-
-    private var mainColor: Color {
-        switch color {
+    private func mainColorForScheme(_ colorScheme: KdsButtonColor) -> UIColor {
+        switch colorScheme {
         case .primary: return KdsTokens.Colors.primaryMain
         case .secondary: return KdsTokens.Colors.secondaryMain
         case .success: return KdsTokens.Colors.successMain
@@ -235,8 +244,8 @@ public struct KdsButton: View {
         }
     }
 
-    private var contrastColor: Color {
-        switch color {
+    private func contrastColorForScheme(_ colorScheme: KdsButtonColor) -> UIColor {
+        switch colorScheme {
         case .primary: return KdsTokens.Colors.primaryContrastText
         case .secondary: return KdsTokens.Colors.secondaryContrastText
         case .success: return KdsTokens.Colors.successContrastText
@@ -245,143 +254,69 @@ public struct KdsButton: View {
         case .info: return KdsTokens.Colors.infoContrastText
         }
     }
-}
 
-// MARK: - View Modifiers
+    // MARK: - Loading State
 
-public extension KdsButton {
-    /// Sets the button variant
-    func variant(_ variant: KdsButtonVariant) -> KdsButton {
-        var button = self
-        button.variant = variant
-        return button
-    }
-
-    /// Sets the button color scheme
-    func color(_ color: KdsButtonColor) -> KdsButton {
-        var button = self
-        button.color = color
-        return button
-    }
-
-    /// Sets the button size
-    func size(_ size: KdsButtonSize) -> KdsButton {
-        var button = self
-        button.size = size
-        return button
-    }
-
-    /// Sets whether the button is enabled
-    func enabled(_ isEnabled: Bool) -> KdsButton {
-        var button = self
-        button.isEnabled = isEnabled
-        return button
-    }
-
-    /// Sets the loading state
-    func loading(_ isLoading: Bool) -> KdsButton {
-        var button = self
-        button.isLoading = isLoading
-        return button
-    }
-
-    /// Sets whether the button should fill the available width
-    func fullWidth(_ fullWidth: Bool = true) -> KdsButton {
-        var button = self
-        button.fullWidth = fullWidth
-        return button
-    }
-
-    /// Sets a leading icon
-    func leadingIcon(_ icon: Image?) -> KdsButton {
-        var button = self
-        button.leadingIcon = icon
-        return button
-    }
-
-    /// Sets a trailing icon
-    func trailingIcon(_ icon: Image?) -> KdsButton {
-        var button = self
-        button.trailingIcon = icon
-        return button
-    }
-}
-
-// MARK: - Previews
-
-#if DEBUG
-struct KdsButton_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 16) {
-            // Contained variants
-            Group {
-                Text("Contained Variants")
-                    .font(.headline)
-
-                KdsButton("Pay Now", variant: .contained, color: .primary) {}
-
-                KdsButton("Confirm", variant: .contained, color: .success) {}
-
-                KdsButton("Warning", variant: .contained, color: .warning) {}
-
-                KdsButton("Delete", variant: .contained, color: .error) {}
+    private func updateLoadingState() {
+        if isLoading {
+            originalTitle = title(for: .normal)
+            setTitle("", for: .normal)
+            activityIndicator.color = contentColor(for: variant, color: colorScheme, state: state)
+            activityIndicator.startAnimating()
+            isEnabled = false
+        } else {
+            if let title = originalTitle {
+                setTitle(title, for: .normal)
+                originalTitle = nil
             }
-
-            Divider()
-
-            // Outlined variants
-            Group {
-                Text("Outlined Variants")
-                    .font(.headline)
-
-                KdsButton("Cancel", variant: .outlined, color: .primary) {}
-
-                KdsButton("Info", variant: .outlined, color: .info) {}
-            }
-
-            Divider()
-
-            // Text variant
-            Group {
-                Text("Text Variant")
-                    .font(.headline)
-
-                KdsButton("Learn More", variant: .text, color: .primary) {}
-                    .fullWidth(false)
-            }
-
-            Divider()
-
-            // States
-            Group {
-                Text("States")
-                    .font(.headline)
-
-                KdsButton("Loading", variant: .contained, color: .primary) {}
-                    .loading(true)
-
-                KdsButton("Disabled", variant: .contained, color: .primary) {}
-                    .enabled(false)
-            }
-
-            Divider()
-
-            // Sizes
-            Group {
-                Text("Sizes")
-                    .font(.headline)
-
-                KdsButton("Small", variant: .contained, color: .primary, size: .small) {}
-                    .fullWidth(false)
-
-                KdsButton("Medium", variant: .contained, color: .primary, size: .medium) {}
-                    .fullWidth(false)
-
-                KdsButton("Large", variant: .contained, color: .primary, size: .large) {}
-                    .fullWidth(false)
-            }
+            activityIndicator.stopAnimating()
+            isEnabled = true
         }
-        .padding()
+    }
+
+    // MARK: - Layout
+
+    public override var intrinsicContentSize: CGSize {
+        let superSize = super.intrinsicContentSize
+        let height = buttonSize.height
+
+        if fullWidth {
+            return CGSize(width: UIView.noIntrinsicMetric, height: height)
+        } else {
+            return CGSize(width: superSize.width, height: height)
+        }
+    }
+
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Ensure background color fills the entire button
+        if let bgColor = backgroundColor(for: .normal) {
+            layer.backgroundColor = bgColor.cgColor
+        }
     }
 }
-#endif
+
+// MARK: - UIButton Background Color Extension
+
+private extension UIButton {
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+        let image = UIImage.imageWithColor(color)
+        setBackgroundImage(image, for: state)
+    }
+}
+
+// MARK: - UIImage Helper
+
+private extension UIImage {
+    static func imageWithColor(_ color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image ?? UIImage()
+    }
+}

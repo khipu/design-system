@@ -1,42 +1,15 @@
-import SwiftUI
+import UIKit
 
 /**
  * Khipu Design System - Design Tokens
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-03-16T20:11:21.299Z
+ * Generated: 2026-03-16T21:46:22.304Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
  */
-
-// MARK: - Color Extension
-extension Color {
-    init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue:  Double(b) / 255,
-            opacity: Double(a) / 255
-        )
-    }
-}
 
 // MARK: - Design Tokens
 public struct KdsTokens {
@@ -44,70 +17,70 @@ public struct KdsTokens {
     // MARK: - Colors
     public struct Colors {
         // Primary palette
-        public static let primaryMain = Color(hex: "4CAF50")
-        public static let primaryLight = Color(hex: "81C784")
-        public static let primaryDark = Color(hex: "388E3C")
-        public static let primaryContrastText = Color(hex: "FFFFFF")
+        public static let primaryMain = UIColor(red: 0.298, green: 0.686, blue: 0.314, alpha: 1.0)
+        public static let primaryLight = UIColor(red: 0.506, green: 0.780, blue: 0.518, alpha: 1.0)
+        public static let primaryDark = UIColor(red: 0.220, green: 0.557, blue: 0.235, alpha: 1.0)
+        public static let primaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Secondary palette
-        public static let secondaryMain = Color(hex: "3CB4E5")
-        public static let secondaryLight = Color(hex: "6AC6EB")
-        public static let secondaryDark = Color(hex: "198EBE")
-        public static let secondaryContrastText = Color(hex: "FFFFFF")
+        public static let secondaryMain = UIColor(red: 0.235, green: 0.706, blue: 0.898, alpha: 1.0)
+        public static let secondaryLight = UIColor(red: 0.416, green: 0.776, blue: 0.922, alpha: 1.0)
+        public static let secondaryDark = UIColor(red: 0.098, green: 0.557, blue: 0.745, alpha: 1.0)
+        public static let secondaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Success
-        public static let successMain = Color(hex: "2E7D32")
-        public static let successLight = Color(hex: "4CAF50")
-        public static let successDark = Color(hex: "1B5E20")
-        public static let successContrastText = Color(hex: "FFFFFF")
+        public static let successMain = UIColor(red: 0.180, green: 0.490, blue: 0.196, alpha: 1.0)
+        public static let successLight = UIColor(red: 0.298, green: 0.686, blue: 0.314, alpha: 1.0)
+        public static let successDark = UIColor(red: 0.106, green: 0.369, blue: 0.125, alpha: 1.0)
+        public static let successContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Warning
-        public static let warningMain = Color(hex: "ED6C02")
-        public static let warningLight = Color(hex: "FF9800")
-        public static let warningDark = Color(hex: "E65100")
-        public static let warningContrastText = Color(hex: "FFFFFF")
+        public static let warningMain = UIColor(red: 0.929, green: 0.424, blue: 0.008, alpha: 1.0)
+        public static let warningLight = UIColor(red: 1.000, green: 0.596, blue: 0.000, alpha: 1.0)
+        public static let warningDark = UIColor(red: 0.902, green: 0.318, blue: 0.000, alpha: 1.0)
+        public static let warningContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Error
-        public static let errorMain = Color(hex: "D32F2F")
-        public static let errorLight = Color(hex: "EF5350")
-        public static let errorDark = Color(hex: "C62828")
-        public static let errorContrastText = Color(hex: "FFFFFF")
+        public static let errorMain = UIColor(red: 0.827, green: 0.184, blue: 0.184, alpha: 1.0)
+        public static let errorLight = UIColor(red: 0.937, green: 0.325, blue: 0.314, alpha: 1.0)
+        public static let errorDark = UIColor(red: 0.776, green: 0.157, blue: 0.157, alpha: 1.0)
+        public static let errorContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Info
-        public static let infoMain = Color(hex: "0288D1")
-        public static let infoLight = Color(hex: "03A9F4")
-        public static let infoDark = Color(hex: "01579B")
-        public static let infoContrastText = Color(hex: "FFFFFF")
+        public static let infoMain = UIColor(red: 0.008, green: 0.533, blue: 0.820, alpha: 1.0)
+        public static let infoLight = UIColor(red: 0.012, green: 0.663, blue: 0.957, alpha: 1.0)
+        public static let infoDark = UIColor(red: 0.004, green: 0.341, blue: 0.608, alpha: 1.0)
+        public static let infoContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Text colors
-        public static let textPrimary = Color(red: 0, green: 0, blue: 0, opacity: 0.87)
-        public static let textSecondary = Color(red: 0, green: 0, blue: 0, opacity: 0.60)
-        public static let textDisabled = Color(red: 0, green: 0, blue: 0, opacity: 0.38)
+        public static let textPrimary = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
+        public static let textSecondary = UIColor(red: 0, green: 0, blue: 0, alpha: 0.60)
+        public static let textDisabled = UIColor(red: 0, green: 0, blue: 0, alpha: 0.38)
         
         // Background colors
-        public static let backgroundDefault = Color(hex: "FFFFFF")
-        public static let backgroundPaper = Color(hex: "FFFFFF")
-        public static let backgroundElevated = Color(hex: "FAFAFA")
+        public static let backgroundDefault = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
+        public static let backgroundPaper = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
+        public static let backgroundElevated = UIColor(red: 0.980, green: 0.980, blue: 0.980, alpha: 1.0)
         
         // Action colors
-        public static let actionActive = Color(red: 0, green: 0, blue: 0, opacity: 0.56)
-        public static let actionHover = Color(red: 0, green: 0, blue: 0, opacity: 0.04)
-        public static let actionSelected = Color(red: 0, green: 0, blue: 0, opacity: 0.08)
-        public static let actionDisabled = Color(red: 0, green: 0, blue: 0, opacity: 0.38)
-        public static let actionDisabledBackground = Color(red: 0, green: 0, blue: 0, opacity: 0.12)
-        public static let actionFocus = Color(red: 0, green: 0, blue: 0, opacity: 0.12)
+        public static let actionActive = UIColor(red: 0, green: 0, blue: 0, alpha: 0.56)
+        public static let actionHover = UIColor(red: 0, green: 0, blue: 0, alpha: 0.04)
+        public static let actionSelected = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08)
+        public static let actionDisabled = UIColor(red: 0, green: 0, blue: 0, alpha: 0.38)
+        public static let actionDisabledBackground = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12)
+        public static let actionFocus = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12)
         
         // Divider
-        public static let divider = Color(red: 0, green: 0, blue: 0, opacity: 0.12)
+        public static let divider = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12)
     }
     
     // MARK: - Typography
     public struct Typography {
         // Font weights
-        public static let fontWeightRegular: Font.Weight = .regular
-        public static let fontWeightMedium: Font.Weight = .medium
-        public static let fontWeightSemiBold: Font.Weight = .semibold
-        public static let fontWeightBold: Font.Weight = .bold
+        public static let fontWeightRegular: UIFont.Weight = .regular
+        public static let fontWeightMedium: UIFont.Weight = .medium
+        public static let fontWeightSemiBold: UIFont.Weight = .semibold
+        public static let fontWeightBold: UIFont.Weight = .bold
         
         // Font sizes
         public static let fontSizeXs: CGFloat = 12
