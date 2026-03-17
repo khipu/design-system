@@ -9,7 +9,7 @@ UIKit components and design tokens for building consistent payment experiences o
 Add to your `Podfile`:
 
 ```ruby
-pod 'KhipuDesignSystem', '~> 0.1.0-alpha.16'
+pod 'KhipuDesignSystem', '~> 0.1.0-alpha.17'
 ```
 
 Then run:
