@@ -1,40 +1,128 @@
 # Design System - Cross-Platform Demo & Release
 
-Complete workflow for demonstrating token changes across **Web, Android, and iOS**, then publishing **automatically via GitHub Actions**.
+**Workflow actual:** Cambiar tokens → Ver cambios → Publicar automáticamente a Web + Android + iOS.
 
-**⚡ Key Concept:** We NEVER publish manually. GitHub Actions handles ALL publishing when we push a git tag.
+**⚡ Concepto clave:** GitHub Actions publica automáticamente cuando creas un tag `v*`.
+
+**📦 Estado actual:**
+- Versión: `v0.1.0-alpha.17`
+- Color primario: `#4CAF50` (Verde)
+- Plataformas: Web (React) + Android (Kotlin/Compose) + iOS (UIKit)
+- Componentes: KdsButton + 11 componentes Web
 
 ---
 
-## 🎨 The Demo: Complete Build-Publish-Install Workflow
+## 🎨 Demo Rápido: Cambiar Color y Ver Resultado
 
-**Goal:** Demonstrate the complete workflow from token change to deployed apps across ALL THREE platforms using GitHub Actions automation.
+**Objetivo:** Cambiar el color primario de verde a azul y verlo en las 3 plataformas.
 
-**Complete workflow (Local work → GitHub Actions → Install):**
+### 🏠 Paso 1: Cambiar Token (30 segundos)
 
-### 🏠 Local Work (5 minutes)
-1. **Prepare**: Change primary color from purple to blue in design tokens
-2. **Generate**: Create platform-specific token files with `npm run tokens:generate`
-3. **Verify**: Check changes in Storybook (auto-reload)
-4. **Version**: Sync version across all platforms with `./scripts/sync-version.sh`
-5. **Commit & Tag**: Create Git tag matching `v*` pattern (e.g., `v0.1.0-alpha.7`)
-6. **Push**: Push to GitHub with `git push origin main --tags`
+**Archivo a editar:** `src/tokens/index.ts`
 
-### 🤖 GitHub Actions (10 minutes - automatic)
-7. **CI Checks**: GitHub Actions runs lint, typecheck, test, build
-8. **Parallel Publishing**: GitHub Actions publishes to all 3 registries simultaneously
-   - ✅ Publish to npmjs.org (Web)
-   - ✅ Publish to Nexus (Android)
-   - ✅ Publish to CocoaPods (iOS)
+```typescript
+// Línea ~25
+export const colors = {
+  primary: {
+    main: '#4CAF50',      // ← ACTUAL: Verde
+    light: '#81C784',
+    dark: '#388E3C',
+    contrastText: '#FFFFFF',
+  }
+}
+```
 
-### 📦 Install & Verify (5 minutes)
-9. **Platform 1 - Web**: Install from npmjs.org in React app
-10. **Platform 2 - Android**: Install from Nexus in Android app
-11. **Platform 3 - iOS**: Install from CocoaPods in iOS app
-12. **Verify**: All three apps showing blue color from ONE source
+**Cambiar a:**
+```typescript
+export const colors = {
+  primary: {
+    main: '#2196F3',      // ← NUEVO: Azul Material
+    light: '#64B5F6',
+    dark: '#1976D2',
+    contrastText: '#FFFFFF',
+  }
+}
+```
 
-**Total Time:** ~20 minutes (5 min local + 10 min automated + 5 min install/verify)
-**Platforms:** Web (React) + Android (Kotlin) + iOS (Swift)
+### 🔧 Paso 2: Generar Tokens para Todas las Plataformas (1 minuto)
+
+```bash
+npm run tokens:generate
+```
+
+**Esto genera automáticamente:**
+- ✅ `src/tokens/tokens.json` - JSON intermedio
+- ✅ `src/tokens/css-variables.css` - Web (CSS)
+- ✅ `android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt` - Android
+- ✅ `ios/Sources/Tokens/KdsTokens.swift` - iOS (UIKit)
+
+### 👀 Paso 3: Ver Cambios Inmediatos (30 segundos)
+
+**Opción A - Storybook (ya corriendo):**
+```bash
+# Si ya está corriendo: http://localhost:6006
+# Se recarga automáticamente con los nuevos tokens
+# Ver: Components → Core → Button → Primary
+```
+
+**Opción B - Iniciar Storybook:**
+```bash
+npm run storybook
+# Abre: http://localhost:6006
+```
+
+**Resultado:** Botón ahora es AZUL 🔵 (antes era verde 🟢)
+
+---
+
+### 🚀 Paso 4: Publicar a Producción (3 minutos)
+
+**4.1 Actualizar Versión:**
+```bash
+./scripts/sync-version.sh 0.1.0-alpha.18
+```
+
+**Archivos actualizados automáticamente:**
+- ✅ `package.json`
+- ✅ `android/designsystem/build.gradle.kts`
+- ✅ `KhipuDesignSystem.podspec`
+- ⚠️ **Manual:** `ios/Sources/KhipuDesignSystem.swift` (línea 31)
+
+**4.2 Commit y Tag:**
+```bash
+git add -A
+git commit -m "feat: change primary color from green to blue"
+git tag v0.1.0-alpha.18
+git push && git push --tags
+```
+
+**4.3 GitHub Actions Publica Automáticamente (~10 min):**
+- ✅ npm → `@khipu/design-system@0.1.0-alpha.18`
+- ✅ Nexus → `com.khipu:design-system:0.1.0-alpha.18`
+- ✅ CocoaPods → `KhipuDesignSystem 0.1.0-alpha.18`
+
+---
+
+### 📦 Paso 5: Instalar Nueva Versión en Apps
+
+**Web:**
+```bash
+npm install @khipu/design-system@0.1.0-alpha.18
+```
+
+**Android:**
+```kotlin
+implementation("com.khipu:design-system:0.1.0-alpha.18")
+./gradlew --refresh-dependencies
+```
+
+**iOS:**
+```ruby
+pod 'KhipuDesignSystem', '~> 0.1.0-alpha.18'
+pod update KhipuDesignSystem
+```
+
+**Total:** ~15 minutos (1 min editar + 1 min generar + 3 min publicar + 10 min GitHub Actions)
 
 **📦 Publishing Targets:**
 - **Web**: npmjs.org (public registry) - `@khipu/design-system`
@@ -43,7 +131,7 @@ Complete workflow for demonstrating token changes across **Web, Android, and iOS
 
 **🤖 GitHub Actions Automation (100% Automated):**
 - **Workflow file**: `.github/workflows/publish.yml`
-- **Trigger**: Git tags matching `v*` (e.g., `v0.1.0-alpha.7`)
+- **Trigger**: Git tags matching `v*` (e.g., `v0.1.0-alpha.18`)
 - **Jobs run in parallel**: CI checks, then npm, Nexus, and CocoaPods publish
 - **Version sync**: Automatic via `scripts/sync-version.sh` script
 - **Security**: Uses GitHub Secrets for credentials (no manual auth needed!)
@@ -79,53 +167,106 @@ Complete workflow for demonstrating token changes across **Web, Android, and iOS
 - [ ] Check Storybook deploys: Push to `main` should update GitHub Pages
 - [ ] Test version sync script: `./scripts/sync-version.sh 0.1.0-test` (then revert)
 
-### iOS Test App Setup (REQUIRED for demo)
+### iOS Test App Setup (REQUERIDO para demo)
 
-**Create a simple iOS test app to showcase the design system:**
+**Crear app iOS simple para mostrar el design system:**
 
 ```bash
-# 1. Create new iOS app (or use existing)
+# 1. Crear nueva app iOS (o usar existente)
 # File → New → Project → App
 # Name: "DesignSystemDemo"
-# Interface: SwiftUI
+# Interface: Storyboard (UIKit)
 # Language: Swift
 
-# 2. Add KhipuDesignSystem to Podfile
-echo "pod 'KhipuDesignSystem', '~> 0.1.0-alpha.12'" >> Podfile
+# 2. Crear Podfile e instalar
+pod init
+# Editar Podfile y agregar:
+echo "pod 'KhipuDesignSystem', '~> 0.1.0-alpha.17'" >> Podfile
 pod install
 
-# 3. Create simple test view with KdsButton components
-# See ios/Examples/ for sample code
-
-# 4. Test that app builds and runs:
+# 3. Abrir workspace
 open DesignSystemDemo.xcworkspace
-# Cmd+R to build and run
 ```
 
-**Test app should include:**
-- Multiple `KdsButton` components with different variants
-- Clear visual demonstration of the primary color
-- Simple, uncluttered UI that focuses on the buttons
-- Big enough buttons to be clearly visible in recordings
+**La app debe incluir:**
+- Múltiples `KdsButton` con diferentes variantes
+- Demostración clara del color primario
+- UI simple enfocada en los botones
+- Botones grandes y visibles para grabación
 
-**Sample SwiftUI code:**
+**Código UIKit de ejemplo:**
 ```swift
-import SwiftUI
+import UIKit
 import KhipuDesignSystem
 
-struct ContentView: View {
-    var body: some View {
-        VStack(spacing: 20) {
-            Text("Khipu Design System Demo")
-                .font(.largeTitle)
+class ViewController: UIViewController {
 
-            KdsButton(text: "Primary Button", variant: .contained)
-            KdsButton(text: "Secondary Button", variant: .outlined)
-            KdsButton(text: "Text Button", variant: .text)
-        }
-        .padding()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = KdsTokens.Colors.backgroundDefault
+        setupButtons()
+    }
+
+    private func setupButtons() {
+        // Título
+        let titleLabel = UILabel()
+        titleLabel.text = "Khipu Design System Demo"
+        titleLabel.font = .systemFont(
+            ofSize: KdsTokens.Typography.fontSizeSize2Xl,
+            weight: KdsTokens.Typography.fontWeightBold
+        )
+        titleLabel.textColor = KdsTokens.Colors.textPrimary
+        titleLabel.textAlignment = .center
+
+        // Botón Primary
+        let primaryButton = KdsButton()
+        primaryButton.setTitle("Primary Button", for: .normal)
+        primaryButton.variant = .contained
+        primaryButton.colorScheme = .primary
+        primaryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+
+        // Botón Outlined
+        let outlinedButton = KdsButton()
+        outlinedButton.setTitle("Outlined Button", for: .normal)
+        outlinedButton.variant = .outlined
+        outlinedButton.colorScheme = .primary
+        outlinedButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+
+        // Botón Text
+        let textButton = KdsButton()
+        textButton.setTitle("Text Button", for: .normal)
+        textButton.variant = .text
+        textButton.colorScheme = .primary
+        textButton.fullWidth = false
+        textButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+
+        // Stack view
+        let stackView = UIStackView(arrangedSubviews: [
+            titleLabel, primaryButton, outlinedButton, textButton
+        ])
+        stackView.axis = .vertical
+        stackView.spacing = KdsTokens.Spacing.space3
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(stackView)
+
+        NSLayoutConstraint.activate([
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: KdsTokens.Spacing.space3),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -KdsTokens.Spacing.space3)
+        ])
+    }
+
+    @objc private func buttonTapped() {
+        print("Button tapped!")
     }
 }
+```
+
+**Build y Run:**
+```bash
+# Cmd+R en Xcode
+# Verificar que los botones muestren el color primario correcto
 ```
 
 ---
@@ -134,94 +275,110 @@ struct ContentView: View {
 
 ### Phase 1: Preparation - Show Current State & Change Token
 
-#### Step 1.1: Show Current State (Purple) - Three Platforms
+#### Step 1.1: Mostrar Estado Actual (Verde) - Tres Plataformas
 
-**📹 Record Storybook (Web)**
+**📹 Grabar Storybook (Web)**
 ```bash
-# Navigate to http://localhost:6006
-# Go to: Components → Core → Button → Primary
+# Navegar a http://localhost:6006
+# Ir a: Components → Core → Button → Primary
 ```
-**Show:** 🟣 Purple button (#8347AD)
+**Mostrar:** 🟢 Botón verde (#4CAF50)
 
-**📹 Record iOS App** ⭐ **REQUIRED FOR DEMO**
+**📹 Grabar App iOS** ⭐ **REQUERIDO PARA DEMO**
 ```bash
-# Launch iOS test app on simulator
-# Show: DesignSystemTestScreen with KdsButton components
+# Lanzar app de prueba iOS en simulador
+# Mostrar: KdsButton components
 open -a Simulator
-# Run test app (from ios test project)
+# Cmd+R en Xcode para correr app
 ```
-**Show:** 🟣 Purple primary buttons in native iOS app
+**Mostrar:** 🟢 Botones primarios verdes en app iOS nativa (UIKit)
 
-**💡 Demo narration:**
-> "Here's our iOS app running in the simulator. Notice the purple buttons - this is using our design system with SwiftUI. Same purple as the web version."
+**💡 Narración de demo:**
+> "Esta es nuestra app iOS corriendo en el simulador. Los botones verdes usan nuestro design system con UIKit nativo. Mismo verde que la versión web."
 
-**📹 Record Android App (Optional - can skip to save time)**
+**📹 Grabar App Android (Opcional)**
 ```bash
-# DesignSystemTestScreen running on emulator
+# Correr en emulador Android
 ```
-**Show:** 🟣 Purple primary buttons
+**Mostrar:** 🟢 Botones primarios verdes (Jetpack Compose)
 
-**📹 Show Token Source (Single Source of Truth)**
+**📹 Mostrar Fuente de Tokens (Única Fuente de Verdad)**
 ```typescript
-// src/tokens/index.ts
+// src/tokens/index.ts (línea ~25)
 export const colors = {
   primary: {
-    main: '#8347AD',  // 👈 Current Khipu Purple
+    main: '#4CAF50',  // 👈 Verde Actual (Khipu)
+    light: '#81C784',
+    dark: '#388E3C',
   }
 }
 ```
 
-**💡 Key Point:** This ONE file controls colors across ALL THREE platforms - Web, iOS, and Android!
+**💡 Punto Clave:** Este ÚNICO archivo controla colores en las TRES plataformas!
 
 ---
 
-#### Step 1.2: Change Color (Purple → Blue)
+#### Step 1.2: Cambiar Color (Verde → Azul)
 
-**📹 Edit Token File**
+**📹 Editar Archivo de Tokens**
 ```bash
-# Open src/tokens/index.ts
+# Abrir src/tokens/index.ts
 code src/tokens/index.ts
 ```
 
-**Change:**
+**Cambiar (línea ~25):**
 ```typescript
-// BEFORE
+// ANTES (actual)
 primary: {
-  main: '#8347AD',     // Khipu Purple
-  light: '#A66BC7',
-  dark: '#5E3280',
+  main: '#4CAF50',     // Verde Khipu
+  light: '#81C784',
+  dark: '#388E3C',
 }
 
-// AFTER
+// DESPUÉS (nuevo)
 primary: {
-  main: '#2196F3',     // 👈 Material Blue
+  main: '#2196F3',     // 👈 Azul Material
   light: '#64B5F6',
   dark: '#1976D2',
 }
 ```
 
-**Save file:** `Ctrl+S` / `Cmd+S`
+**Guardar:** `Ctrl+S` / `Cmd+S`
 
 ---
 
-### Phase 2: Generate Platform-Specific Tokens
+### Phase 2: Generar Tokens para Todas las Plataformas
 
-#### Step 2.1: Generate Tokens for All Platforms
+#### Step 2.1: Un Comando para Todas las Plataformas
 
-**📹 Single Command for All Platforms**
+**📹 Comando Único**
 ```bash
 npm run tokens:generate
 ```
 
-**What happens behind the scenes:**
-1. ✅ Builds TypeScript (`npm run build`) → `dist/`
-2. ✅ Exports tokens to JSON (`tokens:export`) → `src/tokens/tokens.json`
-3. ✅ Generates CSS variables → `src/tokens/css-variables.css` (Web)
-4. ✅ Generates Swift tokens → `ios/Sources/Tokens/KdsTokens.swift` (iOS)
+**Qué sucede internamente:**
+1. ✅ Build TypeScript (`npm run build`) → `dist/`
+2. ✅ Exporta tokens a JSON (`tokens:export`) → `src/tokens/tokens.json`
+3. ✅ Genera CSS variables → `src/tokens/css-variables.css` (Web)
+4. ✅ Genera Kotlin tokens → `android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt` (Android)
+5. ✅ Genera Swift tokens → `ios/Sources/Tokens/KdsTokens.swift` (iOS/UIKit)
 
-**Result:** Design tokens converted from TypeScript → JSON → CSS (Web) + Swift (iOS)
+**Archivos Generados (NO EDITAR MANUALMENTE):**
+```
+src/tokens/
+├── tokens.json                    # ← JSON intermedio
+└── css-variables.css              # ← Web (CSS)
 
-**💡 Single source of truth → THREE platforms!**
+android/designsystem/.../tokens/
+└── KdsTokens.kt                   # ← Android (Kotlin objeto)
+
+ios/Sources/Tokens/
+└── KdsTokens.swift                # ← iOS (UIColor, CGFloat)
+```
+
+**Resultado:** TypeScript → JSON → CSS (Web) + Kotlin (Android) + Swift (iOS)
+
+**💡 Una fuente de verdad → TRES plataformas!**
 
 ---
 
@@ -243,27 +400,39 @@ npm run tokens:generate
 
 **📝 Two options for version sync:**
 
-**Option A: Automated Script (Recommended)**
+**Opción A: Script Automatizado (Recomendado)**
 ```bash
-# Sync version across ALL platforms with one command
-./scripts/sync-version.sh 0.1.0-alpha.7
+# Sincroniza versión en TODAS las plataformas
+./scripts/sync-version.sh 0.1.0-alpha.18
 
-# This updates:
-# - package.json (Web)
-# - android/designsystem/build.gradle.kts (Android)
-# - KhipuDesignSystem.podspec (iOS)
+# Actualiza automáticamente:
+# ✅ package.json (Web)
+# ✅ android/designsystem/build.gradle.kts (Android)
+# ✅ KhipuDesignSystem.podspec (iOS)
 ```
 
-**Option B: Manual Update (For demo purposes)**
+**⚠️ Actualización Manual Adicional:**
 ```bash
-# 1. Web - package.json
-sed -i '' 's/"version": "0.1.0-alpha.6"/"version": "0.1.0-alpha.7"/' package.json
+# iOS Source file (no incluido en script)
+# Editar: ios/Sources/KhipuDesignSystem.swift línea 31
+code ios/Sources/KhipuDesignSystem.swift
+# Cambiar: public static let version = "0.1.0-alpha.17"
+# Por:     public static let version = "0.1.0-alpha.18"
+```
 
-# 2. Android - android/designsystem/build.gradle.kts
-sed -i '' 's/val libraryVersion = "0.1.0-alpha.6"/val libraryVersion = "0.1.0-alpha.7"/' android/designsystem/build.gradle.kts
+**Opción B: Manual Completo (para demo)**
+```bash
+# 1. Web
+sed -i.bak 's/"version": "0.1.0-alpha.17"/"version": "0.1.0-alpha.18"/' package.json && rm package.json.bak
 
-# 3. iOS - KhipuDesignSystem.podspec
-sed -i '' "s/s.version.*=.*/s.version          = '0.1.0-alpha.7'/" KhipuDesignSystem.podspec
+# 2. Android
+sed -i.bak 's/val libraryVersion = "0.1.0-alpha.17"/val libraryVersion = "0.1.0-alpha.18"/' android/designsystem/build.gradle.kts && rm android/designsystem/build.gradle.kts.bak
+
+# 3. iOS Podspec
+sed -i.bak "s/s.version.*=.*/s.version          = '0.1.0-alpha.18'/" KhipuDesignSystem.podspec && rm KhipuDesignSystem.podspec.bak
+
+# 4. iOS Source (manual)
+code ios/Sources/KhipuDesignSystem.swift
 ```
 
 **Verify all versions synchronized:**
@@ -288,13 +457,13 @@ git commit -m "feat: change primary color from purple to blue
 Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
 
 # Create version tag (triggers GitHub Actions)
-git tag v0.1.0-alpha.7
+git tag v0.1.0-alpha.18
 
 # Push to GitHub (triggers publish workflow)
 git push origin main --tags
 ```
 
-**💡 Key:** Pushing the tag `v0.1.0-alpha.7` triggers GitHub Actions!
+**💡 Key:** Pushing the tag `v0.1.0-alpha.18` triggers GitHub Actions!
 
 ---
 
@@ -373,7 +542,7 @@ https://github.com/khipu/design-system/actions
 cd /path/to/web-app  # Your React app
 
 # Install from npmjs.org (public, no auth needed!)
-npm install @khipu/design-system@0.1.0-alpha.7
+npm install @khipu/design-system@0.1.0-alpha.18
 
 # Start dev server
 npm run dev
@@ -415,7 +584,7 @@ cat android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.k
 cd /path/to/android-app  # Your Android app
 
 # Update app/build.gradle.kts dependency
-# implementation("com.khipu:design-system:0.1.0-alpha.7")
+# implementation("com.khipu:design-system:0.1.0-alpha.18")
 
 # Sync and build
 ./gradlew --refresh-dependencies
@@ -554,7 +723,7 @@ Build Android:
 
 ### 2. Publish Workflow (`.github/workflows/publish.yml`)
 
-**Trigger:** Git tags matching `v*` (e.g., `v0.1.0-alpha.7`)
+**Trigger:** Git tags matching `v*` (e.g., `v0.1.0-alpha.18`)
 
 **Purpose:** Automated publishing to all registries
 
@@ -610,9 +779,9 @@ Build Android:
 **Result:** THREE completely different platforms, perfectly in sync from ONE source of truth! 🚀
 
 **Publishing summary:**
-- 📦 **Web**: `@khipu/design-system@0.1.0-alpha.7` → npmjs.org (public)
-- 📦 **Android**: `com.khipu:design-system:0.1.0-alpha.7` → Nexus
-- 📦 **iOS**: `KhipuDesignSystem (0.1.0-alpha.7)` → CocoaPods trunk
+- 📦 **Web**: `@khipu/design-system@0.1.0-alpha.18` → npmjs.org (public)
+- 📦 **Android**: `com.khipu:design-system:0.1.0-alpha.18` → Nexus
+- 📦 **iOS**: `KhipuDesignSystem (0.1.0-alpha.18)` → CocoaPods trunk
 
 **Automation:**
 - 🤖 **GitHub Actions** handles all publishing (no manual commands needed!)
@@ -660,9 +829,9 @@ MUI Theme        Material 3      SwiftUI Theme
 > "Now I generate tokens for all platforms: `npm run tokens:generate`. This builds TypeScript, exports to JSON, generates CSS variables for web, Kotlin tokens for Android, and Swift tokens for iOS. One command, three platforms. Look - Storybook auto-reloaded, button is now blue!"
 
 **Part 4 - Publish via GitHub Actions (3-4 minutes)**
-> "Time to publish. First, I'll sync versions across all platforms using our script: `./scripts/sync-version.sh 0.1.0-alpha.7`. This updates package.json for web, build.gradle.kts for Android, and the podspec for iOS - one command, three files!"
+> "Time to publish. First, I'll sync versions across all platforms using our script: `./scripts/sync-version.sh 0.1.0-alpha.18`. This updates package.json for web, build.gradle.kts for Android, and the podspec for iOS - one command, three files!"
 >
-> "Now I commit the changes, create a version tag v0.1.0-alpha.7, and push to GitHub with tags. And here's what's important - **this is the ONLY publishing command I run**: `git push origin main --tags`. That's it!"
+> "Now I commit the changes, create a version tag v0.1.0-alpha.18, and push to GitHub with tags. And here's what's important - **this is the ONLY publishing command I run**: `git push origin main --tags`. That's it!"
 >
 > "I don't run `npm publish`. I don't run any Gradle commands. I don't run `pod trunk push`. I don't type any credentials. **I never publish manually from my machine**. GitHub Actions does everything!"
 >
@@ -904,9 +1073,9 @@ open YourApp.xcworkspace
 ```bash
 # Check tag format - must start with 'v'
 git tag                     # List tags
-git tag -d v0.1.0-alpha.7  # Delete local tag if wrong
-git tag v0.1.0-alpha.7     # Create with correct format
-git push origin v0.1.0-alpha.7  # Push tag
+git tag -d v0.1.0-alpha.18  # Delete local tag if wrong
+git tag v0.1.0-alpha.18     # Create with correct format
+git push origin v0.1.0-alpha.18  # Push tag
 ```
 
 **View workflow triggers:**
