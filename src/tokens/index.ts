@@ -18,9 +18,7 @@
 const lightModeColors = {
   // Primary palette - Purple (Khipu brand)
   primary: {
-   main: '#4CAF50',      // ← ACTUAL: Verde
-    light: '#81C784',
-    dark: '#388E3C',
+main: '#4CAF50', light: '#81C784', dark: '#388E3C',
     contrastText: '#FFFFFF',
     states: {
       hover: 'rgba(131, 71, 173, 0.04)',
