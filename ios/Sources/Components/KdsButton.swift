@@ -193,18 +193,25 @@ public class KdsButton: UIButton {
         let bgColor = backgroundColor(for: variant, color: colorScheme, state: state)
         let textColor = contentColor(for: variant, color: colorScheme, state: state)
 
-        setBackgroundColor(bgColor, for: .normal)
-        setTitleColor(textColor, for: .normal)
+        // For contained buttons, use backgroundColor directly
+        if variant == .contained {
+            backgroundColor = bgColor
+            setTitleColor(textColor, for: .normal)
+            setTitleColor(KdsTokens.Colors.actionDisabled, for: .disabled)
+        } else {
+            // For outlined and text buttons, use background image
+            backgroundColor = .clear
+            setBackgroundColor(bgColor, for: .normal)
+            setTitleColor(textColor, for: .normal)
 
-        // Disabled state
-        let disabledBg = backgroundColor(for: variant, color: colorScheme, state: .disabled)
-        let disabledText = KdsTokens.Colors.actionDisabled
+            let disabledBg = backgroundColor(for: variant, color: colorScheme, state: .disabled)
+            let disabledText = KdsTokens.Colors.actionDisabled
 
-        setBackgroundColor(disabledBg, for: .disabled)
-        setTitleColor(disabledText, for: .disabled)
+            setBackgroundColor(disabledBg, for: .disabled)
+            setTitleColor(disabledText, for: .disabled)
 
-        // Highlighted state (when pressed)
-        setBackgroundColor(bgColor.withAlphaComponent(0.8), for: .highlighted)
+            setBackgroundColor(bgColor.withAlphaComponent(0.8), for: .highlighted)
+        }
     }
 
     private func backgroundColor(for variant: KdsButtonVariant, color: KdsButtonColor, state: UIControl.State) -> UIColor {
