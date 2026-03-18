@@ -320,7 +320,7 @@ export const Uso_de_marca: StoryObj = {
             Somos facilitadores de procesos.
           </p>
           <ul style={{ fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', margin: 0 }}>
-            <li><strong>Vocabulario:</strong> Confiable, inclusivo, amistoso</li>
+            <li><strong>Vocabulario:</strong> Confiable, neutro, amistoso</li>
             <li><strong>Verbosidad:</strong> Palabras que entreguen información de ayuda</li>
             <li><strong>Gramática:</strong> Oraciones o frases simples</li>
           </ul>
