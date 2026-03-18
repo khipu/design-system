@@ -88,7 +88,7 @@ Nuestra marca se caracteriza por tres pilares de comunicación:
 ### Cercana
 *Somos facilitadores de procesos.*
 
-- **Vocabulario:** Confiable, inclusivo, amistoso
+- **Vocabulario:** Confiable, neutro, amistoso
 - **Verbosidad:** Palabras que entreguen información de ayuda
 - **Gramática:** Oraciones o frases simples
 
@@ -123,7 +123,7 @@ Vamos al grano. Respetamos el tiempo del usuario
 | Tú / Tu (tutear al usuario) | Usted (demasiado formal) |
 | Verbos activos y directos | Voz pasiva |
 | Frases cortas y concisas | Párrafos largos |
-| Lenguaje inclusivo | Lenguaje excluyente |
+| Lenguaje neutro | Lenguaje excluyente |
 | Números en lugar de palabras | Jerga técnica innecesaria |
 | Bullet points para listas | Bloques de texto denso |
 | Mayúscula inicial: Es la norma ortográfica estándar. La primera letra de cada oración siempre debe ir en mayúscula. (CamelCase solo en código/nombres propios) | CamelCase en contexto de usuarios (ej: "Ver Factura", "Mi Cuenta") |
