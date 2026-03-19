@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-03-17T18:21:35.946Z
+ * Generated: 2026-03-19T12:36:42.825Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -17,15 +17,15 @@ public struct KdsTokens {
     // MARK: - Colors
     public struct Colors {
         // Primary palette
-        public static let primaryMain = UIColor(red: 0.298, green: 0.686, blue: 0.314, alpha: 1.0)
-        public static let primaryLight = UIColor(red: 0.506, green: 0.780, blue: 0.518, alpha: 1.0)
-        public static let primaryDark = UIColor(red: 0.220, green: 0.557, blue: 0.235, alpha: 1.0)
+        public static let primaryMain = UIColor(red: 0.514, green: 0.278, blue: 0.678, alpha: 1.0)
+        public static let primaryLight = UIColor(red: 0.627, green: 0.400, blue: 0.788, alpha: 1.0)
+        public static let primaryDark = UIColor(red: 0.416, green: 0.227, blue: 0.549, alpha: 1.0)
         public static let primaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Secondary palette
-        public static let secondaryMain = UIColor(red: 0.235, green: 0.706, blue: 0.898, alpha: 1.0)
-        public static let secondaryLight = UIColor(red: 0.416, green: 0.776, blue: 0.922, alpha: 1.0)
-        public static let secondaryDark = UIColor(red: 0.098, green: 0.557, blue: 0.745, alpha: 1.0)
+        public static let secondaryMain = UIColor(red: 0.298, green: 0.686, blue: 0.314, alpha: 1.0)
+        public static let secondaryLight = UIColor(red: 0.506, green: 0.780, blue: 0.518, alpha: 1.0)
+        public static let secondaryDark = UIColor(red: 0.220, green: 0.557, blue: 0.235, alpha: 1.0)
         public static let secondaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Success
