@@ -32,5 +32,5 @@ import UIKit
 /// - `KdsTokens.BorderRadius` - Border radius values (CGFloat)
 /// - `KdsTokens.Transitions` - Animation durations (milliseconds)
 public enum KhipuDesignSystem {
-    public static let version = "0.1.0-alpha.24"
+    public static let version = "0.1.0-alpha.25"
 }
