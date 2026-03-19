@@ -1,0 +1,161 @@
+/* Khipu Custom Components for BeerCSS
+ * Custom Material Design 3 components and utilities for Khipu payment app
+ */
+
+/* ========================================
+   Khipu Custom Components
+   ======================================== */
+
+/* Elevated Card with Khipu shadow */
+.khipu-card-elevated {
+    background: var(--surface-container, #FAFAFA);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(131, 71, 173, 0.1);
+    padding: 24px;
+    margin-bottom: 24px;
+    transition: box-shadow 0.3s ease;
+}
+
+.khipu-card-elevated:hover {
+    box-shadow: 0 8px 24px rgba(131, 71, 173, 0.2);
+}
+
+/* Hero Section with gradient */
+.khipu-hero {
+    background: linear-gradient(135deg, var(--khipu-primary) 0%, var(--khipu-primary-dark) 100%);
+    color: white;
+    padding: 64px 24px;
+    text-align: center;
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 32px;
+}
+
+.khipu-hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.khipu-hero p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+/* ========================================
+   Spacing Utilities
+   ======================================== */
+
+.khipu-spacing-top {
+    margin-top: 32px;
+}
+
+.khipu-spacing-bottom {
+    margin-bottom: 32px;
+}
+
+.khipu-spacing-large {
+    margin: 48px 0;
+}
+
+/* ========================================
+   Snackbar Positioning
+   ======================================== */
+
+.snackbar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    min-width: 344px;
+    max-width: 672px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
+   Navbar Customization
+   ======================================== */
+
+nav.primary {
+    background: var(--khipu-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav.primary a,
+nav.primary button {
+    color: white;
+}
+
+/* ========================================
+   Footer Customization
+   ======================================== */
+
+footer.primary {
+    background: var(--surface-container-high, #F5F5F5);
+    padding: 32px 24px;
+    margin-top: 48px;
+}
+
+footer.primary h6 {
+    color: var(--khipu-primary);
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+footer.primary a {
+    color: var(--on-surface);
+    text-decoration: none;
+    display: block;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+}
+
+footer.primary a:hover {
+    color: var(--khipu-primary);
+}
+
+/* ========================================
+   Material Symbols Icon Sizing
+   ======================================== */
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+/* Filled icons for specific contexts */
+.icon-filled {
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+/* ========================================
+   Responsive Utilities
+   ======================================== */
+
+@media (max-width: 768px) {
+    .khipu-hero h1 {
+        font-size: 2rem;
+    }
+
+    .khipu-hero p {
+        font-size: 1rem;
+    }
+
+    .khipu-card-elevated {
+        padding: 16px;
+    }
+
+    .snackbar {
+        min-width: calc(100% - 32px);
+        left: 16px;
+        right: 16px;
+        transform: none;
+    }
+}
