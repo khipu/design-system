@@ -18,7 +18,9 @@
 const lightModeColors = {
   // Primary palette - Purple (Khipu brand)
   primary: {
-main: '#4CAF50', light: '#81C784', dark: '#388E3C',
+    main: '#8347AD',
+    light: '#A066C9',
+    dark: '#6A3A8C',
     contrastText: '#FFFFFF',
     states: {
       hover: 'rgba(131, 71, 173, 0.04)',
@@ -29,11 +31,11 @@ main: '#4CAF50', light: '#81C784', dark: '#388E3C',
     },
   },
 
-  // Secondary palette - Cyan/Turquoise
+  // Secondary palette - Green (Khipu success/positive)
   secondary: {
-    main: '#3CB4E5',
-    light: '#6AC6EB',
-    dark: '#198EBE',
+    main: '#4CAF50',
+    light: '#81C784',
+    dark: '#388E3C',
     contrastText: '#FFFFFF',
   },
 

@@ -1,0 +1,65 @@
+/* Khipu Material Design 3 Brand Tokens
+ * Maps Khipu Design System tokens to BeerCSS variables
+ *
+ * This file bridges KDS tokens with BeerCSS Material Design 3 implementation.
+ * It imports KDS tokens and maps them to BeerCSS custom properties.
+ */
+
+/* Import Khipu Design System tokens (from design-system build) */
+@import url('https://cdn.jsdelivr.net/npm/@khipu/design-system@latest/dist/tokens/css-variables.css');
+
+/* ========================================
+   Map KDS Tokens to BeerCSS Variables
+   ======================================== */
+
+:root {
+    /* Map Khipu primary purple to BeerCSS primary */
+    --primary: var(--kds-color-primary-main);
+    --on-primary: var(--kds-color-primary-contrast);
+    --primary-container: var(--kds-color-primary-light);
+    --on-primary-container: var(--kds-color-primary-dark);
+
+    /* Map Khipu secondary green to BeerCSS secondary */
+    --secondary: var(--kds-color-secondary-main);
+    --on-secondary: var(--kds-color-secondary-contrast);
+    --secondary-container: var(--kds-color-secondary-light);
+    --on-secondary-container: var(--kds-color-secondary-dark);
+
+    /* Map semantic colors */
+    --success: var(--kds-color-success-main);
+    --error: var(--kds-color-error-main);
+    --warning: var(--kds-color-warning-main);
+    --info: var(--kds-color-info-main);
+
+    /* Background and surface colors */
+    --surface: var(--kds-color-background-paper);
+    --on-surface: var(--kds-color-text-primary);
+    --surface-variant: var(--kds-color-background-elevated);
+
+    /* Legacy Khipu color aliases (for backward compatibility) */
+    --khipu-primary: var(--kds-color-primary-main);
+    --khipu-primary-dark: var(--kds-color-primary-dark);
+    --khipu-primary-light: var(--kds-color-primary-light);
+    --khipu-secondary: var(--kds-color-secondary-main);
+    --khipu-accent: #FF5722;
+}
+
+/* ========================================
+   Body Layout (Sticky Footer)
+   ======================================== */
+html, body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex: 1 0 auto;
+    padding: 24px 16px;
+}
+
+footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
