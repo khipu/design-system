@@ -1,62 +1,208 @@
 /* Khipu Material Design 3 Brand Tokens
- * Maps Khipu Design System tokens to BeerCSS variables
- *
- * This file bridges KDS tokens with BeerCSS Material Design 3 implementation.
- * It imports KDS tokens and maps them to BeerCSS custom properties.
+ * Design system tokens extracted from Figma Make prototype
+ * Implements OKLch color system, Material Design 3 typography, and spacing system
  */
 
-/* Import Khipu Design System tokens (from design-system build) */
-@import url('https://cdn.jsdelivr.net/npm/@khipu/design-system@latest/dist/tokens/css-variables.css');
-
 /* ========================================
-   Map KDS Tokens to BeerCSS Variables
+   OKLch Color System (from Figma Make)
    ======================================== */
 
 :root {
-    /* Map Khipu primary purple to BeerCSS primary */
-    --primary: var(--kds-color-primary-main);
-    --on-primary: var(--kds-color-primary-contrast);
-    --primary-container: var(--kds-color-primary-light);
-    --on-primary-container: var(--kds-color-primary-dark);
+    /* === Primary Scale (Purple) === */
+    --kds-color-primary-50: oklch(96% 0.02 295);
+    --kds-color-primary-100: oklch(92% 0.04 295);
+    --kds-color-primary-200: oklch(84% 0.08 295);
+    --kds-color-primary-300: oklch(76% 0.12 295);
+    --kds-color-primary-400: oklch(68% 0.16 295);
+    --kds-color-primary-500: oklch(60% 0.20 295);
+    --kds-color-primary-600: oklch(52% 0.18 295);
+    --kds-color-primary-700: oklch(44% 0.16 295);
+    --kds-color-primary-800: oklch(36% 0.14 295);
+    --kds-color-primary-900: oklch(28% 0.12 295);
 
-    /* Map Khipu secondary green to BeerCSS secondary */
-    --secondary: var(--kds-color-secondary-main);
-    --on-secondary: var(--kds-color-secondary-contrast);
-    --secondary-container: var(--kds-color-secondary-light);
-    --on-secondary-container: var(--kds-color-secondary-dark);
+    /* === Secondary Scale (Blue from Figma Make) === */
+    --kds-color-secondary-50: oklch(96% 0.02 240);
+    --kds-color-secondary-100: oklch(92% 0.04 240);
+    --kds-color-secondary-500: #3B82F6;  /* Figma Make Blue */
+    --kds-color-secondary-900: oklch(32% 0.12 240);
+
+    /* === Semantic Colors === */
+    --kds-color-success: #10B981;  /* Green (only for success/completed states) */
+    --kds-color-error: oklch(48% 0.20 28);     /* Red #D32F2F */
+    --kds-color-warning: oklch(72% 0.18 90);   /* Amber #ED6C02 */
+    --kds-color-info: oklch(60% 0.18 240);     /* Blue #0288D1 */
+
+    /* === Alert/Validation Backgrounds === */
+    --kds-alert-info-bg: #EFF6FF;      /* Light blue */
+    --kds-alert-warning-bg: #FFFBEB;   /* Light amber */
+    --kds-alert-success-bg: #ECFDF5;   /* Light green */
+    --kds-alert-error-bg: #FEF2F2;     /* Light red */
+
+    /* === Surface Colors === */
+    --kds-surface-base: #FFFFFF;
+    --kds-surface-paper: #FFFFFF;
+    --kds-surface-elevated: oklch(98% 0.01 295);
+    --kds-surface-background: #F5F6FA;  /* Main background from Figma Make */
+
+    /* === Border Colors === */
+    --kds-border-light: #DDD;
+    --kds-border-medium: #999;
+    --kds-border-dark: #666;
+
+    /* === Typography Scale (Material Design 3) === */
+    --kds-font-family-primary: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    --kds-font-size-xs: 0.75rem;    /* 12px */
+    --kds-font-size-sm: 0.875rem;   /* 14px */
+    --kds-font-size-base: 1rem;     /* 16px */
+    --kds-font-size-lg: 1.125rem;   /* 18px */
+    --kds-font-size-xl: 1.25rem;    /* 20px */
+    --kds-font-size-2xl: 1.5rem;    /* 24px */
+    --kds-font-size-3xl: 2rem;      /* 32px */
+    --kds-font-size-4xl: 3rem;      /* 48px */
+
+    --kds-font-weight-regular: 400;
+    --kds-font-weight-medium: 500;
+    --kds-font-weight-semibold: 600;
+    --kds-font-weight-bold: 700;
+
+    /* === Spacing System (4px base grid) === */
+    --kds-spacing-1: 4px;
+    --kds-spacing-2: 8px;
+    --kds-spacing-3: 12px;
+    --kds-spacing-4: 16px;
+    --kds-spacing-5: 20px;
+    --kds-spacing-6: 24px;
+    --kds-spacing-8: 32px;
+    --kds-spacing-10: 40px;
+    --kds-spacing-12: 48px;
+    --kds-spacing-16: 64px;
+    --kds-spacing-20: 80px;
+
+    /* === Shadows (Material Design 3 Elevation) === */
+    --kds-shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --kds-shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --kds-shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    --kds-shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+    --kds-shadow-elevation-1: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+    --kds-shadow-elevation-2: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+    --kds-shadow-elevation-3: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
+    --kds-shadow-elevation-4: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+
+    /* === Border Radius === */
+    --kds-radius-none: 0;
+    --kds-radius-sm: 4px;
+    --kds-radius-md: 8px;
+    --kds-radius-lg: 12px;
+    --kds-radius-xl: 16px;
+    --kds-radius-2xl: 20px;
+    --kds-radius-full: 9999px;
+
+    /* ========================================
+       Map KDS Tokens to BeerCSS Variables
+       ======================================== */
+
+    /* Keep Khipu Purple as primary brand color */
+    --primary: var(--kds-color-primary-500);  /* Purple - Khipu brand */
+    --on-primary: #FFFFFF;
+    --primary-container: var(--kds-color-primary-100);
+    --on-primary-container: var(--kds-color-primary-900);
+
+    /* Use Figma Make Blue as secondary (call-to-action color) */
+    --secondary: var(--kds-color-secondary-500);  /* Blue #3B82F6 - CTA buttons */
+    --on-secondary: #FFFFFF;
+    --secondary-container: var(--kds-color-secondary-100);
+    --on-secondary-container: var(--kds-color-secondary-900);
 
     /* Map semantic colors */
-    --success: var(--kds-color-success-main);
-    --error: var(--kds-color-error-main);
-    --warning: var(--kds-color-warning-main);
-    --info: var(--kds-color-info-main);
+    --success: var(--kds-color-success);
+    --error: var(--kds-color-error);
+    --warning: var(--kds-color-warning);
+    --info: var(--kds-color-info);
 
     /* Background and surface colors */
-    --surface: var(--kds-color-background-paper);
-    --on-surface: var(--kds-color-text-primary);
-    --surface-variant: var(--kds-color-background-elevated);
+    --surface: var(--kds-surface-paper);
+    --on-surface: oklch(20% 0 0);
+    --surface-variant: var(--kds-surface-elevated);
+    --surface-container: var(--kds-surface-base);
 
     /* Legacy Khipu color aliases (for backward compatibility) */
-    --khipu-primary: var(--kds-color-primary-main);
-    --khipu-primary-dark: var(--kds-color-primary-dark);
-    --khipu-primary-light: var(--kds-color-primary-light);
-    --khipu-secondary: var(--kds-color-secondary-main);
+    --khipu-primary: var(--kds-color-primary-500);
+    --khipu-primary-dark: var(--kds-color-primary-700);
+    --khipu-primary-light: var(--kds-color-primary-300);
+    --khipu-secondary: var(--kds-color-secondary-500);
     --khipu-accent: #FF5722;
+
+    /* ========================================
+       ONBOARDING COMPONENTS TOKENS
+       ======================================== */
+
+    /* File Upload States */
+    --kds-upload-zone-bg: #F9FAFB;              /* gray-50 */
+    --kds-upload-zone-border: #D1D5DB;          /* gray-300 */
+    --kds-upload-zone-border-hover: #3B82F6;    /* blue-500 */
+    --kds-upload-zone-border-drag: #8347AD;     /* primary-500 (purple) */
+    --kds-upload-zone-border-error: var(--kds-color-error);
+    --kds-upload-zone-border-success: var(--kds-color-success);
+    --kds-upload-item-bg: #FFFFFF;
+    --kds-upload-item-border: #E5E7EB;          /* gray-200 */
+
+    /* OTP Input */
+    --kds-otp-digit-size: 56px;
+    --kds-otp-digit-height: 64px;
+    --kds-otp-digit-border: #D1D5DB;
+    --kds-otp-digit-border-focus: #3B82F6;
+    --kds-otp-digit-bg: #FFFFFF;
+    --kds-otp-digit-bg-filled: #F9FAFB;
+
+    /* KYC Blocking Modal */
+    --kds-kyc-block-bg: oklch(96% 0.02 60);     /* Amber-50 */
+    --kds-kyc-block-border: oklch(88% 0.08 60); /* Amber-200 */
+    --kds-kyc-block-text: oklch(40% 0.12 60);   /* Amber-800 */
+    --kds-kyc-block-icon: oklch(60% 0.15 60);   /* Amber-600 */
+
+    /* Welcome Gradient */
+    --kds-welcome-gradient-start: #3B82F6;      /* blue-500 */
+    --kds-welcome-gradient-end: #1D4ED8;        /* blue-700 */
+
+    /* Bank Selector */
+    --kds-bank-item-border: #E5E7EB;
+    --kds-bank-item-border-hover: #D1D5DB;
+    --kds-bank-item-border-selected: #3B82F6;
+    --kds-bank-item-bg-selected: #EFF6FF;        /* blue-50 */
+    --kds-bank-item-bg-hover: #F9FAFB;
+
+    /* Signature Pad */
+    --kds-signature-border: #D1D5DB;
+    --kds-signature-bg: #FFFFFF;
+    --kds-signature-line-color: #000000;
+
+    /* Contract Accordion */
+    --kds-accordion-border: #E5E7EB;
+    --kds-accordion-bg: #F9FAFB;
+    --kds-accordion-bg-open: #FFFFFF;
+    --kds-accordion-header-bg: #F3F4F6;
+
+    /* Onboarding Container */
+    --kds-onboarding-max-width: 800px;
+    --kds-onboarding-padding: var(--kds-spacing-6);
+    --kds-onboarding-gap: var(--kds-spacing-6);
 }
 
 /* ========================================
-   Body Layout (Sticky Footer)
+   Body Layout (Sticky Footer) - Figma Make Style
    ======================================== */
 html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
+    background: var(--kds-surface-background);  /* Light gray background */
 }
 
 main {
     flex: 1 0 auto;
-    padding: 24px 16px;
+    padding: 0;  /* Remove default padding for Figma Make style */
 }
 
 footer {
