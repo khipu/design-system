@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Khipu - Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle (local development) -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+
+    <style>
+        /* Survey Modal Custom Styles - Override BeerCSS defaults */
+        #surveyModal {
+            background: white !important;
+            border-radius: 16px !important;
+            padding: 20px !important;
+            max-width: 400px !important;
+            width: 100% !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+            box-sizing: border-box !important;
+        }
+
+        #surveyModal::backdrop {
+            background: rgba(0, 0, 0, 0.5) !important;
+        }
+
+        /* Form styling */
+        #surveyModal form {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Clean input styling - remove BeerCSS underlines */
+        #surveyModal .field {
+            margin-bottom: 16px;
+            box-sizing: border-box !important;
+        }
+
+        #surveyModal .field.border {
+            border: 1px solid #D1D5DB !important;
+            border-radius: 8px !important;
+            background: white !important;
+            padding: 0 !important;
+        }
+
+        #surveyModal .field.border select,
+        #surveyModal .field.border input {
+            border: none !important;
+            border-bottom: none !important;
+            padding: 12px 16px !important;
+            background: transparent !important;
+            color: #111827 !important;
+            font-size: 16px !important;
+        }
+
+        #surveyModal .field.border:focus-within {
+            outline: 2px solid #8347AD !important;
+            outline-offset: 0 !important;
+            border-color: #8347AD !important;
+        }
+
+        #surveyModal .field label {
+            position: static !important;
+            display: block !important;
+            margin-bottom: 8px !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            color: #111827 !important;
+            background: transparent !important;
+            padding: 0 !important;
+        }
+
+        #surveyModal .field.border {
+            position: relative !important;
+        }
+
+        /* Button styling */
+        #surveyModal button.primary {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 12px 20px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+            transition: all 0.2s !important;
+            height: auto !important;
+            min-height: auto !important;
+            line-height: 1.5 !important;
+            box-sizing: border-box !important;
+            margin: 0 !important;
+            border: none !important;
+        }
+
+        #surveyModal button.primary:disabled {
+            background: #E5E7EB !important;
+            color: #9CA3AF !important;
+            cursor: not-allowed !important;
+        }
+
+        #surveyModal button.primary:not(:disabled):hover {
+            background: #6D28D9 !important;
+        }
+
+        /* Close button - hidden */
+        #surveyModal button.circle {
+            display: none !important;
+        }
+
+        /* Help text */
+        #surveyHelpText {
+            margin-top: 8px;
+            text-align: center;
+            font-size: 12px;
+            color: #6B7280;
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Hero Section -->
+    <div class="kds-welcome-hero">
+        <div class="kds-welcome-hero-content">
+            <div class="kds-welcome-hero-icon">
+                <i class="material-symbols-outlined" style="font-size: 80px;">rocket_launch</i>
+            </div>
+            <h1 class="kds-welcome-hero-title">Bienvenido a Khipu</h1>
+            <p class="kds-welcome-hero-subtitle">
+                Activa tu cuenta en minutos y comienza a recibir pagos de forma automática
+            </p>
+            <div class="kds-welcome-hero-actions">
+                <button class="kds-btn kds-btn-primary" onclick="startOnboarding()">
+                    Comenzar activación
+                    <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                </button>
+                <button class="kds-btn kds-btn-outlined-white" onclick="openSurvey()">
+                    Ya tengo cuenta
+                    <span class="kds-icon"><i class="material-symbols-outlined">login</i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <main style="padding: var(--kds-spacing-12) var(--kds-spacing-6); max-width: 1200px; margin: 0 auto;">
+        <h2 class="kds-headline-large" style="text-align: center; margin-bottom: var(--kds-spacing-8);">
+            ¿Por qué elegir Khipu?
+        </h2>
+
+        <div class="kds-grid-3col" style="margin-bottom: var(--kds-spacing-12);">
+            <div class="kds-card-elevated" style="text-align: center;">
+                <i class="material-symbols-outlined icon-filled" style="font-size: 64px; color: var(--primary); margin-bottom: var(--kds-spacing-3);">
+                    flash_on
+                </i>
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Rápido y seguro</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Pagos instantáneos directamente desde el banco de tus clientes
+                </p>
+            </div>
+
+            <div class="kds-card-elevated" style="text-align: center;">
+                <i class="material-symbols-outlined icon-filled" style="font-size: 64px; color: var(--primary); margin-bottom: var(--kds-spacing-3);">
+                    savings
+                </i>
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Costos reducidos</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Menores comisiones que tarjetas de crédito o débito
+                </p>
+            </div>
+
+            <div class="kds-card-elevated" style="text-align: center;">
+                <i class="material-symbols-outlined icon-filled" style="font-size: 64px; color: var(--primary); margin-bottom: var(--kds-spacing-3);">
+                    integration_instructions
+                </i>
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Fácil integración</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    APIs y plugins listos para usar en tu plataforma
+                </p>
+            </div>
+        </div>
+
+        <!-- Process Overview -->
+        <div class="kds-card-main" style="text-align: center;">
+            <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-4);">
+                El proceso de activación
+            </h2>
+            <p class="kds-body-large kds-text-muted" style="margin-bottom: var(--kds-spacing-8);">
+                Solo 8 pasos simples para comenzar a recibir pagos
+            </p>
+
+            <!-- Process Steps -->
+            <div class="kds-stepper">
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Selector</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Perfil</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Comercial</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Documentos</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Banco</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Planes</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Contrato</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Validación</div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--kds-spacing-8);">
+                <button class="kds-btn kds-btn-primary" onclick="startOnboarding()">
+                    Comenzar ahora
+                    <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Welcome Survey Modal -->
+    <dialog id="surveyModal" class="modal">
+        <div style="padding: var(--kds-spacing-8); max-width: 500px;">
+            <button class="transparent circle" onclick="closeSurvey()" style="position: absolute; top: 16px; right: 16px;">
+                <i class="material-symbols-outlined">close</i>
+            </button>
+
+            <div style="margin-bottom: var(--kds-spacing-6);">
+                <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-2);">¡Bienvenido a Khipu! 👋</h2>
+                <p class="kds-body-large kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Antes de empezar, cuéntanos.
+                </p>
+                <p class="kds-title-medium" style="margin-bottom: var(--kds-spacing-3);">
+                    ¿Cómo nos conociste?
+                </p>
+            </div>
+
+            <form id="surveyForm" onsubmit="submitSurvey(event)">
+                <!-- How did you hear about us -->
+                <div style="margin-bottom: var(--kds-spacing-4);">
+                    <label for="referralSource" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #111827;">
+                        Fuente de conocimiento
+                    </label>
+                    <div class="field border">
+                        <select name="referralSource" id="referralSource" onchange="handleSourceChange()" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="Google, Chat GPT, Gemini AI u otro buscador">Google, Chat GPT, Gemini AI u otro buscador</option>
+                            <option value="Anuncio en internet (banner, prensa, red social, etc.)">Anuncio en internet (banner, prensa, red social, etc.)</option>
+                            <option value="Redes sociales (LinkedIn, Instagram, Facebook, etc.)">Redes sociales (LinkedIn, Instagram, Facebook, etc.)</option>
+                            <option value="Recomendación de un colega, cliente o proveedor">Recomendación de un colega, cliente o proveedor</option>
+                            <option value="Alianza Banco Security o Banco Itaú">Alianza Banco Security o Banco Itaú</option>
+                            <option value="Evento, charla, webinar o feria">Evento, charla, webinar o feria</option>
+                            <option value="Ya conocía otro producto o servicio de Khipu">Ya conocía otro producto o servicio de Khipu</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Conditional "Other" text input -->
+                <div id="otherTextContainer" style="display: none; margin-bottom: var(--kds-spacing-6);">
+                    <label for="otherText" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #111827;">
+                        ¿Cuál?
+                    </label>
+                    <div class="field border">
+                        <input type="text" id="otherText" name="otherText" placeholder="Escribe aquí...">
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div style="margin-top: var(--kds-spacing-6);">
+                    <button type="submit" id="surveySubmitBtn" class="kds-btn kds-btn-primary" style="width: 100%;" disabled>
+                        Comenzar onboarding
+                    </button>
+                </div>
+
+                <p id="surveyHelpText" class="kds-body-small kds-text-muted" style="text-align: center; margin-top: var(--kds-spacing-3);">
+                    Completa esta breve encuesta para ayudarnos a mejorar
+                </p>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- Footer -->
+    <footer class="primary">
+        <div style="text-align: center;">
+            <p>&copy; 2026 Khipu. Todos los derechos reservados.</p>
+            <p class="kds-body-small kds-text-muted">
+                <a href="#" style="color: inherit;">Términos y condiciones</a> •
+                <a href="#" style="color: inherit;">Política de privacidad</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+
+    <script>
+        // Initialize onboarding
+        const onboarding = new KhipuOnboarding({
+            totalStages: 8,
+            locale: 'es-CL',
+            apiEndpoint: '/api/onboarding'
+        });
+
+        function startOnboarding() {
+            // Save timestamp
+            onboarding.setFormData('startedAt', new Date().toISOString());
+
+            // Redirect to first stage
+            window.location.href = 'selector.html';
+        }
+
+        function openSurvey() {
+            const modal = document.getElementById('surveyModal');
+            modal.showModal();
+        }
+
+        function closeSurvey() {
+            const modal = document.getElementById('surveyModal');
+            modal.close();
+        }
+
+        function handleSourceChange() {
+            const select = document.getElementById('referralSource');
+            const otherContainer = document.getElementById('otherTextContainer');
+            const otherInput = document.getElementById('otherText');
+            const submitBtn = document.getElementById('surveySubmitBtn');
+            const helpText = document.getElementById('surveyHelpText');
+
+            const selectedValue = select.value;
+
+            // Show/hide "Otro" text input
+            if (selectedValue === 'Otro') {
+                otherContainer.style.display = 'block';
+                otherInput.required = true;
+                otherInput.focus();
+            } else {
+                otherContainer.style.display = 'none';
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+
+            // Hide help text when user selects something
+            if (selectedValue) {
+                helpText.style.display = 'none';
+            } else {
+                helpText.style.display = 'block';
+            }
+
+            // Enable/disable submit button
+            validateSurveyForm();
+        }
+
+        function validateSurveyForm() {
+            const select = document.getElementById('referralSource');
+            const otherInput = document.getElementById('otherText');
+            const submitBtn = document.getElementById('surveySubmitBtn');
+
+            const selectedValue = select.value;
+            let isValid = false;
+
+            if (selectedValue && selectedValue !== 'Otro') {
+                isValid = true;
+            } else if (selectedValue === 'Otro' && otherInput.value.trim().length > 0) {
+                isValid = true;
+            }
+
+            submitBtn.disabled = !isValid;
+        }
+
+        function submitSurvey(event) {
+            event.preventDefault();
+
+            const referralSource = document.getElementById('referralSource').value;
+            const otherText = document.getElementById('otherText').value;
+
+            // Save survey data
+            onboarding.setFormData('survey_referralSource', referralSource);
+            if (referralSource === 'Otro') {
+                onboarding.setFormData('survey_other', otherText);
+            }
+
+            closeSurvey();
+            startOnboarding();
+        }
+
+        // Add input listener for "other" text field
+        document.addEventListener('DOMContentLoaded', () => {
+            const otherInput = document.getElementById('otherText');
+            if (otherInput) {
+                otherInput.addEventListener('input', validateSurveyForm);
+            }
+        });
+
+        // Show modal after 5 seconds if user hasn't started
+        setTimeout(() => {
+            if (!onboarding.getFormData('startedAt')) {
+                openSurvey();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector - Khipu Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle (local development) -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+</head>
+<body>
+    <!-- Onboarding Container -->
+    <div class="kds-onboarding-container">
+        <!-- Header with Stepper -->
+        <div class="kds-onboarding-header">
+            <div class="kds-stepper" style="max-width: 1200px; margin: 0 auto;">
+                <div class="kds-step current">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Selector</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Perfil</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Comercial</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Documentos</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Banco</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Planes</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Contrato</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Validación</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="kds-onboarding-main">
+            <div class="kds-stage" data-stage="0">
+                <!-- Stage Header -->
+                <div class="kds-stage-header">
+                    <h1 class="kds-stage-title">Comencemos con tu activación</h1>
+                    <p class="kds-stage-subtitle">Primero necesitamos saber desde dónde nos contactas</p>
+                </div>
+
+                <!-- Stage Content -->
+                <div class="kds-stage-content">
+                    <!-- Country Selection -->
+                    <div class="kds-stage-section">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">public</i>
+                            País
+                        </h3>
+                        <p class="kds-stage-section-description">
+                            Selecciona el país donde opera tu negocio
+                        </p>
+
+                        <div class="kds-grid-2col" id="countrySelection">
+                            <div class="kds-card-selector" data-value="chile" onclick="selectCountry(this)">
+                                <div class="kds-card-selector-icon">
+                                    <span style="font-size: 32px;">🇨🇱</span>
+                                </div>
+                                <div class="kds-card-selector-title">Chile</div>
+                                <div class="kds-card-selector-description">
+                                    CLP • Transferencias inmediatas
+                                </div>
+                            </div>
+
+                            <div class="kds-card-selector" data-value="mexico" onclick="selectCountry(this)">
+                                <div class="kds-card-selector-icon">
+                                    <span style="font-size: 32px;">🇲🇽</span>
+                                </div>
+                                <div class="kds-card-selector-title">México</div>
+                                <div class="kds-card-selector-description">
+                                    MXN • SPEI
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Person Type Selection -->
+                    <div class="kds-stage-section">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">badge</i>
+                            Tipo de persona
+                        </h3>
+                        <p class="kds-stage-section-description">
+                            ¿Eres una persona natural o representas una empresa?
+                        </p>
+
+                        <div class="kds-grid-2col" id="personTypeSelection">
+                            <div class="kds-card-selector" data-value="natural" onclick="selectPersonType(this)">
+                                <div class="kds-card-selector-icon">
+                                    <i class="material-symbols-outlined">person</i>
+                                </div>
+                                <div class="kds-card-selector-title">Persona Natural</div>
+                                <div class="kds-card-selector-description">
+                                    Emprendedor individual o freelancer
+                                </div>
+                            </div>
+
+                            <div class="kds-card-selector" data-value="juridica" onclick="selectPersonType(this)">
+                                <div class="kds-card-selector-icon">
+                                    <i class="material-symbols-outlined">business</i>
+                                </div>
+                                <div class="kds-card-selector-title">Persona Jurídica</div>
+                                <div class="kds-card-selector-description">
+                                    Empresa o sociedad legalmente constituida
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Info Alert -->
+                    <div class="kds-alert info">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">info</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Ten a mano tu documentación</div>
+                            <div class="kds-alert-description">
+                                Necesitarás RUT, comprobante de domicilio y documentos de identidad. Si eres persona jurídica, también escrituras de constitución.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer with Actions -->
+        <div class="kds-onboarding-footer">
+            <button class="transparent" onclick="goBack()">
+                <i class="material-symbols-outlined">arrow_back</i>
+                Volver
+            </button>
+
+            <div class="button-group">
+                <span class="kds-body-small kds-text-muted">Paso 1 de 8</span>
+                <button id="nextButton" class="primary" onclick="goNext()" disabled>
+                    Continuar
+                    <i class="material-symbols-outlined">arrow_forward</i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+
+    <script>
+        // Initialize onboarding
+        const onboarding = new KhipuOnboarding({
+            totalStages: 8,
+            locale: 'es-CL',
+            apiEndpoint: '/api/onboarding'
+        });
+
+        // State
+        let selectedCountry = null;
+        let selectedPersonType = null;
+
+        // Load saved selections
+        window.addEventListener('load', () => {
+            const savedCountry = onboarding.getFormData('country');
+            const savedPersonType = onboarding.getFormData('personType');
+
+            if (savedCountry) {
+                const countryCard = document.querySelector(`[data-value="${savedCountry}"]`);
+                if (countryCard && countryCard.closest('#countrySelection')) {
+                    selectCountry(countryCard);
+                }
+            }
+
+            if (savedPersonType) {
+                const personTypeCard = document.querySelector(`[data-value="${savedPersonType}"]`);
+                if (personTypeCard && personTypeCard.closest('#personTypeSelection')) {
+                    selectPersonType(personTypeCard);
+                }
+            }
+        });
+
+        function selectCountry(card) {
+            // Clear previous selection
+            document.querySelectorAll('#countrySelection .kds-card-selector').forEach(c => {
+                c.classList.remove('selected');
+            });
+
+            // Mark as selected
+            card.classList.add('selected');
+            selectedCountry = card.dataset.value;
+
+            // Save to onboarding
+            onboarding.setFormData('country', selectedCountry);
+
+            // Check if can proceed
+            updateNextButton();
+        }
+
+        function selectPersonType(card) {
+            // Clear previous selection
+            document.querySelectorAll('#personTypeSelection .kds-card-selector').forEach(c => {
+                c.classList.remove('selected');
+            });
+
+            // Mark as selected
+            card.classList.add('selected');
+            selectedPersonType = card.dataset.value;
+
+            // Save to onboarding
+            onboarding.setFormData('personType', selectedPersonType);
+            onboarding.personType = selectedPersonType;
+
+            // Check if can proceed
+            updateNextButton();
+        }
+
+        function updateNextButton() {
+            const nextButton = document.getElementById('nextButton');
+            nextButton.disabled = !(selectedCountry && selectedPersonType);
+        }
+
+        function goBack() {
+            window.location.href = 'welcome.html';
+        }
+
+        function goNext() {
+            if (!selectedCountry || !selectedPersonType) {
+                onboarding.showSnackbar('Por favor selecciona país y tipo de persona', 'error');
+                return;
+            }
+
+            // Move to next stage
+            window.location.href = 'profile.html';
+        }
+    </script>
+</body>
+</html>

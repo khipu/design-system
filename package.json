@@ -61,6 +61,7 @@
     "prepublishOnly": "npm run build",
     "beercss:build": "node src/beercss/scripts/build.js",
     "beercss:watch": "nodemon --watch src/beercss --exec \"npm run beercss:build\"",
+    "beercss:dev": "node src/beercss/scripts/dev-server.js",
     "tokens:export": "node scripts/export-tokens-json.js",
     "tokens:generate": "npm run build:web && npm run tokens:export && node scripts/generate-css-variables.js && node scripts/generate-tokens.js --kotlin-output=android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt --swift-output=ios/Sources/Tokens/KdsTokens.swift",
     "generate:tokens": "npm run tokens:generate",

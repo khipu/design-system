@@ -1,23 +1,352 @@
 /* Khipu Custom Components for BeerCSS
- * Custom Material Design 3 components and utilities for Khipu payment app
+ * Custom Material Design 3 components extracted from Figma Make prototype
+ * Implements: Cards, Stepper, Alerts, Forms, Typography utilities
  */
 
 /* ========================================
-   Khipu Custom Components
+   Button Overrides (Figma Make Style)
    ======================================== */
 
-/* Elevated Card with Khipu shadow */
+/* ========================================
+   KHIPU BUTTON SYSTEM
+   Custom button components - don't modify BeerCSS classes
+   ======================================== */
+
+/* Base button - use element selector for higher specificity */
+button.kds-btn,
+a.kds-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    min-height: 48px;
+    height: 48px;
+    vertical-align: middle;
+}
+
+button.kds-btn:disabled,
+a.kds-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Primary button - Khipu purple (Figma Make) */
+button.kds-btn-primary,
+a.kds-btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+button.kds-btn-primary:hover:not(:disabled),
+a.kds-btn-primary:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+/* Secondary button - Blue CTA (Figma Make) */
+button.kds-btn-secondary,
+a.kds-btn-secondary {
+    background: #3B82F6;
+    color: white;
+    border: none;
+}
+
+button.kds-btn-secondary:hover:not(:disabled),
+a.kds-btn-secondary:hover:not(:disabled) {
+    background: #2563EB;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
+/* Outlined button (Figma Make) */
+button.kds-btn-outlined,
+a.kds-btn-outlined {
+    background: transparent;
+    color: var(--primary);
+    border-color: var(--kds-border-medium);
+}
+
+button.kds-btn-outlined:hover:not(:disabled),
+a.kds-btn-outlined:hover:not(:disabled) {
+    background: #F3F4F6;
+    border-color: var(--primary);
+}
+
+/* Outlined white - for dark backgrounds (Figma Make hero) */
+button.kds-btn-outlined-white,
+a.kds-btn-outlined-white {
+    background: white;
+    color: var(--primary);
+    border-color: white;
+}
+
+button.kds-btn-outlined-white:hover:not(:disabled),
+a.kds-btn-outlined-white:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+/* Text button (Figma Make) */
+button.kds-btn-text,
+a.kds-btn-text {
+    background: transparent;
+    color: var(--primary);
+    border: none;
+    padding: 8px 16px;
+    min-height: auto;
+    height: auto;
+}
+
+button.kds-btn-text:hover:not(:disabled),
+a.kds-btn-text:hover:not(:disabled) {
+    background: #EFF6FF;
+}
+
+/* Icon wrapper - control size via span container */
+button.kds-btn > .kds-icon,
+a.kds-btn > .kds-icon {
+    width: 20px;
+    height: 20px;
+    padding-top: 2px;
+    line-height: 1;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+button.kds-btn > .kds-icon > i,
+a.kds-btn > .kds-icon > i {
+    font-size: 17px;
+    line-height: 1;
+}
+
+/* ========================================
+   Card Components (from Figma Make)
+   ======================================== */
+
+/* Base elevated card - EXACT from Figma Make */
+.kds-card-elevated,
 .khipu-card-elevated {
-    background: var(--surface-container, #FAFAFA);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(131, 71, 173, 0.1);
-    padding: 24px;
-    margin-bottom: 24px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
     transition: box-shadow 0.3s ease;
 }
 
+.kds-card-elevated:hover,
 .khipu-card-elevated:hover {
-    box-shadow: 0 8px 24px rgba(131, 71, 173, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Main content card (centered, max-width) */
+.kds-card-main {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 800px;
+    margin: 24px auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 768px) {
+    .kds-card-elevated,
+    .khipu-card-elevated,
+    .kds-card-main {
+        padding: 24px;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .kds-card-elevated,
+    .khipu-card-elevated,
+    .kds-card-main {
+        padding: 20px;
+        margin: 16px;
+    }
+}
+
+/* Selection card - EXACT from Figma Make StageSelector */
+.kds-card-selector {
+    padding: 24px;
+    border-radius: 12px;
+    border: 2px solid #E5E7EB;  /* gray-200 */
+    background: #FFFFFF;
+    transition: all 0.3s ease;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.kds-card-selector:hover {
+    border-color: #D1D5DB;  /* gray-300 */
+}
+
+.kds-card-selector.selected {
+    border-color: #3B82F6;  /* blue-600 */
+    background: #EFF6FF;    /* blue-50 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon container */
+.kds-card-selector-icon {
+    width: 48px;
+    height: 48px;
+    background: #DBEAFE;  /* blue-100 */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.kds-card-selector-icon i,
+.kds-card-selector-icon svg {
+    width: 24px;
+    height: 24px;
+    color: #3B82F6;  /* blue-600 */
+}
+
+/* Title */
+.kds-card-selector-title {
+    font-weight: 600;
+    color: #111827;  /* gray-900 */
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+/* Description */
+.kds-card-selector-description {
+    font-size: 14px;
+    color: #4B5563;  /* gray-600 */
+    line-height: 1.5;
+}
+
+/* Selected state - visual feedback via border only */
+
+/* Pricing/Plan card (from Figma Make StagePricingPlan) */
+.kds-card-plan {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-5);
+    padding: var(--kds-spacing-8);
+    border-radius: var(--kds-radius-lg);
+    border: 1px solid var(--kds-border-medium);
+    max-width: 365px;
+    background: var(--kds-surface-base);
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.kds-card-plan.recommended {
+    border-color: var(--primary);
+    background: var(--primary-container);
+}
+
+.kds-card-plan .plan-price {
+    font-size: var(--kds-font-size-3xl);
+    font-weight: var(--kds-font-weight-bold);
+    color: var(--primary);
+}
+
+.kds-card-plan .plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.kds-card-plan .plan-features li {
+    padding: var(--kds-spacing-2) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-2);
+}
+
+.kds-card-plan .plan-features li::before {
+    content: "✓";
+    color: var(--success);
+    font-weight: var(--kds-font-weight-bold);
+}
+
+/* Verification/Status card (from onboarding patterns) */
+.kds-card-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    min-height: 80px;
+    border-radius: 6px;
+    border: 1px solid var(--kds-border-light);
+    gap: var(--kds-spacing-4);
+    background: var(--kds-surface-base);
+    transition: background 0.2s ease;
+}
+
+.kds-card-status.muted {
+    border-color: transparent;
+    background: var(--kds-surface-elevated);
+}
+
+.kds-card-status .status-icon {
+    flex-shrink: 0;
+    font-size: 24px;
+}
+
+.kds-card-status .status-content {
+    flex: 1;
+}
+
+/* Card sections (header, body, footer) */
+.kds-card-header {
+    padding-bottom: var(--kds-spacing-3);
+    border-bottom: 1px solid var(--kds-border-light);
+    margin-bottom: var(--kds-spacing-3);
+}
+
+.kds-card-header h2,
+.kds-card-header h3 {
+    margin: 0;
+    font-weight: var(--kds-font-weight-bold);
+}
+
+.kds-card-body {
+    padding: 0;
+    margin-bottom: var(--kds-spacing-3);
+}
+
+.kds-card-footer {
+    padding-top: var(--kds-spacing-3);
+    border-top: 1px solid var(--kds-border-light);
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-2);
+}
+
+.kds-card-footer button,
+.kds-card-footer .button {
+    width: 100% !important;
+}
+
+/* Horizontal layout for desktop */
+@media (min-width: 768px) {
+    .kds-card-footer {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .kds-card-footer button,
+    .kds-card-footer .button {
+        width: auto !important;
+        min-width: 120px;
+    }
 }
 
 /* Hero Section with gradient */
@@ -42,19 +371,339 @@
 }
 
 /* ========================================
-   Spacing Utilities
+   Layout & Spacing Utilities
    ======================================== */
 
+/* Grid patterns */
+.kds-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-spacing-4);
+}
+
+@media (min-width: 768px) {
+    .kds-grid-2col {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.kds-grid-3col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-spacing-4);
+}
+
+@media (min-width: 768px) {
+    .kds-grid-3col {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .kds-grid-3col {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.kds-grid-4col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-spacing-4);
+}
+
+@media (min-width: 768px) {
+    .kds-grid-4col {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .kds-grid-4col {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Flex utilities */
+.kds-flex {
+    display: flex;
+}
+
+.kds-flex-col {
+    flex-direction: column;
+}
+
+.kds-flex-row {
+    flex-direction: row;
+}
+
+.kds-justify-start {
+    justify-content: flex-start;
+}
+
+.kds-justify-center {
+    justify-content: center;
+}
+
+.kds-justify-end {
+    justify-content: flex-end;
+}
+
+.kds-justify-between {
+    justify-content: space-between;
+}
+
+.kds-items-start {
+    align-items: flex-start;
+}
+
+.kds-items-center {
+    align-items: center;
+}
+
+.kds-items-end {
+    align-items: flex-end;
+}
+
+/* Gap utilities */
+.kds-gap-1 { gap: var(--kds-spacing-1); }
+.kds-gap-2 { gap: var(--kds-spacing-2); }
+.kds-gap-3 { gap: var(--kds-spacing-3); }
+.kds-gap-4 { gap: var(--kds-spacing-4); }
+.kds-gap-5 { gap: var(--kds-spacing-5); }
+.kds-gap-6 { gap: var(--kds-spacing-6); }
+.kds-gap-8 { gap: var(--kds-spacing-8); }
+
+/* Spacing utilities - Margin */
+.kds-m-0 { margin: 0; }
+.kds-m-2 { margin: var(--kds-spacing-2); }
+.kds-m-4 { margin: var(--kds-spacing-4); }
+.kds-m-6 { margin: var(--kds-spacing-6); }
+.kds-m-8 { margin: var(--kds-spacing-8); }
+
+.kds-mt-0 { margin-top: 0; }
+.kds-mt-2 { margin-top: var(--kds-spacing-2); }
+.kds-mt-4 { margin-top: var(--kds-spacing-4); }
+.kds-mt-6 { margin-top: var(--kds-spacing-6); }
+.kds-mt-8 { margin-top: var(--kds-spacing-8); }
+
+.kds-mb-0 { margin-bottom: 0; }
+.kds-mb-2 { margin-bottom: var(--kds-spacing-2); }
+.kds-mb-4 { margin-bottom: var(--kds-spacing-4); }
+.kds-mb-6 { margin-bottom: var(--kds-spacing-6); }
+.kds-mb-8 { margin-bottom: var(--kds-spacing-8); }
+
+.kds-ml-0 { margin-left: 0; }
+.kds-ml-2 { margin-left: var(--kds-spacing-2); }
+.kds-ml-4 { margin-left: var(--kds-spacing-4); }
+
+.kds-mr-0 { margin-right: 0; }
+.kds-mr-2 { margin-right: var(--kds-spacing-2); }
+.kds-mr-4 { margin-right: var(--kds-spacing-4); }
+
+.kds-my-0 { margin-top: 0; margin-bottom: 0; }
+.kds-my-2 { margin-top: var(--kds-spacing-2); margin-bottom: var(--kds-spacing-2); }
+.kds-my-4 { margin-top: var(--kds-spacing-4); margin-bottom: var(--kds-spacing-4); }
+.kds-my-6 { margin-top: var(--kds-spacing-6); margin-bottom: var(--kds-spacing-6); }
+.kds-my-8 { margin-top: var(--kds-spacing-8); margin-bottom: var(--kds-spacing-8); }
+
+.kds-mx-auto { margin-left: auto; margin-right: auto; }
+
+/* Spacing utilities - Padding */
+.kds-p-0 { padding: 0; }
+.kds-p-2 { padding: var(--kds-spacing-2); }
+.kds-p-4 { padding: var(--kds-spacing-4); }
+.kds-p-6 { padding: var(--kds-spacing-6); }
+.kds-p-8 { padding: var(--kds-spacing-8); }
+
+.kds-pt-4 { padding-top: var(--kds-spacing-4); }
+.kds-pt-6 { padding-top: var(--kds-spacing-6); }
+.kds-pt-8 { padding-top: var(--kds-spacing-8); }
+
+.kds-pb-4 { padding-bottom: var(--kds-spacing-4); }
+.kds-pb-6 { padding-bottom: var(--kds-spacing-6); }
+.kds-pb-8 { padding-bottom: var(--kds-spacing-8); }
+
+.kds-px-4 { padding-left: var(--kds-spacing-4); padding-right: var(--kds-spacing-4); }
+.kds-px-6 { padding-left: var(--kds-spacing-6); padding-right: var(--kds-spacing-6); }
+.kds-px-8 { padding-left: var(--kds-spacing-8); padding-right: var(--kds-spacing-8); }
+
+.kds-py-4 { padding-top: var(--kds-spacing-4); padding-bottom: var(--kds-spacing-4); }
+.kds-py-6 { padding-top: var(--kds-spacing-6); padding-bottom: var(--kds-spacing-6); }
+.kds-py-8 { padding-top: var(--kds-spacing-8); padding-bottom: var(--kds-spacing-8); }
+
+/* Legacy spacing utilities (backward compatibility) */
 .khipu-spacing-top {
-    margin-top: 32px;
+    margin-top: var(--kds-spacing-8);
 }
 
 .khipu-spacing-bottom {
-    margin-bottom: 32px;
+    margin-bottom: var(--kds-spacing-8);
 }
 
 .khipu-spacing-large {
-    margin: 48px 0;
+    margin: var(--kds-spacing-12) 0;
+}
+
+/* ========================================
+   Stepper Component (Multi-stage Progress Indicator)
+   EXACT match from Figma Make onboarding
+   ======================================== */
+
+.kds-stepper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+    padding: 24px 0;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+/* Progress line connecting steps */
+.kds-stepper::before {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 44px;
+    height: 2px;
+    background: #E5E7EB;
+    z-index: 0;
+}
+
+/* Individual step */
+.kds-step {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Step indicator (circle) */
+.kds-step-indicator {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto;
+    background: #E5E7EB;  /* Pending state - light gray */
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B7280;
+    font-size: 0;  /* Hide number by default */
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Step label */
+.kds-step-label {
+    margin-top: 12px;
+    font-weight: 400;
+    color: #6B7280;
+    line-height: 1.25;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+/* Step States */
+
+/* Current step - Blue/Primary */
+.kds-step.current .kds-step-indicator {
+    background: #3B82F6;  /* Blue from Figma Make */
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.25);
+}
+
+.kds-step.current .kds-step-label {
+    color: #111827;
+    font-weight: 500;
+}
+
+/* Completed step - Green with checkmark */
+.kds-step.completed .kds-step-indicator {
+    background: #10B981;  /* Green from Figma Make */
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+}
+
+.kds-step.completed .kds-step-label {
+    color: #111827;
+}
+
+/* Checkmark for completed steps - Material Symbols icon */
+.kds-step.completed .kds-step-indicator::after {
+    content: "check";
+    font-family: 'Material Symbols Outlined';
+    position: absolute;
+    color: white;
+    font-size: 24px;
+    font-weight: 400;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+}
+
+/* Pending step */
+.kds-step .kds-step-indicator {
+    background: #E5E7EB;
+}
+
+/* Responsive - Tablet */
+@media (max-width: 768px) {
+    .kds-stepper {
+        padding: 24px 0;
+    }
+
+    .kds-step-indicator {
+        width: 44px;
+        height: 44px;
+    }
+
+    .kds-stepper::before {
+        top: 46px;
+    }
+
+    .kds-step-label {
+        font-size: 13px;
+        margin-top: 12px;
+    }
+
+    .kds-step.completed .kds-step-indicator::after {
+        font-size: 22px;
+    }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 480px) {
+    .kds-stepper {
+        padding: 16px 0;
+    }
+
+    .kds-step-indicator {
+        width: 36px;
+        height: 36px;
+    }
+
+    .kds-stepper::before {
+        top: 38px;
+        left: 15%;
+        right: 15%;
+    }
+
+    .kds-step-label {
+        font-size: 11px;
+        margin-top: 8px;
+    }
+
+    .kds-step.completed .kds-step-indicator::after {
+        font-size: 16px;
+    }
 }
 
 /* ========================================
@@ -79,11 +728,108 @@
 nav.primary {
     background: var(--khipu-primary);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1000;
 }
 
 nav.primary a,
 nav.primary button {
     color: white;
+}
+
+/* ========================================
+   Drawer/Sidenav (Mobile Navigation)
+   ======================================== */
+
+/* Left drawer hidden by default */
+nav.drawer.left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 80vw;
+    background: var(--surface-container, #FFFFFF);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1100;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Show drawer when active */
+nav.drawer.left.active {
+    transform: translateX(0);
+}
+
+/* Drawer overlay */
+nav.drawer.left::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Show overlay when drawer is active */
+nav.drawer.left.active::before {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Drawer header styling */
+nav.drawer header {
+    padding: 16px;
+    background: var(--primary-container, rgba(131, 71, 173, 0.1));
+    border-bottom: 1px solid var(--outline-variant, rgba(0, 0, 0, 0.12));
+}
+
+/* Drawer links */
+nav.drawer a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: var(--on-surface, rgba(0, 0, 0, 0.87));
+    text-decoration: none;
+    transition: background 0.2s ease;
+    gap: 16px;
+}
+
+nav.drawer a:hover {
+    background: var(--surface-variant, rgba(0, 0, 0, 0.04));
+}
+
+nav.drawer a i {
+    font-size: 24px;
+    color: var(--on-surface-variant, rgba(0, 0, 0, 0.60));
+}
+
+nav.drawer .divider {
+    height: 1px;
+    background: var(--outline-variant, rgba(0, 0, 0, 0.12));
+    margin: 8px 0;
+}
+
+/* Hide menu toggle button on desktop */
+@media (min-width: 769px) {
+    #menu-toggle {
+        display: none;
+    }
+
+    nav.drawer.left {
+        display: none;
+    }
 }
 
 /* ========================================
@@ -115,6 +861,305 @@ footer.primary a:hover {
 }
 
 /* ========================================
+   Form Inputs - EXACT from Figma Make
+   ======================================== */
+
+/* Form labels from Figma Make */
+.field label,
+.kds-form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Input styling from Figma Make */
+.field input,
+.field textarea,
+.field select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+textarea,
+select {
+    border-radius: 8px !important;
+    border: 1px solid #D1D5DB !important;
+    padding: 12px 16px !important;
+    font-size: 15px !important;
+    color: #111827 !important;
+    background: #FFFFFF !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Placeholder styling */
+.field input::placeholder,
+.field textarea::placeholder,
+input::placeholder,
+textarea::placeholder {
+    color: #9CA3AF !important;
+    opacity: 1 !important;
+}
+
+/* Focus state */
+.field input:focus,
+.field textarea:focus,
+.field select:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none !important;
+    border-color: #3B82F6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Outlined inputs (default) */
+.field.border input,
+.field.border textarea,
+.field.border select {
+    border-radius: 8px !important;
+}
+
+/* Filled inputs */
+.field.fill input,
+.field.fill textarea,
+.field.fill select {
+    border-radius: 8px !important;
+    background: #F9FAFB !important;
+}
+
+/* Round variant (only when explicitly requested) */
+.field.round input,
+.field.round textarea,
+.field.round select {
+    border-radius: 28px !important;
+}
+
+/* ========================================
+   Form Validation States (from Figma Make patterns)
+   Enhanced with Info, Warning, Success, Error states
+   ======================================== */
+
+/* Info state (blue) */
+.field.info input,
+.field.info textarea,
+.field.info select {
+    border-color: var(--kds-color-info) !important;
+}
+
+.field.info label {
+    color: var(--kds-color-info) !important;
+}
+
+.field .info-message {
+    display: block;
+    color: var(--kds-color-info);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    padding: 8px 12px;
+    background: var(--kds-alert-info-bg);
+    border-radius: var(--kds-radius-sm);
+    border-left: 3px solid var(--kds-color-info);
+    line-height: 1.4;
+}
+
+/* Warning state (amber) */
+.field.warning input,
+.field.warning textarea,
+.field.warning select {
+    border-color: var(--kds-color-warning) !important;
+}
+
+.field.warning label {
+    color: var(--kds-color-warning) !important;
+}
+
+.field .warning-message {
+    display: block;
+    color: var(--kds-color-warning);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    padding: 8px 12px;
+    background: var(--kds-alert-warning-bg);
+    border-radius: var(--kds-radius-sm);
+    border-left: 3px solid var(--kds-color-warning);
+    line-height: 1.4;
+}
+
+/* Valid/Success state (enhanced) */
+.field.valid input,
+.field.valid textarea,
+.field.valid select {
+    border-color: var(--kds-color-success) !important;
+}
+
+/* Success label color - more specific to override BeerCSS :focus + label primary color */
+.field.label.valid > label,
+.field.label.valid > input:focus + label,
+.field.label.valid > textarea:focus + label,
+.field.label.valid > select:focus + label,
+.field.label.valid > input:not(:focus) + label,
+.field.label.valid > textarea:not(:focus) + label,
+.field.label.valid > select:not(:focus) + label {
+    color: var(--kds-color-success) !important;
+}
+
+.field .success-message {
+    display: block;
+    color: var(--kds-color-success);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    padding: 8px 12px;
+    background: var(--kds-alert-success-bg);
+    border-radius: var(--kds-radius-sm);
+    border-left: 3px solid var(--kds-color-success);
+    line-height: 1.4;
+}
+
+/* Invalid/Error state (enhanced) */
+.field.invalid input,
+.field.invalid textarea,
+.field.invalid select {
+    border-color: var(--kds-color-error) !important;
+    color: var(--on-surface, rgba(0, 0, 0, 0.87)) !important;
+}
+
+.field.invalid input:focus,
+.field.invalid textarea:focus,
+.field.invalid select:focus {
+    border-color: var(--kds-color-error) !important;
+    outline-color: var(--kds-color-error) !important;
+}
+
+/* Invalid label */
+.field.invalid label {
+    color: var(--kds-color-error) !important;
+}
+
+/* Error message styling (enhanced) */
+.field .error,
+.field span.error {
+    display: block;
+    color: var(--kds-color-error);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    padding: 8px 12px;
+    background: var(--kds-alert-error-bg);
+    border-radius: var(--kds-radius-sm);
+    border-left: 3px solid var(--kds-color-error);
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Helper text (neutral) */
+.field .helper,
+.field span.helper {
+    display: block;
+    color: var(--on-surface-variant, rgba(0, 0, 0, 0.60));
+    font-size: 0.75rem;
+    margin-top: 4px;
+    padding: 4px 12px;
+    line-height: 1.4;
+}
+
+/* ========================================
+   Alert/Banner Components
+   From Figma Make: KYC blocking patterns, info messages
+   ======================================== */
+
+.kds-alert {
+    display: flex;
+    gap: var(--kds-spacing-3);
+    padding: var(--kds-spacing-4);
+    border-radius: var(--kds-radius-md);
+    border: 1px solid;
+    margin: var(--kds-spacing-4) 0;
+    align-items: flex-start;
+}
+
+.kds-alert-icon {
+    flex-shrink: 0;
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.kds-alert-content {
+    flex: 1;
+}
+
+.kds-alert-title {
+    font-weight: var(--kds-font-weight-semibold);
+    margin-bottom: var(--kds-spacing-2);
+    font-size: var(--kds-font-size-base);
+}
+
+.kds-alert-description {
+    font-size: var(--kds-font-size-sm);
+    line-height: 1.5;
+}
+
+/* Alert Variants */
+.kds-alert.info {
+    background: var(--kds-alert-info-bg);
+    border-color: var(--kds-color-info);
+    color: var(--kds-color-info);
+}
+
+.kds-alert.info .kds-alert-icon {
+    color: var(--kds-color-info);
+}
+
+.kds-alert.warning {
+    background: var(--kds-alert-warning-bg);
+    border-color: var(--kds-color-warning);
+    color: var(--kds-color-warning);
+}
+
+.kds-alert.warning .kds-alert-icon {
+    color: var(--kds-color-warning);
+}
+
+.kds-alert.success {
+    background: var(--kds-alert-success-bg);
+    border-color: var(--kds-color-success);
+    color: var(--kds-color-success);
+}
+
+.kds-alert.success .kds-alert-icon {
+    color: var(--kds-color-success);
+}
+
+.kds-alert.error {
+    background: var(--kds-alert-error-bg);
+    border-color: var(--kds-color-error);
+    color: var(--kds-color-error);
+}
+
+.kds-alert.error .kds-alert-icon {
+    color: var(--kds-color-error);
+}
+
+/* Alert with action button */
+.kds-alert-actions {
+    margin-top: var(--kds-spacing-3);
+    display: flex;
+    gap: var(--kds-spacing-2);
+}
+
+/* Compact alert variant (no icon) */
+.kds-alert.compact {
+    padding: var(--kds-spacing-3);
+}
+
+.kds-alert.compact .kds-alert-icon {
+    display: none;
+}
+
+/* ========================================
    Material Symbols Icon Sizing
    ======================================== */
 
@@ -133,6 +1178,1135 @@ footer.primary a:hover {
         'wght' 400,
         'GRAD' 0,
         'opsz' 24;
+}
+
+/* ========================================
+   Typography Scale - EXACT from Figma Make
+   ======================================== */
+
+/* Stage title (e.g., "Etapa 2: Datos personales") */
+.kds-stage-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #111827;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+
+/* Stage subtitle (e.g., "Completa tu información personal") */
+.kds-stage-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6B7280;
+    margin: 0 0 32px 0;
+    text-align: center;
+}
+
+/* Section title (e.g., "Datos personales") */
+.kds-section-title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #111827;
+    margin: 0 0 24px 0;
+}
+
+/* Display styles (largest) */
+.kds-display-large {
+    font-size: var(--kds-font-size-4xl);
+    font-weight: var(--kds-font-weight-bold);
+    line-height: 1.2;
+    margin: 0;
+    letter-spacing: -0.02em;
+    color: #111827;
+}
+
+.kds-display-medium {
+    font-size: var(--kds-font-size-3xl);
+    font-weight: var(--kds-font-weight-bold);
+    line-height: 1.2;
+    margin: 0;
+    letter-spacing: -0.01em;
+    color: #111827;
+}
+
+/* Headline styles */
+.kds-headline-large {
+    font-size: var(--kds-font-size-2xl);
+    font-weight: var(--kds-font-weight-bold);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.kds-headline-medium {
+    font-size: var(--kds-font-size-xl);
+    font-weight: var(--kds-font-weight-bold);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.kds-headline-small {
+    font-size: var(--kds-font-size-lg);
+    font-weight: var(--kds-font-weight-bold);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Title styles */
+.kds-title-large {
+    font-size: var(--kds-font-size-xl);
+    font-weight: var(--kds-font-weight-semibold);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.kds-title-medium {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-semibold);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.kds-title-small {
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-semibold);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Body text styles */
+.kds-body-large {
+    font-size: var(--kds-font-size-lg);
+    font-weight: var(--kds-font-weight-regular);
+    line-height: 1.5;
+}
+
+.kds-body-medium {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-regular);
+    line-height: 1.5;
+}
+
+.kds-body-small {
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-regular);
+    line-height: 1.5;
+}
+
+/* Label styles */
+.kds-label-large {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-semibold);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+.kds-label-medium {
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-semibold);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+.kds-label-small {
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-semibold);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+}
+
+/* Text utilities */
+.kds-text-center {
+    text-align: center;
+}
+
+.kds-text-left {
+    text-align: left;
+}
+
+.kds-text-right {
+    text-align: right;
+}
+
+.kds-text-muted {
+    color: var(--on-surface-variant, rgba(0, 0, 0, 0.60));
+}
+
+.kds-text-primary {
+    color: var(--primary);
+}
+
+.kds-text-success {
+    color: var(--kds-color-success);
+}
+
+.kds-text-error {
+    color: var(--kds-color-error);
+}
+
+.kds-text-warning {
+    color: var(--kds-color-warning);
+}
+
+/* Font weight utilities */
+.kds-font-regular {
+    font-weight: var(--kds-font-weight-regular);
+}
+
+.kds-font-medium {
+    font-weight: var(--kds-font-weight-medium);
+}
+
+.kds-font-semibold {
+    font-weight: var(--kds-font-weight-semibold);
+}
+
+.kds-font-bold {
+    font-weight: var(--kds-font-weight-bold);
+}
+
+/* ========================================
+   Width & Display Utilities
+   ======================================== */
+
+.kds-w-full {
+    width: 100%;
+}
+
+.kds-max-w-sm {
+    max-width: 400px;
+}
+
+.kds-max-w-md {
+    max-width: 600px;
+}
+
+.kds-max-w-lg {
+    max-width: 800px;
+}
+
+/* Status card content styling */
+.kds-card-status .status-content strong {
+    display: block;
+    font-weight: var(--kds-font-weight-semibold);
+    margin-bottom: var(--kds-spacing-1);
+}
+
+.kds-card-status .status-content p {
+    margin: 0;
+    font-size: var(--kds-font-size-sm);
+    color: var(--on-surface-variant, rgba(0, 0, 0, 0.60));
+}
+
+/* Status icon colors */
+.kds-card-status .status-icon.success {
+    color: var(--kds-color-success);
+}
+
+.kds-card-status .status-icon.warning {
+    color: var(--kds-color-warning);
+}
+
+.kds-card-status .status-icon.error {
+    color: var(--kds-color-error);
+}
+
+.kds-card-status .status-icon.info {
+    color: var(--kds-color-info);
+}
+
+/* Card action buttons full width */
+.kds-card-flow button,
+.kds-card-plan button {
+    width: 100%;
+}
+
+/* Flow card content spacing */
+.kds-card-flow h3 {
+    margin-top: 0;
+}
+
+.kds-card-flow ul {
+    margin: var(--kds-spacing-4) 0;
+    padding-left: var(--kds-spacing-5);
+}
+
+/* Plan card title */
+.kds-card-plan h3 {
+    margin: 0;
+}
+
+/* ========================================
+   ONBOARDING COMPONENTS
+   Multi-stage onboarding flow with form validation
+   ======================================== */
+
+/* Onboarding Container - Main wrapper for all stages */
+.kds-onboarding-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--kds-surface-background);
+}
+
+/* Onboarding Header - Contains stepper and progress */
+.kds-onboarding-header {
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Onboarding Main - Content area */
+.kds-onboarding-main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: var(--kds-onboarding-padding);
+}
+
+/* Onboarding Footer - Action buttons */
+.kds-onboarding-footer {
+    flex-shrink: 0;
+    background: #FFFFFF;
+    border-top: 1px solid #E5E7EB;
+    padding: var(--kds-spacing-4) var(--kds-spacing-6);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--kds-spacing-3);
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+}
+
+.kds-onboarding-footer .button-group {
+    display: flex;
+    gap: var(--kds-spacing-3);
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .kds-onboarding-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .kds-onboarding-footer .button-group {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .kds-onboarding-footer button {
+        width: 100% !important;
+    }
+}
+
+/* Stage Layout - Individual stage wrapper */
+.kds-stage {
+    max-width: var(--kds-onboarding-max-width);
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Stage Header - Title and subtitle */
+.kds-stage-header {
+    text-align: center;
+    margin-bottom: var(--kds-spacing-8);
+}
+
+/* Stage Content - Main form/content area */
+.kds-stage-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-onboarding-gap);
+}
+
+/* Stage Actions - Bottom button area (if not using sticky footer) */
+.kds-stage-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--kds-spacing-3);
+    margin-top: var(--kds-spacing-8);
+}
+
+@media (max-width: 768px) {
+    .kds-stage-actions {
+        flex-direction: column;
+    }
+
+    .kds-stage-actions button {
+        width: 100% !important;
+    }
+}
+
+/* Stage Section - Grouping related fields */
+.kds-stage-section {
+    background: #FFFFFF;
+    border-radius: var(--kds-radius-lg);
+    padding: var(--kds-spacing-6);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.kds-stage-section + .kds-stage-section {
+    margin-top: var(--kds-spacing-6);
+}
+
+.kds-stage-section-title {
+    font-size: var(--kds-font-size-lg);
+    font-weight: var(--kds-font-weight-semibold);
+    color: #111827;
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.kds-stage-section-description {
+    font-size: var(--kds-font-size-sm);
+    color: #6B7280;
+    margin-bottom: var(--kds-spacing-4);
+    line-height: 1.5;
+}
+
+/* ========================================
+   FILE UPLOAD COMPONENT
+   Drag-and-drop file upload with preview
+   ======================================== */
+
+.kds-file-upload {
+    width: 100%;
+}
+
+/* Upload Zone - Drag and drop area */
+.kds-file-upload-zone {
+    border: 2px dashed var(--kds-upload-zone-border);
+    border-radius: var(--kds-radius-lg);
+    background: var(--kds-upload-zone-bg);
+    padding: var(--kds-spacing-8);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.kds-file-upload-zone:hover {
+    border-color: var(--kds-upload-zone-border-hover);
+    background: #F3F4F6;
+}
+
+.kds-file-upload-zone.dragover {
+    border-color: var(--kds-upload-zone-border-drag);
+    background: var(--kds-color-primary-50);
+    box-shadow: 0 0 0 4px rgba(131, 71, 173, 0.1);
+}
+
+.kds-file-upload-zone.error {
+    border-color: var(--kds-upload-zone-border-error);
+    background: var(--kds-alert-error-bg);
+}
+
+.kds-file-upload-zone.success {
+    border-color: var(--kds-upload-zone-border-success);
+    background: var(--kds-alert-success-bg);
+}
+
+/* Upload zone content */
+.kds-file-upload-icon {
+    font-size: 48px;
+    color: #9CA3AF;
+    margin-bottom: var(--kds-spacing-3);
+}
+
+.kds-file-upload-zone.dragover .kds-file-upload-icon {
+    color: var(--kds-color-primary-500);
+}
+
+.kds-file-upload-text {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-medium);
+    color: #111827;
+    margin-bottom: var(--kds-spacing-2);
+}
+
+.kds-file-upload-hint {
+    font-size: var(--kds-font-size-sm);
+    color: #6B7280;
+}
+
+/* Hidden file input */
+.kds-file-upload input[type="file"] {
+    display: none;
+}
+
+/* File Preview Area */
+.kds-file-upload-preview {
+    margin-top: var(--kds-spacing-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-3);
+}
+
+/* Individual File Item */
+.kds-file-upload-item {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-3);
+    padding: var(--kds-spacing-3);
+    background: var(--kds-upload-item-bg);
+    border: 1px solid var(--kds-upload-item-border);
+    border-radius: var(--kds-radius-md);
+    transition: all 0.2s ease;
+}
+
+.kds-file-upload-item:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* File icon */
+.kds-file-upload-item-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--kds-color-primary-50);
+    border-radius: var(--kds-radius-md);
+    color: var(--kds-color-primary-500);
+    font-size: 20px;
+}
+
+/* File info */
+.kds-file-upload-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.kds-file-upload-item-name {
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-medium);
+    color: #111827;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kds-file-upload-item-meta {
+    font-size: var(--kds-font-size-xs);
+    color: #6B7280;
+    margin-top: 2px;
+}
+
+/* File status */
+.kds-file-upload-item-status {
+    flex-shrink: 0;
+    font-size: 20px;
+}
+
+.kds-file-upload-item-status.success {
+    color: var(--kds-color-success);
+}
+
+.kds-file-upload-item-status.error {
+    color: var(--kds-color-error);
+}
+
+.kds-file-upload-item-status.uploading {
+    color: var(--kds-color-info);
+}
+
+/* Remove button */
+.kds-file-upload-item-remove {
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: var(--kds-spacing-1);
+    border-radius: var(--kds-radius-sm);
+    transition: all 0.2s ease;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kds-file-upload-item-remove:hover {
+    background: var(--kds-alert-error-bg);
+    color: var(--kds-color-error);
+}
+
+/* Progress bar (for async uploads) */
+.kds-file-upload-progress {
+    height: 4px;
+    background: #E5E7EB;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: var(--kds-spacing-2);
+}
+
+.kds-file-upload-progress-bar {
+    height: 100%;
+    background: var(--kds-color-primary-500);
+    transition: width 0.3s ease;
+}
+
+/* ========================================
+   OTP INPUT COMPONENT
+   6-digit one-time password input
+   ======================================== */
+
+.kds-otp-input {
+    display: flex;
+    justify-content: center;
+    gap: var(--kds-spacing-3);
+    margin: var(--kds-spacing-6) 0;
+}
+
+.kds-otp-digit {
+    width: var(--kds-otp-digit-size);
+    height: var(--kds-otp-digit-height);
+    font-size: var(--kds-font-size-2xl);
+    font-weight: var(--kds-font-weight-bold);
+    text-align: center;
+    border: 2px solid var(--kds-otp-digit-border);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-otp-digit-bg);
+    transition: all 0.2s ease;
+    outline: none;
+    color: #111827;
+}
+
+.kds-otp-digit:focus {
+    border-color: var(--kds-otp-digit-border-focus);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.kds-otp-digit:not(:placeholder-shown) {
+    background: var(--kds-otp-digit-bg-filled);
+    border-color: var(--kds-color-success);
+}
+
+.kds-otp-digit.error {
+    border-color: var(--kds-color-error);
+    background: var(--kds-alert-error-bg);
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+    .kds-otp-input {
+        gap: var(--kds-spacing-2);
+    }
+
+    .kds-otp-digit {
+        width: 48px;
+        height: 56px;
+        font-size: var(--kds-font-size-xl);
+    }
+}
+
+/* ========================================
+   BANK SELECTOR GRID
+   Grid of selectable bank cards
+   ======================================== */
+
+.kds-bank-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--kds-spacing-4);
+    margin: var(--kds-spacing-4) 0;
+}
+
+@media (max-width: 768px) {
+    .kds-bank-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: var(--kds-spacing-3);
+    }
+}
+
+@media (max-width: 480px) {
+    .kds-bank-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--kds-spacing-2);
+    }
+}
+
+/* Individual Bank Item */
+.kds-bank-item {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--kds-spacing-3);
+    border: 2px solid var(--kds-bank-item-border);
+    border-radius: var(--kds-radius-lg);
+    background: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.kds-bank-item:hover {
+    border-color: var(--kds-bank-item-border-hover);
+    background: var(--kds-bank-item-bg-hover);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.kds-bank-item.selected {
+    border-color: var(--kds-bank-item-border-selected);
+    background: var(--kds-bank-item-bg-selected);
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+}
+
+/* Bank logo */
+.kds-bank-item-logo {
+    width: 100%;
+    height: auto;
+    max-width: 80px;
+    margin-bottom: var(--kds-spacing-2);
+    object-fit: contain;
+}
+
+/* Bank name */
+.kds-bank-item-name {
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-medium);
+    color: #111827;
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* Selected checkmark */
+.kds-bank-item-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: var(--kds-color-primary-500);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+}
+
+.kds-bank-item.selected .kds-bank-item-check {
+    display: flex;
+}
+
+.kds-bank-item-check::after {
+    content: "✓";
+    font-weight: 700;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+    .kds-bank-item {
+        padding: var(--kds-spacing-2);
+    }
+
+    .kds-bank-item-logo {
+        max-width: 60px;
+    }
+
+    .kds-bank-item-name {
+        font-size: 10px;
+    }
+
+    .kds-bank-item-check {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        top: 4px;
+        right: 4px;
+    }
+}
+
+/* ========================================
+   KYC BLOCKING MODAL
+   Warning modal for high-risk sectors
+   ======================================== */
+
+.kds-kyc-modal {
+    background: var(--kds-kyc-block-bg);
+    border: 2px solid var(--kds-kyc-block-border);
+    border-radius: var(--kds-radius-lg);
+    padding: var(--kds-spacing-8);
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.kds-kyc-modal-icon {
+    text-align: center;
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.kds-kyc-modal-icon i {
+    font-size: 64px;
+    color: var(--kds-kyc-block-icon);
+}
+
+.kds-kyc-modal-title {
+    font-size: var(--kds-font-size-2xl);
+    font-weight: var(--kds-font-weight-bold);
+    color: var(--kds-kyc-block-text);
+    text-align: center;
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.kds-kyc-modal-message {
+    font-size: var(--kds-font-size-base);
+    color: var(--kds-kyc-block-text);
+    line-height: 1.6;
+    margin-bottom: var(--kds-spacing-6);
+    text-align: center;
+}
+
+.kds-kyc-modal-contact {
+    background: #FFFFFF;
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-spacing-4);
+    margin-bottom: var(--kds-spacing-6);
+    border-left: 4px solid var(--kds-kyc-block-icon);
+}
+
+.kds-kyc-modal-contact strong {
+    display: block;
+    font-weight: var(--kds-font-weight-semibold);
+    color: var(--kds-kyc-block-text);
+    margin-bottom: var(--kds-spacing-2);
+}
+
+.kds-kyc-modal-contact a {
+    color: var(--kds-color-primary-500);
+    text-decoration: none;
+    font-weight: var(--kds-font-weight-medium);
+}
+
+.kds-kyc-modal-contact a:hover {
+    text-decoration: underline;
+}
+
+.kds-kyc-modal-actions {
+    display: flex;
+    gap: var(--kds-spacing-3);
+    justify-content: center;
+}
+
+@media (max-width: 480px) {
+    .kds-kyc-modal {
+        padding: var(--kds-spacing-6);
+    }
+
+    .kds-kyc-modal-icon i {
+        font-size: 48px;
+    }
+
+    .kds-kyc-modal-actions {
+        flex-direction: column;
+    }
+
+    .kds-kyc-modal-actions button {
+        width: 100% !important;
+    }
+}
+
+/* ========================================
+   WELCOME HERO SECTION
+   Full-width gradient hero with CTA
+   ======================================== */
+
+.kds-welcome-hero {
+    background: linear-gradient(135deg, var(--kds-welcome-gradient-start) 0%, var(--kds-welcome-gradient-end) 100%);
+    color: white;
+    padding: var(--kds-spacing-20) var(--kds-spacing-6);
+    text-align: center;
+    border-radius: 0;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative circles */
+.kds-welcome-hero::before,
+.kds-welcome-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.kds-welcome-hero::before {
+    width: 400px;
+    height: 400px;
+    top: -200px;
+    right: -100px;
+}
+
+.kds-welcome-hero::after {
+    width: 300px;
+    height: 300px;
+    bottom: -150px;
+    left: -50px;
+}
+
+.kds-welcome-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.kds-welcome-hero-icon {
+    font-size: 80px;
+    margin-bottom: var(--kds-spacing-4);
+    opacity: 0.9;
+}
+
+.kds-welcome-hero-icon i {
+    width: auto !important;
+    height: auto !important;
+    font-size: 80px !important;
+}
+
+/* Fix for benefit card icons - BeerCSS forces 24px, override for large icons */
+.kds-card-elevated i.icon-filled {
+    width: auto !important;
+    height: auto !important;
+}
+
+.kds-welcome-hero-title {
+    font-size: var(--kds-font-size-4xl);
+    font-weight: var(--kds-font-weight-bold);
+    margin-bottom: var(--kds-spacing-4);
+    line-height: 1.2;
+}
+
+.kds-welcome-hero-subtitle {
+    font-size: var(--kds-font-size-xl);
+    opacity: 0.95;
+    margin-bottom: var(--kds-spacing-8);
+    line-height: 1.5;
+}
+
+.kds-welcome-hero-actions {
+    display: flex;
+    gap: var(--kds-spacing-4);
+    justify-content: center;
+}
+
+
+@media (max-width: 768px) {
+    .kds-welcome-hero {
+        padding: var(--kds-spacing-12) var(--kds-spacing-4);
+    }
+
+    .kds-welcome-hero-icon {
+        font-size: 60px;
+    }
+
+    .kds-welcome-hero-title {
+        font-size: var(--kds-font-size-3xl);
+    }
+
+    .kds-welcome-hero-subtitle {
+        font-size: var(--kds-font-size-lg);
+    }
+
+    .kds-welcome-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .kds-welcome-hero-actions button {
+        width: 100% !important;
+    }
+}
+
+/* ========================================
+   CONTRACT ACCORDION
+   Expandable terms and conditions
+   ======================================== */
+
+.kds-contract-accordion {
+    border: 1px solid var(--kds-accordion-border);
+    border-radius: var(--kds-radius-md);
+    overflow: hidden;
+}
+
+.kds-contract-accordion details {
+    border-bottom: 1px solid var(--kds-accordion-border);
+}
+
+.kds-contract-accordion details:last-child {
+    border-bottom: none;
+}
+
+.kds-contract-accordion summary {
+    padding: var(--kds-spacing-4);
+    background: var(--kds-accordion-header-bg);
+    cursor: pointer;
+    font-weight: var(--kds-font-weight-semibold);
+    color: #111827;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.kds-contract-accordion summary::-webkit-details-marker {
+    display: none;
+}
+
+.kds-contract-accordion summary:hover {
+    background: #E5E7EB;
+}
+
+.kds-contract-accordion summary::after {
+    content: "expand_more";
+    font-family: 'Material Symbols Outlined';
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.kds-contract-accordion details[open] summary::after {
+    transform: rotate(180deg);
+}
+
+.kds-contract-accordion details[open] summary {
+    background: var(--kds-accordion-bg-open);
+    border-bottom: 1px solid var(--kds-accordion-border);
+}
+
+.kds-contract-accordion-content {
+    padding: var(--kds-spacing-4);
+    background: var(--kds-accordion-bg-open);
+    font-size: var(--kds-font-size-sm);
+    line-height: 1.6;
+    color: #374151;
+}
+
+.kds-contract-accordion-content h4 {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-semibold);
+    margin-top: var(--kds-spacing-4);
+    margin-bottom: var(--kds-spacing-2);
+}
+
+.kds-contract-accordion-content p {
+    margin-bottom: var(--kds-spacing-3);
+}
+
+.kds-contract-accordion-content ul,
+.kds-contract-accordion-content ol {
+    margin-bottom: var(--kds-spacing-3);
+    padding-left: var(--kds-spacing-5);
+}
+
+/* ========================================
+   SIGNATURE PAD
+   Canvas-based signature capture
+   ======================================== */
+
+.kds-signature-pad {
+    width: 100%;
+}
+
+.kds-signature-canvas-wrapper {
+    border: 2px solid var(--kds-signature-border);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-signature-bg);
+    padding: var(--kds-spacing-2);
+    margin-bottom: var(--kds-spacing-3);
+}
+
+.kds-signature-canvas {
+    display: block;
+    width: 100%;
+    height: 200px;
+    border-radius: var(--kds-radius-sm);
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.kds-signature-actions {
+    display: flex;
+    gap: var(--kds-spacing-2);
+    justify-content: flex-end;
+}
+
+.kds-signature-clear {
+    background: transparent !important;
+    color: #6B7280 !important;
+    border: 1px solid #D1D5DB !important;
+}
+
+.kds-signature-clear:hover {
+    background: #F3F4F6 !important;
+    border-color: #9CA3AF !important;
+}
+
+/* Form Grid - 2-column responsive layout for forms */
+.kds-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-spacing-4);
+}
+
+@media (min-width: 768px) {
+    .kds-form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .kds-form-grid .field.full-width {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Demo-specific helpers */
+.demo-color-box {
+    padding: var(--kds-spacing-8);
+    border-radius: var(--kds-radius-md);
+    text-align: center;
+    color: white;
+}
+
+.demo-color-box.primary-bg {
+    background: var(--primary);
+}
+
+.demo-color-box.secondary-bg {
+    background: var(--secondary);
+}
+
+.demo-color-box.accent-bg {
+    background: var(--khipu-accent);
+}
+
+.demo-grid-item {
+    padding: var(--kds-spacing-4);
+    border-radius: var(--kds-radius-md);
+    text-align: center;
+}
+
+.demo-grid-item.primary-container-bg {
+    background: var(--primary-container);
+}
+
+.demo-grid-item.secondary-container-bg {
+    background: var(--secondary-container);
+}
+
+.demo-surface-box {
+    background: var(--surface-variant);
+    padding: var(--kds-spacing-4);
+    border-radius: var(--kds-radius-md);
 }
 
 /* ========================================
