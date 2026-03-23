@@ -71,18 +71,16 @@ async function buildCSS() {
 
     // Read source files
     const beerCSS = readFile(path.join(BEERCSS_DIR, 'beer.min.css'));
-    const kdsTokensCSS = readFile(path.join(ROOT_DIR, 'src/tokens/css-variables.css'));
     const khipuTokens = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-tokens.css'));
     const khipuComponents = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-components.css'));
 
     // Remove @import from khipuTokens (we'll include tokens directly)
     const khipuTokensCleaned = khipuTokens.replace(/@import\s+url\([^)]+\);?\s*/g, '');
 
-    // Combine CSS in order: BeerCSS base → KDS Tokens → Khipu token mappings → Khipu components
+    // Combine CSS in order: BeerCSS base → Khipu tokens & mappings → Khipu components
     const combinedCSS = `/* Khipu BeerCSS Bundle - Combined CSS */\n\n` +
         `/* BeerCSS v4.0.1 */\n${beerCSS}\n\n` +
-        `/* Khipu Design System Tokens (from @khipu/design-system) */\n${kdsTokensCSS}\n\n` +
-        `/* Map KDS Tokens to BeerCSS Variables */\n${khipuTokensCleaned}\n\n` +
+        `/* Khipu Design System Tokens & BeerCSS Variable Mappings */\n${khipuTokensCleaned}\n\n` +
         `/* Khipu Custom Components */\n${khipuComponents}\n`;
 
     // Write non-minified version
@@ -113,15 +111,23 @@ async function buildJS() {
     console.log('\n📦 Building JS bundle...');
 
     // Read source files - use non-minified beer.js and minify all together
-    const beerJS = readFile(path.join(BEERCSS_DIR, 'beer.js'));
-    const materialColorsJS = readFile(path.join(MATERIAL_COLORS_DIR, 'material-dynamic-colors.min.js'));
+    let beerJS = readFile(path.join(BEERCSS_DIR, 'beer.js'));
+    let materialColorsJS = readFile(path.join(MATERIAL_COLORS_DIR, 'material-dynamic-colors.min.js'));
     const khipuInitJS = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-init.js'));
+    const khipuOnboardingJS = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-onboarding.js'));
 
-    // Combine JS in order: BeerCSS → Material Colors → Khipu init
+    // Remove ES6 export statements from CDN files (they're meant for modules, but we're using regular script tag)
+    beerJS = beerJS.replace(/export\s*\{[^}]*\};?/g, '');
+    beerJS = beerJS.replace(/export\s+default\s+[^;]+;?/g, '');
+    materialColorsJS = materialColorsJS.replace(/export\s*\{[^}]*\};?/g, '');
+    materialColorsJS = materialColorsJS.replace(/export\s+default\s+[^;]+;?/g, '');
+
+    // Combine JS in order: BeerCSS → Material Colors → Khipu init → Khipu onboarding
     const combinedJS = `/* Khipu BeerCSS Bundle - Combined JavaScript */\n\n` +
         `/* BeerCSS v4.0.1 */\n${beerJS}\n\n` +
         `/* Material Dynamic Colors v1.1.2 */\n${materialColorsJS}\n\n` +
-        `/* Khipu Initialization */\n${khipuInitJS}\n`;
+        `/* Khipu Initialization */\n${khipuInitJS}\n\n` +
+        `/* Khipu Onboarding Controller */\n${khipuOnboardingJS}\n`;
 
     // Write non-minified version
     const jsPath = path.join(OUTPUT_DIR, 'khipu-beercss.js');
