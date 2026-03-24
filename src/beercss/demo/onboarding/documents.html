@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos - Khipu Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle (local development) -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+</head>
+<body>
+    <!-- Onboarding Container -->
+    <div class="kds-onboarding-container">
+        <!-- Header with Stepper -->
+        <div class="kds-onboarding-header">
+            <div class="kds-stepper" style="max-width: 1200px; margin: 0 auto;">
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Selector</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Perfil</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Comercial</div>
+                </div>
+                <div class="kds-step current">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Documentos</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Banco</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Planes</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Contrato</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Validación</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="kds-onboarding-main">
+            <div class="kds-stage" data-stage="3">
+                <!-- Stage Header -->
+                <div class="kds-stage-header">
+                    <h1 class="kds-stage-title">Documentación</h1>
+                    <p class="kds-stage-subtitle">Sube los documentos necesarios para verificar tu identidad</p>
+                </div>
+
+                <!-- Stage Content -->
+                <div class="kds-stage-content">
+                    <!-- Identity Document -->
+                    <div class="kds-stage-section">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">badge</i>
+                            Documento de identidad
+                        </h3>
+                        <p class="kds-stage-section-description">
+                            Cédula de identidad, pasaporte o documento oficial vigente
+                        </p>
+
+                        <div class="kds-file-upload">
+                            <div class="kds-file-upload-zone" id="idDocumentZone" ondrop="handleDrop(event, 'idDocument')"
+                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                                <i class="material-symbols-outlined" style="font-size: 48px; color: var(--primary);">upload_file</i>
+                                <div class="kds-file-upload-text">
+                                    Arrastra tu archivo aquí o
+                                    <label for="idDocumentInput" class="kds-file-upload-button">selecciona un archivo</label>
+                                    <input type="file" id="idDocumentInput" accept=".pdf,.jpg,.jpeg,.png"
+                                           onchange="handleFileSelect(event, 'idDocument')" style="display: none;">
+                                </div>
+                                <span class="kds-file-upload-helper">PDF, JPG o PNG (máx. 5MB)</span>
+                            </div>
+                            <div class="kds-file-upload-preview" id="idDocumentPreview"></div>
+                        </div>
+                    </div>
+
+                    <!-- Proof of Address -->
+                    <div class="kds-stage-section">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">location_on</i>
+                            Comprobante de domicilio
+                        </h3>
+                        <p class="kds-stage-section-description">
+                            Recibo de servicios (luz, agua, gas) o extracto bancario de los últimos 3 meses
+                        </p>
+
+                        <div class="kds-file-upload">
+                            <div class="kds-file-upload-zone" id="addressProofZone" ondrop="handleDrop(event, 'addressProof')"
+                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                                <i class="material-symbols-outlined" style="font-size: 48px; color: var(--primary);">upload_file</i>
+                                <div class="kds-file-upload-text">
+                                    Arrastra tu archivo aquí o
+                                    <label for="addressProofInput" class="kds-file-upload-button">selecciona un archivo</label>
+                                    <input type="file" id="addressProofInput" accept=".pdf,.jpg,.jpeg,.png"
+                                           onchange="handleFileSelect(event, 'addressProof')" style="display: none;">
+                                </div>
+                                <span class="kds-file-upload-helper">PDF, JPG o PNG (máx. 5MB)</span>
+                            </div>
+                            <div class="kds-file-upload-preview" id="addressProofPreview"></div>
+                        </div>
+                    </div>
+
+                    <!-- Business Documents (Juridica only) -->
+                    <div class="kds-stage-section" id="businessDocsSection" style="display: none;">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">business</i>
+                            Documentos de la empresa
+                        </h3>
+                        <p class="kds-stage-section-description">
+                            Escritura de constitución y/o certificado de vigencia
+                        </p>
+
+                        <div class="kds-file-upload">
+                            <div class="kds-file-upload-zone" id="businessDocsZone" ondrop="handleDrop(event, 'businessDocs')"
+                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                                <i class="material-symbols-outlined" style="font-size: 48px; color: var(--primary);">upload_file</i>
+                                <div class="kds-file-upload-text">
+                                    Arrastra tu archivo aquí o
+                                    <label for="businessDocsInput" class="kds-file-upload-button">selecciona un archivo</label>
+                                    <input type="file" id="businessDocsInput" accept=".pdf" multiple
+                                           onchange="handleFileSelect(event, 'businessDocs')" style="display: none;">
+                                </div>
+                                <span class="kds-file-upload-helper">PDF (máx. 10MB por archivo)</span>
+                            </div>
+                            <div class="kds-file-upload-preview" id="businessDocsPreview"></div>
+                        </div>
+                    </div>
+
+                    <!-- Info Alert -->
+                    <div class="kds-alert info">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">info</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Seguridad de tus documentos</div>
+                            <div class="kds-alert-description">
+                                Todos los documentos se almacenan de forma segura y cifrada. Solo los usamos para verificar tu identidad.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer with Actions -->
+        <div class="kds-onboarding-footer">
+            <button class="kds-btn kds-btn-text" onclick="goBack()">
+                <span class="kds-icon"><i class="material-symbols-outlined">arrow_back</i></span>
+                Volver
+            </button>
+
+            <div class="button-group">
+                <span class="kds-body-small kds-text-muted">Paso 4 de 8</span>
+                <button id="nextButton" class="kds-btn kds-btn-primary" onclick="goNext()" disabled>
+                    Continuar
+                    <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+
+    <script>
+        // Initialize onboarding
+        const onboarding = new KhipuOnboarding({
+            totalStages: 8,
+            locale: 'es-CL',
+            apiEndpoint: '/api/onboarding'
+        });
+
+        // Get saved data
+        const personType = onboarding.getFormData('personType') || 'natural';
+
+        // File storage
+        const uploadedFiles = {
+            idDocument: null,
+            addressProof: null,
+            businessDocs: []
+        };
+
+        // Max file sizes (in bytes)
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        const MAX_BUSINESS_DOC_SIZE = 10 * 1024 * 1024; // 10MB
+
+        // Allowed file types
+        const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+
+        // Initialize
+        window.addEventListener('load', () => {
+            setupFormForPersonType();
+            loadSavedFiles();
+        });
+
+        function setupFormForPersonType() {
+            const businessDocsSection = document.getElementById('businessDocsSection');
+
+            if (personType === 'juridica') {
+                businessDocsSection.style.display = 'block';
+            } else {
+                businessDocsSection.style.display = 'none';
+            }
+        }
+
+        function loadSavedFiles() {
+            const savedFiles = onboarding.getFormData('documents');
+            if (savedFiles) {
+                // Note: In a real implementation, you'd load file references
+                // from localStorage or API and display previews
+                updateNextButton();
+            }
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.remove('dragover');
+        }
+
+        function handleDrop(event, type) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.remove('dragover');
+
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                processFiles(files, type);
+            }
+        }
+
+        function handleFileSelect(event, type) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                processFiles(files, type);
+            }
+        }
+
+        function processFiles(files, type) {
+            for (let file of files) {
+                // Validate file type
+                if (!ALLOWED_TYPES.includes(file.type)) {
+                    onboarding.showSnackbar('Tipo de archivo no permitido. Usa PDF, JPG o PNG', 'error');
+                    continue;
+                }
+
+                // Validate file size
+                const maxSize = type === 'businessDocs' ? MAX_BUSINESS_DOC_SIZE : MAX_FILE_SIZE;
+                if (file.size > maxSize) {
+                    const maxSizeMB = maxSize / (1024 * 1024);
+                    onboarding.showSnackbar(`El archivo es muy grande. Máximo ${maxSizeMB}MB`, 'error');
+                    continue;
+                }
+
+                // Store file
+                if (type === 'businessDocs') {
+                    uploadedFiles.businessDocs.push(file);
+                } else {
+                    uploadedFiles[type] = file;
+                }
+
+                // Show preview
+                showFilePreview(file, type);
+            }
+
+            // Save to onboarding
+            saveFiles();
+
+            // Update button state
+            updateNextButton();
+        }
+
+        function showFilePreview(file, type) {
+            const previewContainer = document.getElementById(type + 'Preview');
+
+            const item = document.createElement('div');
+            item.className = 'kds-file-upload-item';
+
+            // File icon
+            const icon = document.createElement('i');
+            icon.className = 'material-symbols-outlined';
+            icon.textContent = file.type === 'application/pdf' ? 'picture_as_pdf' : 'image';
+
+            // File info
+            const info = document.createElement('div');
+            info.className = 'kds-file-upload-item-info';
+
+            const name = document.createElement('div');
+            name.className = 'kds-file-upload-item-name';
+            name.textContent = file.name;
+
+            const size = document.createElement('div');
+            size.className = 'kds-file-upload-item-size';
+            size.textContent = formatFileSize(file.size);
+
+            info.appendChild(name);
+            info.appendChild(size);
+
+            // Remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'transparent circle';
+            removeBtn.innerHTML = '<span class="kds-icon"><i class="material-symbols-outlined">close</i></span>';
+            removeBtn.onclick = () => removeFile(file, type, item);
+
+            item.appendChild(icon);
+            item.appendChild(info);
+            item.appendChild(removeBtn);
+
+            previewContainer.appendChild(item);
+        }
+
+        function removeFile(file, type, itemElement) {
+            if (type === 'businessDocs') {
+                uploadedFiles.businessDocs = uploadedFiles.businessDocs.filter(f => f !== file);
+            } else {
+                uploadedFiles[type] = null;
+            }
+
+            itemElement.remove();
+            saveFiles();
+            updateNextButton();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        function saveFiles() {
+            // In a real implementation, you'd upload files to API
+            // and save file references to localStorage
+            const fileRefs = {
+                idDocument: uploadedFiles.idDocument ? uploadedFiles.idDocument.name : null,
+                addressProof: uploadedFiles.addressProof ? uploadedFiles.addressProof.name : null,
+                businessDocs: uploadedFiles.businessDocs.map(f => f.name)
+            };
+
+            onboarding.setFormData('documents', fileRefs);
+        }
+
+        function updateNextButton() {
+            const nextButton = document.getElementById('nextButton');
+            let allUploaded = uploadedFiles.idDocument && uploadedFiles.addressProof;
+
+            if (personType === 'juridica') {
+                allUploaded = allUploaded && uploadedFiles.businessDocs.length > 0;
+            }
+
+            nextButton.disabled = !allUploaded;
+        }
+
+        function goBack() {
+            window.location.href = 'commercial-data.html';
+        }
+
+        function goNext() {
+            if (!uploadedFiles.idDocument || !uploadedFiles.addressProof) {
+                onboarding.showSnackbar('Por favor sube todos los documentos requeridos', 'error');
+                return;
+            }
+
+            if (personType === 'juridica' && uploadedFiles.businessDocs.length === 0) {
+                onboarding.showSnackbar('Por favor sube los documentos de la empresa', 'error');
+                return;
+            }
+
+            // In a real implementation, upload files to API here
+            onboarding.showSnackbar('Documentos guardados exitosamente', 'success');
+
+            setTimeout(() => {
+                window.location.href = 'bank-connection.html';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

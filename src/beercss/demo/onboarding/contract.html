@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrato - Khipu Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle (local development) -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+
+    <style>
+        /* Contract Styles */
+        .kds-contract-content {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: var(--kds-spacing-6);
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: var(--kds-spacing-6);
+        }
+
+        .kds-contract-content details {
+            margin-bottom: var(--kds-spacing-4);
+        }
+
+        .kds-contract-content summary {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            padding: var(--kds-spacing-3);
+            background: #F9FAFB;
+            border-radius: 8px;
+            user-select: none;
+        }
+
+        .kds-contract-content summary:hover {
+            background: #F3F4F6;
+        }
+
+        .kds-contract-content details[open] summary {
+            background: var(--kds-color-primary-50);
+            color: var(--primary);
+            margin-bottom: var(--kds-spacing-3);
+        }
+
+        .kds-contract-content details > div {
+            padding: var(--kds-spacing-4);
+            font-size: 14px;
+            line-height: 1.6;
+            color: #4B5563;
+        }
+
+        /* Signature Pad */
+        .kds-signature-pad {
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            background: white;
+            margin: var(--kds-spacing-4) 0;
+        }
+
+        .kds-signature-canvas {
+            display: block;
+            width: 100%;
+            height: 200px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .kds-signature-actions {
+            padding: var(--kds-spacing-3);
+            border-top: 1px solid #E5E7EB;
+            text-align: right;
+        }
+
+        .kds-signature-pad.signed {
+            border-color: var(--kds-color-success-500);
+            background: var(--kds-color-success-50);
+        }
+    </style>
+</head>
+<body>
+    <!-- Onboarding Container -->
+    <div class="kds-onboarding-container">
+        <!-- Header with Stepper -->
+        <div class="kds-onboarding-header">
+            <div class="kds-stepper" style="max-width: 1200px; margin: 0 auto;">
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Selector</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Perfil</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Comercial</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Documentos</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Banco</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Planes</div>
+                </div>
+                <div class="kds-step current">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Contrato</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Validación</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="kds-onboarding-main">
+            <div class="kds-stage" data-stage="6">
+                <!-- Stage Header -->
+                <div class="kds-stage-header">
+                    <h1 class="kds-stage-title">Términos y condiciones</h1>
+                    <p class="kds-stage-subtitle">Revisa y firma el contrato de servicios</p>
+                </div>
+
+                <!-- Stage Content -->
+                <div class="kds-stage-content">
+                    <!-- Contract Content -->
+                    <div class="kds-stage-section">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">description</i>
+                            Contrato de servicios Khipu
+                        </h3>
+
+                        <div class="kds-contract-content">
+                            <details>
+                                <summary>1. Objeto del contrato</summary>
+                                <div>
+                                    <p>
+                                        El presente contrato tiene por objeto establecer los términos y condiciones bajo los cuales Khipu SpA
+                                        (en adelante "Khipu") prestará sus servicios de plataforma de pagos automáticos al comercio adherente
+                                        (en adelante "el Comercio").
+                                    </p>
+                                    <p>
+                                        Los servicios incluyen la facilitación de transacciones de pago entre el Comercio y sus clientes finales,
+                                        mediante transferencias electrónicas directas desde cuentas bancarias.
+                                    </p>
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>2. Comisiones y tarifas</summary>
+                                <div>
+                                    <p>
+                                        Las comisiones aplicables serán las indicadas en el plan seleccionado durante el proceso de registro.
+                                        Khipu se reserva el derecho de modificar las comisiones con previo aviso de 30 días corridos.
+                                    </p>
+                                    <p>
+                                        Toda transacción procesada estará sujeta a la comisión vigente al momento de su ejecución.
+                                        Los fondos serán transferidos a la cuenta bancaria del Comercio dentro de las 24-48 horas hábiles
+                                        posteriores a la confirmación del pago.
+                                    </p>
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>3. Obligaciones del comercio</summary>
+                                <div>
+                                    <p>El Comercio se obliga a:</p>
+                                    <ul>
+                                        <li>Proveer información verídica y actualizada en todo momento</li>
+                                        <li>Cumplir con todas las leyes y regulaciones aplicables a su actividad comercial</li>
+                                        <li>No utilizar los servicios de Khipu para actividades ilegales o fraudulentas</li>
+                                        <li>Mantener la confidencialidad de sus credenciales de acceso</li>
+                                        <li>Informar inmediatamente sobre cualquier uso no autorizado de su cuenta</li>
+                                    </ul>
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>4. Limitaciones de responsabilidad</summary>
+                                <div>
+                                    <p>
+                                        Khipu no será responsable por:
+                                    </p>
+                                    <ul>
+                                        <li>Interrupciones del servicio causadas por terceros (bancos, proveedores de internet, etc.)</li>
+                                        <li>Pérdidas derivadas del mal uso de la plataforma por parte del Comercio</li>
+                                        <li>Devoluciones o disputas iniciadas por clientes finales</li>
+                                        <li>Incumplimiento de obligaciones tributarias del Comercio</li>
+                                    </ul>
+                                    <p>
+                                        La responsabilidad máxima de Khipu se limitará al monto de las comisiones pagadas por el Comercio
+                                        en los últimos 12 meses.
+                                    </p>
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>5. Protección de datos personales</summary>
+                                <div>
+                                    <p>
+                                        Khipu se compromete a proteger los datos personales del Comercio y sus clientes de acuerdo con
+                                        la Ley 19.628 sobre Protección de la Vida Privada y el Reglamento General de Protección de Datos (GDPR).
+                                    </p>
+                                    <p>
+                                        Los datos serán utilizados únicamente para la prestación de servicios y no serán compartidos con
+                                        terceros salvo cuando sea requerido por ley o con consentimiento expreso del Comercio.
+                                    </p>
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>6. Vigencia y terminación</summary>
+                                <div>
+                                    <p>
+                                        Este contrato entrará en vigor al momento de su aceptación y tendrá una duración indefinida.
+                                        Cualquiera de las partes podrá terminarlo con un aviso previo de 30 días corridos.
+                                    </p>
+                                    <p>
+                                        Khipu podrá suspender o terminar el servicio inmediatamente en caso de:
+                                    </p>
+                                    <ul>
+                                        <li>Violación de los términos y condiciones</li>
+                                        <li>Actividades fraudulentas o ilegales</li>
+                                        <li>Mora en el pago de comisiones</li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+
+                    <!-- Signature Section -->
+                    <div class="kds-stage-section">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">draw</i>
+                            Firma digital
+                        </h3>
+                        <p class="kds-stage-section-description">
+                            Firma en el recuadro para aceptar los términos y condiciones
+                        </p>
+
+                        <div class="kds-signature-pad" id="signaturePad">
+                            <canvas id="signatureCanvas" class="kds-signature-canvas"></canvas>
+                            <div class="kds-signature-actions">
+                                <button type="button" class="kds-btn kds-btn-text" onclick="clearSignature()">
+                                    <span class="kds-icon"><i class="material-symbols-outlined">delete</i></span>
+                                    Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acceptance Checkbox -->
+                    <div class="kds-stage-section">
+                        <label class="checkbox">
+                            <input type="checkbox" id="acceptTerms" onchange="updateNextButton()">
+                            <span>
+                                He leído y acepto los <strong>términos y condiciones</strong> del contrato de servicios.
+                                Declaro que la información proporcionada es verídica y autorizo a Khipu a verificarla.
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer with Actions -->
+        <div class="kds-onboarding-footer">
+            <button class="kds-btn kds-btn-text" onclick="goBack()">
+                <span class="kds-icon"><i class="material-symbols-outlined">arrow_back</i></span>
+                Volver
+            </button>
+
+            <div class="button-group">
+                <span class="kds-body-small kds-text-muted">Paso 7 de 8</span>
+                <button id="nextButton" class="kds-btn kds-btn-primary" onclick="goNext()" disabled>
+                    Continuar
+                    <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+
+    <script>
+        // Initialize onboarding
+        const onboarding = new KhipuOnboarding({
+            totalStages: 8,
+            locale: 'es-CL',
+            apiEndpoint: '/api/onboarding'
+        });
+
+        // Signature Pad Setup
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let hasSigned = false;
+
+        // Set canvas size
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 200;
+        }
+
+        window.addEventListener('load', () => {
+            resizeCanvas();
+            loadSavedSignature();
+        });
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // Drawing functions
+        function startDrawing(e) {
+            isDrawing = true;
+            const pos = getMousePos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const pos = getMousePos(e);
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#111827';
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+
+            hasSigned = true;
+            document.getElementById('signaturePad').classList.add('signed');
+            updateNextButton();
+        }
+
+        function stopDrawing() {
+            if (isDrawing) {
+                isDrawing = false;
+                saveSignature();
+            }
+        }
+
+        function getMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches ? e.touches[0] : e;
+            return {
+                x: (touch.clientX - rect.left) * (canvas.width / rect.width),
+                y: (touch.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        // Mouse events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // Touch events
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            startDrawing(e);
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            draw(e);
+        });
+        canvas.addEventListener('touchend', stopDrawing);
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hasSigned = false;
+            document.getElementById('signaturePad').classList.remove('signed');
+            onboarding.setFormData('signature', null);
+            updateNextButton();
+        }
+
+        function saveSignature() {
+            // In a real implementation, convert canvas to base64 and save
+            const signatureData = canvas.toDataURL('image/png');
+            onboarding.setFormData('signature', signatureData);
+        }
+
+        function loadSavedSignature() {
+            const savedSignature = onboarding.getFormData('signature');
+            const acceptedTerms = onboarding.getFormData('acceptTerms');
+
+            if (savedSignature) {
+                const img = new Image();
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0);
+                    hasSigned = true;
+                    document.getElementById('signaturePad').classList.add('signed');
+                    updateNextButton();
+                };
+                img.src = savedSignature;
+            }
+
+            if (acceptedTerms) {
+                document.getElementById('acceptTerms').checked = true;
+                updateNextButton();
+            }
+        }
+
+        function updateNextButton() {
+            const acceptTerms = document.getElementById('acceptTerms').checked;
+            const nextButton = document.getElementById('nextButton');
+
+            nextButton.disabled = !(hasSigned && acceptTerms);
+
+            // Save acceptance
+            if (acceptTerms) {
+                onboarding.setFormData('acceptTerms', true);
+                onboarding.setFormData('acceptedAt', new Date().toISOString());
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'pricing.html';
+        }
+
+        function goNext() {
+            if (!hasSigned) {
+                onboarding.showSnackbar('Por favor firma el contrato', 'error');
+                return;
+            }
+
+            if (!document.getElementById('acceptTerms').checked) {
+                onboarding.showSnackbar('Debes aceptar los términos y condiciones', 'error');
+                return;
+            }
+
+            // Move to next stage
+            window.location.href = 'validation.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes - Khipu Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle (local development) -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+</head>
+<body>
+    <!-- Onboarding Container -->
+    <div class="kds-onboarding-container">
+        <!-- Header with Stepper -->
+        <div class="kds-onboarding-header">
+            <div class="kds-stepper" style="max-width: 1200px; margin: 0 auto;">
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Selector</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Perfil</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Comercial</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Documentos</div>
+                </div>
+                <div class="kds-step completed">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Banco</div>
+                </div>
+                <div class="kds-step current">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Planes</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Contrato</div>
+                </div>
+                <div class="kds-step">
+                    <div class="kds-step-indicator"></div>
+                    <div class="kds-step-label">Validación</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="kds-onboarding-main">
+            <div class="kds-stage" data-stage="5">
+                <!-- Stage Header -->
+                <div class="kds-stage-header">
+                    <h1 class="kds-stage-title">Elige tu plan</h1>
+                    <p class="kds-stage-subtitle">Selecciona el plan que mejor se ajuste a tu volumen de pagos</p>
+                </div>
+
+                <!-- Stage Content -->
+                <div class="kds-stage-content">
+                    <!-- Pricing Cards -->
+                    <div class="kds-grid-3col">
+                        <!-- Basic Plan -->
+                        <div class="kds-card-plan" data-plan="basic" onclick="selectPlan('basic')">
+                            <div class="kds-card-plan-header">
+                                <h3 class="kds-title-large">Basic</h3>
+                                <p class="kds-body-medium kds-text-muted">Para emprendimientos pequeños</p>
+                            </div>
+
+                            <div class="kds-card-plan-price">
+                                <span class="kds-price">$0</span>
+                                <span class="kds-price-period">/mes</span>
+                            </div>
+
+                            <div class="kds-card-plan-features">
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Hasta 100 transacciones/mes</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Comisión 2.5% + $150</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>API básica</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Soporte por email</span>
+                                </div>
+                                <div class="kds-feature disabled">
+                                    <i class="material-symbols-outlined">close</i>
+                                    <span>Webhooks</span>
+                                </div>
+                                <div class="kds-feature disabled">
+                                    <i class="material-symbols-outlined">close</i>
+                                    <span>Soporte prioritario</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pro Plan (Recommended) -->
+                        <div class="kds-card-plan recommended" data-plan="pro" onclick="selectPlan('pro')">
+                            <div class="kds-card-plan-badge">Recomendado</div>
+
+                            <div class="kds-card-plan-header">
+                                <h3 class="kds-title-large">Pro</h3>
+                                <p class="kds-body-medium kds-text-muted">Para negocios en crecimiento</p>
+                            </div>
+
+                            <div class="kds-card-plan-price">
+                                <span class="kds-price">$29.990</span>
+                                <span class="kds-price-period">/mes</span>
+                            </div>
+
+                            <div class="kds-card-plan-features">
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Hasta 1.000 transacciones/mes</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Comisión 1.9% + $100</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>API completa</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Webhooks</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Soporte por email y chat</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Reportes avanzados</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enterprise Plan -->
+                        <div class="kds-card-plan" data-plan="enterprise" onclick="selectPlan('enterprise')">
+                            <div class="kds-card-plan-header">
+                                <h3 class="kds-title-large">Enterprise</h3>
+                                <p class="kds-body-medium kds-text-muted">Para empresas grandes</p>
+                            </div>
+
+                            <div class="kds-card-plan-price">
+                                <span class="kds-price">Personalizado</span>
+                            </div>
+
+                            <div class="kds-card-plan-features">
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Transacciones ilimitadas</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Comisión personalizada</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>API completa + SLA</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Webhooks</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Soporte prioritario 24/7</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>Account manager dedicado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Info Alert -->
+                    <div class="kds-alert info" style="margin-top: var(--kds-spacing-6);">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">info</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">¿Necesitas ayuda para elegir?</div>
+                            <div class="kds-alert-description">
+                                Puedes cambiar de plan en cualquier momento. Te recomendamos comenzar con el plan Pro para aprovechar todas las funcionalidades.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer with Actions -->
+        <div class="kds-onboarding-footer">
+            <button class="kds-btn kds-btn-text" onclick="goBack()">
+                <span class="kds-icon"><i class="material-symbols-outlined">arrow_back</i></span>
+                Volver
+            </button>
+
+            <div class="button-group">
+                <span class="kds-body-small kds-text-muted">Paso 6 de 8</span>
+                <button id="nextButton" class="kds-btn kds-btn-primary" onclick="goNext()" disabled>
+                    Continuar
+                    <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+
+    <script>
+        // Initialize onboarding
+        const onboarding = new KhipuOnboarding({
+            totalStages: 8,
+            locale: 'es-CL',
+            apiEndpoint: '/api/onboarding'
+        });
+
+        // State
+        let selectedPlan = null;
+
+        // Initialize
+        window.addEventListener('load', () => {
+            loadSavedPlan();
+        });
+
+        function selectPlan(plan) {
+            // Clear previous selection
+            document.querySelectorAll('.kds-card-plan').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Mark as selected
+            const selectedCard = document.querySelector(`[data-plan="${plan}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+                selectedPlan = plan;
+
+                // Save to onboarding
+                onboarding.setFormData('plan', plan);
+
+                // Update button state
+                updateNextButton();
+            }
+        }
+
+        function loadSavedPlan() {
+            const savedPlan = onboarding.getFormData('plan');
+
+            if (savedPlan) {
+                selectPlan(savedPlan);
+            } else {
+                // Pre-select recommended plan (Pro)
+                selectPlan('pro');
+            }
+        }
+
+        function updateNextButton() {
+            const nextButton = document.getElementById('nextButton');
+            nextButton.disabled = !selectedPlan;
+        }
+
+        function goBack() {
+            window.location.href = 'bank-connection.html';
+        }
+
+        function goNext() {
+            if (!selectedPlan) {
+                onboarding.showSnackbar('Por favor selecciona un plan', 'error');
+                return;
+            }
+
+            // Move to next stage
+            window.location.href = 'contract.html';
+        }
+    </script>
+</body>
+</html>

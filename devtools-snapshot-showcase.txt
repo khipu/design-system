@@ -1,0 +1,736 @@
+uid=8_0 RootWebArea "Showcase de Componentes - Khipu Onboarding" url="http://localhost:3000/onboarding/components.html"
+  uid=8_1 heading "Showcase de Componentes Onboarding" level="1"
+  uid=8_2 StaticText "Galería de componentes reutilizables para el flujo de onboarding"
+  uid=8_3 navigation
+    uid=8_4 button "📐 Layout"
+    uid=8_5 button "☑️ Selection"
+    uid=8_6 button "📝 Forms"
+    uid=8_7 button "💬 Display"
+    uid=8_8 button "🎯 Actions"
+    uid=8_9 button "🚀 Advanced"
+  uid=8_10 main
+    uid=8_11 heading "📐 Layout Components" level="2"
+    uid=8_12 heading "Stepper" level="3"
+    uid=8_13 StaticText "Indicador de progreso del flujo de onboarding"
+    uid=8_14 StaticText "check"
+    uid=8_15 StaticText "Selector"
+    uid=8_14 StaticText "check"
+    uid=8_16 StaticText "Perfil"
+    uid=8_17 StaticText "Comercial"
+    uid=8_18 StaticText "Documentos"
+    uid=8_19 StaticText "Banco"
+    uid=8_20 button "📋 Copy"
+    uid=8_21 StaticText "<div class="kds-stepper">
+    <div class="kds-step completed">
+        <div class="kds-step-indicator"></div>
+        <div class="kds-step-label">Selector</div>
+    </div>
+    <div class="kds-step current">
+        <div class="kds-step-indicator"></div>
+        <div class="kds-step-label">Comercial</div>
+    </div>
+    <div class="kds-step">
+        <div class="kds-step-indicator"></div>
+        <div class="kds-step-label">Documentos</div>
+    </div>
+</div>"
+    uid=8_22 heading "Usage Notes" level="4"
+    uid=8_23 StaticText "States:"
+    uid=8_24 StaticText " "
+    uid=8_25 StaticText ".completed"
+    uid=8_26 StaticText " (verde con checkmark), "
+    uid=8_27 StaticText ".current"
+    uid=8_28 StaticText " (azul), default (gris)"
+    uid=8_29 StaticText "Responsive:"
+    uid=8_30 StaticText " En mobile oculta labels automáticamente"
+    uid=8_31 StaticText "Line:"
+    uid=8_32 StaticText " Conecta automáticamente los steps con pseudo-elemento"
+    uid=8_33 heading "Grails/GSP Integration" level="4"
+    uid=8_34 StaticText "<div class="kds-stepper">
+    <g:each in="${stages}" var="stage" status="i">
+        <div class="kds-step ${i < currentStage ? 'completed' : ''} ${i == currentStage ? 'current' : ''}">
+            <div class="kds-step-indicator"></div>
+            <div class="kds-step-label">${stage.label}</div>
+        </div>
+    </g:each>
+</div>"
+    uid=8_35 heading "Welcome Hero" level="3"
+    uid=8_36 StaticText "Hero section con gradiente púrpura Khipu"
+    uid=8_37 heading "Bienvenido a Khipu" level="1"
+    uid=8_38 StaticText "Empecemos a configurar tu cuenta para recibir pagos en línea"
+    uid=8_39 StaticText "rocket_launch"
+    uid=8_40 button "📋 Copy"
+    uid=8_41 StaticText "<div class="kds-welcome-hero">
+    <h1 class="kds-welcome-title">Bienvenido a Khipu</h1>
+    <p class="kds-welcome-subtitle">Empecemos a configurar tu cuenta</p>
+    <div class="kds-welcome-icon">
+        <i class="material-symbols-outlined icon-filled" style="font-size: 80px;">rocket_launch</i>
+    </div>
+</div>"
+    uid=8_42 heading "Usage Notes" level="4"
+    uid=8_43 StaticText "Gradient:"
+    uid=8_44 StaticText " Usa variables "
+    uid=8_45 StaticText "--kds-welcome-gradient-start/end"
+    uid=8_46 StaticText " (púrpura Khipu #8347AD)"
+    uid=8_47 StaticText "Icons:"
+    uid=8_48 StaticText " Material Symbols con clase "
+    uid=8_49 StaticText ".icon-filled"
+    uid=8_50 StaticText "Height:"
+    uid=8_51 StaticText " 400px en desktop, 350px en mobile"
+    uid=8_52 heading "Stage Container" level="3"
+    uid=8_53 StaticText "Contenedor para cada etapa del onboarding"
+    uid=8_54 heading "Título de la etapa" level="1"
+    uid=8_55 StaticText "Descripción breve de lo que el usuario debe hacer"
+    uid=8_56 heading "info Sección de contenido" level="3"
+    uid=8_57 StaticText "Instrucciones específicas para esta sección."
+    uid=8_58 button "📋 Copy"
+    uid=8_59 StaticText "<div class="kds-stage-header">
+    <h1 class="kds-stage-title">Título de la etapa</h1>
+    <p class="kds-stage-subtitle">Descripción breve</p>
+</div>
+
+<div class="kds-stage-section">
+    <h3 class="kds-stage-section-title">
+        <i class="material-symbols-outlined">info</i>
+        Sección
+    </h3>
+    <p class="kds-stage-section-description">Instrucciones</p>
+</div>"
+    uid=8_60 heading "☑️ Selection Components" level="2"
+    uid=8_61 heading "Card Selector" level="3"
+    uid=8_62 StaticText "Tarjetas seleccionables con icono, título y descripción"
+    uid=8_63 StaticText "person"
+    uid=8_64 StaticText "Persona Natural"
+    uid=8_65 StaticText "Emprendedor individual o freelancer"
+    uid=8_66 StaticText "business"
+    uid=8_67 StaticText "Persona Jurídica"
+    uid=8_68 StaticText "Empresa o sociedad legalmente constituida"
+    uid=8_69 button "📋 Copy"
+    uid=8_70 StaticText "<div class="kds-grid-2col">
+    <div class="kds-card-selector" data-value="natural" onclick="selectCard(this)">
+        <div class="kds-card-selector-icon">
+            <i class="material-symbols-outlined">person</i>
+        </div>
+        <div class="kds-card-selector-title">Persona Natural</div>
+        <div class="kds-card-selector-description">
+            Emprendedor individual o freelancer
+        </div>
+    </div>
+</div>
+
+<script>
+function selectCard(card) {
+    card.parentElement.querySelectorAll('.kds-card-selector').forEach(c =>
+        c.classList.remove('selected')
+    );
+    card.classList.add('selected');
+}
+</script>"
+    uid=8_71 heading "Usage Notes" level="4"
+    uid=8_72 StaticText "Grids:"
+    uid=8_73 StaticText " "
+    uid=8_74 StaticText ".kds-grid-2col"
+    uid=8_75 StaticText " (2 columnas), "
+    uid=8_76 StaticText ".kds-grid-3col"
+    uid=8_77 StaticText " (3 columnas)"
+    uid=8_78 StaticText "Selection:"
+    uid=8_79 StaticText " Clase "
+    uid=8_80 StaticText ".selected"
+    uid=8_81 StaticText " muestra borde azul"
+    uid=8_82 StaticText "Responsive:"
+    uid=8_83 StaticText " Colapsa a 1 columna en mobile"
+    uid=8_84 heading "Bank Grid Selector" level="3"
+    uid=8_85 StaticText "Grid de selección de bancos con logos"
+    uid=8_86 image "Banco de Chile" url="https://via.placeholder.com/100x50?text=Banco+Chile"
+    uid=8_87 image "BancoEstado" url="https://via.placeholder.com/100x50?text=BancoEstado"
+    uid=8_88 image "Santander" url="https://via.placeholder.com/100x50?text=Santander"
+    uid=8_89 image "BCI" url="https://via.placeholder.com/100x50?text=BCI"
+    uid=8_90 button "📋 Copy"
+    uid=8_91 StaticText "<div class="kds-bank-grid">
+    <div class="kds-bank-item" data-bank="banco-chile" onclick="selectBank(this)">
+        <img src="/images/banks/banco-chile.png" alt="Banco de Chile">
+    </div>
+    <!-- More banks... -->
+</div>"
+    uid=8_92 heading "📝 Form Components" level="2"
+    uid=8_93 heading "Text Fields" level="3"
+    uid=8_94 StaticText "Campos de texto con validación"
+    uid=8_95 StaticText "Nombre completo"
+    uid=8_96 textbox "Juan Pérez"
+    uid=8_97 StaticText "RUT"
+    uid=8_98 textbox "12.345.678-9"
+    uid=8_99 button "📋 Copy"
+    uid=8_100 StaticText "<div class="kds-form-group">
+    <label class="kds-form-label">Nombre completo</label>
+    <div class="field border">
+        <input type="text" placeholder="Juan Pérez">
+    </div>
+</div>"
+    uid=8_101 heading "File Upload" level="3"
+    uid=8_102 StaticText "Área de carga de archivos con drag & drop"
+    uid=8_103 StaticText "cloud_upload"
+    uid=8_104 StaticText "Arrastra tu archivo aquí o "
+    uid=8_105 StaticText "haz clic para seleccionar"
+    uid=8_106 StaticText "PDF, JPG o PNG (máx. 5MB)"
+    uid=8_107 button "📋 Copy"
+    uid=8_108 StaticText "<div class="kds-file-upload">
+    <input type="file" id="file-upload" accept=".pdf,.jpg,.png" style="display: none;">
+    <label for="file-upload" class="kds-file-upload-area">
+        <i class="material-symbols-outlined">cloud_upload</i>
+        <p class="kds-file-upload-text">
+            Arrastra tu archivo aquí o
+            <span class="kds-file-upload-link">haz clic para seleccionar</span>
+        </p>
+        <p class="kds-file-upload-hint">PDF, JPG o PNG (máx. 5MB)</p>
+    </label>
+</div>"
+    uid=8_109 heading "💬 Display Components" level="2"
+    uid=8_110 heading "Alerts (4 Variants)" level="3"
+    uid=8_111 StaticText "Mensajes contextuales con 4 variantes"
+    uid=8_112 StaticText "info"
+    uid=8_113 StaticText "Información importante"
+    uid=8_114 StaticText "Necesitarás tu RUT y comprobante de domicilio."
+    uid=8_115 StaticText "check_circle"
+    uid=8_116 StaticText "Operación exitosa"
+    uid=8_117 StaticText "Tu cuenta ha sido verificada correctamente."
+    uid=8_118 StaticText "warning"
+    uid=8_119 StaticText "Atención requerida"
+    uid=8_120 StaticText "Algunos documentos están pendientes de revisión."
+    uid=8_121 StaticText "error"
+    uid=8_122 StaticText "Error de validación"
+    uid=8_123 StaticText "El RUT ingresado no es válido. Por favor verifica."
+    uid=8_124 button "📋 Copy"
+    uid=8_125 StaticText "<div class="kds-alert info">
+    <div class="kds-alert-icon">
+        <i class="material-symbols-outlined">info</i>
+    </div>
+    <div class="kds-alert-content">
+        <div class="kds-alert-title">Título</div>
+        <div class="kds-alert-description">Descripción</div>
+    </div>
+</div>
+
+<!-- Variants: .info, .success, .warning, .error -->"
+    uid=8_126 heading "Usage Notes" level="4"
+    uid=8_127 StaticText "Variants:"
+    uid=8_128 StaticText " "
+    uid=8_129 StaticText ".info"
+    uid=8_130 StaticText " (azul), "
+    uid=8_131 StaticText ".success"
+    uid=8_132 StaticText " (verde), "
+    uid=8_133 StaticText ".warning"
+    uid=8_134 StaticText " (amarillo), "
+    uid=8_135 StaticText ".error"
+    uid=8_136 StaticText " (rojo)"
+    uid=8_137 StaticText "Icons:"
+    uid=8_138 StaticText " Material Symbols (info, check_circle, warning, error)"
+    uid=8_139 StaticText "Description:"
+    uid=8_140 StaticText " Opcional - puedes omitir si solo necesitas título"
+    uid=8_141 heading "Pricing Cards" level="3"
+    uid=8_142 StaticText "Tarjetas de planes con características"
+    uid=8_143 heading "Básico" level="3"
+    uid=8_144 StaticText "Para empezar"
+    uid=8_145 StaticText "Gratis"
+    uid=8_146 StaticText "check"
+    uid=8_147 StaticText "100 transacciones/mes"
+    uid=8_148 StaticText "check"
+    uid=8_149 StaticText "API básica"
+    uid=8_150 StaticText "Recomendado"
+    uid=8_151 heading "Pro" level="3"
+    uid=8_152 StaticText "Para negocios"
+    uid=8_153 StaticText "$29.990"
+    uid=8_154 StaticText " "
+    uid=8_155 StaticText "/mes"
+    uid=8_156 StaticText "check"
+    uid=8_157 StaticText "1.000 transacciones/mes"
+    uid=8_158 StaticText "check"
+    uid=8_159 StaticText "API completa"
+    uid=8_160 button "📋 Copy"
+    uid=8_161 StaticText "<div class="kds-card-plan">
+    <div class="kds-card-plan-header">
+        <h3 class="kds-title-large">Básico</h3>
+        <p class="kds-body-medium kds-text-muted">Para empezar</p>
+    </div>
+    <div class="kds-card-plan-price">
+        <span class="kds-price">Gratis</span>
+    </div>
+    <div class="kds-card-plan-features">
+        <div class="kds-feature">
+            <i class="material-symbols-outlined">check</i>
+            <span>100 transacciones/mes</span>
+        </div>
+    </div>
+</div>
+
+<!-- Recommended plan: add .recommended class -->"
+    uid=8_162 heading "🎯 Action Components" level="2"
+    uid=8_163 heading "Buttons (5 Variants)" level="3"
+    uid=8_164 StaticText "Sistema de botones según jerarquía visual"
+    uid=8_165 button "Primary Button arrow_forward"
+    uid=8_166 button "Secondary Button"
+    uid=8_167 button "Outlined Button"
+    uid=8_168 button "arrow_back Text Button"
+    uid=8_169 button "Outlined White"
+    uid=8_170 button "📋 Copy"
+    uid=8_171 StaticText "<!-- Primary - Púrpura sólido -->
+<button class="kds-btn kds-btn-primary">
+    Primary Button
+    <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+</button>
+
+<!-- Secondary - Azul sólido -->
+<button class="kds-btn kds-btn-secondary">Secondary Button</button>
+
+<!-- Outlined - Borde púrpura -->
+<button class="kds-btn kds-btn-outlined">Outlined Button</button>
+
+<!-- Text - Transparente -->
+<button class="kds-btn kds-btn-text">
+    <span class="kds-icon"><i class="material-symbols-outlined">arrow_back</i></span>
+    Text Button
+</button>
+
+<!-- Outlined White - Para fondos oscuros -->
+<button class="kds-btn kds-btn-outlined-white">Outlined White</button>
+
+<!-- Disabled state -->
+<button class="kds-btn kds-btn-primary" disabled>Disabled</button>"
+    uid=8_172 heading "Usage Notes" level="4"
+    uid=8_173 StaticText "Primary:"
+    uid=8_174 StaticText " Acción principal (púrpura #8347AD)"
+    uid=8_175 StaticText "Secondary:"
+    uid=8_176 StaticText " Acción secundaria (azul #3B82F6)"
+    uid=8_177 StaticText "Outlined:"
+    uid=8_178 StaticText " Acción terciaria (borde púrpura)"
+    uid=8_179 StaticText "Text:"
+    uid=8_180 StaticText " Navegación (transparente)"
+    uid=8_181 StaticText "Outlined White:"
+    uid=8_182 StaticText " Solo para fondos oscuros/púrpura"
+    uid=8_183 StaticText "Icons:"
+    uid=8_184 StaticText " Usa "
+    uid=8_185 StaticText "<span class="kds-icon">"
+    uid=8_186 StaticText " para envolver iconos"
+    uid=8_187 heading "Grails/GSP Integration" level="4"
+    uid=8_188 StaticText "<g:form controller="onboarding" action="save">
+    <div class="kds-onboarding-footer">
+        <button type="button" class="kds-btn kds-btn-text" onclick="history.back()">
+            <span class="kds-icon"><i class="material-symbols-outlined">arrow_back</i></span>
+            Volver
+        </button>
+        <button type="submit" class="kds-btn kds-btn-primary">
+            Continuar
+            <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+        </button>
+    </div>
+</g:form>"
+    uid=8_189 heading "🚀 Advanced Components" level="2"
+    uid=8_190 heading "OTP Input (6 dígitos)" level="3"
+    uid=8_191 StaticText "Input de código de verificación de 6 dígitos con auto-focus entre campos"
+    uid=8_192 textbox value="9"
+    uid=8_193 textbox value="8"
+    uid=8_194 textbox value="0"
+    uid=8_195 textbox value="9"
+    uid=8_196 textbox value="8"
+    uid=8_197 textbox value="9"
+    uid=8_198 button "📋 Copy"
+    uid=8_199 StaticText "<div class="kds-otp-input" id="otpInput">
+    <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+    <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+    <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+    <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+    <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+    <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+</div>
+
+<script>
+// Auto-focus functionality
+const otpInputs = document.querySelectorAll('#otpInput .kds-otp-digit');
+otpInputs.forEach((input, index) => {
+    input.addEventListener('input', (e) => {
+        if (e.target.value && index < otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+        }
+    });
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+            otpInputs[index - 1].focus();
+        }
+    });
+});
+</script>"
+    uid=8_200 heading "Usage Notes" level="4"
+    uid=8_201 StaticText "Auto-focus:"
+    uid=8_202 StaticText " Automáticamente avanza al siguiente campo al ingresar un dígito"
+    uid=8_203 StaticText "Backspace:"
+    uid=8_204 StaticText " Retrocede al campo anterior al presionar Backspace en campo vacío"
+    uid=8_205 StaticText "Mobile:"
+    uid=8_206 StaticText " Usa "
+    uid=8_207 StaticText "inputmode="numeric""
+    uid=8_208 StaticText " para mostrar teclado numérico"
+    uid=8_209 StaticText "Pattern:"
+    uid=8_210 StaticText " Valida que solo se ingresen números (0-9)"
+    uid=8_211 heading "Grails/GSP Integration" level="4"
+    uid=8_212 StaticText "<div class="kds-otp-input" id="otp-${field}">
+    <g:each in="${1..6}" var="i">
+        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+    </g:each>
+</div>
+<asset:javascript src="otp-handler.js"/>"
+    uid=8_213 heading "Signature Pad (Canvas)" level="3"
+    uid=8_214 StaticText "Canvas HTML5 para captura de firma digital con soporte táctil"
+    uid=8_215 button "refresh Limpiar"
+    uid=8_216 button "📋 Copy"
+    uid=8_217 StaticText "<div class="kds-signature-pad">
+    <div class="kds-signature-canvas-wrapper">
+        <canvas id="signatureCanvas" class="kds-signature-canvas" width="600" height="200"></canvas>
+    </div>
+    <div class="kds-signature-actions">
+        <button class="kds-btn kds-btn-text kds-signature-clear" onclick="clearSignature()">
+            <span class="kds-icon"><i class="material-symbols-outlined">refresh</i></span>
+            Limpiar
+        </button>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('signatureCanvas');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
+
+// Responsive canvas sizing
+function resizeCanvas() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width;
+}
+window.addEventListener('load', resizeCanvas);
+
+// Mouse events
+canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (!isDrawing) return;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#111827';
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+});
+
+canvas.addEventListener('mouseup', () => isDrawing = false);
+canvas.addEventListener('mouseout', () => isDrawing = false);
+
+// Touch support
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#111827';
+    ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    ctx.stroke();
+});
+
+canvas.addEventListener('touchend', () => isDrawing = false);
+
+function clearSignature() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+</script>"
+    uid=8_218 heading "Usage Notes" level="4"
+    uid=8_219 StaticText "Touch:"
+    uid=8_220 StaticText " Soporte completo para dispositivos táctiles y mouse"
+    uid=8_221 StaticText "Responsive:"
+    uid=8_222 StaticText " Canvas se adapta al ancho del contenedor"
+    uid=8_223 StaticText "Export:"
+    uid=8_224 StaticText " Usa "
+    uid=8_225 StaticText "canvas.toDataURL('image/png')"
+    uid=8_226 StaticText " para guardar"
+    uid=8_227 StaticText "Validation:"
+    uid=8_228 StaticText " Verifica que el canvas no esté vacío antes de enviar"
+    uid=8_229 heading "Summary/Review Card" level="3"
+    uid=8_230 StaticText "Card de resumen de datos con opción de editar"
+    uid=8_231 StaticText "person"
+    uid=8_232 StaticText "Información personal"
+    uid=8_233 link "Editar edit" url="http://localhost:3000/onboarding/components.html#"
+      uid=8_234 StaticText "Editar"
+      uid=8_235 StaticText "edit"
+    uid=8_236 StaticText "Nombre:"
+    uid=8_237 StaticText "Juan Pérez González"
+    uid=8_238 StaticText "RUT:"
+    uid=8_239 StaticText "12.345.678-9"
+    uid=8_240 StaticText "Email:"
+    uid=8_241 StaticText "juan.perez@email.com"
+    uid=8_242 StaticText "Plan:"
+    uid=8_243 StaticText "Pro"
+    uid=8_244 button "📋 Copy"
+    uid=8_245 StaticText "<div class="kds-summary-card">
+    <div class="kds-summary-card-header">
+        <div class="kds-summary-card-title">
+            <i class="material-symbols-outlined">person</i>
+            Información personal
+        </div>
+        <a href="profile.html" class="kds-summary-card-edit">
+            Editar <i class="material-symbols-outlined">edit</i>
+        </a>
+    </div>
+    <div class="kds-summary-row">
+        <div class="kds-summary-label">Nombre:</div>
+        <div class="kds-summary-value">Juan Pérez</div>
+    </div>
+    <div class="kds-summary-row">
+        <div class="kds-summary-label">RUT:</div>
+        <div class="kds-summary-value">12.345.678-9</div>
+    </div>
+    <!-- Badge variant -->
+    <div class="kds-summary-row">
+        <div class="kds-summary-label">Plan:</div>
+        <div class="kds-summary-value badge">Pro</div>
+    </div>
+</div>"
+    uid=8_246 heading "Usage Notes" level="4"
+    uid=8_247 StaticText "Header:"
+    uid=8_248 StaticText " Título con ícono + link "Editar" a la derecha"
+    uid=8_249 StaticText "Rows:"
+    uid=8_250 StaticText " Formato label-value con flex layout"
+    uid=8_251 StaticText "Badge:"
+    uid=8_252 StaticText " Clase "
+    uid=8_253 StaticText ".badge"
+    uid=8_254 StaticText " en value para destacar"
+    uid=8_255 StaticText "Icon:"
+    uid=8_256 StaticText " Material Symbols opcional en título"
+    uid=8_257 heading "KYC Blocking Modal" level="3"
+    uid=8_258 StaticText "Modal de advertencia para sectores de alto riesgo"
+    uid=8_259 button "Show KYC Modal"
+    uid=8_260 button "📋 Copy"
+    uid=8_261 StaticText "<!-- Trigger button -->
+<button onclick="showKYCModal()">Check Industry</button>
+
+<!-- Modal (BeerCSS dialog) -->
+<dialog id="kycModal" class="modal">
+    <div style="padding: var(--kds-spacing-8); max-width: 500px;">
+        <button class="transparent circle" onclick="closeKYCModal()">
+            <i class="material-symbols-outlined">close</i>
+        </button>
+
+        <div style="text-align: center; margin-bottom: var(--kds-spacing-6);">
+            <i class="material-symbols-outlined" style="font-size: 80px; color: #EAB308;">
+                warning
+            </i>
+        </div>
+
+        <h2 class="kds-headline-large" style="text-align: center;">
+            Validación adicional requerida
+        </h2>
+
+        <p class="kds-body-large" style="text-align: center;">
+            Para el sector seleccionado, necesitamos validar algunos datos.
+        </p>
+
+        <div class="kds-alert warning">
+            <div class="kds-alert-icon">
+                <i class="material-symbols-outlined">info</i>
+            </div>
+            <div class="kds-alert-content">
+                <div class="kds-alert-description">
+                    Te contactaremos en 48 horas.
+                </div>
+            </div>
+        </div>
+
+        <button class="kds-btn kds-btn-primary" onclick="closeKYCModal()">
+            Entendido
+        </button>
+    </div>
+</dialog>
+
+<script>
+function showKYCModal() {
+    document.getElementById('kycModal').showModal();
+}
+function closeKYCModal() {
+    document.getElementById('kycModal').close();
+}
+</script>"
+    uid=8_262 heading "Usage Notes" level="4"
+    uid=8_263 StaticText "Dialog:"
+    uid=8_264 StaticText " Usa el elemento HTML5 "
+    uid=8_265 StaticText "<dialog>"
+    uid=8_266 StaticText " nativo con BeerCSS"
+    uid=8_267 StaticText "Trigger:"
+    uid=8_268 StaticText " "
+    uid=8_269 StaticText ".showModal()"
+    uid=8_270 StaticText " abre el modal, "
+    uid=8_271 StaticText ".close()"
+    uid=8_272 StaticText " lo cierra"
+    uid=8_273 StaticText "Icon:"
+    uid=8_274 StaticText " Warning icon amarillo (#EAB308) con tamaño 80px"
+    uid=8_275 StaticText "Alert:"
+    uid=8_276 StaticText " Incluye un "
+    uid=8_277 StaticText ".kds-alert.warning"
+    uid=8_278 StaticText " para info adicional"
+    uid=8_279 heading "Success Page Layout" level="3"
+    uid=8_280 StaticText "Página de éxito/activación con próximos pasos"
+    uid=8_281 StaticText "check_circle"
+    uid=8_282 heading "¡Activación exitosa!" level="1"
+    uid=8_283 StaticText "Tu cuenta ha sido creada correctamente. Te notificaremos cuando esté todo listo."
+    uid=8_284 heading "rocket_launch Próximos pasos" level="2"
+    uid=8_285 StaticText "1"
+    uid=8_286 StaticText "Validación de documentos"
+    uid=8_287 StaticText "Revisaremos tu información en 24-48 horas hábiles."
+    uid=8_288 StaticText "2"
+    uid=8_289 StaticText "Notificación por email"
+    uid=8_290 StaticText "Te enviaremos un email cuando tu cuenta esté activa."
+    uid=8_291 StaticText "3"
+    uid=8_292 StaticText "Configuración inicial"
+    uid=8_293 StaticText "Podrás configurar webhooks y generar credenciales de API."
+    uid=8_294 button "Ir al dashboard arrow_forward"
+    uid=8_295 button "Ver documentación menu_book" focusable focused
+    uid=8_296 button "📋 Copy"
+    uid=8_297 StaticText "<div class="kds-success-container">
+    <div class="kds-success-icon">
+        <i class="material-symbols-outlined icon-filled">check_circle</i>
+    </div>
+    <h1 class="kds-success-title">¡Activación exitosa!</h1>
+    <p class="kds-success-subtitle">
+        Tu cuenta ha sido creada correctamente.
+    </p>
+
+    <div class="kds-next-steps">
+        <h2 class="kds-next-steps-title">
+            <i class="material-symbols-outlined">rocket_launch</i>
+            Próximos pasos
+        </h2>
+
+        <div class="kds-step-item">
+            <div class="kds-step-number">1</div>
+            <div class="kds-step-content">
+                <div class="kds-step-title">Validación de documentos</div>
+                <div class="kds-step-description">
+                    Revisaremos tu información en 24-48 horas.
+                </div>
+            </div>
+        </div>
+
+        <!-- Más steps... -->
+    </div>
+
+    <div class="kds-success-actions">
+        <button class="kds-btn kds-btn-primary">
+            Ir al dashboard
+        </button>
+        <button class="kds-btn kds-btn-outlined">
+            Ver documentación
+        </button>
+    </div>
+</div>"
+    uid=8_298 heading "Usage Notes" level="4"
+    uid=8_299 StaticText "Container:"
+    uid=8_300 StaticText " Usa "
+    uid=8_301 StaticText ".kds-success-container"
+    uid=8_302 StaticText " para centrado vertical"
+    uid=8_303 StaticText "Icon:"
+    uid=8_304 StaticText " Green checkmark con animación "
+    uid=8_305 StaticText "scaleIn"
+    uid=8_306 StaticText "Next Steps:"
+    uid=8_307 StaticText " Card con lista numerada de pasos futuros"
+    uid=8_308 StaticText "Actions:"
+    uid=8_309 StaticText " Botones primario + outlined en fila (responsive a columna)"
+    uid=8_310 heading "Contract Accordion" level="3"
+    uid=8_311 StaticText "Acordeón expandible para términos y condiciones usando <details>"
+    uid=8_312 DisclosureTriangle "1. Objeto del contrato expand_more" expandable
+    uid=8_313 DisclosureTriangle "2. Comisiones y tarifas expand_more" expandable
+    uid=8_314 DisclosureTriangle "3. Obligaciones del comercio expand_more" expandable
+    uid=8_315 button "📋 Copy"
+    uid=8_316 StaticText "<div class="kds-contract-accordion">
+    <details>
+        <summary>1. Objeto del contrato</summary>
+        <div class="kds-contract-accordion-content">
+            <p>
+                El presente contrato establece los términos...
+            </p>
+        </div>
+    </details>
+
+    <details>
+        <summary>2. Comisiones y tarifas</summary>
+        <div class="kds-contract-accordion-content">
+            <p>
+                Las comisiones aplicables serán...
+            </p>
+        </div>
+    </details>
+
+    <!-- More sections... -->
+</div>"
+    uid=8_317 heading "Usage Notes" level="4"
+    uid=8_318 StaticText "Native HTML:"
+    uid=8_319 StaticText " Usa "
+    uid=8_320 StaticText "<details>"
+    uid=8_321 StaticText " y "
+    uid=8_322 StaticText "<summary>"
+    uid=8_323 StaticText " nativos"
+    uid=8_324 StaticText "Icon:"
+    uid=8_325 StaticText " Flecha expand_more automática via CSS "
+    uid=8_326 StaticText "::after"
+    uid=8_327 StaticText "Animation:"
+    uid=8_328 StaticText " Transición suave de rotación al abrir/cerrar"
+    uid=8_329 StaticText "Styling:"
+    uid=8_330 StaticText " Background cambia al abrir ("
+    uid=8_331 StaticText "details[open]"
+    uid=8_332 StaticText ")"
+    uid=8_333 heading "library_books Templates de Referencia" level="3"
+    uid=8_334 StaticText "Para casos de uso más complejos, consulta los 10 templates completos del flujo:"
+    uid=8_335 link "welcome.html" url="http://localhost:3000/onboarding/welcome.html"
+      uid=8_336 StaticText "welcome.html"
+    uid=8_337 StaticText " - Pantalla de bienvenida"
+    uid=8_338 link "selector.html" url="http://localhost:3000/onboarding/selector.html"
+      uid=8_339 StaticText "selector.html"
+    uid=8_340 StaticText " - Selector país/persona"
+    uid=8_341 link "profile.html" url="http://localhost:3000/onboarding/profile.html"
+      uid=8_342 StaticText "profile.html"
+    uid=8_343 StaticText " - Perfil de usuario"
+    uid=8_344 link "commercial-data.html" url="http://localhost:3000/onboarding/commercial-data.html"
+      uid=8_345 StaticText "commercial-data.html"
+    uid=8_346 StaticText " - Datos comerciales"
+    uid=8_347 link "documents.html" url="http://localhost:3000/onboarding/documents.html"
+      uid=8_348 StaticText "documents.html"
+    uid=8_349 StaticText " - Subida de documentos"
+    uid=8_350 link "bank-connection.html" url="http://localhost:3000/onboarding/bank-connection.html"
+      uid=8_351 StaticText "bank-connection.html"
+    uid=8_352 StaticText " - Conexión bancaria"
+    uid=8_353 link "pricing.html" url="http://localhost:3000/onboarding/pricing.html"
+      uid=8_354 StaticText "pricing.html"
+    uid=8_355 StaticText " - Planes de pricing"
+    uid=8_356 link "contract.html" url="http://localhost:3000/onboarding/contract.html"
+      uid=8_357 StaticText "contract.html"
+    uid=8_358 StaticText " - Contrato y firma"
+    uid=8_359 link "validation.html" url="http://localhost:3000/onboarding/validation.html"
+      uid=8_360 StaticText "validation.html"
+    uid=8_361 StaticText " - Validación OTP"
+    uid=8_362 link "activation.html" url="http://localhost:3000/onboarding/activation.html"
+      uid=8_363 StaticText "activation.html"
+    uid=8_364 StaticText " - Activación exitosa"
+    uid=8_365 StaticText "📘 "
+    uid=8_366 StaticText "Documentación Grails:"
+    uid=8_367 link "BEERCSS_ONBOARDING_USAGE.md" url="http://localhost:3000/docs/grails/BEERCSS_ONBOARDING_USAGE.md"
+      uid=8_368 StaticText "BEERCSS_ONBOARDING_USAGE.md"
+  uid=8_369 contentinfo
+    uid=8_370 StaticText "Khipu Design System"
+    uid=8_371 StaticText "BeerCSS Onboarding Components"
+    uid=8_372 link "design.khipu.com" url="https://design.khipu.com/"
+      uid=8_373 StaticText "design.khipu.com"

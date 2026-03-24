@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcase de Componentes - Khipu Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+
+    <!-- Showcase Styles - Load AFTER BeerCSS -->
+    <link rel="stylesheet" href="assets/showcase.css">
+
+        .showcase-header {
+            background: linear-gradient(135deg, var(--kds-welcome-gradient-start) 0%, var(--kds-welcome-gradient-end) 100%);
+            color: white;
+            padding: var(--kds-spacing-12) var(--kds-spacing-6);
+            text-align: center;
+        }
+
+        .showcase-nav {
+            background: white;
+            border-bottom: 1px solid var(--kds-border-light);
+            padding: var(--kds-spacing-4) var(--kds-spacing-6);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow-x: auto;
+        }
+
+        .showcase-nav-pills {
+            display: flex;
+            gap: var(--kds-spacing-2);
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .showcase-pill {
+            padding: var(--kds-spacing-2) var(--kds-spacing-4);
+            border-radius: 20px;
+            background: var(--kds-surface-elevated);
+            color: var(--kds-text-secondary);
+            border: none;
+            cursor: pointer;
+            font-size: var(--kds-font-size-sm);
+            font-weight: var(--kds-font-weight-medium);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .showcase-pill:hover {
+            background: var(--kds-border-medium);
+        }
+
+        .showcase-pill.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .showcase-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--kds-spacing-8) var(--kds-spacing-6);
+        }
+
+        .component-section {
+            margin-bottom: var(--kds-spacing-12);
+        }
+
+        .component-item {
+            margin-bottom: var(--kds-spacing-8);
+        }
+
+        .component-demo {
+            background: var(--kds-surface-elevated);
+            border: 1px solid var(--kds-border-light);
+            border-radius: var(--kds-radius-lg);
+            padding: var(--kds-spacing-8);
+            margin: var(--kds-spacing-4) 0;
+        }
+
+        .component-code {
+            position: relative;
+            margin: var(--kds-spacing-4) 0;
+        }
+
+        .component-code pre {
+            background: #1F2937 !important;
+            color: #E5E7EB !important;
+            padding: var(--kds-spacing-6) !important;
+            border-radius: var(--kds-radius-md);
+            overflow-x: auto;
+            margin: 0 !important;
+            font-family: 'Monaco', 'Courier New', monospace !important;
+            font-size: 13px !important;
+            line-height: 1.6 !important;
+        }
+
+        .component-code pre code {
+            background: transparent !important;
+            color: #E5E7EB !important;
+            padding: 0 !important;
+            border: none !important;
+            font-family: 'Monaco', 'Courier New', monospace !important;
+            font-size: 13px !important;
+            display: block !important;
+            white-space: pre !important;
+        }
+
+        /* Override BeerCSS code styles */
+        .component-code code,
+        .grails-note code,
+        .usage-note code {
+            background: rgba(131, 71, 173, 0.1) !important;
+            color: var(--primary) !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+            font-family: 'Monaco', 'Courier New', monospace !important;
+            font-size: 0.9em !important;
+        }
+
+        .component-code pre code {
+            background: transparent !important;
+            color: #E5E7EB !important;
+            padding: 0 !important;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: var(--kds-spacing-3);
+            right: var(--kds-spacing-3);
+            padding: var(--kds-spacing-2) var(--kds-spacing-3);
+            background: #374151;
+            color: white;
+            border: none;
+            border-radius: var(--kds-radius-sm);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: var(--kds-font-weight-medium);
+            transition: all 0.2s ease;
+        }
+
+        .copy-button:hover {
+            background: #4B5563;
+        }
+
+        .copy-button.success {
+            background: #059669;
+        }
+
+        .usage-note {
+            background: #EFF6FF;
+            border-left: 4px solid var(--primary);
+            padding: var(--kds-spacing-4) var(--kds-spacing-5);
+            margin: var(--kds-spacing-4) 0;
+            border-radius: var(--kds-radius-sm);
+        }
+
+        .grails-note {
+            background: #F0FDF4;
+            border-left: 4px solid #10B981;
+            padding: var(--kds-spacing-4) var(--kds-spacing-5);
+            margin: var(--kds-spacing-4) 0;
+            border-radius: var(--kds-radius-sm);
+        }
+
+        .grails-note pre {
+            background: #1F2937 !important;
+            color: #E5E7EB !important;
+            padding: var(--kds-spacing-4) !important;
+            border-radius: var(--kds-radius-sm);
+            overflow-x: auto;
+            margin: var(--kds-spacing-2) 0 0 !important;
+            font-family: 'Monaco', 'Courier New', monospace !important;
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+        }
+
+        .grails-note pre code {
+            background: transparent !important;
+            color: #E5E7EB !important;
+            padding: 0 !important;
+            font-family: 'Monaco', 'Courier New', monospace !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="showcase-header">
+        <h1 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-3);">Showcase de Componentes Onboarding</h1>
+        <p class="kds-body-large" style="opacity: 0.9;">Galería de componentes reutilizables para el flujo de onboarding</p>
+    </div>
+
+    <!-- Navigation Pills -->
+    <nav class="showcase-nav">
+        <div class="showcase-nav-pills">
+            <button class="showcase-pill active" onclick="scrollToSection('layout')">📐 Layout</button>
+            <button class="showcase-pill" onclick="scrollToSection('selection')">☑️ Selection</button>
+            <button class="showcase-pill" onclick="scrollToSection('forms')">📝 Forms</button>
+            <button class="showcase-pill" onclick="scrollToSection('display')">💬 Display</button>
+            <button class="showcase-pill" onclick="scrollToSection('actions')">🎯 Actions</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="showcase-content">
+
+        <!-- ========================================
+             LAYOUT COMPONENTS
+        ======================================== -->
+        <section id="layout" class="component-section">
+            <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-6);">📐 Layout Components</h2>
+
+            <!-- Stepper -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Stepper</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Indicador de progreso del flujo de onboarding
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-stepper">
+                        <div class="kds-step completed">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Selector</div>
+                        </div>
+                        <div class="kds-step completed">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Perfil</div>
+                        </div>
+                        <div class="kds-step current">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Comercial</div>
+                        </div>
+                        <div class="kds-step">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Documentos</div>
+                        </div>
+                        <div class="kds-step">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Banco</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('stepper-code')">📋 Copy</button>
+                    <pre><code id="stepper-code">&lt;div class="kds-stepper"&gt;
+    &lt;div class="kds-step completed"&gt;
+        &lt;div class="kds-step-indicator"&gt;&lt;/div&gt;
+        &lt;div class="kds-step-label"&gt;Selector&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-step current"&gt;
+        &lt;div class="kds-step-indicator"&gt;&lt;/div&gt;
+        &lt;div class="kds-step-label"&gt;Comercial&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-step"&gt;
+        &lt;div class="kds-step-indicator"&gt;&lt;/div&gt;
+        &lt;div class="kds-step-label"&gt;Documentos&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small" style="margin-bottom: var(--kds-spacing-2);">Usage Notes</h4>
+                    <ul class="kds-body-small" style="margin: 0; padding-left: 20px;">
+                        <li><strong>States:</strong> <code>.completed</code> (verde con checkmark), <code>.current</code> (azul), default (gris)</li>
+                        <li><strong>Responsive:</strong> En mobile oculta labels automáticamente</li>
+                        <li><strong>Line:</strong> Conecta automáticamente los steps con pseudo-elemento</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small" style="margin-bottom: var(--kds-spacing-2);">Grails/GSP Integration</h4>
+                    <pre style="background: #1F2937; color: #E5E7EB; padding: var(--kds-spacing-4); border-radius: var(--kds-radius-sm); overflow-x: auto; margin: var(--kds-spacing-2) 0 0; font-family: monospace; font-size: 13px;"><code>&lt;div class="kds-stepper"&gt;
+    &lt;g:each in="${stages}" var="stage" status="i"&gt;
+        &lt;div class="kds-step ${i &lt; currentStage ? 'completed' : ''} ${i == currentStage ? 'current' : ''}"&gt;
+            &lt;div class="kds-step-indicator"&gt;&lt;/div&gt;
+            &lt;div class="kds-step-label"&gt;${stage.label}&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Welcome Hero -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Welcome Hero</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Hero section con gradiente púrpura Khipu
+                </p>
+
+                <div class="component-demo" style="padding: 0; overflow: hidden;">
+                    <div class="kds-welcome-hero">
+                        <h1 class="kds-welcome-title">Bienvenido a Khipu</h1>
+                        <p class="kds-welcome-subtitle">Empecemos a configurar tu cuenta para recibir pagos en línea</p>
+                        <div class="kds-welcome-icon">
+                            <i class="material-symbols-outlined icon-filled" style="font-size: 80px;">rocket_launch</i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('hero-code')">📋 Copy</button>
+                    <pre><code id="hero-code">&lt;div class="kds-welcome-hero"&gt;
+    &lt;h1 class="kds-welcome-title"&gt;Bienvenido a Khipu&lt;/h1&gt;
+    &lt;p class="kds-welcome-subtitle"&gt;Empecemos a configurar tu cuenta&lt;/p&gt;
+    &lt;div class="kds-welcome-icon"&gt;
+        &lt;i class="material-symbols-outlined icon-filled" style="font-size: 80px;"&gt;rocket_launch&lt;/i&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small" style="margin-bottom: var(--kds-spacing-2);">Usage Notes</h4>
+                    <ul class="kds-body-small" style="margin: 0; padding-left: 20px;">
+                        <li><strong>Gradient:</strong> Usa variables <code>--kds-welcome-gradient-start/end</code> (púrpura Khipu #8347AD)</li>
+                        <li><strong>Icons:</strong> Material Symbols con clase <code>.icon-filled</code></li>
+                        <li><strong>Height:</strong> 400px en desktop, 350px en mobile</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Stage Container -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Stage Container</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Contenedor para cada etapa del onboarding
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-stage-header">
+                        <h1 class="kds-stage-title">Título de la etapa</h1>
+                        <p class="kds-stage-subtitle">Descripción breve de lo que el usuario debe hacer</p>
+                    </div>
+
+                    <div class="kds-stage-section">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">info</i>
+                            Sección de contenido
+                        </h3>
+                        <p class="kds-stage-section-description">
+                            Instrucciones específicas para esta sección.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('stage-code')">📋 Copy</button>
+                    <pre><code id="stage-code">&lt;div class="kds-stage-header"&gt;
+    &lt;h1 class="kds-stage-title"&gt;Título de la etapa&lt;/h1&gt;
+    &lt;p class="kds-stage-subtitle"&gt;Descripción breve&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="kds-stage-section"&gt;
+    &lt;h3 class="kds-stage-section-title"&gt;
+        &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+        Sección
+    &lt;/h3&gt;
+    &lt;p class="kds-stage-section-description"&gt;Instrucciones&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             SELECTION COMPONENTS
+        ======================================== -->
+        <section id="selection" class="component-section">
+            <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-6);">☑️ Selection Components</h2>
+
+            <!-- Card Selector -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Card Selector</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Tarjetas seleccionables con icono, título y descripción
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-grid-2col">
+                        <div class="kds-card-selector selected" data-value="natural">
+                            <div class="kds-card-selector-icon">
+                                <i class="material-symbols-outlined">person</i>
+                            </div>
+                            <div class="kds-card-selector-title">Persona Natural</div>
+                            <div class="kds-card-selector-description">
+                                Emprendedor individual o freelancer
+                            </div>
+                        </div>
+
+                        <div class="kds-card-selector" data-value="juridica">
+                            <div class="kds-card-selector-icon">
+                                <i class="material-symbols-outlined">business</i>
+                            </div>
+                            <div class="kds-card-selector-title">Persona Jurídica</div>
+                            <div class="kds-card-selector-description">
+                                Empresa o sociedad legalmente constituida
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('card-selector-code')">📋 Copy</button>
+                    <pre><code id="card-selector-code">&lt;div class="kds-grid-2col"&gt;
+    &lt;div class="kds-card-selector" data-value="natural" onclick="selectCard(this)"&gt;
+        &lt;div class="kds-card-selector-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;person&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-card-selector-title"&gt;Persona Natural&lt;/div&gt;
+        &lt;div class="kds-card-selector-description"&gt;
+            Emprendedor individual o freelancer
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function selectCard(card) {
+    card.parentElement.querySelectorAll('.kds-card-selector').forEach(c =&gt;
+        c.classList.remove('selected')
+    );
+    card.classList.add('selected');
+}
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small" style="margin-bottom: var(--kds-spacing-2);">Usage Notes</h4>
+                    <ul class="kds-body-small" style="margin: 0; padding-left: 20px;">
+                        <li><strong>Grids:</strong> <code>.kds-grid-2col</code> (2 columnas), <code>.kds-grid-3col</code> (3 columnas)</li>
+                        <li><strong>Selection:</strong> Clase <code>.selected</code> muestra borde azul</li>
+                        <li><strong>Responsive:</strong> Colapsa a 1 columna en mobile</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bank Grid -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Bank Grid Selector</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Grid de selección de bancos con logos
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-bank-grid">
+                        <div class="kds-bank-item selected" data-bank="banco-chile">
+                            <img src="https://via.placeholder.com/100x50?text=Banco+Chile" alt="Banco de Chile">
+                        </div>
+                        <div class="kds-bank-item" data-bank="banco-estado">
+                            <img src="https://via.placeholder.com/100x50?text=BancoEstado" alt="BancoEstado">
+                        </div>
+                        <div class="kds-bank-item" data-bank="santander">
+                            <img src="https://via.placeholder.com/100x50?text=Santander" alt="Santander">
+                        </div>
+                        <div class="kds-bank-item" data-bank="bci">
+                            <img src="https://via.placeholder.com/100x50?text=BCI" alt="BCI">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('bank-grid-code')">📋 Copy</button>
+                    <pre><code id="bank-grid-code">&lt;div class="kds-bank-grid"&gt;
+    &lt;div class="kds-bank-item" data-bank="banco-chile" onclick="selectBank(this)"&gt;
+        &lt;img src="/images/banks/banco-chile.png" alt="Banco de Chile"&gt;
+    &lt;/div&gt;
+    &lt;!-- More banks... --&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             FORM COMPONENTS
+        ======================================== -->
+        <section id="forms" class="component-section">
+            <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-6);">📝 Form Components</h2>
+
+            <!-- Text Fields -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Text Fields</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Campos de texto con validación
+                </p>
+
+                <div class="component-demo">
+                    <div style="max-width: 500px;">
+                        <div class="kds-form-group">
+                            <label class="kds-form-label">Nombre completo</label>
+                            <div class="field border">
+                                <input type="text" placeholder="Juan Pérez">
+                            </div>
+                        </div>
+
+                        <div class="kds-form-group">
+                            <label class="kds-form-label">RUT</label>
+                            <div class="field border">
+                                <input type="text" placeholder="12.345.678-9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('textfield-code')">📋 Copy</button>
+                    <pre><code id="textfield-code">&lt;div class="kds-form-group"&gt;
+    &lt;label class="kds-form-label"&gt;Nombre completo&lt;/label&gt;
+    &lt;div class="field border"&gt;
+        &lt;input type="text" placeholder="Juan Pérez"&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">File Upload</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Área de carga de archivos con drag & drop
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-file-upload">
+                        <input type="file" id="demo-file" accept=".pdf,.jpg,.png" style="display: none;">
+                        <label for="demo-file" class="kds-file-upload-area">
+                            <i class="material-symbols-outlined">cloud_upload</i>
+                            <p class="kds-file-upload-text">
+                                Arrastra tu archivo aquí o <span class="kds-file-upload-link">haz clic para seleccionar</span>
+                            </p>
+                            <p class="kds-file-upload-hint">PDF, JPG o PNG (máx. 5MB)</p>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('fileupload-code')">📋 Copy</button>
+                    <pre><code id="fileupload-code">&lt;div class="kds-file-upload"&gt;
+    &lt;input type="file" id="file-upload" accept=".pdf,.jpg,.png" style="display: none;"&gt;
+    &lt;label for="file-upload" class="kds-file-upload-area"&gt;
+        &lt;i class="material-symbols-outlined"&gt;cloud_upload&lt;/i&gt;
+        &lt;p class="kds-file-upload-text"&gt;
+            Arrastra tu archivo aquí o
+            &lt;span class="kds-file-upload-link"&gt;haz clic para seleccionar&lt;/span&gt;
+        &lt;/p&gt;
+        &lt;p class="kds-file-upload-hint"&gt;PDF, JPG o PNG (máx. 5MB)&lt;/p&gt;
+    &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             DISPLAY COMPONENTS
+        ======================================== -->
+        <section id="display" class="component-section">
+            <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-6);">💬 Display Components</h2>
+
+            <!-- Alerts -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Alerts (4 Variants)</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Mensajes contextuales con 4 variantes
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-alert info" style="margin-bottom: var(--kds-spacing-4);">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">info</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Información importante</div>
+                            <div class="kds-alert-description">
+                                Necesitarás tu RUT y comprobante de domicilio.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kds-alert success" style="margin-bottom: var(--kds-spacing-4);">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">check_circle</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Operación exitosa</div>
+                            <div class="kds-alert-description">
+                                Tu cuenta ha sido verificada correctamente.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kds-alert warning" style="margin-bottom: var(--kds-spacing-4);">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">warning</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Atención requerida</div>
+                            <div class="kds-alert-description">
+                                Algunos documentos están pendientes de revisión.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kds-alert error">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">error</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Error de validación</div>
+                            <div class="kds-alert-description">
+                                El RUT ingresado no es válido. Por favor verifica.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('alerts-code')">📋 Copy</button>
+                    <pre><code id="alerts-code">&lt;div class="kds-alert info"&gt;
+    &lt;div class="kds-alert-icon"&gt;
+        &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-alert-content"&gt;
+        &lt;div class="kds-alert-title"&gt;Título&lt;/div&gt;
+        &lt;div class="kds-alert-description"&gt;Descripción&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Variants: .info, .success, .warning, .error --&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small" style="margin-bottom: var(--kds-spacing-2);">Usage Notes</h4>
+                    <ul class="kds-body-small" style="margin: 0; padding-left: 20px;">
+                        <li><strong>Variants:</strong> <code>.info</code> (azul), <code>.success</code> (verde), <code>.warning</code> (amarillo), <code>.error</code> (rojo)</li>
+                        <li><strong>Icons:</strong> Material Symbols (info, check_circle, warning, error)</li>
+                        <li><strong>Description:</strong> Opcional - puedes omitir si solo necesitas título</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Pricing Cards</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Tarjetas de planes con características
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-grid-3col">
+                        <div class="kds-card-plan">
+                            <div class="kds-card-plan-header">
+                                <h3 class="kds-title-large">Básico</h3>
+                                <p class="kds-body-medium kds-text-muted">Para empezar</p>
+                            </div>
+                            <div class="kds-card-plan-price">
+                                <span class="kds-price">Gratis</span>
+                            </div>
+                            <div class="kds-card-plan-features">
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>100 transacciones/mes</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>API básica</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kds-card-plan recommended">
+                            <div class="kds-card-plan-badge">Recomendado</div>
+                            <div class="kds-card-plan-header">
+                                <h3 class="kds-title-large">Pro</h3>
+                                <p class="kds-body-medium kds-text-muted">Para negocios</p>
+                            </div>
+                            <div class="kds-card-plan-price">
+                                <span class="kds-price">$29.990</span>
+                                <span class="kds-price-period">/mes</span>
+                            </div>
+                            <div class="kds-card-plan-features">
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>1.000 transacciones/mes</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>API completa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('pricing-code')">📋 Copy</button>
+                    <pre><code id="pricing-code">&lt;div class="kds-card-plan"&gt;
+    &lt;div class="kds-card-plan-header"&gt;
+        &lt;h3 class="kds-title-large"&gt;Básico&lt;/h3&gt;
+        &lt;p class="kds-body-medium kds-text-muted"&gt;Para empezar&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-card-plan-price"&gt;
+        &lt;span class="kds-price"&gt;Gratis&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-card-plan-features"&gt;
+        &lt;div class="kds-feature"&gt;
+            &lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;
+            &lt;span&gt;100 transacciones/mes&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Recommended plan: add .recommended class --&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             ACTION COMPONENTS
+        ======================================== -->
+        <section id="actions" class="component-section">
+            <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-6);">🎯 Action Components</h2>
+
+            <!-- Buttons -->
+            <div class="component-item">
+                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Buttons (5 Variants)</h3>
+                <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+                    Sistema de botones según jerarquía visual
+                </p>
+
+                <div class="component-demo">
+                    <div style="display: flex; flex-direction: column; gap: var(--kds-spacing-4); max-width: 300px;">
+                        <button class="kds-btn kds-btn-primary">
+                            Primary Button
+                            <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                        </button>
+
+                        <button class="kds-btn kds-btn-secondary">
+                            Secondary Button
+                        </button>
+
+                        <button class="kds-btn kds-btn-outlined">
+                            Outlined Button
+                        </button>
+
+                        <button class="kds-btn kds-btn-text">
+                            <span class="kds-icon"><i class="material-symbols-outlined">arrow_back</i></span>
+                            Text Button
+                        </button>
+
+                        <div style="background: var(--primary); padding: var(--kds-spacing-5); border-radius: var(--kds-radius-md);">
+                            <button class="kds-btn kds-btn-outlined-white">
+                                Outlined White
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('buttons-code')">📋 Copy</button>
+                    <pre><code id="buttons-code">&lt;!-- Primary - Púrpura sólido --&gt;
+&lt;button class="kds-btn kds-btn-primary"&gt;
+    Primary Button
+    &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_forward&lt;/i&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Secondary - Azul sólido --&gt;
+&lt;button class="kds-btn kds-btn-secondary"&gt;Secondary Button&lt;/button&gt;
+
+&lt;!-- Outlined - Borde púrpura --&gt;
+&lt;button class="kds-btn kds-btn-outlined"&gt;Outlined Button&lt;/button&gt;
+
+&lt;!-- Text - Transparente --&gt;
+&lt;button class="kds-btn kds-btn-text"&gt;
+    &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_back&lt;/i&gt;&lt;/span&gt;
+    Text Button
+&lt;/button&gt;
+
+&lt;!-- Outlined White - Para fondos oscuros --&gt;
+&lt;button class="kds-btn kds-btn-outlined-white"&gt;Outlined White&lt;/button&gt;
+
+&lt;!-- Disabled state --&gt;
+&lt;button class="kds-btn kds-btn-primary" disabled&gt;Disabled&lt;/button&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small" style="margin-bottom: var(--kds-spacing-2);">Usage Notes</h4>
+                    <ul class="kds-body-small" style="margin: 0; padding-left: 20px;">
+                        <li><strong>Primary:</strong> Acción principal (púrpura #8347AD)</li>
+                        <li><strong>Secondary:</strong> Acción secundaria (azul #3B82F6)</li>
+                        <li><strong>Outlined:</strong> Acción terciaria (borde púrpura)</li>
+                        <li><strong>Text:</strong> Navegación (transparente)</li>
+                        <li><strong>Outlined White:</strong> Solo para fondos oscuros/púrpura</li>
+                        <li><strong>Icons:</strong> Usa <code>&lt;span class="kds-icon"&gt;</code> para envolver iconos</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small" style="margin-bottom: var(--kds-spacing-2);">Grails/GSP Integration</h4>
+                    <pre style="background: #1F2937; color: #E5E7EB; padding: var(--kds-spacing-4); border-radius: var(--kds-radius-sm); overflow-x: auto; margin: var(--kds-spacing-2) 0 0; font-family: monospace; font-size: 13px;"><code>&lt;g:form controller="onboarding" action="save"&gt;
+    &lt;div class="kds-onboarding-footer"&gt;
+        &lt;button type="button" class="kds-btn kds-btn-text" onclick="history.back()"&gt;
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_back&lt;/i&gt;&lt;/span&gt;
+            Volver
+        &lt;/button&gt;
+        &lt;button type="submit" class="kds-btn kds-btn-primary"&gt;
+            Continuar
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_forward&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/g:form&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reference Box -->
+        <div class="kds-card-main" style="margin-top: var(--kds-spacing-12); background: #FEF3C7; border-left: 4px solid #F59E0B;">
+            <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-3); display: flex; align-items: center; gap: var(--kds-spacing-2);">
+                <i class="material-symbols-outlined" style="color: #D97706;">library_books</i>
+                Templates de Referencia
+            </h3>
+            <p class="kds-body-medium" style="margin-bottom: var(--kds-spacing-4); color: #92400E;">
+                Para casos de uso más complejos, consulta los 10 templates completos del flujo:
+            </p>
+            <div class="kds-grid-2col" style="gap: var(--kds-spacing-2);">
+                <ul class="kds-body-small" style="margin: 0; padding-left: 20px; color: #78350F;">
+                    <li><a href="welcome.html" style="color: #92400E; text-decoration: underline;">welcome.html</a> - Pantalla de bienvenida</li>
+                    <li><a href="selector.html" style="color: #92400E; text-decoration: underline;">selector.html</a> - Selector país/persona</li>
+                    <li><a href="profile.html" style="color: #92400E; text-decoration: underline;">profile.html</a> - Perfil de usuario</li>
+                    <li><a href="commercial-data.html" style="color: #92400E; text-decoration: underline;">commercial-data.html</a> - Datos comerciales</li>
+                    <li><a href="documents.html" style="color: #92400E; text-decoration: underline;">documents.html</a> - Subida de documentos</li>
+                </ul>
+                <ul class="kds-body-small" style="margin: 0; padding-left: 20px; color: #78350F;">
+                    <li><a href="bank-connection.html" style="color: #92400E; text-decoration: underline;">bank-connection.html</a> - Conexión bancaria</li>
+                    <li><a href="pricing.html" style="color: #92400E; text-decoration: underline;">pricing.html</a> - Planes de pricing</li>
+                    <li><a href="contract.html" style="color: #92400E; text-decoration: underline;">contract.html</a> - Contrato y firma</li>
+                    <li><a href="validation.html" style="color: #92400E; text-decoration: underline;">validation.html</a> - Validación OTP</li>
+                    <li><a href="activation.html" style="color: #92400E; text-decoration: underline;">activation.html</a> - Activación exitosa</li>
+                </ul>
+            </div>
+            <p class="kds-body-small" style="margin-top: var(--kds-spacing-4); color: #78350F;">
+                📘 <strong>Documentación Grails:</strong> <a href="../../docs/grails/BEERCSS_ONBOARDING_USAGE.md" style="color: #92400E; text-decoration: underline;">BEERCSS_ONBOARDING_USAGE.md</a>
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--kds-surface-elevated); border-top: 1px solid var(--kds-border-light); padding: var(--kds-spacing-8); text-align: center; margin-top: var(--kds-spacing-12);">
+        <p class="kds-title-medium" style="margin-bottom: var(--kds-spacing-2);">Khipu Design System</p>
+        <p class="kds-body-small kds-text-muted">BeerCSS Onboarding Components</p>
+        <p class="kds-body-small" style="margin-top: var(--kds-spacing-3);">
+            <a href="https://design.khipu.com" target="_blank" style="color: var(--primary); text-decoration: underline;">design.khipu.com</a>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+    <script src="assets/showcase.js"></script>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Update active pill
+                document.querySelectorAll('.showcase-pill').forEach(pill => {
+                    pill.classList.remove('active');
+                });
+                event.currentTarget.classList.add('active');
+            }
+        }
+
+        function copyCode(codeId) {
+            const codeElement = document.getElementById(codeId);
+            if (!codeElement) return;
+
+            const code = codeElement.textContent;
+            const button = event.currentTarget;
+
+            navigator.clipboard.writeText(code).then(() => {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '✅ Copied!';
+                button.classList.add('success');
+
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('success');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                button.innerHTML = '❌ Failed';
+                setTimeout(() => {
+                    button.innerHTML = '📋 Copy';
+                }, 2000);
+            });
+        }
+
+        function selectCard(card) {
+            card.parentElement.querySelectorAll('.kds-card-selector').forEach(c =>
+                c.classList.remove('selected')
+            );
+            card.classList.add('selected');
+        }
+
+        function selectBank(item) {
+            document.querySelectorAll('.kds-bank-item').forEach(b =>
+                b.classList.remove('selected')
+            );
+            item.classList.add('selected');
+        }
+    </script>
+</body>
+</html>
