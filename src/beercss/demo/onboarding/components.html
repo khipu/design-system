@@ -399,162 +399,193 @@ function selectBank(item) {
 
             <!-- Text Fields -->
             <div class="component-item">
-                <h3 class="kds-title-large">Text Fields</h3>
+                <h3 class="kds-title-large">Text Fields (Material Design 3)</h3>
                 <p class="kds-body-medium kds-text-muted">
-                    Campos de texto con validación y estados automáticos
+                    Floating labels nativos de BeerCSS con branding Khipu
                 </p>
 
                 <div class="component-demo">
                     <div class="max-w-500">
                         <!-- Default State -->
-                        <div class="kds-field">
-                            <label for="demo-name" class="kds-form-label">Nombre completo *</label>
-                            <input type="text" id="demo-name" placeholder="Ej: Juan Pérez">
+                        <div class="field label border">
+                            <input type="text" id="demo-name" placeholder=" ">
+                            <label for="demo-name">Nombre completo *</label>
                         </div>
 
                         <!-- With Helper Text -->
-                        <div class="kds-field">
-                            <label for="demo-rut" class="kds-form-label">RUT *</label>
-                            <input type="text" id="demo-rut" placeholder="12.345.678-9">
+                        <div class="field label border">
+                            <input type="text" id="demo-rut" placeholder=" ">
+                            <label for="demo-rut">RUT *</label>
                             <span class="helper">Formato: 12.345.678-9</span>
                         </div>
 
                         <!-- Info State -->
-                        <div class="kds-field info">
-                            <label for="demo-email-info" class="kds-form-label">Email (con info)</label>
-                            <input type="email" id="demo-email-info" value="usuario@empresa.com">
-                            <span class="info-message">Este será tu email de contacto principal.</span>
+                        <div class="field label border info">
+                            <input type="email" id="demo-email-info" placeholder=" " value="usuario@empresa.com">
+                            <label for="demo-email-info">Email (con info)</label>
+                            <span class="helper">Este será tu email de contacto principal.</span>
                         </div>
 
                         <!-- Warning State -->
-                        <div class="kds-field warning">
-                            <label for="demo-phone" class="kds-form-label">Teléfono (advertencia)</label>
-                            <input type="tel" id="demo-phone" value="+56 9 1234">
-                            <span class="warning-message">El formato parece incompleto. Verifica que sea correcto.</span>
+                        <div class="field label border warning">
+                            <input type="tel" id="demo-phone" placeholder=" " value="+56 9 1234">
+                            <label for="demo-phone">Teléfono (advertencia)</label>
+                            <span class="helper">El formato parece incompleto. Verifica que sea correcto.</span>
                         </div>
 
                         <!-- Valid/Success State -->
-                        <div class="kds-field valid">
-                            <label for="demo-email-valid" class="kds-form-label">Email validado</label>
-                            <input type="email" id="demo-email-valid" value="correo@valido.com">
-                            <span class="success-message">✓ Email validado correctamente.</span>
+                        <div class="field label border valid">
+                            <input type="email" id="demo-email-valid" placeholder=" " value="correo@valido.com">
+                            <label for="demo-email-valid">Email validado</label>
+                            <span class="helper">✓ Email validado correctamente.</span>
                         </div>
 
                         <!-- Invalid/Error State -->
-                        <div class="kds-field invalid">
-                            <label for="demo-email-error" class="kds-form-label">Email con error</label>
-                            <input type="email" id="demo-email-error" value="email-invalido">
-                            <span class="error-message">✕ Formato de email inválido.</span>
+                        <div class="field label border invalid">
+                            <input type="email" id="demo-email-error" placeholder=" " value="email-invalido">
+                            <label for="demo-email-error">Email con error</label>
+                            <span class="helper">✕ Formato de email inválido.</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="component-code">
                     <button class="copy-button" onclick="copyCode('textfield-code')">📋 Copy</button>
-                    <pre><code id="textfield-code">&lt;!-- Campo básico - spacing automático --&gt;
-&lt;div class="kds-field"&gt;
-    &lt;label for="name" class="kds-form-label"&gt;Nombre *&lt;/label&gt;
-    &lt;input type="text" id="name" placeholder="Ej: Juan Pérez"&gt;
+                    <pre><code id="textfield-code">&lt;!-- Campo básico con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;input type="text" id="name" placeholder=" " required&gt;
+    &lt;label for="name"&gt;Nombre *&lt;/label&gt;
 &lt;/div&gt;
 
 &lt;!-- Con helper text --&gt;
-&lt;div class="kds-field"&gt;
-    &lt;label for="rut" class="kds-form-label"&gt;RUT *&lt;/label&gt;
-    &lt;input type="text" id="rut" placeholder="12.345.678-9"&gt;
+&lt;div class="field label border"&gt;
+    &lt;input type="text" id="rut" placeholder=" " required&gt;
+    &lt;label for="rut"&gt;RUT *&lt;/label&gt;
     &lt;span class="helper"&gt;Formato: 12.345.678-9&lt;/span&gt;
 &lt;/div&gt;
 
 &lt;!-- Estado Info --&gt;
-&lt;div class="kds-field info"&gt;
-    &lt;label class="kds-form-label"&gt;Campo&lt;/label&gt;
-    &lt;input type="text" value="..."&gt;
-    &lt;span class="info-message"&gt;Información adicional&lt;/span&gt;
+&lt;div class="field label border info"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;Información adicional&lt;/span&gt;
 &lt;/div&gt;
 
 &lt;!-- Estado Warning --&gt;
-&lt;div class="kds-field warning"&gt;
-    &lt;label class="kds-form-label"&gt;Campo&lt;/label&gt;
-    &lt;input type="text" value="..."&gt;
-    &lt;span class="warning-message"&gt;Advertencia&lt;/span&gt;
+&lt;div class="field label border warning"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;Advertencia&lt;/span&gt;
 &lt;/div&gt;
 
 &lt;!-- Estado Valid --&gt;
-&lt;div class="kds-field valid"&gt;
-    &lt;label class="kds-form-label"&gt;Campo&lt;/label&gt;
-    &lt;input type="text" value="..."&gt;
-    &lt;span class="success-message"&gt;✓ Validado&lt;/span&gt;
+&lt;div class="field label border valid"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;✓ Validado&lt;/span&gt;
 &lt;/div&gt;
 
 &lt;!-- Estado Invalid --&gt;
-&lt;div class="kds-field invalid"&gt;
-    &lt;label class="kds-form-label"&gt;Campo&lt;/label&gt;
-    &lt;input type="text" value="..."&gt;
-    &lt;span class="error-message"&gt;✕ Error&lt;/span&gt;
+&lt;div class="field label border invalid"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;✕ Error&lt;/span&gt;
 &lt;/div&gt;</code></pre>
                 </div>
 
                 <div class="usage-note">
-                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <h4 class="kds-title-small">Usage Notes (Material Design 3)</h4>
                     <ul class="kds-body-small padding-left-20">
-                        <li><strong>Spacing automático:</strong> `.kds-field` tiene margin-bottom por defecto</li>
+                        <li><strong>Patrón BeerCSS nativo:</strong> Usa `.field.label.border` para floating labels</li>
+                        <li><strong>Orden correcto:</strong> Input ANTES del label (requerido para animación)</li>
+                        <li><strong>Placeholder espacial:</strong> Usa `placeholder=" "` (un espacio, no vacío)</li>
                         <li><strong>Estados:</strong> Agrega clase `.info`, `.warning`, `.valid`, o `.invalid`</li>
-                        <li><strong>Labels obligatorios:</strong> Siempre incluir label con class `.kds-form-label`</li>
-                        <li><strong>Helper text:</strong> Usa `&lt;span class="helper"&gt;` para texto adicional</li>
-                        <li><strong>Mensajes de estado:</strong> `.info-message`, `.warning-message`, `.success-message`, `.error-message`</li>
-                        <li><strong>Sin clases de margin:</strong> El framework maneja el espaciado automáticamente</li>
+                        <li><strong>Helper text:</strong> Usa `&lt;span class="helper"&gt;` para todo tipo de mensajes</li>
+                        <li><strong>Focus state:</strong> Automáticamente usa el color púrpura Khipu (#8347AD)</li>
+                        <li><strong>Accesibilidad:</strong> Siempre conectar label con atributo `for`</li>
                     </ul>
                 </div>
 
                 <div class="grails-note">
-                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
-                    <pre><code>&lt;!-- Campos de texto con validación --&gt;
-&lt;g:form controller="onboarding" action="saveProfile"&gt;
-    &lt;!-- Campo con validación de error --&gt;
-    &lt;div class="kds-field ${hasErrors(bean: userInstance, field: 'fullName', 'invalid')}"&gt;
-        &lt;label for="fullName" class="kds-form-label"&gt;Nombre completo *&lt;/label&gt;
-        &lt;g:textField name="fullName" value="${userInstance?.fullName}"
-                     placeholder="Ej: Juan Pérez"/&gt;
-        &lt;g:hasErrors bean="${userInstance}" field="fullName"&gt;
-            &lt;span class="error-message"&gt;
-                &lt;g:eachError bean="${userInstance}" field="fullName"&gt;
-                    ${it.defaultMessage}
-                &lt;/g:eachError&gt;
-            &lt;/span&gt;
-        &lt;/g:hasErrors&gt;
-    &lt;/div&gt;
+                    <h4 class="kds-title-small">🎯 Grails/GSP Integration (Material Design 3)</h4>
+                    <pre><code>&lt;!-- Campo básico con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:textField name="fullName" id="fullName"
+                 placeholder=" " required="required"/&gt;
+    &lt;label for="fullName"&gt;Nombre completo *&lt;/label&gt;
+&lt;/div&gt;
 
-    &lt;!-- Campo con formato personalizado --&gt;
-    &lt;div class="kds-field ${hasErrors(bean: userInstance, field: 'rut', 'invalid')}"&gt;
-        &lt;label for="rut" class="kds-form-label"&gt;RUT *&lt;/label&gt;
-        &lt;g:textField name="rut" value="${userInstance?.rut}"
-                     placeholder="Ej: 12.345.678-9"
-                     class="rut-format"/&gt;
-        &lt;g:hasErrors bean="${userInstance}" field="rut"&gt;
-            &lt;span class="error-message"&gt;
-                &lt;g:eachError bean="${userInstance}" field="rut"&gt;
-                    ${it.defaultMessage}
-                &lt;/g:eachError&gt;
-            &lt;/span&gt;
-        &lt;/g:hasErrors&gt;
-    &lt;/div&gt;
+&lt;!-- Campo con helper text --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:textField name="rut" id="rut" placeholder=" " required="required"/&gt;
+    &lt;label for="rut"&gt;RUT *&lt;/label&gt;
+    &lt;span class="helper"&gt;Formato: 12.345.678-9&lt;/span&gt;
+&lt;/div&gt;
 
-    &lt;!-- Campo con mensaje de ayuda --&gt;
-    &lt;div class="kds-field"&gt;
-        &lt;label for="email" class="kds-form-label"&gt;Email *&lt;/label&gt;
-        &lt;g:textField name="email" type="email" value="${userInstance?.email}"
-                     placeholder="Ej: contacto@empresa.com"/&gt;
-        &lt;span class="help-message"&gt;Este será tu email de contacto principal.&lt;/span&gt;
-    &lt;/div&gt;
+&lt;!-- Campo email --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="email" name="email" id="email"
+             placeholder=" " required="required"/&gt;
+    &lt;label for="email"&gt;Email *&lt;/label&gt;
+&lt;/div&gt;
 
-    &lt;!-- Estados de validación condicional --&gt;
-    &lt;div class="kds-field ${emailVerified ? 'valid' : ''}"&gt;
-        &lt;label for="verifiedEmail" class="kds-form-label"&gt;Email verificado&lt;/label&gt;
-        &lt;g:textField name="verifiedEmail" value="${userInstance?.email}" readonly="true"/&gt;
-        &lt;g:if test="${emailVerified}"&gt;
-            &lt;span class="success-message"&gt;✓ Email validado correctamente.&lt;/span&gt;
-        &lt;/g:if&gt;
-    &lt;/div&gt;
-&lt;/g:form&gt;</code></pre>
+&lt;!-- Campo teléfono --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="tel" name="phone" id="phone"
+             placeholder=" " required="required"/&gt;
+    &lt;label for="phone"&gt;Teléfono *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo URL --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="url" name="website" id="website" placeholder=" "/&gt;
+    &lt;label for="website"&gt;Sitio web&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo número --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="number" name="amount" id="amount"
+             placeholder=" " min="0" step="1000"/&gt;
+    &lt;label for="amount"&gt;Monto&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Con validación de errores --&gt;
+&lt;div class="field label border \${hasErrors(bean: command, field: 'fullName', 'invalid')}"&gt;
+    &lt;g:textField name="fullName" placeholder=" " value="\${command?.fullName}"/&gt;
+    &lt;label for="fullName"&gt;Nombre completo *&lt;/label&gt;
+    &lt;g:hasErrors bean="\${command}" field="fullName"&gt;
+        &lt;span class="helper"&gt;
+            &lt;g:message error="\${it}"/&gt;
+        &lt;/span&gt;
+    &lt;/g:hasErrors&gt;
+&lt;/div&gt;
+
+&lt;!-- Select con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:select name="region" id="region"
+              from="\${regions}"
+              optionKey="key"
+              optionValue="value"
+              noSelection="['':'Selecciona una opción']"
+              required="required"/&gt;
+    &lt;label for="region"&gt;Región *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Select con validación --&gt;
+&lt;div class="field label border \${hasErrors(bean: command, field: 'region', 'invalid')}"&gt;
+    &lt;g:select name="region"
+              from="\${regions}"
+              optionKey="key"
+              optionValue="value"
+              noSelection="['':'Selecciona una opción']"
+              value="\${command?.region}"/&gt;
+    &lt;label for="region"&gt;Región *&lt;/label&gt;
+    &lt;g:hasErrors bean="\${command}" field="region"&gt;
+        &lt;span class="helper"&gt;
+            &lt;g:message error="\${it}"/&gt;
+        &lt;/span&gt;
+    &lt;/g:hasErrors&gt;
+&lt;/div&gt;</code></pre>
                 </div>
             </div>
 
