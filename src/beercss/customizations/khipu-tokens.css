@@ -8,17 +8,17 @@
    ======================================== */
 
 :root {
-    /* === Primary Scale (Purple) === */
-    --kds-color-primary-50: oklch(96% 0.02 295);
-    --kds-color-primary-100: oklch(92% 0.04 295);
-    --kds-color-primary-200: oklch(84% 0.08 295);
-    --kds-color-primary-300: oklch(76% 0.12 295);
-    --kds-color-primary-400: oklch(68% 0.16 295);
-    --kds-color-primary-500: oklch(60% 0.20 295);
-    --kds-color-primary-600: oklch(52% 0.18 295);
-    --kds-color-primary-700: oklch(44% 0.16 295);
-    --kds-color-primary-800: oklch(36% 0.14 295);
-    --kds-color-primary-900: oklch(28% 0.12 295);
+    /* === Primary Scale (Purple) - Khipu Brand === */
+    --kds-color-primary-50: #F3E5F5;   /* Lightest purple tint */
+    --kds-color-primary-100: #E1BEE7;  /* Very light purple */
+    --kds-color-primary-200: #CE93D8;  /* Light purple */
+    --kds-color-primary-300: #BA68C8;  /* Medium-light purple */
+    --kds-color-primary-400: #AB47BC;  /* Medium purple */
+    --kds-color-primary-500: #8347AD;  /* Khipu brand purple (main) */
+    --kds-color-primary-600: #7B1FA2;  /* Dark purple */
+    --kds-color-primary-700: #6A1B9A;  /* Darker purple */
+    --kds-color-primary-800: #4A148C;  /* Very dark purple */
+    --kds-color-primary-900: #38006B;  /* Darkest purple */
 
     /* === Secondary Scale (Blue from Figma Make) === */
     --kds-color-secondary-50: oklch(96% 0.02 240);
@@ -155,15 +155,27 @@
     --kds-otp-digit-bg: #FFFFFF;
     --kds-otp-digit-bg-filled: #F9FAFB;
 
-    /* KYC Blocking Modal */
-    --kds-kyc-block-bg: oklch(96% 0.02 60);     /* Amber-50 */
-    --kds-kyc-block-border: oklch(88% 0.08 60); /* Amber-200 */
-    --kds-kyc-block-text: oklch(40% 0.12 60);   /* Amber-800 */
-    --kds-kyc-block-icon: oklch(60% 0.15 60);   /* Amber-600 */
+    /* Modal Base */
+    --kds-modal-bg: #FFFFFF;
+    --kds-modal-padding: var(--kds-spacing-6);
+    --kds-modal-padding-mobile: var(--kds-spacing-4);
+    --kds-modal-border-radius: var(--kds-radius-lg);
+    --kds-modal-shadow: var(--kds-shadow-elevation-4);
+    --kds-modal-backdrop: rgba(0, 0, 0, 0.5);
+    --kds-modal-max-width: 600px;
+    --kds-modal-max-width-mobile: 95vw;
+
+    /* Modal Content Colors */
+    --kds-modal-title-color: #111827;           /* gray-900 */
+    --kds-modal-text-color: #374151;            /* gray-700 */
+    --kds-modal-icon-warning: var(--kds-color-warning);
+    --kds-modal-icon-error: var(--kds-color-error);
+    --kds-modal-icon-success: var(--kds-color-success);
+    --kds-modal-icon-info: var(--kds-color-info);
 
     /* Welcome Gradient */
-    --kds-welcome-gradient-start: #3B82F6;      /* blue-500 */
-    --kds-welcome-gradient-end: #1D4ED8;        /* blue-700 */
+    --kds-welcome-gradient-start: var(--kds-color-primary-500);  /* Khipu purple #8347AD */
+    --kds-welcome-gradient-end: var(--kds-color-primary-700);    /* Khipu purple dark */
 
     /* Bank Selector */
     --kds-bank-item-border: #E5E7EB;

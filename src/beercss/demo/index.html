@@ -3,846 +3,567 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khipu BeerCSS Components - Design System Demo</title>
-
-    <!-- Khipu BeerCSS Bundle (Local Development) -->
-    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.css">
+    <title>Khipu Design System - BeerCSS Onboarding</title>
 
     <!-- Material Symbols Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+
     <style>
-        /* Demo-specific styles */
-        .demo-section {
-            margin: 48px 0;
-            padding: 32px;
-            background: var(--surface-container, #FAFAFA);
-            border-radius: 12px;
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--kds-surface-background, #FAFAFA);
+            font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        .demo-title {
-            color: var(--primary);
-            margin-bottom: 24px;
-            font-size: 1.5rem;
+        /* Hero Section */
+        .gallery-hero {
+            background: linear-gradient(135deg, #8347AD 0%, #9333EA 100%);
+            color: white;
+            padding: var(--kds-spacing-12) var(--kds-spacing-6);
+            text-align: center;
+        }
+
+        .gallery-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 0 0 16px;
+            line-height: 1.2;
+        }
+
+        .gallery-hero p {
+            font-size: 20px;
+            margin: 0 0 32px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .gallery-hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Main Container */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--kds-spacing-12) var(--kds-spacing-6);
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: var(--kds-spacing-10);
+        }
+
+        .gallery-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--kds-text-primary, #111827);
+            margin: 0 0 16px;
+        }
+
+        .gallery-header p {
+            font-size: 18px;
+            color: var(--kds-text-secondary, #6B7280);
+            margin: 0;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 32px;
+            margin-bottom: var(--kds-spacing-12);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Page Card */
+        .page-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .page-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .page-card-preview {
+            background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-card-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(131, 71, 173, 0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .page-card-preview i {
+            font-size: 80px;
+            min-width: 80px;
+            min-height: 80px;
+            color: #8347AD;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-card-content {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-card-step {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #8347AD;
+            margin-bottom: 8px;
+        }
+
+        .page-card-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0 0 12px;
+        }
+
+        .page-card-description {
+            font-size: 15px;
+            color: #6B7280;
+            line-height: 1.6;
+            margin: 0 0 20px;
+            flex: 1;
+        }
+
+        .page-card-components {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .component-tag {
+            font-size: 12px;
+            padding: 4px 12px;
+            background: #F3F4F6;
+            color: #4B5563;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .page-card-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 15px;
+            font-weight: 600;
+            color: #8347AD;
+            text-decoration: none;
+            padding-top: 16px;
+            border-top: 1px solid #F3F4F6;
+        }
+
+        .page-card-link:hover {
+            color: #6D28D9;
+        }
+
+        .page-card-link i {
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+
+        .page-card:hover .page-card-link i {
+            transform: translateX(4px);
+        }
+
+        /* Component Showcase CTA */
+        .showcase-cta {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            border-radius: 16px;
+            padding: var(--kds-spacing-10) var(--kds-spacing-8);
+            text-align: center;
+            color: white;
+            margin-top: var(--kds-spacing-12);
+        }
+
+        .showcase-cta h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 16px;
+        }
+
+        .showcase-cta p {
+            font-size: 18px;
+            margin: 0 0 32px;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        .gallery-footer {
+            background: var(--kds-surface-elevated, white);
+            border-top: 1px solid var(--kds-border-light, #E5E7EB);
+            padding: var(--kds-spacing-10) var(--kds-spacing-6);
+            text-align: center;
+            margin-top: var(--kds-spacing-12);
+        }
+
+        .gallery-footer p {
+            color: var(--kds-text-secondary, #6B7280);
+            margin: 0 0 8px;
+        }
+
+        .gallery-footer a {
+            color: #8347AD;
+            text-decoration: none;
             font-weight: 600;
         }
 
-        .demo-example {
-            background: white;
-            padding: 24px;
-            border-radius: 8px;
-            margin: 16px 0;
+        .gallery-footer a:hover {
+            text-decoration: underline;
         }
 
-        .demo-code {
-            background: #f5f5f5;
-            padding: 16px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.875rem;
-            margin-top: 12px;
-            overflow-x: auto;
+        /* Utility Classes */
+        .min-w-200 {
+            min-width: 200px;
         }
 
-        .component-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin: 16px 0;
-        }
-
-        .dev-info {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            background: var(--primary);
-            color: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-        }
-
-        .dev-info.production {
-            background: var(--secondary);
+        .mx-2 {
+            margin-left: 8px;
+            margin-right: 8px;
         }
     </style>
 </head>
 <body>
-    <!-- Development Mode Indicator -->
-    <div class="dev-info" id="mode-indicator">
-        🔧 Development Mode - Local Build
+    <!-- Hero Section -->
+    <div class="gallery-hero">
+        <h1>Khipu Design System</h1>
+        <p>Flujo completo de onboarding con componentes BeerCSS optimizados para la plataforma de pagos Khipu</p>
+        <div class="gallery-hero-actions">
+            <a href="onboarding/components.html" class="kds-btn kds-btn-outlined-white">
+                <span class="kds-icon"><i class="material-symbols-outlined">widgets</i></span>
+                Ver Componentes
+            </a>
+            <a href="https://design.khipu.com" target="_blank" class="kds-btn kds-btn-outlined-white">
+                <span class="kds-icon"><i class="material-symbols-outlined">library_books</i></span>
+                Documentación
+            </a>
+        </div>
     </div>
 
-    <!-- Hero Section -->
-    <header class="khipu-hero">
-        <h1>Khipu BeerCSS Components</h1>
-        <p>Galería de componentes Material Design 3 con customizaciones Khipu</p>
-        <p class="kds-body-small kds-mt-4" style="opacity: 0.8;">
-            Design System v<span id="version">loading...</span>
-        </p>
-    </header>
+    <!-- Main Gallery -->
+    <div class="gallery-container">
+        <div class="gallery-header">
+            <h2>Flujo de Onboarding</h2>
+            <p>10 páginas completas con componentes reales y funcionales</p>
+        </div>
 
-    <main class="responsive">
-        <!-- Colors -->
-        <section class="demo-section">
-            <h2 class="demo-title">🎨 Paleta de Colores Khipu</h2>
-            <div class="component-grid">
-                <div class="demo-color-box primary-bg">
-                    <strong>Primary</strong><br>#8347AD
+        <div class="gallery-grid">
+            <!-- Welcome Page -->
+            <a href="onboarding/welcome.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">rocket_launch</i>
                 </div>
-                <div class="demo-color-box secondary-bg">
-                    <strong>Secondary</strong><br>#4CAF50
+                <div class="page-card-content">
+                    <div class="page-card-step">Inicio</div>
+                    <h3 class="page-card-title">Bienvenida</h3>
+                    <p class="page-card-description">
+                        Hero con gradiente, beneficios del servicio y CTA para comenzar la activación. Incluye modal de encuesta opcional.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">Hero</span>
+                        <span class="component-tag">Benefits Cards</span>
+                        <span class="component-tag">Modal</span>
+                        <span class="component-tag">Form</span>
+                    </div>
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
                 </div>
-                <div class="demo-color-box accent-bg">
-                    <strong>Accent</strong><br>#FF5722
+            </a>
+
+            <!-- Selector Page -->
+            <a href="onboarding/selector.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">account_circle</i>
                 </div>
-            </div>
-        </section>
-
-        <!-- Buttons -->
-        <section class="demo-section">
-            <h2 class="demo-title">🔘 Botones</h2>
-
-            <div class="demo-example">
-                <h3>Filled Buttons</h3>
-                <button class="primary">Primary Button</button>
-                <button class="secondary">Secondary Button</button>
-                <button class="tertiary">Tertiary Button</button>
-                <button class="error">Error Button</button>
-                <button disabled>Disabled Button</button>
-            </div>
-
-            <div class="demo-example">
-                <h3>Outlined Buttons</h3>
-                <button class="border primary">Primary Outlined</button>
-                <button class="border secondary">Secondary Outlined</button>
-                <button class="border">Default Outlined</button>
-            </div>
-
-            <div class="demo-example">
-                <h3>Text Buttons</h3>
-                <button class="transparent primary">Primary Text</button>
-                <button class="transparent secondary">Secondary Text</button>
-                <button class="transparent">Default Text</button>
-            </div>
-
-            <div class="demo-example">
-                <h3>Icon Buttons</h3>
-                <button class="circle primary">
-                    <i class="material-symbols-outlined">add</i>
-                </button>
-                <button class="circle secondary">
-                    <i class="material-symbols-outlined">edit</i>
-                </button>
-                <button class="circle border">
-                    <i class="material-symbols-outlined">delete</i>
-                </button>
-            </div>
-        </section>
-
-        <!-- Cards -->
-        <section class="demo-section">
-            <h2 class="demo-title">🃏 Cards</h2>
-
-            <div class="demo-example">
-                <h3>Elevated Cards</h3>
-                <div class="component-grid">
-                    <div class="kds-card-elevated">
-                        <h3>Elevated Card</h3>
-                        <p>Tarjeta con sombra personalizada de Khipu (hover para ver efecto).</p>
-                        <button class="primary">Action</button>
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 1</div>
+                    <h3 class="page-card-title">Selector de Tipo</h3>
+                    <p class="page-card-description">
+                        Selección entre Persona Natural y Persona Jurídica con cards interactivas. Incluye stepper de progreso.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">Stepper</span>
+                        <span class="component-tag">Card Selector</span>
+                        <span class="component-tag">Country Selector</span>
+                        <span class="component-tag">Alerts</span>
                     </div>
-
-                    <article class="card">
-                        <h3>Standard Card</h3>
-                        <p>Tarjeta estándar de BeerCSS con estilos Material Design 3.</p>
-                        <button class="border">Action</button>
-                    </article>
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
                 </div>
-            </div>
+            </a>
 
-            <div class="demo-example">
-                <h3>Selection Card - EXACT from Figma Make StageSelector</h3>
-                <div class="kds-grid-2col kds-max-w-lg">
-                    <!-- Persona Natural (selected) -->
-                    <div class="kds-card-selector selected">
-                        <div class="kds-card-selector-icon">
-                            <i class="material-symbols-outlined">person</i>
-                        </div>
-                        <div class="kds-card-selector-title">Persona Natural</div>
-                        <div class="kds-card-selector-description">
-                            Para emprendedores y freelancers que operan como personas naturales
-                        </div>
-                        <div class="kds-card-selector-badge">
-                            <div class="kds-card-selector-check"></div>
-                            Seleccionado
-                        </div>
-                    </div>
-
-                    <!-- Persona Jurídica (not selected) -->
-                    <div class="kds-card-selector">
-                        <div class="kds-card-selector-icon" style="background: #F3E8FF;">
-                            <i class="material-symbols-outlined" style="color: #9333EA;">business</i>
-                        </div>
-                        <div class="kds-card-selector-title">Persona Jurídica</div>
-                        <div class="kds-card-selector-description">
-                            Para empresas y negocios constituidos legalmente
-                        </div>
-                        <div class="kds-card-selector-badge">
-                            <div class="kds-card-selector-check"></div>
-                            Seleccionado
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Pricing Plan Card (Figma Make Pattern)</h3>
-                <div class="kds-grid-2col kds-max-w-lg">
-                    <div class="kds-card-plan">
-                        <h3>Plan Básico</h3>
-                        <div class="plan-price">$0</div>
-                        <p>Ideal para empezar</p>
-                        <ul class="plan-features">
-                            <li>Hasta 100 transacciones/mes</li>
-                            <li>Comisión 3.5%</li>
-                            <li>Soporte email</li>
-                        </ul>
-                        <button class="border">Seleccionar</button>
-                    </div>
-
-                    <div class="kds-card-plan recommended">
-                        <h3>Plan Pro</h3>
-                        <div class="plan-price">$29</div>
-                        <p><strong>Recomendado</strong> para negocios</p>
-                        <ul class="plan-features">
-                            <li>Transacciones ilimitadas</li>
-                            <li>Comisión 2.9%</li>
-                            <li>Soporte prioritario</li>
-                            <li>API avanzada</li>
-                        </ul>
-                        <button class="primary">Seleccionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Status Cards (Figma Make Pattern)</h3>
-                <div class="kds-max-w-md">
-                    <div class="kds-card-status kds-mb-4">
-                        <div class="status-icon success">
-                            <i class="material-symbols-outlined">check_circle</i>
-                        </div>
-                        <div class="status-content">
-                            <strong>Verificación completada</strong>
-                            <p>Tu identidad ha sido verificada exitosamente</p>
-                        </div>
-                    </div>
-
-                    <div class="kds-card-status muted">
-                        <div class="status-icon">
-                            <i class="material-symbols-outlined">pending</i>
-                        </div>
-                        <div class="status-content">
-                            <strong>Documentos pendientes</strong>
-                            <p>Falta subir comprobante de domicilio</p>
-                        </div>
-                        <button class="primary">Subir</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Card with Sections (Header, Body, Footer)</h3>
-                <div class="kds-max-w-md">
-                    <div class="kds-card-elevated">
-                        <div class="kds-card-header">
-                            <h3>Configuración de Cuenta</h3>
-                        </div>
-                        <div class="kds-card-body">
-                            <p>Actualiza la información de tu cuenta y preferencias de notificación.</p>
-                            <div class="field label border">
-                                <input type="email" id="settings-email" value="user@khipu.com">
-                                <label for="settings-email">Email</label>
-                            </div>
-                        </div>
-                        <div class="kds-card-footer">
-                            <button class="transparent">Cancelar</button>
-                            <button class="primary">Guardar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stepper -->
-        <section class="demo-section">
-            <h2 class="demo-title">📊 Stepper (Multi-Stage Progress)</h2>
-
-            <div class="demo-example">
-                <h3>Stepper - 5 Steps (from Figma Make Onboarding)</h3>
-                <div class="kds-stepper">
-                    <div class="kds-step completed">
-                        <div class="kds-step-indicator">1</div>
-                        <div class="kds-step-label">Tipo de Cuenta</div>
-                    </div>
-                    <div class="kds-step completed">
-                        <div class="kds-step-indicator">2</div>
-                        <div class="kds-step-label">Perfil</div>
-                    </div>
-                    <div class="kds-step current">
-                        <div class="kds-step-indicator">3</div>
-                        <div class="kds-step-label">Datos Comerciales</div>
-                    </div>
-                    <div class="kds-step">
-                        <div class="kds-step-indicator">4</div>
-                        <div class="kds-step-label">Plan</div>
-                    </div>
-                    <div class="kds-step">
-                        <div class="kds-step-indicator">5</div>
-                        <div class="kds-step-label">Verificación</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Stepper - 3 Steps with Descriptions</h3>
-                <div class="kds-stepper">
-                    <div class="kds-step completed">
-                        <div class="kds-step-indicator">1</div>
-                        <div class="kds-step-label">Registro</div>
-                        <div class="kds-step-description">Completado</div>
-                    </div>
-                    <div class="kds-step current">
-                        <div class="kds-step-indicator">2</div>
-                        <div class="kds-step-label">Verificación</div>
-                        <div class="kds-step-description">En proceso</div>
-                    </div>
-                    <div class="kds-step">
-                        <div class="kds-step-indicator">3</div>
-                        <div class="kds-step-label">Activación</div>
-                        <div class="kds-step-description">Pendiente</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Alerts -->
-        <section class="demo-section">
-            <h2 class="demo-title">⚠️ Alerts & Banners</h2>
-
-            <div class="demo-example">
-                <h3>Alert Variants (from Figma Make)</h3>
-
-                <div class="kds-alert info">
-                    <div class="kds-alert-icon">
-                        <i class="material-symbols-outlined">info</i>
-                    </div>
-                    <div class="kds-alert-content">
-                        <div class="kds-alert-title">Información Importante</div>
-                        <div class="kds-alert-description">
-                            Tu cuenta requiere verificación adicional. Por favor completa el proceso de KYC.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kds-alert warning">
-                    <div class="kds-alert-icon">
-                        <i class="material-symbols-outlined">warning</i>
-                    </div>
-                    <div class="kds-alert-content">
-                        <div class="kds-alert-title">Advertencia</div>
-                        <div class="kds-alert-description">
-                            Tu sesión expirará en 5 minutos. Guarda tus cambios.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kds-alert success">
-                    <div class="kds-alert-icon">
-                        <i class="material-symbols-outlined">check_circle</i>
-                    </div>
-                    <div class="kds-alert-content">
-                        <div class="kds-alert-title">Éxito</div>
-                        <div class="kds-alert-description">
-                            Tu cuenta ha sido verificada exitosamente.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kds-alert error">
-                    <div class="kds-alert-icon">
-                        <i class="material-symbols-outlined">error</i>
-                    </div>
-                    <div class="kds-alert-content">
-                        <div class="kds-alert-title">Error</div>
-                        <div class="kds-alert-description">
-                            No se pudo procesar tu solicitud. Por favor intenta nuevamente.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Compact Alert (no icon)</h3>
-                <div class="kds-alert info compact">
-                    <div class="kds-alert-content">
-                        <div class="kds-alert-description">
-                            Mensaje breve sin icono para contextos de espacio reducido.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Alert with Actions</h3>
-                <div class="kds-alert warning">
-                    <div class="kds-alert-icon">
-                        <i class="material-symbols-outlined">cloud_upload</i>
-                    </div>
-                    <div class="kds-alert-content">
-                        <div class="kds-alert-title">Documentos Pendientes</div>
-                        <div class="kds-alert-description">
-                            Necesitamos que subas tu comprobante de domicilio para completar la verificación.
-                        </div>
-                        <div class="kds-alert-actions">
-                            <button class="transparent kds-text-warning">Más tarde</button>
-                            <button class="primary">Subir ahora</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Typography -->
-        <section class="demo-section">
-            <h2 class="demo-title">🔤 Typography Scale (Material Design 3)</h2>
-
-            <div class="demo-example">
-                <h3>Display Styles</h3>
-                <div class="kds-display-large">Display Large (48px)</div>
-                <div class="kds-display-medium kds-mt-4">Display Medium (32px)</div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Headline Styles</h3>
-                <div class="kds-headline-large">Headline Large (24px)</div>
-                <div class="kds-headline-medium kds-mt-2">Headline Medium (20px)</div>
-                <div class="kds-headline-small kds-mt-2">Headline Small (18px)</div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Title Styles</h3>
-                <div class="kds-title-large">Title Large (20px) - Semibold</div>
-                <div class="kds-title-medium kds-mt-2">Title Medium (16px) - Semibold</div>
-                <div class="kds-title-small kds-mt-2">Title Small (14px) - Semibold</div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Body Styles</h3>
-                <div class="kds-body-large">Body Large (18px) - Texto de cuerpo grande para contenido destacado.</div>
-                <div class="kds-body-medium kds-mt-2">Body Medium (16px) - Texto de cuerpo estándar para la mayoría del contenido.</div>
-                <div class="kds-body-small kds-mt-2">Body Small (14px) - Texto de cuerpo pequeño para notas y aclaraciones.</div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Label Styles</h3>
-                <div class="kds-label-large">Label Large (16px) - Para botones grandes</div>
-                <div class="kds-label-medium kds-mt-2">Label Medium (14px) - Para botones estándar</div>
-                <div class="kds-label-small kds-mt-2">Label Small (12px) - Para botones pequeños</div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Text Utilities</h3>
-                <div class="kds-text-primary kds-font-bold">Primary Color Text</div>
-                <div class="kds-text-success kds-mt-2">Success Color Text</div>
-                <div class="kds-text-warning kds-mt-2">Warning Color Text</div>
-                <div class="kds-text-error kds-mt-2">Error Color Text</div>
-                <div class="kds-text-muted kds-mt-2">Muted Text (on-surface-variant)</div>
-            </div>
-        </section>
-
-        <!-- Forms -->
-        <section class="demo-section">
-            <h2 class="demo-title">📝 Formularios</h2>
-
-            <div class="demo-example">
-                <h3>Text Fields (Outlined - Default)</h3>
-                <div class="field label border">
-                    <input type="text" id="name">
-                    <label for="name">Nombre</label>
-                </div>
-
-                <div class="field label border prefix">
-                    <i class="material-symbols-outlined">mail</i>
-                    <input type="email" id="email">
-                    <label for="email">Email</label>
-                </div>
-
-                <div class="field label border suffix">
-                    <input type="password" id="password">
-                    <label for="password">Contraseña</label>
-                    <i class="material-symbols-outlined">visibility</i>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Text Fields (Filled - Underline)</h3>
-                <div class="field label fill">
-                    <input type="text" id="name-filled">
-                    <label for="name-filled">Nombre</label>
-                </div>
-
-                <div class="field label fill prefix">
+            <!-- Profile Page -->
+            <a href="onboarding/profile.html" class="page-card">
+                <div class="page-card-preview">
                     <i class="material-symbols-outlined">person</i>
-                    <input type="text" id="username">
-                    <label for="username">Usuario</label>
                 </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Text Fields (Round Variant)</h3>
-                <div class="field label round">
-                    <input type="text" id="search">
-                    <label for="search">Buscar</label>
-                </div>
-
-                <div class="field label prefix round">
-                    <i class="material-symbols-outlined">search</i>
-                    <input type="text" id="search2">
-                    <label for="search2">Buscar con ícono</label>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Validation States (Enhanced from Figma Make)</h3>
-
-                <!-- Info state (NEW) -->
-                <div class="field label border info">
-                    <input type="text" id="username-info" value="user123" placeholder=" ">
-                    <label for="username-info">Nombre de usuario</label>
-                    <span class="info-message">Este nombre de usuario está disponible</span>
-                </div>
-
-                <!-- Warning state (NEW) -->
-                <div class="field label border warning">
-                    <input type="password" id="password-warning" value="12345" placeholder=" ">
-                    <label for="password-warning">Contraseña</label>
-                    <span class="warning-message">Contraseña débil. Recomendamos usar letras, números y símbolos.</span>
-                </div>
-
-                <!-- Success state (ENHANCED) -->
-                <div class="field label border valid">
-                    <input type="email" id="email-valid" value="usuario@khipu.com" placeholder=" ">
-                    <label for="email-valid">Email</label>
-                    <span class="success-message">Email verificado correctamente</span>
-                </div>
-
-                <!-- Error state (ENHANCED) -->
-                <div class="field label border invalid">
-                    <input type="email" id="email-error" value="email-invalido" placeholder=" ">
-                    <label for="email-error">Email</label>
-                    <span class="error">Ingresa un email válido en formato nombre@dominio.com</span>
-                </div>
-
-                <!-- Neutral helper text -->
-                <div class="field label border">
-                    <input type="password" id="password-helper" placeholder=" ">
-                    <label for="password-helper">Contraseña</label>
-                    <span class="helper">Mínimo 8 caracteres, incluye letras y números</span>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Checkboxes & Radio Buttons</h3>
-                <label class="checkbox">
-                    <input type="checkbox" checked>
-                    <span>Opción 1</span>
-                </label>
-                <label class="checkbox">
-                    <input type="checkbox">
-                    <span>Opción 2</span>
-                </label>
-
-                <div class="kds-mt-4">
-                    <label class="radio">
-                        <input type="radio" name="radio-demo" checked>
-                        <span>Radio 1</span>
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="radio-demo">
-                        <span>Radio 2</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Switches</h3>
-                <label class="switch">
-                    <input type="checkbox" checked>
-                    <span>Notificaciones activadas</span>
-                </label>
-                <label class="switch">
-                    <input type="checkbox">
-                    <span>Modo oscuro</span>
-                </label>
-            </div>
-        </section>
-
-        <!-- Chips -->
-        <section class="demo-section">
-            <h2 class="demo-title">🏷️ Chips</h2>
-            <div class="demo-example">
-                <a class="chip primary">
-                    <i class="material-symbols-outlined">star</i>
-                    <span>Featured</span>
-                </a>
-                <a class="chip secondary">
-                    <span>Category</span>
-                </a>
-                <a class="chip border">
-                    <span>Tag</span>
-                    <i class="material-symbols-outlined">close</i>
-                </a>
-            </div>
-        </section>
-
-        <!-- Dialogs & Snackbars -->
-        <section class="demo-section">
-            <h2 class="demo-title">💬 Dialogs & Snackbars</h2>
-
-            <div class="demo-example">
-                <h3>Snackbars</h3>
-                <button class="primary" onclick="showSnackbar('Operación exitosa', 'success', 3000)">
-                    Success Snackbar
-                </button>
-                <button class="error" onclick="showSnackbar('Error en la operación', 'error', 3000)">
-                    Error Snackbar
-                </button>
-                <button onclick="showSnackbar('Información general', 'info', 3000)">
-                    Info Snackbar
-                </button>
-            </div>
-
-            <div class="demo-example">
-                <h3>Dialog</h3>
-                <button onclick="ui('#demo-dialog')">Open Dialog</button>
-
-                <dialog class="modal" id="demo-dialog">
-                    <h5>Dialog Title</h5>
-                    <p>Este es un dialog modal de ejemplo con Material Design 3.</p>
-                    <nav class="right-align">
-                        <button class="transparent" onclick="ui('#demo-dialog')">Cancelar</button>
-                        <button class="primary" onclick="ui('#demo-dialog')">Aceptar</button>
-                    </nav>
-                </dialog>
-            </div>
-        </section>
-
-        <!-- Navigation -->
-        <section class="demo-section">
-            <h2 class="demo-title">🧭 Navegación</h2>
-
-            <div class="demo-example">
-                <h3>Tabs</h3>
-                <nav class="tabs">
-                    <a class="active">Tab 1</a>
-                    <a>Tab 2</a>
-                    <a>Tab 3</a>
-                </nav>
-            </div>
-
-            <div class="demo-example">
-                <h3>Bottom Navigation</h3>
-                <nav class="bottom-navigation">
-                    <a class="active">
-                        <i class="material-symbols-outlined">home</i>
-                        <span>Inicio</span>
-                    </a>
-                    <a>
-                        <i class="material-symbols-outlined">search</i>
-                        <span>Buscar</span>
-                    </a>
-                    <a>
-                        <i class="material-symbols-outlined">person</i>
-                        <span>Perfil</span>
-                    </a>
-                </nav>
-            </div>
-        </section>
-
-        <!-- Progress -->
-        <section class="demo-section">
-            <h2 class="demo-title">⏳ Progress Indicators</h2>
-
-            <div class="demo-example">
-                <h3>Linear Progress - Indeterminate (Animated)</h3>
-                <p class="kds-body-small kds-text-muted kds-mb-4">
-                    Loading animation continua
-                </p>
-                <progress class="primary"></progress>
-                <progress class="secondary"></progress>
-            </div>
-
-            <div class="demo-example">
-                <h3>Linear Progress - Determinate (Fixed)</h3>
-                <p class="kds-body-small kds-text-muted kds-mb-4">
-                    Progreso específico (75% y 50%)
-                </p>
-                <progress class="primary" value="75" max="100"></progress>
-                <progress class="secondary" value="50" max="100"></progress>
-            </div>
-
-            <div class="demo-example">
-                <h3>Circular Progress - Indeterminate (Animated)</h3>
-                <p class="kds-body-small kds-text-muted kds-mb-4">
-                    Spinner animado
-                </p>
-                <progress class="circle primary"></progress>
-                <progress class="circle secondary"></progress>
-            </div>
-        </section>
-
-        <!-- Layout & Spacing Utilities -->
-        <section class="demo-section">
-            <h2 class="demo-title">📐 Layout & Spacing Utilities</h2>
-
-            <div class="demo-example">
-                <h3>Grid System (Responsive)</h3>
-                <p class="kds-body-small kds-text-muted kds-mb-4">
-                    Mobile: 1 column, Tablet: 2 columns, Desktop: 2-4 columns
-                </p>
-
-                <div class="kds-grid-2col">
-                    <div class="demo-grid-item primary-container-bg">
-                        Grid Item 1
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 2</div>
+                    <h3 class="page-card-title">Perfil de Usuario</h3>
+                    <p class="page-card-description">
+                        Formulario con selección de industria (con validación de sectores de alto riesgo) y servicios de interés. Incluye modal KYC.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">Checkboxes</span>
+                        <span class="component-tag">Radio Buttons</span>
+                        <span class="component-tag">KYC Modal</span>
+                        <span class="component-tag">Validation</span>
                     </div>
-                    <div class="demo-grid-item primary-container-bg">
-                        Grid Item 2
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Commercial Data Page -->
+            <a href="onboarding/commercial-data.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">business</i>
+                </div>
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 3</div>
+                    <h3 class="page-card-title">Datos Comerciales</h3>
+                    <p class="page-card-description">
+                        Formulario completo con validación de RUT, nombre comercial, dirección y datos de contacto. Incluye info alerts.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">Text Fields</span>
+                        <span class="component-tag">RUT Validation</span>
+                        <span class="component-tag">Address Form</span>
+                        <span class="component-tag">Phone Input</span>
                     </div>
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
                 </div>
+            </a>
 
-                <div class="kds-grid-3col kds-mt-4">
-                    <div class="demo-grid-item secondary-container-bg">
-                        3-Col Item 1
+            <!-- Documents Page -->
+            <a href="onboarding/documents.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">upload_file</i>
+                </div>
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 4</div>
+                    <h3 class="page-card-title">Documentos</h3>
+                    <p class="page-card-description">
+                        Carga de documentos con drag & drop, preview y validación de formato/tamaño. Muestra documentos requeridos según tipo de cuenta.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">File Upload</span>
+                        <span class="component-tag">Drag & Drop</span>
+                        <span class="component-tag">Preview</span>
+                        <span class="component-tag">Status Cards</span>
                     </div>
-                    <div class="demo-grid-item secondary-container-bg">
-                        3-Col Item 2
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Bank Connection Page -->
+            <a href="onboarding/bank-connection.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">account_balance</i>
+                </div>
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 5</div>
+                    <h3 class="page-card-title">Conexión Bancaria</h3>
+                    <p class="page-card-description">
+                        Selección de banco con grid de logos, ingreso de datos bancarios y validación. Incluye info sobre cuentas aceptadas.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">Bank Grid</span>
+                        <span class="component-tag">Account Form</span>
+                        <span class="component-tag">Info Alerts</span>
+                        <span class="component-tag">Validation</span>
                     </div>
-                    <div class="demo-grid-item secondary-container-bg">
-                        3-Col Item 3
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Pricing Page -->
+            <a href="onboarding/pricing.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">payments</i>
+                </div>
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 6</div>
+                    <h3 class="page-card-title">Planes de Pricing</h3>
+                    <p class="page-card-description">
+                        Grid de planes con comparación de características, badge de "Recomendado" y selección interactiva. Muestra comisiones y límites.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">Pricing Cards</span>
+                        <span class="component-tag">Feature List</span>
+                        <span class="component-tag">Badges</span>
+                        <span class="component-tag">Selection</span>
                     </div>
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
                 </div>
-            </div>
+            </a>
 
-            <div class="demo-example">
-                <h3>Flex Utilities</h3>
-                <div class="kds-flex kds-justify-between kds-items-center demo-surface-box">
-                    <span>Left Content</span>
-                    <button class="primary">Right Button</button>
+            <!-- Contract Page -->
+            <a href="onboarding/contract.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">contract</i>
                 </div>
-
-                <div class="kds-flex kds-justify-center kds-items-center kds-gap-4 demo-surface-box kds-mt-4">
-                    <span>Centered</span>
-                    <span>with</span>
-                    <span>Gap</span>
-                </div>
-
-                <div class="kds-flex-col kds-gap-3 demo-surface-box kds-mt-4">
-                    <div>Flex Column Item 1</div>
-                    <div>Flex Column Item 2</div>
-                    <div>Flex Column Item 3</div>
-                </div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Spacing Utilities (4px base grid)</h3>
-                <div class="demo-surface-box">
-                    <div class="kds-my-4 demo-grid-item primary-container-bg">
-                        .kds-my-4 (margin-top/bottom: 16px)
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 7</div>
+                    <h3 class="page-card-title">Contrato y Firma</h3>
+                    <p class="page-card-description">
+                        Acordeón con términos del contrato, signature pad con canvas HTML5 y checkbox de aceptación. Incluye validación de firma.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">Accordion</span>
+                        <span class="component-tag">Signature Pad</span>
+                        <span class="component-tag">Canvas</span>
+                        <span class="component-tag">Checkbox</span>
                     </div>
-                    <div class="kds-p-6 demo-grid-item secondary-container-bg">
-                        .kds-p-6 (padding: 24px)
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Validation Page -->
+            <a href="onboarding/validation.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">verified_user</i>
+                </div>
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 8</div>
+                    <h3 class="page-card-title">Validación OTP</h3>
+                    <p class="page-card-description">
+                        Input de 6 dígitos con auto-focus, resend de código, timer countdown y validación. Incluye card de resumen de datos.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">OTP Input</span>
+                        <span class="component-tag">Timer</span>
+                        <span class="component-tag">Summary Card</span>
+                        <span class="component-tag">Validation</span>
                     </div>
-                    <div class="kds-mt-6 demo-grid-item primary-container-bg">
-                        .kds-mt-6 (margin-top: 24px)
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Activation Page -->
+            <a href="onboarding/activation.html" class="page-card">
+                <div class="page-card-preview">
+                    <i class="material-symbols-outlined">check_circle</i>
+                </div>
+                <div class="page-card-content">
+                    <div class="page-card-step">Paso 9 - Final</div>
+                    <h3 class="page-card-title">Activación Exitosa</h3>
+                    <p class="page-card-description">
+                        Página de éxito con icono animado, próximos pasos numerados y acciones. Incluye info sobre tiempos de validación.
+                    </p>
+                    <div class="page-card-components">
+                        <span class="component-tag">Success Icon</span>
+                        <span class="component-tag">Next Steps</span>
+                        <span class="component-tag">Action Buttons</span>
+                        <span class="component-tag">Animation</span>
                     </div>
+                    <span class="page-card-link">
+                        Ver página
+                        <i class="material-symbols-outlined">arrow_forward</i>
+                    </span>
                 </div>
+            </a>
+        </div>
 
-                <div class="demo-code kds-mt-4">
-Available: kds-m-{0,2,4,6,8}, kds-mt-{0,2,4,6,8}, kds-mb-{0,2,4,6,8}
-          kds-my-{0,2,4,6,8}, kds-mx-auto
-          kds-p-{0,2,4,6,8}, kds-px-{4,6,8}, kds-py-{4,6,8}
-          kds-gap-{1,2,3,4,5,6,8}</div>
-            </div>
-
-            <div class="demo-example">
-                <h3>Legacy Spacing (Backward Compatibility)</h3>
-                <div class="khipu-spacing-top demo-surface-box">
-                    .khipu-spacing-top (margin-top: 32px)
-                </div>
-                <div class="khipu-spacing-bottom demo-surface-box">
-                    .khipu-spacing-bottom (margin-bottom: 32px)
-                </div>
-            </div>
-        </section>
-
-        <!-- API Reference -->
-        <section class="demo-section">
-            <h2 class="demo-title">🔧 JavaScript API</h2>
-
-            <div class="demo-example">
-                <h3>Khipu.showSnackbar(message, type, duration)</h3>
-                <pre class="demo-code">// Mostrar snackbar programáticamente
-Khipu.showSnackbar('Mensaje de éxito', 'success', 5000);
-Khipu.showSnackbar('Mensaje de error', 'error', 5000);
-Khipu.showSnackbar('Información', 'info', 5000);</pre>
-            </div>
-
-            <div class="demo-example">
-                <h3>Khipu.closeModal(modalId)</h3>
-                <pre class="demo-code">// Cerrar modal programáticamente
-Khipu.closeModal('demo-dialog');</pre>
-            </div>
-        </section>
-    </main>
+        <!-- Component Showcase CTA -->
+        <div class="showcase-cta">
+            <h2>Explora los Componentes</h2>
+            <p>Accede al catálogo completo de 16 componentes con ejemplos de código, variantes y guías de integración</p>
+            <a href="onboarding/components.html" class="kds-btn kds-btn-outlined-white min-w-200">
+                <span class="kds-icon"><i class="material-symbols-outlined">widgets</i></span>
+                Ver Componentes
+            </a>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer class="primary">
-        <div class="responsive">
-            <div class="grid">
-                <div class="s12 m4">
-                    <h6>Khipu Design System</h6>
-                    <p>Material Design 3 components con customizaciones de Khipu</p>
-                </div>
-                <div class="s12 m4">
-                    <h6>Recursos</h6>
-                    <a href="https://www.beercss.com/" target="_blank">BeerCSS Documentation</a>
-                    <a href="https://m3.material.io/" target="_blank">Material Design 3</a>
-                </div>
-                <div class="s12 m4">
-                    <h6>Repositorio</h6>
-                    <a href="https://github.com/khipu/design-system" target="_blank">GitHub</a>
-                </div>
-            </div>
-        </div>
+    <footer class="gallery-footer">
+        <p class="kds-title-medium kds-mb-2">Khipu Design System</p>
+        <p class="kds-body-small kds-text-muted">BeerCSS Onboarding Flow · 10 páginas · 16 componentes</p>
+        <p class="kds-body-small kds-mt-3">
+            <a href="https://design.khipu.com" target="_blank">design.khipu.com</a>
+            <span class="mx-2">·</span>
+            <a href="https://github.com/khipu/design-system" target="_blank">GitHub</a>
+        </p>
     </footer>
 
-    <!-- Khipu BeerCSS Bundle JavaScript -->
-    <script type="module" src="/dist/beercss/khipu-beercss.js"></script>
-
-    <script>
-        // Load version info
-        fetch('/dist/beercss/metadata.json')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('version').textContent = data.version;
-            })
-            .catch(() => {
-                document.getElementById('version').textContent = 'unknown';
-            });
-    </script>
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
 </body>
 </html>

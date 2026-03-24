@@ -112,12 +112,14 @@ a.kds-btn-text:hover:not(:disabled) {
 /* Icon wrapper - control size via span container */
 button.kds-btn > .kds-icon,
 a.kds-btn > .kds-icon {
-    width: 20px;
-    height: 20px;
-    padding-top: 2px;
+    min-width: 20px;
+    min-height: 20px;
     line-height: 1;
     overflow: hidden;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button.kds-btn > .kds-icon > i,
@@ -212,6 +214,8 @@ a.kds-btn > .kds-icon > i {
 .kds-card-selector-icon svg {
     width: 24px;
     height: 24px;
+    min-width: 24px;
+    min-height: 24px;
     color: #3B82F6;  /* blue-600 */
 }
 
@@ -233,46 +237,129 @@ a.kds-btn > .kds-icon > i {
 /* Selected state - visual feedback via border only */
 
 /* Pricing/Plan card (from Figma Make StagePricingPlan) */
+/* Pricing Card - Base */
 .kds-card-plan {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: var(--kds-spacing-5);
+    gap: var(--kds-spacing-6);
     padding: var(--kds-spacing-8);
     border-radius: var(--kds-radius-lg);
-    border: 1px solid var(--kds-border-medium);
-    max-width: 365px;
+    border: 2px solid var(--kds-border-medium);
+    max-width: 400px; /* Increased from 365px for better text spacing */
     background: var(--kds-surface-base);
-    transition: border-color 0.3s ease, background 0.3s ease;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%; /* Ensure cards fill grid height */
 }
 
+.kds-card-plan:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(131, 71, 173, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Recommended Plan */
 .kds-card-plan.recommended {
     border-color: var(--primary);
-    background: var(--primary-container);
+    background: linear-gradient(to bottom, rgba(131, 71, 173, 0.05), var(--kds-surface-base));
+    box-shadow: 0 4px 16px rgba(131, 71, 173, 0.2);
 }
 
-.kds-card-plan .plan-price {
-    font-size: var(--kds-font-size-3xl);
+.kds-card-plan.recommended:hover {
+    box-shadow: 0 8px 24px rgba(131, 71, 173, 0.3);
+}
+
+/* Recommended Badge */
+.kds-card-plan-badge {
+    position: absolute;
+    top: -12px;
+    right: var(--kds-spacing-6);
+    padding: var(--kds-spacing-1) var(--kds-spacing-4);
+    background: var(--primary);
+    color: white;
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-semibold);
+    border-radius: var(--kds-radius-full);
+    box-shadow: 0 2px 8px rgba(131, 71, 173, 0.3);
+}
+
+/* Plan Header */
+.kds-card-plan-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1);
+}
+
+.kds-card-plan-header h3 {
+    margin: 0;
+    font-size: var(--kds-font-size-2xl);
+    font-weight: var(--kds-font-weight-bold);
+    color: var(--kds-text-primary);
+}
+
+.kds-card-plan-header p {
+    margin: 0;
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-text-secondary);
+}
+
+/* Plan Price */
+.kds-card-plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: var(--kds-spacing-2);
+    padding: var(--kds-spacing-4) 0;
+    border-bottom: 1px solid var(--kds-border-light);
+    min-height: 88px; /* Standardize price area height */
+}
+
+.kds-price {
+    font-size: 42px;
     font-weight: var(--kds-font-weight-bold);
     color: var(--primary);
+    line-height: 1.1;
+    max-width: 100%; /* Prevent overflow */
+    word-break: break-word; /* Allow wrapping if needed */
 }
 
-.kds-card-plan .plan-features {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.kds-price-period {
+    font-size: var(--kds-font-size-base);
+    color: var(--kds-text-secondary);
+    font-weight: var(--kds-font-weight-medium);
 }
 
-.kds-card-plan .plan-features li {
-    padding: var(--kds-spacing-2) 0;
+/* Plan Features */
+.kds-card-plan-features {
     display: flex;
-    align-items: center;
-    gap: var(--kds-spacing-2);
+    flex-direction: column;
+    gap: var(--kds-spacing-3);
+    flex: 1;
 }
 
-.kds-card-plan .plan-features li::before {
-    content: "✓";
+.kds-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kds-spacing-3);
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-text-primary);
+}
+
+.kds-feature i {
+    font-size: 20px;
+    min-width: 20px;
+    min-height: 20px;
     color: var(--success);
-    font-weight: var(--kds-font-weight-bold);
+    flex-shrink: 0;
+}
+
+.kds-feature.disabled {
+    color: var(--kds-text-disabled);
+    text-decoration: line-through;
+}
+
+.kds-feature.disabled i {
+    color: var(--kds-text-disabled);
 }
 
 /* Verification/Status card (from onboarding patterns) */
@@ -297,6 +384,8 @@ a.kds-btn > .kds-icon > i {
 .kds-card-status .status-icon {
     flex-shrink: 0;
     font-size: 24px;
+    min-width: 24px;
+    min-height: 24px;
 }
 
 .kds-card-status .status-content {
@@ -379,6 +468,7 @@ a.kds-btn > .kds-icon > i {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--kds-spacing-4);
+    align-items: start;
 }
 
 @media (min-width: 768px) {
@@ -387,10 +477,22 @@ a.kds-btn > .kds-icon > i {
     }
 }
 
+/* Align fields inside grids */
+.kds-grid-2col > .kds-field,
+.kds-grid-3col > .kds-field {
+    align-self: start;
+}
+
+.kds-grid-2col > .kds-field .kds-form-label,
+.kds-grid-3col > .kds-field .kds-form-label {
+    min-height: 20px;
+}
+
 .kds-grid-3col {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--kds-spacing-4);
+    align-items: stretch; /* Ensure equal heights */
 }
 
 @media (min-width: 768px) {
@@ -874,6 +976,177 @@ footer.primary a:hover {
     display: block;
 }
 
+/* Icon utilities for inline icons */
+.kds-icon-inline {
+    vertical-align: middle;
+    margin-right: var(--kds-spacing-2);
+}
+
+/* Section title icon */
+.kds-stage-section-title i {
+    vertical-align: middle;
+    margin-right: var(--kds-spacing-2);
+}
+
+/* Khipu Field Container - Clean implementation without BeerCSS behaviors */
+.kds-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--kds-spacing-4);
+    width: 100%;
+}
+
+.kds-field .kds-form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.kds-field input,
+.kds-field textarea,
+.kds-field select {
+    border-radius: 8px;
+    border: 1px solid #D1D5DB;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: #111827;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.kds-field input:focus,
+.kds-field textarea:focus,
+.kds-field select:focus {
+    outline: none;
+    border-color: #8347AD;
+    box-shadow: 0 0 0 3px rgba(131, 71, 173, 0.1);
+}
+
+.kds-field input::placeholder,
+.kds-field textarea::placeholder {
+    color: #9CA3AF;
+}
+
+.kds-field .helper {
+    font-size: 12px;
+    color: #6B7280;
+    margin-top: 6px;
+    display: block;
+}
+
+/* Validation States for kds-field */
+
+/* Info state */
+.kds-field.info input,
+.kds-field.info textarea,
+.kds-field.info select {
+    border-color: var(--kds-color-info);
+}
+
+.kds-field.info .kds-form-label {
+    color: var(--kds-color-info);
+}
+
+.kds-field .info-message {
+    display: block;
+    color: var(--kds-color-info);
+    font-size: 12px;
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: var(--kds-alert-info-bg);
+    border-radius: var(--kds-radius-sm);
+    border-left: 3px solid var(--kds-color-info);
+}
+
+/* Warning state */
+.kds-field.warning input,
+.kds-field.warning textarea,
+.kds-field.warning select {
+    border-color: var(--kds-color-warning);
+}
+
+.kds-field.warning .kds-form-label {
+    color: var(--kds-color-warning);
+}
+
+.kds-field .warning-message {
+    display: block;
+    color: var(--kds-color-warning);
+    font-size: 12px;
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: var(--kds-alert-warning-bg);
+    border-radius: var(--kds-radius-sm);
+    border-left: 3px solid var(--kds-color-warning);
+}
+
+/* Valid/Success state */
+.kds-field.valid input,
+.kds-field.valid textarea,
+.kds-field.valid select {
+    border-color: var(--kds-color-success);
+}
+
+.kds-field.valid .kds-form-label {
+    color: var(--kds-color-success);
+}
+
+.kds-field .success-message {
+    display: block;
+    color: var(--kds-color-success);
+    font-size: 12px;
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: var(--kds-alert-success-bg);
+    border-radius: var(--kds-radius-sm);
+    border-left: 3px solid var(--kds-color-success);
+}
+
+/* Invalid/Error state */
+.kds-field.invalid input,
+.kds-field.invalid textarea,
+.kds-field.invalid select {
+    border-color: var(--kds-color-error);
+}
+
+.kds-field.invalid .kds-form-label {
+    color: var(--kds-color-error);
+}
+
+.kds-field .error-message {
+    display: block;
+    color: var(--kds-color-error);
+    font-size: 12px;
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: var(--kds-alert-error-bg);
+    border-radius: var(--kds-radius-sm);
+    border-left: 3px solid var(--kds-color-error);
+}
+
+/* Clean field structure - remove BeerCSS extras */
+.field.border {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Remove BeerCSS pseudo-elements and extra icons */
+.field.border::before,
+.field.border::after {
+    display: none !important;
+    content: none !important;
+}
+
+.field.border > *:not(label):not(input):not(textarea):not(select):not(.helper) {
+    display: none !important;
+}
+
 /* Input styling from Figma Make */
 .field input,
 .field textarea,
@@ -1084,6 +1357,8 @@ select:focus {
 .kds-alert-icon {
     flex-shrink: 0;
     font-size: 20px;
+    min-width: 20px;
+    min-height: 20px;
     margin-top: 2px;
 }
 
@@ -1169,6 +1444,11 @@ select:focus {
         'wght' 400,
         'GRAD' 0,
         'opsz' 24;
+    min-width: 24px;
+    min-height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Filled icons for specific contexts */
@@ -1439,6 +1719,80 @@ select:focus {
 }
 
 /* ========================================
+   CHECKBOX & RADIO GROUPS
+   Form selection components
+   ======================================== */
+
+/* Checkbox Group */
+.kds-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-3);
+}
+
+/* Radio Group */
+.kds-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-3);
+}
+
+/* Checkbox Label - BeerCSS override */
+label.checkbox,
+label.radio {
+    display: flex;
+    align-items: center;
+    padding: var(--kds-spacing-3) var(--kds-spacing-4);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #111827;
+}
+
+label.checkbox:hover,
+label.radio:hover {
+    background-color: #F9FAFB;
+}
+
+/* Checkbox/Radio Input */
+label.checkbox input[type="checkbox"],
+label.radio input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: var(--kds-spacing-3);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Checkbox/Radio Text */
+label.checkbox span,
+label.radio span {
+    flex: 1;
+    cursor: pointer;
+}
+
+/* Checked state */
+label.checkbox input[type="checkbox"]:checked,
+label.radio input[type="radio"]:checked {
+    accent-color: var(--primary);
+}
+
+/* Disabled state */
+label.checkbox input[type="checkbox"]:disabled,
+label.radio input[type="radio"]:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+label.checkbox:has(input:disabled),
+label.radio:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ========================================
    ONBOARDING COMPONENTS
    Multi-stage onboarding flow with form validation
    ======================================== */
@@ -1614,6 +1968,8 @@ select:focus {
 /* Upload zone content */
 .kds-file-upload-icon {
     font-size: 48px;
+    min-width: 48px;
+    min-height: 48px;
     color: #9CA3AF;
     margin-bottom: var(--kds-spacing-3);
 }
@@ -1627,6 +1983,24 @@ select:focus {
     font-weight: var(--kds-font-weight-medium);
     color: #111827;
     margin-bottom: var(--kds-spacing-2);
+}
+
+.kds-file-upload-button {
+    color: var(--primary);
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.kds-file-upload-button:hover {
+    color: var(--kds-color-primary-700);
+}
+
+.kds-file-upload-helper {
+    font-size: var(--kds-font-size-sm);
+    color: #6B7280;
+    display: block;
+    margin-top: var(--kds-spacing-1);
 }
 
 .kds-file-upload-hint {
@@ -1668,6 +2042,8 @@ select:focus {
     flex-shrink: 0;
     width: 40px;
     height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1675,6 +2051,11 @@ select:focus {
     border-radius: var(--kds-radius-md);
     color: var(--kds-color-primary-500);
     font-size: 20px;
+}
+
+.kds-file-upload-item-icon i {
+    min-width: 20px;
+    min-height: 20px;
 }
 
 /* File info */
@@ -1693,6 +2074,12 @@ select:focus {
 }
 
 .kds-file-upload-item-meta {
+    font-size: var(--kds-font-size-xs);
+    color: #6B7280;
+    margin-top: 2px;
+}
+
+.kds-file-upload-item-size {
     font-size: var(--kds-font-size-xs);
     color: #6B7280;
     margin-top: 2px;
@@ -1927,18 +2314,36 @@ select:focus {
 }
 
 /* ========================================
+   MODAL BASE CONFIGURATION
+   Override BeerCSS modal defaults
+   ======================================== */
+
+dialog.modal {
+    background: var(--kds-modal-bg);
+    border: none;
+    border-radius: var(--kds-modal-border-radius);
+    padding: var(--kds-modal-padding);
+    max-width: var(--kds-modal-max-width);
+    box-shadow: var(--kds-modal-shadow);
+}
+
+dialog.modal::backdrop {
+    background: var(--kds-modal-backdrop);
+}
+
+/* ========================================
    KYC BLOCKING MODAL
    Warning modal for high-risk sectors
    ======================================== */
 
 .kds-kyc-modal {
-    background: var(--kds-kyc-block-bg);
-    border: 2px solid var(--kds-kyc-block-border);
-    border-radius: var(--kds-radius-lg);
-    padding: var(--kds-spacing-8);
-    max-width: 600px;
+    background: var(--kds-modal-bg);
+    border: none;
+    border-radius: var(--kds-modal-border-radius);
+    padding: var(--kds-modal-padding);
+    max-width: var(--kds-modal-max-width);
     margin: 0 auto;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--kds-modal-shadow);
 }
 
 .kds-kyc-modal-icon {
@@ -1948,37 +2353,39 @@ select:focus {
 
 .kds-kyc-modal-icon i {
     font-size: 64px;
-    color: var(--kds-kyc-block-icon);
+    min-width: 64px;
+    min-height: 64px;
+    color: var(--kds-modal-icon-warning);
 }
 
 .kds-kyc-modal-title {
     font-size: var(--kds-font-size-2xl);
     font-weight: var(--kds-font-weight-bold);
-    color: var(--kds-kyc-block-text);
+    color: var(--kds-modal-title-color);
     text-align: center;
     margin-bottom: var(--kds-spacing-4);
 }
 
 .kds-kyc-modal-message {
     font-size: var(--kds-font-size-base);
-    color: var(--kds-kyc-block-text);
+    color: var(--kds-modal-text-color);
     line-height: 1.6;
     margin-bottom: var(--kds-spacing-6);
     text-align: center;
 }
 
 .kds-kyc-modal-contact {
-    background: #FFFFFF;
+    background: var(--kds-surface-elevated);
     border-radius: var(--kds-radius-md);
     padding: var(--kds-spacing-4);
     margin-bottom: var(--kds-spacing-6);
-    border-left: 4px solid var(--kds-kyc-block-icon);
+    border-left: 4px solid var(--primary);
 }
 
 .kds-kyc-modal-contact strong {
     display: block;
     font-weight: var(--kds-font-weight-semibold);
-    color: var(--kds-kyc-block-text);
+    color: var(--kds-modal-title-color);
     margin-bottom: var(--kds-spacing-2);
 }
 
@@ -1999,12 +2406,16 @@ select:focus {
 }
 
 @media (max-width: 480px) {
-    .kds-kyc-modal {
-        padding: var(--kds-spacing-6);
+    .kds-kyc-modal,
+    dialog.modal {
+        padding: var(--kds-modal-padding-mobile);
+        max-width: var(--kds-modal-max-width-mobile);
     }
 
     .kds-kyc-modal-icon i {
         font-size: 48px;
+        min-width: 48px;
+        min-height: 48px;
     }
 
     .kds-kyc-modal-actions {
@@ -2072,12 +2483,16 @@ select:focus {
     width: auto !important;
     height: auto !important;
     font-size: 80px !important;
+    min-width: 80px;
+    min-height: 80px;
 }
 
 /* Fix for benefit card icons - BeerCSS forces 24px, override for large icons */
 .kds-card-elevated i.icon-filled {
     width: auto !important;
     height: auto !important;
+    min-width: 48px;
+    min-height: 48px;
 }
 
 .kds-welcome-hero-title {
@@ -2310,6 +2725,228 @@ select:focus {
 }
 
 /* ========================================
+   SUMMARY CARD (Review/Validation)
+   Used in validation stage to show user data
+   ======================================== */
+
+.kds-summary-card {
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: var(--kds-radius-lg);
+    padding: var(--kds-spacing-5);
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.kds-summary-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--kds-spacing-4);
+    padding-bottom: var(--kds-spacing-3);
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.kds-summary-card-title {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-2);
+    font-size: var(--kds-font-size-lg);
+    font-weight: var(--kds-font-weight-semibold);
+    color: #111827;
+}
+
+.kds-summary-card-edit {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-medium);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.kds-summary-card-edit:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.kds-summary-row {
+    display: flex;
+    padding: var(--kds-spacing-2) 0;
+}
+
+.kds-summary-label {
+    flex: 0 0 140px;
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-medium);
+    color: #6B7280;
+}
+
+.kds-summary-value {
+    flex: 1;
+    font-size: var(--kds-font-size-sm);
+    color: #111827;
+}
+
+.kds-summary-value.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--kds-color-primary-100);
+    color: var(--primary);
+    border-radius: var(--kds-radius-full);
+    font-weight: var(--kds-font-weight-medium);
+}
+
+/* ========================================
+   SUCCESS PAGE COMPONENTS
+   Celebration/completion page layout
+   ======================================== */
+
+.kds-success-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+    padding: var(--kds-spacing-8);
+}
+
+.kds-success-icon {
+    width: 120px;
+    height: 120px;
+    background: #ECFDF5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--kds-spacing-6);
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.kds-success-icon i {
+    font-size: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    color: var(--kds-color-success);
+}
+
+.kds-success-title {
+    font-size: var(--kds-font-size-3xl);
+    font-weight: var(--kds-font-weight-bold);
+    color: #111827;
+    margin-bottom: var(--kds-spacing-3);
+}
+
+.kds-success-subtitle {
+    font-size: var(--kds-font-size-lg);
+    color: #6B7280;
+    margin-bottom: var(--kds-spacing-8);
+    max-width: 600px;
+}
+
+.kds-next-steps {
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: var(--kds-radius-xl);
+    padding: var(--kds-spacing-6);
+    max-width: 700px;
+    width: 100%;
+    margin-bottom: var(--kds-spacing-6);
+    text-align: left;
+}
+
+.kds-next-steps-title {
+    font-size: var(--kds-font-size-xl);
+    font-weight: var(--kds-font-weight-semibold);
+    color: #111827;
+    margin-bottom: var(--kds-spacing-4);
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-2);
+}
+
+.kds-step-item {
+    display: flex;
+    gap: var(--kds-spacing-3);
+    padding: var(--kds-spacing-3) 0;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.kds-step-item:last-child {
+    border-bottom: none;
+}
+
+.kds-step-number {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--kds-color-primary-100);
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--kds-font-weight-semibold);
+    font-size: var(--kds-font-size-sm);
+}
+
+.kds-step-content {
+    flex: 1;
+}
+
+.kds-step-title {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-semibold);
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.kds-step-description {
+    font-size: var(--kds-font-size-sm);
+    color: #6B7280;
+    line-height: 1.5;
+}
+
+.kds-success-actions {
+    display: flex;
+    gap: var(--kds-spacing-3);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .kds-success-title {
+        font-size: var(--kds-font-size-2xl);
+    }
+
+    .kds-success-subtitle {
+        font-size: var(--kds-font-size-base);
+    }
+
+    .kds-success-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .kds-success-actions button {
+        width: 100%;
+    }
+}
+
+/* ========================================
    Responsive Utilities
    ======================================== */
 
@@ -2333,3 +2970,146 @@ select:focus {
         transform: none;
     }
 }
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Container utilities */
+.kds-container-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.max-w-500 {
+    max-width: 500px;
+}
+
+.max-w-1200 {
+    max-width: 1200px;
+}
+
+/* Margin top utilities */
+.kds-mt-3 {
+    margin-top: var(--kds-spacing-3);
+}
+
+/* ========================================
+   AUTOMATIC SPACING SYSTEM
+   Components handle their own spacing
+   ======================================== */
+
+/* Component showcase sections */
+.component-section {
+    margin-bottom: var(--kds-spacing-12);
+}
+
+.component-section > h2 {
+    margin-bottom: var(--kds-spacing-6);
+}
+
+.component-item {
+    margin-bottom: var(--kds-spacing-10);
+}
+
+.component-item > h3 {
+    margin-bottom: var(--kds-spacing-2);
+}
+
+.component-item > p {
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.component-demo {
+    margin-bottom: var(--kds-spacing-6);
+}
+
+.component-code {
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.usage-note,
+.grails-note {
+    margin-top: var(--kds-spacing-4);
+    margin-bottom: var(--kds-spacing-6);
+}
+
+.usage-note > h4,
+.grails-note > h4 {
+    margin-bottom: var(--kds-spacing-2);
+}
+
+/* Onboarding stage sections */
+.kds-stage-section {
+    margin-bottom: var(--kds-spacing-8);
+}
+
+.kds-stage-section:last-child {
+    margin-bottom: 0;
+}
+
+.kds-stage-section-title {
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.kds-stage-section-description {
+    margin-bottom: var(--kds-spacing-4);
+}
+
+/* Stage header */
+.kds-stage-header {
+    margin-bottom: var(--kds-spacing-8);
+}
+
+.kds-stage-title {
+    margin-bottom: var(--kds-spacing-2);
+}
+
+.kds-stage-subtitle {
+    margin-bottom: 0;
+}
+
+.kds-stage-header > button {
+    margin-top: var(--kds-spacing-3);
+}
+
+/* Showcase header */
+.showcase-header {
+    margin-bottom: var(--kds-spacing-8);
+}
+
+.showcase-header h1 {
+    margin-bottom: var(--kds-spacing-3);
+}
+
+/* Form groups and fields already have margin-bottom */
+.kds-field {
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.kds-field:last-child {
+    margin-bottom: 0;
+}
+
+/* Grids handle spacing between children */
+.kds-grid-2col > *,
+.kds-grid-3col > * {
+    margin-bottom: 0; /* Grid gap handles spacing */
+}
+
+/* Alerts have margin */
+.kds-alert {
+    margin-bottom: var(--kds-spacing-6);
+}
+
+.kds-alert:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Modal actions (buttons at bottom) */
+.modal .kds-kyc-modal-content + div,
+.modal .kds-alert + div {
+    margin-top: var(--kds-spacing-6);
+}
+
