@@ -195,7 +195,7 @@ a.kds-btn > .kds-icon > i {
 .kds-card-selector.selected {
     border-color: #3B82F6;  /* blue-600 */
     background: #EFF6FF;    /* blue-50 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--kds-shadow-md);
 }
 
 /* Icon container */
@@ -255,7 +255,7 @@ a.kds-btn > .kds-icon > i {
 
 .kds-card-plan:hover {
     border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(131, 71, 173, 0.15);
+    box-shadow: var(--kds-shadow-elevation-2);
     transform: translateY(-2px);
 }
 
@@ -263,11 +263,11 @@ a.kds-btn > .kds-icon > i {
 .kds-card-plan.recommended {
     border-color: var(--primary);
     background: linear-gradient(to bottom, rgba(131, 71, 173, 0.05), var(--kds-surface-base));
-    box-shadow: 0 4px 16px rgba(131, 71, 173, 0.2);
+    box-shadow: var(--kds-shadow-elevation-3);
 }
 
 .kds-card-plan.recommended:hover {
-    box-shadow: 0 8px 24px rgba(131, 71, 173, 0.3);
+    box-shadow: var(--kds-shadow-elevation-4);
 }
 
 /* Recommended Badge */
@@ -281,7 +281,7 @@ a.kds-btn > .kds-icon > i {
     font-size: var(--kds-font-size-sm);
     font-weight: var(--kds-font-weight-semibold);
     border-radius: var(--kds-radius-full);
-    box-shadow: 0 2px 8px rgba(131, 71, 173, 0.3);
+    box-shadow: var(--kds-shadow-elevation-1);
 }
 
 /* Plan Header */
@@ -988,355 +988,85 @@ footer.primary a:hover {
     margin-right: var(--kds-spacing-2);
 }
 
-/* Khipu Field Container - Clean implementation without BeerCSS behaviors */
-.kds-field {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: var(--kds-spacing-4);
-    width: 100%;
+/* ==============================================
+   MATERIAL DESIGN 3 FLOATING LABELS (BeerCSS)
+   Native BeerCSS with Khipu branding overrides
+   ============================================== */
+
+/* Base field styling - leverage BeerCSS defaults */
+.field.label.border {
+    margin-bottom: var(--kds-spacing-4); /* 16px */
 }
 
-.kds-field .kds-form-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #111827;
-    margin-bottom: 8px;
-    display: block;
+/* Focus state - Khipu purple override */
+.field.label.border input:focus + label,
+.field.label.border select:focus + label,
+.field.label.border textarea:focus + label {
+    color: var(--primary) !important; /* #8347AD */
 }
 
-.kds-field input,
-.kds-field textarea,
-.kds-field select {
-    border-radius: 8px;
-    border: 1px solid #D1D5DB;
-    padding: 12px 16px;
-    font-size: 15px;
-    color: #111827;
-    background: #FFFFFF;
-    transition: all 0.2s ease;
-    width: 100%;
-    box-sizing: border-box;
+.field.label.border input:focus,
+.field.label.border select:focus,
+.field.label.border textarea:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(131, 71, 173, 0.1) !important;
 }
 
-.kds-field input:focus,
-.kds-field textarea:focus,
-.kds-field select:focus {
-    outline: none;
-    border-color: #8347AD;
-    box-shadow: 0 0 0 3px rgba(131, 71, 173, 0.1);
+/* Validation States - Material Design 3 Compatible */
+
+/* Info state (neutral blue) */
+.field.label.border.info input,
+.field.label.border.info select {
+    border-color: var(--kds-color-info-500) !important;
 }
 
-.kds-field input::placeholder,
-.kds-field textarea::placeholder {
-    color: #9CA3AF;
-}
-
-.kds-field .helper {
-    font-size: 12px;
-    color: #6B7280;
-    margin-top: 6px;
-    display: block;
-}
-
-/* Validation States for kds-field */
-
-/* Info state */
-.kds-field.info input,
-.kds-field.info textarea,
-.kds-field.info select {
-    border-color: var(--kds-color-info);
-}
-
-.kds-field.info .kds-form-label {
-    color: var(--kds-color-info);
-}
-
-.kds-field .info-message {
-    display: block;
-    color: var(--kds-color-info);
-    font-size: 12px;
-    margin-top: 6px;
-    padding: 8px 12px;
-    background: var(--kds-alert-info-bg);
-    border-radius: var(--kds-radius-sm);
-    border-left: 3px solid var(--kds-color-info);
-}
-
-/* Warning state */
-.kds-field.warning input,
-.kds-field.warning textarea,
-.kds-field.warning select {
-    border-color: var(--kds-color-warning);
-}
-
-.kds-field.warning .kds-form-label {
-    color: var(--kds-color-warning);
-}
-
-.kds-field .warning-message {
-    display: block;
-    color: var(--kds-color-warning);
-    font-size: 12px;
-    margin-top: 6px;
-    padding: 8px 12px;
-    background: var(--kds-alert-warning-bg);
-    border-radius: var(--kds-radius-sm);
-    border-left: 3px solid var(--kds-color-warning);
-}
-
-/* Valid/Success state */
-.kds-field.valid input,
-.kds-field.valid textarea,
-.kds-field.valid select {
-    border-color: var(--kds-color-success);
-}
-
-.kds-field.valid .kds-form-label {
-    color: var(--kds-color-success);
-}
-
-.kds-field .success-message {
-    display: block;
-    color: var(--kds-color-success);
-    font-size: 12px;
-    margin-top: 6px;
-    padding: 8px 12px;
-    background: var(--kds-alert-success-bg);
-    border-radius: var(--kds-radius-sm);
-    border-left: 3px solid var(--kds-color-success);
-}
-
-/* Invalid/Error state */
-.kds-field.invalid input,
-.kds-field.invalid textarea,
-.kds-field.invalid select {
-    border-color: var(--kds-color-error);
-}
-
-.kds-field.invalid .kds-form-label {
-    color: var(--kds-color-error);
-}
-
-.kds-field .error-message {
-    display: block;
-    color: var(--kds-color-error);
-    font-size: 12px;
-    margin-top: 6px;
-    padding: 8px 12px;
-    background: var(--kds-alert-error-bg);
-    border-radius: var(--kds-radius-sm);
-    border-left: 3px solid var(--kds-color-error);
-}
-
-/* Clean field structure - remove BeerCSS extras */
-.field.border {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-/* Remove BeerCSS pseudo-elements and extra icons */
-.field.border::before,
-.field.border::after {
-    display: none !important;
-    content: none !important;
-}
-
-.field.border > *:not(label):not(input):not(textarea):not(select):not(.helper) {
-    display: none !important;
-}
-
-/* Input styling from Figma Make */
-.field input,
-.field textarea,
-.field select,
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-input[type="tel"],
-input[type="url"],
-input[type="search"],
-textarea,
-select {
-    border-radius: 8px !important;
-    border: 1px solid #D1D5DB !important;
-    padding: 12px 16px !important;
-    font-size: 15px !important;
-    color: #111827 !important;
-    background: #FFFFFF !important;
-    transition: all 0.2s ease !important;
-}
-
-/* Placeholder styling */
-.field input::placeholder,
-.field textarea::placeholder,
-input::placeholder,
-textarea::placeholder {
-    color: #9CA3AF !important;
-    opacity: 1 !important;
-}
-
-/* Focus state */
-.field input:focus,
-.field textarea:focus,
-.field select:focus,
-input:focus,
-textarea:focus,
-select:focus {
-    outline: none !important;
-    border-color: #3B82F6 !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-}
-
-/* Outlined inputs (default) */
-.field.border input,
-.field.border textarea,
-.field.border select {
-    border-radius: 8px !important;
-}
-
-/* Filled inputs */
-.field.fill input,
-.field.fill textarea,
-.field.fill select {
-    border-radius: 8px !important;
-    background: #F9FAFB !important;
-}
-
-/* Round variant (only when explicitly requested) */
-.field.round input,
-.field.round textarea,
-.field.round select {
-    border-radius: 28px !important;
-}
-
-/* ========================================
-   Form Validation States (from Figma Make patterns)
-   Enhanced with Info, Warning, Success, Error states
-   ======================================== */
-
-/* Info state (blue) */
-.field.info input,
-.field.info textarea,
-.field.info select {
-    border-color: var(--kds-color-info) !important;
-}
-
-.field.info label {
-    color: var(--kds-color-info) !important;
-}
-
-.field .info-message {
-    display: block;
-    color: var(--kds-color-info);
-    font-size: 0.75rem;
-    margin-top: 4px;
-    padding: 8px 12px;
-    background: var(--kds-alert-info-bg);
-    border-radius: var(--kds-radius-sm);
-    border-left: 3px solid var(--kds-color-info);
-    line-height: 1.4;
+.field.label.border.info label {
+    color: var(--kds-color-info-700) !important;
 }
 
 /* Warning state (amber) */
-.field.warning input,
-.field.warning textarea,
-.field.warning select {
-    border-color: var(--kds-color-warning) !important;
+.field.label.border.warning input,
+.field.label.border.warning select {
+    border-color: var(--kds-color-warning-500) !important;
 }
 
-.field.warning label {
-    color: var(--kds-color-warning) !important;
+.field.label.border.warning label {
+    color: var(--kds-color-warning-700) !important;
 }
 
-.field .warning-message {
-    display: block;
-    color: var(--kds-color-warning);
-    font-size: 0.75rem;
-    margin-top: 4px;
-    padding: 8px 12px;
-    background: var(--kds-alert-warning-bg);
-    border-radius: var(--kds-radius-sm);
-    border-left: 3px solid var(--kds-color-warning);
-    line-height: 1.4;
+/* Valid state (green) */
+.field.label.border.valid input,
+.field.label.border.valid select {
+    border-color: var(--kds-color-success-500) !important;
 }
 
-/* Valid/Success state (enhanced) */
-.field.valid input,
-.field.valid textarea,
-.field.valid select {
-    border-color: var(--kds-color-success) !important;
+.field.label.border.valid label {
+    color: var(--kds-color-success-700) !important;
 }
 
-/* Success label color - more specific to override BeerCSS :focus + label primary color */
-.field.label.valid > label,
-.field.label.valid > input:focus + label,
-.field.label.valid > textarea:focus + label,
-.field.label.valid > select:focus + label,
-.field.label.valid > input:not(:focus) + label,
-.field.label.valid > textarea:not(:focus) + label,
-.field.label.valid > select:not(:focus) + label {
-    color: var(--kds-color-success) !important;
+/* Invalid/Error state (red) */
+.field.label.border.invalid input,
+.field.label.border.invalid select,
+.field.label.border input:invalid,
+.field.label.border select:invalid {
+    border-color: var(--kds-color-error-500) !important;
 }
 
-.field .success-message {
-    display: block;
-    color: var(--kds-color-success);
-    font-size: 0.75rem;
-    margin-top: 4px;
-    padding: 8px 12px;
-    background: var(--kds-alert-success-bg);
-    border-radius: var(--kds-radius-sm);
-    border-left: 3px solid var(--kds-color-success);
-    line-height: 1.4;
+.field.label.border.invalid label,
+.field.label.border input:invalid + label,
+.field.label.border select:invalid + label {
+    color: var(--kds-color-error-700) !important;
 }
 
-/* Invalid/Error state (enhanced) */
-.field.invalid input,
-.field.invalid textarea,
-.field.invalid select {
-    border-color: var(--kds-color-error) !important;
-    color: var(--on-surface, rgba(0, 0, 0, 0.87)) !important;
+/* Helper text styling */
+.field.label.border .helper {
+    margin-top: var(--kds-spacing-1); /* 4px */
+    font-size: 12px;
+    color: #6B7280;
 }
 
-.field.invalid input:focus,
-.field.invalid textarea:focus,
-.field.invalid select:focus {
-    border-color: var(--kds-color-error) !important;
-    outline-color: var(--kds-color-error) !important;
-}
-
-/* Invalid label */
-.field.invalid label {
-    color: var(--kds-color-error) !important;
-}
-
-/* Error message styling (enhanced) */
-.field .error,
-.field span.error {
-    display: block;
-    color: var(--kds-color-error);
-    font-size: 0.75rem;
-    margin-top: 4px;
-    padding: 8px 12px;
-    background: var(--kds-alert-error-bg);
-    border-radius: var(--kds-radius-sm);
-    border-left: 3px solid var(--kds-color-error);
-    font-weight: 400;
-    line-height: 1.4;
-}
-
-/* Helper text (neutral) */
-.field .helper,
-.field span.helper {
-    display: block;
-    color: var(--on-surface-variant, rgba(0, 0, 0, 0.60));
-    font-size: 0.75rem;
-    margin-top: 4px;
-    padding: 4px 12px;
-    line-height: 1.4;
+.field.label.border.invalid .helper {
+    color: var(--kds-color-error-700);
 }
 
 /* ========================================
