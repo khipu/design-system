@@ -78,14 +78,14 @@
                                 Información de la empresa
                             </h3>
 
-                            <div class="kds-field">
-                                <label for="businessName" class="kds-form-label">Razón social *</label>
-                                <input type="text" id="businessName" name="businessName" placeholder="Ej: Empresa SpA" required>
+                            <div class="field label border">
+                                <input type="text" id="businessName" name="businessName" placeholder=" " required>
+                                <label for="businessName">Razón social *</label>
                             </div>
 
-                            <div class="kds-field">
-                                <label for="tradeName" class="kds-form-label">Nombre comercial</label>
-                                <input type="text" id="tradeName" name="tradeName" placeholder="Ej: Mi Tienda Online">
+                            <div class="field label border">
+                                <input type="text" id="tradeName" name="tradeName" placeholder=" ">
+                                <label for="tradeName">Nombre comercial</label>
                                 <span class="helper">Si es diferente a la razón social</span>
                             </div>
                         </div>
@@ -98,14 +98,14 @@
                             </h3>
 
                             <div class="kds-grid-2col">
-                                <div class="kds-field">
-                                    <label for="firstName" class="kds-form-label">Nombre *</label>
-                                    <input type="text" id="firstName" name="firstName" placeholder="Ej: Juan" required>
+                                <div class="field label border">
+                                    <input type="text" id="firstName" name="firstName" placeholder=" " required>
+                                    <label for="firstName">Nombre *</label>
                                 </div>
 
-                                <div class="kds-field">
-                                    <label for="lastName" class="kds-form-label">Apellido *</label>
-                                    <input type="text" id="lastName" name="lastName" placeholder="Ej: Pérez" required>
+                                <div class="field label border">
+                                    <input type="text" id="lastName" name="lastName" placeholder=" " required>
+                                    <label for="lastName">Apellido *</label>
                                 </div>
                             </div>
                         </div>
@@ -117,9 +117,9 @@
                                 Identificación fiscal
                             </h3>
 
-                            <div class="kds-field">
-                                <label for="taxId" id="taxIdLabel" class="kds-form-label">RUT *</label>
-                                <input type="text" id="taxId" name="taxId" placeholder="Ej: 12.345.678-9" required>
+                            <div class="field label border">
+                                <input type="text" id="taxId" name="taxId" placeholder=" " required>
+                                <label for="taxId" id="taxIdLabel">RUT *</label>
                                 <span class="helper" id="taxIdHelper">Ej: 12.345.678-9</span>
                             </div>
                         </div>
@@ -131,15 +131,15 @@
                                 Información de contacto
                             </h3>
 
-                            <div class="kds-field">
-                                <label for="email" class="kds-form-label">Email *</label>
-                                <input type="email" id="email" name="email" placeholder="correo@empresa.com" required>
+                            <div class="field label border">
+                                <input type="email" id="email" name="email" placeholder=" " required>
+                                <label for="email">Email *</label>
                                 <span class="helper">Usaremos este email para comunicaciones importantes</span>
                             </div>
 
-                            <div class="kds-field">
-                                <label for="phone" class="kds-form-label">Teléfono *</label>
-                                <input type="tel" id="phone" name="phone" placeholder="+56 9 1234 5678" required>
+                            <div class="field label border">
+                                <input type="tel" id="phone" name="phone" placeholder=" " required>
+                                <label for="phone" id="phoneHelper">Teléfono *</label>
                                 <span class="helper" id="phoneHelper">Ej: +56 9 1234 5678</span>
                             </div>
                         </div>
@@ -151,19 +151,18 @@
                                 Dirección
                             </h3>
 
-                            <div class="kds-field">
-                                <label for="street" class="kds-form-label">Calle y número *</label>
-                                <input type="text" id="street" name="street" placeholder="Ej: Av. Providencia 123" required>
+                            <div class="field label border">
+                                <input type="text" id="street" name="street" placeholder=" " required>
+                                <label for="street">Calle y número *</label>
                             </div>
 
                             <div class="kds-grid-2col">
-                                <div class="kds-field">
-                                    <label for="city" class="kds-form-label">Ciudad *</label>
-                                    <input type="text" id="city" name="city" placeholder="Ej: Santiago" required>
+                                <div class="field label border">
+                                    <input type="text" id="city" name="city" placeholder=" " required>
+                                    <label for="city">Ciudad *</label>
                                 </div>
 
-                                <div class="kds-field">
-                                    <label for="region" class="kds-form-label">Región *</label>
+                                <div class="field label border">
                                     <select id="region" name="region" required>
                                         <option value="">Selecciona una región</option>
                                         <option value="RM">Región Metropolitana</option>
@@ -171,12 +170,13 @@
                                         <option value="VIII">Biobío</option>
                                         <option value="X">Los Lagos</option>
                                     </select>
+                                    <label for="region">Región *</label>
                                 </div>
                             </div>
 
-                            <div class="kds-field">
-                                <label for="postalCode" class="kds-form-label">Código postal *</label>
-                                <input type="text" id="postalCode" name="postalCode" placeholder="Ej: 7500000" required>
+                            <div class="field label border">
+                                <input type="text" id="postalCode" name="postalCode" placeholder=" " required>
+                                <label for="postalCode">Código postal *</label>
                             </div>
                         </div>
 
@@ -187,9 +187,9 @@
                                 Presencia online (opcional)
                             </h3>
 
-                            <div class="kds-field">
-                                <label for="website" class="kds-form-label">Sitio web</label>
-                                <input type="url" id="website" name="website" placeholder="https://tuempresa.com">
+                            <div class="field label border">
+                                <input type="url" id="website" name="website" placeholder=" ">
+                                <label for="website">Sitio web</label>
                                 <span class="helper">Ej: https://tuempresa.com</span>
                             </div>
                         </div>
@@ -201,31 +201,31 @@
                             </h3>
 
                             <!-- Info State -->
-                            <div class="kds-field info">
-                                <label for="demo-info" class="kds-form-label">Campo con información</label>
-                                <input type="text" id="demo-info" placeholder="Información adicional" value="Ejemplo">
-                                <span class="info-message">Este campo tiene información adicional importante.</span>
+                            <div class="field label border info">
+                                <input type="text" id="demo-info" placeholder=" " value="Ejemplo">
+                                <label for="demo-info">Campo con información</label>
+                                <span class="helper">Este campo tiene información adicional importante.</span>
                             </div>
 
                             <!-- Warning State -->
-                            <div class="kds-field warning">
-                                <label for="demo-warning" class="kds-form-label">Campo con advertencia</label>
-                                <input type="text" id="demo-warning" placeholder="Formato especial" value="12345678">
-                                <span class="warning-message">Verifica que el formato sea correcto (Ej: 12.345.678-9).</span>
+                            <div class="field label border warning">
+                                <input type="text" id="demo-warning" placeholder=" " value="12345678">
+                                <label for="demo-warning">Campo con advertencia</label>
+                                <span class="helper">Verifica que el formato sea correcto (Ej: 12.345.678-9).</span>
                             </div>
 
                             <!-- Success State -->
-                            <div class="kds-field valid">
-                                <label for="demo-success" class="kds-form-label">Campo validado</label>
-                                <input type="email" id="demo-success" placeholder="email@ejemplo.com" value="usuario@empresa.com">
-                                <span class="success-message">✓ Email validado correctamente.</span>
+                            <div class="field label border valid">
+                                <input type="email" id="demo-success" placeholder=" " value="usuario@empresa.com">
+                                <label for="demo-success">Campo validado</label>
+                                <span class="helper">✓ Email validado correctamente.</span>
                             </div>
 
                             <!-- Error State -->
-                            <div class="kds-field invalid">
-                                <label for="demo-error" class="kds-form-label">Campo con error</label>
-                                <input type="email" id="demo-error" placeholder="email@ejemplo.com" value="email-invalido">
-                                <span class="error-message">✕ Este campo contiene un formato inválido.</span>
+                            <div class="field label border invalid">
+                                <input type="email" id="demo-error" placeholder=" " value="email-invalido">
+                                <label for="demo-error">Campo con error</label>
+                                <span class="helper">✕ Este campo contiene un formato inválido.</span>
                             </div>
                         </div>
                     </form>
