@@ -54,6 +54,20 @@ const lightModeColors = {
     elevated: '#FAFAFA',
   },
 
+  // Neutral grays (for borders, backgrounds, etc.)
+  gray: {
+    50: '#F9FAFB',
+    100: '#F3F4F6',
+    200: '#E5E7EB',
+    300: '#D1D5DB',
+    400: '#9CA3AF',
+    500: '#6B7280',
+    600: '#4B5563',
+    700: '#374151',
+    800: '#1F2937',
+    900: '#111827',
+  },
+
   // Action colors
   action: {
     active: 'rgba(0, 0, 0, 0.56)',
@@ -74,6 +88,12 @@ const lightModeColors = {
         enabledBorder: 'rgba(0, 0, 0, 0.23)',
         hoverBorder: 'rgba(0, 0, 0, 0.87)',
       },
+    },
+    snackbar: {
+      successBg: 'rgba(46, 125, 50, 0.08)',    // success.main with 8% opacity
+      warningBg: 'rgba(237, 108, 2, 0.08)',    // warning.main with 8% opacity
+      errorBg: 'rgba(211, 47, 47, 0.08)',      // error.main with 8% opacity
+      infoBg: 'rgba(2, 136, 209, 0.08)',       // info.main with 8% opacity
     },
   },
 } as const;
@@ -142,6 +162,12 @@ const darkModeColors = {
         hoverBorder: 'rgba(255, 255, 255, 1)',
       },
     },
+    snackbar: {
+      successBg: 'rgba(76, 175, 80, 0.16)',    // success.light with 16% opacity for dark mode
+      warningBg: 'rgba(255, 152, 0, 0.16)',    // warning.light with 16% opacity for dark mode
+      errorBg: 'rgba(239, 83, 80, 0.16)',      // error.light with 16% opacity for dark mode
+      infoBg: 'rgba(3, 169, 244, 0.16)',       // info.light with 16% opacity for dark mode
+    },
   },
 } as const;
 
@@ -172,6 +198,8 @@ const semanticColors = {
   },
 
   info: {
+    50: '#E1F5FE',
+    100: '#B3E5FC',
     main: '#0288D1',
     light: '#03A9F4',
     dark: '#01579B',
@@ -415,6 +443,8 @@ export const semanticSpacing = {
     paddingY: '8px',
     paddingX: '22px',
     padding: '8px 22px',
+    minHeight: '50px',  // Altura mínima para coincidir con KdsButton
+    iconSize: '20px',   // Tamaño de iconos en botones (Material Design medium)
   },
 
   // Layout gaps
@@ -466,6 +496,8 @@ export const shadows = {
   card: 'none', // Figma cards use borders, not shadows
   modal: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)',
   dropdown: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
+  stepperInfo: '0 2px 4px rgba(2, 136, 209, 0.25)',     // Info color shadow for current step
+  stepperSuccess: '0 2px 4px rgba(46, 125, 50, 0.25)', // Success color shadow for completed step
 } as const;
 
 // =============================================================================

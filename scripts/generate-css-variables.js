@@ -119,10 +119,21 @@ function generateColorVariables(colors) {
     variables.push({ name: '--kds-color-divider', value: colors.divider, comment: 'Divider' });
   }
 
+  // Component colors - generate all automatically
+  const componentKeys = Object.keys(colors.components || {});
+
   // Input borders
-  if (colors.components?.input?.outlined) {
-    variables.push({ name: '--kds-color-input-border', value: colors.components.input.outlined.enabledBorder, comment: 'Input borders' });
-    variables.push({ name: '--kds-color-input-border-hover', value: colors.components.input.outlined.hoverBorder });
+  for (const [key, value] of Object.entries(colors.components?.input?.outlined || {})) {
+    const kebabKey = key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+    const comment = key === 'enabledBorder' ? 'Input borders' : undefined;
+    variables.push({ name: `--kds-color-input-${kebabKey}`, value, comment });
+  }
+
+  // Snackbar backgrounds
+  for (const [key, value] of Object.entries(colors.components?.snackbar || {})) {
+    const kebabKey = key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+    const comment = key === 'successBg' ? 'Snackbar backgrounds' : undefined;
+    variables.push({ name: `--kds-snackbar-${kebabKey}`, value, comment });
   }
 
   return variables;
@@ -184,6 +195,12 @@ function generateTypographyVariables(typography) {
     variables.push({ name: '--kds-letter-spacing-widest', value: ls.widest });
   }
 
+  // Component-specific typography
+  variables.push({ name: '--kds-typography-button-font-size', value: typography.button.fontSize, comment: 'Button typography' });
+  variables.push({ name: '--kds-typography-button-font-weight', value: typography.button.fontWeight });
+  variables.push({ name: '--kds-typography-button-line-height', value: typography.button.lineHeight });
+  variables.push({ name: '--kds-typography-button-letter-spacing', value: typography.button.letterSpacing });
+
   return variables;
 }
 
@@ -199,16 +216,25 @@ function generateSpacingVariables(spacing, semanticSpacing) {
   }
 
   // Semantic spacing
-  if (semanticSpacing) {
-    variables.push({ name: '--kds-spacing-input-x', value: semanticSpacing.inputPaddingX, comment: 'Semantic spacing' });
-    variables.push({ name: '--kds-spacing-input-y', value: semanticSpacing.inputPaddingY });
-    variables.push({ name: '--kds-spacing-button-x', value: semanticSpacing.buttonPaddingX });
-    variables.push({ name: '--kds-spacing-button-y', value: semanticSpacing.buttonPaddingY });
-    variables.push({ name: '--kds-spacing-card', value: semanticSpacing.cardPaddingX });
-    variables.push({ name: '--kds-spacing-modal', value: semanticSpacing.modalPadding });
-    variables.push({ name: '--kds-spacing-section', value: semanticSpacing.sectionGap });
-    variables.push({ name: '--kds-spacing-form-gap', value: semanticSpacing.formGap });
+  variables.push({ comment: 'Semantic spacing' });
+
+  // Input spacing - generate all properties automatically
+  for (const [key, value] of Object.entries(semanticSpacing.input)) {
+    const kebabKey = key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+    variables.push({ name: `--kds-spacing-input-${kebabKey}`, value });
   }
+
+  // Button spacing - generate all properties automatically
+  for (const [key, value] of Object.entries(semanticSpacing.button)) {
+    // Convert camelCase to kebab-case (e.g., paddingX -> padding-x, iconSize -> icon-size)
+    const kebabKey = key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+    variables.push({ name: `--kds-spacing-button-${kebabKey}`, value });
+  }
+
+  // Other semantic spacing
+  variables.push({ name: '--kds-spacing-section', value: semanticSpacing.sectionGap });
+  variables.push({ name: '--kds-spacing-form-gap', value: semanticSpacing.formGap });
+  variables.push({ name: '--kds-spacing-inline-gap', value: semanticSpacing.inlineGap });
 
   return variables;
 }
