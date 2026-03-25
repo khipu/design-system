@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcase de Componentes - Khipu Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+
+    <!-- Showcase Styles - Load AFTER BeerCSS -->
+    <link rel="stylesheet" href="assets/showcase.css">
+
+</head>
+<body class="light">
+    <!-- Header -->
+    <div class="showcase-header">
+        <h1 class="kds-headline-large">Showcase de Componentes Onboarding</h1>
+        <p class="kds-body-large opacity-90">Galería de componentes reutilizables para el flujo de onboarding</p>
+    </div>
+
+    <!-- Navigation Pills -->
+    <nav class="showcase-nav">
+        <div class="showcase-nav-pills">
+            <button class="showcase-pill active" onclick="scrollToSection('layout')">📐 Layout</button>
+            <button class="showcase-pill" onclick="scrollToSection('selection')">☑️ Selection</button>
+            <button class="showcase-pill" onclick="scrollToSection('forms')">📝 Forms</button>
+            <button class="showcase-pill" onclick="scrollToSection('display')">💬 Display</button>
+            <button class="showcase-pill" onclick="scrollToSection('actions')">🎯 Actions</button>
+            <button class="showcase-pill" onclick="scrollToSection('advanced')">🚀 Advanced</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="showcase-content">
+
+        <!-- ========================================
+             LAYOUT COMPONENTS
+        ======================================== -->
+        <section id="layout" class="component-section">
+            <h2 class="kds-headline-large">📐 Layout Components</h2>
+
+            <!-- Stepper -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Stepper</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Indicador de progreso del flujo de onboarding
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-stepper">
+                        <div class="kds-step completed">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Selector</div>
+                        </div>
+                        <div class="kds-step completed">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Perfil</div>
+                        </div>
+                        <div class="kds-step current">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Comercial</div>
+                        </div>
+                        <div class="kds-step">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Documentos</div>
+                        </div>
+                        <div class="kds-step">
+                            <div class="kds-step-indicator"></div>
+                            <div class="kds-step-label">Banco</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('stepper-code')">📋 Copy</button>
+                    <pre><code id="stepper-code">&lt;div class="kds-stepper"&gt;
+    &lt;div class="kds-step completed"&gt;
+        &lt;div class="kds-step-indicator"&gt;&lt;/div&gt;
+        &lt;div class="kds-step-label"&gt;Selector&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-step current"&gt;
+        &lt;div class="kds-step-indicator"&gt;&lt;/div&gt;
+        &lt;div class="kds-step-label"&gt;Comercial&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-step"&gt;
+        &lt;div class="kds-step-indicator"&gt;&lt;/div&gt;
+        &lt;div class="kds-step-label"&gt;Documentos&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>States:</strong> <code>.completed</code> (verde con checkmark), <code>.current</code> (azul), default (gris)</li>
+                        <li><strong>Responsive:</strong> En mobile oculta labels automáticamente</li>
+                        <li><strong>Line:</strong> Conecta automáticamente los steps con pseudo-elemento</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;div class="kds-stepper"&gt;
+    &lt;g:each in="${stages}" var="stage" status="i"&gt;
+        &lt;div class="kds-step ${i &lt; currentStage ? 'completed' : ''} ${i == currentStage ? 'current' : ''}"&gt;
+            &lt;div class="kds-step-indicator"&gt;&lt;/div&gt;
+            &lt;div class="kds-step-label"&gt;${stage.label}&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Welcome Hero -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Welcome Hero</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Hero section con gradiente púrpura Khipu
+                </p>
+
+                <div class="component-demo padding-0 overflow-hidden">
+                    <div class="kds-welcome-hero">
+                        <h1 class="kds-welcome-title">Bienvenido a Khipu</h1>
+                        <p class="kds-welcome-subtitle">Empecemos a configurar tu cuenta para recibir pagos en línea</p>
+                        <div class="kds-welcome-icon">
+                            <i class="material-symbols-outlined icon-filled icon-2xl">rocket_launch</i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('hero-code')">📋 Copy</button>
+                    <pre><code id="hero-code">&lt;div class="kds-welcome-hero"&gt;
+    &lt;h1 class="kds-welcome-title"&gt;Bienvenido a Khipu&lt;/h1&gt;
+    &lt;p class="kds-welcome-subtitle"&gt;Empecemos a configurar tu cuenta&lt;/p&gt;
+    &lt;div class="kds-welcome-hero-icon"&gt;
+        &lt;i class="material-symbols-outlined icon-filled"&gt;rocket_launch&lt;/i&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Gradient:</strong> Usa variables <code>--kds-welcome-gradient-start/end</code> (púrpura Khipu #8347AD)</li>
+                        <li><strong>Icons:</strong> Material Symbols con clase <code>.icon-filled</code></li>
+                        <li><strong>Height:</strong> 400px en desktop, 350px en mobile</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Mostrar condicionalmente si es primer login --&gt;
+&lt;g:if test="${firstTimeUser}"&gt;
+    &lt;div class="kds-welcome-hero"&gt;
+        &lt;h1 class="kds-welcome-title"&gt;Bienvenido ${userName}&lt;/h1&gt;
+        &lt;p class="kds-welcome-subtitle"&gt;Empecemos a configurar tu cuenta para recibir pagos en línea&lt;/p&gt;
+        &lt;div class="kds-welcome-hero-icon"&gt;
+            &lt;i class="material-symbols-outlined icon-filled"&gt;rocket_launch&lt;/i&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/g:if&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Stage Container -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Stage Container</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Contenedor para cada etapa del onboarding
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-stage-header">
+                        <h1 class="kds-stage-title">Título de la etapa</h1>
+                        <p class="kds-stage-subtitle">Descripción breve de lo que el usuario debe hacer</p>
+                    </div>
+
+                    <div class="kds-stage-section">
+                        <h3 class="kds-stage-section-title">
+                            <i class="material-symbols-outlined vertical-middle mr-2">info</i>
+                            Sección de contenido
+                        </h3>
+                        <p class="kds-stage-section-description">
+                            Instrucciones específicas para esta sección.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('stage-code')">📋 Copy</button>
+                    <pre><code id="stage-code">&lt;div class="kds-stage-header"&gt;
+    &lt;h1 class="kds-stage-title"&gt;Título de la etapa&lt;/h1&gt;
+    &lt;p class="kds-stage-subtitle"&gt;Descripción breve&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="kds-stage-section"&gt;
+    &lt;h3 class="kds-stage-section-title"&gt;
+        &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+        Sección
+    &lt;/h3&gt;
+    &lt;p class="kds-stage-section-description"&gt;Instrucciones&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Layout principal del onboarding --&gt;
+&lt;g:applyLayout name="onboarding"&gt;
+    &lt;content tag="stage-content"&gt;
+        &lt;div class="kds-stage-header"&gt;
+            &lt;h1 class="kds-stage-title"&gt;${stageTitle}&lt;/h1&gt;
+            &lt;p class="kds-stage-subtitle"&gt;${stageDescription}&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class="kds-stage-section"&gt;
+            &lt;h3 class="kds-stage-section-title"&gt;
+                &lt;i class="material-symbols-outlined"&gt;${sectionIcon}&lt;/i&gt;
+                ${sectionTitle}
+            &lt;/h3&gt;
+            &lt;p class="kds-stage-section-description"&gt;${sectionDescription}&lt;/p&gt;
+
+            &lt;!-- Contenido específico de la etapa --&gt;
+            &lt;g:layoutBody/&gt;
+        &lt;/div&gt;
+    &lt;/content&gt;
+&lt;/g:applyLayout&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             SELECTION COMPONENTS
+        ======================================== -->
+        <section id="selection" class="component-section">
+            <h2 class="kds-headline-large">☑️ Selection Components</h2>
+
+            <!-- Card Selector -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Card Selector</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Tarjetas seleccionables con icono, título y descripción
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-grid-2col">
+                        <div class="kds-card-selector selected" data-value="natural">
+                            <div class="kds-card-selector-icon">
+                                <i class="material-symbols-outlined">person</i>
+                            </div>
+                            <div class="kds-card-selector-title">Persona Natural</div>
+                            <div class="kds-card-selector-description">
+                                Emprendedor individual o freelancer
+                            </div>
+                        </div>
+
+                        <div class="kds-card-selector" data-value="juridica">
+                            <div class="kds-card-selector-icon">
+                                <i class="material-symbols-outlined">business</i>
+                            </div>
+                            <div class="kds-card-selector-title">Persona Jurídica</div>
+                            <div class="kds-card-selector-description">
+                                Empresa o sociedad legalmente constituida
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('card-selector-code')">📋 Copy</button>
+                    <pre><code id="card-selector-code">&lt;div class="kds-grid-2col"&gt;
+    &lt;div class="kds-card-selector" data-value="natural" onclick="selectCard(this)"&gt;
+        &lt;div class="kds-card-selector-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;person&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-card-selector-title"&gt;Persona Natural&lt;/div&gt;
+        &lt;div class="kds-card-selector-description"&gt;
+            Emprendedor individual o freelancer
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function selectCard(card) {
+    card.parentElement.querySelectorAll('.kds-card-selector').forEach(c =&gt;
+        c.classList.remove('selected')
+    );
+    card.classList.add('selected');
+}
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Grids:</strong> <code>.kds-grid-2col</code> (2 columnas), <code>.kds-grid-3col</code> (3 columnas)</li>
+                        <li><strong>Selection:</strong> Clase <code>.selected</code> muestra borde azul</li>
+                        <li><strong>Responsive:</strong> Colapsa a 1 columna en mobile</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Selector de tipo de persona --&gt;
+&lt;div class="kds-grid-2col"&gt;
+    &lt;g:each in="${personTypes}" var="type"&gt;
+        &lt;div class="kds-card-selector ${type.value == selectedType ? 'selected' : ''}"
+             data-value="${type.value}"
+             onclick="selectCard(this)"&gt;
+            &lt;div class="kds-card-selector-icon"&gt;
+                &lt;i class="material-symbols-outlined"&gt;${type.icon}&lt;/i&gt;
+            &lt;/div&gt;
+            &lt;div class="kds-card-selector-title"&gt;${type.title}&lt;/div&gt;
+            &lt;div class="kds-card-selector-description"&gt;
+                ${type.description}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;
+
+&lt;!-- Hidden field para enviar valor seleccionado --&gt;
+&lt;g:hiddenField name="personType" value="${selectedType}"/&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Bank Grid -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Bank Grid Selector</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Grid de selección de bancos con logos
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-bank-grid">
+                        <div class="kds-bank-item selected" data-bank="banco-chile">
+                            <img src="https://via.placeholder.com/100x50?text=Banco+Chile" alt="Banco de Chile">
+                        </div>
+                        <div class="kds-bank-item" data-bank="banco-estado">
+                            <img src="https://via.placeholder.com/100x50?text=BancoEstado" alt="BancoEstado">
+                        </div>
+                        <div class="kds-bank-item" data-bank="santander">
+                            <img src="https://via.placeholder.com/100x50?text=Santander" alt="Santander">
+                        </div>
+                        <div class="kds-bank-item" data-bank="bci">
+                            <img src="https://via.placeholder.com/100x50?text=BCI" alt="BCI">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('bank-grid-code')">📋 Copy</button>
+                    <pre><code id="bank-grid-code">&lt;div class="kds-bank-grid"&gt;
+    &lt;div class="kds-bank-item" data-bank="banco-chile" onclick="selectBank(this)"&gt;
+        &lt;img src="/images/banks/banco-chile.png" alt="Banco de Chile"&gt;
+    &lt;/div&gt;
+    &lt;!-- More banks... --&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Grid de selección de bancos --&gt;
+&lt;div class="kds-bank-grid"&gt;
+    &lt;g:each in="${availableBanks}" var="bank"&gt;
+        &lt;div class="kds-bank-item ${bank.code == selectedBank ? 'selected' : ''}"
+             data-bank="${bank.code}"
+             onclick="selectBank(this)"&gt;
+            &lt;asset:image src="banks/${bank.code}.png" alt="${bank.name}"/&gt;
+        &lt;/div&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;
+
+&lt;!-- Hidden field para el banco seleccionado --&gt;
+&lt;g:hiddenField name="bankCode" value="${selectedBank}" id="bankCodeField"/&gt;
+
+&lt;script&gt;
+function selectBank(item) {
+    document.querySelectorAll('.kds-bank-item').forEach(b => b.classList.remove('selected'));
+    item.classList.add('selected');
+    document.getElementById('bankCodeField').value = item.dataset.bank;
+}
+&lt;/script&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             FORM COMPONENTS
+        ======================================== -->
+        <section id="forms" class="component-section">
+            <h2 class="kds-headline-large">📝 Form Components</h2>
+
+            <!-- Text Fields -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Text Fields (Material Design 3)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Floating labels nativos de BeerCSS con branding Khipu
+                </p>
+
+                <div class="component-demo">
+                    <div class="max-w-500">
+                        <!-- Default State -->
+                        <div class="field label border">
+                            <input type="text" id="demo-name" placeholder=" ">
+                            <label for="demo-name">Nombre completo</label>
+                        </div>
+
+                        <!-- With Helper Text -->
+                        <div class="field label border">
+                            <input type="text" id="demo-rut" placeholder=" ">
+                            <label for="demo-rut">RUT</label>
+                            <span class="helper">Formato: 12.345.678-9</span>
+                        </div>
+
+                        <!-- Info State -->
+                        <div class="field label border info">
+                            <input type="password" id="demo-password" placeholder=" ">
+                            <label for="demo-password">Password</label>
+                            <span class="helper">Mínimo 8 caracteres</span>
+                        </div>
+
+                        <!-- Warning State -->
+                        <div class="field label border warning">
+                            <input type="tel" id="demo-phone" placeholder=" " value="+56 9 1234">
+                            <label for="demo-phone">Teléfono</label>
+                            <span class="helper">Por favor ingrese el número completo</span>
+                        </div>
+
+                        <!-- Valid/Success State -->
+                        <div class="field label border valid">
+                            <input type="email" id="demo-email-valid" placeholder=" " value="usuario@ejemplo.com">
+                            <label for="demo-email-valid">Email</label>
+                            <span class="helper">Email validado correctamente</span>
+                        </div>
+
+                        <!-- Invalid/Error State -->
+                        <div class="field label border invalid">
+                            <input type="email" id="demo-email-error" placeholder=" " value="email-invalido">
+                            <label for="demo-email-error">Email</label>
+                            <span class="helper">Por favor ingrese un email válido</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('textfield-code')">📋 Copy</button>
+                    <pre><code id="textfield-code">&lt;!-- Campo básico con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;input type="text" id="name" placeholder=" " required&gt;
+    &lt;label for="name"&gt;Nombre *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Con helper text --&gt;
+&lt;div class="field label border"&gt;
+    &lt;input type="text" id="rut" placeholder=" " required&gt;
+    &lt;label for="rut"&gt;RUT *&lt;/label&gt;
+    &lt;span class="helper"&gt;Formato: 12.345.678-9&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado Info --&gt;
+&lt;div class="field label border info"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;Información adicional&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado Warning --&gt;
+&lt;div class="field label border warning"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;Advertencia&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado Valid --&gt;
+&lt;div class="field label border valid"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;✓ Validado&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado Invalid --&gt;
+&lt;div class="field label border invalid"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;✕ Error&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes (Material Design 3)</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Patrón BeerCSS nativo:</strong> Usa `.field.label.border` para floating labels</li>
+                        <li><strong>Orden correcto:</strong> Input ANTES del label (requerido para animación)</li>
+                        <li><strong>Placeholder espacial:</strong> Usa `placeholder=" "` (un espacio, no vacío)</li>
+                        <li><strong>Estados:</strong> Agrega clase `.info`, `.warning`, `.valid`, o `.invalid`</li>
+                        <li><strong>Helper text:</strong> Usa `&lt;span class="helper"&gt;` para todo tipo de mensajes</li>
+                        <li><strong>Focus state:</strong> Automáticamente usa el color púrpura Khipu (#8347AD)</li>
+                        <li><strong>Accesibilidad:</strong> Siempre conectar label con atributo `for`</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">🎯 Grails/GSP Integration (Material Design 3)</h4>
+                    <pre><code>&lt;!-- Campo básico con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:textField name="fullName" id="fullName"
+                 placeholder=" " required="required"/&gt;
+    &lt;label for="fullName"&gt;Nombre completo *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo con helper text --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:textField name="rut" id="rut" placeholder=" " required="required"/&gt;
+    &lt;label for="rut"&gt;RUT *&lt;/label&gt;
+    &lt;span class="helper"&gt;Formato: 12.345.678-9&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo email --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="email" name="email" id="email"
+             placeholder=" " required="required"/&gt;
+    &lt;label for="email"&gt;Email *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo teléfono --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="tel" name="phone" id="phone"
+             placeholder=" " required="required"/&gt;
+    &lt;label for="phone"&gt;Teléfono *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo URL --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="url" name="website" id="website" placeholder=" "/&gt;
+    &lt;label for="website"&gt;Sitio web&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo número --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="number" name="amount" id="amount"
+             placeholder=" " min="0" step="1000"/&gt;
+    &lt;label for="amount"&gt;Monto&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Con validación de errores --&gt;
+&lt;div class="field label border \${hasErrors(bean: command, field: 'fullName', 'invalid')}"&gt;
+    &lt;g:textField name="fullName" placeholder=" " value="\${command?.fullName}"/&gt;
+    &lt;label for="fullName"&gt;Nombre completo *&lt;/label&gt;
+    &lt;g:hasErrors bean="\${command}" field="fullName"&gt;
+        &lt;span class="helper"&gt;
+            &lt;g:message error="\${it}"/&gt;
+        &lt;/span&gt;
+    &lt;/g:hasErrors&gt;
+&lt;/div&gt;
+
+&lt;!-- Select con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:select name="region" id="region"
+              from="\${regions}"
+              optionKey="key"
+              optionValue="value"
+              noSelection="['':'Selecciona una opción']"
+              required="required"/&gt;
+    &lt;label for="region"&gt;Región *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Select con validación --&gt;
+&lt;div class="field label border \${hasErrors(bean: command, field: 'region', 'invalid')}"&gt;
+    &lt;g:select name="region"
+              from="\${regions}"
+              optionKey="key"
+              optionValue="value"
+              noSelection="['':'Selecciona una opción']"
+              value="\${command?.region}"/&gt;
+    &lt;label for="region"&gt;Región *&lt;/label&gt;
+    &lt;g:hasErrors bean="\${command}" field="region"&gt;
+        &lt;span class="helper"&gt;
+            &lt;g:message error="\${it}"/&gt;
+        &lt;/span&gt;
+    &lt;/g:hasErrors&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="component-item">
+                <h3 class="kds-title-large">File Upload</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Área de carga de archivos con drag & drop y preview
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-file-upload">
+                        <div class="kds-file-upload-zone" id="demoFileZone" ondrop="handleDemoDrop(event)"
+                             ondragover="handleDemoDragOver(event)" ondragleave="handleDemoDragLeave(event)">
+                            <i class="material-symbols-outlined icon-xl icon-color-primary">upload_file</i>
+                            <div class="kds-file-upload-text">
+                                Arrastra tu archivo aquí o
+                                <label for="demoFileInput" class="kds-file-upload-button">selecciona un archivo</label>
+                                <input type="file" id="demoFileInput" accept=".pdf,.jpg,.jpeg,.png"
+                                       onchange="handleDemoFileSelect(event)" class="hidden">
+                            </div>
+                            <span class="kds-file-upload-helper">PDF, JPG o PNG (máx. 5MB)</span>
+                        </div>
+                        <div class="kds-file-upload-preview" id="demoFilePreview"></div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('fileupload-code')">📋 Copy</button>
+                    <pre><code id="fileupload-code">&lt;div class="kds-file-upload"&gt;
+    &lt;div class="kds-file-upload-zone" id="fileZone"
+         ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"&gt;
+        &lt;i class="material-symbols-outlined icon-xl icon-color-primary"&gt;upload_file&lt;/i&gt;
+        &lt;div class="kds-file-upload-text"&gt;
+            Arrastra tu archivo aquí o
+            &lt;label for="fileInput" class="kds-file-upload-button"&gt;selecciona un archivo&lt;/label&gt;
+            &lt;input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png"
+                   onchange="handleFileSelect(event)" class="hidden"&gt;
+        &lt;/div&gt;
+        &lt;span class="kds-file-upload-helper"&gt;PDF, JPG o PNG (máx. 5MB)&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-file-upload-preview" id="filePreview"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function handleDragOver(event) {
+    event.preventDefault();
+    event.currentTarget.classList.add('drag-over');
+}
+
+function handleDragLeave(event) {
+    event.currentTarget.classList.remove('drag-over');
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+    event.currentTarget.classList.remove('drag-over');
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+        displayFile(files[0]);
+    }
+}
+
+function handleFileSelect(event) {
+    const files = event.target.files;
+    if (files.length > 0) {
+        displayFile(files[0]);
+    }
+}
+
+function displayFile(file) {
+    const preview = document.getElementById('filePreview');
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    // Validate size
+    if (file.size > maxSize) {
+        alert('El archivo excede el tamaño máximo de 5MB');
+        return;
+    }
+
+    // Create preview
+    preview.innerHTML = \`
+        &lt;div class="kds-file-item"&gt;
+            &lt;i class="material-symbols-outlined"&gt;description&lt;/i&gt;
+            &lt;span class="file-name"&gt;\${file.name}&lt;/span&gt;
+            &lt;span class="file-size"&gt;\${(file.size / 1024).toFixed(2)} KB&lt;/span&gt;
+            &lt;button onclick="removeFile()" class="transparent circle"&gt;
+                &lt;i class="material-symbols-outlined"&gt;close&lt;/i&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
+    \`;
+}
+
+function removeFile() {
+    document.getElementById('filePreview').innerHTML = '';
+    document.getElementById('fileInput').value = '';
+}
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Drag & Drop:</strong> Clase <code>.drag-over</code> se aplica automáticamente al arrastrar</li>
+                        <li><strong>Preview:</strong> Muestra nombre, tamaño y botón de eliminar</li>
+                        <li><strong>Validation:</strong> Valida formato (accept) y tamaño (5MB max)</li>
+                        <li><strong>Multiple:</strong> Agrega atributo <code>multiple</code> para múltiples archivos</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Upload de documentos con validación --&gt;
+&lt;g:uploadForm controller="onboarding" action="uploadDocument"&gt;
+    &lt;div class="kds-file-upload"&gt;
+        &lt;div class="kds-file-upload-zone" id="fileZone"
+             ondrop="handleDrop(event)"
+             ondragover="handleDragOver(event)"
+             ondragleave="handleDragLeave(event)"&gt;
+            &lt;i class="material-symbols-outlined icon-xl icon-color-primary"&gt;upload_file&lt;/i&gt;
+            &lt;div class="kds-file-upload-text"&gt;
+                Arrastra tu archivo aquí o
+                &lt;label for="documentFile" class="kds-file-upload-button"&gt;selecciona un archivo&lt;/label&gt;
+                &lt;input type="file" id="documentFile" name="documentFile"
+                       accept=".pdf,.jpg,.jpeg,.png"
+                       onchange="handleFileSelect(event)" class="hidden"&gt;
+            &lt;/div&gt;
+            &lt;span class="kds-file-upload-helper"&gt;PDF, JPG o PNG (máx. 5MB)&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-file-upload-preview" id="filePreview"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;g:hasErrors bean="${documentInstance}" field="file"&gt;
+        &lt;div class="kds-alert error"&gt;
+            &lt;div class="kds-alert-icon"&gt;
+                &lt;i class="material-symbols-outlined"&gt;error&lt;/i&gt;
+            &lt;/div&gt;
+            &lt;div class="kds-alert-content"&gt;
+                &lt;div class="kds-alert-description"&gt;
+                    &lt;g:eachError bean="${documentInstance}" field="file"&gt;${it.defaultMessage}&lt;/g:eachError&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/g:hasErrors&gt;
+
+    &lt;div class="kds-mt-4"&gt;
+        &lt;button type="submit" class="kds-btn kds-btn-primary"&gt;
+            Subir documento
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;upload&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/g:uploadForm&gt;
+
+&lt;asset:javascript src="file-upload-handler.js"/&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             DISPLAY COMPONENTS
+        ======================================== -->
+        <section id="display" class="component-section">
+            <h2 class="kds-headline-large">💬 Display Components</h2>
+
+            <!-- Alerts -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Alerts (4 Variants)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Mensajes contextuales con 4 variantes
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-alert info">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">info</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Información importante</div>
+                            <div class="kds-alert-description">
+                                Necesitarás tu RUT y comprobante de domicilio.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kds-alert success">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">check_circle</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Operación exitosa</div>
+                            <div class="kds-alert-description">
+                                Tu cuenta ha sido verificada correctamente.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kds-alert warning">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">warning</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Atención requerida</div>
+                            <div class="kds-alert-description">
+                                Algunos documentos están pendientes de revisión.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kds-alert error">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">error</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-title">Error de validación</div>
+                            <div class="kds-alert-description">
+                                El RUT ingresado no es válido. Por favor verifica.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('alerts-code')">📋 Copy</button>
+                    <pre><code id="alerts-code">&lt;div class="kds-alert info"&gt;
+    &lt;div class="kds-alert-icon"&gt;
+        &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-alert-content"&gt;
+        &lt;div class="kds-alert-title"&gt;Título&lt;/div&gt;
+        &lt;div class="kds-alert-description"&gt;Descripción&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Variants: .info, .success, .warning, .error --&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Variants:</strong> <code>.info</code> (azul), <code>.success</code> (verde), <code>.warning</code> (amarillo), <code>.error</code> (rojo)</li>
+                        <li><strong>Icons:</strong> Material Symbols (info, check_circle, warning, error)</li>
+                        <li><strong>Description:</strong> Opcional - puedes omitir si solo necesitas título</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Flash messages con alerts --&gt;
+&lt;g:if test="${flash.message}"&gt;
+    &lt;div class="kds-alert info"&gt;
+        &lt;div class="kds-alert-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-alert-content"&gt;
+            &lt;div class="kds-alert-description"&gt;${flash.message}&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/g:if&gt;
+
+&lt;g:if test="${flash.error}"&gt;
+    &lt;div class="kds-alert error"&gt;
+        &lt;div class="kds-alert-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;error&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-alert-content"&gt;
+            &lt;div class="kds-alert-title"&gt;Error de validación&lt;/div&gt;
+            &lt;div class="kds-alert-description"&gt;${flash.error}&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/g:if&gt;
+
+&lt;g:if test="${flash.warning}"&gt;
+    &lt;div class="kds-alert warning"&gt;
+        &lt;div class="kds-alert-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;warning&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-alert-content"&gt;
+            &lt;div class="kds-alert-description"&gt;${flash.warning}&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/g:if&gt;
+
+&lt;g:if test="${flash.success}"&gt;
+    &lt;div class="kds-alert success"&gt;
+        &lt;div class="kds-alert-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;check_circle&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-alert-content"&gt;
+            &lt;div class="kds-alert-description"&gt;${flash.success}&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/g:if&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Pricing Cards</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Tarjetas de planes con características
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-grid-3col">
+                        <div class="kds-card-plan">
+                            <div class="kds-card-plan-header">
+                                <h3 class="kds-title-large">Básico</h3>
+                                <p class="kds-body-medium kds-text-muted">Para empezar</p>
+                            </div>
+                            <div class="kds-card-plan-price">
+                                <span class="kds-price">Gratis</span>
+                            </div>
+                            <div class="kds-card-plan-features">
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>100 transacciones/mes</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>API básica</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kds-card-plan recommended">
+                            <div class="kds-card-plan-badge">Recomendado</div>
+                            <div class="kds-card-plan-header">
+                                <h3 class="kds-title-large">Pro</h3>
+                                <p class="kds-body-medium kds-text-muted">Para negocios</p>
+                            </div>
+                            <div class="kds-card-plan-price">
+                                <span class="kds-price">$29.990</span>
+                                <span class="kds-price-period">/mes</span>
+                            </div>
+                            <div class="kds-card-plan-features">
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>1.000 transacciones/mes</span>
+                                </div>
+                                <div class="kds-feature">
+                                    <i class="material-symbols-outlined">check</i>
+                                    <span>API completa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('pricing-code')">📋 Copy</button>
+                    <pre><code id="pricing-code">&lt;div class="kds-card-plan"&gt;
+    &lt;div class="kds-card-plan-header"&gt;
+        &lt;h3 class="kds-title-large"&gt;Básico&lt;/h3&gt;
+        &lt;p class="kds-body-medium kds-text-muted"&gt;Para empezar&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-card-plan-price"&gt;
+        &lt;span class="kds-price"&gt;Gratis&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-card-plan-features"&gt;
+        &lt;div class="kds-feature"&gt;
+            &lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;
+            &lt;span&gt;100 transacciones/mes&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Recommended plan: add .recommended class --&gt;</code></pre>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Grid de planes de pricing --&gt;
+&lt;div class="kds-grid-3col"&gt;
+    &lt;g:each in="${pricingPlans}" var="plan"&gt;
+        &lt;div class="kds-card-plan ${plan.recommended ? 'recommended' : ''}"&gt;
+            &lt;g:if test="${plan.recommended}"&gt;
+                &lt;div class="kds-card-plan-badge"&gt;Recomendado&lt;/div&gt;
+            &lt;/g:if&gt;
+
+            &lt;div class="kds-card-plan-header"&gt;
+                &lt;h3 class="kds-title-large"&gt;${plan.name}&lt;/h3&gt;
+                &lt;p class="kds-body-medium kds-text-muted"&gt;${plan.description}&lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;div class="kds-card-plan-price"&gt;
+                &lt;g:if test="${plan.price == 0}"&gt;
+                    &lt;span class="kds-price"&gt;Gratis&lt;/span&gt;
+                &lt;/g:if&gt;
+                &lt;g:else&gt;
+                    &lt;span class="kds-price"&gt;
+                        &lt;g:formatNumber number="${plan.price}" type="currency" currencyCode="CLP"/&gt;
+                    &lt;/span&gt;
+                    &lt;span class="kds-price-period"&gt;/mes&lt;/span&gt;
+                &lt;/g:else&gt;
+            &lt;/div&gt;
+
+            &lt;div class="kds-card-plan-features"&gt;
+                &lt;g:each in="${plan.features}" var="feature"&gt;
+                    &lt;div class="kds-feature"&gt;
+                        &lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;
+                        &lt;span&gt;${feature}&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/g:each&gt;
+            &lt;/div&gt;
+
+            &lt;div class="kds-mt-4"&gt;
+                &lt;g:link action="selectPlan" params="[planId: plan.id]"
+                        class="kds-btn ${plan.recommended ? 'kds-btn-primary' : 'kds-btn-outlined'} w-100"&gt;
+                    Seleccionar plan
+                &lt;/g:link&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             ACTION COMPONENTS
+        ======================================== -->
+        <section id="actions" class="component-section">
+            <h2 class="kds-headline-large">🎯 Action Components</h2>
+
+            <!-- Buttons -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Buttons (5 Variants)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Sistema de botones según jerarquía visual
+                </p>
+
+                <div class="component-demo">
+                    <div class="btn-flex-demo">
+                        <button class="kds-btn kds-btn-primary">
+                            Primary Button
+                            <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                        </button>
+
+                        <button class="kds-btn kds-btn-secondary">
+                            Secondary Button
+                        </button>
+
+                        <button class="kds-btn kds-btn-outlined">
+                            Outlined Button
+                        </button>
+
+                        <button class="kds-btn kds-btn-text">
+                            <span class="kds-icon"><i class="material-symbols-outlined">arrow_back</i></span>
+                            Text Button
+                        </button>
+
+                        <div class="demo-bg-primary">
+                            <button class="kds-btn kds-btn-outlined-white">
+                                Outlined White
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('buttons-code')">📋 Copy</button>
+                    <pre><code id="buttons-code">&lt;!-- Primary - Púrpura sólido --&gt;
+&lt;button class="kds-btn kds-btn-primary"&gt;
+    Primary Button
+    &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_forward&lt;/i&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Secondary - Azul sólido --&gt;
+&lt;button class="kds-btn kds-btn-secondary"&gt;Secondary Button&lt;/button&gt;
+
+&lt;!-- Outlined - Borde púrpura --&gt;
+&lt;button class="kds-btn kds-btn-outlined"&gt;Outlined Button&lt;/button&gt;
+
+&lt;!-- Text - Transparente --&gt;
+&lt;button class="kds-btn kds-btn-text"&gt;
+    &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_back&lt;/i&gt;&lt;/span&gt;
+    Text Button
+&lt;/button&gt;
+
+&lt;!-- Outlined White - Para fondos oscuros --&gt;
+&lt;button class="kds-btn kds-btn-outlined-white"&gt;Outlined White&lt;/button&gt;
+
+&lt;!-- Disabled state --&gt;
+&lt;button class="kds-btn kds-btn-primary" disabled&gt;Disabled&lt;/button&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Primary:</strong> Acción principal (púrpura #8347AD)</li>
+                        <li><strong>Secondary:</strong> Acción secundaria (azul #3B82F6)</li>
+                        <li><strong>Outlined:</strong> Acción terciaria (borde púrpura)</li>
+                        <li><strong>Text:</strong> Navegación (transparente)</li>
+                        <li><strong>Outlined White:</strong> Solo para fondos oscuros/púrpura</li>
+                        <li><strong>Icons:</strong> Usa <code>&lt;span class="kds-icon"&gt;</code> para envolver iconos</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;g:form controller="onboarding" action="save"&gt;
+    &lt;div class="kds-onboarding-footer"&gt;
+        &lt;button type="button" class="kds-btn kds-btn-text" onclick="history.back()"&gt;
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_back&lt;/i&gt;&lt;/span&gt;
+            Volver
+        &lt;/button&gt;
+        &lt;button type="submit" class="kds-btn kds-btn-primary"&gt;
+            Continuar
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_forward&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/g:form&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             ADVANCED COMPONENTS
+        ======================================== -->
+        <section id="advanced" class="component-section">
+            <h2 class="kds-headline-large">🚀 Advanced Components</h2>
+
+            <!-- OTP Input -->
+            <div class="component-item">
+                <h3 class="kds-title-large">OTP Input (6 dígitos)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Input de código de verificación de 6 dígitos con auto-focus entre campos
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-otp-input" id="demo-otp">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('otp-code')">📋 Copy</button>
+                    <pre><code id="otp-code">&lt;div class="kds-otp-input" id="otpInput"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// Auto-focus functionality
+const otpInputs = document.querySelectorAll('#otpInput .kds-otp-digit');
+otpInputs.forEach((input, index) => {
+    input.addEventListener('input', (e) => {
+        if (e.target.value && index &lt; otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+        }
+    });
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index &gt; 0) {
+            otpInputs[index - 1].focus();
+        }
+    });
+});
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Auto-focus:</strong> Automáticamente avanza al siguiente campo al ingresar un dígito</li>
+                        <li><strong>Backspace:</strong> Retrocede al campo anterior al presionar Backspace en campo vacío</li>
+                        <li><strong>Mobile:</strong> Usa <code>inputmode="numeric"</code> para mostrar teclado numérico</li>
+                        <li><strong>Pattern:</strong> Valida que solo se ingresen números (0-9)</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;div class="kds-otp-input" id="otp-${field}"&gt;
+    &lt;g:each in="${1..6}" var="i"&gt;
+        &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;
+&lt;asset:javascript src="otp-handler.js"/&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Signature Pad -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Signature Pad (Canvas)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Canvas HTML5 para captura de firma digital con soporte táctil
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-signature-pad">
+                        <div class="kds-signature-canvas-wrapper">
+                            <canvas id="demo-signature" class="kds-signature-canvas" width="600" height="200"></canvas>
+                        </div>
+                        <div class="kds-signature-actions">
+                            <button class="kds-btn kds-btn-text kds-signature-clear" onclick="clearDemoSignature()">
+                                <span class="kds-icon"><i class="material-symbols-outlined">refresh</i></span>
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('signature-code')">📋 Copy</button>
+                    <pre><code id="signature-code">&lt;div class="kds-signature-pad"&gt;
+    &lt;div class="kds-signature-canvas-wrapper"&gt;
+        &lt;canvas id="signatureCanvas" class="kds-signature-canvas" width="600" height="200"&gt;&lt;/canvas&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-signature-actions"&gt;
+        &lt;button class="kds-btn kds-btn-text kds-signature-clear" onclick="clearSignature()"&gt;
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;refresh&lt;/i&gt;&lt;/span&gt;
+            Limpiar
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const canvas = document.getElementById('signatureCanvas');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
+
+// Responsive canvas sizing
+function resizeCanvas() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width;
+}
+window.addEventListener('load', resizeCanvas);
+
+// Mouse events
+canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (!isDrawing) return;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#111827';
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+});
+
+canvas.addEventListener('mouseup', () => isDrawing = false);
+canvas.addEventListener('mouseout', () => isDrawing = false);
+
+// Touch support
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#111827';
+    ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    ctx.stroke();
+});
+
+canvas.addEventListener('touchend', () => isDrawing = false);
+
+function clearSignature() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Touch:</strong> Soporte completo para dispositivos táctiles y mouse</li>
+                        <li><strong>Responsive:</strong> Canvas se adapta al ancho del contenedor</li>
+                        <li><strong>Export:</strong> Usa <code>canvas.toDataURL('image/png')</code> para guardar</li>
+                        <li><strong>Validation:</strong> Verifica que el canvas no esté vacío antes de enviar</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Signature Pad para contrato --&gt;
+&lt;g:form controller="contract" action="sign"&gt;
+    &lt;div class="kds-signature-pad"&gt;
+        &lt;div class="kds-signature-canvas-wrapper"&gt;
+            &lt;canvas id="signatureCanvas" class="kds-signature-canvas"
+                    width="600" height="200"&gt;&lt;/canvas&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-signature-actions"&gt;
+            &lt;button type="button" class="kds-btn kds-btn-text kds-signature-clear"
+                    onclick="clearSignature()"&gt;
+                &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;refresh&lt;/i&gt;&lt;/span&gt;
+                Limpiar
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Hidden field para guardar firma como base64 --&gt;
+    &lt;g:hiddenField name="signatureData" id="signatureData"/&gt;
+
+    &lt;div class="kds-mt-6"&gt;
+        &lt;button type="submit" class="kds-btn kds-btn-primary"
+                onclick="return saveSignature()"&gt;
+            Firmar contrato
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/g:form&gt;
+
+&lt;asset:javascript src="signature-pad-handler.js"/&gt;
+
+&lt;script&gt;
+function saveSignature() {
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Verificar que el canvas no esté vacío
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const isEmpty = !imageData.data.some(channel => channel !== 0);
+
+    if (isEmpty) {
+        alert('Por favor firma antes de continuar');
+        return false;
+    }
+
+    // Guardar firma como base64 en hidden field
+    document.getElementById('signatureData').value = canvas.toDataURL('image/png');
+    return true;
+}
+&lt;/script&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Summary Card -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Summary/Review Card</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Card de resumen de datos con opción de editar
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-summary-card">
+                        <div class="kds-summary-card-header">
+                            <div class="kds-summary-card-title">
+                                <i class="material-symbols-outlined">person</i>
+                                Información personal
+                            </div>
+                            <a href="#" class="kds-summary-card-edit" onclick="event.preventDefault(); alert('Ir a editar');">
+                                Editar <i class="material-symbols-outlined icon-lg">edit</i>
+                            </a>
+                        </div>
+                        <div class="kds-summary-row">
+                            <div class="kds-summary-label">Nombre:</div>
+                            <div class="kds-summary-value">Juan Pérez González</div>
+                        </div>
+                        <div class="kds-summary-row">
+                            <div class="kds-summary-label">RUT:</div>
+                            <div class="kds-summary-value">12.345.678-9</div>
+                        </div>
+                        <div class="kds-summary-row">
+                            <div class="kds-summary-label">Email:</div>
+                            <div class="kds-summary-value">juan.perez@email.com</div>
+                        </div>
+                        <div class="kds-summary-row">
+                            <div class="kds-summary-label">Plan:</div>
+                            <div class="kds-summary-value badge">Pro</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('summary-code')">📋 Copy</button>
+                    <pre><code id="summary-code">&lt;div class="kds-summary-card"&gt;
+    &lt;div class="kds-summary-card-header"&gt;
+        &lt;div class="kds-summary-card-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;person&lt;/i&gt;
+            Información personal
+        &lt;/div&gt;
+        &lt;a href="profile.html" class="kds-summary-card-edit"&gt;
+            Editar &lt;i class="material-symbols-outlined"&gt;edit&lt;/i&gt;
+        &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Nombre:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;Juan Pérez&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;RUT:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;12.345.678-9&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Badge variant --&gt;
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Plan:&lt;/div&gt;
+        &lt;div class="kds-summary-value badge"&gt;Pro&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Header:</strong> Título con ícono + link "Editar" a la derecha</li>
+                        <li><strong>Rows:</strong> Formato label-value con flex layout</li>
+                        <li><strong>Badge:</strong> Clase <code>.badge</code> en value para destacar</li>
+                        <li><strong>Icon:</strong> Material Symbols opcional en título</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Summary card con datos del usuario --&gt;
+&lt;div class="kds-summary-card"&gt;
+    &lt;div class="kds-summary-card-header"&gt;
+        &lt;div class="kds-summary-card-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;person&lt;/i&gt;
+            Información personal
+        &lt;/div&gt;
+        &lt;g:link action="editProfile" class="kds-summary-card-edit"&gt;
+            Editar &lt;i class="material-symbols-outlined icon-lg"&gt;edit&lt;/i&gt;
+        &lt;/g:link&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Nombre:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${userInstance?.fullName}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;RUT:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${userInstance?.rut}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Email:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${userInstance?.email}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Plan:&lt;/div&gt;
+        &lt;div class="kds-summary-value badge"&gt;${userInstance?.plan?.name}&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Card de datos comerciales --&gt;
+&lt;div class="kds-summary-card"&gt;
+    &lt;div class="kds-summary-card-header"&gt;
+        &lt;div class="kds-summary-card-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;business&lt;/i&gt;
+            Datos comerciales
+        &lt;/div&gt;
+        &lt;g:link action="editCommercial" class="kds-summary-card-edit"&gt;
+            Editar &lt;i class="material-symbols-outlined icon-lg"&gt;edit&lt;/i&gt;
+        &lt;/g:link&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Razón social:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${commercialInstance?.businessName}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Giro:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${commercialInstance?.industry}&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- KYC Blocking Modal -->
+            <div class="component-item">
+                <h3 class="kds-title-large">KYC Blocking Modal</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Modal de advertencia para sectores de alto riesgo
+                </p>
+
+                <div class="component-demo">
+                    <button class="kds-btn kds-btn-secondary" onclick="showDemoKYCModal()">
+                        Show KYC Modal
+                    </button>
+                </div>
+
+                <dialog id="demo-kyc-modal" class="modal">
+                    <button class="transparent circle modal-close-btn" onclick="closeDemoKYCModal()">
+                        <span class="kds-icon"><i class="material-symbols-outlined">close</i></span>
+                    </button>
+
+                    <div class="kds-kyc-modal-icon">
+                        <i class="material-symbols-outlined">warning</i>
+                    </div>
+
+                    <h2 class="kds-kyc-modal-title">
+                        Validación adicional requerida
+                    </h2>
+
+                    <p class="kds-kyc-modal-message">
+                        Para el sector seleccionado, necesitamos validar algunos datos adicionales con nuestro equipo.
+                    </p>
+
+                    <div class="kds-alert warning">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">info</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-description">
+                                Te contactaremos por email en las próximas 48 horas para continuar con el proceso de activación.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="kds-btn kds-btn-primary w-100" onclick="closeDemoKYCModal()">
+                            Entendido
+                            <span class="kds-icon"><i class="material-symbols-outlined">check</i></span>
+                        </button>
+                    </div>
+                </dialog>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('kyc-code')">📋 Copy</button>
+                    <pre><code id="kyc-code">&lt;!-- Trigger button --&gt;
+&lt;button class="kds-btn kds-btn-secondary" onclick="showKYCModal()"&gt;
+    Verificar Sector
+&lt;/button&gt;
+
+&lt;!-- Modal (BeerCSS dialog con clase .modal) --&gt;
+&lt;dialog id="kycModal" class="modal"&gt;
+    &lt;button class="transparent circle modal-close-btn" onclick="closeKYCModal()"&gt;
+        &lt;i class="material-symbols-outlined"&gt;close&lt;/i&gt;
+    &lt;/button&gt;
+
+    &lt;div class="kds-kyc-modal-icon"&gt;
+        &lt;i class="material-symbols-outlined"&gt;warning&lt;/i&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class="kds-kyc-modal-title"&gt;
+        Validación adicional requerida
+    &lt;/h2&gt;
+
+    &lt;p class="kds-kyc-modal-message"&gt;
+        Para el sector seleccionado, necesitamos validar algunos datos adicionales.
+    &lt;/p&gt;
+
+    &lt;div class="kds-alert warning"&gt;
+        &lt;div class="kds-alert-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-alert-content"&gt;
+            &lt;div class="kds-alert-description"&gt;
+                Te contactaremos por email en las próximas 48 horas.
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="text-center"&gt;
+        &lt;button class="kds-btn kds-btn-primary w-100" onclick="closeKYCModal()"&gt;
+            Entendido
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;script&gt;
+function showKYCModal() {
+    document.getElementById('kycModal').showModal();
+}
+function closeKYCModal() {
+    document.getElementById('kycModal').close();
+}
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Dialog:</strong> Usa <code>&lt;dialog class="modal"&gt;</code> - BeerCSS automáticamente aplica estilos base</li>
+                        <li><strong>Clases CSS:</strong> Usa <code>.kds-kyc-modal-*</code> para estructura semántica sin inline styles</li>
+                        <li><strong>Variables:</strong> Padding, colores y tamaños controlados por tokens CSS (<code>--kds-modal-*</code>)</li>
+                        <li><strong>Trigger:</strong> <code>.showModal()</code> abre el modal, <code>.close()</code> lo cierra</li>
+                        <li><strong>Icon:</strong> Color warning desde token <code>--kds-modal-icon-warning</code></li>
+                        <li><strong>Responsive:</strong> Padding y max-width se ajustan automáticamente en mobile</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Validar industria de alto riesgo --&gt;
+&lt;g:if test="${isHighRiskIndustry}"&gt;
+    &lt;dialog id="kycModal" class="modal"&gt;
+        &lt;button class="transparent circle modal-close-btn" onclick="closeKYCModal()"&gt;
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;close&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+
+        &lt;div class="kds-kyc-modal-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;warning&lt;/i&gt;
+        &lt;/div&gt;
+
+        &lt;h2 class="kds-kyc-modal-title"&gt;
+            Validación adicional requerida
+        &lt;/h2&gt;
+
+        &lt;p class="kds-kyc-modal-message"&gt;
+            Para el sector "${industry}" necesitamos validar algunos datos adicionales con nuestro equipo.
+        &lt;/p&gt;
+
+        &lt;div class="kds-alert warning"&gt;
+            &lt;div class="kds-alert-icon"&gt;
+                &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+            &lt;/div&gt;
+            &lt;div class="kds-alert-content"&gt;
+                &lt;div class="kds-alert-description"&gt;
+                    Te contactaremos por email en las próximas 48 horas para continuar con el proceso de activación.
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class="text-center"&gt;
+            &lt;button class="kds-btn kds-btn-primary w-100" onclick="handleKYCAcceptance()"&gt;
+                Entendido
+                &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/dialog&gt;
+
+    &lt;script&gt;
+    // Mostrar modal automáticamente si es alto riesgo
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('kycModal').showModal();
+    });
+
+    function closeKYCModal() {
+        document.getElementById('kycModal').close();
+    }
+
+    function handleKYCAcceptance() {
+        // Registrar que el usuario aceptó la validación adicional
+        window.location.href = '${createLink(controller: "onboarding", action: "kycPending")}';
+    }
+    &lt;/script&gt;
+&lt;/g:if&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Success Page -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Success Page Layout</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Página de éxito/activación con próximos pasos
+                </p>
+
+                <div class="component-demo bg-surface-background">
+                    <div class="kds-success-container min-h-600">
+                        <div class="kds-success-icon">
+                            <i class="material-symbols-outlined icon-filled">check_circle</i>
+                        </div>
+                        <h1 class="kds-success-title">¡Activación exitosa!</h1>
+                        <p class="kds-success-subtitle">
+                            Tu cuenta ha sido creada correctamente. Te notificaremos cuando esté todo listo.
+                        </p>
+
+                        <div class="kds-next-steps">
+                            <h2 class="kds-next-steps-title">
+                                <i class="material-symbols-outlined">rocket_launch</i>
+                                Próximos pasos
+                            </h2>
+                            <div class="kds-step-item">
+                                <div class="kds-step-number">1</div>
+                                <div class="kds-step-content">
+                                    <div class="kds-step-title">Validación de documentos</div>
+                                    <div class="kds-step-description">
+                                        Revisaremos tu información en 24-48 horas hábiles.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kds-step-item">
+                                <div class="kds-step-number">2</div>
+                                <div class="kds-step-content">
+                                    <div class="kds-step-title">Notificación por email</div>
+                                    <div class="kds-step-description">
+                                        Te enviaremos un email cuando tu cuenta esté activa.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kds-step-item">
+                                <div class="kds-step-number">3</div>
+                                <div class="kds-step-content">
+                                    <div class="kds-step-title">Configuración inicial</div>
+                                    <div class="kds-step-description">
+                                        Podrás configurar webhooks y generar credenciales de API.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kds-success-actions">
+                            <button class="kds-btn kds-btn-primary" onclick="alert('Go to dashboard')">
+                                Ir al dashboard
+                                <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                            </button>
+                            <button class="kds-btn kds-btn-outlined" onclick="alert('View docs')">
+                                Ver documentación
+                                <span class="kds-icon"><i class="material-symbols-outlined">menu_book</i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('success-code')">📋 Copy</button>
+                    <pre><code id="success-code">&lt;div class="kds-success-container"&gt;
+    &lt;div class="kds-success-icon"&gt;
+        &lt;i class="material-symbols-outlined icon-filled"&gt;check_circle&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;h1 class="kds-success-title"&gt;¡Activación exitosa!&lt;/h1&gt;
+    &lt;p class="kds-success-subtitle"&gt;
+        Tu cuenta ha sido creada correctamente.
+    &lt;/p&gt;
+
+    &lt;div class="kds-next-steps"&gt;
+        &lt;h2 class="kds-next-steps-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;rocket_launch&lt;/i&gt;
+            Próximos pasos
+        &lt;/h2&gt;
+
+        &lt;div class="kds-step-item"&gt;
+            &lt;div class="kds-step-number"&gt;1&lt;/div&gt;
+            &lt;div class="kds-step-content"&gt;
+                &lt;div class="kds-step-title"&gt;Validación de documentos&lt;/div&gt;
+                &lt;div class="kds-step-description"&gt;
+                    Revisaremos tu información en 24-48 horas.
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Más steps... --&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-success-actions"&gt;
+        &lt;button class="kds-btn kds-btn-primary"&gt;
+            Ir al dashboard
+        &lt;/button&gt;
+        &lt;button class="kds-btn kds-btn-outlined"&gt;
+            Ver documentación
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Container:</strong> Usa <code>.kds-success-container</code> para centrado vertical</li>
+                        <li><strong>Icon:</strong> Green checkmark con animación <code>scaleIn</code></li>
+                        <li><strong>Next Steps:</strong> Card con lista numerada de pasos futuros</li>
+                        <li><strong>Actions:</strong> Botones primario + outlined en fila (responsive a columna)</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Página de activación exitosa --&gt;
+&lt;div class="kds-success-container"&gt;
+    &lt;div class="kds-success-icon"&gt;
+        &lt;i class="material-symbols-outlined icon-filled"&gt;check_circle&lt;/i&gt;
+    &lt;/div&gt;
+
+    &lt;h1 class="kds-success-title"&gt;¡Activación exitosa!&lt;/h1&gt;
+    &lt;p class="kds-success-subtitle"&gt;
+        Hola ${userName}, tu cuenta ha sido creada correctamente.
+        Te notificaremos cuando esté todo listo.
+    &lt;/p&gt;
+
+    &lt;div class="kds-next-steps"&gt;
+        &lt;h2 class="kds-next-steps-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;rocket_launch&lt;/i&gt;
+            Próximos pasos
+        &lt;/h2&gt;
+
+        &lt;g:each in="${nextSteps}" var="step" status="i"&gt;
+            &lt;div class="kds-step-item"&gt;
+                &lt;div class="kds-step-number"&gt;${i + 1}&lt;/div&gt;
+                &lt;div class="kds-step-content"&gt;
+                    &lt;div class="kds-step-title"&gt;${step.title}&lt;/div&gt;
+                    &lt;div class="kds-step-description"&gt;${step.description}&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/g:each&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-success-actions"&gt;
+        &lt;g:link controller="dashboard" action="index"
+                class="kds-btn kds-btn-primary"&gt;
+            Ir al dashboard
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_forward&lt;/i&gt;&lt;/span&gt;
+        &lt;/g:link&gt;
+
+        &lt;g:link controller="docs" action="index"
+                class="kds-btn kds-btn-outlined"&gt;
+            Ver documentación
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;menu_book&lt;/i&gt;&lt;/span&gt;
+        &lt;/g:link&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Contract Accordion -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Contract Accordion</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Acordeón expandible para términos y condiciones usando &lt;details&gt;
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-contract-accordion">
+                        <details>
+                            <summary>1. Objeto del contrato</summary>
+                            <div class="kds-contract-accordion-content">
+                                <p>
+                                    El presente contrato tiene por objeto establecer los términos y condiciones bajo los cuales Khipu SpA
+                                    prestará sus servicios de plataforma de pagos automáticos al comercio adherente.
+                                </p>
+                                <p>
+                                    Los servicios incluyen la facilitación de transacciones de pago entre el Comercio y sus clientes finales,
+                                    mediante transferencias electrónicas directas desde cuentas bancarias.
+                                </p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>2. Comisiones y tarifas</summary>
+                            <div class="kds-contract-accordion-content">
+                                <p>
+                                    Las comisiones aplicables serán las indicadas en el plan seleccionado durante el proceso de registro.
+                                    Khipu se reserva el derecho de modificar las comisiones con previo aviso de 30 días corridos.
+                                </p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>3. Obligaciones del comercio</summary>
+                            <div class="kds-contract-accordion-content">
+                                <p>El Comercio se obliga a:</p>
+                                <ul>
+                                    <li>Proveer información verídica y actualizada en todo momento</li>
+                                    <li>Cumplir con todas las leyes y regulaciones aplicables</li>
+                                    <li>No utilizar los servicios para actividades ilegales</li>
+                                    <li>Mantener la confidencialidad de sus credenciales</li>
+                                </ul>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('accordion-code')">📋 Copy</button>
+                    <pre><code id="accordion-code">&lt;div class="kds-contract-accordion"&gt;
+    &lt;details&gt;
+        &lt;summary&gt;1. Objeto del contrato&lt;/summary&gt;
+        &lt;div class="kds-contract-accordion-content"&gt;
+            &lt;p&gt;
+                El presente contrato establece los términos...
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/details&gt;
+
+    &lt;details&gt;
+        &lt;summary&gt;2. Comisiones y tarifas&lt;/summary&gt;
+        &lt;div class="kds-contract-accordion-content"&gt;
+            &lt;p&gt;
+                Las comisiones aplicables serán...
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/details&gt;
+
+    &lt;!-- More sections... --&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Native HTML:</strong> Usa <code>&lt;details&gt;</code> y <code>&lt;summary&gt;</code> nativos</li>
+                        <li><strong>Icon:</strong> Flecha expand_more automática via CSS <code>::after</code></li>
+                        <li><strong>Animation:</strong> Transición suave de rotación al abrir/cerrar</li>
+                        <li><strong>Styling:</strong> Background cambia al abrir (<code>details[open]</code>)</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Acordeón de términos y condiciones --&gt;
+&lt;div class="kds-contract-accordion"&gt;
+    &lt;g:each in="${contractSections}" var="section" status="i"&gt;
+        &lt;details&gt;
+            &lt;summary&gt;${i + 1}. ${section.title}&lt;/summary&gt;
+            &lt;div class="kds-contract-accordion-content"&gt;
+                &lt;g:if test="${section.paragraphs}"&gt;
+                    &lt;g:each in="${section.paragraphs}" var="paragraph"&gt;
+                        &lt;p&gt;${paragraph}&lt;/p&gt;
+                    &lt;/g:each&gt;
+                &lt;/g:if&gt;
+
+                &lt;g:if test="${section.listItems}"&gt;
+                    &lt;p&gt;${section.listTitle}&lt;/p&gt;
+                    &lt;ul&gt;
+                        &lt;g:each in="${section.listItems}" var="item"&gt;
+                            &lt;li&gt;${item}&lt;/li&gt;
+                        &lt;/g:each&gt;
+                    &lt;/ul&gt;
+                &lt;/g:if&gt;
+            &lt;/div&gt;
+        &lt;/details&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;
+
+&lt;!-- Checkbox de aceptación --&gt;
+&lt;div class="kds-mt-6"&gt;
+    &lt;label class="checkbox"&gt;
+        &lt;input type="checkbox" name="acceptContract" id="acceptContract"
+               required&gt;
+        &lt;span&gt;
+            He leído y acepto los
+            &lt;a href="${createLink(controller: 'legal', action: 'terms')}" target="_blank"&gt;
+                términos y condiciones
+            &lt;/a&gt;
+        &lt;/span&gt;
+    &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reference Box -->
+        <div class="kds-card-main reference-box">
+            <h3 class="kds-title-large reference-box-title">
+                <i class="material-symbols-outlined icon-color-warning">library_books</i>
+                Templates de Referencia
+            </h3>
+            <p class="kds-body-medium text-warning-dark">
+                Para casos de uso más complejos, consulta los 10 templates completos del flujo:
+            </p>
+            <div class="kds-grid-2col gap-2">
+                <ul class="kds-body-small reference-box-list">
+                    <li><a href="welcome.html" class="text-warning-link">welcome.html</a> - Pantalla de bienvenida</li>
+                    <li><a href="selector.html" class="text-warning-link">selector.html</a> - Selector país/persona</li>
+                    <li><a href="profile.html" class="text-warning-link">profile.html</a> - Perfil de usuario</li>
+                    <li><a href="commercial-data.html" class="text-warning-link">commercial-data.html</a> - Datos comerciales</li>
+                    <li><a href="documents.html" class="text-warning-link">documents.html</a> - Subida de documentos</li>
+                </ul>
+                <ul class="kds-body-small reference-box-list">
+                    <li><a href="bank-connection.html" class="text-warning-link">bank-connection.html</a> - Conexión bancaria</li>
+                    <li><a href="pricing.html" class="text-warning-link">pricing.html</a> - Planes de pricing</li>
+                    <li><a href="contract.html" class="text-warning-link">contract.html</a> - Contrato y firma</li>
+                    <li><a href="validation.html" class="text-warning-link">validation.html</a> - Validación OTP</li>
+                    <li><a href="activation.html" class="text-warning-link">activation.html</a> - Activación exitosa</li>
+                </ul>
+            </div>
+            <p class="kds-body-small text-warning-darker">
+                📘 <strong>Documentación BeerCSS:</strong> <a href="https://github.com/khipu/design-system/blob/main/src/beercss/README.md" target="_blank" rel="noopener noreferrer" class="text-warning-link">README.md</a>
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-showcase">
+        <p class="kds-title-medium">Khipu Design System</p>
+        <p class="kds-body-small kds-text-muted">BeerCSS Onboarding Components</p>
+        <p class="kds-body-small">
+            <a href="https://design.khipu.com" target="_blank" class="text-primary-link">design.khipu.com</a>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+    <script src="assets/showcase.js"></script>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Update active pill
+                document.querySelectorAll('.showcase-pill').forEach(pill => {
+                    pill.classList.remove('active');
+                });
+                event.currentTarget.classList.add('active');
+            }
+        }
+
+        function copyCode(codeId) {
+            const codeElement = document.getElementById(codeId);
+            if (!codeElement) return;
+
+            const code = codeElement.textContent;
+            const button = event.currentTarget;
+
+            navigator.clipboard.writeText(code).then(() => {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '✅ Copied!';
+                button.classList.add('success');
+
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('success');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                button.innerHTML = '❌ Failed';
+                setTimeout(() => {
+                    button.innerHTML = '📋 Copy';
+                }, 2000);
+            });
+        }
+
+        function selectCard(card) {
+            card.parentElement.querySelectorAll('.kds-card-selector').forEach(c =>
+                c.classList.remove('selected')
+            );
+            card.classList.add('selected');
+        }
+
+        function selectBank(item) {
+            document.querySelectorAll('.kds-bank-item').forEach(b =>
+                b.classList.remove('selected')
+            );
+            item.classList.add('selected');
+        }
+
+        // File Upload Demo Functions
+        function handleDemoDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDemoDragLeave(event) {
+            event.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDemoDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('drag-over');
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                displayDemoFile(files[0]);
+            }
+        }
+
+        function handleDemoFileSelect(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                displayDemoFile(files[0]);
+            }
+        }
+
+        function displayDemoFile(file) {
+            const preview = document.getElementById('demoFilePreview');
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            // Validate size
+            if (file.size > maxSize) {
+                alert('El archivo excede el tamaño máximo de 5MB');
+                return;
+            }
+
+            // Create preview
+            preview.innerHTML = `
+                <div class="kds-file-item">
+                    <i class="material-symbols-outlined">description</i>
+                    <span class="file-name">${file.name}</span>
+                    <span class="file-size">${(file.size / 1024).toFixed(2)} KB</span>
+                    <button onclick="removeDemoFile()" class="transparent circle">
+                        <span class="kds-icon"><i class="material-symbols-outlined">close</i></span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function removeDemoFile() {
+            document.getElementById('demoFilePreview').innerHTML = '';
+            document.getElementById('demoFileInput').value = '';
+        }
+
+        // Demo Signature Pad
+        const demoCanvas = document.getElementById('demo-signature');
+        if (demoCanvas) {
+            const demoCtx = demoCanvas.getContext('2d');
+            let isDemoDrawing = false;
+
+            // Mouse events
+            demoCanvas.addEventListener('mousedown', (e) => {
+                isDemoDrawing = true;
+                demoCtx.beginPath();
+                demoCtx.moveTo(e.offsetX, e.offsetY);
+            });
+
+            demoCanvas.addEventListener('mousemove', (e) => {
+                if (!isDemoDrawing) return;
+                demoCtx.lineWidth = 2;
+                demoCtx.lineCap = 'round';
+                demoCtx.strokeStyle = '#111827';
+                demoCtx.lineTo(e.offsetX, e.offsetY);
+                demoCtx.stroke();
+            });
+
+            demoCanvas.addEventListener('mouseup', () => isDemoDrawing = false);
+            demoCanvas.addEventListener('mouseout', () => isDemoDrawing = false);
+
+            // Touch support
+            demoCanvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = demoCanvas.getBoundingClientRect();
+                isDemoDrawing = true;
+                demoCtx.beginPath();
+                demoCtx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            });
+
+            demoCanvas.addEventListener('touchmove', (e) => {
+                if (!isDemoDrawing) return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = demoCanvas.getBoundingClientRect();
+                demoCtx.lineWidth = 2;
+                demoCtx.lineCap = 'round';
+                demoCtx.strokeStyle = '#111827';
+                demoCtx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+                demoCtx.stroke();
+            });
+
+            demoCanvas.addEventListener('touchend', () => isDemoDrawing = false);
+        }
+
+        function clearDemoSignature() {
+            const demoCanvas = document.getElementById('demo-signature');
+            if (demoCanvas) {
+                const demoCtx = demoCanvas.getContext('2d');
+                demoCtx.clearRect(0, 0, demoCanvas.width, demoCanvas.height);
+            }
+        }
+
+        // Demo KYC Modal
+        function showDemoKYCModal() {
+            document.getElementById('demo-kyc-modal').showModal();
+        }
+
+        function closeDemoKYCModal() {
+            document.getElementById('demo-kyc-modal').close();
+        }
+
+        // Demo OTP auto-focus
+        const demoOtpInputs = document.querySelectorAll('#demo-otp .kds-otp-digit');
+        demoOtpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value && index < demoOtpInputs.length - 1) {
+                    demoOtpInputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    demoOtpInputs[index - 1].focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

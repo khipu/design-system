@@ -993,80 +993,382 @@ footer.primary a:hover {
    Native BeerCSS with Khipu branding overrides
    ============================================== */
 
-/* Base field styling - leverage BeerCSS defaults */
-.field.label.border {
-    margin-bottom: var(--kds-spacing-4); /* 16px */
+/* Input and textarea base styles - match MUI exactly */
+.field.label.border > input,
+.field.label.border > select,
+.field.label.border > textarea {
+    font-family: var(--kds-font-family-secondary);
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-regular);
+    line-height: var(--kds-line-height-base);
+    letter-spacing: var(--kds-letter-spacing-tight);
+    padding: var(--kds-spacing-4) var(--kds-spacing-3);
+    border-width: 1px;
+    border-radius: var(--kds-radius-sm);
+    border-color: var(--kds-input-border-default);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    color: var(--kds-text-primary);
+}
+
+/* Hover state */
+.field.label.border:hover > input:not(:focus),
+.field.label.border:hover > select:not(:focus),
+.field.label.border:hover > textarea:not(:focus) {
+    border-color: var(--kds-input-border-hover);
+}
+
+/* Label base styles - match MUI */
+.field.label.border > label {
+    color: var(--kds-text-secondary);
+    font-family: var(--kds-font-family-secondary);
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-regular);
+    letter-spacing: var(--kds-letter-spacing-tight);
+    line-height: calc(var(--_input, 0) + var(--kds-line-height-base));
+    transition: all .2s cubic-bezier(0, 0, .2, 1);
+}
+
+/* Label active state (floating) - match MUI shrink behavior */
+.field.label.border > :is(label.active, :focus + label, [placeholder]:not(:placeholder-shown) + label, select + label) {
+    font-size: var(--kds-font-size-xs);
+    line-height: var(--kds-line-height-xs);
+    letter-spacing: var(--kds-letter-spacing-tight);
+    transform-origin: top left;
 }
 
 /* Focus state - Khipu purple override */
-.field.label.border input:focus + label,
-.field.label.border select:focus + label,
-.field.label.border textarea:focus + label {
-    color: var(--primary) !important; /* #8347AD */
+.field.label.border > input:focus + label,
+.field.label.border > select:focus + label,
+.field.label.border > textarea:focus + label {
+    color: var(--primary);
 }
 
-.field.label.border input:focus,
-.field.label.border select:focus,
-.field.label.border textarea:focus {
-    border-color: var(--primary) !important;
-    box-shadow: 0 0 0 3px rgba(131, 71, 173, 0.1) !important;
+.field.label.border > input:focus,
+.field.label.border > select:focus,
+.field.label.border > textarea:focus {
+    border-color: var(--primary);
+    border-width: 2px;
+    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
+    outline: none;
+}
+
+/* Notch styling - match MUI's fieldset/legend approach */
+.field.label.border:not(.fill) > label::after {
+    border-block-start: unset;
+}
+
+ .field.label.border:not(.fill) > :is(input, select, textarea):not(:placeholder-shown) + label::after {
+    border-block-start: 0.0625rem solid var(--kds-input-border-default);
+  }
+
+/* Focus notch - purple border, 2px width to match input */
+.field.label.border:not(.fill) > :is(input, select, textarea):focus + label::after {
+    border-block-start: 2px solid var(--primary);
 }
 
 /* Validation States - Material Design 3 Compatible */
 
 /* Info state (neutral blue) */
-.field.label.border.info input,
-.field.label.border.info select {
-    border-color: var(--kds-color-info-500) !important;
+.field.label.border.info > input,
+.field.label.border.info > select,
+.field.label.border.info > textarea {
+    border-color: var(--kds-color-info);
+    border-width: .0625rem;
+    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
 }
 
-.field.label.border.info label {
-    color: var(--kds-color-info-700) !important;
+.field.label.border.info > label {
+    color: var(--kds-color-info);
+}
+
+.field.label.border.info > label::after {
+    border-block-start: .0625rem solid var(--kds-color-info);
+}
+
+/* Info state - hover (cuando no está en focus) */
+.field.label.border.info:hover > input:not(:focus),
+.field.label.border.info:hover > select:not(:focus),
+.field.label.border.info:hover > textarea:not(:focus) {
+    border-color: var(--kds-color-info);
+}
+
+.field.label.border.info:hover > label {
+    color: var(--kds-color-info);
+}
+
+/* Info state - focus (border más grueso) */
+.field.label.border.info > input:focus,
+.field.label.border.info > select:focus,
+.field.label.border.info > textarea:focus {
+    border-width: 2px;
+    padding: calc(var(--kds-spacing-4) - 2px) calc(var(--kds-spacing-3) - 2px);
+}
+
+/* Info state - label en focus mantiene color info (no morado) */
+.field.label.border.info > input:focus + label,
+.field.label.border.info > select:focus + label,
+.field.label.border.info > textarea:focus + label {
+    color: var(--kds-color-info);
+}
+
+/* Info state - notch visible cuando tiene focus O tiene valor */
+.field.label.border.info:not(.fill) > input:focus + label::after,
+.field.label.border.info:not(.fill) > select:focus + label::after,
+.field.label.border.info:not(.fill) > textarea:focus + label::after,
+.field.label.border.info:not(.fill) > input:not(:placeholder-shown) + label::after,
+.field.label.border.info:not(.fill) > select:not(:placeholder-shown) + label::after,
+.field.label.border.info:not(.fill) > textarea:not(:placeholder-shown) + label::after {
+    border-block-start: .0625rem solid var(--kds-color-info);
+}
+
+/* Info state - notch en focus (2px para match con input) */
+.field.label.border.info:not(.fill) > input:focus + label::after,
+.field.label.border.info:not(.fill) > select:focus + label::after,
+.field.label.border.info:not(.fill) > textarea:focus + label::after {
+    border-block-start: 2px solid var(--kds-color-info);
 }
 
 /* Warning state (amber) */
-.field.label.border.warning input,
-.field.label.border.warning select {
-    border-color: var(--kds-color-warning-500) !important;
+.field.label.border.warning > input,
+.field.label.border.warning > select,
+.field.label.border.warning > textarea {
+    border-color: var(--kds-color-warning);
+    border-width: .0625rem;
+    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
 }
 
-.field.label.border.warning label {
-    color: var(--kds-color-warning-700) !important;
+.field.label.border.warning > label {
+    color: var(--kds-color-warning);
+}
+
+.field.label.border.warning > label::after {
+    border-block-start: .0625rem solid var(--kds-color-warning);
+}
+
+/* Warning state - hover (cuando no está en focus) */
+.field.label.border.warning:hover > input:not(:focus),
+.field.label.border.warning:hover > select:not(:focus),
+.field.label.border.warning:hover > textarea:not(:focus) {
+    border-color: var(--kds-color-warning);
+}
+
+.field.label.border.warning:hover > label {
+    color: var(--kds-color-warning);
+}
+
+/* Warning state - focus (border más grueso) */
+.field.label.border.warning > input:focus,
+.field.label.border.warning > select:focus,
+.field.label.border.warning > textarea:focus {
+    border-width: 2px;
+    padding: calc(var(--kds-spacing-4) - 2px) calc(var(--kds-spacing-3) - 2px);
+}
+
+/* Warning state - label en focus mantiene color warning (no morado) */
+.field.label.border.warning > input:focus + label,
+.field.label.border.warning > select:focus + label,
+.field.label.border.warning > textarea:focus + label {
+    color: var(--kds-color-warning);
+}
+
+/* Warning state - notch visible cuando tiene focus O tiene valor */
+.field.label.border.warning:not(.fill) > input:focus + label::after,
+.field.label.border.warning:not(.fill) > select:focus + label::after,
+.field.label.border.warning:not(.fill) > textarea:focus + label::after,
+.field.label.border.warning:not(.fill) > input:not(:placeholder-shown) + label::after,
+.field.label.border.warning:not(.fill) > select:not(:placeholder-shown) + label::after,
+.field.label.border.warning:not(.fill) > textarea:not(:placeholder-shown) + label::after {
+    border-block-start: .0625rem solid var(--kds-color-warning);
+}
+
+/* Warning state - notch en focus (2px para match con input) */
+.field.label.border.warning:not(.fill) > input:focus + label::after,
+.field.label.border.warning:not(.fill) > select:focus + label::after,
+.field.label.border.warning:not(.fill) > textarea:focus + label::after {
+    border-block-start: 2px solid var(--kds-color-warning);
 }
 
 /* Valid state (green) */
-.field.label.border.valid input,
-.field.label.border.valid select {
-    border-color: var(--kds-color-success-500) !important;
+.field.label.border.valid > input,
+.field.label.border.valid > select,
+.field.label.border.valid > textarea {
+    border-color: var(--kds-color-success);
+    border-width: .0625rem;
+    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
 }
 
-.field.label.border.valid label {
-    color: var(--kds-color-success-700) !important;
+.field.label.border.valid > label {
+    color: var(--kds-color-success);
+}
+
+.field.label.border.valid > label::after {
+    border-block-start: .0625rem solid var(--kds-color-success);
+}
+
+/* Valid state - hover (cuando no está en focus) */
+.field.label.border.valid:hover > input:not(:focus),
+.field.label.border.valid:hover > select:not(:focus),
+.field.label.border.valid:hover > textarea:not(:focus) {
+    border-color: var(--kds-color-success);
+}
+
+.field.label.border.valid:hover > label {
+    color: var(--kds-color-success);
+}
+
+/* Valid state - focus (border más grueso) */
+.field.label.border.valid > input:focus,
+.field.label.border.valid > select:focus,
+.field.label.border.valid > textarea:focus {
+    border-width: 2px;
+    padding: calc(var(--kds-spacing-4) - 2px) calc(var(--kds-spacing-3) - 2px);
+}
+
+/* Valid state - label en focus mantiene color success (no morado) */
+.field.label.border.valid > input:focus + label,
+.field.label.border.valid > select:focus + label,
+.field.label.border.valid > textarea:focus + label {
+    color: var(--kds-color-success);
+}
+
+/* Valid state - notch visible cuando tiene focus O tiene valor */
+.field.label.border.valid:not(.fill) > input:focus + label::after,
+.field.label.border.valid:not(.fill) > select:focus + label::after,
+.field.label.border.valid:not(.fill) > textarea:focus + label::after,
+.field.label.border.valid:not(.fill) > input:not(:placeholder-shown) + label::after,
+.field.label.border.valid:not(.fill) > select:not(:placeholder-shown) + label::after,
+.field.label.border.valid:not(.fill) > textarea:not(:placeholder-shown) + label::after {
+    border-block-start: .0625rem solid var(--kds-color-success);
+}
+
+/* Valid state - notch en focus (2px para match con input) */
+.field.label.border.valid:not(.fill) > input:focus + label::after,
+.field.label.border.valid:not(.fill) > select:focus + label::after,
+.field.label.border.valid:not(.fill) > textarea:focus + label::after {
+    border-block-start: 2px solid var(--kds-color-success);
 }
 
 /* Invalid/Error state (red) */
-.field.label.border.invalid input,
-.field.label.border.invalid select,
-.field.label.border input:invalid,
-.field.label.border select:invalid {
-    border-color: var(--kds-color-error-500) !important;
+.field.label.border.invalid > input,
+.field.label.border.invalid > select,
+.field.label.border.invalid > textarea,
+.field.label.border > input:invalid,
+.field.label.border > select:invalid,
+.field.label.border > textarea:invalid {
+    border-color: var(--kds-color-error);
+    border-width: .0625rem;
+    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
 }
 
-.field.label.border.invalid label,
-.field.label.border input:invalid + label,
-.field.label.border select:invalid + label {
-    color: var(--kds-color-error-700) !important;
+.field.label.border.invalid > label,
+.field.label.border > input:invalid + label,
+.field.label.border > select:invalid + label {
+    color: var(--kds-color-error);
 }
 
-/* Helper text styling */
-.field.label.border .helper {
-    margin-top: var(--kds-spacing-1); /* 4px */
-    font-size: 12px;
-    color: #6B7280;
+.field.label.border.invalid > label::after,
+.field.label.border > input:invalid + label::after,
+.field.label.border > select:invalid + label::after {
+    border-block-start: .0625rem solid var(--kds-color-error);
 }
 
-.field.label.border.invalid .helper {
-    color: var(--kds-color-error-700);
+/* Invalid/Error state - hover (cuando no está en focus) */
+.field.label.border.invalid:hover > input:not(:focus),
+.field.label.border.invalid:hover > select:not(:focus),
+.field.label.border.invalid:hover > textarea:not(:focus),
+.field.label.border:hover > input:invalid:not(:focus),
+.field.label.border:hover > select:invalid:not(:focus),
+.field.label.border:hover > textarea:invalid:not(:focus) {
+    border-color: var(--kds-color-error);
+}
+
+.field.label.border.invalid:hover > label,
+.field.label.border:hover > input:invalid + label,
+.field.label.border:hover > select:invalid + label {
+    color: var(--kds-color-error);
+}
+
+/* Invalid/Error state - focus (border más grueso) */
+.field.label.border.invalid > input:focus,
+.field.label.border.invalid > select:focus,
+.field.label.border.invalid > textarea:focus,
+.field.label.border > input:invalid:focus,
+.field.label.border > select:invalid:focus,
+.field.label.border > textarea:invalid:focus {
+    border-width: 2px;
+    padding: calc(var(--kds-spacing-4) - 2px) calc(var(--kds-spacing-3) - 2px);
+}
+
+/* Invalid/Error state - notch visible cuando tiene focus O tiene valor */
+.field.label.border.invalid:not(.fill) > input:focus + label::after,
+.field.label.border.invalid:not(.fill) > select:focus + label::after,
+.field.label.border.invalid:not(.fill) > textarea:focus + label::after,
+.field.label.border.invalid:not(.fill) > input:not(:placeholder-shown) + label::after,
+.field.label.border.invalid:not(.fill) > select:not(:placeholder-shown) + label::after,
+.field.label.border.invalid:not(.fill) > textarea:not(:placeholder-shown) + label::after,
+.field.label.border:not(.fill) > input:invalid:focus + label::after,
+.field.label.border:not(.fill) > select:invalid:focus + label::after,
+.field.label.border:not(.fill) > textarea:invalid:focus + label::after,
+.field.label.border:not(.fill) > input:invalid:not(:placeholder-shown) + label::after,
+.field.label.border:not(.fill) > select:invalid:not(:placeholder-shown) + label::after,
+.field.label.border:not(.fill) > textarea:invalid:not(:placeholder-shown) + label::after {
+    border-block-start: .0625rem solid var(--kds-color-error);
+}
+
+/* Invalid/Error state - notch en focus (2px para match con input) */
+.field.label.border.invalid:not(.fill) > input:focus + label::after,
+.field.label.border.invalid:not(.fill) > select:focus + label::after,
+.field.label.border.invalid:not(.fill) > textarea:focus + label::after,
+.field.label.border:not(.fill) > input:invalid:focus + label::after,
+.field.label.border:not(.fill) > select:invalid:focus + label::after,
+.field.label.border:not(.fill) > textarea:invalid:focus + label::after {
+    border-block-start: 2px solid var(--kds-color-error);
+}
+
+/* Helper text styling - match MUI */
+.field.label.border > .helper {
+    margin-top: var(--kds-spacing-1);
+    margin-left: calc(var(--kds-spacing-3) + 2px);
+    margin-right: calc(var(--kds-spacing-3) + 2px);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-regular);
+    line-height: 1.66;
+    letter-spacing: var(--kds-letter-spacing-normal);
+    color: var(--kds-text-secondary);
+    font-family: var(--kds-font-family-secondary);
+}
+
+/* Helper text colors for validation states */
+.field.label.border.info > .helper {
+    color: var(--kds-color-info);
+}
+
+.field.label.border.warning > .helper {
+    color: var(--kds-color-warning);
+}
+
+.field.label.border.valid > .helper {
+    color: var(--kds-color-success);
+}
+
+.field.label.border.invalid > .helper {
+    color: var(--kds-color-error);
+}
+
+/* Placeholder styling */
+.field.label.border > input::placeholder,
+.field.label.border > textarea::placeholder {
+    color: var(--kds-text-secondary);
+    opacity: 1;
+}
+
+/* Select dropdown arrow alignment */
+.field.label.border > select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 10l5 5 5-5z' fill='rgba(0,0,0,0.54)'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--kds-spacing-2) center;
+    padding-right: calc(var(--kds-spacing-8));
 }
 
 /* ========================================
@@ -1188,193 +1490,6 @@ footer.primary a:hover {
         'wght' 400,
         'GRAD' 0,
         'opsz' 24;
-}
-
-/* ========================================
-   Typography Scale - EXACT from Figma Make
-   ======================================== */
-
-/* Stage title (e.g., "Etapa 2: Datos personales") */
-.kds-stage-title {
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 1.3;
-    color: #111827;
-    margin: 0 0 12px 0;
-    text-align: center;
-}
-
-/* Stage subtitle (e.g., "Completa tu información personal") */
-.kds-stage-subtitle {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #6B7280;
-    margin: 0 0 32px 0;
-    text-align: center;
-}
-
-/* Section title (e.g., "Datos personales") */
-.kds-section-title {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: #111827;
-    margin: 0 0 24px 0;
-}
-
-/* Display styles (largest) */
-.kds-display-large {
-    font-size: var(--kds-font-size-4xl);
-    font-weight: var(--kds-font-weight-bold);
-    line-height: 1.2;
-    margin: 0;
-    letter-spacing: -0.02em;
-    color: #111827;
-}
-
-.kds-display-medium {
-    font-size: var(--kds-font-size-3xl);
-    font-weight: var(--kds-font-weight-bold);
-    line-height: 1.2;
-    margin: 0;
-    letter-spacing: -0.01em;
-    color: #111827;
-}
-
-/* Headline styles */
-.kds-headline-large {
-    font-size: var(--kds-font-size-2xl);
-    font-weight: var(--kds-font-weight-bold);
-    line-height: 1.3;
-    margin: 0;
-}
-
-.kds-headline-medium {
-    font-size: var(--kds-font-size-xl);
-    font-weight: var(--kds-font-weight-bold);
-    line-height: 1.3;
-    margin: 0;
-}
-
-.kds-headline-small {
-    font-size: var(--kds-font-size-lg);
-    font-weight: var(--kds-font-weight-bold);
-    line-height: 1.4;
-    margin: 0;
-}
-
-/* Title styles */
-.kds-title-large {
-    font-size: var(--kds-font-size-xl);
-    font-weight: var(--kds-font-weight-semibold);
-    line-height: 1.5;
-    margin: 0;
-}
-
-.kds-title-medium {
-    font-size: var(--kds-font-size-base);
-    font-weight: var(--kds-font-weight-semibold);
-    line-height: 1.5;
-    margin: 0;
-}
-
-.kds-title-small {
-    font-size: var(--kds-font-size-sm);
-    font-weight: var(--kds-font-weight-semibold);
-    line-height: 1.5;
-    margin: 0;
-}
-
-/* Body text styles */
-.kds-body-large {
-    font-size: var(--kds-font-size-lg);
-    font-weight: var(--kds-font-weight-regular);
-    line-height: 1.5;
-}
-
-.kds-body-medium {
-    font-size: var(--kds-font-size-base);
-    font-weight: var(--kds-font-weight-regular);
-    line-height: 1.5;
-}
-
-.kds-body-small {
-    font-size: var(--kds-font-size-sm);
-    font-weight: var(--kds-font-weight-regular);
-    line-height: 1.5;
-}
-
-/* Label styles */
-.kds-label-large {
-    font-size: var(--kds-font-size-base);
-    font-weight: var(--kds-font-weight-semibold);
-    line-height: 1.5;
-    letter-spacing: 0.01em;
-}
-
-.kds-label-medium {
-    font-size: var(--kds-font-size-sm);
-    font-weight: var(--kds-font-weight-semibold);
-    line-height: 1.5;
-    letter-spacing: 0.01em;
-}
-
-.kds-label-small {
-    font-size: var(--kds-font-size-xs);
-    font-weight: var(--kds-font-weight-semibold);
-    line-height: 1.5;
-    letter-spacing: 0.02em;
-}
-
-/* Text utilities */
-.kds-text-center {
-    text-align: center;
-}
-
-.kds-text-left {
-    text-align: left;
-}
-
-.kds-text-right {
-    text-align: right;
-}
-
-.kds-text-muted {
-    color: var(--on-surface-variant, rgba(0, 0, 0, 0.60));
-}
-
-.kds-text-primary {
-    color: var(--primary);
-}
-
-.kds-text-success {
-    color: var(--kds-color-success);
-}
-
-.kds-text-error {
-    color: var(--kds-color-error);
-}
-
-.kds-text-warning {
-    color: var(--kds-color-warning);
-}
-
-/* Font weight utilities */
-.kds-font-regular {
-    font-weight: var(--kds-font-weight-regular);
-}
-
-.kds-font-medium {
-    font-weight: var(--kds-font-weight-medium);
-}
-
-.kds-font-semibold {
-    font-weight: var(--kds-font-weight-semibold);
-}
-
-.kds-font-bold {
-    font-weight: var(--kds-font-weight-bold);
 }
 
 /* ========================================
