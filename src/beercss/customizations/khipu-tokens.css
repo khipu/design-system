@@ -1,172 +1,67 @@
-/* Khipu Material Design 3 Brand Tokens
- * Design system tokens extracted from Figma Make prototype
- * Implements OKLch color system, Material Design 3 typography, and spacing system
+/* Khipu Material Design 3 Brand Tokens for BeerCSS
+ * Imports core tokens from css-variables.css (auto-generated from src/tokens/index.ts)
+ * This file only maps BeerCSS-specific variables to core design tokens
+ * Source: design.khipu.com and BeerCSS framework
  */
 
-/* ========================================
-   OKLch Color System (from Figma Make)
-   ======================================== */
+/* Import core design tokens (auto-generated) */
+@import url('../../tokens/css-variables.css');
 
 :root {
-    /* === Primary Scale (Purple) - Khipu Brand === */
-    --kds-color-primary-50: #F3E5F5;   /* Lightest purple tint */
-    --kds-color-primary-100: #E1BEE7;  /* Very light purple */
-    --kds-color-primary-200: #CE93D8;  /* Light purple */
-    --kds-color-primary-300: #BA68C8;  /* Medium-light purple */
-    --kds-color-primary-400: #AB47BC;  /* Medium purple */
-    --kds-color-primary-500: #8347AD;  /* Khipu brand purple (main) */
-    --kds-color-primary-600: #7B1FA2;  /* Dark purple */
-    --kds-color-primary-700: #6A1B9A;  /* Darker purple */
-    --kds-color-primary-800: #4A148C;  /* Very dark purple */
-    --kds-color-primary-900: #38006B;  /* Darkest purple */
+    /* ========================================
+       Map core tokens to BeerCSS-specific names
+       (BeerCSS may use different naming conventions)
+       ======================================== */
 
-    /* === Secondary Scale (Blue from Figma Make) === */
-    --kds-color-secondary-50: oklch(96% 0.02 240);
-    --kds-color-secondary-100: oklch(92% 0.04 240);
-    --kds-color-secondary-500: #3B82F6;  /* Figma Make Blue */
-    --kds-color-secondary-900: oklch(32% 0.12 240);
+    /* Alert backgrounds (using info color with transparency) */
+    --kds-alert-info-bg: #EFF6FF;
+    --kds-alert-warning-bg: #FFFBEB;
+    --kds-alert-success-bg: #ECFDF5;
+    --kds-alert-error-bg: #FEF2F2;
 
-    /* === Semantic Colors === */
-    --kds-color-success: #10B981;  /* Green (only for success/completed states) */
-    --kds-color-error: oklch(48% 0.20 28);     /* Red #D32F2F */
-    --kds-color-warning: oklch(72% 0.18 90);   /* Amber #ED6C02 */
-    --kds-color-info: oklch(60% 0.18 240);     /* Blue #0288D1 */
-
-    /* === Alert/Validation Backgrounds === */
-    --kds-alert-info-bg: #EFF6FF;      /* Light blue */
-    --kds-alert-warning-bg: #FFFBEB;   /* Light amber */
-    --kds-alert-success-bg: #ECFDF5;   /* Light green */
-    --kds-alert-error-bg: #FEF2F2;     /* Light red */
-
-    /* === Surface Colors === */
-    --kds-surface-base: #FFFFFF;
-    --kds-surface-paper: #FFFFFF;
-    --kds-surface-elevated: oklch(98% 0.01 295);
-    --kds-surface-background: #F5F6FA;  /* Main background from Figma Make */
-
-    /* === Border Colors === */
+    /* Border colors (not in core tokens) */
     --kds-border-light: #DDD;
     --kds-border-medium: #999;
     --kds-border-dark: #666;
 
-    /* === Text Colors (Material Design 3) === */
-    --kds-text-primary: rgba(0, 0, 0, 0.87);
-    --kds-text-secondary: rgba(0, 0, 0, 0.6);
-    --kds-text-disabled: rgba(0, 0, 0, 0.38);
+    /* Input border states */
+    --kds-input-border-hover: rgba(0, 0, 0, 0.42);  /* Slightly darker on hover (Material Design spec) */
 
-    /* === Action Colors (Material Design 3) === */
-    --kds-action-active: rgba(0, 0, 0, 0.56);
-    --kds-action-hover: rgba(0, 0, 0, 0.04);
-    --kds-action-selected: rgba(0, 0, 0, 0.08);
-    --kds-action-disabled: rgba(0, 0, 0, 0.38);
-    --kds-action-disabled-bg: rgba(0, 0, 0, 0.12);
-    --kds-action-focus: rgba(0, 0, 0, 0.12);
-
-    /* === Input Colors (Material Design 3) === */
-    --kds-input-border-default: rgba(0, 0, 0, 0.23);
-    --kds-input-border-hover: rgba(0, 0, 0, 0.87);
-
-    /* === Typography Scale (Material Design 3) === */
-    /* Heredado de @khipu/design-system - ambas usan Public Sans */
-    --kds-font-family-primary: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    --kds-font-family-secondary: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-
-    /* Sobrescribir variable nativa de BeerCSS para usar Public Sans */
-    --font: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-
-    --kds-font-size-xs: 0.75rem;    /* 12px */
-    --kds-font-size-sm: 0.875rem;   /* 14px */
-    --kds-font-size-base: 1rem;     /* 16px */
-    --kds-font-size-lg: 1.125rem;   /* 18px */
-    --kds-font-size-xl: 1.25rem;    /* 20px */
-    --kds-font-size-2xl: 1.5rem;    /* 24px */
-    --kds-font-size-3xl: 2rem;      /* 32px */
-    --kds-font-size-4xl: 3rem;      /* 48px */
-
-    --kds-font-weight-regular: 400;
-    --kds-font-weight-medium: 500;
-    --kds-font-weight-semibold: 600;
-    --kds-font-weight-bold: 700;
-
-    --kds-line-height-xs: 1rem;      /* 16px */
-    --kds-line-height-sm: 1.25rem;   /* 20px */
-    --kds-line-height-base: 1.5rem;  /* 24px */
-    --kds-line-height-lg: 1.75rem;   /* 28px */
-
-    --kds-letter-spacing-tight: 0.15px;
-    --kds-letter-spacing-normal: 0.4px;
-
-    /* === Spacing System (4px base grid) === */
-    --kds-spacing-1: 4px;
-    --kds-spacing-2: 8px;
-    --kds-spacing-3: 12px;
-    --kds-spacing-4: 16px;
-    --kds-spacing-5: 20px;
-    --kds-spacing-6: 24px;
-    --kds-spacing-8: 32px;
-    --kds-spacing-10: 40px;
-    --kds-spacing-12: 48px;
-    --kds-spacing-16: 64px;
-    --kds-spacing-20: 80px;
-
-    /* === Shadows (Material Design 3 Elevation) === */
-    --kds-shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --kds-shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-    --kds-shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-    --kds-shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
-    --kds-shadow-elevation-1: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
-    --kds-shadow-elevation-2: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
-    --kds-shadow-elevation-3: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
-    --kds-shadow-elevation-4: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
-
-    /* === Border Radius === */
-    --kds-radius-none: 0;
-    --kds-radius-sm: 4px;
-    --kds-radius-md: 8px;
-    --kds-radius-lg: 12px;
-    --kds-radius-xl: 16px;
-    --kds-radius-2xl: 20px;
-    --kds-radius-full: 9999px;
+    /* Override BeerCSS native font variable */
+    --font: var(--kds-font-family-primary);
 
     /* ========================================
-       Map KDS Tokens to BeerCSS Variables
-       Force Light Mode (Material Design 3)
+       Map Core Design Tokens to BeerCSS Variables
+       Material Design 3 Light Mode
        ======================================== */
 
-    /* Keep Khipu Purple as primary brand color */
-    --primary: var(--kds-color-primary-500);  /* Purple - Khipu brand */
-    --on-primary: #FFFFFF;
-    --primary-container: var(--kds-color-primary-100);
-    --on-primary-container: var(--kds-color-primary-900);
+    /* Primary - Khipu Purple brand */
+    --primary: var(--kds-color-primary-main);
+    --on-primary: var(--kds-color-primary-contrast);
+    --primary-container: var(--kds-color-primary-light);
+    --on-primary-container: var(--kds-color-primary-dark);
 
-    /* Use Figma Make Blue as secondary (call-to-action color) */
-    --secondary: var(--kds-color-secondary-500);  /* Blue #3B82F6 - CTA buttons */
-    --on-secondary: #FFFFFF;
-    --secondary-container: var(--kds-color-secondary-100);
-    --on-secondary-container: var(--kds-color-secondary-900);
+    /* Secondary - Green for success/positive actions */
+    --secondary: var(--kds-color-secondary-main);
+    --on-secondary: var(--kds-color-secondary-contrast);
+    --secondary-container: var(--kds-color-secondary-light);
+    --on-secondary-container: var(--kds-color-secondary-dark);
 
-    /* Map semantic colors */
-    --success: var(--kds-color-success);
-    --error: var(--kds-color-error);
-    --warning: var(--kds-color-warning);
-    --info: var(--kds-color-info);
+    /* Semantic colors */
+    --success: var(--kds-color-success-main);
+    --error: var(--kds-color-error-main);
+    --warning: var(--kds-color-warning-main);
+    --info: var(--kds-color-info-main);
 
-    /* Background and surface colors - Light Mode */
-    --background: var(--kds-surface-background);
-    --surface: var(--kds-surface-paper);
-    --on-surface: var(--kds-text-primary);
-    --on-surface-variant: var(--kds-action-active);
-    --surface-variant: var(--kds-surface-elevated);
-    --surface-container: var(--kds-surface-base);
-    --outline: var(--kds-input-border-default);
+    /* Background and surface colors */
+    --background: var(--kds-color-background-default);
+    --surface: var(--kds-color-background-paper);
+    --on-surface: var(--kds-color-text-primary);
+    --on-surface-variant: var(--kds-color-action-active);
+    --surface-variant: var(--kds-color-background-elevated);
+    --surface-container: var(--kds-color-background-default);
+    --outline: var(--kds-color-input-border);
     --outline-variant: var(--kds-border-light);
-
-    /* Legacy Khipu color aliases (for backward compatibility) */
-    --khipu-primary: var(--kds-color-primary-500);
-    --khipu-primary-dark: var(--kds-color-primary-700);
-    --khipu-primary-light: var(--kds-color-primary-300);
-    --khipu-secondary: var(--kds-color-secondary-500);
-    --khipu-accent: #FF5722;
 
     /* ========================================
        ONBOARDING COMPONENTS TOKENS
@@ -177,8 +72,8 @@
     --kds-upload-zone-border: #D1D5DB;          /* gray-300 */
     --kds-upload-zone-border-hover: #3B82F6;    /* blue-500 */
     --kds-upload-zone-border-drag: #8347AD;     /* primary-500 (purple) */
-    --kds-upload-zone-border-error: var(--kds-color-error);
-    --kds-upload-zone-border-success: var(--kds-color-success);
+    --kds-upload-zone-border-error: var(--kds-color-error-main);
+    --kds-upload-zone-border-success: var(--kds-color-success-main);
     --kds-upload-item-bg: #FFFFFF;
     --kds-upload-item-border: #E5E7EB;          /* gray-200 */
 
@@ -203,14 +98,14 @@
     /* Modal Content Colors */
     --kds-modal-title-color: #111827;           /* gray-900 */
     --kds-modal-text-color: #374151;            /* gray-700 */
-    --kds-modal-icon-warning: var(--kds-color-warning);
-    --kds-modal-icon-error: var(--kds-color-error);
-    --kds-modal-icon-success: var(--kds-color-success);
-    --kds-modal-icon-info: var(--kds-color-info);
+    --kds-modal-icon-warning: var(--kds-color-warning-main);
+    --kds-modal-icon-error: var(--kds-color-error-main);
+    --kds-modal-icon-success: var(--kds-color-success-main);
+    --kds-modal-icon-info: var(--kds-color-info-main);
 
     /* Welcome Gradient */
-    --kds-welcome-gradient-start: var(--kds-color-primary-500);  /* Khipu purple #8347AD */
-    --kds-welcome-gradient-end: var(--kds-color-primary-700);    /* Khipu purple dark */
+    --kds-welcome-gradient-start: var(--kds-color-primary-main);  /* Khipu purple */
+    --kds-welcome-gradient-end: var(--kds-color-primary-dark);    /* Khipu purple dark */
 
     /* Bank Selector */
     --kds-bank-item-border: #E5E7EB;
@@ -257,15 +152,15 @@ body {
 }
 
 /* ========================================
-   Body Layout (Sticky Footer) - Figma Make Style
+   Body Layout (Sticky Footer)
    ======================================== */
 html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    background: var(--kds-surface-background);
-    color: var(--kds-text-primary);
+    background: var(--kds-color-background-default);
+    color: var(--kds-color-text-primary);
 }
 
 main {

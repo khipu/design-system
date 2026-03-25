@@ -1,10 +1,11 @@
 /* Khipu Custom Components for BeerCSS
- * Custom Material Design 3 components extracted from Figma Make prototype
+ * Custom Material Design 3 components based on BeerCSS framework
  * Implements: Cards, Stepper, Alerts, Forms, Typography utilities
+ * Source: design.khipu.com and Material Design 3 specifications
  */
 
 /* ========================================
-   Button Overrides (Figma Make Style)
+   Button Overrides (Material Design 3)
    ======================================== */
 
 /* ========================================
@@ -19,68 +20,135 @@ a.kds-btn {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1;
-    border-radius: 8px;
+
+    /* Typography - Using design tokens */
+    font-family: var(--kds-font-family-secondary);
+    font-weight: var(--kds-font-weight-medium);      /* 500, no 600 */
+    font-size: var(--kds-typography-button-font-size);          /* 0.9375rem = 15px */
+    line-height: var(--kds-typography-button-line-height);      /* 26px, no 1 */
+    letter-spacing: var(--kds-typography-button-letter-spacing); /* 0.46px */
+    text-transform: uppercase;
+
+    /* Spacing - Using design tokens */
+    padding: var(--kds-spacing-button-padding);      /* 8px 22px */
+    min-height: var(--kds-spacing-button-min-height); /* 50px */
+    height: auto;  /* Remove fixed height, let content + padding define it */
+
+    /* Border - Using design token */
+    border-radius: var(--kds-radius-button);  /* 4px */
+    border: none;
+
+    /* Interaction */
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 250ms cubic-bezier(0.4, 0, 0.2, 1);
     box-sizing: border-box;
-    min-height: 48px;
-    height: 48px;
     vertical-align: middle;
 }
 
+/* Disabled state - colores específicos en lugar de opacity */
 button.kds-btn:disabled,
 a.kds-btn:disabled {
-    opacity: 0.5;
+    background-color: var(--kds-color-action-disabled-bg);  /* rgba(0, 0, 0, 0.12) */
+    color: var(--kds-color-action-disabled);                        /* rgba(0, 0, 0, 0.38) */
     cursor: not-allowed;
     pointer-events: none;
+    box-shadow: none;
+    border-color: transparent;
 }
 
-/* Primary button - Khipu purple (Figma Make) */
+/* Primary button - Khipu purple */
 button.kds-btn-primary,
 a.kds-btn-primary {
-    background: var(--primary);
+    background: var(--kds-color-primary-main);     /* #8347AD */
     color: white;
     border: none;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+                0px 1px 5px 0px rgba(0, 0, 0, 0.12);  /* elevation/2 */
 }
 
+/* Hover State - background más oscuro + elevation/4 */
 button.kds-btn-primary:hover:not(:disabled),
 a.kds-btn-primary:hover:not(:disabled) {
-    opacity: 0.9;
+    background: var(--kds-color-primary-dark);     /* #6A3A8C */
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+                0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+                0px 1px 10px 0px rgba(0, 0, 0, 0.12);  /* elevation/4 */
 }
 
-/* Secondary button - Blue CTA (Figma Make) */
+/* Active/Focus State */
+button.kds-btn-primary:active:not(:disabled),
+button.kds-btn-primary:focus-visible:not(:disabled),
+a.kds-btn-primary:active:not(:disabled),
+a.kds-btn-primary:focus-visible:not(:disabled) {
+    background: var(--kds-color-primary-dark);
+    outline: 2px solid var(--kds-color-primary-main);
+    outline-offset: 2px;
+}
+
+/* Override disabled para primary */
+button.kds-btn-primary:disabled,
+a.kds-btn-primary:disabled {
+    background-color: var(--kds-color-action-disabled-bg);
+    color: var(--kds-color-action-disabled);
+    box-shadow: none;
+    border-color: transparent;
+}
+
+/* Secondary button - Blue CTA */
 button.kds-btn-secondary,
 a.kds-btn-secondary {
     background: #3B82F6;
     color: white;
     border: none;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+                0px 1px 5px 0px rgba(0, 0, 0, 0.12);  /* elevation/2 */
 }
 
 button.kds-btn-secondary:hover:not(:disabled),
 a.kds-btn-secondary:hover:not(:disabled) {
     background: #2563EB;
-    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+                0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+                0px 1px 10px 0px rgba(0, 0, 0, 0.12);  /* elevation/4 */
 }
 
-/* Outlined button (Figma Make) */
+button.kds-btn-secondary:disabled,
+a.kds-btn-secondary:disabled {
+    background-color: var(--kds-color-action-disabled-bg);
+    color: var(--kds-color-action-disabled);
+    box-shadow: none;
+    border-color: transparent;
+}
+
+/* Outlined button */
 button.kds-btn-outlined,
 a.kds-btn-outlined {
     background: transparent;
-    color: var(--primary);
-    border-color: var(--kds-border-medium);
+    color: var(--kds-color-primary-main);
+    border: 1px solid var(--kds-border-medium);  /* rgba(0, 0, 0, 0.5) aprox */
+    box-shadow: none;
 }
 
 button.kds-btn-outlined:hover:not(:disabled),
 a.kds-btn-outlined:hover:not(:disabled) {
-    background: #F3F4F6;
-    border-color: var(--primary);
+    background: var(--kds-color-primary-hover);  /* rgba(131, 71, 173, 0.04) */
+    border-color: var(--kds-color-primary-main);
 }
 
-/* Outlined white - for dark backgrounds (Figma Make hero) */
+button.kds-btn-outlined:disabled,
+a.kds-btn-outlined:disabled {
+    background: transparent;
+    color: var(--kds-color-action-disabled);
+    border-color: var(--kds-color-action-disabled);
+    box-shadow: none;
+}
+
+/* Outlined white - for dark backgrounds */
 button.kds-btn-outlined-white,
 a.kds-btn-outlined-white {
     background: white;
@@ -93,27 +161,36 @@ a.kds-btn-outlined-white:hover:not(:disabled) {
     opacity: 0.9;
 }
 
-/* Text button (Figma Make) */
+/* Text button */
 button.kds-btn-text,
 a.kds-btn-text {
     background: transparent;
-    color: var(--primary);
+    color: var(--kds-color-primary-main);
     border: none;
-    padding: 8px 16px;
-    min-height: auto;
-    height: auto;
+    padding: 6px 16px;  /* Menor padding para text variant */
+    min-height: 32px;   /* Menor altura para text variant */
+    box-shadow: none;
 }
 
 button.kds-btn-text:hover:not(:disabled),
 a.kds-btn-text:hover:not(:disabled) {
-    background: #EFF6FF;
+    background: var(--kds-color-primary-hover);  /* rgba(131, 71, 173, 0.04) */
+}
+
+button.kds-btn-text:disabled,
+a.kds-btn-text:disabled {
+    background: transparent;
+    color: var(--kds-color-action-disabled);
+    box-shadow: none;
 }
 
 /* Icon wrapper - control size via span container */
 button.kds-btn > .kds-icon,
 a.kds-btn > .kds-icon {
-    min-width: 20px;
-    min-height: 20px;
+    min-width: var(--kds-spacing-button-icon-size);
+    min-height: var(--kds-spacing-button-icon-size);
+    width: var(--kds-spacing-button-icon-size);
+    height: var(--kds-spacing-button-icon-size);
     line-height: 1;
     overflow: hidden;
     flex-shrink: 0;
@@ -124,15 +201,17 @@ a.kds-btn > .kds-icon {
 
 button.kds-btn > .kds-icon > i,
 a.kds-btn > .kds-icon > i {
-    font-size: 17px;
+    font-size: var(--kds-spacing-button-icon-size);
+    min-width: var(--kds-spacing-button-icon-size);
+    min-height: var(--kds-spacing-button-icon-size);
     line-height: 1;
 }
 
 /* ========================================
-   Card Components (from Figma Make)
+   Card Components (Material Design 3)
    ======================================== */
 
-/* Base elevated card - EXACT from Figma Make */
+/* Base elevated card */
 .kds-card-elevated,
 .khipu-card-elevated {
     background: #FFFFFF;
@@ -175,7 +254,7 @@ a.kds-btn > .kds-icon > i {
     }
 }
 
-/* Selection card - EXACT from Figma Make StageSelector */
+/* Selection card */
 .kds-card-selector {
     padding: 24px;
     border-radius: 12px;
@@ -236,7 +315,7 @@ a.kds-btn > .kds-icon > i {
 
 /* Selected state - visual feedback via border only */
 
-/* Pricing/Plan card (from Figma Make StagePricingPlan) */
+/* Pricing/Plan card */
 /* Pricing Card - Base */
 .kds-card-plan {
     position: relative;
@@ -648,7 +727,7 @@ a.kds-btn > .kds-icon > i {
 
 /* ========================================
    Stepper Component (Multi-stage Progress Indicator)
-   EXACT match from Figma Make onboarding
+   Material Design 3 stepper pattern
    ======================================== */
 
 .kds-stepper {
@@ -716,10 +795,10 @@ a.kds-btn > .kds-icon > i {
 
 /* Step States */
 
-/* Current step - Blue/Primary */
+/* Current step - Info color */
 .kds-step.current .kds-step-indicator {
-    background: #3B82F6;  /* Blue from Figma Make */
-    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.25);
+    background: var(--kds-color-info-main);
+    box-shadow: var(--kds-shadow-stepper-info);
 }
 
 .kds-step.current .kds-step-label {
@@ -727,10 +806,10 @@ a.kds-btn > .kds-icon > i {
     font-weight: 500;
 }
 
-/* Completed step - Green with checkmark */
+/* Completed step - Success color with checkmark */
 .kds-step.completed .kds-step-indicator {
-    background: #10B981;  /* Green from Figma Make */
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+    background: var(--kds-color-success-main);
+    box-shadow: var(--kds-shadow-stepper-success);
 }
 
 .kds-step.completed .kds-step-label {
@@ -963,10 +1042,10 @@ footer.primary a:hover {
 }
 
 /* ========================================
-   Form Inputs - EXACT from Figma Make
+   Form Inputs (Material Design 3)
    ======================================== */
 
-/* Form labels from Figma Make */
+/* Form labels */
 .field label,
 .kds-form-label {
     font-size: 14px;
@@ -990,480 +1069,311 @@ footer.primary a:hover {
 
 /* ==============================================
    MATERIAL DESIGN 3 FLOATING LABELS (BeerCSS)
-   Native BeerCSS with Khipu branding overrides
+   Solución limpia con principios claros
    ============================================== */
 
-/* Input and textarea base styles - match MUI exactly */
-.field.label.border > input,
-.field.label.border > select,
-.field.label.border > textarea {
-    font-family: var(--kds-font-family-secondary);
-    font-size: var(--kds-font-size-base);
-    font-weight: var(--kds-font-weight-regular);
-    line-height: var(--kds-line-height-base);
-    letter-spacing: var(--kds-letter-spacing-tight);
-    padding: var(--kds-spacing-4) var(--kds-spacing-3);
-    border-width: 1px;
-    border-radius: var(--kds-radius-sm);
-    border-color: var(--kds-input-border-default);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    color: var(--kds-text-primary);
+/* === VARIABLES GLOBALES === */
+:root,
+body.light,
+body.dark {
+  --primary: var(--kds-color-primary-main);          /* Purple Khipu - Focus */
+  --outline: var(--kds-color-input-enabled-border);  /* Gris normal - Unfocused */
+  --error: var(--kds-color-error-main);              /* Rojo - Invalid */
 }
 
-/* Hover state */
-.field.label.border:hover > input:not(:focus),
-.field.label.border:hover > select:not(:focus),
-.field.label.border:hover > textarea:not(:focus) {
-    border-color: var(--kds-input-border-hover);
+/* === ALTURA PERSONALIZADA === */
+.field {
+  --_input: 3.625rem;  /* 58px (vs 48px default BeerCSS) */
+  --_start: 1.4rem;    /* Posición del label ajustada proporcionalmente */
 }
 
-/* Label base styles - match MUI */
-.field.label.border > label {
-    color: var(--kds-text-secondary);
-    font-family: var(--kds-font-family-secondary);
-    font-size: var(--kds-font-size-base);
-    font-weight: var(--kds-font-weight-regular);
-    letter-spacing: var(--kds-letter-spacing-tight);
-    line-height: calc(var(--_input, 0) + var(--kds-line-height-base));
-    transition: all .2s cubic-bezier(0, 0, .2, 1);
+/* === TRANSICIONES SUAVES === */
+.field > :is(input, textarea, select) {
+  transition: border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
 }
 
-/* Label active state (floating) - match MUI shrink behavior */
-.field.label.border > :is(label.active, :focus + label, [placeholder]:not(:placeholder-shown) + label, select + label) {
-    font-size: var(--kds-font-size-xs);
-    line-height: var(--kds-line-height-xs);
-    letter-spacing: var(--kds-letter-spacing-tight);
-    transform-origin: top left;
-}
+/* ==========================================
+   NOTCH VISIBILITY (opacity)
+   ========================================== */
 
-/* Focus state - Khipu purple override */
-.field.label.border > input:focus + label,
-.field.label.border > select:focus + label,
-.field.label.border > textarea:focus + label {
-    color: var(--primary);
-}
-
-.field.label.border > input:focus,
-.field.label.border > select:focus,
-.field.label.border > textarea:focus {
-    border-color: var(--primary);
-    border-width: 2px;
-    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
-    outline: none;
-}
-
-/* Notch styling - match MUI's fieldset/legend approach */
+/* Ocultar notch por defecto */
 .field.label.border:not(.fill) > label::after {
-    border-block-start: unset;
+  opacity: 0;
 }
 
- .field.label.border:not(.fill) > :is(input, select, textarea):not(:placeholder-shown) + label::after {
-    border-block-start: 0.0625rem solid var(--kds-input-border-default);
-  }
-
-/* Focus notch - purple border, 2px width to match input */
-.field.label.border:not(.fill) > :is(input, select, textarea):focus + label::after {
-    border-block-start: 2px solid var(--primary);
+/* Mostrar notch cuando label flota (tiene valor O focus) */
+.field.label.border:not(.fill) > :is(
+  :focus + label,
+  input:not(:placeholder-shown) + label,
+  textarea:not(:placeholder-shown) + label,
+  select + label
+)::after {
+  opacity: 1;
 }
 
-/* Validation States - Material Design 3 Compatible */
+/* ==========================================
+   BORDER COLOR
+   Notch + Input border cambian en hover - con transición suave
+   ========================================== */
 
-/* Info state (neutral blue) */
-.field.label.border.info > input,
-.field.label.border.info > select,
-.field.label.border.info > textarea {
-    border-color: var(--kds-color-info);
-    border-width: .0625rem;
-    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
+/* Agregar transición al notch (BeerCSS usa transition: none, lo sobrescribimos) */
+.field.label.border:not(.fill) > label::after {
+  transition: border-color 0.2s, opacity 0.2s;
 }
 
-.field.label.border.info > label {
-    color: var(--kds-color-info);
+/* Estado normal: usa --outline (viene de BeerCSS) */
+
+/* Hover SIN focus: cambiar color del notch Y del borde del input */
+.field.label.border:not(.fill):hover:not(:focus-within) > label::after {
+  border-block-start-color: var(--kds-color-input-hover-border);
 }
 
-.field.label.border.info > label::after {
-    border-block-start: .0625rem solid var(--kds-color-info);
+.field.label.border:not(.fill):hover:not(:focus-within) > :is(input, textarea, select) {
+  border-color: var(--kds-color-input-hover-border);
 }
 
-/* Info state - hover (cuando no está en focus) */
-.field.label.border.info:hover > input:not(:focus),
-.field.label.border.info:hover > select:not(:focus),
-.field.label.border.info:hover > textarea:not(:focus) {
-    border-color: var(--kds-color-info);
+/* Focus: usar primary (mayor especificidad, gana sobre hover) */
+.field.label.border:not(.fill):focus-within > label::after {
+  border-block-start-color: var(--primary);
 }
 
-.field.label.border.info:hover > label {
-    color: var(--kds-color-info);
+.field.label.border:not(.fill):focus-within > :is(input, textarea, select) {
+  border-color: var(--primary);
 }
 
-/* Info state - focus (border más grueso) */
-.field.label.border.info > input:focus,
-.field.label.border.info > select:focus,
-.field.label.border.info > textarea:focus {
-    border-width: 2px;
-    padding: calc(var(--kds-spacing-4) - 2px) calc(var(--kds-spacing-3) - 2px);
+/* ==========================================
+   INVALID STATE (error)
+   Error siempre gana - mayor especificidad que hover y focus
+   ========================================== */
+
+/* Invalid: notch rojo (gana sobre hover y focus) */
+.field.label.border:not(.fill).invalid > label::after {
+  border-block-start-color: var(--error);
 }
 
-/* Info state - label en focus mantiene color info (no morado) */
-.field.label.border.info > input:focus + label,
-.field.label.border.info > select:focus + label,
-.field.label.border.info > textarea:focus + label {
-    color: var(--kds-color-info);
+/* Invalid: borde del input rojo (gana sobre hover y focus) */
+.field.label.border:not(.fill).invalid > :is(input, textarea, select) {
+  border-color: var(--error);
 }
 
-/* Info state - notch visible cuando tiene focus O tiene valor */
-.field.label.border.info:not(.fill) > input:focus + label::after,
-.field.label.border.info:not(.fill) > select:focus + label::after,
-.field.label.border.info:not(.fill) > textarea:focus + label::after,
-.field.label.border.info:not(.fill) > input:not(:placeholder-shown) + label::after,
-.field.label.border.info:not(.fill) > select:not(:placeholder-shown) + label::after,
-.field.label.border.info:not(.fill) > textarea:not(:placeholder-shown) + label::after {
-    border-block-start: .0625rem solid var(--kds-color-info);
+/* Invalid + hover: mantener rojo (no cambiar a gris) */
+.field.label.border:not(.fill).invalid:hover > label::after {
+  border-block-start-color: var(--error);
 }
 
-/* Info state - notch en focus (2px para match con input) */
-.field.label.border.info:not(.fill) > input:focus + label::after,
-.field.label.border.info:not(.fill) > select:focus + label::after,
-.field.label.border.info:not(.fill) > textarea:focus + label::after {
-    border-block-start: 2px solid var(--kds-color-info);
+.field.label.border:not(.fill).invalid:hover > :is(input, textarea, select) {
+  border-color: var(--error);
 }
 
-/* Warning state (amber) */
-.field.label.border.warning > input,
-.field.label.border.warning > select,
-.field.label.border.warning > textarea {
-    border-color: var(--kds-color-warning);
-    border-width: .0625rem;
-    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
+/* Invalid + focus: mantener rojo (no cambiar a morado) */
+.field.label.border:not(.fill).invalid:focus-within > label::after {
+  border-block-start-color: var(--error);
 }
 
-.field.label.border.warning > label {
-    color: var(--kds-color-warning);
+.field.label.border:not(.fill).invalid:focus-within > :is(input, textarea, select) {
+  border-color: var(--error);
 }
 
-.field.label.border.warning > label::after {
-    border-block-start: .0625rem solid var(--kds-color-warning);
+/* ==========================================
+   SELECT DROPDOWN ARROW
+   Asegurar que el dropdown arrow sea visible
+   ========================================== */
+
+/* Select: mantener appearance nativa para mostrar el dropdown arrow */
+.field select {
+  /* BeerCSS puede estar ocultando el arrow, aseguramos que sea visible */
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+
+  /* Asegurar que el arrow nativo tenga espacio */
+  padding-right: var(--kds-spacing-10);  /* 40px */
+  background-position: right var(--kds-spacing-4) center;  /* 16px desde el borde */
+  background-repeat: no-repeat;
+  background-size: var(--kds-spacing-5);  /* 20px */
 }
 
-/* Warning state - hover (cuando no está en focus) */
-.field.label.border.warning:hover > input:not(:focus),
-.field.label.border.warning:hover > select:not(:focus),
-.field.label.border.warning:hover > textarea:not(:focus) {
-    border-color: var(--kds-color-warning);
+/* ==========================================
+   HELPER TEXT (mensaje debajo del input)
+   Usando tokens de diseño
+   ========================================== */
+
+/* Helper text: output o span.helper */
+.field > :is(output, .helper, span.helper) {
+  display: block;
+  font-family: var(--kds-font-family-primary);  /* Public Sans */
+  font-weight: var(--kds-font-weight-regular);  /* 400 */
+  font-size: var(--kds-font-size-xs);           /* 0.75rem / 12px */
+  line-height: var(--kds-line-height-relaxed);  /* 1.66 */
+  color: var(--kds-color-text-secondary);       /* Gris normal */
+  padding: 0.25rem 1rem 0 1rem;
+  margin: 0;
 }
 
-.field.label.border.warning:hover > label {
-    color: var(--kds-color-warning);
+/* Helper text en estado error */
+.field.invalid > :is(output, .helper, span.helper) {
+  color: var(--error);  /* Rojo error */
 }
 
-/* Warning state - focus (border más grueso) */
-.field.label.border.warning > input:focus,
-.field.label.border.warning > select:focus,
-.field.label.border.warning > textarea:focus {
-    border-width: 2px;
-    padding: calc(var(--kds-spacing-4) - 2px) calc(var(--kds-spacing-3) - 2px);
+/* ==========================================
+   LABEL COLOR
+   Mantener sincronizado con border
+   ========================================== */
+
+/* Estado normal: color secundario (60% opacity) */
+.field.label > label {
+  color: var(--kds-color-text-secondary);
 }
 
-/* Warning state - label en focus mantiene color warning (no morado) */
-.field.label.border.warning > input:focus + label,
-.field.label.border.warning > select:focus + label,
-.field.label.border.warning > textarea:focus + label {
-    color: var(--kds-color-warning);
+/* Hover SIN focus: más oscuro (70% opacity) */
+.field.label:hover:not(:focus-within) > label {
+  color: rgba(0, 0, 0, 0.7);
 }
 
-/* Warning state - notch visible cuando tiene focus O tiene valor */
-.field.label.border.warning:not(.fill) > input:focus + label::after,
-.field.label.border.warning:not(.fill) > select:focus + label::after,
-.field.label.border.warning:not(.fill) > textarea:focus + label::after,
-.field.label.border.warning:not(.fill) > input:not(:placeholder-shown) + label::after,
-.field.label.border.warning:not(.fill) > select:not(:placeholder-shown) + label::after,
-.field.label.border.warning:not(.fill) > textarea:not(:placeholder-shown) + label::after {
-    border-block-start: .0625rem solid var(--kds-color-warning);
-}
-
-/* Warning state - notch en focus (2px para match con input) */
-.field.label.border.warning:not(.fill) > input:focus + label::after,
-.field.label.border.warning:not(.fill) > select:focus + label::after,
-.field.label.border.warning:not(.fill) > textarea:focus + label::after {
-    border-block-start: 2px solid var(--kds-color-warning);
-}
-
-/* Valid state (green) */
-.field.label.border.valid > input,
-.field.label.border.valid > select,
-.field.label.border.valid > textarea {
-    border-color: var(--kds-color-success);
-    border-width: .0625rem;
-    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
-}
-
-.field.label.border.valid > label {
-    color: var(--kds-color-success);
-}
-
-.field.label.border.valid > label::after {
-    border-block-start: .0625rem solid var(--kds-color-success);
-}
-
-/* Valid state - hover (cuando no está en focus) */
-.field.label.border.valid:hover > input:not(:focus),
-.field.label.border.valid:hover > select:not(:focus),
-.field.label.border.valid:hover > textarea:not(:focus) {
-    border-color: var(--kds-color-success);
-}
-
-.field.label.border.valid:hover > label {
-    color: var(--kds-color-success);
-}
-
-/* Valid state - focus (border más grueso) */
-.field.label.border.valid > input:focus,
-.field.label.border.valid > select:focus,
-.field.label.border.valid > textarea:focus {
-    border-width: 2px;
-    padding: calc(var(--kds-spacing-4) - 2px) calc(var(--kds-spacing-3) - 2px);
-}
-
-/* Valid state - label en focus mantiene color success (no morado) */
-.field.label.border.valid > input:focus + label,
-.field.label.border.valid > select:focus + label,
-.field.label.border.valid > textarea:focus + label {
-    color: var(--kds-color-success);
-}
-
-/* Valid state - notch visible cuando tiene focus O tiene valor */
-.field.label.border.valid:not(.fill) > input:focus + label::after,
-.field.label.border.valid:not(.fill) > select:focus + label::after,
-.field.label.border.valid:not(.fill) > textarea:focus + label::after,
-.field.label.border.valid:not(.fill) > input:not(:placeholder-shown) + label::after,
-.field.label.border.valid:not(.fill) > select:not(:placeholder-shown) + label::after,
-.field.label.border.valid:not(.fill) > textarea:not(:placeholder-shown) + label::after {
-    border-block-start: .0625rem solid var(--kds-color-success);
-}
-
-/* Valid state - notch en focus (2px para match con input) */
-.field.label.border.valid:not(.fill) > input:focus + label::after,
-.field.label.border.valid:not(.fill) > select:focus + label::after,
-.field.label.border.valid:not(.fill) > textarea:focus + label::after {
-    border-block-start: 2px solid var(--kds-color-success);
-}
-
-/* Invalid/Error state (red) */
-.field.label.border.invalid > input,
-.field.label.border.invalid > select,
-.field.label.border.invalid > textarea,
-.field.label.border > input:invalid,
-.field.label.border > select:invalid,
-.field.label.border > textarea:invalid {
-    border-color: var(--kds-color-error);
-    border-width: .0625rem;
-    padding: calc(var(--kds-spacing-4) - 1px) calc(var(--kds-spacing-3) - 1px);
-}
-
-.field.label.border.invalid > label,
-.field.label.border > input:invalid + label,
-.field.label.border > select:invalid + label {
-    color: var(--kds-color-error);
-}
-
-.field.label.border.invalid > label::after,
-.field.label.border > input:invalid + label::after,
-.field.label.border > select:invalid + label::after {
-    border-block-start: .0625rem solid var(--kds-color-error);
-}
-
-/* Invalid/Error state - hover (cuando no está en focus) */
-.field.label.border.invalid:hover > input:not(:focus),
-.field.label.border.invalid:hover > select:not(:focus),
-.field.label.border.invalid:hover > textarea:not(:focus),
-.field.label.border:hover > input:invalid:not(:focus),
-.field.label.border:hover > select:invalid:not(:focus),
-.field.label.border:hover > textarea:invalid:not(:focus) {
-    border-color: var(--kds-color-error);
-}
-
-.field.label.border.invalid:hover > label,
-.field.label.border:hover > input:invalid + label,
-.field.label.border:hover > select:invalid + label {
-    color: var(--kds-color-error);
-}
-
-/* Invalid/Error state - focus (border más grueso) */
-.field.label.border.invalid > input:focus,
-.field.label.border.invalid > select:focus,
-.field.label.border.invalid > textarea:focus,
-.field.label.border > input:invalid:focus,
-.field.label.border > select:invalid:focus,
-.field.label.border > textarea:invalid:focus {
-    border-width: 2px;
-    padding: calc(var(--kds-spacing-4) - 2px) calc(var(--kds-spacing-3) - 2px);
-}
-
-/* Invalid/Error state - notch visible cuando tiene focus O tiene valor */
-.field.label.border.invalid:not(.fill) > input:focus + label::after,
-.field.label.border.invalid:not(.fill) > select:focus + label::after,
-.field.label.border.invalid:not(.fill) > textarea:focus + label::after,
-.field.label.border.invalid:not(.fill) > input:not(:placeholder-shown) + label::after,
-.field.label.border.invalid:not(.fill) > select:not(:placeholder-shown) + label::after,
-.field.label.border.invalid:not(.fill) > textarea:not(:placeholder-shown) + label::after,
-.field.label.border:not(.fill) > input:invalid:focus + label::after,
-.field.label.border:not(.fill) > select:invalid:focus + label::after,
-.field.label.border:not(.fill) > textarea:invalid:focus + label::after,
-.field.label.border:not(.fill) > input:invalid:not(:placeholder-shown) + label::after,
-.field.label.border:not(.fill) > select:invalid:not(:placeholder-shown) + label::after,
-.field.label.border:not(.fill) > textarea:invalid:not(:placeholder-shown) + label::after {
-    border-block-start: .0625rem solid var(--kds-color-error);
-}
-
-/* Invalid/Error state - notch en focus (2px para match con input) */
-.field.label.border.invalid:not(.fill) > input:focus + label::after,
-.field.label.border.invalid:not(.fill) > select:focus + label::after,
-.field.label.border.invalid:not(.fill) > textarea:focus + label::after,
-.field.label.border:not(.fill) > input:invalid:focus + label::after,
-.field.label.border:not(.fill) > select:invalid:focus + label::after,
-.field.label.border:not(.fill) > textarea:invalid:focus + label::after {
-    border-block-start: 2px solid var(--kds-color-error);
-}
-
-/* Helper text styling - match MUI */
-.field.label.border > .helper {
-    margin-top: var(--kds-spacing-1);
-    margin-left: calc(var(--kds-spacing-3) + 2px);
-    margin-right: calc(var(--kds-spacing-3) + 2px);
-    font-size: var(--kds-font-size-xs);
-    font-weight: var(--kds-font-weight-regular);
-    line-height: 1.66;
-    letter-spacing: var(--kds-letter-spacing-normal);
-    color: var(--kds-text-secondary);
-    font-family: var(--kds-font-family-secondary);
-}
-
-/* Helper text colors for validation states */
-.field.label.border.info > .helper {
-    color: var(--kds-color-info);
-}
-
-.field.label.border.warning > .helper {
-    color: var(--kds-color-warning);
-}
-
-.field.label.border.valid > .helper {
-    color: var(--kds-color-success);
-}
-
-.field.label.border.invalid > .helper {
-    color: var(--kds-color-error);
-}
-
-/* Placeholder styling */
-.field.label.border > input::placeholder,
-.field.label.border > textarea::placeholder {
-    color: var(--kds-text-secondary);
-    opacity: 1;
-}
-
-/* Select dropdown arrow alignment */
-.field.label.border > select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7 10l5 5 5-5z' fill='rgba(0,0,0,0.54)'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right var(--kds-spacing-2) center;
-    padding-right: calc(var(--kds-spacing-8));
+/* Focus: primary purple (BeerCSS ya lo hace, pero aseguramos) */
+.field.label:focus-within > label {
+  color: var(--primary);
 }
 
 /* ========================================
-   Alert/Banner Components
-   From Figma Make: KYC blocking patterns, info messages
+   Snackbar Components (Material Design 3)
+   Floating notifications at bottom of screen
    ======================================== */
 
-.kds-alert {
+/* Base snackbar - extends BeerCSS .snackbar */
+.kds-snackbar {
+    position: fixed;
+    bottom: var(--kds-spacing-3);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: var(--kds-z-index-snackbar);
+
+    /* Layout */
     display: flex;
-    gap: var(--kds-spacing-3);
-    padding: var(--kds-spacing-4);
-    border-radius: var(--kds-radius-md);
-    border: 1px solid;
-    margin: var(--kds-spacing-4) 0;
-    align-items: flex-start;
-}
-
-.kds-alert-icon {
-    flex-shrink: 0;
-    font-size: 20px;
-    min-width: 20px;
-    min-height: 20px;
-    margin-top: 2px;
-}
-
-.kds-alert-content {
-    flex: 1;
-}
-
-.kds-alert-title {
-    font-weight: var(--kds-font-weight-semibold);
-    margin-bottom: var(--kds-spacing-2);
-    font-size: var(--kds-font-size-base);
-}
-
-.kds-alert-description {
-    font-size: var(--kds-font-size-sm);
-    line-height: 1.5;
-}
-
-/* Alert Variants */
-.kds-alert.info {
-    background: var(--kds-alert-info-bg);
-    border-color: var(--kds-color-info);
-    color: var(--kds-color-info);
-}
-
-.kds-alert.info .kds-alert-icon {
-    color: var(--kds-color-info);
-}
-
-.kds-alert.warning {
-    background: var(--kds-alert-warning-bg);
-    border-color: var(--kds-color-warning);
-    color: var(--kds-color-warning);
-}
-
-.kds-alert.warning .kds-alert-icon {
-    color: var(--kds-color-warning);
-}
-
-.kds-alert.success {
-    background: var(--kds-alert-success-bg);
-    border-color: var(--kds-color-success);
-    color: var(--kds-color-success);
-}
-
-.kds-alert.success .kds-alert-icon {
-    color: var(--kds-color-success);
-}
-
-.kds-alert.error {
-    background: var(--kds-alert-error-bg);
-    border-color: var(--kds-color-error);
-    color: var(--kds-color-error);
-}
-
-.kds-alert.error .kds-alert-icon {
-    color: var(--kds-color-error);
-}
-
-/* Alert with action button */
-.kds-alert-actions {
-    margin-top: var(--kds-spacing-3);
-    display: flex;
+    align-items: center;
     gap: var(--kds-spacing-2);
+
+    /* Sizing */
+    min-width: 344px;
+    max-width: 672px;
+    padding: var(--kds-spacing-2) var(--kds-spacing-3);
+
+    /* Styling */
+    border-radius: var(--kds-radius-sm);
+    box-shadow: var(--kds-shadow-8);
+
+    /* Typography */
+    font-family: var(--kds-font-family-primary);
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-medium);
+    line-height: var(--kds-line-height-normal);
+
+    /* Animation */
+    animation: kds-snackbar-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Compact alert variant (no icon) */
-.kds-alert.compact {
-    padding: var(--kds-spacing-3);
+/* Snackbar animation */
+@keyframes kds-snackbar-in {
+    from {
+        transform: translateX(-50%) translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
 }
 
-.kds-alert.compact .kds-alert-icon {
-    display: none;
+/* Icon */
+.kds-snackbar-icon {
+    flex-shrink: 0;
+    font-size: var(--kds-spacing-button-icon-size);
+    min-width: var(--kds-spacing-button-icon-size);
+    min-height: var(--kds-spacing-button-icon-size);
+}
+
+/* Content */
+.kds-snackbar-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Action button (optional) */
+.kds-snackbar-action {
+    flex-shrink: 0;
+}
+
+/* Snackbar Variants */
+.kds-snackbar.success {
+    background: var(--kds-snackbar-success-bg);
+    border: 1px solid var(--kds-color-success-main);
+    color: var(--kds-color-success-main);
+}
+
+.kds-snackbar.success .kds-snackbar-icon {
+    color: var(--kds-color-success-main);
+}
+
+.kds-snackbar.warning {
+    background: var(--kds-snackbar-warning-bg);
+    border: 1px solid var(--kds-color-warning-main);
+    color: var(--kds-color-warning-main);
+}
+
+.kds-snackbar.warning .kds-snackbar-icon {
+    color: var(--kds-color-warning-main);
+}
+
+.kds-snackbar.error {
+    background: var(--kds-snackbar-error-bg);
+    border: 1px solid var(--kds-color-error-main);
+    color: var(--kds-color-error-main);
+}
+
+.kds-snackbar.error .kds-snackbar-icon {
+    color: var(--kds-color-error-main);
+}
+
+.kds-snackbar.info {
+    background: var(--kds-snackbar-info-bg);
+    border: 1px solid var(--kds-color-info-main);
+    color: var(--kds-color-info-main);
+}
+
+.kds-snackbar.info .kds-snackbar-icon {
+    color: var(--kds-color-info-main);
+}
+
+/* Static variant for showcase/demo purposes */
+.kds-snackbar.static {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    margin-bottom: var(--kds-spacing-3);
+    animation: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .kds-snackbar {
+        min-width: calc(100vw - var(--kds-spacing-4));
+        max-width: calc(100vw - var(--kds-spacing-4));
+        left: var(--kds-spacing-2);
+        right: var(--kds-spacing-2);
+        transform: translateX(0);
+    }
+
+    @keyframes kds-snackbar-in {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
 }
 
 /* ========================================

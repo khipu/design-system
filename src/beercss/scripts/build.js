@@ -71,16 +71,18 @@ async function buildCSS() {
 
     // Read source files
     const beerCSS = readFile(path.join(BEERCSS_DIR, 'beer.min.css'));
+    const cssVariables = readFile(path.join(ROOT_DIR, 'src/tokens/css-variables.css'));
     const khipuTokens = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-tokens.css'));
     const khipuComponents = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-components.css'));
 
-    // Remove @import from khipuTokens (we'll include tokens directly)
+    // Remove @import from khipuTokens (we include css-variables.css directly)
     const khipuTokensCleaned = khipuTokens.replace(/@import\s+url\([^)]+\);?\s*/g, '');
 
-    // Combine CSS in order: BeerCSS base → Khipu tokens & mappings → Khipu components
+    // Combine CSS in order: BeerCSS base → Core tokens → Khipu BeerCSS mappings → Khipu components
     const combinedCSS = `/* Khipu BeerCSS Bundle - Combined CSS */\n\n` +
         `/* BeerCSS v4.0.1 */\n${beerCSS}\n\n` +
-        `/* Khipu Design System Tokens & BeerCSS Variable Mappings */\n${khipuTokensCleaned}\n\n` +
+        `/* Core Design System Tokens (auto-generated from src/tokens/index.ts) */\n${cssVariables}\n\n` +
+        `/* Khipu BeerCSS Variable Mappings */\n${khipuTokensCleaned}\n\n` +
         `/* Khipu Custom Components */\n${khipuComponents}\n`;
 
     // Write non-minified version
