@@ -69,7 +69,7 @@
         }
     </style>
 </head>
-<body>
+<body class="light">
     <!-- Onboarding Container -->
     <div class="kds-onboarding-container">
         <!-- Header with Stepper -->
@@ -143,7 +143,7 @@
 
                             <div class="kds-radio-group">
                                 <label class="radio">
-                                    <input type="radio" name="accountType" value="checking" required onchange="updateNextButton()">
+                                    <input type="radio" name="accountType" value="checking" onchange="updateNextButton()">
                                     <span>Cuenta corriente</span>
                                 </label>
                                 <label class="radio">
@@ -166,7 +166,7 @@
 
                             <div class="field label border">
                                 <input type="text" id="accountNumber" name="accountNumber" placeholder=" "
-                                       required pattern="[0-9]{8,20}" onchange="updateNextButton()">
+                                       pattern="[0-9]{8,20}" onchange="updateNextButton()">
                                 <label for="accountNumber">Número de cuenta *</label>
                                 <span class="helper">Solo números, sin guiones ni espacios</span>
                             </div>

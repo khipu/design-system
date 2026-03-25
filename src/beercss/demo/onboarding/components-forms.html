@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📝 Form Components - Khipu Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+
+    <!-- Showcase Styles - Load AFTER BeerCSS -->
+    <link rel="stylesheet" href="assets/showcase.css">
+
+</head>
+<body class="light">
+    <!-- Header -->
+    <div class="showcase-header">
+        <h1 class="kds-headline-large">📝 Form Components</h1>
+        <p class="kds-body-large opacity-90">Componentes de formularios e inputs del flujo de onboarding</p>
+    </div>
+
+    <!-- Back Navigation -->
+    <nav class="showcase-nav">
+        <div class="showcase-nav-pills">
+            <a href="components.html" class="showcase-pill" style="text-decoration: none;">
+                ← Volver a Components
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="showcase-content">
+
+            <!-- Text Fields -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Text Fields (Material Design 3)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Floating labels nativos de BeerCSS con branding Khipu
+                </p>
+
+                <div class="component-demo">
+                    <div class="max-w-500">
+                        <!-- Default State -->
+                        <div class="field label border">
+                            <input type="text" id="demo-name" placeholder=" ">
+                            <label for="demo-name">Nombre completo</label>
+                        </div>
+
+                        <!-- With Helper Text -->
+                        <div class="field label border">
+                            <input type="text" id="demo-rut" placeholder=" ">
+                            <label for="demo-rut">RUT</label>
+                            <span class="helper">Formato: 12.345.678-9</span>
+                        </div>
+
+                        <!-- Info State -->
+                        <div class="field label border info">
+                            <input type="password" id="demo-password" placeholder=" ">
+                            <label for="demo-password">Password</label>
+                            <span class="helper">Mínimo 8 caracteres</span>
+                        </div>
+
+                        <!-- Warning State -->
+                        <div class="field label border warning">
+                            <input type="tel" id="demo-phone" placeholder=" " value="+56 9 1234">
+                            <label for="demo-phone">Teléfono</label>
+                            <span class="helper">Por favor ingrese el número completo</span>
+                        </div>
+
+                        <!-- Valid/Success State -->
+                        <div class="field label border valid">
+                            <input type="email" id="demo-email-valid" placeholder=" " value="usuario@ejemplo.com">
+                            <label for="demo-email-valid">Email</label>
+                            <span class="helper">Email validado correctamente</span>
+                        </div>
+
+                        <!-- Invalid/Error State -->
+                        <div class="field label border invalid">
+                            <input type="email" id="demo-email-error" placeholder=" " value="email-invalido">
+                            <label for="demo-email-error">Email</label>
+                            <span class="helper">Por favor ingrese un email válido</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('textfield-code')">📋 Copy</button>
+                    <pre><code id="textfield-code">&lt;!-- Campo básico con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;input type="text" id="name" placeholder=" " required&gt;
+    &lt;label for="name"&gt;Nombre *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Con helper text --&gt;
+&lt;div class="field label border"&gt;
+    &lt;input type="text" id="rut" placeholder=" " required&gt;
+    &lt;label for="rut"&gt;RUT *&lt;/label&gt;
+    &lt;span class="helper"&gt;Formato: 12.345.678-9&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado Info --&gt;
+&lt;div class="field label border info"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;Información adicional&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado Warning --&gt;
+&lt;div class="field label border warning"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;Advertencia&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado Valid --&gt;
+&lt;div class="field label border valid"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;✓ Validado&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado Invalid --&gt;
+&lt;div class="field label border invalid"&gt;
+    &lt;input type="text" placeholder=" " value="..."&gt;
+    &lt;label&gt;Campo&lt;/label&gt;
+    &lt;span class="helper"&gt;✕ Error&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes (Material Design 3)</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Patrón BeerCSS nativo:</strong> Usa `.field.label.border` para floating labels</li>
+                        <li><strong>Orden correcto:</strong> Input ANTES del label (requerido para animación)</li>
+                        <li><strong>Placeholder espacial:</strong> Usa `placeholder=" "` (un espacio, no vacío)</li>
+                        <li><strong>Estados:</strong> Agrega clase `.info`, `.warning`, `.valid`, o `.invalid`</li>
+                        <li><strong>Helper text:</strong> Usa `&lt;span class="helper"&gt;` para todo tipo de mensajes</li>
+                        <li><strong>Focus state:</strong> Automáticamente usa el color púrpura Khipu (#8347AD)</li>
+                        <li><strong>Accesibilidad:</strong> Siempre conectar label con atributo `for`</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">🎯 Grails/GSP Integration (Material Design 3)</h4>
+                    <pre><code>&lt;!-- Campo básico con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:textField name="fullName" id="fullName"
+                 placeholder=" " required="required"/&gt;
+    &lt;label for="fullName"&gt;Nombre completo *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo con helper text --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:textField name="rut" id="rut" placeholder=" " required="required"/&gt;
+    &lt;label for="rut"&gt;RUT *&lt;/label&gt;
+    &lt;span class="helper"&gt;Formato: 12.345.678-9&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo email --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="email" name="email" id="email"
+             placeholder=" " required="required"/&gt;
+    &lt;label for="email"&gt;Email *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo teléfono --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="tel" name="phone" id="phone"
+             placeholder=" " required="required"/&gt;
+    &lt;label for="phone"&gt;Teléfono *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo URL --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="url" name="website" id="website" placeholder=" "/&gt;
+    &lt;label for="website"&gt;Sitio web&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Campo número --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:field type="number" name="amount" id="amount"
+             placeholder=" " min="0" step="1000"/&gt;
+    &lt;label for="amount"&gt;Monto&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Con validación de errores --&gt;
+&lt;div class="field label border \${hasErrors(bean: command, field: 'fullName', 'invalid')}"&gt;
+    &lt;g:textField name="fullName" placeholder=" " value="\${command?.fullName}"/&gt;
+    &lt;label for="fullName"&gt;Nombre completo *&lt;/label&gt;
+    &lt;g:hasErrors bean="\${command}" field="fullName"&gt;
+        &lt;span class="helper"&gt;
+            &lt;g:message error="\${it}"/&gt;
+        &lt;/span&gt;
+    &lt;/g:hasErrors&gt;
+&lt;/div&gt;
+
+&lt;!-- Select con floating label --&gt;
+&lt;div class="field label border"&gt;
+    &lt;g:select name="region" id="region"
+              from="\${regions}"
+              optionKey="key"
+              optionValue="value"
+              noSelection="['':'Selecciona una opción']"
+              required="required"/&gt;
+    &lt;label for="region"&gt;Región *&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Select con validación --&gt;
+&lt;div class="field label border \${hasErrors(bean: command, field: 'region', 'invalid')}"&gt;
+    &lt;g:select name="region"
+              from="\${regions}"
+              optionKey="key"
+              optionValue="value"
+              noSelection="['':'Selecciona una opción']"
+              value="\${command?.region}"/&gt;
+    &lt;label for="region"&gt;Región *&lt;/label&gt;
+    &lt;g:hasErrors bean="\${command}" field="region"&gt;
+        &lt;span class="helper"&gt;
+            &lt;g:message error="\${it}"/&gt;
+        &lt;/span&gt;
+    &lt;/g:hasErrors&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="component-item">
+                <h3 class="kds-title-large">File Upload</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Área de carga de archivos con drag & drop y preview
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-file-upload">
+                        <div class="kds-file-upload-zone" id="demoFileZone" ondrop="handleDemoDrop(event)"
+                             ondragover="handleDemoDragOver(event)" ondragleave="handleDemoDragLeave(event)">
+                            <i class="material-symbols-outlined icon-xl icon-color-primary">upload_file</i>
+                            <div class="kds-file-upload-text">
+                                Arrastra tu archivo aquí o
+                                <label for="demoFileInput" class="kds-file-upload-button">selecciona un archivo</label>
+                                <input type="file" id="demoFileInput" accept=".pdf,.jpg,.jpeg,.png"
+                                       onchange="handleDemoFileSelect(event)" class="hidden">
+                            </div>
+                            <span class="kds-file-upload-helper">PDF, JPG o PNG (máx. 5MB)</span>
+                        </div>
+                        <div class="kds-file-upload-preview" id="demoFilePreview"></div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('fileupload-code')">📋 Copy</button>
+                    <pre><code id="fileupload-code">&lt;div class="kds-file-upload"&gt;
+    &lt;div class="kds-file-upload-zone" id="fileZone"
+         ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"&gt;
+        &lt;i class="material-symbols-outlined icon-xl icon-color-primary"&gt;upload_file&lt;/i&gt;
+        &lt;div class="kds-file-upload-text"&gt;
+            Arrastra tu archivo aquí o
+            &lt;label for="fileInput" class="kds-file-upload-button"&gt;selecciona un archivo&lt;/label&gt;
+            &lt;input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png"
+                   onchange="handleFileSelect(event)" class="hidden"&gt;
+        &lt;/div&gt;
+        &lt;span class="kds-file-upload-helper"&gt;PDF, JPG o PNG (máx. 5MB)&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-file-upload-preview" id="filePreview"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function handleDragOver(event) {
+    event.preventDefault();
+    event.currentTarget.classList.add('drag-over');
+}
+
+function handleDragLeave(event) {
+    event.currentTarget.classList.remove('drag-over');
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+    event.currentTarget.classList.remove('drag-over');
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+        displayFile(files[0]);
+    }
+}
+
+function handleFileSelect(event) {
+    const files = event.target.files;
+    if (files.length > 0) {
+        displayFile(files[0]);
+    }
+}
+
+function displayFile(file) {
+    const preview = document.getElementById('filePreview');
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    // Validate size
+    if (file.size > maxSize) {
+        alert('El archivo excede el tamaño máximo de 5MB');
+        return;
+    }
+
+    // Create preview
+    preview.innerHTML = \`
+        &lt;div class="kds-file-item"&gt;
+            &lt;i class="material-symbols-outlined"&gt;description&lt;/i&gt;
+            &lt;span class="file-name"&gt;\${file.name}&lt;/span&gt;
+            &lt;span class="file-size"&gt;\${(file.size / 1024).toFixed(2)} KB&lt;/span&gt;
+            &lt;button onclick="removeFile()" class="transparent circle"&gt;
+                &lt;i class="material-symbols-outlined"&gt;close&lt;/i&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
+    \`;
+}
+
+function removeFile() {
+    document.getElementById('filePreview').innerHTML = '';
+    document.getElementById('fileInput').value = '';
+}
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Drag & Drop:</strong> Clase <code>.drag-over</code> se aplica automáticamente al arrastrar</li>
+                        <li><strong>Preview:</strong> Muestra nombre, tamaño y botón de eliminar</li>
+                        <li><strong>Validation:</strong> Valida formato (accept) y tamaño (5MB max)</li>
+                        <li><strong>Multiple:</strong> Agrega atributo <code>multiple</code> para múltiples archivos</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Upload de documentos con validación --&gt;
+&lt;g:uploadForm controller="onboarding" action="uploadDocument"&gt;
+    &lt;div class="kds-file-upload"&gt;
+        &lt;div class="kds-file-upload-zone" id="fileZone"
+             ondrop="handleDrop(event)"
+             ondragover="handleDragOver(event)"
+             ondragleave="handleDragLeave(event)"&gt;
+            &lt;i class="material-symbols-outlined icon-xl icon-color-primary"&gt;upload_file&lt;/i&gt;
+            &lt;div class="kds-file-upload-text"&gt;
+                Arrastra tu archivo aquí o
+                &lt;label for="documentFile" class="kds-file-upload-button"&gt;selecciona un archivo&lt;/label&gt;
+                &lt;input type="file" id="documentFile" name="documentFile"
+                       accept=".pdf,.jpg,.jpeg,.png"
+                       onchange="handleFileSelect(event)" class="hidden"&gt;
+            &lt;/div&gt;
+            &lt;span class="kds-file-upload-helper"&gt;PDF, JPG o PNG (máx. 5MB)&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-file-upload-preview" id="filePreview"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;g:hasErrors bean="${documentInstance}" field="file"&gt;
+        &lt;div class="kds-alert error"&gt;
+            &lt;div class="kds-alert-icon"&gt;
+                &lt;i class="material-symbols-outlined"&gt;error&lt;/i&gt;
+            &lt;/div&gt;
+            &lt;div class="kds-alert-content"&gt;
+                &lt;div class="kds-alert-description"&gt;
+                    &lt;g:eachError bean="${documentInstance}" field="file"&gt;${it.defaultMessage}&lt;/g:eachError&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/g:hasErrors&gt;
+
+    &lt;div class="kds-mt-4"&gt;
+        &lt;button type="submit" class="kds-btn kds-btn-primary"&gt;
+            Subir documento
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;upload&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/g:uploadForm&gt;
+
+&lt;asset:javascript src="file-upload-handler.js"/&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-showcase">
+        <p class="kds-title-medium">Khipu Design System</p>
+        <p class="kds-body-small kds-text-muted">BeerCSS Onboarding Components</p>
+        <p class="kds-body-small">
+            <a href="https://design.khipu.com" target="_blank" class="text-primary-link">design.khipu.com</a>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+    <script src="assets/showcase.js"></script>
+</body>
+</html>

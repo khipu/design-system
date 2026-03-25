@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Advanced Components - Khipu Onboarding</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+
+    <!-- Showcase Styles - Load AFTER BeerCSS -->
+    <link rel="stylesheet" href="assets/showcase.css">
+
+</head>
+<body class="light">
+    <!-- Header -->
+    <div class="showcase-header">
+        <h1 class="kds-headline-large">🚀 Advanced Components</h1>
+        <p class="kds-body-large opacity-90">Componentes avanzados y especializados del flujo de onboarding</p>
+    </div>
+
+    <!-- Back Navigation -->
+    <nav class="showcase-nav">
+        <div class="showcase-nav-pills">
+            <a href="components.html" class="showcase-pill" style="text-decoration: none;">
+                ← Volver a Components
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="showcase-content">
+
+            <!-- OTP Input -->
+            <div class="component-item">
+                <h3 class="kds-title-large">OTP Input (6 dígitos)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Input de código de verificación de 6 dígitos con auto-focus entre campos
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-otp-input" id="demo-otp">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('otp-code')">📋 Copy</button>
+                    <pre><code id="otp-code">&lt;div class="kds-otp-input" id="otpInput"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// Auto-focus functionality
+const otpInputs = document.querySelectorAll('#otpInput .kds-otp-digit');
+otpInputs.forEach((input, index) => {
+    input.addEventListener('input', (e) => {
+        if (e.target.value && index &lt; otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+        }
+    });
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index &gt; 0) {
+            otpInputs[index - 1].focus();
+        }
+    });
+});
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Auto-focus:</strong> Automáticamente avanza al siguiente campo al ingresar un dígito</li>
+                        <li><strong>Backspace:</strong> Retrocede al campo anterior al presionar Backspace en campo vacío</li>
+                        <li><strong>Mobile:</strong> Usa <code>inputmode="numeric"</code> para mostrar teclado numérico</li>
+                        <li><strong>Pattern:</strong> Valida que solo se ingresen números (0-9)</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;div class="kds-otp-input" id="otp-${field}"&gt;
+    &lt;g:each in="${1..6}" var="i"&gt;
+        &lt;input type="text" class="kds-otp-digit" maxlength="1" pattern="[0-9]" inputmode="numeric"&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;
+&lt;asset:javascript src="otp-handler.js"/&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Signature Pad -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Signature Pad (Canvas)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Canvas HTML5 para captura de firma digital con soporte táctil
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-signature-pad">
+                        <div class="kds-signature-canvas-wrapper">
+                            <canvas id="demo-signature" class="kds-signature-canvas" width="600" height="200"></canvas>
+                        </div>
+                        <div class="kds-signature-actions">
+                            <button class="kds-btn kds-btn-text kds-signature-clear" onclick="clearDemoSignature()">
+                                <span class="kds-icon"><i class="material-symbols-outlined">refresh</i></span>
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('signature-code')">📋 Copy</button>
+                    <pre><code id="signature-code">&lt;div class="kds-signature-pad"&gt;
+    &lt;div class="kds-signature-canvas-wrapper"&gt;
+        &lt;canvas id="signatureCanvas" class="kds-signature-canvas" width="600" height="200"&gt;&lt;/canvas&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-signature-actions"&gt;
+        &lt;button class="kds-btn kds-btn-text kds-signature-clear" onclick="clearSignature()"&gt;
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;refresh&lt;/i&gt;&lt;/span&gt;
+            Limpiar
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const canvas = document.getElementById('signatureCanvas');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
+
+// Responsive canvas sizing
+function resizeCanvas() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width;
+}
+window.addEventListener('load', resizeCanvas);
+
+// Mouse events
+canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (!isDrawing) return;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#111827';
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+});
+
+canvas.addEventListener('mouseup', () => isDrawing = false);
+canvas.addEventListener('mouseout', () => isDrawing = false);
+
+// Touch support
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#111827';
+    ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    ctx.stroke();
+});
+
+canvas.addEventListener('touchend', () => isDrawing = false);
+
+function clearSignature() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Touch:</strong> Soporte completo para dispositivos táctiles y mouse</li>
+                        <li><strong>Responsive:</strong> Canvas se adapta al ancho del contenedor</li>
+                        <li><strong>Export:</strong> Usa <code>canvas.toDataURL('image/png')</code> para guardar</li>
+                        <li><strong>Validation:</strong> Verifica que el canvas no esté vacío antes de enviar</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Signature Pad para contrato --&gt;
+&lt;g:form controller="contract" action="sign"&gt;
+    &lt;div class="kds-signature-pad"&gt;
+        &lt;div class="kds-signature-canvas-wrapper"&gt;
+            &lt;canvas id="signatureCanvas" class="kds-signature-canvas"
+                    width="600" height="200"&gt;&lt;/canvas&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-signature-actions"&gt;
+            &lt;button type="button" class="kds-btn kds-btn-text kds-signature-clear"
+                    onclick="clearSignature()"&gt;
+                &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;refresh&lt;/i&gt;&lt;/span&gt;
+                Limpiar
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Hidden field para guardar firma como base64 --&gt;
+    &lt;g:hiddenField name="signatureData" id="signatureData"/&gt;
+
+    &lt;div class="kds-mt-6"&gt;
+        &lt;button type="submit" class="kds-btn kds-btn-primary"
+                onclick="return saveSignature()"&gt;
+            Firmar contrato
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/g:form&gt;
+
+&lt;asset:javascript src="signature-pad-handler.js"/&gt;
+
+&lt;script&gt;
+function saveSignature() {
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Verificar que el canvas no esté vacío
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const isEmpty = !imageData.data.some(channel => channel !== 0);
+
+    if (isEmpty) {
+        alert('Por favor firma antes de continuar');
+        return false;
+    }
+
+    // Guardar firma como base64 en hidden field
+    document.getElementById('signatureData').value = canvas.toDataURL('image/png');
+    return true;
+}
+&lt;/script&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Summary Card -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Summary/Review Card</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Card de resumen de datos con opción de editar
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-summary-card">
+                        <div class="kds-summary-card-header">
+                            <div class="kds-summary-card-title">
+                                <i class="material-symbols-outlined">person</i>
+                                Información personal
+                            </div>
+                            <a href="#" class="kds-summary-card-edit" onclick="event.preventDefault(); alert('Ir a editar');">
+                                Editar <i class="material-symbols-outlined icon-lg">edit</i>
+                            </a>
+                        </div>
+                        <div class="kds-summary-row">
+                            <div class="kds-summary-label">Nombre:</div>
+                            <div class="kds-summary-value">Juan Pérez González</div>
+                        </div>
+                        <div class="kds-summary-row">
+                            <div class="kds-summary-label">RUT:</div>
+                            <div class="kds-summary-value">12.345.678-9</div>
+                        </div>
+                        <div class="kds-summary-row">
+                            <div class="kds-summary-label">Email:</div>
+                            <div class="kds-summary-value">juan.perez@email.com</div>
+                        </div>
+                        <div class="kds-summary-row">
+                            <div class="kds-summary-label">Plan:</div>
+                            <div class="kds-summary-value badge">Pro</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('summary-code')">📋 Copy</button>
+                    <pre><code id="summary-code">&lt;div class="kds-summary-card"&gt;
+    &lt;div class="kds-summary-card-header"&gt;
+        &lt;div class="kds-summary-card-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;person&lt;/i&gt;
+            Información personal
+        &lt;/div&gt;
+        &lt;a href="profile.html" class="kds-summary-card-edit"&gt;
+            Editar &lt;i class="material-symbols-outlined"&gt;edit&lt;/i&gt;
+        &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Nombre:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;Juan Pérez&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;RUT:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;12.345.678-9&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Badge variant --&gt;
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Plan:&lt;/div&gt;
+        &lt;div class="kds-summary-value badge"&gt;Pro&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Header:</strong> Título con ícono + link "Editar" a la derecha</li>
+                        <li><strong>Rows:</strong> Formato label-value con flex layout</li>
+                        <li><strong>Badge:</strong> Clase <code>.badge</code> en value para destacar</li>
+                        <li><strong>Icon:</strong> Material Symbols opcional en título</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Summary card con datos del usuario --&gt;
+&lt;div class="kds-summary-card"&gt;
+    &lt;div class="kds-summary-card-header"&gt;
+        &lt;div class="kds-summary-card-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;person&lt;/i&gt;
+            Información personal
+        &lt;/div&gt;
+        &lt;g:link action="editProfile" class="kds-summary-card-edit"&gt;
+            Editar &lt;i class="material-symbols-outlined icon-lg"&gt;edit&lt;/i&gt;
+        &lt;/g:link&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Nombre:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${userInstance?.fullName}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;RUT:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${userInstance?.rut}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Email:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${userInstance?.email}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Plan:&lt;/div&gt;
+        &lt;div class="kds-summary-value badge"&gt;${userInstance?.plan?.name}&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Card de datos comerciales --&gt;
+&lt;div class="kds-summary-card"&gt;
+    &lt;div class="kds-summary-card-header"&gt;
+        &lt;div class="kds-summary-card-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;business&lt;/i&gt;
+            Datos comerciales
+        &lt;/div&gt;
+        &lt;g:link action="editCommercial" class="kds-summary-card-edit"&gt;
+            Editar &lt;i class="material-symbols-outlined icon-lg"&gt;edit&lt;/i&gt;
+        &lt;/g:link&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Razón social:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${commercialInstance?.businessName}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-summary-row"&gt;
+        &lt;div class="kds-summary-label"&gt;Giro:&lt;/div&gt;
+        &lt;div class="kds-summary-value"&gt;${commercialInstance?.industry}&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- KYC Blocking Modal -->
+            <div class="component-item">
+                <h3 class="kds-title-large">KYC Blocking Modal</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Modal de advertencia para sectores de alto riesgo
+                </p>
+
+                <div class="component-demo">
+                    <button class="kds-btn kds-btn-secondary" onclick="showDemoKYCModal()">
+                        Show KYC Modal
+                    </button>
+                </div>
+
+                <dialog id="demo-kyc-modal" class="modal">
+                    <button class="transparent circle modal-close-btn" onclick="closeDemoKYCModal()">
+                        <span class="kds-icon"><i class="material-symbols-outlined">close</i></span>
+                    </button>
+
+                    <div class="kds-kyc-modal-icon">
+                        <i class="material-symbols-outlined">warning</i>
+                    </div>
+
+                    <h2 class="kds-kyc-modal-title">
+                        Validación adicional requerida
+                    </h2>
+
+                    <p class="kds-kyc-modal-message">
+                        Para el sector seleccionado, necesitamos validar algunos datos adicionales con nuestro equipo.
+                    </p>
+
+                    <div class="kds-alert warning">
+                        <div class="kds-alert-icon">
+                            <i class="material-symbols-outlined">info</i>
+                        </div>
+                        <div class="kds-alert-content">
+                            <div class="kds-alert-description">
+                                Te contactaremos por email en las próximas 48 horas para continuar con el proceso de activación.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="kds-btn kds-btn-primary w-100" onclick="closeDemoKYCModal()">
+                            Entendido
+                            <span class="kds-icon"><i class="material-symbols-outlined">check</i></span>
+                        </button>
+                    </div>
+                </dialog>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('kyc-code')">📋 Copy</button>
+                    <pre><code id="kyc-code">&lt;!-- Trigger button --&gt;
+&lt;button class="kds-btn kds-btn-secondary" onclick="showKYCModal()"&gt;
+    Verificar Sector
+&lt;/button&gt;
+
+&lt;!-- Modal (BeerCSS dialog con clase .modal) --&gt;
+&lt;dialog id="kycModal" class="modal"&gt;
+    &lt;button class="transparent circle modal-close-btn" onclick="closeKYCModal()"&gt;
+        &lt;i class="material-symbols-outlined"&gt;close&lt;/i&gt;
+    &lt;/button&gt;
+
+    &lt;div class="kds-kyc-modal-icon"&gt;
+        &lt;i class="material-symbols-outlined"&gt;warning&lt;/i&gt;
+    &lt;/div&gt;
+
+    &lt;h2 class="kds-kyc-modal-title"&gt;
+        Validación adicional requerida
+    &lt;/h2&gt;
+
+    &lt;p class="kds-kyc-modal-message"&gt;
+        Para el sector seleccionado, necesitamos validar algunos datos adicionales.
+    &lt;/p&gt;
+
+    &lt;div class="kds-alert warning"&gt;
+        &lt;div class="kds-alert-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="kds-alert-content"&gt;
+            &lt;div class="kds-alert-description"&gt;
+                Te contactaremos por email en las próximas 48 horas.
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="text-center"&gt;
+        &lt;button class="kds-btn kds-btn-primary w-100" onclick="closeKYCModal()"&gt;
+            Entendido
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;script&gt;
+function showKYCModal() {
+    document.getElementById('kycModal').showModal();
+}
+function closeKYCModal() {
+    document.getElementById('kycModal').close();
+}
+&lt;/script&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Dialog:</strong> Usa <code>&lt;dialog class="modal"&gt;</code> - BeerCSS automáticamente aplica estilos base</li>
+                        <li><strong>Clases CSS:</strong> Usa <code>.kds-kyc-modal-*</code> para estructura semántica sin inline styles</li>
+                        <li><strong>Variables:</strong> Padding, colores y tamaños controlados por tokens CSS (<code>--kds-modal-*</code>)</li>
+                        <li><strong>Trigger:</strong> <code>.showModal()</code> abre el modal, <code>.close()</code> lo cierra</li>
+                        <li><strong>Icon:</strong> Color warning desde token <code>--kds-modal-icon-warning</code></li>
+                        <li><strong>Responsive:</strong> Padding y max-width se ajustan automáticamente en mobile</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Validar industria de alto riesgo --&gt;
+&lt;g:if test="${isHighRiskIndustry}"&gt;
+    &lt;dialog id="kycModal" class="modal"&gt;
+        &lt;button class="transparent circle modal-close-btn" onclick="closeKYCModal()"&gt;
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;close&lt;/i&gt;&lt;/span&gt;
+        &lt;/button&gt;
+
+        &lt;div class="kds-kyc-modal-icon"&gt;
+            &lt;i class="material-symbols-outlined"&gt;warning&lt;/i&gt;
+        &lt;/div&gt;
+
+        &lt;h2 class="kds-kyc-modal-title"&gt;
+            Validación adicional requerida
+        &lt;/h2&gt;
+
+        &lt;p class="kds-kyc-modal-message"&gt;
+            Para el sector "${industry}" necesitamos validar algunos datos adicionales con nuestro equipo.
+        &lt;/p&gt;
+
+        &lt;div class="kds-alert warning"&gt;
+            &lt;div class="kds-alert-icon"&gt;
+                &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+            &lt;/div&gt;
+            &lt;div class="kds-alert-content"&gt;
+                &lt;div class="kds-alert-description"&gt;
+                    Te contactaremos por email en las próximas 48 horas para continuar con el proceso de activación.
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class="text-center"&gt;
+            &lt;button class="kds-btn kds-btn-primary w-100" onclick="handleKYCAcceptance()"&gt;
+                Entendido
+                &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;check&lt;/i&gt;&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/dialog&gt;
+
+    &lt;script&gt;
+    // Mostrar modal automáticamente si es alto riesgo
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('kycModal').showModal();
+    });
+
+    function closeKYCModal() {
+        document.getElementById('kycModal').close();
+    }
+
+    function handleKYCAcceptance() {
+        // Registrar que el usuario aceptó la validación adicional
+        window.location.href = '${createLink(controller: "onboarding", action: "kycPending")}';
+    }
+    &lt;/script&gt;
+&lt;/g:if&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Success Page -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Success Page Layout</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Página de éxito/activación con próximos pasos
+                </p>
+
+                <div class="component-demo bg-surface-background">
+                    <div class="kds-success-container min-h-600">
+                        <div class="kds-success-icon">
+                            <i class="material-symbols-outlined icon-filled">check_circle</i>
+                        </div>
+                        <h1 class="kds-success-title">¡Activación exitosa!</h1>
+                        <p class="kds-success-subtitle">
+                            Tu cuenta ha sido creada correctamente. Te notificaremos cuando esté todo listo.
+                        </p>
+
+                        <div class="kds-next-steps">
+                            <h2 class="kds-next-steps-title">
+                                <i class="material-symbols-outlined">rocket_launch</i>
+                                Próximos pasos
+                            </h2>
+                            <div class="kds-step-item">
+                                <div class="kds-step-number">1</div>
+                                <div class="kds-step-content">
+                                    <div class="kds-step-title">Validación de documentos</div>
+                                    <div class="kds-step-description">
+                                        Revisaremos tu información en 24-48 horas hábiles.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kds-step-item">
+                                <div class="kds-step-number">2</div>
+                                <div class="kds-step-content">
+                                    <div class="kds-step-title">Notificación por email</div>
+                                    <div class="kds-step-description">
+                                        Te enviaremos un email cuando tu cuenta esté activa.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kds-step-item">
+                                <div class="kds-step-number">3</div>
+                                <div class="kds-step-content">
+                                    <div class="kds-step-title">Configuración inicial</div>
+                                    <div class="kds-step-description">
+                                        Podrás configurar webhooks y generar credenciales de API.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kds-success-actions">
+                            <button class="kds-btn kds-btn-primary" onclick="alert('Go to dashboard')">
+                                Ir al dashboard
+                                <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
+                            </button>
+                            <button class="kds-btn kds-btn-outlined" onclick="alert('View docs')">
+                                Ver documentación
+                                <span class="kds-icon"><i class="material-symbols-outlined">menu_book</i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('success-code')">📋 Copy</button>
+                    <pre><code id="success-code">&lt;div class="kds-success-container"&gt;
+    &lt;div class="kds-success-icon"&gt;
+        &lt;i class="material-symbols-outlined icon-filled"&gt;check_circle&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;h1 class="kds-success-title"&gt;¡Activación exitosa!&lt;/h1&gt;
+    &lt;p class="kds-success-subtitle"&gt;
+        Tu cuenta ha sido creada correctamente.
+    &lt;/p&gt;
+
+    &lt;div class="kds-next-steps"&gt;
+        &lt;h2 class="kds-next-steps-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;rocket_launch&lt;/i&gt;
+            Próximos pasos
+        &lt;/h2&gt;
+
+        &lt;div class="kds-step-item"&gt;
+            &lt;div class="kds-step-number"&gt;1&lt;/div&gt;
+            &lt;div class="kds-step-content"&gt;
+                &lt;div class="kds-step-title"&gt;Validación de documentos&lt;/div&gt;
+                &lt;div class="kds-step-description"&gt;
+                    Revisaremos tu información en 24-48 horas.
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Más steps... --&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-success-actions"&gt;
+        &lt;button class="kds-btn kds-btn-primary"&gt;
+            Ir al dashboard
+        &lt;/button&gt;
+        &lt;button class="kds-btn kds-btn-outlined"&gt;
+            Ver documentación
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Container:</strong> Usa <code>.kds-success-container</code> para centrado vertical</li>
+                        <li><strong>Icon:</strong> Green checkmark con animación <code>scaleIn</code></li>
+                        <li><strong>Next Steps:</strong> Card con lista numerada de pasos futuros</li>
+                        <li><strong>Actions:</strong> Botones primario + outlined en fila (responsive a columna)</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Página de activación exitosa --&gt;
+&lt;div class="kds-success-container"&gt;
+    &lt;div class="kds-success-icon"&gt;
+        &lt;i class="material-symbols-outlined icon-filled"&gt;check_circle&lt;/i&gt;
+    &lt;/div&gt;
+
+    &lt;h1 class="kds-success-title"&gt;¡Activación exitosa!&lt;/h1&gt;
+    &lt;p class="kds-success-subtitle"&gt;
+        Hola ${userName}, tu cuenta ha sido creada correctamente.
+        Te notificaremos cuando esté todo listo.
+    &lt;/p&gt;
+
+    &lt;div class="kds-next-steps"&gt;
+        &lt;h2 class="kds-next-steps-title"&gt;
+            &lt;i class="material-symbols-outlined"&gt;rocket_launch&lt;/i&gt;
+            Próximos pasos
+        &lt;/h2&gt;
+
+        &lt;g:each in="${nextSteps}" var="step" status="i"&gt;
+            &lt;div class="kds-step-item"&gt;
+                &lt;div class="kds-step-number"&gt;${i + 1}&lt;/div&gt;
+                &lt;div class="kds-step-content"&gt;
+                    &lt;div class="kds-step-title"&gt;${step.title}&lt;/div&gt;
+                    &lt;div class="kds-step-description"&gt;${step.description}&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/g:each&gt;
+    &lt;/div&gt;
+
+    &lt;div class="kds-success-actions"&gt;
+        &lt;g:link controller="dashboard" action="index"
+                class="kds-btn kds-btn-primary"&gt;
+            Ir al dashboard
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;arrow_forward&lt;/i&gt;&lt;/span&gt;
+        &lt;/g:link&gt;
+
+        &lt;g:link controller="docs" action="index"
+                class="kds-btn kds-btn-outlined"&gt;
+            Ver documentación
+            &lt;span class="kds-icon"&gt;&lt;i class="material-symbols-outlined"&gt;menu_book&lt;/i&gt;&lt;/span&gt;
+        &lt;/g:link&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Contract Accordion -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Contract Accordion</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Acordeón expandible para términos y condiciones usando &lt;details&gt;
+                </p>
+
+                <div class="component-demo">
+                    <div class="kds-contract-accordion">
+                        <details>
+                            <summary>1. Objeto del contrato</summary>
+                            <div class="kds-contract-accordion-content">
+                                <p>
+                                    El presente contrato tiene por objeto establecer los términos y condiciones bajo los cuales Khipu SpA
+                                    prestará sus servicios de plataforma de pagos automáticos al comercio adherente.
+                                </p>
+                                <p>
+                                    Los servicios incluyen la facilitación de transacciones de pago entre el Comercio y sus clientes finales,
+                                    mediante transferencias electrónicas directas desde cuentas bancarias.
+                                </p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>2. Comisiones y tarifas</summary>
+                            <div class="kds-contract-accordion-content">
+                                <p>
+                                    Las comisiones aplicables serán las indicadas en el plan seleccionado durante el proceso de registro.
+                                    Khipu se reserva el derecho de modificar las comisiones con previo aviso de 30 días corridos.
+                                </p>
+                            </div>
+                        </details>
+                        <details>
+                            <summary>3. Obligaciones del comercio</summary>
+                            <div class="kds-contract-accordion-content">
+                                <p>El Comercio se obliga a:</p>
+                                <ul>
+                                    <li>Proveer información verídica y actualizada en todo momento</li>
+                                    <li>Cumplir con todas las leyes y regulaciones aplicables</li>
+                                    <li>No utilizar los servicios para actividades ilegales</li>
+                                    <li>Mantener la confidencialidad de sus credenciales</li>
+                                </ul>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('accordion-code')">📋 Copy</button>
+                    <pre><code id="accordion-code">&lt;div class="kds-contract-accordion"&gt;
+    &lt;details&gt;
+        &lt;summary&gt;1. Objeto del contrato&lt;/summary&gt;
+        &lt;div class="kds-contract-accordion-content"&gt;
+            &lt;p&gt;
+                El presente contrato establece los términos...
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/details&gt;
+
+    &lt;details&gt;
+        &lt;summary&gt;2. Comisiones y tarifas&lt;/summary&gt;
+        &lt;div class="kds-contract-accordion-content"&gt;
+            &lt;p&gt;
+                Las comisiones aplicables serán...
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/details&gt;
+
+    &lt;!-- More sections... --&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Native HTML:</strong> Usa <code>&lt;details&gt;</code> y <code>&lt;summary&gt;</code> nativos</li>
+                        <li><strong>Icon:</strong> Flecha expand_more automática via CSS <code>::after</code></li>
+                        <li><strong>Animation:</strong> Transición suave de rotación al abrir/cerrar</li>
+                        <li><strong>Styling:</strong> Background cambia al abrir (<code>details[open]</code>)</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Acordeón de términos y condiciones --&gt;
+&lt;div class="kds-contract-accordion"&gt;
+    &lt;g:each in="${contractSections}" var="section" status="i"&gt;
+        &lt;details&gt;
+            &lt;summary&gt;${i + 1}. ${section.title}&lt;/summary&gt;
+            &lt;div class="kds-contract-accordion-content"&gt;
+                &lt;g:if test="${section.paragraphs}"&gt;
+                    &lt;g:each in="${section.paragraphs}" var="paragraph"&gt;
+                        &lt;p&gt;${paragraph}&lt;/p&gt;
+                    &lt;/g:each&gt;
+                &lt;/g:if&gt;
+
+                &lt;g:if test="${section.listItems}"&gt;
+                    &lt;p&gt;${section.listTitle}&lt;/p&gt;
+                    &lt;ul&gt;
+                        &lt;g:each in="${section.listItems}" var="item"&gt;
+                            &lt;li&gt;${item}&lt;/li&gt;
+                        &lt;/g:each&gt;
+                    &lt;/ul&gt;
+                &lt;/g:if&gt;
+            &lt;/div&gt;
+        &lt;/details&gt;
+    &lt;/g:each&gt;
+&lt;/div&gt;
+
+&lt;!-- Checkbox de aceptación --&gt;
+&lt;div class="kds-mt-6"&gt;
+    &lt;label class="checkbox"&gt;
+        &lt;input type="checkbox" name="acceptContract" id="acceptContract"
+               required&gt;
+        &lt;span&gt;
+            He leído y acepto los
+            &lt;a href="${createLink(controller: 'legal', action: 'terms')}" target="_blank"&gt;
+                términos y condiciones
+            &lt;/a&gt;
+        &lt;/span&gt;
+    &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-showcase">
+        <p class="kds-title-medium">Khipu Design System</p>
+        <p class="kds-body-small kds-text-muted">BeerCSS Onboarding Components</p>
+        <p class="kds-body-small">
+            <a href="https://design.khipu.com" target="_blank" class="text-primary-link">design.khipu.com</a>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+    <script src="assets/showcase.js"></script>
+</body>
+</html>
