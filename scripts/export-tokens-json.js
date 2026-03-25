@@ -31,6 +31,7 @@ const jsonTokens = {
     fontSizes: tokens.fontSizes,
     lineHeights: tokens.lineHeights,
     letterSpacings: tokens.letterSpacings,
+    button: tokens.typography.button,  // Component-specific typography
   },
   spacing: tokens.spacing,
   semanticSpacing: tokens.semanticSpacing,
