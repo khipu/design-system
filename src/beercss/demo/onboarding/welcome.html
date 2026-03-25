@@ -121,7 +121,7 @@
         }
     </style>
 </head>
-<body>
+<body class="light">
     <!-- Welcome Hero Section -->
     <div class="kds-welcome-hero">
         <div class="kds-welcome-hero-content">
@@ -261,7 +261,7 @@
                         Fuente de conocimiento
                     </label>
                     <div class="field border">
-                        <select name="referralSource" id="referralSource" onchange="handleSourceChange()" required>
+                        <select name="referralSource" id="referralSource" onchange="handleSourceChange()">
                             <option value="">Selecciona una opción</option>
                             <option value="Google, Chat GPT, Gemini AI u otro buscador">Google, Chat GPT, Gemini AI u otro buscador</option>
                             <option value="Anuncio en internet (banner, prensa, red social, etc.)">Anuncio en internet (banner, prensa, red social, etc.)</option>
@@ -351,11 +351,9 @@
             // Show/hide "Otro" text input
             if (selectedValue === 'Otro') {
                 otherContainer.style.display = 'block';
-                otherInput.required = true;
                 otherInput.focus();
             } else {
                 otherContainer.style.display = 'none';
-                otherInput.required = false;
                 otherInput.value = '';
             }
 

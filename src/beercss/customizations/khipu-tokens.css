@@ -49,8 +49,30 @@
     --kds-border-medium: #999;
     --kds-border-dark: #666;
 
+    /* === Text Colors (Material Design 3) === */
+    --kds-text-primary: rgba(0, 0, 0, 0.87);
+    --kds-text-secondary: rgba(0, 0, 0, 0.6);
+    --kds-text-disabled: rgba(0, 0, 0, 0.38);
+
+    /* === Action Colors (Material Design 3) === */
+    --kds-action-active: rgba(0, 0, 0, 0.56);
+    --kds-action-hover: rgba(0, 0, 0, 0.04);
+    --kds-action-selected: rgba(0, 0, 0, 0.08);
+    --kds-action-disabled: rgba(0, 0, 0, 0.38);
+    --kds-action-disabled-bg: rgba(0, 0, 0, 0.12);
+    --kds-action-focus: rgba(0, 0, 0, 0.12);
+
+    /* === Input Colors (Material Design 3) === */
+    --kds-input-border-default: rgba(0, 0, 0, 0.23);
+    --kds-input-border-hover: rgba(0, 0, 0, 0.87);
+
     /* === Typography Scale (Material Design 3) === */
-    --kds-font-family-primary: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* Heredado de @khipu/design-system - ambas usan Public Sans */
+    --kds-font-family-primary: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --kds-font-family-secondary: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+    /* Sobrescribir variable nativa de BeerCSS para usar Public Sans */
+    --font: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
     --kds-font-size-xs: 0.75rem;    /* 12px */
     --kds-font-size-sm: 0.875rem;   /* 14px */
@@ -65,6 +87,14 @@
     --kds-font-weight-medium: 500;
     --kds-font-weight-semibold: 600;
     --kds-font-weight-bold: 700;
+
+    --kds-line-height-xs: 1rem;      /* 16px */
+    --kds-line-height-sm: 1.25rem;   /* 20px */
+    --kds-line-height-base: 1.5rem;  /* 24px */
+    --kds-line-height-lg: 1.75rem;   /* 28px */
+
+    --kds-letter-spacing-tight: 0.15px;
+    --kds-letter-spacing-normal: 0.4px;
 
     /* === Spacing System (4px base grid) === */
     --kds-spacing-1: 4px;
@@ -100,6 +130,7 @@
 
     /* ========================================
        Map KDS Tokens to BeerCSS Variables
+       Force Light Mode (Material Design 3)
        ======================================== */
 
     /* Keep Khipu Purple as primary brand color */
@@ -120,11 +151,15 @@
     --warning: var(--kds-color-warning);
     --info: var(--kds-color-info);
 
-    /* Background and surface colors */
+    /* Background and surface colors - Light Mode */
+    --background: var(--kds-surface-background);
     --surface: var(--kds-surface-paper);
-    --on-surface: oklch(20% 0 0);
+    --on-surface: var(--kds-text-primary);
+    --on-surface-variant: var(--kds-action-active);
     --surface-variant: var(--kds-surface-elevated);
     --surface-container: var(--kds-surface-base);
+    --outline: var(--kds-input-border-default);
+    --outline-variant: var(--kds-border-light);
 
     /* Legacy Khipu color aliases (for backward compatibility) */
     --khipu-primary: var(--kds-color-primary-500);
@@ -202,6 +237,26 @@
 }
 
 /* ========================================
+   Force Light Mode Only
+   ======================================== */
+
+/* Force light mode - disable dark mode */
+:root,
+html,
+body {
+    color-scheme: light only;
+}
+
+/* Override system dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root,
+    html,
+    body {
+        color-scheme: light only;
+    }
+}
+
+/* ========================================
    Body Layout (Sticky Footer) - Figma Make Style
    ======================================== */
 html, body {
@@ -209,12 +264,13 @@ html, body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    background: var(--kds-surface-background);  /* Light gray background */
+    background: var(--kds-surface-background);
+    color: var(--kds-text-primary);
 }
 
 main {
     flex: 1 0 auto;
-    padding: 0;  /* Remove default padding for Figma Make style */
+    padding: 0;
 }
 
 footer {

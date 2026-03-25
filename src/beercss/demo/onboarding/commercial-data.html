@@ -14,7 +14,7 @@
     <!-- Khipu BeerCSS Bundle (local development) -->
     <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
 </head>
-<body>
+<body class="light">
     <!-- Onboarding Container -->
     <div class="kds-onboarding-container">
         <!-- Header with Stepper -->
@@ -79,7 +79,7 @@
                             </h3>
 
                             <div class="field label border">
-                                <input type="text" id="businessName" name="businessName" placeholder=" " required>
+                                <input type="text" id="businessName" name="businessName" placeholder=" ">
                                 <label for="businessName">Razón social *</label>
                             </div>
 
@@ -97,14 +97,14 @@
                                 Información personal
                             </h3>
 
-                            <div class="kds-grid-2col">
+                            <div class="kds-grid-2col grid">
                                 <div class="field label border">
-                                    <input type="text" id="firstName" name="firstName" placeholder=" " required>
+                                    <input type="text" id="firstName" name="firstName" placeholder=" ">
                                     <label for="firstName">Nombre *</label>
                                 </div>
 
                                 <div class="field label border">
-                                    <input type="text" id="lastName" name="lastName" placeholder=" " required>
+                                    <input type="text" id="lastName" name="lastName" placeholder=" ">
                                     <label for="lastName">Apellido *</label>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                             </h3>
 
                             <div class="field label border">
-                                <input type="text" id="taxId" name="taxId" placeholder=" " required>
+                                <input type="text" id="taxId" name="taxId" placeholder=" ">
                                 <label for="taxId" id="taxIdLabel">RUT *</label>
                                 <span class="helper" id="taxIdHelper">Ej: 12.345.678-9</span>
                             </div>
@@ -132,13 +132,13 @@
                             </h3>
 
                             <div class="field label border">
-                                <input type="email" id="email" name="email" placeholder=" " required>
+                                <input type="email" id="email" name="email" placeholder=" ">
                                 <label for="email">Email *</label>
                                 <span class="helper">Usaremos este email para comunicaciones importantes</span>
                             </div>
 
                             <div class="field label border">
-                                <input type="tel" id="phone" name="phone" placeholder=" " required>
+                                <input type="tel" id="phone" name="phone" placeholder=" ">
                                 <label for="phone" id="phoneHelper">Teléfono *</label>
                                 <span class="helper" id="phoneHelper">Ej: +56 9 1234 5678</span>
                             </div>
@@ -152,18 +152,18 @@
                             </h3>
 
                             <div class="field label border">
-                                <input type="text" id="street" name="street" placeholder=" " required>
+                                <input type="text" id="street" name="street" placeholder=" ">
                                 <label for="street">Calle y número *</label>
                             </div>
 
-                            <div class="kds-grid-2col">
+                            <div class="kds-grid-2col grid">
                                 <div class="field label border">
-                                    <input type="text" id="city" name="city" placeholder=" " required>
+                                    <input type="text" id="city" name="city" placeholder=" ">
                                     <label for="city">Ciudad *</label>
                                 </div>
 
                                 <div class="field label border">
-                                    <select id="region" name="region" required>
+                                    <select id="region" name="region">
                                         <option value="">Selecciona una región</option>
                                         <option value="RM">Región Metropolitana</option>
                                         <option value="V">Valparaíso</option>
@@ -175,7 +175,7 @@
                             </div>
 
                             <div class="field label border">
-                                <input type="text" id="postalCode" name="postalCode" placeholder=" " required>
+                                <input type="text" id="postalCode" name="postalCode" placeholder=" ">
                                 <label for="postalCode">Código postal *</label>
                             </div>
                         </div>
@@ -335,15 +335,9 @@
             if (personType === 'juridica') {
                 businessNameSection.style.display = 'block';
                 personalDataSection.style.display = 'none';
-                document.getElementById('businessName').required = true;
-                document.getElementById('firstName').required = false;
-                document.getElementById('lastName').required = false;
             } else {
                 businessNameSection.style.display = 'none';
                 personalDataSection.style.display = 'block';
-                document.getElementById('businessName').required = false;
-                document.getElementById('firstName').required = true;
-                document.getElementById('lastName').required = true;
             }
 
             // Adjust labels and placeholders based on country

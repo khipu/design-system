@@ -14,7 +14,7 @@
     <!-- Khipu BeerCSS Bundle (local development) -->
     <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
 </head>
-<body>
+<body class="light">
     <!-- Onboarding Container -->
     <div class="kds-onboarding-container">
         <!-- Header with Stepper -->
@@ -145,7 +145,7 @@
 
                             <div class="kds-radio-group" id="serviceSelection">
                                 <label class="radio">
-                                    <input type="radio" name="service" value="payments" required onchange="validateService(this)">
+                                    <input type="radio" name="service" value="payments" onchange="validateService(this)">
                                     <span>Solo pagos automáticos</span>
                                 </label>
                                 <label class="radio">
