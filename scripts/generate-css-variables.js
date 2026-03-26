@@ -136,6 +136,13 @@ function generateColorVariables(colors) {
     variables.push({ name: `--kds-snackbar-${kebabKey}`, value, comment });
   }
 
+  // Alert backgrounds
+  for (const [key, value] of Object.entries(colors.components?.alert || {})) {
+    const kebabKey = key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+    const comment = key === 'infoBg' ? 'Alert backgrounds' : undefined;
+    variables.push({ name: `--kds-alert-${kebabKey}`, value, comment });
+  }
+
   return variables;
 }
 
@@ -231,10 +238,31 @@ function generateSpacingVariables(spacing, semanticSpacing) {
     variables.push({ name: `--kds-spacing-button-${kebabKey}`, value });
   }
 
+  // Sidebar spacing - generate all properties automatically
+  for (const [key, value] of Object.entries(semanticSpacing.sidebar)) {
+    const kebabKey = key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+    variables.push({ name: `--kds-spacing-sidebar-${kebabKey}`, value });
+  }
+
   // Other semantic spacing
   variables.push({ name: '--kds-spacing-section', value: semanticSpacing.sectionGap });
   variables.push({ name: '--kds-spacing-form-gap', value: semanticSpacing.formGap });
   variables.push({ name: '--kds-spacing-inline-gap', value: semanticSpacing.inlineGap });
+
+  return variables;
+}
+
+/**
+ * Generate CSS custom properties for breakpoints
+ */
+function generateBreakpointVariables(breakpoints) {
+  const variables = [];
+
+  variables.push({ comment: 'Breakpoints' });
+
+  for (const [key, value] of Object.entries(breakpoints)) {
+    variables.push({ name: `--kds-breakpoint-${key}`, value });
+  }
 
   return variables;
 }
@@ -297,6 +325,19 @@ function generateShadowVariables(shadows) {
 }
 
 /**
+ * Generate CSS custom properties for borders
+ */
+function generateBorderVariables(borders) {
+  const variables = [];
+
+  variables.push({ name: '--kds-border-light', value: borders.light, comment: 'Border colors' });
+  variables.push({ name: '--kds-border-medium', value: borders.medium });
+  variables.push({ name: '--kds-border-dark', value: borders.dark });
+
+  return variables;
+}
+
+/**
  * Generate CSS custom properties for z-index
  */
 function generateZIndexVariables(zIndex) {
@@ -335,21 +376,6 @@ function generateTransitionVariables(transitions) {
     variables.push({ name: '--kds-easing-ease-in', value: transitions.easing.easeIn });
     variables.push({ name: '--kds-easing-sharp', value: transitions.easing.sharp });
   }
-
-  return variables;
-}
-
-/**
- * Generate CSS custom properties for breakpoints
- */
-function generateBreakpointVariables(breakpoints) {
-  const variables = [];
-
-  // Skip xs (0px) and start from sm
-  if (breakpoints.sm) variables.push({ name: '--kds-breakpoint-sm', value: breakpoints.sm });
-  if (breakpoints.md) variables.push({ name: '--kds-breakpoint-md', value: breakpoints.md });
-  if (breakpoints.lg) variables.push({ name: '--kds-breakpoint-lg', value: breakpoints.lg });
-  if (breakpoints.xl) variables.push({ name: '--kds-breakpoint-xl', value: breakpoints.xl });
 
   return variables;
 }
@@ -428,6 +454,10 @@ const sections = [
   {
     title: 'BORDER RADIUS TOKENS',
     variables: generateBorderRadiusVariables(tokens.borderRadius),
+  },
+  {
+    title: 'BORDER TOKENS',
+    variables: generateBorderVariables(tokens.borders),
   },
   {
     title: 'SHADOW TOKENS',
