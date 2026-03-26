@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Navigation Demo - Khipu Design System</title>
+
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- Public Sans Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+
+    <!-- Khipu BeerCSS Bundle -->
+    <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+</head>
+<body class="light">
+    <!-- Mobile Topbar (visible solo en mobile) -->
+    <header class="kds-mobile-topbar">
+        <button class="kds-hamburger-btn" aria-label="Menú">
+            <i class="material-symbols-outlined">menu</i>
+        </button>
+        <span>Khipu Pagos</span>
+    </header>
+
+    <!-- Layout Container -->
+    <div class="kds-page-layout">
+        <!-- Sidebar -->
+        <aside class="kds-sidebar">
+            <!-- Barra superior mobile (solo visible en mobile) -->
+            <div class="kds-sidebar-mobile-header">
+                <span>Menú</span>
+                <button class="kds-sidebar-close-btn" aria-label="Cerrar menú">
+                    <i class="material-symbols-outlined">close</i>
+                </button>
+            </div>
+
+            <!-- Sidebar Header -->
+            <div class="kds-sidebar-header">
+                <div class="kds-sidebar-avatar">F</div>
+                <div class="kds-sidebar-header-text">
+                    <div class="kds-sidebar-title">Pagos</div>
+                    <div class="kds-sidebar-subtitle">Fortunato Herrera</div>
+                </div>
+                <i class="material-symbols-outlined kds-sidebar-dropdown-icon">expand_more</i>
+
+                <!-- Header Dropdown Menu - FLOTANTE -->
+                <div class="kds-sidebar-header-dropdown surface elevate border small-round">
+                    <a href="#" class="kds-sidebar-nav-item">
+                        <i class="material-symbols-outlined">account_circle</i>
+                        <span>Mi perfil</span>
+                    </a>
+                    <a href="#" class="kds-sidebar-nav-item">
+                        <i class="material-symbols-outlined">settings</i>
+                        <span>que pasa si los items tienen texto que es muy largo y no es fácil de leer??</span>
+                    </a>
+                    <div class="divider"></div>
+                    <a href="#" class="kds-sidebar-nav-item">
+                        <i class="material-symbols-outlined">logout</i>
+                        <span>Cerrar sesión</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation Items -->
+            <nav class="kds-sidebar-nav">
+                <a href="#" class="kds-sidebar-nav-item active">
+                    <i class="material-symbols-outlined">list</i>
+                    <span>Listado de pagos</span>
+                </a>
+                <a href="#" class="kds-sidebar-nav-item">
+                    <i class="material-symbols-outlined">send</i>
+                    <span>Enviar dinero</span>
+                </a>
+                <a href="#" class="kds-sidebar-nav-item">
+                    <i class="material-symbols-outlined">account_balance_wallet</i>
+                    <span>Mi saldo</span>
+                </a>
+                <a href="#" class="kds-sidebar-nav-item">
+                    <i class="material-symbols-outlined">credit_card</i>
+                    <span>Tarjetas</span>
+                </a>
+                <a href="#" class="kds-sidebar-nav-item">
+                    <i class="material-symbols-outlined">receipt_long</i>
+                    <span>Historial</span>
+                </a>
+                <a href="#" class="kds-sidebar-nav-item">
+                    <i class="material-symbols-outlined">help</i>
+                    <span>Ayuda</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="kds-main-content">
+            <h3 class="kds-headline-large">Sidebar Navigation Demo</h3>
+            <p class="kds-body-large kds-text-secondary-color">
+                Sidebar simple y sticky basado en el diseño de Khipu Payment Platform
+            </p>
+
+            <div class="demo-card">
+                <h4 class="kds-title-large">✨ Características</h4>
+                <ul class="kds-body-medium kds-text-secondary-color">
+                    <li>✅ <strong>Sticky sidebar</strong> - Pegado a la izquierda</li>
+                    <li>✅ <strong>Header simple</strong> - Avatar + nombre + dropdown</li>
+                    <li>✅ <strong>Nav items</strong> - Con iconos y barra activa</li>
+                    <li>✅ <strong>Sin JavaScript</strong> - Solo HTML + CSS</li>
+                    <li>✅ <strong>Design tokens</strong> - Todo con variables CSS</li>
+                </ul>
+            </div>
+
+            <div class="demo-card">
+                <h4 class="kds-title-large">📝 HTML Structure</h4>
+                <div class="code-block">&lt;div class="kds-page-layout"&gt;
+    &lt;aside class="kds-sidebar"&gt;
+        &lt;div class="kds-sidebar-header"&gt;
+            &lt;div class="kds-sidebar-avatar"&gt;F&lt;/div&gt;
+            &lt;div class="kds-sidebar-header-text"&gt;
+                &lt;div class="kds-sidebar-title"&gt;Pagos&lt;/div&gt;
+                &lt;div class="kds-sidebar-subtitle"&gt;Fortunato Her...&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;i class="material-symbols-outlined"&gt;expand_more&lt;/i&gt;
+        &lt;/div&gt;
+
+        &lt;nav class="kds-sidebar-nav"&gt;
+            &lt;a href="#" class="kds-sidebar-nav-item active"&gt;
+                &lt;i class="material-symbols-outlined"&gt;list&lt;/i&gt;
+                &lt;span&gt;Listado de pagos&lt;/span&gt;
+            &lt;/a&gt;
+            &lt;a href="#" class="kds-sidebar-nav-item"&gt;
+                &lt;i class="material-symbols-outlined"&gt;send&lt;/i&gt;
+                &lt;span&gt;Enviar dinero&lt;/span&gt;
+            &lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/aside&gt;
+
+    &lt;main class="kds-main-content"&gt;
+        ...
+    &lt;/main&gt;
+&lt;/div&gt;</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/dist/beercss/khipu-beercss.min.js"></script>
+    <script>
+        // Initialize sidebar interactions
+        KhipuSidebar.init();
+
+        // Listen to nav changes (optional)
+        document.querySelector('.kds-sidebar').addEventListener('kds-sidebar-nav-change', function(e) {
+            console.log('Nav changed to:', e.detail.text);
+        });
+    </script>
+</body>
+</html>

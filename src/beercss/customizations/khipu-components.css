@@ -4,9 +4,10 @@
  * Source: design.khipu.com and Material Design 3 specifications
  */
 
-/* ========================================
-   Button Overrides (Material Design 3)
-   ======================================== */
+
+:has(>main) {
+    background-color: transparent !important;
+}
 
 /* ========================================
    KHIPU BUTTON SYSTEM
@@ -919,100 +920,24 @@ nav.primary button {
 }
 
 /* ========================================
-   Drawer/Sidenav (Mobile Navigation)
+   Flex Layout System (Body + Container + Sidebar)
    ======================================== */
 
-/* Left drawer hidden by default */
-nav.drawer.left {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 280px;
-    max-width: 80vw;
-    background: var(--surface-container, #FFFFFF);
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1100;
-    overflow-y: auto;
+/* Body flex-column layout */
+body.kds-layout {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
 }
 
-/* Show drawer when active */
-nav.drawer.left.active {
-    transform: translateX(0);
-}
-
-/* Drawer overlay */
-nav.drawer.left::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: -1;
-    pointer-events: none;
-}
-
-/* Show overlay when drawer is active */
-nav.drawer.left.active::before {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-/* Drawer header styling */
-nav.drawer header {
-    padding: 16px;
-    background: var(--primary-container, rgba(131, 71, 173, 0.1));
-    border-bottom: 1px solid var(--outline-variant, rgba(0, 0, 0, 0.12));
-}
-
-/* Drawer links */
-nav.drawer a {
+/* Layout container (flex-row) - below header */
+.kds-layout-container {
     display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    color: var(--on-surface, rgba(0, 0, 0, 0.87));
-    text-decoration: none;
-    transition: background 0.2s ease;
-    gap: 16px;
+    flex-direction: row;
+    flex: 1;
+    overflow: hidden;
 }
-
-nav.drawer a:hover {
-    background: var(--surface-variant, rgba(0, 0, 0, 0.04));
-}
-
-nav.drawer a i {
-    font-size: 24px;
-    color: var(--on-surface-variant, rgba(0, 0, 0, 0.60));
-}
-
-nav.drawer .divider {
-    height: 1px;
-    background: var(--outline-variant, rgba(0, 0, 0, 0.12));
-    margin: 8px 0;
-}
-
-/* Hide menu toggle button on desktop */
-@media (min-width: 769px) {
-    #menu-toggle {
-        display: none;
-    }
-
-    nav.drawer.left {
-        display: none;
-    }
-}
-
 /* ========================================
    Footer Customization
    ======================================== */
@@ -2868,3 +2793,332 @@ dialog.modal::backdrop {
     margin-top: var(--kds-spacing-6);
 }
 
+/* ===========================================================================
+
+/* ============================================
+   SIDEBAR NAVIGATION (Simple & Sticky)
+   ============================================ */
+
+/* Page layout - Flexbox horizontal */
+.kds-page-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar - Sticky flotante a la izquierda */
+.kds-sidebar {
+    width: var(--kds-spacing-sidebar-width);
+    background: var(--kds-color-background-paper);
+    border: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-lg);
+    flex-shrink: 0;
+    position: sticky;
+    top: var(--kds-spacing-4);
+    margin: var(--kds-spacing-4);
+    height: fit-content;
+    overflow-y: auto;
+    box-shadow: var(--kds-shadow-2);
+}
+
+/* Sidebar Header */
+.kds-sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-3);
+    padding: var(--kds-spacing-1) var(--kds-spacing-2);
+    border-bottom: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-lg) var(--kds-radius-lg) 0 0;
+    cursor: pointer;
+    position: relative; /* ← Para anclar dropdown */
+    transition: background var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+.kds-sidebar-header:hover {
+    background: var(--kds-color-action-hover);
+}
+
+/* Avatar circular */
+.kds-sidebar-avatar {
+    width: var(--kds-spacing-sidebar-icon-container-size);
+    height: var(--kds-spacing-sidebar-icon-container-size);
+    border-radius: var(--kds-radius-full);
+    background: var(--kds-color-error-main);
+    color: var(--kds-color-background-paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--kds-font-size-lg);
+    font-weight: var(--kds-font-weight-bold);
+    flex-shrink: 0;
+}
+
+/* Header text */
+.kds-sidebar-header-text {
+    flex: 1;
+    overflow: hidden;
+}
+
+.kds-sidebar-title {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-semibold);
+    color: var(--kds-color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kds-sidebar-subtitle {
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Dropdown icon */
+.kds-sidebar-dropdown-icon {
+    font-size: var(--kds-spacing-sidebar-icon-size);
+    color: var(--kds-color-text-secondary);
+    flex-shrink: 0;
+    transition: transform var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+/* Header Dropdown - Flotante */
+.kds-sidebar-header-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: var(--kds-z-index-drawer);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(calc(var(--kds-spacing-1) * -1));
+    transition: all var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+.kds-sidebar-header-dropdown.kds-dropdown-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* Navigation */
+.kds-sidebar-nav {
+    padding: var(--kds-spacing-2) 0;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Nav item */
+.kds-sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-1);
+    padding: var(--kds-spacing-1) var(--kds-spacing-2);
+    color: var(--kds-color-text-primary);
+    text-decoration: none;
+    position: relative;
+    transition: background var(--kds-transition-shorter) var(--kds-easing-standard);
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.kds-sidebar-nav-item:hover {
+    background: var(--kds-color-action-hover);
+}
+
+/* Nav item icon */
+.kds-sidebar-nav-item i {
+    font-size: var(--kds-spacing-sidebar-icon-size);
+    color: var(--kds-color-text-secondary);
+}
+
+/* Nav item text */
+.kds-sidebar-nav-item span {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-medium);
+}
+
+/* Active state - barra morada a la izquierda */
+.kds-sidebar-nav-item.active {
+    background: var(--kds-color-primary-hover);
+}
+
+.kds-sidebar-nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: calc(var(--kds-spacing-1) / 2);
+    background: var(--kds-color-primary-main);
+}
+
+.kds-sidebar-nav-item.active i,
+.kds-sidebar-nav-item.active span {
+    color: var(--kds-color-primary-main);
+}
+
+/* Main content */
+.kds-main-content {
+    flex: 1;
+    padding: var(--kds-spacing-8);
+    overflow-y: auto;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE SIDEBAR
+   ============================================ */
+
+/* Mobile Topbar - oculto en desktop */
+.kds-mobile-topbar {
+    display: none;
+}
+
+/* Barra superior mobile del sidebar - oculta en desktop */
+.kds-sidebar-mobile-header {
+    display: none;
+}
+
+/* Botón cerrar sidebar */
+.kds-sidebar-close-btn {
+    border: none;
+    background: transparent;
+    border-radius: var(--kds-radius-sm);
+    cursor: pointer;
+    padding: 0;
+}
+
+.kds-sidebar-close-btn:hover {
+    background: var(--kds-color-action-hover);
+}
+
+.kds-sidebar-close-btn i {
+    font-size: var(--kds-spacing-sidebar-icon-size);
+    color: var(--kds-color-text-primary);
+}
+
+/* Botón hamburger */
+.kds-hamburger-btn {
+    width: var(--kds-spacing-sidebar-icon-container-size);
+    height: var(--kds-spacing-sidebar-icon-container-size);
+    border: none;
+    background: transparent;
+    border-radius: var(--kds-radius-sm);
+    cursor: pointer;
+    transition: background-color var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+.kds-hamburger-btn:hover {
+    background: var(--kds-color-action-hover);
+}
+
+.kds-hamburger-btn i {
+    font-size: var(--kds-spacing-sidebar-icon-size);
+    color: var(--kds-color-text-primary);
+}
+
+/* Mobile (≤ 768px) */
+@media (max-width: 768px) {
+    /* Mostrar topbar */
+    .kds-mobile-topbar {
+        display: flex;
+        align-items: center;
+        gap: var(--kds-spacing-2);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--kds-spacing-7);
+        padding: 0 var(--kds-spacing-2);
+        background: var(--kds-color-background-paper);
+        border-bottom: 1px solid var(--kds-color-divider);
+        z-index: var(--kds-z-index-appbar);
+        font-size: var(--kds-font-size-lg);
+        font-weight: var(--kds-font-weight-semibold);
+    }
+
+    /* Layout con espacio para topbar */
+    .kds-page-layout {
+        padding-top: var(--kds-spacing-7);
+    }
+
+    /* Sidebar = drawer full-width */
+    .kds-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 100vw;
+        margin: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform var(--kds-transition-standard) var(--kds-easing-ease-out);
+        z-index: var(--kds-z-index-drawer);
+        border-radius: 0;
+    }
+
+    /* Barra superior mobile visible */
+    .kds-sidebar-mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: var(--kds-spacing-7);
+        padding: 0 var(--kds-spacing-2);
+        background: var(--kds-color-background-paper);
+        border-bottom: 1px solid var(--kds-color-divider);
+        font-size: var(--kds-font-size-lg);
+        font-weight: var(--kds-font-weight-semibold);
+        color: var(--kds-color-text-primary);
+    }
+
+    /* Sidebar abierto */
+    .kds-sidebar-open {
+        transform: translateX(0);
+    }
+
+    /* Main content full-width */
+    .kds-main-content {
+        margin-left: 0;
+    }
+}
+
+/* ============================================
+   DEMO PAGE STYLES
+   ============================================ */
+
+.demo-card {
+    background: var(--kds-color-background-paper);
+    border: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-lg);
+    padding: var(--kds-spacing-6);
+    margin-bottom: var(--kds-spacing-6);
+}
+
+.code-block {
+    background: var(--kds-color-background-elevated);
+    border: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-spacing-4);
+    font-family: var(--kds-font-family-mono);
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-relaxed);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: auto;
+    color: var(--kds-color-text-primary);
+}
+
+.kds-text-secondary-color {
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-main-content > .kds-body-large {
+    margin-bottom: var(--kds-spacing-6);
+}
+
+.kds-main-content > .demo-card ul {
+    line-height: var(--kds-line-height-relaxed);
+}

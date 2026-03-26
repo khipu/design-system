@@ -7,25 +7,17 @@
 /* Import core design tokens (auto-generated) */
 @import url('../../tokens/css-variables.css');
 
-:root {
+:root,
+body.light,
+body.dark {
     /* ========================================
        Map core tokens to BeerCSS-specific names
        (BeerCSS may use different naming conventions)
+       Same selector specificity as BeerCSS to ensure override
        ======================================== */
 
-    /* Alert backgrounds (using info color with transparency) */
-    --kds-alert-info-bg: #EFF6FF;
-    --kds-alert-warning-bg: #FFFBEB;
-    --kds-alert-success-bg: #ECFDF5;
-    --kds-alert-error-bg: #FEF2F2;
-
-    /* Border colors (not in core tokens) */
-    --kds-border-light: #DDD;
-    --kds-border-medium: #999;
-    --kds-border-dark: #666;
-
     /* Input border states */
-    --kds-input-border-hover: rgba(0, 0, 0, 0.42);  /* Slightly darker on hover (Material Design spec) */
+    --kds-input-border-hover: var(--kds-color-input-hover-border);
 
     /* Override BeerCSS native font variable */
     --font: var(--kds-font-family-primary);
@@ -53,13 +45,19 @@
     --warning: var(--kds-color-warning-main);
     --info: var(--kds-color-info-main);
 
-    /* Background and surface colors */
+    /* Background and surface colors - Override BeerCSS purple defaults */
     --background: var(--kds-color-background-default);
     --surface: var(--kds-color-background-paper);
+    --surface-dim: var(--kds-color-background-elevated);
+    --surface-bright: var(--kds-color-background-paper);
+    --surface-variant: var(--kds-color-background-elevated);
+    --surface-container-lowest: var(--kds-color-background-default);
+    --surface-container-low: var(--kds-color-background-paper);
+    --surface-container: var(--kds-color-background-default);
+    --surface-container-high: var(--kds-color-background-elevated);
+    --surface-container-highest: var(--kds-color-background-elevated);
     --on-surface: var(--kds-color-text-primary);
     --on-surface-variant: var(--kds-color-action-active);
-    --surface-variant: var(--kds-color-background-elevated);
-    --surface-container: var(--kds-color-background-default);
     --outline: var(--kds-color-input-border);
     --outline-variant: var(--kds-border-light);
 
@@ -68,36 +66,36 @@
        ======================================== */
 
     /* File Upload States */
-    --kds-upload-zone-bg: #F9FAFB;              /* gray-50 */
-    --kds-upload-zone-border: #D1D5DB;          /* gray-300 */
-    --kds-upload-zone-border-hover: #3B82F6;    /* blue-500 */
-    --kds-upload-zone-border-drag: #8347AD;     /* primary-500 (purple) */
+    --kds-upload-zone-bg: var(--kds-color-background-elevated);
+    --kds-upload-zone-border: var(--kds-border-light);
+    --kds-upload-zone-border-hover: var(--kds-color-info-main);
+    --kds-upload-zone-border-drag: var(--kds-color-primary-main);
     --kds-upload-zone-border-error: var(--kds-color-error-main);
     --kds-upload-zone-border-success: var(--kds-color-success-main);
-    --kds-upload-item-bg: #FFFFFF;
-    --kds-upload-item-border: #E5E7EB;          /* gray-200 */
+    --kds-upload-item-bg: var(--kds-color-background-paper);
+    --kds-upload-item-border: var(--kds-border-light);
 
     /* OTP Input */
     --kds-otp-digit-size: 56px;
     --kds-otp-digit-height: 64px;
-    --kds-otp-digit-border: #D1D5DB;
-    --kds-otp-digit-border-focus: #3B82F6;
-    --kds-otp-digit-bg: #FFFFFF;
-    --kds-otp-digit-bg-filled: #F9FAFB;
+    --kds-otp-digit-border: var(--kds-border-light);
+    --kds-otp-digit-border-focus: var(--kds-color-info-main);
+    --kds-otp-digit-bg: var(--kds-color-background-paper);
+    --kds-otp-digit-bg-filled: var(--kds-color-background-elevated);
 
     /* Modal Base */
-    --kds-modal-bg: #FFFFFF;
+    --kds-modal-bg: var(--kds-color-background-paper);
     --kds-modal-padding: var(--kds-spacing-6);
     --kds-modal-padding-mobile: var(--kds-spacing-4);
     --kds-modal-border-radius: var(--kds-radius-lg);
-    --kds-modal-shadow: var(--kds-shadow-elevation-4);
+    --kds-modal-shadow: var(--kds-shadow-4);
     --kds-modal-backdrop: rgba(0, 0, 0, 0.5);
     --kds-modal-max-width: 600px;
     --kds-modal-max-width-mobile: 95vw;
 
     /* Modal Content Colors */
-    --kds-modal-title-color: #111827;           /* gray-900 */
-    --kds-modal-text-color: #374151;            /* gray-700 */
+    --kds-modal-title-color: var(--kds-color-text-primary);
+    --kds-modal-text-color: var(--kds-color-text-secondary);
     --kds-modal-icon-warning: var(--kds-color-warning-main);
     --kds-modal-icon-error: var(--kds-color-error-main);
     --kds-modal-icon-success: var(--kds-color-success-main);
@@ -108,22 +106,22 @@
     --kds-welcome-gradient-end: var(--kds-color-primary-dark);    /* Khipu purple dark */
 
     /* Bank Selector */
-    --kds-bank-item-border: #E5E7EB;
-    --kds-bank-item-border-hover: #D1D5DB;
-    --kds-bank-item-border-selected: #3B82F6;
-    --kds-bank-item-bg-selected: #EFF6FF;        /* blue-50 */
-    --kds-bank-item-bg-hover: #F9FAFB;
+    --kds-bank-item-border: var(--kds-border-light);
+    --kds-bank-item-border-hover: var(--kds-border-light);
+    --kds-bank-item-border-selected: var(--kds-color-info-main);
+    --kds-bank-item-bg-selected: var(--kds-alert-info-bg);
+    --kds-bank-item-bg-hover: var(--kds-color-background-elevated);
 
     /* Signature Pad */
-    --kds-signature-border: #D1D5DB;
-    --kds-signature-bg: #FFFFFF;
+    --kds-signature-border: var(--kds-border-light);
+    --kds-signature-bg: var(--kds-color-background-paper);
     --kds-signature-line-color: #000000;
 
     /* Contract Accordion */
-    --kds-accordion-border: #E5E7EB;
-    --kds-accordion-bg: #F9FAFB;
-    --kds-accordion-bg-open: #FFFFFF;
-    --kds-accordion-header-bg: #F3F4F6;
+    --kds-accordion-border: var(--kds-border-light);
+    --kds-accordion-bg: var(--kds-color-background-elevated);
+    --kds-accordion-bg-open: var(--kds-color-background-paper);
+    --kds-accordion-header-bg: var(--kds-color-background-elevated);
 
     /* Onboarding Container */
     --kds-onboarding-max-width: 800px;

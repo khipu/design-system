@@ -95,6 +95,12 @@ const lightModeColors = {
       errorBg: 'rgba(211, 47, 47, 0.08)',      // error.main with 8% opacity
       infoBg: 'rgba(2, 136, 209, 0.08)',       // info.main with 8% opacity
     },
+    alert: {
+      infoBg: '#EFF6FF',      // blue-50
+      warningBg: '#FFFBEB',   // amber-50
+      successBg: '#ECFDF5',   // green-50
+      errorBg: '#FEF2F2',     // red-50
+    },
   },
 } as const;
 
@@ -455,6 +461,39 @@ export const semanticSpacing = {
 
   // Modal
   modalPadding: '24px',
+
+  // Sidebar/Navigation
+  sidebar: {
+    width: '280px',          // Full sidebar width
+    widthCollapsed: '72px',  // Collapsed sidebar (icon-only mode)
+    widthMobile: '100%',     // Mobile drawer width (full width)
+    headerPadding: '16px',   // Header padding
+    navItemPaddingY: '8px',  // Nav item vertical padding
+    navItemPaddingX: '12px', // Nav item horizontal padding
+    navItemMarginX: '12px',  // Nav item horizontal margin
+    navItemGap: '12px',      // Gap between icon and text
+    submenuIndent: '64px',   // Submenu items left padding
+    iconSize: '24px',        // Icon font size
+    iconContainerSize: '40px', // Icon circular container size
+    labelPaddingX: '24px',   // Section label horizontal padding
+    labelPaddingY: '8px',    // Section label vertical padding
+    labelMarginTop: '16px',  // Section label top margin
+    labelFontSize: '11px',   // Section label font size
+    zIndex: 100,             // Sidebar z-index (below navbar 1000)
+    zIndexMobile: 1000,      // Mobile drawer z-index (above content)
+    transition: '0.2s',      // Transition duration
+    collapsableMaxHeight: '500px', // Max height for collapsable content when open
+  },
+} as const;
+
+// =============================================================================
+// BREAKPOINTS
+// =============================================================================
+
+export const breakpoints = {
+  mobile: '768px',    // < 768px = mobile
+  tablet: '1024px',   // 768px - 1024px = tablet
+  desktop: '1025px',  // > 1024px = desktop
 } as const;
 
 // =============================================================================
@@ -505,6 +544,11 @@ export const shadows = {
 // =============================================================================
 
 export const borders = {
+  // Generic border colors (without 1px solid prefix)
+  light: '#DDDDDD',       // gray-300 equivalent
+  medium: '#999999',      // gray-500 equivalent
+  dark: '#666666',        // gray-700 equivalent
+
   // Card borders (no shadow in Figma)
   card: '1px solid rgba(0, 0, 0, 0.42)',
   cardSelected: '2px solid #8347AD',
@@ -557,18 +601,6 @@ export const transitions = {
     easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
     sharp: 'cubic-bezier(0.4, 0, 0.6, 1)',
   },
-} as const;
-
-// =============================================================================
-// BREAKPOINTS
-// =============================================================================
-
-export const breakpoints = {
-  xs: '444px',
-  sm: '600px',
-  md: '900px',
-  lg: '1200px',
-  xl: '1536px',
 } as const;
 
 // =============================================================================
