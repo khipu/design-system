@@ -28,7 +28,7 @@
     <!-- Back Navigation -->
     <nav class="showcase-nav">
         <div class="showcase-nav-pills">
-            <a href="components.html" class="showcase-pill" style="text-decoration: none;">
+            <a href="components.html" class="showcase-pill" class="kds-text-no-decoration">
                 ← Volver a Components
             </a>
         </div>
@@ -45,7 +45,7 @@
                 </p>
 
                 <div class="component-demo">
-                    <div class="kds-alert info">
+                    <div class="kds-alert kds-info">
                         <div class="kds-alert-icon">
                             <i class="material-symbols-outlined">info</i>
                         </div>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
 
-                    <div class="kds-alert success">
+                    <div class="kds-alert kds-success">
                         <div class="kds-alert-icon">
                             <i class="material-symbols-outlined">check_circle</i>
                         </div>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
 
-                    <div class="kds-alert warning">
+                    <div class="kds-alert kds-warning">
                         <div class="kds-alert-icon">
                             <i class="material-symbols-outlined">warning</i>
                         </div>
@@ -81,7 +81,7 @@
                         </div>
                     </div>
 
-                    <div class="kds-alert error">
+                    <div class="kds-alert kds-error">
                         <div class="kds-alert-icon">
                             <i class="material-symbols-outlined">error</i>
                         </div>
@@ -96,7 +96,7 @@
 
                 <div class="component-code">
                     <button class="copy-button" onclick="copyCode('alerts-code')">📋 Copy</button>
-                    <pre><code id="alerts-code">&lt;div class="kds-alert info"&gt;
+                    <pre><code id="alerts-code">&lt;div class="kds-alert kds-info"&gt;
     &lt;div class="kds-alert-icon"&gt;
         &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
     &lt;/div&gt;
@@ -122,7 +122,7 @@
                     <h4 class="kds-title-small">Grails/GSP Integration</h4>
                     <pre><code>&lt;!-- Flash messages con alerts --&gt;
 &lt;g:if test="${flash.message}"&gt;
-    &lt;div class="kds-alert info"&gt;
+    &lt;div class="kds-alert kds-info"&gt;
         &lt;div class="kds-alert-icon"&gt;
             &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
         &lt;/div&gt;
@@ -133,7 +133,7 @@
 &lt;/g:if&gt;
 
 &lt;g:if test="${flash.error}"&gt;
-    &lt;div class="kds-alert error"&gt;
+    &lt;div class="kds-alert kds-error"&gt;
         &lt;div class="kds-alert-icon"&gt;
             &lt;i class="material-symbols-outlined"&gt;error&lt;/i&gt;
         &lt;/div&gt;
@@ -145,7 +145,7 @@
 &lt;/g:if&gt;
 
 &lt;g:if test="${flash.warning}"&gt;
-    &lt;div class="kds-alert warning"&gt;
+    &lt;div class="kds-alert kds-warning"&gt;
         &lt;div class="kds-alert-icon"&gt;
             &lt;i class="material-symbols-outlined"&gt;warning&lt;/i&gt;
         &lt;/div&gt;
@@ -156,7 +156,7 @@
 &lt;/g:if&gt;
 
 &lt;g:if test="${flash.success}"&gt;
-    &lt;div class="kds-alert success"&gt;
+    &lt;div class="kds-alert kds-success"&gt;
         &lt;div class="kds-alert-icon"&gt;
             &lt;i class="material-symbols-outlined"&gt;check_circle&lt;/i&gt;
         &lt;/div&gt;
@@ -165,6 +165,205 @@
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/g:if&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Snackbars -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Snackbars (4 Variants)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Notificaciones breves que aparecen en la parte inferior de la pantalla
+                </p>
+
+                <div class="component-demo">
+                    <!-- Info Snackbar -->
+                    <div class="kds-snackbar kds-info static">
+                        <div class="kds-snackbar-icon">
+                            <i class="material-symbols-outlined">info</i>
+                        </div>
+                        <div class="kds-snackbar-content">
+                            Tu sesión expirará en 5 minutos
+                        </div>
+                        <div class="kds-snackbar-action">
+                            <button class="kds-btn kds-btn-text">Extender</button>
+                        </div>
+                    </div>
+
+                    <!-- Success Snackbar -->
+                    <div class="kds-snackbar kds-success static">
+                        <div class="kds-snackbar-icon">
+                            <i class="material-symbols-outlined">check_circle</i>
+                        </div>
+                        <div class="kds-snackbar-content">
+                            Cuenta creada exitosamente
+                        </div>
+                    </div>
+
+                    <!-- Warning Snackbar -->
+                    <div class="kds-snackbar kds-warning static">
+                        <div class="kds-snackbar-icon">
+                            <i class="material-symbols-outlined">warning</i>
+                        </div>
+                        <div class="kds-snackbar-content">
+                            Algunos campos requieren revisión
+                        </div>
+                        <div class="kds-snackbar-action">
+                            <button class="kds-btn kds-btn-text">Revisar</button>
+                        </div>
+                    </div>
+
+                    <!-- Error Snackbar -->
+                    <div class="kds-snackbar kds-error static">
+                        <div class="kds-snackbar-icon">
+                            <i class="material-symbols-outlined">error</i>
+                        </div>
+                        <div class="kds-snackbar-content">
+                            Error al guardar los cambios
+                        </div>
+                        <div class="kds-snackbar-action">
+                            <button class="kds-btn kds-btn-text">Reintentar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('snackbar-code')">📋 Copy</button>
+                    <pre><code id="snackbar-code">&lt;!-- Info Snackbar --&gt;
+&lt;div class="kds-snackbar info"&gt;
+    &lt;div class="kds-snackbar-icon"&gt;
+        &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-snackbar-content"&gt;
+        Tu sesión expirará en 5 minutos
+    &lt;/div&gt;
+    &lt;div class="kds-snackbar-action"&gt;
+        &lt;button class="kds-btn kds-btn-text"&gt;Extender&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Variants: .info, .success, .warning, .error --&gt;
+&lt;!-- Action button es opcional --&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Position:</strong> Fixed en bottom center, se puede cambiar con clase <code>.top</code></li>
+                        <li><strong>Variants:</strong> <code>.info</code> (azul), <code>.success</code> (verde), <code>.warning</code> (amarillo), <code>.error</code> (rojo)</li>
+                        <li><strong>Auto-hide:</strong> Usar <code>ui("#snackbar-id", 6000)</code> para mostrar y ocultar automáticamente</li>
+                        <li><strong>Action button:</strong> Opcional, usa <code>.kds-btn-text</code> para el botón</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Snackbar con JavaScript --&gt;
+&lt;div class="kds-snackbar success" id="save-snackbar"&gt;
+    &lt;div class="kds-snackbar-icon"&gt;
+        &lt;i class="material-symbols-outlined"&gt;check_circle&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class="kds-snackbar-content"&gt;
+        Guardado exitosamente
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    // Mostrar por 6 segundos (default)
+    ui("#save-snackbar");
+
+    // Mostrar por 3 segundos
+    ui("#save-snackbar", 3000);
+&lt;/script&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Tooltips -->
+            <div class="component-item">
+                <h3 class="kds-title-large">Tooltips (4 Positions)</h3>
+                <p class="kds-body-medium kds-text-muted">
+                    Información contextual que aparece al hacer hover
+                </p>
+
+                <div class="component-demo" style="padding: 60px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;">
+                    <!-- Top Tooltip -->
+                    <button class="kds-btn kds-btn-outlined">
+                        <span>Hover (Top)</span>
+                        <span class="tooltip">Tooltip en la parte superior</span>
+                    </button>
+
+                    <!-- Bottom Tooltip -->
+                    <button class="kds-btn kds-btn-outlined">
+                        <span>Hover (Bottom)</span>
+                        <span class="tooltip bottom">Tooltip en la parte inferior</span>
+                    </button>
+
+                    <!-- Left Tooltip -->
+                    <button class="kds-btn kds-btn-outlined">
+                        <span>Hover (Left)</span>
+                        <span class="tooltip left">Tooltip a la izquierda</span>
+                    </button>
+
+                    <!-- Right Tooltip -->
+                    <button class="kds-btn kds-btn-outlined">
+                        <span>Hover (Right)</span>
+                        <span class="tooltip right">Tooltip a la derecha</span>
+                    </button>
+                </div>
+
+                <div class="component-code">
+                    <button class="copy-button" onclick="copyCode('tooltip-code')">📋 Copy</button>
+                    <pre><code id="tooltip-code">&lt;!-- Top (default) --&gt;
+&lt;button class="kds-btn kds-btn-outlined"&gt;
+    &lt;span&gt;Hover Me&lt;/span&gt;
+    &lt;span class="tooltip"&gt;Tooltip text&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Bottom --&gt;
+&lt;button class="kds-btn kds-btn-outlined"&gt;
+    &lt;span&gt;Hover Me&lt;/span&gt;
+    &lt;span class="tooltip bottom"&gt;Tooltip text&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Left --&gt;
+&lt;button class="kds-btn kds-btn-outlined"&gt;
+    &lt;span&gt;Hover Me&lt;/span&gt;
+    &lt;span class="tooltip left"&gt;Tooltip text&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Right --&gt;
+&lt;button class="kds-btn kds-btn-outlined"&gt;
+    &lt;span&gt;Hover Me&lt;/span&gt;
+    &lt;span class="tooltip right"&gt;Tooltip text&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+                </div>
+
+                <div class="usage-note">
+                    <h4 class="kds-title-small">Usage Notes</h4>
+                    <ul class="kds-body-small padding-left-20">
+                        <li><strong>Positions:</strong> Default (top), <code>.bottom</code>, <code>.left</code>, <code>.right</code></li>
+                        <li><strong>Activation:</strong> Se muestra automáticamente al hacer hover sobre el elemento padre</li>
+                        <li><strong>Content:</strong> Mantener el texto corto y descriptivo</li>
+                        <li><strong>Container:</strong> El tooltip debe estar dentro del elemento que activa el hover</li>
+                    </ul>
+                </div>
+
+                <div class="grails-note">
+                    <h4 class="kds-title-small">Grails/GSP Integration</h4>
+                    <pre><code>&lt;!-- Tooltip en botón de ayuda --&gt;
+&lt;button type="button" class="kds-btn kds-btn-icon"&gt;
+    &lt;i class="material-symbols-outlined"&gt;help&lt;/i&gt;
+    &lt;span class="tooltip bottom"&gt;
+        ${message(code: 'help.tooltip')}
+    &lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Tooltip en ícono de información --&gt;
+&lt;span style="position: relative; display: inline-flex;"&gt;
+    &lt;i class="material-symbols-outlined"&gt;info&lt;/i&gt;
+    &lt;span class="tooltip right"&gt;
+        Información adicional sobre este campo
+    &lt;/span&gt;
+&lt;/span&gt;</code></pre>
                 </div>
             </div>
 
