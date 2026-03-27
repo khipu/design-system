@@ -268,6 +268,69 @@ function generateBreakpointVariables(breakpoints) {
 }
 
 /**
+ * Generate RESPONSIVE spacing variables (Mobile-First)
+ */
+function generateResponsiveSpacingVariables(responsiveSpacing) {
+  if (!responsiveSpacing) return { mobile: [], tablet: [], desktop: [] };
+
+  const mobile = [];
+  const tablet = [];
+  const desktop = [];
+
+  // Container padding
+  mobile.push({ name: '--kds-container-padding', value: responsiveSpacing.container.mobile, comment: 'Container' });
+  tablet.push({ name: '--kds-container-padding', value: responsiveSpacing.container.tablet });
+  desktop.push({ name: '--kds-container-padding', value: responsiveSpacing.container.desktop });
+
+  // Card padding
+  mobile.push({ name: '--kds-card-padding', value: responsiveSpacing.card.mobile, comment: 'Cards' });
+  tablet.push({ name: '--kds-card-padding', value: responsiveSpacing.card.tablet });
+  desktop.push({ name: '--kds-card-padding', value: responsiveSpacing.card.desktop });
+
+  // Section gap
+  mobile.push({ name: '--kds-section-gap', value: responsiveSpacing.sectionGap.mobile, comment: 'Sections' });
+  tablet.push({ name: '--kds-section-gap', value: responsiveSpacing.sectionGap.tablet });
+  desktop.push({ name: '--kds-section-gap', value: responsiveSpacing.sectionGap.desktop });
+
+  // Element gap
+  mobile.push({ name: '--kds-element-gap', value: responsiveSpacing.elementGap.mobile, comment: 'Elements' });
+  tablet.push({ name: '--kds-element-gap', value: responsiveSpacing.elementGap.tablet });
+  desktop.push({ name: '--kds-element-gap', value: responsiveSpacing.elementGap.desktop });
+
+  // Section margin
+  mobile.push({ name: '--kds-section-margin', value: responsiveSpacing.sectionMargin.mobile, comment: 'Margins' });
+  tablet.push({ name: '--kds-section-margin', value: responsiveSpacing.sectionMargin.tablet });
+  desktop.push({ name: '--kds-section-margin', value: responsiveSpacing.sectionMargin.desktop });
+
+  return { mobile, tablet, desktop };
+}
+
+/**
+ * Generate RESPONSIVE typography variables (Mobile-First)
+ */
+function generateResponsiveTypographyVariables(responsiveTypography) {
+  if (!responsiveTypography) return { mobile: [], tablet: [], desktop: [] };
+
+  const mobile = [];
+  const tablet = [];
+  const desktop = [];
+
+  const variants = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body1', 'body2', 'button', 'caption'];
+
+  for (const variant of variants) {
+    if (responsiveTypography[variant]) {
+      const comment = variant === 'h1' ? 'Headings' : (variant === 'body1' ? 'Body' : (variant === 'button' ? 'Components' : undefined));
+
+      mobile.push({ name: `--kds-font-size-${variant}`, value: responsiveTypography[variant].mobile, comment });
+      tablet.push({ name: `--kds-font-size-${variant}`, value: responsiveTypography[variant].tablet });
+      desktop.push({ name: `--kds-font-size-${variant}`, value: responsiveTypography[variant].desktop });
+    }
+  }
+
+  return { mobile, tablet, desktop };
+}
+
+/**
  * Generate CSS custom properties for border radius
  */
 function generateBorderRadiusVariables(borderRadius) {
@@ -383,7 +446,7 @@ function generateTransitionVariables(transitions) {
 /**
  * Format CSS variables into :root declaration
  */
-function formatCSSVariables(sections) {
+function formatCSSVariables(sections, responsiveSections = []) {
   let css = `/**
  * Khipu Design System - CSS Custom Properties
  * Use these variables for runtime theming and CSS-based styling
@@ -434,6 +497,45 @@ function formatCSSVariables(sections) {
   }
 
   css += '}\n';
+
+  // Add responsive sections with media queries (Mobile-First)
+  if (responsiveSections.length > 0) {
+    css += '\n/* ============================================================================\n';
+    css += '   RESPONSIVE TOKENS (Mobile-First)\n';
+    css += '   ============================================================================ */\n\n';
+
+    for (const { title, breakpoint, variables } of responsiveSections) {
+      if (variables.length === 0) continue;
+
+      css += `/* ${title} */\n`;
+      css += `@media (min-width: ${breakpoint}) {\n`;
+      css += `  :root {\n`;
+
+      let lastHadComment = false;
+      for (const variable of variables) {
+        if (variable.comment && !variable.name) {
+          if (!lastHadComment) {
+            css += '\n';
+          }
+          css += `    /* ${variable.comment} */\n`;
+          lastHadComment = true;
+        } else if (variable.name) {
+          if (variable.comment) {
+            if (!lastHadComment) {
+              css += '\n';
+            }
+            css += `    /* ${variable.comment} */\n`;
+          }
+          css += `    ${variable.name}: ${variable.value};\n`;
+          lastHadComment = false;
+        }
+      }
+
+      css += `  }\n`;
+      css += `}\n\n`;
+    }
+  }
+
   return css;
 }
 
@@ -477,7 +579,50 @@ const sections = [
   },
 ];
 
-const cssContent = formatCSSVariables(sections);
+// Generate responsive sections (Mobile-First)
+const responsiveSections = [];
+
+if (tokens.responsiveSpacing || tokens.responsiveTypography) {
+  const respSpacing = generateResponsiveSpacingVariables(tokens.responsiveSpacing);
+  const respTypography = generateResponsiveTypographyVariables(tokens.responsiveTypography);
+
+  // Base mobile values are already in :root
+  // Add mobile values as base
+  sections.push({
+    title: 'RESPONSIVE SPACING (Mobile Base)',
+    variables: respSpacing.mobile,
+  });
+  sections.push({
+    title: 'RESPONSIVE TYPOGRAPHY (Mobile Base)',
+    variables: respTypography.mobile,
+  });
+
+  // Tablet breakpoint (min-width: 600px)
+  responsiveSections.push({
+    title: 'Tablet (600px+) - Spacing',
+    breakpoint: '600px',
+    variables: respSpacing.tablet,
+  });
+  responsiveSections.push({
+    title: 'Tablet (600px+) - Typography',
+    breakpoint: '600px',
+    variables: respTypography.tablet,
+  });
+
+  // Desktop breakpoint (min-width: 840px)
+  responsiveSections.push({
+    title: 'Desktop (840px+) - Spacing',
+    breakpoint: '840px',
+    variables: respSpacing.desktop,
+  });
+  responsiveSections.push({
+    title: 'Desktop (840px+) - Typography',
+    breakpoint: '840px',
+    variables: respTypography.desktop,
+  });
+}
+
+const cssContent = formatCSSVariables(sections, responsiveSections);
 
 // Write to src/tokens/css-variables.css
 const outputPath = path.join(__dirname, '../src/tokens/css-variables.css');
@@ -485,3 +630,4 @@ fs.writeFileSync(outputPath, cssContent);
 
 console.log('✅ Generated CSS variables:', outputPath);
 console.log('   Variables are now in sync with TypeScript tokens!');
+console.log('   Responsive variables: Mobile-First with 600px (tablet) and 840px (desktop) breakpoints');
