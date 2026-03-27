@@ -13,113 +13,6 @@
 
     <!-- Khipu BeerCSS Bundle (local development) -->
     <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
-
-    <style>
-        /* Survey Modal Custom Styles - Override BeerCSS defaults */
-        #surveyModal {
-            background: white !important;
-            border-radius: 16px !important;
-            padding: 20px !important;
-            max-width: 400px !important;
-            width: 100% !important;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-            box-sizing: border-box !important;
-        }
-
-        #surveyModal::backdrop {
-            background: rgba(0, 0, 0, 0.5) !important;
-        }
-
-        /* Form styling */
-        #surveyModal form {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        /* Clean input styling - remove BeerCSS underlines */
-        #surveyModal .field {
-            margin-bottom: 16px;
-            box-sizing: border-box !important;
-        }
-
-        #surveyModal .field.border {
-            border: 1px solid #D1D5DB !important;
-            border-radius: 8px !important;
-            background: white !important;
-            padding: 0 !important;
-        }
-
-        #surveyModal .field.border select,
-        #surveyModal .field.border input {
-            border: none !important;
-            border-bottom: none !important;
-            padding: 12px 16px !important;
-            background: transparent !important;
-            color: #111827 !important;
-            font-size: 16px !important;
-        }
-
-        #surveyModal .field.border:focus-within {
-            outline: 2px solid #8347AD !important;
-            outline-offset: 0 !important;
-            border-color: #8347AD !important;
-        }
-
-        #surveyModal .field label {
-            position: static !important;
-            display: block !important;
-            margin-bottom: 8px !important;
-            font-size: 14px !important;
-            font-weight: 500 !important;
-            color: #111827 !important;
-            background: transparent !important;
-            padding: 0 !important;
-        }
-
-        #surveyModal .field.border {
-            position: relative !important;
-        }
-
-        /* Button styling */
-        #surveyModal button.primary {
-            width: 100% !important;
-            max-width: 100% !important;
-            padding: 12px 20px !important;
-            font-size: 16px !important;
-            font-weight: 600 !important;
-            border-radius: 8px !important;
-            transition: all 0.2s !important;
-            height: auto !important;
-            min-height: auto !important;
-            line-height: 1.5 !important;
-            box-sizing: border-box !important;
-            margin: 0 !important;
-            border: none !important;
-        }
-
-        #surveyModal button.primary:disabled {
-            background: #E5E7EB !important;
-            color: #9CA3AF !important;
-            cursor: not-allowed !important;
-        }
-
-        #surveyModal button.primary:not(:disabled):hover {
-            background: #6D28D9 !important;
-        }
-
-        /* Close button - hidden */
-        #surveyModal button.circle {
-            display: none !important;
-        }
-
-        /* Help text */
-        #surveyHelpText {
-            margin-top: 8px;
-            text-align: center;
-            font-size: 12px;
-            color: #6B7280;
-        }
-    </style>
 </head>
 <body class="light">
     <!-- Welcome Hero Section -->
@@ -146,37 +39,37 @@
     </div>
 
     <!-- Benefits Section -->
-    <main style="padding: var(--kds-spacing-12) var(--kds-spacing-6); max-width: 1200px; margin: 0 auto;">
+    <main class="kds-container-center max-w-1200" style="padding: var(--kds-spacing-12) var(--kds-spacing-6);">
         <h2 class="kds-headline-large" style="text-align: center; margin-bottom: var(--kds-spacing-8);">
             ¿Por qué elegir Khipu?
         </h2>
 
         <div class="kds-grid-3col" style="margin-bottom: var(--kds-spacing-12);">
-            <div class="kds-card-elevated" style="text-align: center;">
-                <i class="material-symbols-outlined icon-filled" style="font-size: 64px; color: var(--primary); margin-bottom: var(--kds-spacing-3);">
+            <div class="kds-card-elevated" class="kds-text-center">
+                <i class="material-symbols-outlined icon-filled" class="kds-icon-xl kds-mb-3" style="color: var(--primary);">
                     flash_on
                 </i>
-                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Rápido y seguro</h3>
+                <h3 class="kds-title-large" class="kds-mb-2">Rápido y seguro</h3>
                 <p class="kds-body-medium kds-text-muted">
                     Pagos instantáneos directamente desde el banco de tus clientes
                 </p>
             </div>
 
-            <div class="kds-card-elevated" style="text-align: center;">
-                <i class="material-symbols-outlined icon-filled" style="font-size: 64px; color: var(--primary); margin-bottom: var(--kds-spacing-3);">
+            <div class="kds-card-elevated" class="kds-text-center">
+                <i class="material-symbols-outlined icon-filled" class="kds-icon-xl kds-mb-3" style="color: var(--primary);">
                     savings
                 </i>
-                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Costos reducidos</h3>
+                <h3 class="kds-title-large" class="kds-mb-2">Costos reducidos</h3>
                 <p class="kds-body-medium kds-text-muted">
                     Menores comisiones que tarjetas de crédito o débito
                 </p>
             </div>
 
-            <div class="kds-card-elevated" style="text-align: center;">
-                <i class="material-symbols-outlined icon-filled" style="font-size: 64px; color: var(--primary); margin-bottom: var(--kds-spacing-3);">
+            <div class="kds-card-elevated" class="kds-text-center">
+                <i class="material-symbols-outlined icon-filled" class="kds-icon-xl kds-mb-3" style="color: var(--primary);">
                     integration_instructions
                 </i>
-                <h3 class="kds-title-large" style="margin-bottom: var(--kds-spacing-2);">Fácil integración</h3>
+                <h3 class="kds-title-large" class="kds-mb-2">Fácil integración</h3>
                 <p class="kds-body-medium kds-text-muted">
                     APIs y plugins listos para usar en tu plataforma
                 </p>
@@ -184,11 +77,11 @@
         </div>
 
         <!-- Process Overview -->
-        <div class="kds-card-main" style="text-align: center;">
-            <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-4);">
+        <div class="kds-card-main" class="kds-text-center">
+            <h2 class="kds-headline-large" class="kds-mb-4">
                 El proceso de activación
             </h2>
-            <p class="kds-body-large kds-text-muted" style="margin-bottom: var(--kds-spacing-8);">
+            <p class="kds-body-large kds-text-muted" class="kds-mb-8">
                 Solo 8 pasos simples para comenzar a recibir pagos
             </p>
 
@@ -228,7 +121,7 @@
                 </div>
             </div>
 
-            <div style="margin-top: var(--kds-spacing-8);">
+            <div class="kds-mt-8">
                 <button class="kds-btn kds-btn-primary" onclick="startOnboarding()">
                     Comenzar ahora
                     <span class="kds-icon"><i class="material-symbols-outlined">arrow_forward</i></span>
@@ -240,13 +133,13 @@
     <!-- Welcome Survey Modal -->
     <dialog id="surveyModal" class="modal">
         <div style="padding: var(--kds-spacing-8); max-width: 500px;">
-            <button class="transparent circle" onclick="closeSurvey()" style="position: absolute; top: 16px; right: 16px;">
+            <button class="transparent circle" onclick="closeSurvey()" class="kds-absolute-top-right">
                 <span class="kds-icon"><i class="material-symbols-outlined">close</i></span>
             </button>
 
-            <div style="margin-bottom: var(--kds-spacing-6);">
-                <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-2);">¡Bienvenido a Khipu! 👋</h2>
-                <p class="kds-body-large kds-text-muted" style="margin-bottom: var(--kds-spacing-4);">
+            <div class="kds-mb-6">
+                <h2 class="kds-headline-large" class="kds-mb-2">¡Bienvenido a Khipu! 👋</h2>
+                <p class="kds-body-large kds-text-muted" class="kds-mb-4">
                     Antes de empezar, cuéntanos.
                 </p>
                 <p class="kds-title-medium" style="margin-bottom: var(--kds-spacing-3);">
@@ -256,7 +149,7 @@
 
             <form id="surveyForm" onsubmit="submitSurvey(event)">
                 <!-- How did you hear about us -->
-                <div style="margin-bottom: var(--kds-spacing-4);">
+                <div class="kds-mb-4">
                     <label for="referralSource" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #111827;">
                         Fuente de conocimiento
                     </label>
@@ -286,8 +179,8 @@
                 </div>
 
                 <!-- Actions -->
-                <div style="margin-top: var(--kds-spacing-6);">
-                    <button type="submit" id="surveySubmitBtn" class="kds-btn kds-btn-primary" style="width: 100%;" disabled>
+                <div class="kds-mt-6">
+                    <button type="submit" id="surveySubmitBtn" class="kds-btn kds-btn-primary" class="kds-w-full" disabled>
                         Comenzar onboarding
                     </button>
                 </div>
@@ -301,7 +194,7 @@
 
     <!-- Footer -->
     <footer class="primary">
-        <div style="text-align: center;">
+        <div class="kds-text-center">
             <p>&copy; 2026 Khipu. Todos los derechos reservados.</p>
             <p class="kds-body-small kds-text-muted">
                 <a href="#" style="color: inherit;">Términos y condiciones</a> •

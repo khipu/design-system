@@ -14,73 +14,6 @@
     <!-- Khipu BeerCSS Bundle (local development) -->
     <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
 
-    <style>
-        /* Demo-specific styles */
-        .demo-header {
-            background: var(--primary);
-            color: white;
-            padding: var(--kds-spacing-8) var(--kds-spacing-6);
-            text-align: center;
-        }
-
-        .demo-nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: var(--kds-spacing-4);
-            padding: var(--kds-spacing-8);
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .demo-stage-card {
-            background: white;
-            border-radius: var(--kds-radius-lg);
-            padding: var(--kds-spacing-6);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            gap: var(--kds-spacing-3);
-        }
-
-        .demo-stage-card:hover {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .demo-stage-number {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-container);
-            color: var(--primary);
-            border-radius: var(--kds-radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: var(--kds-font-size-xl);
-            font-weight: var(--kds-font-weight-bold);
-        }
-
-        .demo-stage-number i {
-            width: auto !important;
-            height: auto !important;
-            font-size: var(--kds-font-size-2xl) !important;
-        }
-
-        .demo-stage-title {
-            font-size: var(--kds-font-size-lg);
-            font-weight: var(--kds-font-weight-semibold);
-            color: #111827;
-        }
-
-        .demo-stage-description {
-            font-size: var(--kds-font-size-sm);
-            color: #6B7280;
-            line-height: 1.5;
-        }
-    </style>
 </head>
 <body class="light">
     <div class="demo-header">
@@ -88,7 +21,7 @@
         <p class="kds-body-large">Flujo completo de activación de cuenta</p>
     </div>
 
-    <main>
+    <main class="kds-container-center max-w-1200">
         <div class="demo-nav-grid">
             <!-- Components Showcase -->
             <a href="components.html" class="demo-stage-card" style="border: 2px solid var(--primary);">
@@ -198,42 +131,42 @@
 
         <!-- Components Showcase -->
         <div class="kds-card-main" style="margin-top: var(--kds-spacing-12);">
-            <h2 class="kds-headline-large" style="margin-bottom: var(--kds-spacing-4);">Componentes Incluidos</h2>
+            <h2 class="kds-headline-large" class="kds-mb-4">Componentes Incluidos</h2>
 
             <div class="kds-grid-3col">
                 <div class="kds-card-elevated">
-                    <i class="material-symbols-outlined" style="font-size: 32px; color: var(--primary);">upload_file</i>
-                    <h3 class="kds-title-medium" style="margin-top: var(--kds-spacing-3);">File Upload</h3>
+                    <i class="material-symbols-outlined" class="kds-icon-md" style="color: var(--primary);">upload_file</i>
+                    <h3 class="kds-title-medium" class="kds-mt-3">File Upload</h3>
                     <p class="kds-body-small kds-text-muted">Drag-and-drop con preview y validación</p>
                 </div>
 
                 <div class="kds-card-elevated">
-                    <i class="material-symbols-outlined" style="font-size: 32px; color: var(--primary);">pin</i>
-                    <h3 class="kds-title-medium" style="margin-top: var(--kds-spacing-3);">OTP Input</h3>
+                    <i class="material-symbols-outlined" class="kds-icon-md" style="color: var(--primary);">pin</i>
+                    <h3 class="kds-title-medium" class="kds-mt-3">OTP Input</h3>
                     <p class="kds-body-small kds-text-muted">6 dígitos con auto-focus y paste</p>
                 </div>
 
                 <div class="kds-card-elevated">
-                    <i class="material-symbols-outlined" style="font-size: 32px; color: var(--primary);">account_balance</i>
-                    <h3 class="kds-title-medium" style="margin-top: var(--kds-spacing-3);">Bank Selector</h3>
+                    <i class="material-symbols-outlined" class="kds-icon-md" style="color: var(--primary);">account_balance</i>
+                    <h3 class="kds-title-medium" class="kds-mt-3">Bank Selector</h3>
                     <p class="kds-body-small kds-text-muted">Grid responsivo con logos</p>
                 </div>
 
                 <div class="kds-card-elevated">
-                    <i class="material-symbols-outlined" style="font-size: 32px; color: var(--primary);">warning</i>
-                    <h3 class="kds-title-medium" style="margin-top: var(--kds-spacing-3);">KYC Blocking</h3>
+                    <i class="material-symbols-outlined" class="kds-icon-md" style="color: var(--primary);">warning</i>
+                    <h3 class="kds-title-medium" class="kds-mt-3">KYC Blocking</h3>
                     <p class="kds-body-small kds-text-muted">Modal de sectores de alto riesgo</p>
                 </div>
 
                 <div class="kds-card-elevated">
-                    <i class="material-symbols-outlined" style="font-size: 32px; color: var(--primary);">draw</i>
-                    <h3 class="kds-title-medium" style="margin-top: var(--kds-spacing-3);">Signature Pad</h3>
+                    <i class="material-symbols-outlined" class="kds-icon-md" style="color: var(--primary);">draw</i>
+                    <h3 class="kds-title-medium" class="kds-mt-3">Signature Pad</h3>
                     <p class="kds-body-small kds-text-muted">Canvas para firma digital</p>
                 </div>
 
                 <div class="kds-card-elevated">
-                    <i class="material-symbols-outlined" style="font-size: 32px; color: var(--primary);">checklist</i>
-                    <h3 class="kds-title-medium" style="margin-top: var(--kds-spacing-3);">Form Validation</h3>
+                    <i class="material-symbols-outlined" class="kds-icon-md" style="color: var(--primary);">checklist</i>
+                    <h3 class="kds-title-medium" class="kds-mt-3">Form Validation</h3>
                     <p class="kds-body-small kds-text-muted">RUT, email, phone validators</p>
                 </div>
             </div>
@@ -241,7 +174,7 @@
     </main>
 
     <footer class="primary">
-        <div style="text-align: center;">
+        <div class="kds-text-center">
             <p>&copy; 2026 Khipu. Todos los derechos reservados.</p>
             <p class="kds-body-small kds-text-muted">Powered by Khipu Design System BeerCSS</p>
         </div>

@@ -14,60 +14,6 @@
     <!-- Khipu BeerCSS Bundle (local development) -->
     <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
 
-    <style>
-        /* Bank Grid - 4 columns on desktop, 3 on tablet, 2 on mobile */
-        .kds-bank-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: var(--kds-spacing-4);
-            margin-bottom: var(--kds-spacing-6);
-        }
-
-        .kds-bank-item {
-            aspect-ratio: 1;
-            border: 2px solid #E5E7EB;
-            border-radius: 12px;
-            padding: var(--kds-spacing-4);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: white;
-        }
-
-        .kds-bank-item:hover {
-            border-color: #CBD5E1;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .kds-bank-item.selected {
-            border-color: var(--primary);
-            background: var(--kds-color-primary-50);
-            box-shadow: 0 0 0 3px rgba(131, 71, 173, 0.1);
-        }
-
-        .kds-bank-logo {
-            width: 64px;
-            height: 64px;
-            object-fit: contain;
-            margin-bottom: var(--kds-spacing-2);
-        }
-
-        .kds-bank-name {
-            font-size: 14px;
-            font-weight: 500;
-            text-align: center;
-            color: #111827;
-        }
-
-        @media (max-width: 768px) {
-            .kds-bank-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
 </head>
 <body class="light">
     <!-- Onboarding Container -->
@@ -125,7 +71,7 @@
                         <!-- Bank Selection -->
                         <div class="kds-stage-section">
                             <h3 class="kds-stage-section-title">
-                                <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">account_balance</i>
+                                <i class="material-symbols-outlined" class="kds-icon-inline">account_balance</i>
                                 Selecciona tu banco
                             </h3>
 
@@ -137,7 +83,7 @@
                         <!-- Account Type -->
                         <div class="kds-stage-section">
                             <h3 class="kds-stage-section-title">
-                                <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">credit_card</i>
+                                <i class="material-symbols-outlined" class="kds-icon-inline">credit_card</i>
                                 Tipo de cuenta
                             </h3>
 
@@ -160,7 +106,7 @@
                         <!-- Account Number -->
                         <div class="kds-stage-section">
                             <h3 class="kds-stage-section-title">
-                                <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">numbers</i>
+                                <i class="material-symbols-outlined" class="kds-icon-inline">numbers</i>
                                 Número de cuenta
                             </h3>
 

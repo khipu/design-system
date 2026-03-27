@@ -474,6 +474,7 @@ export const semanticSpacing = {
     navItemGap: '12px',      // Gap between icon and text
     submenuIndent: '64px',   // Submenu items left padding
     iconSize: '24px',        // Icon font size
+    iconSizeMd: '32px',
     iconContainerSize: '40px', // Icon circular container size
     labelPaddingX: '24px',   // Section label horizontal padding
     labelPaddingY: '8px',    // Section label vertical padding

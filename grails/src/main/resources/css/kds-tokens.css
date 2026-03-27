@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-02-13T14:56:55.799Z
+ * Generated: 2026-03-26T22:31:32.050Z
  *
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -20,9 +20,9 @@
 
 
   /* Primary palette - Khipu brand */
-  --kds-color-primary-main: #009688;
-  --kds-color-primary-light: #4DB6AC;
-  --kds-color-primary-dark: #00796B;
+  --kds-color-primary-main: #8347AD;
+  --kds-color-primary-light: #A066C9;
+  --kds-color-primary-dark: #6A3A8C;
   --kds-color-primary-contrast: #FFFFFF;
   --kds-color-primary-hover: rgba(131, 71, 173, 0.04);
   --kds-color-primary-selected: rgba(131, 71, 173, 0.08);
@@ -30,9 +30,9 @@
   --kds-color-primary-focus-visible: rgba(131, 71, 173, 0.30);
 
   /* Secondary palette */
-  --kds-color-secondary-main: #9C27B0;
-  --kds-color-secondary-light: #BA68C8;
-  --kds-color-secondary-dark: #7B1FA2;
+  --kds-color-secondary-main: #4CAF50;
+  --kds-color-secondary-light: #81C784;
+  --kds-color-secondary-dark: #388E3C;
   --kds-color-secondary-contrast: #FFFFFF;
 
   /* Semantic colors */
@@ -64,7 +64,7 @@
   --kds-color-action-active: rgba(0, 0, 0, 0.56);
   --kds-color-action-hover: rgba(0, 0, 0, 0.04);
   --kds-color-action-selected: rgba(0, 0, 0, 0.08);
-  --kds-color-action-disabled: rgba(0, 0, 0, 0.26);
+  --kds-color-action-disabled: rgba(0, 0, 0, 0.38);
   --kds-color-action-disabled-bg: rgba(0, 0, 0, 0.12);
   --kds-color-action-focus: rgba(0, 0, 0, 0.12);
 
@@ -72,8 +72,20 @@
   --kds-color-divider: rgba(0, 0, 0, 0.12);
 
   /* Input borders */
-  --kds-color-input-border: rgba(0, 0, 0, 0.23);
-  --kds-color-input-border-hover: rgba(0, 0, 0, 0.87);
+  --kds-color-input-enabled-border: rgba(0, 0, 0, 0.23);
+  --kds-color-input-hover-border: rgba(0, 0, 0, 0.87);
+
+  /* Snackbar backgrounds */
+  --kds-snackbar-success-bg: rgba(46, 125, 50, 0.08);
+  --kds-snackbar-warning-bg: rgba(237, 108, 2, 0.08);
+  --kds-snackbar-error-bg: rgba(211, 47, 47, 0.08);
+  --kds-snackbar-info-bg: rgba(2, 136, 209, 0.08);
+
+  /* Alert backgrounds */
+  --kds-alert-info-bg: #EFF6FF;
+  --kds-alert-warning-bg: #FFFBEB;
+  --kds-alert-success-bg: #ECFDF5;
+  --kds-alert-error-bg: #FEF2F2;
 
   /* ==========================================================================
      TYPOGRAPHY TOKENS
@@ -113,33 +125,61 @@
   --kds-letter-spacing-wider: 0.46px;
   --kds-letter-spacing-widest: 1px;
 
+  /* Button typography */
+  --kds-typography-button-font-size: 0.9375rem;
+  --kds-typography-button-font-weight: 500;
+  --kds-typography-button-line-height: 26px;
+  --kds-typography-button-letter-spacing: 0.46px;
+
   /* ==========================================================================
      SPACING TOKENS
      ========================================================================== */
 
   --kds-spacing-0: 0px;
-  --kds-spacing-1: 4px;
-  --kds-spacing-2: 8px;
-  --kds-spacing-3: 12px;
-  --kds-spacing-4: 16px;
-  --kds-spacing-5: 20px;
-  --kds-spacing-6: 24px;
-  --kds-spacing-8: 32px;
-  --kds-spacing-10: 40px;
-  --kds-spacing-12: 48px;
-  --kds-spacing-16: 64px;
-  --kds-spacing-20: 80px;
-  --kds-spacing-24: 96px;
+  --kds-spacing-1: 8px;
+  --kds-spacing-2: 16px;
+  --kds-spacing-3: 24px;
+  --kds-spacing-4: 32px;
+  --kds-spacing-5: 40px;
+  --kds-spacing-6: 48px;
+  --kds-spacing-7: 56px;
+  --kds-spacing-8: 64px;
+  --kds-spacing-9: 72px;
+  --kds-spacing-10: 80px;
+  --kds-spacing-11: 88px;
+  --kds-spacing-12: 96px;
 
   /* Semantic spacing */
-  --kds-spacing-input-x: undefined;
-  --kds-spacing-input-y: undefined;
-  --kds-spacing-button-x: undefined;
-  --kds-spacing-button-y: undefined;
-  --kds-spacing-card: undefined;
-  --kds-spacing-modal: 24px;
+  --kds-spacing-input-padding-y: 16px;
+  --kds-spacing-input-padding-x: 12px;
+  --kds-spacing-input-padding: 16px 12px;
+  --kds-spacing-button-padding-y: 8px;
+  --kds-spacing-button-padding-x: 22px;
+  --kds-spacing-button-padding: 8px 22px;
+  --kds-spacing-button-min-height: 50px;
+  --kds-spacing-button-icon-size: 20px;
+  --kds-spacing-sidebar-width: 280px;
+  --kds-spacing-sidebar-width-collapsed: 72px;
+  --kds-spacing-sidebar-width-mobile: 100%;
+  --kds-spacing-sidebar-header-padding: 16px;
+  --kds-spacing-sidebar-nav-item-padding-y: 8px;
+  --kds-spacing-sidebar-nav-item-padding-x: 12px;
+  --kds-spacing-sidebar-nav-item-margin-x: 12px;
+  --kds-spacing-sidebar-nav-item-gap: 12px;
+  --kds-spacing-sidebar-submenu-indent: 64px;
+  --kds-spacing-sidebar-icon-size: 24px;
+  --kds-spacing-sidebar-icon-container-size: 40px;
+  --kds-spacing-sidebar-label-padding-x: 24px;
+  --kds-spacing-sidebar-label-padding-y: 8px;
+  --kds-spacing-sidebar-label-margin-top: 16px;
+  --kds-spacing-sidebar-label-font-size: 11px;
+  --kds-spacing-sidebar-z-index: 100;
+  --kds-spacing-sidebar-z-index-mobile: 1000;
+  --kds-spacing-sidebar-transition: 0.2s;
+  --kds-spacing-sidebar-collapsable-max-height: 500px;
   --kds-spacing-section: 32px;
   --kds-spacing-form-gap: 20px;
+  --kds-spacing-inline-gap: 8px;
 
   /* ==========================================================================
      BORDER RADIUS TOKENS
@@ -160,6 +200,16 @@
   --kds-radius-modal: 20px;
   --kds-radius-chip: 16px;
   --kds-radius-iconContainer: 10px;
+
+  /* ==========================================================================
+     BORDER TOKENS
+     ========================================================================== */
+
+
+  /* Border colors */
+  --kds-border-light: #DDDDDD;
+  --kds-border-medium: #999999;
+  --kds-border-dark: #666666;
 
   /* ==========================================================================
      SHADOW TOKENS
@@ -208,9 +258,112 @@
      BREAKPOINTS
      ========================================================================== */
 
-  --kds-breakpoint-sm: 600px;
-  --kds-breakpoint-md: 900px;
-  --kds-breakpoint-lg: 1200px;
-  --kds-breakpoint-xl: 1536px;
+
+  /* Breakpoints */
+  --kds-breakpoint-mobile: 600px;
+  --kds-breakpoint-tablet: 840px;
+  --kds-breakpoint-desktop: 1280px;
+  --kds-breakpoint-legacyMobile: 768px;
+  --kds-breakpoint-legacyTablet: 1024px;
+
+  /* ==========================================================================
+     RESPONSIVE SPACING (MOBILE BASE)
+     ========================================================================== */
+
+
+  /* Container */
+  --kds-container-padding: 16px;
+
+  /* Cards */
+  --kds-card-padding: 16px;
+
+  /* Sections */
+  --kds-section-gap: 24px;
+
+  /* Elements */
+  --kds-element-gap: 12px;
+
+  /* Margins */
+  --kds-section-margin: 16px;
+
+  /* ==========================================================================
+     RESPONSIVE TYPOGRAPHY (MOBILE BASE)
+     ========================================================================== */
+
+
+  /* Headings */
+  --kds-font-size-h1: 1.75rem;
+  --kds-font-size-h2: 1.5rem;
+  --kds-font-size-h3: 1.25rem;
+  --kds-font-size-h4: 1.125rem;
+  --kds-font-size-h5: 1rem;
+  --kds-font-size-h6: 1rem;
+
+  /* Body */
+  --kds-font-size-body1: 0.875rem;
+  --kds-font-size-body2: 0.8125rem;
+
+  /* Components */
+  --kds-font-size-button: 0.875rem;
+  --kds-font-size-caption: 0.6875rem;
 
 }
+
+/* ============================================================================
+   RESPONSIVE TOKENS (Mobile-First)
+   ============================================================================ */
+
+/* Tablet (600px+) - Spacing */
+@media (min-width: 600px) {
+  :root {
+    --kds-container-padding: 24px;
+    --kds-card-padding: 20px;
+    --kds-section-gap: 32px;
+    --kds-element-gap: 16px;
+    --kds-section-margin: 24px;
+  }
+}
+
+/* Tablet (600px+) - Typography */
+@media (min-width: 600px) {
+  :root {
+    --kds-font-size-h1: 2rem;
+    --kds-font-size-h2: 1.75rem;
+    --kds-font-size-h3: 1.5rem;
+    --kds-font-size-h4: 1.25rem;
+    --kds-font-size-h5: 1.125rem;
+    --kds-font-size-h6: 1rem;
+    --kds-font-size-body1: 0.9375rem;
+    --kds-font-size-body2: 0.875rem;
+    --kds-font-size-button: 0.9375rem;
+    --kds-font-size-caption: 0.75rem;
+  }
+}
+
+/* Desktop (840px+) - Spacing */
+@media (min-width: 840px) {
+  :root {
+    --kds-container-padding: 32px;
+    --kds-card-padding: 24px;
+    --kds-section-gap: 48px;
+    --kds-element-gap: 24px;
+    --kds-section-margin: 32px;
+  }
+}
+
+/* Desktop (840px+) - Typography */
+@media (min-width: 840px) {
+  :root {
+    --kds-font-size-h1: 2.5rem;
+    --kds-font-size-h2: 2rem;
+    --kds-font-size-h3: 1.75rem;
+    --kds-font-size-h4: 1.5rem;
+    --kds-font-size-h5: 1.25rem;
+    --kds-font-size-h6: 1.25rem;
+    --kds-font-size-body1: 1rem;
+    --kds-font-size-body2: 0.875rem;
+    --kds-font-size-button: 0.9375rem;
+    --kds-font-size-caption: 0.75rem;
+  }
+}
+

@@ -69,7 +69,7 @@
                     <!-- Identity Document -->
                     <div class="kds-stage-section">
                         <h3 class="kds-stage-section-title">
-                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">badge</i>
+                            <i class="material-symbols-outlined" class="kds-icon-inline">badge</i>
                             Documento de identidad
                         </h3>
                         <p class="kds-stage-section-description">
@@ -79,12 +79,12 @@
                         <div class="kds-file-upload">
                             <div class="kds-file-upload-zone" id="idDocumentZone" ondrop="handleDrop(event, 'idDocument')"
                                  ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
-                                <i class="material-symbols-outlined" style="font-size: 48px; color: var(--primary);">upload_file</i>
+                                <i class="material-symbols-outlined" class="kds-icon-lg" style="color: var(--primary);">upload_file</i>
                                 <div class="kds-file-upload-text">
                                     Arrastra tu archivo aquí o
                                     <label for="idDocumentInput" class="kds-file-upload-button">selecciona un archivo</label>
                                     <input type="file" id="idDocumentInput" accept=".pdf,.jpg,.jpeg,.png"
-                                           onchange="handleFileSelect(event, 'idDocument')" style="display: none;">
+                                           onchange="handleFileSelect(event, 'idDocument')" class="kds-hidden">
                                 </div>
                                 <span class="kds-file-upload-helper">PDF, JPG o PNG (máx. 5MB)</span>
                             </div>
@@ -95,7 +95,7 @@
                     <!-- Proof of Address -->
                     <div class="kds-stage-section">
                         <h3 class="kds-stage-section-title">
-                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">location_on</i>
+                            <i class="material-symbols-outlined" class="kds-icon-inline">location_on</i>
                             Comprobante de domicilio
                         </h3>
                         <p class="kds-stage-section-description">
@@ -105,12 +105,12 @@
                         <div class="kds-file-upload">
                             <div class="kds-file-upload-zone" id="addressProofZone" ondrop="handleDrop(event, 'addressProof')"
                                  ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
-                                <i class="material-symbols-outlined" style="font-size: 48px; color: var(--primary);">upload_file</i>
+                                <i class="material-symbols-outlined" class="kds-icon-lg" style="color: var(--primary);">upload_file</i>
                                 <div class="kds-file-upload-text">
                                     Arrastra tu archivo aquí o
                                     <label for="addressProofInput" class="kds-file-upload-button">selecciona un archivo</label>
                                     <input type="file" id="addressProofInput" accept=".pdf,.jpg,.jpeg,.png"
-                                           onchange="handleFileSelect(event, 'addressProof')" style="display: none;">
+                                           onchange="handleFileSelect(event, 'addressProof')" class="kds-hidden">
                                 </div>
                                 <span class="kds-file-upload-helper">PDF, JPG o PNG (máx. 5MB)</span>
                             </div>
@@ -119,9 +119,9 @@
                     </div>
 
                     <!-- Business Documents (Juridica only) -->
-                    <div class="kds-stage-section" id="businessDocsSection" style="display: none;">
+                    <div class="kds-stage-section" id="businessDocsSection" class="kds-hidden">
                         <h3 class="kds-stage-section-title">
-                            <i class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">business</i>
+                            <i class="material-symbols-outlined" class="kds-icon-inline">business</i>
                             Documentos de la empresa
                         </h3>
                         <p class="kds-stage-section-description">
@@ -131,12 +131,12 @@
                         <div class="kds-file-upload">
                             <div class="kds-file-upload-zone" id="businessDocsZone" ondrop="handleDrop(event, 'businessDocs')"
                                  ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
-                                <i class="material-symbols-outlined" style="font-size: 48px; color: var(--primary);">upload_file</i>
+                                <i class="material-symbols-outlined" class="kds-icon-lg" style="color: var(--primary);">upload_file</i>
                                 <div class="kds-file-upload-text">
                                     Arrastra tu archivo aquí o
                                     <label for="businessDocsInput" class="kds-file-upload-button">selecciona un archivo</label>
                                     <input type="file" id="businessDocsInput" accept=".pdf" multiple
-                                           onchange="handleFileSelect(event, 'businessDocs')" style="display: none;">
+                                           onchange="handleFileSelect(event, 'businessDocs')" class="kds-hidden">
                                 </div>
                                 <span class="kds-file-upload-helper">PDF (máx. 10MB por archivo)</span>
                             </div>

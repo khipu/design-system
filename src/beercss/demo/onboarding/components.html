@@ -14,109 +14,6 @@
     <!-- Khipu BeerCSS Bundle -->
     <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
 
-    <style>
-        body {
-            font-family: 'Public Sans', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #F9FAFB;
-        }
-
-        .showcase-header {
-            background: linear-gradient(135deg, #8347AD 0%, #6A2B93 100%);
-            color: white;
-            padding: var(--kds-spacing-12) var(--kds-spacing-6);
-            text-align: center;
-        }
-
-        .showcase-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--kds-spacing-8) var(--kds-spacing-6);
-        }
-
-        .component-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: var(--kds-spacing-6);
-            margin-top: var(--kds-spacing-8);
-        }
-
-        .demo-stage-card {
-            background: white;
-            border-radius: var(--kds-radius-lg);
-            padding: var(--kds-spacing-6);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            gap: var(--kds-spacing-3);
-            border: 2px solid transparent;
-        }
-
-        .demo-stage-card:hover {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
-            border-color: var(--primary);
-        }
-
-        .demo-stage-icon {
-            width: 64px;
-            height: 64px;
-            background: rgba(131, 71, 173, 0.1);
-            color: var(--primary);
-            border-radius: var(--kds-radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            font-weight: var(--kds-font-weight-bold);
-        }
-
-        .demo-stage-title {
-            font-size: var(--kds-font-size-xl);
-            font-weight: var(--kds-font-weight-semibold);
-            color: #111827;
-            margin: 0;
-        }
-
-        .demo-stage-description {
-            font-size: var(--kds-font-size-sm);
-            color: #6B7280;
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .demo-stage-count {
-            font-size: var(--kds-font-size-xs);
-            color: var(--primary);
-            font-weight: var(--kds-font-weight-semibold);
-            margin-top: auto;
-        }
-
-        .footer-showcase {
-            background: white;
-            border-top: 1px solid #E5E7EB;
-            padding: var(--kds-spacing-8);
-            text-align: center;
-            margin-top: var(--kds-spacing-12);
-        }
-
-        .text-primary-link {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-
-        .opacity-90 {
-            opacity: 0.9;
-        }
-
-        .kds-text-muted {
-            color: #6B7280;
-        }
-    </style>
 
 </head>
 <body class="light">
@@ -127,9 +24,9 @@
     </div>
 
     <!-- Main Content -->
-    <main class="showcase-content">
-        <h2 class="kds-headline-medium" style="margin-bottom: var(--kds-spacing-4);">Categorías de Componentes</h2>
-        <p class="kds-body-medium kds-text-muted" style="margin-bottom: var(--kds-spacing-6);">
+    <main class="showcase-content kds-container-center max-w-1200">
+        <h2 class="kds-headline-medium" class="kds-mb-4">Categorías de Componentes</h2>
+        <p class="kds-body-medium kds-text-muted" class="kds-mb-6">
             Explora cada categoría para ver ejemplos de código, casos de uso y guías de integración con Grails/GSP.
         </p>
 
@@ -205,23 +102,23 @@
                 Para casos de uso más complejos, consulta los 10 templates completos del flujo:
             </p>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--kds-spacing-2);">
-                <ul class="kds-body-small" style="margin: 0; padding-left: 20px; color: #78350F;">
-                    <li><a href="welcome.html" style="color: #92400E; text-decoration: underline;">welcome.html</a> - Pantalla de bienvenida</li>
-                    <li><a href="selector.html" style="color: #92400E; text-decoration: underline;">selector.html</a> - Selector país/persona</li>
-                    <li><a href="profile.html" style="color: #92400E; text-decoration: underline;">profile.html</a> - Perfil de usuario</li>
-                    <li><a href="commercial-data.html" style="color: #92400E; text-decoration: underline;">commercial-data.html</a> - Datos comerciales</li>
-                    <li><a href="documents.html" style="color: #92400E; text-decoration: underline;">documents.html</a> - Subida de documentos</li>
+                <ul class="kds-body-small" class="kds-list-warning">
+                    <li><a href="welcome.html" class="kds-text-warning kds-text-underline">welcome.html</a> - Pantalla de bienvenida</li>
+                    <li><a href="selector.html" class="kds-text-warning kds-text-underline">selector.html</a> - Selector país/persona</li>
+                    <li><a href="profile.html" class="kds-text-warning kds-text-underline">profile.html</a> - Perfil de usuario</li>
+                    <li><a href="commercial-data.html" class="kds-text-warning kds-text-underline">commercial-data.html</a> - Datos comerciales</li>
+                    <li><a href="documents.html" class="kds-text-warning kds-text-underline">documents.html</a> - Subida de documentos</li>
                 </ul>
-                <ul class="kds-body-small" style="margin: 0; padding-left: 20px; color: #78350F;">
-                    <li><a href="bank-connection.html" style="color: #92400E; text-decoration: underline;">bank-connection.html</a> - Conexión bancaria</li>
-                    <li><a href="pricing.html" style="color: #92400E; text-decoration: underline;">pricing.html</a> - Planes de pricing</li>
-                    <li><a href="contract.html" style="color: #92400E; text-decoration: underline;">contract.html</a> - Contrato y firma</li>
-                    <li><a href="validation.html" style="color: #92400E; text-decoration: underline;">validation.html</a> - Validación OTP</li>
-                    <li><a href="activation.html" style="color: #92400E; text-decoration: underline;">activation.html</a> - Activación exitosa</li>
+                <ul class="kds-body-small" class="kds-list-warning">
+                    <li><a href="bank-connection.html" class="kds-text-warning kds-text-underline">bank-connection.html</a> - Conexión bancaria</li>
+                    <li><a href="pricing.html" class="kds-text-warning kds-text-underline">pricing.html</a> - Planes de pricing</li>
+                    <li><a href="contract.html" class="kds-text-warning kds-text-underline">contract.html</a> - Contrato y firma</li>
+                    <li><a href="validation.html" class="kds-text-warning kds-text-underline">validation.html</a> - Validación OTP</li>
+                    <li><a href="activation.html" class="kds-text-warning kds-text-underline">activation.html</a> - Activación exitosa</li>
                 </ul>
             </div>
             <p class="kds-body-small" style="color: #78350F; margin-top: var(--kds-spacing-4); margin-bottom: 0;">
-                📘 <strong>Documentación BeerCSS:</strong> <a href="https://github.com/khipu/design-system/blob/main/src/beercss/README.md" target="_blank" rel="noopener noreferrer" style="color: #92400E; text-decoration: underline;">README.md</a>
+                📘 <strong>Documentación BeerCSS:</strong> <a href="https://github.com/khipu/design-system/blob/main/src/beercss/README.md" target="_blank" rel="noopener noreferrer" class="kds-text-warning kds-text-underline">README.md</a>
             </p>
         </div>
 
