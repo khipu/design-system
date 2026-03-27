@@ -250,8 +250,7 @@ a.kds-btn > .kds-icon > i {
     .kds-card-elevated,
     .khipu-card-elevated,
     .kds-card-main {
-        padding: 20px;
-        margin: 16px;
+        padding: 12px;
     }
 }
 
@@ -2968,6 +2967,13 @@ dialog.modal::backdrop {
     overflow-y: auto;
 }
 
+@media (max-width: 768px) {
+
+    .kds-main-content {
+        padding: var(--kds-spacing-4)
+    }
+}
+
 /* ============================================
    MOBILE RESPONSIVE SIDEBAR
    ============================================ */
@@ -3086,7 +3092,39 @@ dialog.modal::backdrop {
 }
 
 /* ============================================
-   DEMO PAGE STYLES
+   LIST UTILITIES
+   ============================================ */
+
+/* Standard list with compact spacing */
+.kds-list {
+    margin: 0;
+    padding-left: var(--kds-spacing-2);
+    list-style-position: outside;
+    line-height: var(--kds-line-height-relaxed);
+}
+
+.kds-list > li {
+    margin-bottom: var(--kds-spacing-2);
+}
+
+.kds-list > li:last-child {
+    margin-bottom: 0;
+}
+
+/* Code block for displaying code snippets */
+.kds-code-block {
+    background: var(--kds-color-background-elevated);
+    padding: var(--kds-spacing-4);
+    border-radius: var(--kds-radius-md);
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-relaxed);
+    color: var(--kds-color-text-primary);
+}
+
+/* ============================================
+   DEMO PAGE STYLES (DEPRECATED - Use kds-card-* instead)
    ============================================ */
 
 .demo-card {

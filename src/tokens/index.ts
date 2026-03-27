@@ -491,9 +491,121 @@ export const semanticSpacing = {
 // =============================================================================
 
 export const breakpoints = {
-  mobile: '768px',    // < 768px = mobile
-  tablet: '1024px',   // 768px - 1024px = tablet
-  desktop: '1025px',  // > 1024px = desktop
+  // Alineados con BeerCSS para consistencia
+  mobile: '600px',    // < 600px = mobile (BeerCSS: s)
+  tablet: '840px',    // 600px - 840px = tablet (BeerCSS: m)
+  desktop: '1280px',  // > 840px = desktop (BeerCSS: l/xl)
+
+  // Valores legacy (mantener por compatibilidad)
+  legacyMobile: '768px',
+  legacyTablet: '1024px',
+} as const;
+
+// =============================================================================
+// RESPONSIVE SPACING TOKENS (Mobile-First)
+// =============================================================================
+
+/**
+ * Spacing responsive - valores cambian según breakpoint
+ * Base = Mobile (< 600px), luego tablet (>= 600px), luego desktop (>= 840px)
+ */
+export const responsiveSpacing = {
+  // Container padding
+  container: {
+    mobile: '16px',
+    tablet: '24px',
+    desktop: '32px',
+  },
+
+  // Card/Component padding
+  card: {
+    mobile: '16px',
+    tablet: '20px',
+    desktop: '24px',
+  },
+
+  // Section gaps
+  sectionGap: {
+    mobile: '24px',
+    tablet: '32px',
+    desktop: '48px',
+  },
+
+  // Element gaps (between items)
+  elementGap: {
+    mobile: '12px',
+    tablet: '16px',
+    desktop: '24px',
+  },
+
+  // Margin between sections
+  sectionMargin: {
+    mobile: '16px',
+    tablet: '24px',
+    desktop: '32px',
+  },
+} as const;
+
+// =============================================================================
+// RESPONSIVE TYPOGRAPHY (Mobile-First)
+// =============================================================================
+
+/**
+ * Typography responsive - font sizes cambian según breakpoint
+ * Usa clamp() para fluid typography O valores discretos por breakpoint
+ */
+export const responsiveTypography = {
+  h1: {
+    mobile: '1.75rem',   // 28px
+    tablet: '2rem',      // 32px
+    desktop: '2.5rem',   // 40px
+    // Alternativa con clamp: 'clamp(1.75rem, 4vw, 2.5rem)'
+  },
+  h2: {
+    mobile: '1.5rem',    // 24px
+    tablet: '1.75rem',   // 28px
+    desktop: '2rem',     // 32px
+  },
+  h3: {
+    mobile: '1.25rem',   // 20px
+    tablet: '1.5rem',    // 24px
+    desktop: '1.75rem',  // 28px
+  },
+  h4: {
+    mobile: '1.125rem',  // 18px
+    tablet: '1.25rem',   // 20px
+    desktop: '1.5rem',   // 24px
+  },
+  h5: {
+    mobile: '1rem',      // 16px
+    tablet: '1.125rem',  // 18px
+    desktop: '1.25rem',  // 20px
+  },
+  h6: {
+    mobile: '1rem',      // 16px
+    tablet: '1rem',      // 16px
+    desktop: '1.25rem',  // 20px
+  },
+  body1: {
+    mobile: '0.875rem',  // 14px
+    tablet: '0.9375rem', // 15px
+    desktop: '1rem',     // 16px
+  },
+  body2: {
+    mobile: '0.8125rem', // 13px
+    tablet: '0.875rem',  // 14px
+    desktop: '0.875rem', // 14px
+  },
+  button: {
+    mobile: '0.875rem',  // 14px
+    tablet: '0.9375rem', // 15px
+    desktop: '0.9375rem', // 15px
+  },
+  caption: {
+    mobile: '0.6875rem', // 11px
+    tablet: '0.75rem',   // 12px
+    desktop: '0.75rem',  // 12px
+  },
 } as const;
 
 // =============================================================================
@@ -621,6 +733,8 @@ export const tokensByMode = {
     typography,
     spacing,
     semanticSpacing,
+    responsiveSpacing,
+    responsiveTypography,
     borderRadius,
     borders,
     shadows,
@@ -638,6 +752,8 @@ export const tokensByMode = {
     typography,
     spacing,
     semanticSpacing,
+    responsiveSpacing,
+    responsiveTypography,
     borderRadius,
     borders,
     shadows,
@@ -663,6 +779,8 @@ export const tokens = {
   typography,
   spacing,
   semanticSpacing,
+  responsiveSpacing,
+  responsiveTypography,
   borderRadius,
   borders,
   shadows,

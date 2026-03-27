@@ -93,25 +93,41 @@
 
         <!-- Main Content -->
         <main class="kds-main-content">
-            <h3 class="kds-headline-large">Sidebar Navigation Demo</h3>
-            <p class="kds-body-large kds-text-secondary-color">
-                Sidebar simple y sticky basado en el diseño de Khipu Payment Platform
-            </p>
+            <div class="kds-stage">
+                <h3 class="kds-headline-large">Sidebar Navigation Demo</h3>
+                <p class="kds-body-large kds-text-muted kds-mb-6">
+                    Sidebar simple y sticky basado en el diseño de Khipu Payment Platform
+                </p>
 
-            <div class="demo-card">
-                <h4 class="kds-title-large">✨ Características</h4>
-                <ul class="kds-body-medium kds-text-secondary-color">
-                    <li>✅ <strong>Sticky sidebar</strong> - Pegado a la izquierda</li>
-                    <li>✅ <strong>Header simple</strong> - Avatar + nombre + dropdown</li>
-                    <li>✅ <strong>Nav items</strong> - Con iconos y barra activa</li>
-                    <li>✅ <strong>Sin JavaScript</strong> - Solo HTML + CSS</li>
-                    <li>✅ <strong>Design tokens</strong> - Todo con variables CSS</li>
-                </ul>
-            </div>
+                <!-- Card: Características -->
+                <div class="kds-card-elevated kds-mb-6">
+                    <div class="kds-card-header">
+                        <h4 class="kds-title-large kds-flex kds-flex-row kds-items-center kds-gap-2">
+                            <i class="material-symbols-outlined">star</i>
+                            <span>Características</span>
+                        </h4>
+                    </div>
+                    <div class="kds-card-body">
+                        <ul class="kds-list kds-body-medium">
+                            <li><strong>Sticky sidebar</strong> - Pegado a la izquierda</li>
+                            <li><strong>Header simple</strong> - Avatar + nombre + dropdown</li>
+                            <li><strong>Nav items</strong> - Con iconos y barra activa</li>
+                            <li><strong>Mobile responsive</strong> - Drawer con hamburger toggle</li>
+                            <li><strong>Design tokens</strong> - Todo con variables CSS</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <div class="demo-card">
-                <h4 class="kds-title-large">📝 HTML Structure</h4>
-                <div class="code-block">&lt;div class="kds-page-layout"&gt;
+                <!-- Card: HTML Structure -->
+                <div class="kds-card-elevated">
+                    <div class="kds-card-header">
+                        <h4 class="kds-title-large kds-flex kds-flex-row kds-items-center kds-gap-2">
+                            <i class="material-symbols-outlined">code</i>
+                            <span>HTML Structure</span>
+                        </h4>
+                    </div>
+                    <div class="kds-card-body">
+                        <pre class="kds-code-block">&lt;div class="kds-page-layout"&gt;
     &lt;aside class="kds-sidebar"&gt;
         &lt;div class="kds-sidebar-header"&gt;
             &lt;div class="kds-sidebar-avatar"&gt;F&lt;/div&gt;
@@ -137,21 +153,14 @@
     &lt;main class="kds-main-content"&gt;
         ...
     &lt;/main&gt;
-&lt;/div&gt;</div>
+&lt;/div&gt;</pre>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
 
     <!-- Scripts -->
     <script src="/dist/beercss/khipu-beercss.min.js"></script>
-    <script>
-        // Initialize sidebar interactions
-        KhipuSidebar.init();
-
-        // Listen to nav changes (optional)
-        document.querySelector('.kds-sidebar').addEventListener('kds-sidebar-nav-change', function(e) {
-            console.log('Nav changed to:', e.detail.text);
-        });
-    </script>
 </body>
 </html>

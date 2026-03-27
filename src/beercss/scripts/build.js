@@ -115,9 +115,9 @@ async function buildJS() {
     // Read source files - use non-minified beer.js and minify all together
     let beerJS = readFile(path.join(BEERCSS_DIR, 'beer.js'));
     let materialColorsJS = readFile(path.join(MATERIAL_COLORS_DIR, 'material-dynamic-colors.min.js'));
-    const khipuInitJS = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-init.js'));
     const sidebarJS = readFile(path.join(__dirname, '../scripts/sidebar.js'));
     const khipuOnboardingJS = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-onboarding.js'));
+    const khipuInitJS = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-init.js'));
 
     // Remove ES6 export statements from CDN files (they're meant for modules, but we're using regular script tag)
     beerJS = beerJS.replace(/export\s*\{[^}]*\};?/g, '');
@@ -125,13 +125,13 @@ async function buildJS() {
     materialColorsJS = materialColorsJS.replace(/export\s*\{[^}]*\};?/g, '');
     materialColorsJS = materialColorsJS.replace(/export\s+default\s+[^;]+;?/g, '');
 
-    // Combine JS in order: BeerCSS → Material Colors → Khipu init → Sidebar → Khipu onboarding
+    // Combine JS in order: BeerCSS → Material Colors → Sidebar → Onboarding → Init (init must be last!)
     const combinedJS = `/* Khipu BeerCSS Bundle - Combined JavaScript */\n\n` +
         `/* BeerCSS v4.0.1 */\n${beerJS}\n\n` +
         `/* Material Dynamic Colors v1.1.2 */\n${materialColorsJS}\n\n` +
-        `/* Khipu Initialization */\n${khipuInitJS}\n\n` +
         `/* Khipu Sidebar Navigation */\n${sidebarJS}\n\n` +
-        `/* Khipu Onboarding Controller */\n${khipuOnboardingJS}\n`;
+        `/* Khipu Onboarding Controller */\n${khipuOnboardingJS}\n\n` +
+        `/* Khipu Initialization (must be last to initialize all components) */\n${khipuInitJS}\n`;
 
     // Write non-minified version
     const jsPath = path.join(OUTPUT_DIR, 'khipu-beercss.js');

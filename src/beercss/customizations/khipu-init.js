@@ -25,7 +25,12 @@
     function initKhipuMaterial() {
         console.log('Initializing Khipu Material Design components...');
 
-        // Initialize sidenav toggle
+        // Initialize new Khipu Sidebar (if available)
+        if (typeof window.KhipuSidebar !== 'undefined') {
+            window.KhipuSidebar.init();
+        }
+
+        // Initialize sidenav toggle (legacy support)
         initSidenav();
 
         // Initialize flash messages auto-dismiss
