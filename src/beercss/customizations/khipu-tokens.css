@@ -127,6 +127,22 @@ body.dark {
     --kds-onboarding-max-width: 800px;
     --kds-onboarding-padding: var(--kds-spacing-6);
     --kds-onboarding-gap: var(--kds-spacing-6);
+
+    /* Button Size Variants */
+    --kds-button-sm-min-height: 36px;
+    --kds-button-sm-padding-y: 6px;
+    --kds-button-sm-padding-x: 16px;
+    --kds-button-sm-padding: 6px 16px;
+
+    --kds-button-md-min-height: 42px;
+    --kds-button-md-padding-y: 8px;
+    --kds-button-md-padding-x: 20px;
+    --kds-button-md-padding: 8px 20px;
+
+    /* Scroll Container Utilities */
+    --kds-scroll-sm-height: 280px;
+    --kds-scroll-md-height: 420px;
+    --kds-scroll-lg-height: 600px;
 }
 
 /* ========================================
