@@ -10,6 +10,32 @@
 }
 
 /* ========================================
+   TEXT UTILITIES OVERRIDE
+   Fix BeerCSS classes that use wrong color tokens
+   ======================================== */
+
+/* BeerCSS confuses theme colors (primary/secondary/tertiary) with text colors.
+   We must use !important to override BeerCSS's !important declarations */
+
+/* Primary text - should be almost black, not purple */
+body .primary-text,
+.primary-text.primary-text {
+    color: var(--kds-color-text-primary) !important;
+}
+
+/* Secondary text - should be gray, not green */
+body .secondary-text,
+.secondary-text.secondary-text {
+    color: var(--kds-color-text-secondary) !important;
+}
+
+/* Tertiary text - should be disabled/hint color, not tertiary theme color */
+body .tertiary-text,
+.tertiary-text.tertiary-text {
+    color: var(--kds-color-text-disabled) !important;
+}
+
+/* ========================================
    KHIPU BUTTON SYSTEM
    Custom button components - don't modify BeerCSS classes
    ======================================== */
@@ -206,7 +232,29 @@ a.kds-btn > .kds-icon > i {
     min-width: var(--kds-spacing-button-icon-size);
     min-height: var(--kds-spacing-button-icon-size);
     line-height: 1;
+    top: 1px;
 }
+
+/* ========================================
+   Button Size Variants
+   ======================================== */
+
+/* Small button - for compact contexts (cards with side-by-side actions) */
+button.kds-btn.kds-btn-sm,
+a.kds-btn.kds-btn-sm {
+    min-height: var(--kds-button-sm-min-height);
+    padding: var(--kds-button-sm-padding);
+    font-size: var(--kds-font-size-sm);
+}
+
+/* Medium button - balanced size between small and default */
+button.kds-btn.kds-btn-md,
+a.kds-btn.kds-btn-md {
+    min-height: var(--kds-button-md-min-height);
+    padding: var(--kds-button-md-padding);
+}
+
+/* Default .kds-btn uses --kds-spacing-button-min-height (50px) from base styles */
 
 /* ========================================
    Card Components (Material Design 3)
@@ -609,6 +657,17 @@ a.kds-btn > .kds-icon > i {
     }
 }
 
+/* Grid cell stretch - ensures all cards in grid have same height */
+.kds-grid-cell-stretch {
+    display: flex;
+}
+
+.kds-grid-cell-stretch > * {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Flex utilities */
 .kds-flex {
     display: flex;
@@ -658,6 +717,30 @@ a.kds-btn > .kds-icon > i {
 .kds-gap-5 { gap: var(--kds-spacing-5); }
 .kds-gap-6 { gap: var(--kds-spacing-6); }
 .kds-gap-8 { gap: var(--kds-spacing-8); }
+
+/* Scroll container utilities */
+.kds-scroll-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.kds-scroll-sm {
+    max-height: var(--kds-scroll-sm-height);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.kds-scroll-md {
+    max-height: var(--kds-scroll-md-height);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.kds-scroll-lg {
+    max-height: var(--kds-scroll-lg-height);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
 /* Spacing utilities - Margin */
 .kds-m-0 { margin: 0; }
@@ -982,6 +1065,8 @@ footer.primary a:hover {
     color: #111827;
     margin-bottom: 8px;
     display: block;
+    display: flex;
+    gap: 5px;
 }
 
 /* Icon utilities for inline icons */
@@ -1114,12 +1199,6 @@ body.dark {
   appearance: auto;
   -webkit-appearance: auto;
   -moz-appearance: auto;
-
-  /* Asegurar que el arrow nativo tenga espacio */
-  padding-right: var(--kds-spacing-10);  /* 40px */
-  background-position: right var(--kds-spacing-4) center;  /* 16px desde el borde */
-  background-repeat: no-repeat;
-  background-size: var(--kds-spacing-5);  /* 20px */
 }
 
 /* ==========================================
@@ -1303,6 +1382,12 @@ body.dark {
     animation: none;
 }
 
+/* Top position variant - for notifications that should appear at top */
+.kds-snackbar-top {
+    top: var(--kds-spacing-4);
+    bottom: auto;
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
     .kds-snackbar {
@@ -1343,6 +1428,12 @@ body.dark {
     border-radius: var(--kds-radius-sm);
     padding: calc(var(--kds-spacing-1) / 2) var(--kds-spacing-2);
     box-shadow: var(--kds-shadow-4);
+}
+
+/* Tooltip wrapper for inline icons - matches demo pattern */
+.kds-tooltip-icon {
+    position: relative;
+    display: inline-flex;
 }
 
 /* ========================================
@@ -2057,6 +2148,36 @@ dialog.modal {
 
 dialog.modal::backdrop {
     background: var(--kds-modal-backdrop);
+}
+
+/* ========================================
+   MODAL FIELD STYLES
+   Consistent input/select styling for all modals
+   ======================================== */
+
+dialog.modal .field {
+    margin-bottom: var(--kds-spacing-4);
+    box-sizing: border-box;
+}
+
+dialog.modal .field.border {
+    border: var(--kds-border-width-sm) solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-color-background-paper);
+    padding: 0;
+}
+
+dialog.modal .field.border select,
+dialog.modal .field.border input {
+    font-size: var(--kds-font-size-md);
+    box-sizing: border-box;
+}
+
+/* Focus state - use outline to prevent width change */
+dialog.modal .field.border:focus-within {
+    outline: var(--kds-border-width-md) solid var(--kds-color-primary-main);
+    outline-offset: 0;
+    border-color: var(--kds-color-primary-main);
 }
 
 /* ========================================
@@ -3239,6 +3360,12 @@ dialog.modal::backdrop {
 
 .kds-list > li:last-child {
     margin-bottom: 0;
+}
+
+/* List without bullets */
+.kds-list-unstyled {
+    list-style: none;
+    padding-left: 0;
 }
 
 /* Code block for displaying code snippets */
