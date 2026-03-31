@@ -85,8 +85,8 @@ body.dark {
 
     /* Modal Base */
     --kds-modal-bg: var(--kds-color-background-paper);
-    --kds-modal-padding: var(--kds-spacing-6);
-    --kds-modal-padding-mobile: var(--kds-spacing-4);
+    --kds-modal-padding: var(--kds-spacing-4);
+    --kds-modal-padding-mobile: var(--kds-spacing-2);
     --kds-modal-border-radius: var(--kds-radius-lg);
     --kds-modal-shadow: var(--kds-shadow-4);
     --kds-modal-backdrop: rgba(0, 0, 0, 0.5);

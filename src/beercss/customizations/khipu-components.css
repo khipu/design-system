@@ -681,6 +681,10 @@ a.kds-btn.kds-btn-md {
     flex-direction: row;
 }
 
+.kds-flex-wrap {
+    flex-wrap: wrap;
+}
+
 .kds-justify-start {
     justify-content: flex-start;
 }
@@ -2826,8 +2830,59 @@ dialog.modal .field.border:focus-within {
 
 /* Container utilities */
 .kds-container-center {
+    width: 100%;
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Nav should have no padding - only background color */
+nav {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* When inside nav, inherit flex behavior and override BeerCSS margin: 0 */
+nav > .kds-container-center {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-4);
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: var(--kds-spacing-4);
+    padding-right: var(--kds-spacing-4);
+    padding-top: var(--kds-spacing-4);
+    padding-bottom: var(--kds-spacing-4);
+}
+
+footer,
+footer.primary {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* When inside footer, add padding to align with main content */
+footer > .kds-container-center {
+    padding-left: var(--kds-spacing-4);
+    padding-right: var(--kds-spacing-4);
+    padding-top: var(--kds-spacing-8);
+    padding-bottom: var(--kds-spacing-8);
+}
+
+@media (min-width: 768px) {
+    nav > .kds-container-center {
+        padding-left: var(--kds-spacing-6);
+        padding-right: var(--kds-spacing-6);
+        padding-top: var(--kds-spacing-5);
+        padding-bottom: var(--kds-spacing-5);
+    }
+
+    footer > .kds-container-center {
+        padding-left: var(--kds-spacing-6);
+        padding-right: var(--kds-spacing-6);
+        padding-top: var(--kds-spacing-10);
+        padding-bottom: var(--kds-spacing-10);
+    }
 }
 
 .max-w-500 {
@@ -2955,10 +3010,19 @@ dialog.modal .field.border:focus-within {
     display: flex;
     align-items: flex-start;
     gap: var(--kds-spacing-2);
-    padding: var(--kds-spacing-3);
+    padding: var(--kds-spacing-2);
     border-radius: var(--kds-radius-md);
     border: 1px solid;
     font-family: var(--kds-font-family-primary);
+    min-width: 0;
+    flex: 1 1 100%;
+}
+
+@media (min-width: 768px) {
+    .kds-alert {
+        padding: var(--kds-spacing-3);
+        flex: 1 1 auto;
+    }
 }
 
 .kds-alert:last-child {
@@ -2985,6 +3049,8 @@ dialog.modal .field.border:focus-within {
     font-weight: var(--kds-font-weight-semibold);
     line-height: var(--kds-line-height-normal);
     margin-bottom: calc(var(--kds-spacing-1) / 2);
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 /* Description (regular) */
@@ -2992,6 +3058,8 @@ dialog.modal .field.border:focus-within {
     font-size: var(--kds-font-size-sm);
     font-weight: var(--kds-font-weight-regular);
     line-height: var(--kds-line-height-relaxed);
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 /* Alert Variants */
@@ -3052,6 +3120,15 @@ dialog.modal .field.border:focus-within {
 .kds-page-layout {
     display: flex;
     min-height: 100vh;
+    padding-left: var(--kds-spacing-4);
+    padding-right: var(--kds-spacing-4);
+}
+
+@media (min-width: 768px) {
+    .kds-page-layout {
+        padding-left: var(--kds-spacing-6);
+        padding-right: var(--kds-spacing-6);
+    }
 }
 
 /* Sidebar - Sticky flotante a la izquierda */
@@ -3064,6 +3141,7 @@ dialog.modal .field.border:focus-within {
     position: sticky;
     top: var(--kds-spacing-4);
     margin: var(--kds-spacing-4);
+    margin-left: 0;
     height: fit-content;
     box-shadow: var(--kds-shadow-2);
 }
@@ -3212,16 +3290,19 @@ dialog.modal .field.border:focus-within {
 /* Main content */
 .kds-main-content {
     flex: 1;
+    min-width: 0;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    padding-top: var(--kds-spacing-4);
+    padding-bottom: var(--kds-spacing-4);
 }
 
-@media (max-width: 768px) {
-
+@media (min-width: 768px) {
     .kds-main-content {
-        padding: var(--kds-spacing-4)
+        padding-top: var(--kds-spacing-6);
+        padding-bottom: var(--kds-spacing-6);
     }
 }
 
@@ -3257,14 +3338,16 @@ dialog.modal .field.border:focus-within {
     color: var(--kds-color-text-primary);
 }
 
-/* Botón hamburger */
+/* Botón hamburger - oculto en desktop, visible en mobile */
 .kds-hamburger-btn {
+    display: none;
     width: var(--kds-spacing-sidebar-icon-container-size);
     height: var(--kds-spacing-sidebar-icon-container-size);
     border: none;
     background: transparent;
     border-radius: var(--kds-radius-sm);
     cursor: pointer;
+    padding: 0;
     transition: background-color var(--kds-transition-shorter) var(--kds-easing-standard);
 }
 
@@ -3279,6 +3362,13 @@ dialog.modal .field.border:focus-within {
 
 /* Mobile (≤ 768px) */
 @media (max-width: 768px) {
+    /* Mostrar hamburger button en nav */
+    .kds-hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     /* Mostrar topbar */
     .kds-mobile-topbar {
         display: flex;
@@ -4279,3 +4369,61 @@ dialog#surveyModal button.circle {
 .kds-card-elevated.kds-p-5 { padding: var(--kds-spacing-5); }
 .kds-card-elevated.kds-p-6 { padding: var(--kds-spacing-6); }
 .kds-card-elevated.kds-p-8 { padding: var(--kds-spacing-8); }
+
+/* ========================================
+   SNACKBAR UTILITIES
+   Position variants for snackbar/toast messages
+   ======================================== */
+
+/* Snackbar positioned at top (above modals) */
+.snackbar.kds-snackbar-top {
+    top: var(--kds-spacing-4);
+    bottom: auto;
+    z-index: 1400; /* Above modals (1300) */
+}
+
+/* ========================================
+   DIRECTIONAL SPACING UTILITIES
+   Margin and padding for individual sides
+   ======================================== */
+
+/* Margin Left */
+.kds-ml-0 { margin-left: 0; }
+.kds-ml-1 { margin-left: var(--kds-spacing-1); }
+.kds-ml-2 { margin-left: var(--kds-spacing-2); }
+.kds-ml-3 { margin-left: var(--kds-spacing-3); }
+.kds-ml-4 { margin-left: var(--kds-spacing-4); }
+.kds-ml-5 { margin-left: var(--kds-spacing-5); }
+.kds-ml-6 { margin-left: var(--kds-spacing-6); }
+.kds-ml-8 { margin-left: var(--kds-spacing-8); }
+
+/* Margin Right */
+.kds-mr-0 { margin-right: 0; }
+.kds-mr-1 { margin-right: var(--kds-spacing-1); }
+.kds-mr-2 { margin-right: var(--kds-spacing-2); }
+.kds-mr-3 { margin-right: var(--kds-spacing-3); }
+.kds-mr-4 { margin-right: var(--kds-spacing-4); }
+.kds-mr-5 { margin-right: var(--kds-spacing-5); }
+.kds-mr-6 { margin-right: var(--kds-spacing-6); }
+.kds-mr-8 { margin-right: var(--kds-spacing-8); }
+
+/* Padding Left */
+.kds-pl-0 { padding-left: 0; }
+.kds-pl-1 { padding-left: var(--kds-spacing-1); }
+.kds-pl-2 { padding-left: var(--kds-spacing-2); }
+.kds-pl-3 { padding-left: var(--kds-spacing-3); }
+.kds-pl-4 { padding-left: var(--kds-spacing-4); }
+.kds-pl-5 { padding-left: var(--kds-spacing-5); }
+.kds-pl-6 { padding-left: var(--kds-spacing-6); }
+.kds-pl-8 { padding-left: var(--kds-spacing-8); }
+
+/* Padding Right */
+.kds-pr-0 { padding-right: 0; }
+.kds-pr-1 { padding-right: var(--kds-spacing-1); }
+.kds-pr-2 { padding-right: var(--kds-spacing-2); }
+.kds-pr-3 { padding-right: var(--kds-spacing-3); }
+.kds-pr-4 { padding-right: var(--kds-spacing-4); }
+.kds-pr-5 { padding-right: var(--kds-spacing-5); }
+.kds-pr-6 { padding-right: var(--kds-spacing-6); }
+.kds-pr-8 { padding-right: var(--kds-spacing-8); }
+
