@@ -32,6 +32,12 @@ const jsonTokens = {
     lineHeights: tokens.lineHeights,
     letterSpacings: tokens.letterSpacings,
     button: tokens.typography.button,  // Component-specific typography
+    h1: tokens.typography.h1,
+    h2: tokens.typography.h2,
+    h3: tokens.typography.h3,
+    h4: tokens.typography.h4,
+    h5: tokens.typography.h5,
+    h6: tokens.typography.h6,
   },
   spacing: tokens.spacing,
   semanticSpacing: tokens.semanticSpacing,

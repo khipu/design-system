@@ -293,6 +293,8 @@ export const typography = {
     fontSize: '2.5rem',
     lineHeight: 1.2,
     letterSpacing: '-0.01562em',
+    marginBlockStart: 0,
+    marginBlockEnd: 0,
   },
   h2: {
     fontFamily: fontFamilies.primary,
@@ -300,6 +302,8 @@ export const typography = {
     fontSize: '2rem',
     lineHeight: 1.2,
     letterSpacing: '-0.00833em',
+    marginBlockStart: 0,
+    marginBlockEnd: 0,
   },
   h3: {
     fontFamily: fontFamilies.primary,
@@ -307,6 +311,8 @@ export const typography = {
     fontSize: '1.75rem',
     lineHeight: 1.2,
     letterSpacing: '0em',
+    marginBlockStart: 0,
+    marginBlockEnd: 0,
   },
   h4: {
     fontFamily: fontFamilies.primary,
@@ -314,6 +320,8 @@ export const typography = {
     fontSize: '1.5rem',
     lineHeight: 1.235,
     letterSpacing: '0.00735em',
+    marginBlockStart: 0,
+    marginBlockEnd: 0,
   },
   h5: {
     fontFamily: fontFamilies.primary,
@@ -321,6 +329,8 @@ export const typography = {
     fontSize: '1.25rem',
     lineHeight: 1.334,
     letterSpacing: '0em',
+    marginBlockStart: 0,
+    marginBlockEnd: 0,
   },
   h6: {
     fontFamily: fontFamilies.primary,
@@ -328,6 +338,8 @@ export const typography = {
     fontSize: '1.25rem', // 20px
     lineHeight: '32px',
     letterSpacing: '0.15px',
+    marginBlockStart: 0,
+    marginBlockEnd: 0,
   },
   subtitle1: {
     fontFamily: fontFamilies.secondary,
