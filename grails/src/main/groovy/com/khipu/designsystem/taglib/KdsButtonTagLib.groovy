@@ -3,14 +3,14 @@ package com.khipu.designsystem.taglib
 /**
  * Khipu Design System - Button TagLib
  *
- * Renders a button component following the Khipu Design System specifications.
- * Supports multiple variants, colors, sizes, and states.
+ * Renders a button component using BeerCSS Material Design 3 classes.
+ * Based on khipu-components.css button styles.
  *
  * @author Khipu Team
- * @version 0.1.0-alpha.1
+ * @version 0.1.0-alpha.30
  *
  * Usage:
- * <kds:button variant="contained" color="primary">
+ * <kds:button variant="primary">
  *   Submit
  * </kds:button>
  *
@@ -21,91 +21,63 @@ class KdsButtonTagLib {
     static namespace = 'kds'
 
     /**
-     * Renders a Khipu Design System button
+     * Renders a Khipu Design System button using BeerCSS classes
      *
-     * @attr variant - Button variant: contained, outlined, text (default: contained)
-     * @attr color - Button color: primary, secondary, success, error, warning, info (default: primary)
-     * @attr size - Button size: small, medium, large (default: large)
+     * @attr variant - Button variant: primary, secondary, outlined, outlined-white, text (default: primary)
      * @attr type - Button type: button, submit, reset (default: button)
-     * @attr fullWidth - Full width button (boolean, default: false)
      * @attr disabled - Disabled state (boolean, default: false)
-     * @attr loading - Loading state (boolean, default: false)
      * @attr onclick - JavaScript onclick handler
      * @attr href - If provided, renders as link (<a>) instead of button
      * @attr target - Link target (only with href): _blank, _self, etc.
      * @attr class - Additional CSS classes
      * @attr id - Element ID
-     * @attr style - Inline styles
      * @attr title - HTML title attribute (tooltip)
      * @attr tabindex - Tab index for accessibility
+     * @attr icon - Icon name (Material Symbols) to display before text
+     * @attr iconAfter - Icon name (Material Symbols) to display after text
      *
      * @example
-     * <kds:button variant="contained" color="primary" size="large">
+     * <kds:button variant="primary">
      *   PAGAR AHORA
      * </kds:button>
      *
      * @example
-     * <kds:button type="submit" loading="${processing}">
-     *   Procesando...
+     * <kds:button variant="outlined" type="submit">
+     *   Continuar
      * </kds:button>
      *
      * @example
-     * <kds:button variant="text" href="/help" target="_blank">
+     * <kds:button variant="text" href="/help" target="_blank" icon="help">
      *   ¿Necesitas ayuda?
+     * </kds:button>
+     *
+     * @example
+     * <kds:button variant="primary" icon="arrow_forward" iconAfter="true">
+     *   Siguiente
      * </kds:button>
      */
     def button = { attrs, body ->
         // Extract and validate attributes
-        def variant = attrs.remove('variant') ?: 'contained'
-        def color = attrs.remove('color') ?: 'primary'
-        def size = attrs.remove('size') ?: 'large'
+        def variant = attrs.remove('variant') ?: 'primary'
         def type = attrs.remove('type') ?: 'button'
-        def fullWidth = parseBoolean(attrs.remove('fullWidth'))
         def disabled = parseBoolean(attrs.remove('disabled'))
-        def loading = parseBoolean(attrs.remove('loading'))
         def href = attrs.remove('href')
         def target = attrs.remove('target')
+        def icon = attrs.remove('icon')
+        def iconAfter = parseBoolean(attrs.remove('iconAfter'))
 
         // Validate variant
-        def validVariants = ['contained', 'outlined', 'text']
+        def validVariants = ['primary', 'secondary', 'outlined', 'outlined-white', 'text']
         if (!validVariants.contains(variant)) {
-            log.warn("Invalid button variant '${variant}'. Using 'contained'. Valid values: ${validVariants}")
-            variant = 'contained'
+            log.warn("Invalid button variant '${variant}'. Using 'primary'. Valid values: ${validVariants}")
+            variant = 'primary'
         }
 
-        // Validate color
-        def validColors = ['primary', 'secondary', 'success', 'error', 'warning', 'info']
-        if (!validColors.contains(color)) {
-            log.warn("Invalid button color '${color}'. Using 'primary'. Valid values: ${validColors}")
-            color = 'primary'
-        }
+        // Build CSS classes based on BeerCSS structure
+        def cssClasses = ['kds-btn']
 
-        // Validate size
-        def validSizes = ['small', 'medium', 'large']
-        if (!validSizes.contains(size)) {
-            log.warn("Invalid button size '${size}'. Using 'large'. Valid values: ${validSizes}")
-            size = 'large'
-        }
-
-        // Build CSS classes
-        def cssClasses = [
-            'kds-button',
-            "kds-button--${variant}",
-            "kds-button--${color}",
-            "kds-button--${size}"
-        ]
-
-        if (fullWidth) {
-            cssClasses << 'kds-button--full-width'
-        }
-
-        if (disabled || loading) {
-            cssClasses << 'kds-button--disabled'
-        }
-
-        if (loading) {
-            cssClasses << 'kds-button--loading'
-        }
+        // Add variant class (kds-btn-primary, kds-btn-outlined, etc.)
+        cssClasses << "kds-btn-${variant}"
 
         // Add custom classes
         if (attrs['class']) {
@@ -126,7 +98,7 @@ class KdsButtonTagLib {
             if (target) {
                 htmlAttrs['target'] = target
             }
-            if (disabled || loading) {
+            if (disabled) {
                 htmlAttrs['aria-disabled'] = 'true'
                 // Prevent navigation on disabled links
                 htmlAttrs['onclick'] = 'return false;'
@@ -134,18 +106,18 @@ class KdsButtonTagLib {
         } else {
             // Button attributes
             htmlAttrs['type'] = type
-            if (disabled || loading) {
+            if (disabled) {
                 htmlAttrs['disabled'] = 'disabled'
             }
         }
 
         // Add onclick handler (unless it's a disabled link)
-        if (attrs['onclick'] && !(isLink && (disabled || loading))) {
+        if (attrs['onclick'] && !(isLink && disabled)) {
             htmlAttrs['onclick'] = attrs.remove('onclick')
         }
 
-        // Add remaining attributes (id, style, title, tabindex, etc.)
-        ['id', 'style', 'title', 'tabindex', 'data-*', 'aria-*'].each { attrPattern ->
+        // Add remaining attributes (id, title, tabindex, etc.)
+        ['id', 'title', 'tabindex', 'data-*', 'aria-*'].each { attrPattern ->
             attrs.findAll { key, value ->
                 attrPattern.endsWith('*')
                     ? key.startsWith(attrPattern.replace('*', ''))
@@ -164,15 +136,26 @@ class KdsButtonTagLib {
         }
         out << ">"
 
-        // Render loading spinner
-        if (loading) {
-            out << '<span class="kds-button__spinner"></span>'
+        // Render icon before text (if specified and not iconAfter)
+        if (icon && !iconAfter) {
+            out << '<span class="kds-icon">'
+            out << '<i class="material-symbols-outlined">'
+            out << icon.toString().encodeAsHTML()
+            out << '</i>'
+            out << '</span>'
         }
 
         // Render button content (label)
-        out << '<span class="kds-button__label">'
         out << body()
-        out << '</span>'
+
+        // Render icon after text (if specified and iconAfter)
+        if (icon && iconAfter) {
+            out << '<span class="kds-icon">'
+            out << '<i class="material-symbols-outlined">'
+            out << icon.toString().encodeAsHTML()
+            out << '</i>'
+            out << '</span>'
+        }
 
         // Render closing tag
         out << "</${tagName}>"
