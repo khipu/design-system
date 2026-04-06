@@ -32,24 +32,10 @@ dependencies {
 }
 
 // ============================================================================
-// CSS SETUP - Copy tokens from React
+// CSS SETUP - Use tokens directly from source
 // ============================================================================
-
-task copyTokensCSS(type: Copy) {
-    description = 'Copy CSS Variables from React tokens'
-    group = 'build'
-
-    from '../src/tokens/css-variables.css'
-    into 'src/main/resources/css'
-    rename { fileName -> 'kds-tokens.css' }
-
-    doLast {
-        println "✅ CSS Variables copied to grails/src/main/resources/css/kds-tokens.css"
-    }
-}
-
-// Ensure CSS is copied before processing resources
-processResources.dependsOn copyTokensCSS
+// Note: No longer copying files. Use ../src/tokens/css-variables.css directly
+// from the source when packaging the plugin.
 
 // ============================================================================
 // JAR CONFIGURATION

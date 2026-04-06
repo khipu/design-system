@@ -21,6 +21,7 @@ const lightModeColors = {
     main: '#8347AD',
     light: '#A066C9',
     dark: '#6A3A8C',
+    container: '#F3E5FF',  // Light purple background for chips/badges
     contrastText: '#FFFFFF',
     states: {
       hover: 'rgba(131, 71, 173, 0.04)',
@@ -186,6 +187,7 @@ const semanticColors = {
     main: '#2E7D32',
     light: '#4CAF50',
     dark: '#1B5E20',
+    container: '#ECFDF5',  // Light green background for chips/badges
     contrastText: '#FFFFFF',
   },
 
@@ -193,6 +195,7 @@ const semanticColors = {
     main: '#ED6C02',
     light: '#FF9800',
     dark: '#E65100',
+    container: '#FFFBEB',  // Light amber background for chips/badges
     contrastText: '#FFFFFF',
   },
 
@@ -200,6 +203,7 @@ const semanticColors = {
     main: '#D32F2F',
     light: '#EF5350',
     dark: '#C62828',
+    container: '#FEF2F2',  // Light red background for chips/badges
     contrastText: '#FFFFFF',
   },
 
@@ -209,6 +213,7 @@ const semanticColors = {
     main: '#0288D1',
     light: '#03A9F4',
     dark: '#01579B',
+    container: '#EFF6FF',  // Light blue background for chips/badges
     contrastText: '#FFFFFF',
   },
 } as const;
@@ -261,6 +266,7 @@ export const fontSizes = {
   xs: '0.75rem',    // 12px
   sm: '0.875rem',   // 14px
   base: '1rem',     // 16px
+  md: '1rem',       // 16px (alias of base)
   lg: '1.125rem',   // 18px
   xl: '1.25rem',    // 20px
   '2xl': '1.5rem',  // 24px
@@ -414,18 +420,26 @@ export const typography = {
 
 export const spacing = {
   0: '0px',
-  1: '8px',
-  2: '16px',
-  3: '24px',
-  4: '32px',
-  5: '40px',
-  6: '48px',
-  7: '56px',
-  8: '64px',
-  9: '72px',
-  10: '80px',
-  11: '88px',
-  12: '96px',
+  0.5: '4px',     // Half of base
+  0.75: '6px',    // 3/4 of base
+  1: '8px',       // Base unit
+  1.5: '12px',    // 1.5x base
+  2: '16px',      // 2x base
+  2.5: '20px',    // 2.5x base
+  3: '24px',      // 3x base
+  3.5: '28px',    // 3.5x base
+  4: '32px',      // 4x base
+  4.5: '36px',    // 4.5x base
+  5: '40px',      // 5x base
+  5.5: '44px',    // 5.5x base
+  6: '48px',      // 6x base
+  7: '56px',      // 7x base
+  8: '64px',      // 8x base
+  9: '72px',      // 9x base
+  10: '80px',     // 10x base
+  11: '88px',     // 11x base
+  12: '96px',     // 12x base
+  20: '160px',    // 20x base
 } as const;
 
 // =============================================================================
@@ -652,14 +666,27 @@ export const borderRadius = {
 export const shadows = {
   none: 'none',
 
-  // From Figma: elevation/2 (used on primary buttons)
-  elevation2: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+  // Material Design elevation levels (from MUI)
+  1: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+  2: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+  4: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
+  6: '0px 3px 4px -2px rgba(0,0,0,0.2), 0px 6px 7px 0px rgba(0,0,0,0.14), 0px 2px 12px 1px rgba(0,0,0,0.12)',
+  8: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
+  16: '0px 8px 10px -5px rgba(0,0,0,0.2), 0px 16px 24px 2px rgba(0,0,0,0.14), 0px 6px 30px 5px rgba(0,0,0,0.12)',
+  24: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)',
 
-  // Semantic shadows from Figma
-  button: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)', // elevation/2
-  card: 'none', // Figma cards use borders, not shadows
-  modal: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)',
-  dropdown: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
+  // Elevation aliases
+  elevation1: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+  elevation2: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+  elevation3: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
+  elevation4: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
+
+  // Semantic aliases
+  md: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)', // Same as elevation 4
+  button: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)', // elevation 2
+  card: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)', // elevation 1
+  modal: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)', // elevation 24
+  dropdown: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)', // elevation 8
   stepperInfo: '0 2px 4px rgba(2, 136, 209, 0.25)',     // Info color shadow for current step
   stepperSuccess: '0 2px 4px rgba(46, 125, 50, 0.25)', // Success color shadow for completed step
 } as const;
@@ -673,6 +700,10 @@ export const borders = {
   light: '#DDDDDD',       // gray-300 equivalent
   medium: '#999999',      // gray-500 equivalent
   dark: '#666666',        // gray-700 equivalent
+
+  // Border widths
+  widthSm: '1px',
+  widthMd: '2px',
 
   // Card borders (no shadow in Figma)
   card: '1px solid rgba(0, 0, 0, 0.42)',
