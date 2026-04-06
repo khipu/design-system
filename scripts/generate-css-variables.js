@@ -119,6 +119,14 @@ function generateColorVariables(colors) {
     variables.push({ name: '--kds-color-divider', value: colors.divider, comment: 'Divider' });
   }
 
+  // Gray palette (neutral colors)
+  if (colors.gray) {
+    variables.push({ comment: 'Gray palette - Neutral colors' });
+    for (const [shade, value] of Object.entries(colors.gray)) {
+      variables.push({ name: `--kds-color-gray-${shade}`, value });
+    }
+  }
+
   // Component colors - generate all automatically
   const componentKeys = Object.keys(colors.components || {});
 
@@ -227,7 +235,8 @@ function generateSpacingVariables(spacing, semanticSpacing) {
 
   // Base spacing scale
   for (const [key, value] of Object.entries(spacing)) {
-    variables.push({ name: `--kds-spacing-${key}`, value });
+    const cssKey = String(key).replace(/\./g, '-');
+    variables.push({ name: `--kds-spacing-${cssKey}`, value });
   }
 
   // Semantic spacing
@@ -410,6 +419,24 @@ function generateBorderVariables(borders) {
 }
 
 /**
+ * Generate semantic alias variables
+ * These are shorter aliases for commonly used color variables
+ */
+function generateSemanticAliases() {
+  const variables = [];
+
+  // Surface aliases
+  variables.push({ name: '--kds-surface-base', value: 'var(--kds-color-background-default)', comment: 'Surface aliases' });
+
+  // Text aliases (shorter versions of color tokens)
+  variables.push({ name: '--kds-text-primary', value: 'var(--kds-color-text-primary)', comment: 'Text aliases' });
+  variables.push({ name: '--kds-text-secondary', value: 'var(--kds-color-text-secondary)' });
+  variables.push({ name: '--kds-text-disabled', value: 'var(--kds-color-text-disabled)' });
+
+  return variables;
+}
+
+/**
  * Generate CSS custom properties for z-index
  */
 function generateZIndexVariables(zIndex) {
@@ -585,6 +612,10 @@ const sections = [
   {
     title: 'BORDER TOKENS',
     variables: generateBorderVariables(tokens.borders),
+  },
+  {
+    title: 'SEMANTIC ALIASES',
+    variables: generateSemanticAliases(),
   },
   {
     title: 'SHADOW TOKENS',

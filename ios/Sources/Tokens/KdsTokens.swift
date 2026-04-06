@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-04-06T16:41:05.770Z
+ * Generated: 2026-04-06T18:31:10.331Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -86,6 +86,7 @@ public struct KdsTokens {
         public static let fontSizeXs: CGFloat = 12
         public static let fontSizeSm: CGFloat = 14
         public static let fontSizeBase: CGFloat = 16
+        public static let fontSizeMd: CGFloat = 16
         public static let fontSizeLg: CGFloat = 18
         public static let fontSizeXl: CGFloat = 20
         public static let fontSizeSize2Xl: CGFloat = 24
@@ -116,6 +117,14 @@ public struct KdsTokens {
         public static let space10: CGFloat = 80
         public static let space11: CGFloat = 88
         public static let space12: CGFloat = 96
+        public static let space20: CGFloat = 160
+        public static let space0.5: CGFloat = 4
+        public static let space0.75: CGFloat = 6
+        public static let space1.5: CGFloat = 12
+        public static let space2.5: CGFloat = 20
+        public static let space3.5: CGFloat = 28
+        public static let space4.5: CGFloat = 36
+        public static let space5.5: CGFloat = 44
         
         // Semantic spacing
         public static let cardPaddingX: CGFloat = 20

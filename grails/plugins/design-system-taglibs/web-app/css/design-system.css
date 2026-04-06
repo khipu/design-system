@@ -169,7 +169,7 @@
 
   /* Semantic shadows */
   --kds-shadow-button: var(--kds-shadow-2);
-  --kds-shadow-card: var(--kds-shadow-1);
+  --kds-shadow-card: var(--kds-shadow-2);
   --kds-shadow-modal: var(--kds-shadow-24);
   --kds-shadow-dropdown: var(--kds-shadow-8);
 
