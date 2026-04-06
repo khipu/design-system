@@ -4,7 +4,7 @@
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-03-26T22:31:32.050Z
+ * Generated: 2026-04-01T17:40:20.288Z
  *
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -131,6 +131,20 @@
   --kds-typography-button-line-height: 26px;
   --kds-typography-button-letter-spacing: 0.46px;
 
+  /* Typography margins */
+  --kds-typography-h1-margin-block-start: 0;
+  --kds-typography-h1-margin-block-end: 0;
+  --kds-typography-h2-margin-block-start: 0;
+  --kds-typography-h2-margin-block-end: 0;
+  --kds-typography-h3-margin-block-start: 0;
+  --kds-typography-h3-margin-block-end: 0;
+  --kds-typography-h4-margin-block-start: 0;
+  --kds-typography-h4-margin-block-end: 0;
+  --kds-typography-h5-margin-block-start: 0;
+  --kds-typography-h5-margin-block-end: 0;
+  --kds-typography-h6-margin-block-start: 0;
+  --kds-typography-h6-margin-block-end: 0;
+
   /* ==========================================================================
      SPACING TOKENS
      ========================================================================== */
@@ -168,6 +182,7 @@
   --kds-spacing-sidebar-nav-item-gap: 12px;
   --kds-spacing-sidebar-submenu-indent: 64px;
   --kds-spacing-sidebar-icon-size: 24px;
+  --kds-spacing-sidebar-icon-size-md: 32px;
   --kds-spacing-sidebar-icon-container-size: 40px;
   --kds-spacing-sidebar-label-padding-x: 24px;
   --kds-spacing-sidebar-label-padding-y: 8px;
@@ -218,6 +233,7 @@
   --kds-shadow-1: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
   --kds-shadow-2: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
   --kds-shadow-4: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+  --kds-shadow-6: 0px 3px 4px -2px rgba(0,0,0,0.2), 0px 6px 7px 0px rgba(0,0,0,0.14), 0px 2px 12px 1px rgba(0,0,0,0.12);
   --kds-shadow-8: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
   --kds-shadow-16: 0px 8px 10px -5px rgba(0,0,0,0.2), 0px 16px 24px 2px rgba(0,0,0,0.14), 0px 6px 30px 5px rgba(0,0,0,0.12);
   --kds-shadow-24: 0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12);
@@ -365,5 +381,41 @@
     --kds-font-size-button: 0.9375rem;
     --kds-font-size-caption: 0.75rem;
   }
+}
+
+/* ============================================================================
+   BASE TYPOGRAPHY STYLES
+   Reset default browser margins using design tokens
+   Higher specificity to override BeerCSS framework
+   ============================================================================ */
+
+:where(h1) {
+  margin-block-start: var(--kds-typography-h1-margin-block-start) !important;
+  margin-block-end: var(--kds-typography-h1-margin-block-end) !important;
+}
+
+:where(h2) {
+  margin-block-start: var(--kds-typography-h2-margin-block-start) !important;
+  margin-block-end: var(--kds-typography-h2-margin-block-end) !important;
+}
+
+:where(h3) {
+  margin-block-start: var(--kds-typography-h3-margin-block-start) !important;
+  margin-block-end: var(--kds-typography-h3-margin-block-end) !important;
+}
+
+:where(h4) {
+  margin-block-start: var(--kds-typography-h4-margin-block-start) !important;
+  margin-block-end: var(--kds-typography-h4-margin-block-end) !important;
+}
+
+:where(h5) {
+  margin-block-start: var(--kds-typography-h5-margin-block-start) !important;
+  margin-block-end: var(--kds-typography-h5-margin-block-end) !important;
+}
+
+:where(h6) {
+  margin-block-start: var(--kds-typography-h6-margin-block-start) !important;
+  margin-block-end: var(--kds-typography-h6-margin-block-end) !important;
 }
 

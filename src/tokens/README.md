@@ -2,6 +2,95 @@
 
 Este directorio contiene todos los tokens de diseño del Khipu Design System, extraídos desde Figma y preparados para soporte de modo claro y oscuro.
 
+## 📁 Arquitectura de Archivos
+
+### **Fuente de Verdad:**
+```
+src/tokens/index.ts
+```
+**Único archivo que debes editar manualmente.** Define todos los tokens en TypeScript.
+
+### **Archivos Autogenerados:**
+```
+src/tokens/
+├── index.ts              ← FUENTE DE VERDAD (editar aquí)
+├── tokens.json           ← Autogenerado (DO NOT EDIT)
+└── css-variables.css     ← Autogenerado (DO NOT EDIT)
+```
+
+### **Uso en BeerCSS:**
+```
+src/beercss/customizations/
+└── khipu-tokens.css      ← Importa css-variables.css + mapea a BeerCSS
+```
+
+### **Copia para Grails (opcional):**
+```
+grails/src/main/resources/css/
+└── kds-tokens.css        ← Copia de css-variables.css vía Gradle
+```
+
+---
+
+## 🔄 Flujo de Generación
+
+```mermaid
+graph TD
+    A[src/tokens/index.ts] -->|npm run tokens:export| B[src/tokens/tokens.json]
+    B -->|node scripts/generate-css-variables.js| C[src/tokens/css-variables.css]
+    C -->|@import| D[src/beercss/customizations/khipu-tokens.css]
+    C -->|./gradlew copyTokensCSS| E[grails/src/main/resources/css/kds-tokens.css]
+    D -->|npm run beercss:build| F[dist/beercss/khipu-beercss.min.css]
+```
+
+### **Paso a Paso:**
+
+1. **Editar tokens** en `src/tokens/index.ts`
+2. **Exportar a JSON**: `npm run tokens:export`
+   - Genera `tokens.json`
+3. **Generar CSS Variables**: `node scripts/generate-css-variables.js`
+   - Genera `css-variables.css`
+4. **Build BeerCSS**: `npm run beercss:build`
+   - Bundlea `khipu-tokens.css` → `dist/beercss/khipu-beercss.min.css`
+5. **[Opcional] Sincronizar Grails**: `cd grails && ../android/gradlew copyTokensCSS`
+   - Copia `css-variables.css` → `grails/.../kds-tokens.css`
+
+### **Comandos Disponibles:**
+
+```bash
+# Regenerar TODOS los tokens (TypeScript, CSS, Kotlin, Swift)
+npm run tokens:generate
+
+# Solo regenerar CSS (más rápido)
+npm run tokens:export && node scripts/generate-css-variables.js
+
+# Verificar sincronización de archivos
+npm run tokens:verify
+
+# Build completo del design system
+npm run build
+```
+
+**💡 Tip:** Ejecuta `npm run tokens:verify` antes de hacer commit para asegurar que todos los archivos estén sincronizados.
+
+---
+
+## ⚠️ Reglas Importantes
+
+### ✅ **DO:**
+- Editar solo `src/tokens/index.ts`
+- Correr `npm run tokens:generate` después de cambios
+- Verificar cambios en `css-variables.css` antes de commit
+- Usar comandos npm para regenerar
+
+### ❌ **DON'T:**
+- **NUNCA** editar `tokens.json` manualmente
+- **NUNCA** editar `css-variables.css` manualmente
+- **NUNCA** editar valores en `khipu-tokens.css` (solo mapeos)
+- No hacer commits con archivos autogenerados desincronizados
+
+---
+
 ## Estructura de Tokens
 
 ### Soporte de Modo Claro/Oscuro
@@ -149,8 +238,77 @@ Cuando el equipo esté listo para implementar dark mode completamente:
 3. **Actualizar CSS variables** para reaccionar al modo
 4. **Sincronizar con Figma** los valores finales de dark mode
 
+## 🔍 Troubleshooting
+
+### ❓ **Los cambios en `index.ts` no se reflejan**
+
+1. Verifica que ejecutaste `npm run tokens:export`:
+   ```bash
+   npm run tokens:export
+   ```
+
+2. Verifica timestamp en `tokens.json` (debe ser reciente):
+   ```bash
+   ls -la src/tokens/tokens.json
+   ```
+
+3. Regenera CSS variables:
+   ```bash
+   node scripts/generate-css-variables.js
+   ```
+
+4. Rebuild BeerCSS:
+   ```bash
+   npm run beercss:build
+   ```
+
+### ❓ **Archivos autogenerados desincronizados**
+
+Verifica timestamps:
+```bash
+ls -la src/tokens/*.{ts,json,css}
+```
+
+Si `css-variables.css` está desactualizado:
+```bash
+npm run tokens:generate
+```
+
+### ❓ **Grails tiene tokens antiguos**
+
+El archivo `grails/src/main/resources/css/kds-tokens.css` se sincroniza solo cuando ejecutas Gradle:
+
+```bash
+cd grails
+../android/gradlew copyTokensCSS
+
+# O build completo
+../android/gradlew build
+```
+
+### ❓ **¿Necesito sincronizar Grails?**
+
+**Solo si** estás usando el TagLib de Grails que referencia `kds-tokens.css`.
+
+**Si usas BeerCSS** (vía CDN o bundler), el archivo en Grails NO se usa y puede ignorarse.
+
+---
+
+## 📊 Verificación de Sincronización
+
+```bash
+# Ver timestamps de todos los archivos de tokens
+find src/tokens grails/src/main/resources/css -name "*.css" -o -name "*.json" -o -name "index.ts" | xargs ls -la
+
+# Comparar contenido (deben ser casi idénticos excepto header)
+diff src/tokens/css-variables.css grails/src/main/resources/css/kds-tokens.css
+```
+
+---
+
 ## Referencias
 
 - [Material-UI Dark Mode](https://mui.com/material-ui/customization/dark-mode/)
 - [Figma Variables Documentation](https://help.figma.com/hc/en-us/articles/15339657135383-Guide-to-variables-in-Figma)
 - Archivo Figma: **Pagos Automáticos - MUI v610**
+- [BeerCSS Framework](https://www.beercss.com/)

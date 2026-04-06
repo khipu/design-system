@@ -64,6 +64,7 @@
     "beercss:dev": "node src/beercss/scripts/dev-server.js",
     "tokens:export": "node scripts/export-tokens-json.js",
     "tokens:generate": "npm run build:web && npm run tokens:export && node scripts/generate-css-variables.js && node scripts/generate-tokens.js --kotlin-output=android/designsystem/src/main/java/com/khipu/designsystem/tokens/KdsTokens.kt --swift-output=ios/Sources/Tokens/KdsTokens.swift",
+    "tokens:verify": "bash scripts/verify-tokens-sync.sh",
     "generate:tokens": "npm run tokens:generate",
     "generate:tokens:android": "npm run tokens:generate",
     "android:build": "cd android && ./gradlew :designsystem:assembleRelease",
