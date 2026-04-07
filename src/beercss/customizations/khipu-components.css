@@ -2137,7 +2137,7 @@ footer > .kds-container-center {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow: visible;
     padding-top: var(--kds-spacing-4);
     padding-bottom: var(--kds-spacing-4);
 }
