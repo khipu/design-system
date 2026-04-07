@@ -448,7 +448,6 @@ a.kds-btn.kds-btn-md {
 .kds-card-plan-features {
     display: flex;
     flex-direction: column;
-    gap: var(--kds-spacing-3);
     flex: 1;
 }
 
@@ -499,6 +498,20 @@ a.kds-btn.kds-btn-md {
 
 .kds-card-body {
     padding: 0;
+}
+
+/* Card Plan - List Styles */
+.kds-card-plan ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-block-start: 0 !important;
+}
+
+.kds-card-plan li {
+  margin: 0;
+  padding: 0;
+  margin-block-start: 0 !important;
 }
 
 .kds-card-footer {
@@ -556,9 +569,10 @@ a.kds-btn.kds-btn-md {
 /* Grid patterns */
 .kds-grid-2col {
     display: grid;
-    grid-template-columns: 1fr;
     gap: var(--kds-spacing-4);
     align-items: stretch;
+    justify-items: center;
+    grid-template-columns: minmax(0, 1fr);
 }
 
 @media (min-width: 768px) {
@@ -762,19 +776,6 @@ a.kds-btn.kds-btn-md {
 .kds-py-4 { padding-top: var(--kds-spacing-4); padding-bottom: var(--kds-spacing-4); }
 .kds-py-6 { padding-top: var(--kds-spacing-6); padding-bottom: var(--kds-spacing-6); }
 .kds-py-8 { padding-top: var(--kds-spacing-8); padding-bottom: var(--kds-spacing-8); }
-
-/* Legacy spacing utilities (backward compatibility) */
-.khipu-spacing-top {
-    margin-top: var(--kds-spacing-8);
-}
-
-.khipu-spacing-bottom {
-    margin-bottom: var(--kds-spacing-8);
-}
-
-.khipu-spacing-large {
-    margin: var(--kds-spacing-12) 0;
-}
 
 /* ========================================
    Stepper Component (Multi-stage Progress Indicator)
@@ -1009,6 +1010,7 @@ footer.primary a {
     display: block;
     padding: 4px 0;
     transition: color 0.2s ease;
+    text-align: center;
 }
 
 footer.primary a:hover {
@@ -1474,122 +1476,6 @@ dialog.modal .field.border:focus-within {
     outline: var(--kds-border-width-md) solid var(--kds-color-primary-main);
     outline-offset: 0;
     border-color: var(--kds-color-primary-main);
-}
-
-/* ========================================
-   WELCOME HERO SECTION
-   Full-width gradient hero with CTA
-   ======================================== */
-
-.kds-welcome-hero {
-    background: linear-gradient(135deg, var(--kds-welcome-gradient-start) 0%, var(--kds-welcome-gradient-end) 100%);
-    color: white;
-    padding: var(--kds-spacing-20) var(--kds-spacing-6);
-    text-align: center;
-    border-radius: 0;
-    margin: 0;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Decorative circles */
-.kds-welcome-hero::before,
-.kds-welcome-hero::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.kds-welcome-hero::before {
-    width: 400px;
-    height: 400px;
-    top: -200px;
-    right: -100px;
-}
-
-.kds-welcome-hero::after {
-    width: 300px;
-    height: 300px;
-    bottom: -150px;
-    left: -50px;
-}
-
-.kds-welcome-hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.kds-welcome-hero-icon {
-    font-size: 80px;
-    margin-bottom: var(--kds-spacing-4);
-    opacity: 0.9;
-}
-
-.kds-welcome-hero-icon i {
-    width: auto !important;
-    height: auto !important;
-    font-size: 80px !important;
-    min-width: 80px;
-    min-height: 80px;
-}
-
-/* Fix for benefit card icons - BeerCSS forces 24px, override for large icons */
-.kds-card-elevated i.icon-filled {
-    width: auto !important;
-    height: auto !important;
-    min-width: 48px;
-    min-height: 48px;
-}
-
-.kds-welcome-hero-title {
-    font-size: var(--kds-font-size-4xl);
-    font-weight: var(--kds-font-weight-bold);
-    margin-bottom: var(--kds-spacing-4);
-    line-height: 1.2;
-}
-
-.kds-welcome-hero-subtitle {
-    font-size: var(--kds-font-size-xl);
-    opacity: 0.95;
-    margin-bottom: var(--kds-spacing-8);
-    line-height: 1.5;
-}
-
-.kds-welcome-hero-actions {
-    display: flex;
-    gap: var(--kds-spacing-4);
-    justify-content: center;
-}
-
-
-@media (max-width: 768px) {
-    .kds-welcome-hero {
-        padding: var(--kds-spacing-12) var(--kds-spacing-4);
-    }
-
-    .kds-welcome-hero-icon {
-        font-size: 60px;
-    }
-
-    .kds-welcome-hero-title {
-        font-size: var(--kds-font-size-3xl);
-    }
-
-    .kds-welcome-hero-subtitle {
-        font-size: var(--kds-font-size-lg);
-    }
-
-    .kds-welcome-hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .kds-welcome-hero-actions button {
-        width: 100% !important;
-    }
 }
 
 /* ========================================
@@ -2175,6 +2061,9 @@ footer > .kds-container-center {
     pointer-events: none;
     transform: translateY(calc(var(--kds-spacing-1) * -1));
     transition: all var(--kds-transition-shorter) var(--kds-easing-standard);
+    max-height: calc(100vh - var(--kds-spacing-12));
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .kds-sidebar-header-dropdown.kds-dropdown-open {
