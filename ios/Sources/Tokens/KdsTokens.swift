@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-04-06T18:31:10.331Z
+ * Generated: 2026-04-08T16:32:23.197Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -17,8 +17,8 @@ public struct KdsTokens {
     // MARK: - Colors
     public struct Colors {
         // Primary palette
-        public static let primaryMain = UIColor(red: 0.514, green: 0.278, blue: 0.678, alpha: 1.0)
-        public static let primaryLight = UIColor(red: 0.627, green: 0.400, blue: 0.788, alpha: 1.0)
+        public static let primaryMain = UIColor(red: 0.459, green: 0.282, blue: 0.659, alpha: 1.0)
+        public static let primaryLight = UIColor(red: 0.435, green: 0.698, blue: 0.886, alpha: 1.0)
         public static let primaryDark = UIColor(red: 0.416, green: 0.227, blue: 0.549, alpha: 1.0)
         public static let primaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
@@ -29,13 +29,13 @@ public struct KdsTokens {
         public static let secondaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Success
-        public static let successMain = UIColor(red: 0.180, green: 0.490, blue: 0.196, alpha: 1.0)
+        public static let successMain = UIColor(red: 0.173, green: 0.635, blue: 0.302, alpha: 1.0)
         public static let successLight = UIColor(red: 0.298, green: 0.686, blue: 0.314, alpha: 1.0)
         public static let successDark = UIColor(red: 0.106, green: 0.369, blue: 0.125, alpha: 1.0)
         public static let successContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Warning
-        public static let warningMain = UIColor(red: 0.929, green: 0.424, blue: 0.008, alpha: 1.0)
+        public static let warningMain = UIColor(red: 1.000, green: 0.596, blue: 0.000, alpha: 1.0)
         public static let warningLight = UIColor(red: 1.000, green: 0.596, blue: 0.000, alpha: 1.0)
         public static let warningDark = UIColor(red: 0.902, green: 0.318, blue: 0.000, alpha: 1.0)
         public static let warningContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
@@ -53,12 +53,12 @@ public struct KdsTokens {
         public static let infoContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Text colors
-        public static let textPrimary = UIColor(red: 0, green: 0, blue: 0, alpha: 0.87)
+        public static let textPrimary = UIColor(red: 0.200, green: 0.200, blue: 0.200, alpha: 1.0)
         public static let textSecondary = UIColor(red: 0, green: 0, blue: 0, alpha: 0.60)
-        public static let textDisabled = UIColor(red: 0, green: 0, blue: 0, alpha: 0.38)
+        public static let textDisabled = UIColor(red: 0.620, green: 0.620, blue: 0.620, alpha: 1.0)
         
         // Background colors
-        public static let backgroundDefault = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
+        public static let backgroundDefault = UIColor(red: 0.961, green: 0.961, blue: 0.961, alpha: 1.0)
         public static let backgroundPaper = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         public static let backgroundElevated = UIColor(red: 0.980, green: 0.980, blue: 0.980, alpha: 1.0)
         
@@ -66,8 +66,8 @@ public struct KdsTokens {
         public static let actionActive = UIColor(red: 0, green: 0, blue: 0, alpha: 0.56)
         public static let actionHover = UIColor(red: 0, green: 0, blue: 0, alpha: 0.04)
         public static let actionSelected = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08)
-        public static let actionDisabled = UIColor(red: 0, green: 0, blue: 0, alpha: 0.38)
-        public static let actionDisabledBackground = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12)
+        public static let actionDisabled = UIColor(red: 0.620, green: 0.620, blue: 0.620, alpha: 1.0)
+        public static let actionDisabledBackground = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
         public static let actionFocus = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12)
         
         // Divider
@@ -118,13 +118,13 @@ public struct KdsTokens {
         public static let space11: CGFloat = 88
         public static let space12: CGFloat = 96
         public static let space20: CGFloat = 160
-        public static let space0.5: CGFloat = 4
-        public static let space0.75: CGFloat = 6
-        public static let space1.5: CGFloat = 12
-        public static let space2.5: CGFloat = 20
-        public static let space3.5: CGFloat = 28
-        public static let space4.5: CGFloat = 36
-        public static let space5.5: CGFloat = 44
+        public static let space0_5: CGFloat = 4
+        public static let space0_75: CGFloat = 6
+        public static let space1_5: CGFloat = 12
+        public static let space2_5: CGFloat = 20
+        public static let space3_5: CGFloat = 28
+        public static let space4_5: CGFloat = 36
+        public static let space5_5: CGFloat = 44
         
         // Semantic spacing
         public static let cardPaddingX: CGFloat = 20
