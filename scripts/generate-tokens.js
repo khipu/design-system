@@ -264,7 +264,9 @@ function generateSwift(tokens) {
   lines.push(`        // Base spacing scale`);
   Object.entries(tokens.spacing).forEach(([key, value]) => {
     const pixels = stripUnits(value);
-    lines.push(`        public static let space${key}: CGFloat = ${pixels}`);
+    // Sanitize key: replace dots with underscores for valid Swift identifiers
+    const safeName = key.replace(/\./g, '_');
+    lines.push(`        public static let space${safeName}: CGFloat = ${pixels}`);
   });
   lines.push(`        `);
 
@@ -587,7 +589,9 @@ function generateKotlin(tokens) {
   lines.push(`    // Base spacing scale`);
   Object.entries(tokens.spacing).forEach(([key, value]) => {
     const pixels = stripUnits(value);
-    lines.push(`    val space${key} = ${pixels}.dp`);
+    // Sanitize key: replace dots with underscores for valid Kotlin identifiers
+    const safeName = key.replace(/\./g, '_');
+    lines.push(`    val space${safeName} = ${pixels}.dp`);
   });
   lines.push(``);
 
