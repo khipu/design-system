@@ -21,7 +21,12 @@ export { KhipuThemeProvider, type KhipuThemeProviderProps } from './theme/ThemeP
 // =============================================================================
 
 export {
+  // Token collections
   tokens,
+  tokensByMode,
+  colorsByMode,
+
+  // Individual token categories
   colors,
   fontFamilies,
   fontWeights,
@@ -36,9 +41,13 @@ export {
   zIndex,
   transitions,
   breakpoints,
+
+  // Types
   type Tokens,
+  type TokensByMode,
   type Colors,
   type Typography as TypographyTokens,
+  type ThemeMode,
 } from './tokens';
 
 // =============================================================================

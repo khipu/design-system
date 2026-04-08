@@ -17,18 +17,19 @@
 
 const lightModeColors = {
   // Primary palette - Purple (Khipu brand)
+  // Updated to match khenshin-web current values
   primary: {
-    main: '#8347AD',
-    light: '#A066C9',
-    dark: '#6A3A8C',
-    container: '#F3E5FF',  // Light purple background for chips/badges
+    main: '#7548a8',        // From khenshin-web
+    light: '#6fb2e2',       // From khenshin-web (primaryColorVariant)
+    dark: '#6A3A8C',        // Keep DS dark variant
+    container: '#F3E5FF',   // Light purple background for chips/badges
     contrastText: '#FFFFFF',
     states: {
-      hover: 'rgba(131, 71, 173, 0.04)',
-      selected: 'rgba(131, 71, 173, 0.08)',
-      focus: 'rgba(131, 71, 173, 0.12)',
-      focusVisible: 'rgba(131, 71, 173, 0.30)',
-      outlinedBorder: 'rgba(131, 71, 173, 0.50)',
+      hover: 'rgba(117, 72, 168, 0.04)',         // Updated based on new primary
+      selected: 'rgba(117, 72, 168, 0.08)',      // Updated based on new primary
+      focus: 'rgba(117, 72, 168, 0.12)',         // Updated based on new primary
+      focusVisible: 'rgba(117, 72, 168, 0.30)',  // Updated based on new primary
+      outlinedBorder: 'rgba(117, 72, 168, 0.50)', // Updated based on new primary
     },
   },
 
@@ -40,19 +41,19 @@ const lightModeColors = {
     contrastText: '#FFFFFF',
   },
 
-  // Text colors (based on black with opacity)
+  // Text colors (updated to match khenshin-web)
   text: {
-    primary: 'rgba(0, 0, 0, 0.87)',
-    secondary: 'rgba(0, 0, 0, 0.60)',
-    disabled: 'rgba(0, 0, 0, 0.38)',
-    hint: 'rgba(0, 0, 0, 0.38)',
+    primary: '#333333',                    // From khenshin-web
+    secondary: 'rgba(0, 0, 0, 0.60)',      // Keep DS value
+    disabled: '#9E9E9E',                   // From khenshin-web
+    hint: 'rgba(0, 0, 0, 0.38)',          // Keep DS value
   },
 
-  // Background colors
+  // Background colors (updated to match khenshin-web)
   background: {
-    default: '#FFFFFF',
-    paper: '#FFFFFF',
-    elevated: '#FAFAFA',
+    default: '#F5F5F5',     // From khenshin-web (backgroundColor light)
+    paper: '#FFFFFF',       // From khenshin-web
+    elevated: '#FAFAFA',    // Keep DS value
   },
 
   // Neutral grays (for borders, backgrounds, etc.)
@@ -69,14 +70,14 @@ const lightModeColors = {
     900: '#111827',
   },
 
-  // Action colors
+  // Action colors (updated to match khenshin-web)
   action: {
-    active: 'rgba(0, 0, 0, 0.56)',
-    hover: 'rgba(0, 0, 0, 0.04)',
-    selected: 'rgba(0, 0, 0, 0.08)',
-    disabled: 'rgba(0, 0, 0, 0.38)',
-    disabledBackground: 'rgba(0, 0, 0, 0.12)',
-    focus: 'rgba(0, 0, 0, 0.12)',
+    active: 'rgba(0, 0, 0, 0.56)',        // Keep DS value
+    hover: 'rgba(0, 0, 0, 0.04)',         // Keep DS value
+    selected: 'rgba(0, 0, 0, 0.08)',      // Keep DS value
+    disabled: '#9E9E9E',                  // From khenshin-web
+    disabledBackground: '#E0E0E0',        // From khenshin-web
+    focus: 'rgba(0, 0, 0, 0.12)',        // Keep DS value
   },
 
   // Divider
@@ -183,19 +184,20 @@ const darkModeColors = {
 // =============================================================================
 
 const semanticColors = {
+  // Updated to match khenshin-web current values
   success: {
-    main: '#2E7D32',
-    light: '#4CAF50',
-    dark: '#1B5E20',
-    container: '#ECFDF5',  // Light green background for chips/badges
+    main: '#2CA24D',        // From khenshin-web
+    light: '#4CAF50',       // Keep DS light variant
+    dark: '#1B5E20',        // Keep DS dark variant
+    container: '#ECFDF5',   // Light green background for chips/badges
     contrastText: '#FFFFFF',
   },
 
   warning: {
-    main: '#ED6C02',
-    light: '#FF9800',
-    dark: '#E65100',
-    container: '#FFFBEB',  // Light amber background for chips/badges
+    main: '#FF9800',        // From khenshin-web
+    light: '#FF9800',       // Same as main (khenshin-web pattern)
+    dark: '#E65100',        // Keep DS dark variant
+    container: '#FFFBEB',   // Light amber background for chips/badges
     contrastText: '#FFFFFF',
   },
 
