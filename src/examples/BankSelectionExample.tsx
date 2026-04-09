@@ -302,11 +302,11 @@ export const BankSelectionExample: React.FC = () => {
                   boxShadow: 'none',
                   borderRadius: 0,
                   backgroundColor: selectedBank === bank.id
-                    ? 'rgba(131, 71, 173, 0.08)'
+                    ? colors.primary.states.selected
                     : 'transparent',
                   '&:hover': {
                     backgroundColor: selectedBank === bank.id
-                      ? 'rgba(131, 71, 173, 0.12)'
+                      ? colors.primary.states.focus
                       : 'rgba(0, 0, 0, 0.04)',
                   },
                   transition: 'background-color 0.2s ease',

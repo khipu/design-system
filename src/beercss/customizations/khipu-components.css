@@ -256,6 +256,12 @@ a.kds-btn.kds-btn-md {
 
 /* Default .kds-btn uses --kds-spacing-button-min-height (50px) from base styles */
 
+/* Full-width button */
+button.kds-btn.kds-btn-block,
+a.kds-btn.kds-btn-block {
+    width: 100%;
+}
+
 /* ========================================
    Card Components (Material Design 3)
    ======================================== */
@@ -732,6 +738,7 @@ a.kds-btn.kds-btn-md {
 .kds-mt-8 { margin-top: var(--kds-spacing-8); }
 
 .kds-mb-0 { margin-bottom: 0; }
+.kds-mb-1 { margin-bottom: var(--kds-spacing-1); }
 .kds-mb-2 { margin-bottom: var(--kds-spacing-2); }
 .kds-mb-4 { margin-bottom: var(--kds-spacing-4); }
 .kds-mb-6 { margin-bottom: var(--kds-spacing-6); }
@@ -944,13 +951,48 @@ a.kds-btn.kds-btn-md {
 
 .snackbar {
     position: fixed;
-    bottom: 24px;
+    bottom: var(--kds-spacing-3);
     left: 50%;
     transform: translateX(-50%);
-    z-index: 9999;
+    z-index: var(--kds-z-index-snackbar);
     min-width: 344px;
-    max-width: 672px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    max-width: var(--kds-snackbar-max-width);
+    box-shadow: var(--kds-shadow-8);
+}
+
+/* Snackbar active state - ensure visibility when toggled via JS */
+.snackbar.active {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: translateX(-50%) !important;
+}
+
+/* Snackbar semantic variants - background + text/icon color */
+.snackbar.error {
+    background-color: var(--kds-color-error-main) !important;
+    color: var(--on-error, var(--kds-color-primary-contrast)) !important;
+}
+
+.snackbar.error i {
+    color: var(--on-error, var(--kds-color-primary-contrast)) !important;
+}
+
+.snackbar.info {
+    background-color: var(--kds-color-info-main) !important;
+    color: var(--on-info, var(--kds-color-primary-contrast)) !important;
+}
+
+.snackbar.info i {
+    color: var(--on-info, var(--kds-color-primary-contrast)) !important;
+}
+
+.snackbar.success {
+    background-color: var(--kds-color-success-main) !important;
+    color: var(--on-success, var(--kds-color-primary-contrast)) !important;
+}
+
+.snackbar.success i {
+    color: var(--on-success, var(--kds-color-primary-contrast)) !important;
 }
 
 /* ========================================
@@ -964,9 +1006,223 @@ nav.primary {
     z-index: 1000;
 }
 
-nav.primary a,
-nav.primary button {
-    color: white;
+nav.primary > a,
+nav.primary > button,
+nav.primary > div > a,
+nav.primary > div > button {
+    color: var(--on-primary);
+}
+
+/* ========================================
+   Locale Switcher (Navbar dropdown)
+   ======================================== */
+
+.kds-locale-switcher {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+button.kds-locale-switcher-toggle,
+.kds-locale-switcher .kds-locale-switcher-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kds-spacing-0-75);
+    background: transparent;
+    border: 1px solid var(--kds-color-gray-400);
+    border-radius: var(--kds-radius-button);
+    color: var(--on-primary);
+    padding: var(--kds-spacing-0-5) var(--kds-spacing-1-5);
+    cursor: pointer;
+    font-size: var(--kds-font-size-sm);
+    font-family: var(--kds-font-family-secondary);
+    transition: background var(--kds-transition-shorter) var(--kds-easing-standard),
+                border-color var(--kds-transition-shorter) var(--kds-easing-standard);
+    line-height: var(--kds-line-height-snug);
+}
+
+button.kds-locale-switcher-toggle:hover,
+.kds-locale-switcher .kds-locale-switcher-toggle:hover {
+    background: var(--kds-color-primary-focus);
+    border-color: var(--kds-color-gray-200);
+}
+
+.kds-locale-switcher-toggle .kds-locale-flag {
+    font-size: var(--kds-font-size-lg);
+    line-height: 1;
+}
+
+.kds-locale-switcher-toggle .kds-locale-arrow {
+    font-size: var(--kds-spacing-button-icon-size);
+    transition: transform var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+.kds-locale-switcher.active .kds-locale-arrow {
+    transform: rotate(180deg);
+}
+
+.kds-locale-switcher-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + var(--kds-spacing-0-5));
+    right: 0;
+    min-width: 180px;
+    background: var(--kds-color-background-paper);
+    border-radius: var(--kds-radius-md);
+    box-shadow: var(--kds-shadow-dropdown);
+    z-index: var(--kds-z-index-appbar);
+    overflow: hidden;
+    padding: var(--kds-spacing-0-5) 0;
+}
+
+.kds-locale-switcher.active .kds-locale-switcher-menu {
+    display: block;
+}
+
+.kds-locale-switcher-menu a,
+.kds-locale-switcher-menu button {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 var(--kds-spacing-3);
+    gap: var(--kds-spacing-2);
+    width: 100%;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    border: none !important;
+    color: var(--kds-color-text-primary) !important;
+    font-size: var(--kds-font-size-sm);
+    font-family: var(--kds-font-family-secondary);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background var(--kds-transition-shortest) var(--kds-easing-standard);
+    text-align: left;
+    border-radius: 0 !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    position: relative;
+}
+
+/* Kill BeerCSS pseudo-elements on active buttons */
+.kds-locale-switcher-menu button::before,
+.kds-locale-switcher-menu button::after,
+.kds-locale-switcher-menu a::before,
+.kds-locale-switcher-menu a::after {
+    display: none !important;
+}
+
+.kds-locale-switcher-menu a:hover,
+.kds-locale-switcher-menu button:hover {
+    background: var(--kds-color-background-elevated) !important;
+}
+
+.kds-locale-switcher-menu .kds-locale-flag {
+    font-size: var(--kds-font-size-base);
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.kds-locale-switcher-menu button.active,
+.kds-locale-switcher-menu a.active {
+    background: var(--kds-color-primary-selected) !important;
+    font-weight: var(--kds-font-weight-medium);
+}
+
+/* ========================================
+   Google Sign-In Button
+   Per Google Identity branding guidelines:
+   https://developers.google.com/identity/branding-guidelines
+   ======================================== */
+
+button.kds-btn-google,
+a.kds-btn-google {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kds-spacing-1-5);
+    width: 100%;
+    background: var(--kds-color-background-paper);
+    color: #1F1F1F;
+    border: 1px solid #747775;
+    border-radius: var(--kds-radius-button);
+    padding: var(--kds-spacing-1) var(--kds-spacing-1-5);
+    min-height: var(--kds-spacing-button-min-height);
+    font-family: "Roboto", var(--kds-font-family-secondary);
+    font-weight: var(--kds-font-weight-medium);
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-normal);
+    letter-spacing: var(--kds-letter-spacing-normal);
+    text-transform: none;
+    cursor: pointer;
+    transition: background var(--kds-transition-shorter) var(--kds-easing-standard),
+                box-shadow var(--kds-transition-shorter) var(--kds-easing-standard);
+    box-sizing: border-box;
+    box-shadow: none;
+}
+
+button.kds-btn-google:hover,
+a.kds-btn-google:hover {
+    background: #F2F2F2;
+    box-shadow: var(--kds-shadow-1);
+}
+
+button.kds-btn-google:active,
+a.kds-btn-google:active {
+    background: #E8E8E8;
+}
+
+button.kds-btn-google:disabled,
+a.kds-btn-google:disabled {
+    background: var(--kds-color-action-disabled-bg);
+    color: var(--kds-color-action-disabled);
+    border-color: var(--kds-color-action-disabled-bg);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Google G icon container - white background per guidelines */
+.kds-btn-google .kds-google-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kds-btn-google .kds-google-icon svg {
+    width: var(--kds-spacing-button-icon-size);
+    height: var(--kds-spacing-button-icon-size);
+}
+
+/* ========================================
+   Link Styles
+   ======================================== */
+
+/* Explicit link class */
+.kds-link {
+    color: var(--kds-color-primary-main);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+.kds-link:hover {
+    color: var(--kds-color-primary-dark);
+    text-decoration: underline;
+}
+
+/* Contextual links inside cards and stage forms */
+.kds-card-body a:not(.kds-btn):not([class*="kds-btn"]),
+.kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]) {
+    color: var(--kds-color-primary-main);
+    text-decoration: none;
+    transition: color var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+.kds-card-body a:not(.kds-btn):not([class*="kds-btn"]):hover,
+.kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]):hover {
+    color: var(--kds-color-primary-dark);
+    text-decoration: underline;
 }
 
 /* ========================================
@@ -993,28 +1249,29 @@ body.kds-layout {
    ======================================== */
 
 footer.primary {
-    background: var(--surface-container-high, #F5F5F5);
+    background: var(--primary);
     padding: var(--kds-spacing-4) var(--kds-spacing-3);
     margin-top: var(--kds-spacing-6);
+    color: var(--on-primary);
 }
 
 footer.primary h6 {
-    color: var(--khipu-primary);
-    font-weight: 600;
-    margin-bottom: 16px;
+    color: var(--on-primary);
+    font-weight: var(--kds-font-weight-semibold);
+    margin-bottom: var(--kds-spacing-2);
 }
 
 footer.primary a {
-    color: var(--on-surface);
+    color: var(--on-primary);
     text-decoration: none;
     display: block;
-    padding: 4px 0;
-    transition: color 0.2s ease;
+    padding: var(--kds-spacing-0-5) 0;
+    transition: opacity var(--kds-transition-shorter) var(--kds-easing-standard);
     text-align: center;
 }
 
 footer.primary a:hover {
-    color: var(--khipu-primary);
+    opacity: 0.8;
 }
 
 /* ========================================
@@ -1386,6 +1643,23 @@ label.radio:has(input:disabled) {
     flex-direction: column;
 }
 
+/* Stage Content Narrow - For login/register pages with centered card */
+.kds-stage-content.narrow {
+    max-width: var(--kds-stage-narrow-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/* Stage Centered - Vertically center content in viewport (pre-login pages) */
+.kds-stage-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: calc(100vh - var(--kds-navbar-height));
+}
+
 /* Stage Actions - Bottom button area (if not using sticky footer) */
 .kds-stage-actions {
     display: flex;
@@ -1663,6 +1937,7 @@ nav {
 nav > .kds-container-center {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--kds-spacing-4);
     margin-left: auto !important;
     margin-right: auto !important;
@@ -1670,6 +1945,14 @@ nav > .kds-container-center {
     padding-right: var(--kds-spacing-4);
     padding-top: var(--kds-spacing-2);
     padding-bottom: var(--kds-spacing-2);
+}
+
+/* Navbar brand/logo */
+.kds-navbar-brand {
+    font-weight: var(--kds-font-weight-bold);
+    font-size: var(--kds-font-size-lg);
+    text-decoration: none;
+    color: inherit;
 }
 
 footer,
@@ -2931,7 +3214,16 @@ dialog#surveyModal button.circle {
     text-decoration: none;
 }
 
+.kds-text-muted {
+    color: var(--on-surface-variant);
+}
+
+.kds-text-sm {
+    font-size: var(--kds-font-size-sm);
+}
+
 /* Spacing utilities */
+.kds-mt-1 { margin-top: var(--kds-spacing-1); }
 .kds-mt-2 { margin-top: var(--kds-spacing-2); }
 .kds-mt-3 { margin-top: var(--kds-spacing-3); }
 .kds-mt-4 { margin-top: var(--kds-spacing-4); }
@@ -3104,10 +3396,13 @@ dialog#surveyModal button.circle {
 
 .kds-divider-text {
     text-align: center;
-    margin: var(--kds-spacing-6) 0;
+    margin: var(--kds-spacing-2) 0;
     color: var(--kds-color-text-secondary);
     position: relative;
     font-size: var(--kds-font-size-sm);
+    /* Reset BeerCSS [class*=divider] overrides */
+    background-color: transparent !important;
+    block-size: auto !important;
 }
 
 .kds-divider-text span {
@@ -3115,6 +3410,12 @@ dialog#surveyModal button.circle {
     padding: 0 var(--kds-spacing-2);
     position: relative;
     z-index: 1;
+}
+
+/* Inside cards/elevated surfaces, use paper background */
+.kds-card-elevated .kds-divider-text span,
+.kds-card-body .kds-divider-text span {
+    background: var(--kds-color-background-paper);
 }
 
 .kds-divider-text::before {

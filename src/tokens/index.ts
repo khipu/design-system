@@ -17,19 +17,19 @@
 
 const lightModeColors = {
   // Primary palette - Purple (Khipu brand)
-  // Updated to match khenshin-web current values
+  // Source of truth: Figma K-Tokens (extracted via figma-plugin-token-extractor)
   primary: {
-    main: '#7548a8',        // From khenshin-web
-    light: '#6fb2e2',       // From khenshin-web (primaryColorVariant)
-    dark: '#6A3A8C',        // Keep DS dark variant
+    main: '#8347AD',        // From Figma: primary/main
+    light: '#9B6BBD',       // From Figma: primary/light
+    dark: '#5B3179',        // From Figma: primary/dark
     container: '#F3E5FF',   // Light purple background for chips/badges
     contrastText: '#FFFFFF',
     states: {
-      hover: 'rgba(117, 72, 168, 0.04)',         // Updated based on new primary
-      selected: 'rgba(117, 72, 168, 0.08)',      // Updated based on new primary
-      focus: 'rgba(117, 72, 168, 0.12)',         // Updated based on new primary
-      focusVisible: 'rgba(117, 72, 168, 0.30)',  // Updated based on new primary
-      outlinedBorder: 'rgba(117, 72, 168, 0.50)', // Updated based on new primary
+      hover: 'rgba(131, 71, 173, 0.04)',         // primary.main with 4% opacity
+      selected: 'rgba(131, 71, 173, 0.08)',      // primary.main with 8% opacity
+      focus: 'rgba(131, 71, 173, 0.12)',         // primary.main with 12% opacity
+      focusVisible: 'rgba(131, 71, 173, 0.30)',  // primary.main with 30% opacity
+      outlinedBorder: 'rgba(131, 71, 173, 0.50)', // primary.main with 50% opacity
     },
   },
 
@@ -47,13 +47,20 @@ const lightModeColors = {
     secondary: 'rgba(0, 0, 0, 0.60)',      // Keep DS value
     disabled: '#9E9E9E',                   // From khenshin-web
     hint: 'rgba(0, 0, 0, 0.38)',          // Keep DS value
+    muted: '#81848F',                      // From khenshin-web - merchant names, less emphasis
+    strong: '#272930',                     // From khenshin-web - surface/prominent text
+    accent: '#4C4E64',                     // From khenshin-web - accent/branded text
+    tertiary: '#646872',                   // From khenshin-web - tertiary context text
+    footer: '#666666',                     // From khenshin-web - footer/auxiliary text
   },
 
   // Background colors (updated to match khenshin-web)
   background: {
-    default: '#F5F5F5',     // From khenshin-web (backgroundColor light)
-    paper: '#FFFFFF',       // From khenshin-web
-    elevated: '#FAFAFA',    // Keep DS value
+    default: '#FFFFFF',     // White - neutral for all apps
+    paper: '#FFFFFF',
+    elevated: '#FAFAFA',
+    brandSubtle: '#F0F0FA', // Subtle brand-tinted surface (e.g. icon boxes, accented headers)
+    muted: '#F5F5F5',       // Light gray background for app shells, sections
   },
 
   // Neutral grays (for borders, backgrounds, etc.)
@@ -102,6 +109,16 @@ const lightModeColors = {
       warningBg: '#FFFBEB',   // amber-50
       successBg: '#ECFDF5',   // green-50
       errorBg: '#FEF2F2',     // red-50
+      // Text colors for outlined alerts (from khenshin-web)
+      successText: '#1E4620',
+      warningText: '#663C00',
+      errorText: '#5F2120',
+      infoText: '#014361',
+      // Border colors for outlined alerts (from khenshin-web)
+      successBorder: '#2CA24D',
+      warningBorder: '#FF9800',
+      errorBorder: '#E53E3E',
+      infoBorder: '#006699',
     },
   },
 } as const;
@@ -699,7 +716,7 @@ export const shadows = {
 
 export const borders = {
   // Generic border colors (without 1px solid prefix)
-  light: '#DDDDDD',       // gray-300 equivalent
+  light: '#DDDEE0',       // From khenshin-web - light borders
   medium: '#999999',      // gray-500 equivalent
   dark: '#666666',        // gray-700 equivalent
 

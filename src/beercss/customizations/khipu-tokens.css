@@ -143,6 +143,13 @@ body.dark {
     --kds-scroll-sm-height: 280px;
     --kds-scroll-md-height: 420px;
     --kds-scroll-lg-height: 600px;
+
+    /* Stage Layout */
+    --kds-stage-narrow-max-width: 420px;
+    --kds-navbar-height: 64px;
+
+    /* Snackbar */
+    --kds-snackbar-max-width: 560px;
 }
 
 /* ========================================
