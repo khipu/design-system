@@ -121,7 +121,7 @@ const lightModeColors = {
       infoBorder: '#006699',
     },
   },
-} as const;
+};
 
 // =============================================================================
 // COLOR TOKENS - DARK MODE (Prepared for future implementation)
@@ -194,7 +194,7 @@ const darkModeColors = {
       infoBg: 'rgba(3, 169, 244, 0.16)',       // info.light with 16% opacity for dark mode
     },
   },
-} as const;
+};
 
 // =============================================================================
 // SEMANTIC COLORS (Same in both light and dark mode)
@@ -235,7 +235,7 @@ const semanticColors = {
     container: '#EFF6FF',  // Light blue background for chips/badges
     contrastText: '#FFFFFF',
   },
-} as const;
+};
 
 // =============================================================================
 // COLOR EXPORTS
