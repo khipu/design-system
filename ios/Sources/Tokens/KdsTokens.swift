@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-04-08T16:32:23.197Z
+ * Generated: 2026-04-13T15:16:57.038Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -17,9 +17,9 @@ public struct KdsTokens {
     // MARK: - Colors
     public struct Colors {
         // Primary palette
-        public static let primaryMain = UIColor(red: 0.459, green: 0.282, blue: 0.659, alpha: 1.0)
-        public static let primaryLight = UIColor(red: 0.435, green: 0.698, blue: 0.886, alpha: 1.0)
-        public static let primaryDark = UIColor(red: 0.416, green: 0.227, blue: 0.549, alpha: 1.0)
+        public static let primaryMain = UIColor(red: 1.000, green: 0.000, blue: 0.000, alpha: 1.0)
+        public static let primaryLight = UIColor(red: 0.608, green: 0.420, blue: 0.741, alpha: 1.0)
+        public static let primaryDark = UIColor(red: 0.357, green: 0.192, blue: 0.475, alpha: 1.0)
         public static let primaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Secondary palette
@@ -58,7 +58,7 @@ public struct KdsTokens {
         public static let textDisabled = UIColor(red: 0.620, green: 0.620, blue: 0.620, alpha: 1.0)
         
         // Background colors
-        public static let backgroundDefault = UIColor(red: 0.961, green: 0.961, blue: 0.961, alpha: 1.0)
+        public static let backgroundDefault = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         public static let backgroundPaper = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         public static let backgroundElevated = UIColor(red: 0.980, green: 0.980, blue: 0.980, alpha: 1.0)
         
