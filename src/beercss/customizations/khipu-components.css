@@ -1034,8 +1034,7 @@ button.kds-locale-switcher-toggle,
     background: transparent;
     border: 1px solid var(--kds-color-gray-400);
     border-radius: var(--kds-radius-button);
-    color: var(--on-primary);
-    padding: var(--kds-spacing-0-5) var(--kds-spacing-1-5);
+    color: var(--kds-color-text-primary);
     cursor: pointer;
     font-size: var(--kds-font-size-sm);
     font-family: var(--kds-font-family-secondary);
@@ -3572,4 +3571,8 @@ dialog#surveyModal button.circle {
 /* height and min-heighy (for layout purposes) */
 .min-h-unset{
     min-height: unset !important;
+}
+
+.secondary-nav-border {
+    border-bottom: var(--kds-border-width-sm) solid var(--kds-color-divider);
 }
