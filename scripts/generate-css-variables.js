@@ -415,6 +415,10 @@ function generateBorderVariables(borders) {
   variables.push({ name: '--kds-border-medium', value: borders.medium });
   variables.push({ name: '--kds-border-dark', value: borders.dark });
 
+  // Border widths
+  variables.push({ name: '--kds-border-width-sm', value: borders.widthSm, comment: 'Border widths' });
+  variables.push({ name: '--kds-border-width-md', value: borders.widthMd });
+
   return variables;
 }
 

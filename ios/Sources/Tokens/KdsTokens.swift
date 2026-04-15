@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-04-13T15:16:57.038Z
+ * Generated: 2026-04-15T16:31:49.933Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -17,7 +17,7 @@ public struct KdsTokens {
     // MARK: - Colors
     public struct Colors {
         // Primary palette
-        public static let primaryMain = UIColor(red: 1.000, green: 0.000, blue: 0.000, alpha: 1.0)
+        public static let primaryMain = UIColor(red: 0.514, green: 0.278, blue: 0.678, alpha: 1.0)
         public static let primaryLight = UIColor(red: 0.608, green: 0.420, blue: 0.741, alpha: 1.0)
         public static let primaryDark = UIColor(red: 0.357, green: 0.192, blue: 0.475, alpha: 1.0)
         public static let primaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
