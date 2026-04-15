@@ -732,7 +732,9 @@ a.kds-btn.kds-btn-block {
 .kds-m-8 { margin: var(--kds-spacing-8); }
 
 .kds-mt-0 { margin-top: 0; }
+.kds-mt-1 { margin-top: var(--kds-spacing-1); }
 .kds-mt-2 { margin-top: var(--kds-spacing-2); }
+.kds-mt-3 { margin-top: var(--kds-spacing-3); }
 .kds-mt-4 { margin-top: var(--kds-spacing-4); }
 .kds-mt-6 { margin-top: var(--kds-spacing-6); }
 .kds-mt-8 { margin-top: var(--kds-spacing-8); }
@@ -740,6 +742,7 @@ a.kds-btn.kds-btn-block {
 .kds-mb-0 { margin-bottom: 0; }
 .kds-mb-1 { margin-bottom: var(--kds-spacing-1); }
 .kds-mb-2 { margin-bottom: var(--kds-spacing-2); }
+.kds-mb-3 { margin-bottom: var(--kds-spacing-3); }
 .kds-mb-4 { margin-bottom: var(--kds-spacing-4); }
 .kds-mb-6 { margin-bottom: var(--kds-spacing-6); }
 .kds-mb-8 { margin-bottom: var(--kds-spacing-8); }
@@ -761,7 +764,7 @@ a.kds-btn.kds-btn-block {
 .kds-mx-auto { margin-left: auto; margin-right: auto; }
 
 /* Spacing utilities - Padding */
-.kds-p-0 { padding: 0; }
+.kds-p-0 { padding: 0 !important; }
 .kds-p-2 { padding: var(--kds-spacing-2); }
 .kds-p-4 { padding: var(--kds-spacing-4); }
 .kds-p-6 { padding: var(--kds-spacing-6); }
@@ -1251,7 +1254,6 @@ body.kds-layout {
 footer.primary {
     background: var(--primary);
     padding: var(--kds-spacing-4) var(--kds-spacing-3);
-    margin-top: var(--kds-spacing-6);
     color: var(--on-primary);
 }
 
@@ -1464,6 +1466,67 @@ body.dark {
   color: var(--primary);
 }
 
+/* ==========================================
+   PASSWORD STRENGTH METER
+   Barra de fortaleza de contraseña (3 niveles)
+   Usando tokens de diseño
+   ========================================== */
+
+.kds-password-strength {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-1);
+    margin-top: var(--kds-spacing-0-5);
+    margin-bottom: var(--kds-spacing-1);
+}
+
+.kds-password-strength-bars {
+    display: flex;
+    gap: var(--kds-spacing-0-5);
+    flex: 1;
+}
+
+.kds-password-strength-bars span {
+    flex: 1;
+    height: var(--kds-spacing-0-5);
+    border-radius: var(--kds-radius-sm);
+    background: var(--outline-variant);
+    transition: background 0.2s ease;
+}
+
+.kds-password-strength-bars span.weak {
+    background: var(--kds-color-error-main);
+}
+
+.kds-password-strength-bars span.medium {
+    background: var(--kds-color-warning-main);
+}
+
+.kds-password-strength-bars span.strong {
+    background: var(--kds-color-success-main);
+}
+
+.kds-password-strength-label {
+    font-family: var(--kds-font-family-primary);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-medium);
+    min-width: var(--kds-spacing-6);
+    text-align: right;
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-password-strength-label.weak {
+    color: var(--kds-color-error-main);
+}
+
+.kds-password-strength-label.medium {
+    color: var(--kds-color-warning-main);
+}
+
+.kds-password-strength-label.strong {
+    color: var(--kds-color-success-main);
+}
+
 /* ========================================
    TOOLTIPS - Personaliza Beer CSS .tooltip
    ======================================== */
@@ -1657,7 +1720,6 @@ label.radio:has(input:disabled) {
     align-items: center;
     justify-content: center;
     flex: 1;
-    min-height: calc(100vh - var(--kds-navbar-height));
 }
 
 /* Stage Actions - Bottom button area (if not using sticky footer) */
@@ -1925,6 +1987,7 @@ dialog.modal .field.border:focus-within {
     max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
+    min-height: unset;
 }
 
 /* Nav should have no padding - only background color */
@@ -2004,11 +2067,6 @@ footer > .kds-container-center {
 
 .max-w-1200 {
     max-width: 1200px;
-}
-
-/* Margin top utilities */
-.kds-mt-3 {
-    margin-top: var(--kds-spacing-3);
 }
 
 /* ========================================
@@ -2421,8 +2479,8 @@ footer > .kds-container-center {
     display: flex;
     flex-direction: column;
     overflow: visible;
-    padding-top: var(--kds-spacing-4);
-    padding-bottom: var(--kds-spacing-4);
+    padding-top: var(--kds-spacing-6);
+    padding-bottom: var(--kds-spacing-6);
 }
 
 /* ============================================
@@ -3222,20 +3280,6 @@ dialog#surveyModal button.circle {
     font-size: var(--kds-font-size-sm);
 }
 
-/* Spacing utilities */
-.kds-mt-1 { margin-top: var(--kds-spacing-1); }
-.kds-mt-2 { margin-top: var(--kds-spacing-2); }
-.kds-mt-3 { margin-top: var(--kds-spacing-3); }
-.kds-mt-4 { margin-top: var(--kds-spacing-4); }
-.kds-mt-6 { margin-top: var(--kds-spacing-6); }
-.kds-mt-8 { margin-top: var(--kds-spacing-8); }
-
-.kds-mb-2 { margin-bottom: var(--kds-spacing-2); }
-.kds-mb-3 { margin-bottom: var(--kds-spacing-3); }
-.kds-mb-4 { margin-bottom: var(--kds-spacing-4); }
-.kds-mb-6 { margin-bottom: var(--kds-spacing-6); }
-.kds-mb-8 { margin-bottom: var(--kds-spacing-8); }
-
 /* Display utilities */
 .kds-hidden {
     display: none;
@@ -3523,4 +3567,9 @@ dialog#surveyModal button.circle {
 
 .z-1000 {
     z-index: 1000;
+}
+
+/* height and min-heighy (for layout purposes) */
+.min-h-unset{
+    min-height: unset !important;
 }
