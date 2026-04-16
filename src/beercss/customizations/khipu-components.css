@@ -3573,6 +3573,10 @@ dialog#surveyModal button.circle {
     min-height: unset !important;
 }
 
+.min-h-90vh{
+    min-height: 90vh !important;
+}
+
 .secondary-nav-border {
     border-bottom: var(--kds-border-width-sm) solid var(--kds-color-divider);
 }
