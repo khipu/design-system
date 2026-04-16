@@ -1,6 +1,6 @@
 {
   "name": "@khipu/design-system",
-  "version": "0.1.0-alpha.40",
+  "version": "0.1.0-alpha.41",
   "description": "Khipu Design System - UI components and design tokens for the Khipu payment platform",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
