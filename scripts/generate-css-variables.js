@@ -100,6 +100,7 @@ function generateColorVariables(colors) {
     variables.push({ name: '--kds-color-background-default', value: colors.background.default, comment: 'Background colors' });
     variables.push({ name: '--kds-color-background-paper', value: colors.background.paper });
     variables.push({ name: '--kds-color-background-elevated', value: colors.background.elevated });
+    variables.push({ name: '--kds-color-background-muted', value: colors.background.muted });
   }
 
   // Action colors

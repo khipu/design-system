@@ -779,6 +779,7 @@ a.kds-btn.kds-btn-block {
 .kds-pb-6 { padding-bottom: var(--kds-spacing-6); }
 .kds-pb-8 { padding-bottom: var(--kds-spacing-8); }
 
+.kds-px-3 { padding-left: var(--kds-spacing-3); padding-right: var(--kds-spacing-3); }
 .kds-px-4 { padding-left: var(--kds-spacing-4); padding-right: var(--kds-spacing-4); }
 .kds-px-6 { padding-left: var(--kds-spacing-6); padding-right: var(--kds-spacing-6); }
 .kds-px-8 { padding-left: var(--kds-spacing-8); padding-right: var(--kds-spacing-8); }
@@ -3499,6 +3500,12 @@ dialog#surveyModal button.circle {
 .kds-card-elevated.kds-p-5 { padding: var(--kds-spacing-5); }
 .kds-card-elevated.kds-p-6 { padding: var(--kds-spacing-6); }
 .kds-card-elevated.kds-p-8 { padding: var(--kds-spacing-8); }
+
+/* Card padding variant: 32px vertical / 24px horizontal */
+.kds-card-elevated.kds-card-padded { padding: var(--kds-spacing-4) var(--kds-spacing-3); }
+
+/* Background utility */
+.kds-bg-surface-muted { background: var(--kds-color-background-muted); }
 
 /* ========================================
    SNACKBAR UTILITIES

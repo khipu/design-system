@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-04-15T16:31:49.933Z
+ * Generated: 2026-04-17T16:04:41.666Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
