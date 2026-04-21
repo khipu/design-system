@@ -33,7 +33,7 @@ body.dark {
     --primary-container: var(--kds-color-primary-light);
     --on-primary-container: var(--kds-color-primary-dark);
 
-    /* Secondary - Green for success/positive actions */
+    /* Secondary - Cyan (Khipu brand complementary) */
     --secondary: var(--kds-color-secondary-main);
     --on-secondary: var(--kds-color-secondary-contrast);
     --secondary-container: var(--kds-color-secondary-light);

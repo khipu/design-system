@@ -76,6 +76,30 @@ const styles = {
 import '@khipu/design-system/css';
 ```
 
+### Using BeerCSS Bundle (For Grails/Legacy Apps)
+
+The design system includes a complete **BeerCSS bundle** with Material Design 3 components, ideal for Grails applications or projects that prefer utility-based CSS:
+
+```html
+<!-- Via CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@khipu/design-system@0.1.0-alpha.44/dist/beercss/khipu-beercss.min.css">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@khipu/design-system@0.1.0-alpha.44/dist/beercss/khipu-beercss.min.js"></script>
+```
+
+```javascript
+// Via npm
+import '@khipu/design-system/beercss/css';
+import '@khipu/design-system/beercss/js';
+```
+
+**What's included:**
+- BeerCSS v4.0.1 (Material Design 3)
+- Khipu design tokens (colors, spacing, typography)
+- Custom Khipu components
+- Vanilla JavaScript utilities (modals, snackbars, sidenav)
+
+**See:** `src/beercss/README.md` for complete documentation
+
 ## Running the Project
 
 ### Setup
@@ -143,6 +167,9 @@ Open http://localhost:6006 in your browser to explore the component library.
 | `@khipu/design-system` | All components and tokens |
 | `@khipu/design-system/tokens` | Design tokens only |
 | `@khipu/design-system/css` | CSS variables |
+| `@khipu/design-system/beercss` | BeerCSS bundle (CSS + JS) |
+| `@khipu/design-system/beercss/css` | BeerCSS CSS only |
+| `@khipu/design-system/beercss/js` | BeerCSS JavaScript only |
 | `@khipu/design-system/components/core` | Core UI components |
 | `@khipu/design-system/components/domain` | Domain-specific components |
 

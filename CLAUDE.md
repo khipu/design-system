@@ -58,7 +58,8 @@ Para temas específicos, consulta estas guías:
 El Sistema de Diseño de Khipu es una biblioteca multi-plataforma de componentes y tokens de diseño para la plataforma de pagos Khipu.
 
 **Plataformas:**
-- **Web**: React 18+ / TypeScript 5.3+ / Material UI v7 → publicado en **npmjs.org** (`@khipu/design-system`)
+- **Web (React)**: React 18+ / TypeScript 5.3+ / Material UI v7 → publicado en **npmjs.org** (`@khipu/design-system`)
+- **Web (BeerCSS)**: Material Design 3 / Vanilla JS / Utility CSS → incluido en **npmjs.org** (`@khipu/design-system/beercss`)
 - **Android**: Kotlin / Jetpack Compose / Material 3 → publicado en **Nexus** (`com.khipu:design-system`)
 - **iOS**: Swift / SwiftUI → publicado en **CocoaPods** (`KhipuDesignSystem`)
 - **Grails**: Plugin para integración con Grails/GSP → publicado en **Nexus** (`com.khipu:design-system-grails`)
@@ -103,7 +104,7 @@ Las herramientas MCP disponibles son:
 ### Desarrollo
 ```bash
 npm run dev                # Modo desarrollo con watch
-npm run build              # Build de producción
+npm run build              # Build de producción (incluye BeerCSS)
 npm run demo               # Ejecutar demo app
 npm run storybook          # Ejecutar Storybook (puerto 6006) - activa MCP en /mcp
 npm run build-storybook    # Build estático de Storybook
@@ -113,6 +114,13 @@ npm run test -- path/to/test.test.ts  # Ejecutar test específico
 npm run coverage           # Ejecutar tests con cobertura
 npm run typecheck          # Verificación de tipos
 npm run lint               # Ejecutar linter
+```
+
+### BeerCSS Bundle
+```bash
+npm run beercss:build      # Build del bundle BeerCSS
+npm run beercss:watch      # Watch para cambios en BeerCSS
+npm run beercss:dev        # Dev server para BeerCSS
 ```
 
 ### Tokens
@@ -316,6 +324,14 @@ src/
 ├── theme/
 │   ├── index.ts           # Tema MUI
 │   └── ThemeProvider.tsx
+├── beercss/               # Bundle BeerCSS para Grails/legacy apps
+│   ├── README.md          # Documentación completa de BeerCSS
+│   ├── customizations/
+│   │   ├── khipu-tokens.css      # Mapeo de tokens a BeerCSS
+│   │   ├── khipu-components.css  # Componentes custom
+│   │   └── khipu-init.js         # Inicialización JS
+│   └── scripts/
+│       └── build.js       # Script de build
 ├── examples/              # Ejemplos completos
 └── stories/               # Docs de Storybook
 

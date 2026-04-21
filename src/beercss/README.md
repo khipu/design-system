@@ -33,7 +33,7 @@ And before the closing `</body>` tag:
 <script type="module" src="https://cdn.jsdelivr.net/npm/@khipu/design-system@latest/dist/beercss/khipu-beercss.min.js"></script>
 ```
 
-**Note:** Replace `@latest` with a specific version for production (e.g., `@0.2.0`).
+**Note:** Replace `@latest` with a specific version for production (e.g., `@0.1.0-alpha.44`).
 
 ### Via npm
 
@@ -56,10 +56,13 @@ import '@khipu/design-system/beercss/js';
 The bundle includes Khipu brand colors mapped to BeerCSS variables:
 
 - **Primary:** Purple `#8347AD` (Khipu signature color)
-- **Secondary:** Green `#4CAF50` (Success/positive actions)
-- **Accent:** Orange `#FF5722` (Call-to-action)
+- **Secondary:** Cyan `#3CB4E5` (Brand complementary color)
+- **Success:** Green `#2E7D32` (Success/positive actions)
+- **Warning:** Orange `#EF6C00` (Warnings and caution)
+- **Error:** Red `#D32F2F` (Errors and destructive actions)
+- **Info:** Blue `#0288D1` (Informational messages)
 
-These are sourced from `@khipu/design-system` tokens and automatically applied to BeerCSS components.
+These are sourced from `@khipu/design-system` tokens and automatically applied to BeerCSS components via CSS custom properties.
 
 ## Custom Khipu Components
 
