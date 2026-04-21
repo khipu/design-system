@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-04-17T16:04:41.666Z
+ * Generated: 2026-04-21T16:31:30.929Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -23,19 +23,19 @@ public struct KdsTokens {
         public static let primaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Secondary palette
-        public static let secondaryMain = UIColor(red: 0.298, green: 0.686, blue: 0.314, alpha: 1.0)
-        public static let secondaryLight = UIColor(red: 0.506, green: 0.780, blue: 0.518, alpha: 1.0)
-        public static let secondaryDark = UIColor(red: 0.220, green: 0.557, blue: 0.235, alpha: 1.0)
+        public static let secondaryMain = UIColor(red: 0.235, green: 0.706, blue: 0.898, alpha: 1.0)
+        public static let secondaryLight = UIColor(red: 0.416, green: 0.776, blue: 0.922, alpha: 1.0)
+        public static let secondaryDark = UIColor(red: 0.098, green: 0.557, blue: 0.745, alpha: 1.0)
         public static let secondaryContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Success
-        public static let successMain = UIColor(red: 0.173, green: 0.635, blue: 0.302, alpha: 1.0)
+        public static let successMain = UIColor(red: 0.180, green: 0.490, blue: 0.196, alpha: 1.0)
         public static let successLight = UIColor(red: 0.298, green: 0.686, blue: 0.314, alpha: 1.0)
         public static let successDark = UIColor(red: 0.106, green: 0.369, blue: 0.125, alpha: 1.0)
         public static let successContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
         
         // Warning
-        public static let warningMain = UIColor(red: 1.000, green: 0.596, blue: 0.000, alpha: 1.0)
+        public static let warningMain = UIColor(red: 0.937, green: 0.424, blue: 0.000, alpha: 1.0)
         public static let warningLight = UIColor(red: 1.000, green: 0.596, blue: 0.000, alpha: 1.0)
         public static let warningDark = UIColor(red: 0.902, green: 0.318, blue: 0.000, alpha: 1.0)
         public static let warningContrastText = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.0)
