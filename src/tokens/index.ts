@@ -33,11 +33,12 @@ const lightModeColors = {
     },
   },
 
-  // Secondary palette - Green (Khipu success/positive)
+  // Secondary palette - Cyan/Turquoise (Khipu brand complementary)
+  // Source of truth: Figma K-Tokens (extracted via figma-plugin-token-extractor)
   secondary: {
-    main: '#4CAF50',
-    light: '#81C784',
-    dark: '#388E3C',
+    main: '#3CB4E5',        // From Figma: secondary/main
+    light: '#6AC6EB',       // From Figma: secondary/light
+    dark: '#198EBE',        // From Figma: secondary/dark
     contrastText: '#FFFFFF',
   },
 
@@ -143,11 +144,11 @@ const darkModeColors = {
     },
   },
 
-  // Secondary palette - Cyan/Turquoise - From Figma K-Tokens
+  // Secondary palette - Cyan/Turquoise (Khipu brand complementary) - From Figma K-Tokens
   secondary: {
-    main: '#B5EAFF',
-    light: '#D6F3FF',
-    dark: '#065676',
+    main: '#B5EAFF',        // From Figma: secondary/main
+    light: '#D6F3FF',       // From Figma: secondary/light
+    dark: '#065676',        // From Figma: secondary/dark
     contrastText: 'rgba(6, 86, 118, 0.87)',
   },
 
@@ -201,19 +202,19 @@ const darkModeColors = {
 // =============================================================================
 
 const semanticColors = {
-  // Updated to match khenshin-web current values
+  // Updated to match Figma (source of truth)
   success: {
-    main: '#2CA24D',        // From khenshin-web
-    light: '#4CAF50',       // Keep DS light variant
-    dark: '#1B5E20',        // Keep DS dark variant
+    main: '#2E7D32',        // From Figma: green/800
+    light: '#4CAF50',       // From Figma: green/500
+    dark: '#1B5E20',        // From Figma: green/900
     container: '#ECFDF5',   // Light green background for chips/badges
     contrastText: '#FFFFFF',
   },
 
   warning: {
-    main: '#FF9800',        // From khenshin-web
-    light: '#FF9800',       // Same as main (khenshin-web pattern)
-    dark: '#E65100',        // Keep DS dark variant
+    main: '#EF6C00',        // From Figma: warning/main
+    light: '#FF9800',       // From Figma: warning/light
+    dark: '#E65100',        // From Figma: warning/dark
     container: '#FFFBEB',   // Light amber background for chips/badges
     contrastText: '#FFFFFF',
   },
