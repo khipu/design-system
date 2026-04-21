@@ -2,7 +2,7 @@
 
 Complete guide to install and use the Khipu Design System in your Android project.
 
-**Library Version:** `0.1.0-alpha.6`
+**Library Version:** `0.1.0-alpha.44`
 **Published:** ✅ Available in Nexus (dev.khipu.com)
 
 ---
@@ -99,7 +99,7 @@ android {
 
 dependencies {
     // ✅ ADD THIS: Khipu Design System
-    implementation("com.khipu:design-system:0.1.0-alpha.6")
+    implementation("com.khipu:design-system:0.1.0-alpha.44")
 
     // Required: Compose BOM (if not already present)
     implementation(platform("androidx.compose:compose-bom:2024.11.00"))
@@ -131,7 +131,7 @@ dependencies {
 ```
 > Configure project :app
 Resolving dependencies...
-  Found: com.khipu:design-system:0.1.0-alpha.6 from KhipuNexusDesignSystem
+  Found: com.khipu:design-system:0.1.0-alpha.44 from KhipuNexusDesignSystem
 
 BUILD SUCCESSFUL
 ```
@@ -282,7 +282,7 @@ Run this preview in Android Studio. If it renders, installation is successful! �
 
 ## 🔧 Troubleshooting
 
-### "Failed to resolve: com.khipu:design-system:0.1.0-alpha.6"
+### "Failed to resolve: com.khipu:design-system:0.1.0-alpha.44"
 
 **Cause:** Nexus credentials not set or incorrect.
 
@@ -357,7 +357,7 @@ sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk
 
 ## 📚 Available Components
 
-Currently available in v0.1.0-alpha.6:
+Currently available in v0.1.0-alpha.44:
 
 ### KdsButton
 Full-featured button component with:
@@ -537,7 +537,7 @@ Before deploying your app with the design system:
 
 - [ ] Nexus credentials configured in `~/.gradle/gradle.properties`
 - [ ] settings.gradle.kts updated with Nexus repository
-- [ ] app/build.gradle.kts updated with dependency (0.1.0-alpha.6)
+- [ ] app/build.gradle.kts updated with dependency (0.1.0-alpha.44)
 - [ ] Gradle synced successfully
 - [ ] Dependency downloaded from Nexus (check build output)
 - [ ] App wrapped with `KdsTheme`
@@ -552,6 +552,6 @@ Before deploying your app with the design system:
 You're now ready to use the Khipu Design System in your Android app.
 
 **Published to:** Nexus (dev.khipu.com/nexus/content/repositories/design-system)
-**Current version:** 0.1.0-alpha.6
+**Current version:** 0.1.0-alpha.44
 
 For detailed component documentation, see [USAGE_GUIDE.md](USAGE_GUIDE.md).

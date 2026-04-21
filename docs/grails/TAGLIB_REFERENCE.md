@@ -2,7 +2,7 @@
 
 Referencia completa de los taglibs del Sistema de Diseño de Khipu para Grails/GSP.
 
-**Versión:** 0.1.0-alpha.30
+**Versión:** 0.1.0-alpha.44
 **Basado en:** BeerCSS + Material Design 3 + Khipu Custom Components
 
 ---
@@ -389,7 +389,7 @@ Genera:
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
 
     <!-- Khipu BeerCSS Bundle (desde CDN) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@khipu/design-system@0.1.0-alpha.30/dist/beercss/khipu-beercss.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@khipu/design-system@0.1.0-alpha.44/dist/beercss/khipu-beercss.min.css">
 </head>
 <body class="light">
 
@@ -397,7 +397,7 @@ Genera:
     <kds:button variant="primary">PAGAR</kds:button>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@khipu/design-system@0.1.0-alpha.30/dist/beercss/khipu-beercss.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@khipu/design-system@0.1.0-alpha.44/dist/beercss/khipu-beercss.min.js"></script>
 </body>
 </html>
 ```
@@ -465,11 +465,11 @@ Genera:
 ## Recursos Adicionales
 
 - **Storybook:** https://design.khipu.com
-- **npm Package:** `@khipu/design-system@0.1.0-alpha.30`
+- **npm Package:** `@khipu/design-system@0.1.0-alpha.44`
 - **GitHub:** https://github.com/khipu/design-system
 - **Documentación Completa:** [docs/grails/](./README.md)
 
 ---
 
 **Última actualización:** 2026-03-27
-**Versión del Sistema de Diseño:** 0.1.0-alpha.30
+**Versión del Sistema de Diseño:** 0.1.0-alpha.44
