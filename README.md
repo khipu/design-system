@@ -21,7 +21,7 @@ npm install @khipu/design-system
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("com.khipu:design-system:0.1.0-alpha.6")
+    implementation("com.khipu:design-system:0.1.0-alpha.44")
 }
 ```
 
@@ -33,24 +33,25 @@ pod 'KhipuDesignSystem'
 
 ## Prerequisites
 
-- Node.js >= 18.0.0
-- React >= 17.0.0
+- Node.js >= 20.0.0
+- React >= 18.0.0
+- TypeScript >= 5.0.0
 
 ## Quick Start
 
 ### Import Components
 
 ```tsx
-import { Button, TextField, Card } from '@khipu/design-system';
+import { KdsButton, KdsTextField, KdsCard } from '@khipu/design-system';
 
 function App() {
   return (
-    <Card>
-      <TextField label="Email" placeholder="Enter your email" />
-      <Button variant="contained" color="primary">
+    <KdsCard>
+      <KdsTextField label="Email" placeholder="Enter your email" />
+      <KdsButton variant="contained" color="primary">
         Submit
-      </Button>
-    </Card>
+      </KdsButton>
+    </KdsCard>
   );
 }
 ```
@@ -147,31 +148,35 @@ Open http://localhost:6006 in your browser to explore the component library.
 
 ## Available Components
 
-### Core Components
+### Core Components (17)
 
-Foundational UI primitives:
+Foundational UI primitives with Khipu theme:
 
-| Component | Description |
-|-----------|-------------|
-| `Button` | Action buttons with variants: `contained`, `outlined`, `text` |
-| `TextField` | Text input fields with validation support |
-| `Checkbox` | Checkbox input with multiple sizes and colors |
-| `Select` | Dropdown selection component |
-| `Modal` | Dialog/modal windows |
-| `Card` | Container with `CardHeader`, `CardContent`, `CardActions` |
-| `Spinner` | Loading indicator |
+| Component | Description | Storybook |
+|-----------|-------------|-----------|
+| `KdsButton` | Action buttons with variants: `contained`, `outlined`, `text` | ✅ |
+| `KdsTextField` | Text input fields with validation support | ✅ |
+| `KdsCheckbox` | Checkbox input with multiple sizes and colors | ✅ |
+| `KdsRadioGroup` | Radio button group component | ⚪ |
+| `KdsSelect` | Dropdown selection component | ⚪ |
+| `KdsModal` | Dialog/modal windows with sizes and transitions | ✅ |
+| `KdsCard` | Container with header, content, and actions | ✅ |
+| `KdsSpinner` | Loading indicator with multiple sizes | ✅ |
+| `KdsLinearProgress` | Progress bar indicator | ⚪ |
+| `KdsAlert` | Alert/notification messages | ⚪ |
+| `KdsTypography` | Text component with semantic variants | ✅ |
+| `KdsTabs` | Tab navigation component | ✅ |
+| `KdsLogoHeader` | Khipu branded header with logo | ✅ |
+| `KdsChip` | Compact element for tags/labels | ⚪ |
+| `KdsSnackbar` | Toast notifications | ⚪ |
+| `KdsTooltip` | Contextual help tooltips | ⚪ |
+| `KdsAccordion` | Expandable/collapsible panels | ⚪ |
+
+**Coverage:** 9/17 components have Storybook stories (53%)
 
 ### Domain Components
 
-Khipu-specific components for the payment platform:
-
-| Component | Description |
-|-----------|-------------|
-| `BankSelector` | Bank selection interface |
-| `PaymentStepper` | Multi-step payment flow indicator |
-| `MandateStatusBadge` | Status badge for payment mandates |
-| `PayoutSummaryCard` | Payout information display |
-| `EmptyState` | Empty state placeholder |
+_Planned for future releases_ - Domain-specific components for the payment platform will be added as the system matures.
 
 ## Design Tokens
 
@@ -259,10 +264,10 @@ All components are fully typed. Import types alongside components:
 
 ```tsx
 import {
-  Button,
-  type ButtonProps,
-  type ButtonVariant,
-  type ButtonColor
+  KdsButton,
+  type KdsButtonProps,
+  type KdsButtonVariant,
+  type KdsButtonColor
 } from '@khipu/design-system';
 ```
 
@@ -272,23 +277,33 @@ import {
 src/
 ├── index.ts              # Main entry point
 ├── tokens/
-│   ├── index.ts          # Design tokens
-│   └── css-variables.css # CSS custom properties
+│   ├── index.ts          # Design tokens (source of truth)
+│   ├── tokens.json       # Generated - JSON format
+│   └── css-variables.css # Generated - CSS custom properties
+├── theme/
+│   ├── index.ts          # MUI theme configuration
+│   └── ThemeProvider.tsx # Theme provider component
 └── components/
-    ├── core/             # Core UI components
-    │   ├── Button/
-    │   ├── TextField/
-    │   ├── Checkbox/
-    │   ├── Select/
-    │   ├── Modal/
-    │   ├── Card/
-    │   └── Spinner/
-    └── domain/           # Domain-specific components
-        ├── BankSelector/
-        ├── PaymentStepper/
-        ├── MandateStatusBadge/
-        ├── PayoutSummaryCard/
-        └── EmptyState/
+    ├── core/             # 17 Core UI components (Kds* prefix)
+    │   ├── KdsButton/
+    │   ├── KdsTextField/
+    │   ├── KdsCheckbox/
+    │   ├── KdsRadioGroup/
+    │   ├── KdsSelect/
+    │   ├── KdsModal/
+    │   ├── KdsCard/
+    │   ├── KdsSpinner/
+    │   ├── KdsLinearProgress/
+    │   ├── KdsAlert/
+    │   ├── KdsTypography/
+    │   ├── KdsTabs/
+    │   ├── KdsLogoHeader/
+    │   ├── KdsChip/
+    │   ├── KdsSnackbar/
+    │   ├── KdsTooltip/
+    │   └── KdsAccordion/
+    └── domain/           # Future: Domain-specific components
+        └── (empty)
 ```
 
 ## License

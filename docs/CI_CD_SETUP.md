@@ -193,7 +193,7 @@ dependencyResolutionManagement {
 **`build.gradle.kts`:**
 ```kotlin
 dependencies {
-    implementation("com.khipu:design-system:0.1.0-alpha.6")
+    implementation("com.khipu:design-system:0.1.0-alpha.44")
 }
 ```
 

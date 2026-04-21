@@ -1148,12 +1148,12 @@ npm view @khipu/design-system
 npm view @khipu/design-system versions
 
 # Bump to new version:
-./scripts/sync-version.sh 0.1.0-alpha.8
+./scripts/sync-version.sh 0.1.0-alpha.44
 
 # Commit and create new tag:
 git add .
-git commit -m "chore: bump to 0.1.0-alpha.8"
-git tag v0.1.0-alpha.8
+git commit -m "chore: bump to 0.1.0-alpha.44"
+git tag v0.1.0-alpha.44
 git push origin main --tags
 ```
 

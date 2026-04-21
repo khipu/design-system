@@ -72,6 +72,8 @@ El Sistema de Diseño de Khipu es una biblioteca multi-plataforma de componentes
 - Testing: Vitest
 - Documentación: Storybook 10.2.16 (con MCP nativo para agentes IA)
 - Node.js: >= 20.0.0
+- React: >= 18.0.0
+- TypeScript: >= 5.0.0
 
 ---
 
@@ -156,7 +158,8 @@ npm run grails:info             # Mostrar info del plugin
 │   (BankSelector, PaymentStepper)     │
 ├─────────────────────────────────────┤
 │        Componentes Core (Kds*)       │ ← Primitivos con tema Khipu
-│  (KdsButton, KdsTextField, etc.)     │
+│  (17 componentes: Button, TextField, │
+│   Card, Checkbox, Modal, etc.)       │
 ├─────────────────────────────────────┤
 │    Material UI / Material 3          │ ← Componentes base
 │        (React / Jetpack Compose)     │
@@ -302,8 +305,10 @@ docs/
 src/
 ├── index.ts                 # Exports principales
 ├── components/
-│   ├── core/               # 12 componentes Kds* (Alert, Button, Card, Checkbox, LinearProgress, LogoHeader, Modal, Spinner, Tabs, TextField, Typography)
-│   └── domain/             # Futuro: componentes compuestos
+│   ├── core/               # 17 componentes Kds* (Alert, Button, Card, Checkbox, LinearProgress,
+│   │                       #   LogoHeader, Modal, Spinner, Tabs, TextField, Typography, RadioGroup,
+│   │                       #   Select, Chip, Snackbar, Tooltip, Accordion)
+│   └── domain/             # Futuro: componentes compuestos (vacío por ahora)
 ├── tokens/
 │   ├── index.ts           # ✍️ Fuente de verdad
 │   ├── tokens.json        # Auto-generado
@@ -370,7 +375,7 @@ El proyecto usa GitHub Actions para automatizar testing, builds y deployments:
 - ✅ Build Web (`npm run build`)
 - ✅ Build Android (requiere `npm run tokens:generate` primero)
 
-**En tags `v*` (ej: v0.1.0-alpha.6):**
+**En tags `v*` (ej: v0.1.0-alpha.44):**
 - 📦 Publish a npm (`@khipu/design-system`)
 - 📦 Publish a Nexus (Android + Grails)
 - 📦 Publish a CocoaPods (iOS)
