@@ -19,6 +19,7 @@
 ### React / Web
 - **README Principal**: [`../README.md`](../README.md) - Introducción y guía rápida
 - **CLAUDE.md**: [`../CLAUDE.md`](../CLAUDE.md) - Guía para desarrollo asistido por IA
+- **BeerCSS Bundle**: [`../src/beercss/README.md`](../src/beercss/README.md) - Material Design 3 para Grails/legacy apps
 - **Build & Publishing**: [`BUILD_PUBLISHING.md`](BUILD_PUBLISHING.md) - Cómo construir y publicar packages
 - **Tokens de Diseño**: [`TOKENS_GUIDE.md`](TOKENS_GUIDE.md) - Sistema de tokens y generación multi-plataforma
 - **Patrones de Componentes**: [`COMPONENT_PATTERNS.md`](COMPONENT_PATTERNS.md) - Arquitectura y convenciones
