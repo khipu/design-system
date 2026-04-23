@@ -3864,7 +3864,6 @@ dialog#surveyModal button.circle {
     display: flex;
     align-items: center;
     gap: var(--kds-spacing-1-5);
-    width: 100%;
     padding: var(--kds-spacing-1-75);
     background: var(--kds-color-surface);
     color: var(--kds-color-text-primary);
