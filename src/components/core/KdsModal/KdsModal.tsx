@@ -5,14 +5,20 @@
  * Matches the Figma design: Pagos Automáticos - MUI v610
  */
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 
 // =============================================================================
 // TYPES
@@ -20,7 +26,7 @@ import Box from '@mui/material/Box';
 
 export type KdsModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export interface KdsModalProps extends Omit<DialogProps, 'maxWidth' | 'title'> {
+export interface KdsModalProps extends Omit<DialogProps, 'maxWidth' | 'title' | 'fullScreen'> {
   /** Controls modal visibility */
   open: boolean;
   /** Callback when modal should close */
@@ -31,11 +37,20 @@ export interface KdsModalProps extends Omit<DialogProps, 'maxWidth' | 'title'> {
   children: React.ReactNode;
   /** Footer content (usually action buttons) */
   footer?: React.ReactNode;
-  /** Modal max width */
+  /** Modal max width (ignored when fullScreen is true) */
   size?: KdsModalSize;
   /** Show close button */
   showCloseButton?: boolean;
+  /** Render as a fullScreen dialog with AppBar header and slide transition */
+  fullScreen?: boolean;
 }
+
+const SlideTransition = forwardRef(function SlideTransition(
+  props: TransitionProps & { children: React.ReactElement<unknown> },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="left" ref={ref} {...props} />;
+});
 
 // =============================================================================
 // COMPONENT
@@ -92,8 +107,57 @@ export const KdsModal: React.FC<KdsModalProps> = ({
   footer,
   size = 'sm',
   showCloseButton = true,
+  fullScreen = false,
   ...props
 }) => {
+  // FullScreen variant: AppBar with back button + slide transition
+  if (fullScreen) {
+    return (
+      <Dialog
+        open={open}
+        onClose={onClose}
+        fullScreen
+        TransitionComponent={SlideTransition}
+        {...props}
+      >
+        <AppBar
+          sx={{
+            position: 'relative',
+            backgroundColor: 'background.paper',
+            color: 'text.primary',
+            boxShadow: 0,
+            py: 1,
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={onClose}
+              aria-label="Cerrar"
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+            {title && (
+              <Typography sx={{ ml: 1, flex: 1 }} fontWeight={600} variant="h6" component="div">
+                {title}
+              </Typography>
+            )}
+          </Toolbar>
+        </AppBar>
+        <DialogContent sx={{ px: 5, py: 5 }}>
+          {children}
+        </DialogContent>
+        {footer && (
+          <DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+            {footer}
+          </DialogActions>
+        )}
+      </Dialog>
+    );
+  }
+
+  // Standard variant: centered dialog with optional close button
   return (
     <Dialog
       open={open}
