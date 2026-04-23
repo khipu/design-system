@@ -3861,12 +3861,13 @@ dialog#surveyModal button.circle {
     width: 100%;
     padding: var(--kds-spacing-1-75);
     background: var(--kds-color-surface);
+    color: var(--kds-color-text-primary);
     border: 1px solid var(--kds-color-divider);
     border-radius: var(--kds-radius-lg);
     text-align: left;
     cursor: pointer;
     transition: border-color 0.2s, background 0.2s;
-    margin-bottom: var(--kds-spacing-2);
+    min-height: fit-content;
 }
 
 .kds-bank-row:hover {
@@ -4145,6 +4146,7 @@ dialog#surveyModal button.circle {
     transition: background 0.15s, border-color 0.15s;
     font-size: var(--kds-font-size-sm);
     color: var(--kds-color-text-primary);
+    min-height: fit-content;
 }
 
 .kds-copy-row:hover {
@@ -4440,4 +4442,346 @@ dialog#surveyModal button.circle {
     background: var(--kds-color-primary-main);
     color: var(--kds-color-primary-contrast);
     box-shadow: var(--kds-shadow-card);
+}
+
+
+/* ========================================
+   PAYMENT FLOW — DOMAIN COMPONENTS
+   Invoice header, KV grid, dividers,
+   amount summary, recap, success button
+   ======================================== */
+
+/* -- Invoice Header (amount + merchant tile) -- */
+.kds-invoice-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--kds-spacing-2);
+}
+
+.kds-invoice-amount {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    color: var(--kds-color-text-primary);
+    margin: 0;
+}
+
+.kds-invoice-amount.success {
+    color: var(--kds-color-success-main);
+}
+
+.kds-invoice-code {
+    font-size: var(--kds-font-size-xs);
+    color: var(--kds-color-text-hint);
+    margin-top: var(--kds-spacing-0-5);
+}
+
+.kds-invoice-merchant {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-color-primary-deep);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.kds-invoice-merchant i {
+    font-size: 30px;
+}
+
+/* -- Card Title -- */
+.kds-card-title {
+    font-weight: 700;
+    font-size: var(--kds-font-size-base);
+    line-height: 1.5;
+    letter-spacing: -0.31px;
+    color: var(--kds-color-text-primary);
+    margin: 0 0 var(--kds-spacing-2);
+}
+
+/* -- Key-Value Grid -- */
+.kds-kv {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    row-gap: var(--kds-spacing-1);
+    column-gap: var(--kds-spacing-1-5);
+    align-items: baseline;
+}
+
+.kds-kv dt {
+    font-size: var(--kds-font-size-xs);
+    letter-spacing: 0.2px;
+    color: var(--kds-color-text-hint);
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.kds-kv dd {
+    margin: 0;
+    font-size: var(--kds-font-size-sm);
+    font-weight: 600;
+    color: var(--kds-color-text-primary);
+}
+
+/* -- Dividers -- */
+.kds-hr {
+    height: 1px;
+    background: var(--kds-color-divider);
+    margin: var(--kds-spacing-2) 0;
+    border: 0;
+}
+
+.kds-hr-dashed {
+    height: 0;
+    border: 0;
+    border-top: 1px dashed var(--kds-color-divider);
+    margin: var(--kds-spacing-2) 0;
+}
+
+/* -- Detail List + Group (dt/dd in expand panels) -- */
+.kds-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1-75);
+    margin: var(--kds-spacing-1-75) 0 0;
+    padding: 0;
+}
+
+.kds-detail-group {
+    margin-bottom: var(--kds-spacing-1-75);
+}
+
+.kds-detail-group:last-child {
+    margin-bottom: 0;
+}
+
+.kds-detail-group dt {
+    font-size: var(--kds-font-size-xs);
+    letter-spacing: 0.2px;
+    color: var(--kds-color-text-hint);
+    text-transform: uppercase;
+    margin: 0 0 var(--kds-spacing-0-5);
+}
+
+.kds-detail-group dd {
+    margin: 0;
+    font-size: var(--kds-font-size-sm);
+    line-height: 1.45;
+    color: var(--kds-color-text-primary);
+}
+
+/* -- Amount Summary Row -- */
+.kds-amount-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: var(--kds-spacing-1-75) 0 var(--kds-spacing-1);
+    border-top: 1px dashed var(--kds-color-divider);
+    margin-top: var(--kds-spacing-1-75);
+}
+
+.kds-amount-row-title {
+    font-weight: 700;
+    font-size: var(--kds-font-size-base);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-amount-row-subtitle {
+    font-size: var(--kds-font-size-xs);
+    color: var(--kds-color-text-hint);
+    margin-top: var(--kds-spacing-0-5);
+}
+
+.kds-amount-row-value {
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--kds-color-text-primary);
+}
+
+/* -- Recap Section -- */
+.kds-recap-header {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-0-75);
+    font-weight: 700;
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-recap-header i {
+    font-size: var(--kds-font-size-base);
+    color: var(--kds-color-primary-main);
+}
+
+.kds-recap-list {
+    margin: var(--kds-spacing-1-25) 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-0-75);
+}
+
+.kds-recap-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--kds-font-size-sm);
+}
+
+.kds-recap-list .k {
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-recap-list .v {
+    color: var(--kds-color-text-primary);
+    font-weight: 500;
+}
+
+.kds-recap-list .v.placeholder {
+    color: var(--kds-color-text-hint);
+}
+
+/* -- Button Success (green CTA) -- */
+button.kds-btn-success,
+a.kds-btn-success {
+    background: var(--kds-color-success-main);
+    color: #fff;
+    border: none;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,.2),
+                0px 2px 2px 0px rgba(0,0,0,.14),
+                0px 1px 5px 0px rgba(0,0,0,.12);
+}
+
+button.kds-btn-success:hover:not(:disabled),
+a.kds-btn-success:hover:not(:disabled) {
+    background: var(--kds-color-success-dark);
+}
+
+button.kds-btn-success:disabled,
+a.kds-btn-success:disabled {
+    background-color: var(--kds-color-action-disabled-bg);
+    color: var(--kds-color-action-disabled);
+    box-shadow: none;
+}
+
+/* -- Field Helper Text -- */
+.kds-field-helper {
+    font-size: var(--kds-font-size-xs);
+    color: var(--kds-color-text-secondary);
+    margin: var(--kds-spacing-0-75) var(--kds-spacing-1-75) 0;
+}
+
+/* -- Bank Row Avatar with initials -- */
+.kds-bank-row-logo.initials {
+    border-radius: var(--kds-radius-full);
+    color: #fff;
+    font-weight: 700;
+    font-size: 11px;
+    width: 32px;
+    height: 32px;
+}
+
+.kds-bank-row-logo.neutral {
+    background: var(--kds-color-divider);
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-bank-row-logo.neutral i {
+    font-size: 18px;
+}
+
+/* Reset ripple on additional interactive elements */
+.kds-bank-row::after,
+button.kds-btn-success::after {
+    display: none;
+}
+
+/* -- Expand Section (border-top separator before expand toggle) -- */
+.kds-expand-section {
+    margin-top: var(--kds-spacing-2);
+    border-top: 1px solid var(--kds-color-divider);
+    padding-top: var(--kds-spacing-1-5);
+}
+
+/* -- Alert inline (borderless, used inside cards) -- */
+.kds-alert-inline {
+    border: none;
+}
+
+/* -- Card dimmed (behind overlays) -- */
+.kds-card-dimmed {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+/* -- Button stack (vertical button group) -- */
+.kds-btn-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1-25);
+    margin-top: var(--kds-spacing-2);
+}
+
+/* -- Bank list (bank row container) -- */
+.kds-bank-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1);
+    margin-top: var(--kds-spacing-1);
+}
+
+/* -- Field group spacing -- */
+.kds-field-group {
+    margin-top: var(--kds-spacing-1-75);
+}
+
+/* -- Color utilities -- */
+.kds-color-primary { color: var(--kds-color-primary-main); }
+.kds-color-success { color: var(--kds-color-success-main); }
+.kds-color-warning { color: var(--kds-color-warning-main); }
+.kds-color-error   { color: var(--kds-color-error-main); }
+.kds-color-info    { color: var(--kds-color-info-main); }
+
+/* -- Text utilities -- */
+.kds-text-secondary {
+    color: var(--kds-color-text-secondary);
+    font-size: var(--kds-font-size-sm);
+}
+
+.kds-link {
+    color: var(--kds-color-primary-main);
+    text-decoration: none;
+}
+.kds-link:hover { text-decoration: underline; }
+
+/* -- Field helper (centered) -- */
+.kds-field-helper-center {
+    text-align: center;
+    margin-top: var(--kds-spacing-1-25);
+}
+
+/* -- Bottom sheet illustration -- */
+.kds-bottom-sheet-illustration {
+    margin: var(--kds-spacing-1) auto var(--kds-spacing-1-75);
+    display: grid;
+    place-items: center;
+}
+.kds-bottom-sheet-illustration svg {
+    fill: none;
+}
+
+/* -- Bottom sheet description (subtle / smaller) -- */
+.kds-bottom-sheet-description-subtle {
+    color: var(--kds-color-text-secondary);
+    font-size: var(--kds-font-size-sm);
+}
+
+/* -- Copy header with top spacing -- */
+.kds-copy-header.spaced {
+    margin-top: var(--kds-spacing-2-5);
 }
