@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-04-21T16:31:30.929Z
+ * Generated: 2026-04-22T20:35:45.143Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -118,9 +118,12 @@ public struct KdsTokens {
         public static let space11: CGFloat = 88
         public static let space12: CGFloat = 96
         public static let space20: CGFloat = 160
+        public static let space0_25: CGFloat = 2
         public static let space0_5: CGFloat = 4
         public static let space0_75: CGFloat = 6
+        public static let space1_25: CGFloat = 10
         public static let space1_5: CGFloat = 12
+        public static let space1_75: CGFloat = 14
         public static let space2_5: CGFloat = 20
         public static let space3_5: CGFloat = 28
         public static let space4_5: CGFloat = 36
@@ -159,7 +162,7 @@ public struct KdsTokens {
         // Component-specific radii
         public static let button: CGFloat = 4
         public static let input: CGFloat = 4
-        public static let card: CGFloat = 20
+        public static let card: CGFloat = 14
         public static let modal: CGFloat = 20
         public static let chip: CGFloat = 16
         public static let avatar: CGFloat = 100
