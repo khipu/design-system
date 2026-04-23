@@ -8,59 +8,28 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
 <style>
 /* Load BeerCSS bundle in a CSS layer so page-level styles win on conflicts,
-   while kds-* custom properties remain available via var(). */
+   while kds-* custom properties and classes remain available. */
 @import url('/dist/beercss/khipu-beercss.min.css') layer(beercss);
 
 /* =========================================================
-   Payment Flow — Page-level styles (unlayered = higher priority)
-   Token aliases map to kds-* CSS variables from the bundle.
+   Prototype-only styles (stage, screens, nav, tweaks)
    ========================================================= */
-:root{
-  /* Mapped from kds-* design tokens */
-  --brand:var(--kds-color-primary-main, #8347AD);
-  --brand-ink:#6B3FA0;
-  --brand-deep:var(--kds-color-primary-deep, #5B3DB5);
-  --brand-tint:#F3E5FF;
-  --brand-faint:var(--kds-color-primary-faint, #F0F0FA);
-  --cyan:var(--kds-color-secondary-main, #3CB4E5);
-  --ink:#101828;
-  --ink-2:#1E2939;
-  --ink-3:#364153;
-  --muted:#6A7282;
-  --muted-2:#99A1AF;
-  --rule:#F3F4F6;
-  --rule-2:#E5E7EB;
-  --rule-3:#DDDEE0;
-  --surface:#FFFFFF;
-  --shell:var(--kds-color-shell, #F5F5F5);
-  --ok:var(--kds-color-success-main, #2E7D32);
-  --ok-soft:var(--kds-color-success-soft, #ECFDF5);
-  --info:var(--kds-color-info-main, #0288D1);
-  --info-soft:var(--kds-color-info-soft, #EFF6FF);
-  --warn-soft:#FEF6E2;
-  --warn-ink:#8A6A12;
-  --danger:var(--kds-color-error-main, #D32F2F);
-  --radius-card:var(--kds-radius-card, 14px);
-  --radius-btn:10px;
-  --shadow-card:var(--kds-shadow-card, 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06));
-}
-
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:'Public Sans','Inter',system-ui,sans-serif;
-  background:var(--shell);
-  color:var(--ink-2);
+  font-family:'Public Sans',system-ui,sans-serif;
+  background:var(--kds-color-shell);
+  color:var(--kds-color-text-primary);
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
 }
 
-/* ========= Stage (phone-centric, scrolls) ========= */
+/* Stage centering */
 .stage{
   min-height:100vh;
   display:flex;
@@ -75,574 +44,55 @@ body{
   gap:24px;
 }
 
-/* ========= Khipu header logo ========= */
-.brand-row{
-  padding:0 4px;
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-}
+/* Brand logo row */
+.brand-row{padding:0 4px;display:flex;align-items:center}
 .brand-row svg{height:22px;display:block}
 
-/* ========= Cards ========= */
-.card{
-  background:var(--surface);
-  border-radius:var(--radius-card);
-  box-shadow:var(--shadow-card);
-  overflow:hidden;
-}
-.card-pad{padding:20px}
+/* Prevent card hover elevation in payment flow */
+.kds-card-elevated:hover{box-shadow:var(--kds-shadow-card)}
 
-/* ========= Invoice (top) card ========= */
-.invoice-head{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:16px;
-}
-.amount{
-  font-family:'Inter','Public Sans',sans-serif;
-  font-weight:700;
-  font-size:30px;
-  line-height:37.5px;
-  letter-spacing:.4px;
-  color:var(--ink);
-  margin:0;
-}
-.amount.ok{color:var(--ok)}
-.code{
-  font-family:'Public Sans',sans-serif;
-  font-size:12px;
-  color:var(--muted-2);
-  margin-top:4px;
-  letter-spacing:-.06px;
-}
-.merchant{
-  width:64px;height:64px;
-  border-radius:8px;
-  background:var(--brand-deep);
-  display:grid;place-items:center;
-  color:#fff;
-  flex:0 0 auto;
-}
-.merchant .material-icons-round{font-size:30px}
-
-.hr{height:1px;background:var(--rule);margin:16px 0;border:0}
-
-.kv{
-  display:grid;
-  grid-template-columns:72px 1fr;
-  row-gap:8px;
-  column-gap:12px;
-  align-items:baseline;
-}
-.kv dt{
-  font-family:'Public Sans',sans-serif;
-  font-size:12px;
-  letter-spacing:.2px;
-  color:rgba(0,0,0,.55);
-  text-transform:uppercase;
-  margin:0;
-}
-.kv dd{
-  margin:0;
-  font-family:'Public Sans',sans-serif;
-  font-size:13px;
-  font-weight:600;
-  color:var(--ink-2);
-}
-
-/* Detalle del cobro toggle */
-.detail-row{
-  margin-top:16px;
-  border-top:1px solid var(--rule);
-  padding-top:12px;
-}
-.detail-toggle{
-  background:none;border:0;padding:4px 0;
-  color:var(--brand-ink);
-  font-family:'Public Sans',sans-serif;
-  font-weight:500;
-  font-size:14px;
-  letter-spacing:-.15px;
-  cursor:pointer;
-  display:inline-flex;align-items:center;gap:6px;
-}
-.detail-toggle .material-icons-round{font-size:16px;transition:transform .2s}
-.detail-toggle[aria-expanded="true"] .material-icons-round{transform:rotate(180deg)}
-
-.detail-panel{
-  margin-top:14px;
-  display:grid;
-  grid-template-columns:1fr;
-  row-gap:14px;
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .28s ease, margin-top .28s ease, padding .28s ease;
-  padding-top:0;
-}
-.detail-panel.open{max-height:800px;margin-top:14px;}
-.detail-group dt{
-  font-family:'Public Sans',sans-serif;
-  font-size:12px;
-  letter-spacing:.2px;
-  color:rgba(0,0,0,.55);
-  text-transform:uppercase;
-  margin:0 0 4px;
-}
-.detail-group dd{
-  margin:0;
-  font-family:'Public Sans',sans-serif;
-  font-size:14px;
-  line-height:1.45;
-  color:var(--ink-2);
-}
-
-/* ========= Generic Card (second card) ========= */
-.card h2{
-  font-family:'Inter','Public Sans',sans-serif;
-  font-weight:700;
-  font-size:16px;
-  line-height:24px;
-  letter-spacing:-.31px;
-  color:var(--ink);
-  margin:0 0 16px;
-}
-
-/* ========= Buttons ========= */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  width:100%;
-  height:44px;
-  border-radius:var(--radius-btn);
-  border:0;
-  font-family:'Inter','Public Sans',sans-serif;
-  font-weight:500;
-  font-size:14px;
-  letter-spacing:.46px;
-  text-transform:uppercase;
-  cursor:pointer;
-  transition:background .15s, box-shadow .15s, transform .05s;
-  padding:0 16px;
-}
-.btn:active{transform:translateY(1px)}
-.btn-primary{
-  background:var(--brand);
-  color:#fff;
-  box-shadow:0 1px 2px rgba(131,71,173,.25);
-}
-.btn-primary:hover{background:#763DA0}
-.btn-primary:disabled{background:#E0E0E0;color:#9E9E9E;cursor:not-allowed;box-shadow:none}
-.btn-ok{
-  background:#3BA84B;
-  color:#fff;
-  height:52px;
-}
-.btn-ok:hover{background:#348A3E}
-.btn-outlined{
-  background:#fff;
-  color:var(--brand);
-  border:1px solid rgba(131,71,173,.5);
-}
-.btn-outlined:hover{background:rgba(131,71,173,.04);border-color:var(--brand)}
-.btn-text{
-  background:none;
-  color:var(--brand-ink);
-  font-weight:600;
-  letter-spacing:-.15px;
-  text-transform:none;
-  height:40px;
-}
-.btn-text:hover{background:rgba(131,71,173,.04)}
-
-/* ========= Segmented tabs ========= */
-.segmented{
-  height:40px;
-  background:var(--rule);
-  border-radius:12px;
-  padding:2px;
-  display:flex;
-  gap:0;
-}
-.segmented button{
-  flex:1;
-  border:0;background:transparent;
-  border-radius:10px;
-  font-family:'Inter',sans-serif;
-  font-weight:500;
-  font-size:14px;
-  letter-spacing:-.15px;
-  color:var(--muted);
-  cursor:pointer;
-  transition:background .2s, color .2s, box-shadow .2s;
-}
-.segmented button.active{
-  background:#fff;
-  color:var(--ink);
-  box-shadow:0 1px 2px -1px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.08);
-}
-
-/* ========= Bank rows ========= */
-.bank-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
-.bank-row{
-  display:flex;align-items:center;gap:12px;
-  width:100%;
-  background:#fff;
-  border:1px solid var(--rule);
-  border-radius:14px;
-  padding:12px;
-  cursor:pointer;
-  transition:border-color .15s, background .15s, box-shadow .15s;
-  text-align:left;
-  font:inherit;color:inherit;
-}
-.bank-row:hover{border-color:var(--rule-2);background:#FAFAFA}
-.bank-row:focus-visible{outline:2px solid rgba(131,71,173,.3);outline-offset:2px}
-.bank-avatar{
-  width:32px;height:32px;border-radius:9999px;
-  display:grid;place-items:center;
-  color:#fff;
-  font-family:'Inter',sans-serif;
-  font-weight:700;
-  font-size:11px;
-  flex:0 0 auto;
-}
-.bank-avatar.neutral{background:var(--rule);color:var(--muted)}
-.bank-avatar.neutral .material-icons-round{color:var(--muted);font-size:18px}
-.bank-name{
-  flex:1;
-  font-family:'Inter',sans-serif;
-  font-weight:500;
-  font-size:14px;
-  letter-spacing:-.15px;
-  color:var(--ink-2);
-}
-.bank-name .sub{color:var(--muted);font-weight:500}
-.bank-row .badge{
-  background:var(--rule);
-  color:var(--muted);
-  font-family:'Inter',sans-serif;
-  font-weight:500;
-  font-size:12px;
-  padding:2px 8px;
-  border-radius:9999px;
-}
-.bank-row .chev{color:var(--rule-2);font-size:20px}
-
-/* ========= Floating-label text fields (MUI style) ========= */
-.field{
-  position:relative;
-  margin-top:14px;
-}
-.field input, .field select{
-  width:100%;
-  height:56px;
-  border-radius:4px;
-  border:1px solid rgba(0,0,0,.23);
-  padding:18px 14px 6px;
-  background:#fff;
-  font-family:'Inter',sans-serif;
-  font-size:16px;
-  color:var(--ink);
-  outline:0;
-  transition:border-color .15s;
-  appearance:none;
-}
-.field input::placeholder{color:#B0B6BF}
-.field input:hover, .field select:hover{border-color:rgba(0,0,0,.87)}
-.field input:focus, .field select:focus{
-  border:2px solid var(--brand);
-  padding:17px 13px 5px;
-}
-.field label{
-  position:absolute;
-  left:12px;top:18px;
-  font-family:'Inter',sans-serif;
-  font-size:16px;
-  color:var(--muted);
-  background:#fff;
-  padding:0 4px;
-  pointer-events:none;
-  transition:all .15s;
-}
-.field.filled label, .field input:focus + label, .field select:focus + label{
-  top:-8px;
-  font-size:12px;
-  color:var(--brand);
-}
-.field.filled:not(:focus-within) label{color:var(--muted)}
-/* Locked/read-only field */
-.field.locked input{
-  background:#F7F7FA;
-  color:var(--ink-3);
-  border-color:var(--rule-2);
-  cursor:not-allowed;
-  padding-right:42px;
-}
-.field.locked input:hover{border-color:var(--rule-2)}
-.field.locked label{color:var(--muted)}
-.field .lock-icon{
-  position:absolute;
-  right:12px;top:50%;transform:translateY(-50%);
-  color:var(--muted-2);
-  font-size:18px;
-  pointer-events:none;
-}
-.helper{
-  font-family:'Inter',sans-serif;
-  font-size:12px;
-  color:var(--muted);
-  margin:6px 14px 0;
-  letter-spacing:-.05px;
-}
-
-/* ========= Alerts ========= */
-.alert{
-  border-radius:8px;
-  padding:12px 14px;
-  font-family:'Public Sans',sans-serif;
-  font-size:13px;
-  line-height:1.5;
-  color:var(--ink-2);
-}
-.alert.info{background:var(--info-soft);color:#0B4F80}
-.alert.info b{color:#0B4F80}
-.alert.warn{background:var(--warn-soft);color:var(--warn-ink)}
-.alert.ok{background:var(--ok-soft);color:#1E4B21}
-
-/* ========= Copyable rows ========= */
-.copy-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:10px;
-}
-.copy-header h3{
-  font-family:'Inter',sans-serif;
-  font-weight:700;
-  font-size:15px;
-  color:var(--ink);
-  margin:0;
-  display:flex;align-items:center;gap:6px;
-}
-.copy-all{
-  display:inline-flex;align-items:center;gap:4px;
-  color:var(--brand-ink);
-  font-family:'Public Sans',sans-serif;
-  font-weight:600;
-  font-size:13px;
-  background:none;border:0;cursor:pointer;
-  padding:4px 6px;border-radius:6px;
-}
-.copy-all:hover{background:rgba(131,71,173,.06)}
-.copy-all .material-icons-round{font-size:16px}
-
-.copy-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
-.copy-row{
-  display:flex;align-items:center;gap:10px;
-  padding:12px 14px;
-  border:1px solid var(--rule);
-  border-radius:10px;
-  background:#fff;
-  font-family:'Inter',sans-serif;
-  font-size:14px;
-  color:var(--ink-2);
-  cursor:pointer;
-  transition:background .15s, border-color .15s;
-  position:relative;
-}
-.copy-row:hover{background:#FAFAFA;border-color:var(--rule-2)}
-.copy-row .material-icons-round{color:var(--muted);font-size:18px;flex:0 0 auto}
-.copy-row .label{
-  font-size:11px;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.3px;
-  display:block;margin-bottom:2px;
-  font-family:'Public Sans',sans-serif;
-}
-.copy-row .val{font-weight:500}
-.copy-row.copied{background:var(--ok-soft);border-color:#BBE2C4}
-.copy-toast{
-  position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  font-size:12px;color:var(--ok);font-family:'Public Sans',sans-serif;font-weight:600;
-  display:flex;align-items:center;gap:4px;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .2s;
-}
-.copy-row.copied .copy-toast{opacity:1}
-
-/* ========= Monto resumen ========= */
-.monto-row{
-  display:flex;justify-content:space-between;align-items:flex-end;
-  padding:14px 0 8px;
-  border-top:1px dashed var(--rule-2);
-  margin-top:14px;
-}
-.monto-row .title{
-  font-family:'Inter',sans-serif;font-weight:700;font-size:16px;color:var(--ink);
-}
-.monto-row .limite{
-  font-family:'Public Sans',sans-serif;font-size:12px;color:var(--muted-2);margin-top:4px;
-}
-.monto-row .big{
-  font-family:'Inter',sans-serif;font-weight:700;font-size:24px;color:var(--ink);
-}
-
-/* ========= Status block ========= */
-.status-row{display:flex;align-items:center;gap:12px;padding:4px 0 12px;}
-.status-row h3{
-  font-family:'Inter',sans-serif;font-weight:700;font-size:17px;color:var(--ink);margin:0;
-}
-.status-icon{
-  width:40px;height:40px;flex:0 0 auto;
-  display:grid;place-items:center;
-}
-.spinner{
-  width:36px;height:36px;border-radius:9999px;
-  border:3px solid var(--rule);
-  border-top-color:var(--brand);
-  animation:spin 1s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.check-ok{
-  width:36px;height:36px;border-radius:9999px;
-  border:2.5px solid var(--ok);
-  display:grid;place-items:center;
-  color:var(--ok);
-}
-.check-ok .material-icons-round{font-size:22px;font-weight:700}
-
-/* ========= Datos pagador recap ========= */
-.recap-head{
-  display:flex;align-items:center;gap:6px;
-  font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:var(--ink);
-}
-.recap-head .material-icons-round{font-size:16px;color:var(--brand-ink)}
-.recap-list{
-  margin:10px 0 0;padding:0;list-style:none;
-  display:flex;flex-direction:column;gap:6px;
-}
-.recap-list li{
-  display:flex;justify-content:space-between;align-items:center;
-  font-family:'Public Sans',sans-serif;
-  font-size:14px;
-}
-.recap-list .k{color:var(--ink-3)}
-.recap-list .v{color:var(--ink);font-weight:500}
-.recap-list .v.placeholder{color:var(--muted-2)}
-
-.section-divider{height:1px;background:var(--rule);margin:16px 0;border:0;border-top:1px dashed var(--rule-2)}
-
-/* ========= Footer ========= */
-.secure-footer{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  color:var(--muted-2);
-  font-family:'Inter',sans-serif;
-  font-size:12px;
-  padding:8px 0;
-}
-.secure-footer .material-icons-round{font-size:14px}
-
-/* ========= Modal (¿Ya transferiste?) ========= */
-.scrim{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.45);
-  display:none;
-  align-items:flex-end;
-  justify-content:center;
-  z-index:50;
-  animation:fade .2s ease both;
-}
-.scrim.open{display:flex}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.sheet{
-  width:100%;max-width:480px;
-  background:#fff;
-  border-radius:20px 20px 0 0;
-  padding:28px 24px 24px;
-  box-shadow:0 -8px 28px rgba(0,0,0,.18);
-  animation:rise .28s cubic-bezier(.2,.8,.2,1) both;
-  text-align:center;
-  position:relative;
-}
-@keyframes rise{from{transform:translateY(20px);opacity:.4}to{transform:none;opacity:1}}
-.sheet .grabber{
-  position:absolute;left:50%;top:10px;transform:translateX(-50%);
-  width:48px;height:4px;border-radius:9999px;background:var(--rule-2);
-}
-.sheet h3{
-  font-family:'Inter',sans-serif;font-weight:700;font-size:20px;color:var(--ink);
-  margin:4px 0 18px;
-}
-.sheet p{
-  font-family:'Public Sans',sans-serif;
-  font-size:14px;line-height:1.55;
-  color:var(--ink-3);
-  margin:0 0 10px;
-}
-.sheet p.small{color:var(--muted);font-size:13px}
-.sheet-icon{
-  width:74px;height:92px;margin:8px auto 14px;
-  display:grid;place-items:center;
-}
-.sheet-actions{margin-top:18px;display:flex;flex-direction:column;gap:10px;}
-
-/* ========= Screen transitions ========= */
-.screen{display:none;animation:fadein .22s ease both;}
+/* Screen transitions */
+.screen{display:none;animation:fadein .22s ease both}
 .screen.active{display:flex;flex-direction:column;gap:24px}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-/* ========= Flow nav (prototype chrome) ========= */
+/* Proto nav */
 .proto-nav{
   position:fixed;left:50%;bottom:14px;transform:translateX(-50%);
   display:flex;align-items:center;gap:6px;
   background:#1E2939;color:#fff;
-  padding:6px 8px;
-  border-radius:9999px;
+  padding:6px 8px;border-radius:9999px;
   box-shadow:0 8px 24px rgba(16,24,40,.22);
-  z-index:40;
-  font-family:'Inter',sans-serif;font-size:12px;
+  z-index:40;font-size:12px;
 }
-.proto-nav .step{
-  min-width:22px;height:22px;
-  border-radius:9999px;
-  display:grid;place-items:center;
-  cursor:pointer;
-  color:#C5C9D2;
-  padding:0 6px;
-  font-weight:500;
-  transition:background .15s, color .15s;
-}
-.proto-nav .step:hover{color:#fff}
-.proto-nav .step.active{background:var(--brand);color:#fff}
+.proto-nav .label{padding:0 6px;color:#9BA4B3}
 .proto-nav .nav-arrow{
   background:transparent;border:0;color:#C5C9D2;cursor:pointer;
   width:28px;height:28px;border-radius:9999px;
   display:grid;place-items:center;
 }
 .proto-nav .nav-arrow:hover{color:#fff;background:rgba(255,255,255,.08)}
-.proto-nav .label{padding:0 6px;color:#9BA4B3}
 
-/* ========= Tweaks panel ========= */
+/* Tweaks panel */
 .tweaks{
   position:fixed;right:16px;bottom:64px;
   width:260px;background:#fff;border-radius:14px;
   box-shadow:0 12px 40px rgba(16,24,40,.18);
-  border:1px solid var(--rule-2);
-  padding:14px;
-  font-family:'Inter',sans-serif;font-size:13px;
-  z-index:45;
-  display:none;
+  border:1px solid #E5E7EB;
+  padding:14px;font-size:13px;
+  z-index:45;display:none;
 }
 .tweaks.open{display:block}
-.tweaks h4{margin:0 0 8px;font-size:13px;font-weight:700;color:var(--ink)}
+.tweaks h4{margin:0 0 8px;font-size:13px;font-weight:700}
 .tweaks .tweak{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
 .tweaks .chips{display:flex;gap:6px;flex-wrap:wrap}
 .tweaks .chip{
-  border:1px solid var(--rule-2);background:#fff;color:var(--ink-3);
+  border:1px solid #E5E7EB;background:#fff;color:#364153;
   padding:4px 8px;border-radius:9999px;font-size:12px;cursor:pointer;
 }
-.tweaks .chip.active{background:var(--brand-tint);border-color:var(--brand);color:var(--brand)}
+.tweaks .chip.active{background:var(--kds-color-primary-faint);border-color:var(--kds-color-primary-main);color:var(--kds-color-primary-main)}
 .tweaks .swatch{width:22px;height:22px;border-radius:6px;border:1px solid rgba(0,0,0,.08);cursor:pointer}
-.tweaks .swatch.active{outline:2px solid var(--brand);outline-offset:2px}
+.tweaks .swatch.active{outline:2px solid var(--kds-color-primary-main);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -652,7 +102,7 @@ body{
 window.__TWEAKS__ = {
   "merchant_color": "#5B3DB5",
   "amount": "$3.300",
-  "merchant_name": "Belén Fuentes Mejías",
+  "merchant_name": "Bel\u00e9n Fuentes Mej\u00edas",
   "asunto": "Cuenta Enero 2026"
 };
 </script>
@@ -666,64 +116,60 @@ window.__TWEAKS__ = {
     <!-- ====================================================== -->
     <section class="screen" data-screen-label="01 Datos para pago" id="screen-1">
       <div class="brand-row">
-        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,Inter,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
       </div>
 
       <!-- Invoice card -->
-      <article class="card card-pad" data-invoice>
-        <header class="invoice-head">
+      <article class="kds-card-elevated kds-p-5">
+        <header class="kds-invoice-header">
           <div>
-            <p class="amount" data-amount>$3.300</p>
-            <p class="code">Código fdap-sr2x-q3pf</p>
+            <p class="kds-invoice-amount" data-amount>$3.300</p>
+            <p class="kds-invoice-code">C&oacute;digo fdap-sr2x-q3pf</p>
           </div>
-          <div class="merchant" aria-hidden="true">
-            <span class="material-icons-round">storefront</span>
+          <div class="kds-invoice-merchant" aria-hidden="true">
+            <i class="material-symbols-outlined">storefront</i>
           </div>
         </header>
-        <hr class="hr" />
-        <dl class="kv">
-          <dt>Pago a</dt><dd data-merchant>Belén Fuentes Mejías</dd>
+        <hr class="kds-hr" />
+        <dl class="kds-kv">
+          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
           <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
         </dl>
-        <div class="detail-row">
-          <button class="detail-toggle" data-detail-toggle aria-expanded="false">
-            Detalle del cobro <span class="material-icons-round">expand_more</span>
+        <div class="kds-expand-section">
+          <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false" aria-controls="s1-detail">
+            <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
           </button>
-          <div class="detail-panel" data-detail-panel>
-            <div class="detail-group">
-              <dt>Emisor cobro</dt>
-              <dd>Khipu</dd>
-            </div>
-            <div class="detail-group">
-              <dt>Descripción</dt>
-              <dd>Estado de cuenta correspondiente a enero de 2026, emitido para un cliente particular. Incluye saldo inicial, depósitos, compras con tarjeta, pagos de servicios y comisiones bancarias del período.</dd>
-            </div>
+          <div id="s1-detail" class="kds-expand-panel" data-expand-panel>
+            <dl class="kds-detail-list">
+              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+              <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, emitido para un cliente particular. Incluye saldo inicial, dep&oacute;sitos, compras con tarjeta, pagos de servicios y comisiones bancarias del per&iacute;odo.</dd></div>
+            </dl>
           </div>
         </div>
       </article>
 
       <!-- Datos para pago -->
-      <article class="card card-pad">
-        <h2>Datos para pago</h2>
+      <article class="kds-card-elevated kds-p-5">
+        <h2 class="kds-card-title">Datos para pago</h2>
 
-        <div class="field filled locked" data-field>
-          <input id="f-monto" type="text" value="$1.650" readonly aria-readonly="true" tabindex="-1" />
-          <label for="f-monto">Monto unitario</label>
-          <span class="lock-icon material-icons-round" aria-hidden="true">lock</span>
+        <div class="field label border locked kds-field-group">
+          <input type="text" value="$1.650" readonly />
+          <label class="active">Monto unitario</label>
+          <i class="material-symbols-outlined">lock</i>
         </div>
 
-        <div class="field filled" data-field>
-          <input id="f-cant" type="text" placeholder=" " value="2" inputmode="numeric" />
-          <label for="f-cant">Cantidad</label>
+        <div class="field label border kds-field-group">
+          <input type="text" placeholder=" " value="2" inputmode="numeric" />
+          <label class="active">Cantidad</label>
         </div>
 
-        <div style="margin-top:20px">
-          <button class="btn btn-primary" data-go="2">Continuar</button>
+        <div class="kds-btn-stack">
+          <button class="kds-btn kds-btn-primary kds-btn-block" data-go="2">Continuar</button>
         </div>
       </article>
 
-      <div class="secure-footer">
-        <span class="material-icons-round">shield</span>
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
         Pago seguro procesado por Khipu
       </div>
     </section>
@@ -731,88 +177,90 @@ window.__TWEAKS__ = {
     <!-- ====================================================== -->
     <!-- 02 — ¿Cómo quieres pagar? (bancos)                    -->
     <!-- ====================================================== -->
-    <section class="screen" data-screen-label="02 Selección de banco" id="screen-2">
+    <section class="screen" data-screen-label="02 Selecci&oacute;n de banco" id="screen-2">
       <div class="brand-row">
-        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,Inter,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
       </div>
 
       <!-- Invoice compact -->
-      <article class="card card-pad">
-        <header class="invoice-head">
+      <article class="kds-card-elevated kds-p-5">
+        <header class="kds-invoice-header">
           <div>
-            <p class="amount" data-amount>$3.300</p>
-            <p class="code">Código fdap-sr2x-q3pf</p>
+            <p class="kds-invoice-amount" data-amount>$3.300</p>
+            <p class="kds-invoice-code">C&oacute;digo fdap-sr2x-q3pf</p>
           </div>
-          <div class="merchant"><span class="material-icons-round">storefront</span></div>
+          <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="hr" />
-        <dl class="kv">
-          <dt>Pago a</dt><dd data-merchant>Belén Fuentes Mejías</dd>
+        <hr class="kds-hr" />
+        <dl class="kds-kv">
+          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
           <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
         </dl>
-        <div class="detail-row">
-          <button class="detail-toggle" data-detail-toggle aria-expanded="false">
-            Detalle del cobro <span class="material-icons-round">expand_more</span>
+        <div class="kds-expand-section">
+          <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
+            <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
           </button>
-          <div class="detail-panel" data-detail-panel>
-            <div class="detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
-            <div class="detail-group"><dt>Vence</dt><dd>31-12-2029 a las 11:03</dd></div>
-            <div class="detail-group"><dt>Descripción</dt><dd>Estado de cuenta correspondiente a enero de 2026, con saldo inicial, depósitos, compras y comisiones del período.</dd></div>
+          <div class="kds-expand-panel" data-expand-panel>
+            <dl class="kds-detail-list">
+              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+              <div class="kds-detail-group"><dt>Vence</dt><dd>31-12-2029 a las 11:03</dd></div>
+              <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, con saldo inicial, dep&oacute;sitos, compras y comisiones del per&iacute;odo.</dd></div>
+            </dl>
           </div>
         </div>
       </article>
 
       <!-- How to pay -->
-      <article class="card card-pad">
-        <h2>¿Cómo quieres pagar?</h2>
+      <article class="kds-card-elevated kds-p-5">
+        <h2 class="kds-card-title">&iquest;C&oacute;mo quieres pagar?</h2>
 
-        <div class="segmented" role="tablist">
+        <div class="kds-segmented-tabs" role="tablist">
           <button class="active" role="tab" aria-selected="true">Personas</button>
           <button role="tab" aria-selected="false">Empresas</button>
         </div>
 
-        <div class="bank-list">
-          <button class="bank-row" data-go="4">
-            <span class="bank-avatar" style="background:#E31837">BE</span>
-            <span class="bank-name">Banco Estado</span>
-            <span class="material-icons-round chev">chevron_right</span>
+        <div class="kds-bank-list">
+          <button class="kds-bank-row" data-go="4">
+            <span class="kds-bank-row-logo initials" style="background:#E31837">BE</span>
+            <span class="kds-bank-row-name">Banco Estado</span>
+            <i class="material-symbols-outlined">chevron_right</i>
           </button>
-          <button class="bank-row" data-go="4">
-            <span class="bank-avatar" style="background:#F97316">BF</span>
-            <span class="bank-name">Banco Falabella</span>
-            <span class="material-icons-round chev">chevron_right</span>
+          <button class="kds-bank-row" data-go="4">
+            <span class="kds-bank-row-logo initials" style="background:#F97316">BF</span>
+            <span class="kds-bank-row-name">Banco Falabella</span>
+            <i class="material-symbols-outlined">chevron_right</i>
           </button>
-          <button class="bank-row" data-go="4">
-            <span class="bank-avatar" style="background:#EC0000">S</span>
-            <span class="bank-name">Banco Santander</span>
-            <span class="material-icons-round chev">chevron_right</span>
+          <button class="kds-bank-row" data-go="4">
+            <span class="kds-bank-row-logo initials" style="background:#EC0000">S</span>
+            <span class="kds-bank-row-name">Banco Santander</span>
+            <i class="material-symbols-outlined">chevron_right</i>
           </button>
-          <button class="bank-row" data-go="4">
-            <span class="bank-avatar" style="background:#003087">BC</span>
-            <span class="bank-name">Banco de Chile<span class="sub"> (Edwards, Citi)</span></span>
-            <span class="material-icons-round chev">chevron_right</span>
+          <button class="kds-bank-row" data-go="4">
+            <span class="kds-bank-row-logo initials" style="background:#003087">BC</span>
+            <span class="kds-bank-row-name">Banco de Chile<span class="kds-text-secondary"> (Edwards, Citi)</span></span>
+            <i class="material-symbols-outlined">chevron_right</i>
           </button>
-          <button class="bank-row" data-go="4">
-            <span class="bank-avatar" style="background:#009A44">BCI</span>
-            <span class="bank-name">Banco BCI</span>
-            <span class="material-icons-round chev">chevron_right</span>
+          <button class="kds-bank-row" data-go="4">
+            <span class="kds-bank-row-logo initials" style="background:#009A44">BCI</span>
+            <span class="kds-bank-row-name">Banco BCI</span>
+            <i class="material-symbols-outlined">chevron_right</i>
           </button>
-          <button class="bank-row" data-go="4">
-            <span class="bank-avatar neutral"><span class="material-icons-round">credit_card</span></span>
-            <span class="bank-name">Todos los bancos y billeteras</span>
-            <span class="badge">+17</span>
-            <span class="material-icons-round chev">chevron_right</span>
+          <button class="kds-bank-row" data-go="4">
+            <span class="kds-bank-row-logo neutral"><i class="material-symbols-outlined">credit_card</i></span>
+            <span class="kds-bank-row-name">Todos los bancos y billeteras</span>
+            <span class="kds-badge primary">+17</span>
+            <i class="material-symbols-outlined">chevron_right</i>
           </button>
-          <button class="bank-row" data-go="3">
-            <span class="bank-avatar neutral"><span class="material-icons-round">account_balance</span></span>
-            <span class="bank-name">Transferencia manual</span>
-            <span class="material-icons-round chev">chevron_right</span>
+          <button class="kds-bank-row" data-go="3">
+            <span class="kds-bank-row-logo neutral"><i class="material-symbols-outlined">account_balance</i></span>
+            <span class="kds-bank-row-name">Transferencia manual</span>
+            <i class="material-symbols-outlined">chevron_right</i>
           </button>
         </div>
       </article>
 
-      <div class="secure-footer">
-        <span class="material-icons-round">shield</span>
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
         Pago seguro procesado por Khipu
       </div>
     </section>
@@ -822,74 +270,74 @@ window.__TWEAKS__ = {
     <!-- ====================================================== -->
     <section class="screen" data-screen-label="03 Transferencia manual — datos" id="screen-3">
       <div class="brand-row">
-        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,Inter,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
       </div>
 
-      <article class="card card-pad">
-        <header class="invoice-head">
+      <article class="kds-card-elevated kds-p-5">
+        <header class="kds-invoice-header">
           <div>
-            <p class="amount" data-amount>$3.300</p>
-            <p class="code">Código fdap-sr2x-q3pf</p>
+            <p class="kds-invoice-amount" data-amount>$3.300</p>
+            <p class="kds-invoice-code">C&oacute;digo fdap-sr2x-q3pf</p>
           </div>
-          <div class="merchant"><span class="material-icons-round">storefront</span></div>
+          <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="hr" />
-        <dl class="kv">
-          <dt>Pago a</dt><dd data-merchant>Belén Fuentes Mejías</dd>
+        <hr class="kds-hr" />
+        <dl class="kds-kv">
+          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
           <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
         </dl>
       </article>
 
-      <article class="card card-pad">
-        <h2>Datos de transferencia manual</h2>
-        <hr class="section-divider" />
+      <article class="kds-card-elevated kds-p-5">
+        <h2 class="kds-card-title">Datos de transferencia manual</h2>
+        <hr class="kds-hr-dashed" />
 
-        <div class="recap-head">
+        <div class="kds-recap-header">
           Datos del pagador
-          <span class="material-icons-round">north_east</span>
+          <i class="material-symbols-outlined">north_east</i>
         </div>
 
-        <div class="field filled" data-field>
-          <select id="f-banco">
+        <div class="field label border kds-field-group">
+          <select>
             <option>Banco Estado</option>
             <option>Banco de Chile</option>
             <option>BCI</option>
             <option>Banco Security</option>
             <option>Santander</option>
           </select>
-          <label for="f-banco">Banco</label>
+          <label class="active">Banco</label>
         </div>
 
-        <div class="field" data-field>
-          <input id="f-rut" type="text" placeholder=" " />
-          <label for="f-rut">RUT titular</label>
+        <div class="field label border kds-field-group">
+          <input type="text" placeholder=" " />
+          <label>RUT titular</label>
         </div>
-        <p class="helper">Para pagos cuenta empresa, ingresa un RUT empresa</p>
+        <p class="kds-field-helper">Para pagos cuenta empresa, ingresa un RUT empresa</p>
 
-        <div class="field" data-field>
-          <input id="f-email" type="email" placeholder=" " />
-          <label for="f-email">Email</label>
+        <div class="field label border kds-field-group">
+          <input type="email" placeholder=" " />
+          <label>Email</label>
         </div>
-        <p class="helper">Enviaremos el comprobante a este correo</p>
+        <p class="kds-field-helper">Enviaremos el comprobante a este correo</p>
 
-        <div class="monto-row">
+        <div class="kds-amount-row">
           <div>
-            <div class="title">Monto a transferir</div>
-            <div class="limite">Fecha límite para transferencia 01-04-2026 a las 16:33</div>
+            <div class="kds-amount-row-title">Monto a transferir</div>
+            <div class="kds-amount-row-subtitle">Fecha l&iacute;mite para transferencia 01-04-2026 a las 16:33</div>
           </div>
-          <div class="big" data-amount>$3.300</div>
+          <div class="kds-amount-row-value" data-amount>$3.300</div>
         </div>
 
-        <div style="margin-top:16px">
-          <button class="btn btn-primary" data-go="4">Continuar</button>
+        <div class="kds-btn-stack">
+          <button class="kds-btn kds-btn-primary kds-btn-block" data-go="4">Continuar</button>
         </div>
-        <p class="helper" style="text-align:center;margin-top:10px">
-          Al continuar, estás aceptando las <a href="#" style="color:var(--brand-ink)">condiciones de uso</a> de Khipu
+        <p class="kds-field-helper-center">
+          Al continuar, est&aacute;s aceptando las <a href="#" class="kds-link">condiciones de uso</a> de Khipu
         </p>
       </article>
 
-      <div class="secure-footer">
-        <span class="material-icons-round">shield</span>
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
         Pago seguro procesado por Khipu
       </div>
     </section>
@@ -899,109 +347,115 @@ window.__TWEAKS__ = {
     <!-- ====================================================== -->
     <section class="screen" data-screen-label="04 Datos del destinatario" id="screen-4">
       <div class="brand-row">
-        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,Inter,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
       </div>
 
-      <article class="card card-pad">
-        <header class="invoice-head">
+      <article class="kds-card-elevated kds-p-5">
+        <header class="kds-invoice-header">
           <div>
-            <p class="amount" data-amount>$3.300</p>
-            <p class="code">Código fdap-sr2x-q3pf</p>
+            <p class="kds-invoice-amount" data-amount>$3.300</p>
+            <p class="kds-invoice-code">C&oacute;digo fdap-sr2x-q3pf</p>
           </div>
-          <div class="merchant"><span class="material-icons-round">storefront</span></div>
+          <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="hr" />
-        <dl class="kv">
-          <dt>Pago a</dt><dd data-merchant>Belén Fuentes Mejías</dd>
+        <hr class="kds-hr" />
+        <dl class="kds-kv">
+          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
           <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
         </dl>
       </article>
 
-      <article class="card card-pad">
-        <h2>Datos de transferencia manual</h2>
-        <hr class="section-divider" />
+      <article class="kds-card-elevated kds-p-5">
+        <h2 class="kds-card-title">Datos de transferencia manual</h2>
+        <hr class="kds-hr-dashed" />
 
-        <div class="recap-head">
+        <div class="kds-recap-header">
           Datos del pagador
-          <span class="material-icons-round">north_east</span>
+          <i class="material-symbols-outlined">north_east</i>
         </div>
-        <ul class="recap-list">
+        <ul class="kds-recap-list">
           <li><span class="k">Banco</span><span class="v">Banco Estado</span></li>
-          <li><span class="k">RUT Titular</span><span class="v placeholder">—</span></li>
+          <li><span class="k">RUT Titular</span><span class="v placeholder">&mdash;</span></li>
         </ul>
-        <div style="margin-top:12px">
-          <button class="btn btn-outlined" data-go="3" style="height:40px">Cambiar datos del pagador</button>
+        <div class="kds-btn-stack">
+          <button class="kds-btn kds-btn-outlined kds-btn-block kds-btn-sm" data-go="3">Cambiar datos del pagador</button>
         </div>
 
-        <hr class="section-divider" />
+        <hr class="kds-hr-dashed" />
 
-        <div class="alert info">
-          Ingresa a la página web o a la App de tu banco y haz una transferencia con los siguientes datos. A continuación, te enviaremos un comprobante de pago.
-          <div style="margin-top:8px"><b>Los depósitos por caja no serán procesados.</b></div>
-        </div>
-
-        <div class="copy-header" style="margin-top:18px">
-          <h3><span class="material-icons-round" style="font-size:18px;color:var(--brand-ink)">south_west</span> Datos del destinatario</h3>
-          <button class="copy-all" data-copy-all>
-            <span class="material-icons-round">content_copy</span> Copiar datos
-          </button>
-        </div>
-
-        <div class="copy-list">
-          <button class="copy-row" data-copy="Banco Security">
-            <span class="material-icons-round">content_copy</span>
-            <span><span class="label">Banco</span><span class="val">Banco Security</span></span>
-            <span class="copy-toast"><span class="material-icons-round">check</span> Copiado</span>
-          </button>
-          <button class="copy-row" data-copy="76.187.287-7">
-            <span class="material-icons-round">content_copy</span>
-            <span><span class="label">RUT</span><span class="val">76.187.287-7</span></span>
-            <span class="copy-toast"><span class="material-icons-round">check</span> Copiado</span>
-          </button>
-          <button class="copy-row" data-copy="98765432">
-            <span class="material-icons-round">content_copy</span>
-            <span><span class="label">N° de cuenta</span><span class="val">98765432</span></span>
-            <span class="copy-toast"><span class="material-icons-round">check</span> Copiado</span>
-          </button>
-          <button class="copy-row" data-copy="Corriente">
-            <span class="material-icons-round">content_copy</span>
-            <span><span class="label">Tipo de cuenta</span><span class="val">Corriente</span></span>
-            <span class="copy-toast"><span class="material-icons-round">check</span> Copiado</span>
-          </button>
-          <button class="copy-row" data-copy="Khipu CLBS">
-            <span class="material-icons-round">content_copy</span>
-            <span><span class="label">Titular</span><span class="val">Khipu CLBS</span></span>
-            <span class="copy-toast"><span class="material-icons-round">check</span> Copiado</span>
-          </button>
-          <button class="copy-row" data-copy="transferencias@khipu.com">
-            <span class="material-icons-round">content_copy</span>
-            <span><span class="label">Email</span><span class="val">transferencias@khipu.com</span></span>
-            <span class="copy-toast"><span class="material-icons-round">check</span> Copiado</span>
-          </button>
-          <button class="copy-row" data-copy="3300">
-            <span class="material-icons-round">content_copy</span>
-            <span><span class="label">Monto</span><span class="val">3.300</span></span>
-            <span class="copy-toast"><span class="material-icons-round">check</span> Copiado</span>
-          </button>
-        </div>
-
-        <div class="monto-row">
-          <div>
-            <div class="title">Monto a transferir</div>
-            <div class="limite">Fecha límite para transferencia 01-04-2026 a las 16:33</div>
+        <div class="kds-alert kds-info kds-alert-inline">
+          <div class="kds-alert-content">
+            <p class="kds-alert-description">
+              Ingresa a la p&aacute;gina web o a la App de tu banco y haz una transferencia con los siguientes datos. A continuaci&oacute;n, te enviaremos un comprobante de pago.
+            </p>
+            <p class="kds-alert-description"><b>Los dep&oacute;sitos por caja no ser&aacute;n procesados.</b></p>
           </div>
-          <div class="big" data-amount>$3.300</div>
         </div>
 
-        <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
-          <button class="btn btn-primary">Ir a mi banco</button>
-          <button class="btn btn-outlined" data-go="2">Cambiar a pago instantáneo</button>
-          <button class="btn btn-text" data-open-sheet>¿Ya transferiste?</button>
+        <div class="kds-copy-header spaced">
+          <div class="kds-recap-header">
+            <i class="material-symbols-outlined">south_west</i> Datos del destinatario
+          </div>
+          <button class="kds-copy-all" data-copy-all>
+            <i class="material-symbols-outlined">content_copy</i> Copiar datos
+          </button>
+        </div>
+
+        <div class="kds-copy-list">
+          <button class="kds-copy-row" data-copy="Banco Security">
+            <i class="material-symbols-outlined">content_copy</i>
+            <div><span class="kds-copy-row-label">Banco</span><span class="kds-copy-row-value">Banco Security</span></div>
+            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
+          </button>
+          <button class="kds-copy-row" data-copy="76.187.287-7">
+            <i class="material-symbols-outlined">content_copy</i>
+            <div><span class="kds-copy-row-label">RUT</span><span class="kds-copy-row-value">76.187.287-7</span></div>
+            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
+          </button>
+          <button class="kds-copy-row" data-copy="98765432">
+            <i class="material-symbols-outlined">content_copy</i>
+            <div><span class="kds-copy-row-label">N&deg; de cuenta</span><span class="kds-copy-row-value">98765432</span></div>
+            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
+          </button>
+          <button class="kds-copy-row" data-copy="Corriente">
+            <i class="material-symbols-outlined">content_copy</i>
+            <div><span class="kds-copy-row-label">Tipo de cuenta</span><span class="kds-copy-row-value">Corriente</span></div>
+            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
+          </button>
+          <button class="kds-copy-row" data-copy="Khipu CLBS">
+            <i class="material-symbols-outlined">content_copy</i>
+            <div><span class="kds-copy-row-label">Titular</span><span class="kds-copy-row-value">Khipu CLBS</span></div>
+            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
+          </button>
+          <button class="kds-copy-row" data-copy="transferencias@khipu.com">
+            <i class="material-symbols-outlined">content_copy</i>
+            <div><span class="kds-copy-row-label">Email</span><span class="kds-copy-row-value">transferencias@khipu.com</span></div>
+            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
+          </button>
+          <button class="kds-copy-row" data-copy="3300">
+            <i class="material-symbols-outlined">content_copy</i>
+            <div><span class="kds-copy-row-label">Monto</span><span class="kds-copy-row-value">3.300</span></div>
+            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
+          </button>
+        </div>
+
+        <div class="kds-amount-row">
+          <div>
+            <div class="kds-amount-row-title">Monto a transferir</div>
+            <div class="kds-amount-row-subtitle">Fecha l&iacute;mite para transferencia 01-04-2026 a las 16:33</div>
+          </div>
+          <div class="kds-amount-row-value" data-amount>$3.300</div>
+        </div>
+
+        <div class="kds-btn-stack">
+          <button class="kds-btn kds-btn-primary kds-btn-block">Ir a mi banco</button>
+          <button class="kds-btn kds-btn-outlined kds-btn-block" data-go="2">Cambiar a pago instant&aacute;neo</button>
+          <button class="kds-btn kds-btn-text kds-btn-block" data-open-sheet>&iquest;Ya transferiste?</button>
         </div>
       </article>
 
-      <div class="secure-footer">
-        <span class="material-icons-round">shield</span>
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
         Pago seguro procesado por Khipu
       </div>
     </section>
@@ -1009,31 +463,31 @@ window.__TWEAKS__ = {
     <!-- ====================================================== -->
     <!-- 05 — Confirmación ya transferí (sheet overlay)          -->
     <!-- ====================================================== -->
-    <section class="screen" data-screen-label="05 Confirmación ya transferí" id="screen-5">
+    <section class="screen" data-screen-label="05 Confirmaci&oacute;n ya transfer&iacute;" id="screen-5">
       <div class="brand-row">
-        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,Inter,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
       </div>
-      <article class="card card-pad" style="opacity:.45;pointer-events:none">
-        <header class="invoice-head">
+      <article class="kds-card-elevated kds-p-5 kds-card-dimmed">
+        <header class="kds-invoice-header">
           <div>
-            <p class="amount" data-amount>$3.300</p>
-            <p class="code">Código fdap-sr2x-q3pf</p>
+            <p class="kds-invoice-amount" data-amount>$3.300</p>
+            <p class="kds-invoice-code">C&oacute;digo fdap-sr2x-q3pf</p>
           </div>
-          <div class="merchant"><span class="material-icons-round">storefront</span></div>
+          <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="hr" />
-        <dl class="kv">
-          <dt>Pago a</dt><dd data-merchant>Belén Fuentes Mejías</dd>
+        <hr class="kds-hr" />
+        <dl class="kds-kv">
+          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
           <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
         </dl>
       </article>
-      <article class="card card-pad" style="opacity:.45;pointer-events:none">
-        <h2>Datos de transferencia manual</h2>
-        <p style="color:var(--muted);font-family:'Public Sans';font-size:13px">Confirma si ya realizaste la transferencia desde tu banco.</p>
+      <article class="kds-card-elevated kds-p-5 kds-card-dimmed">
+        <h2 class="kds-card-title">Datos de transferencia manual</h2>
+        <p class="kds-text-secondary">Confirma si ya realizaste la transferencia desde tu banco.</p>
       </article>
 
-      <div class="secure-footer">
-        <span class="material-icons-round">shield</span>
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
         Pago seguro procesado por Khipu
       </div>
     </section>
@@ -1041,50 +495,56 @@ window.__TWEAKS__ = {
     <!-- ====================================================== -->
     <!-- 06 — Pago en verificación                               -->
     <!-- ====================================================== -->
-    <section class="screen" data-screen-label="06 Pago en verificación" id="screen-6">
+    <section class="screen" data-screen-label="06 Pago en verificaci&oacute;n" id="screen-6">
       <div class="brand-row">
-        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,Inter,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
       </div>
 
-      <article class="card card-pad">
-        <header class="invoice-head">
+      <article class="kds-card-elevated kds-p-5">
+        <header class="kds-invoice-header">
           <div>
-            <p class="amount" data-amount>$3.300</p>
-            <p class="code">Código fdap-sr2x-q3pf</p>
+            <p class="kds-invoice-amount" data-amount>$3.300</p>
+            <p class="kds-invoice-code">C&oacute;digo fdap-sr2x-q3pf</p>
           </div>
-          <div class="merchant"><span class="material-icons-round">storefront</span></div>
+          <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="hr" />
-        <dl class="kv">
-          <dt>Pago a</dt><dd data-merchant>Belén Fuentes Mejías</dd>
+        <hr class="kds-hr" />
+        <dl class="kds-kv">
+          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
           <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
         </dl>
-        <div class="detail-row">
-          <button class="detail-toggle" data-detail-toggle aria-expanded="false">
-            Detalle del cobro <span class="material-icons-round">expand_more</span>
+        <div class="kds-expand-section">
+          <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
+            <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
           </button>
-          <div class="detail-panel" data-detail-panel>
-            <div class="detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+          <div class="kds-expand-panel" data-expand-panel>
+            <dl class="kds-detail-list">
+              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+            </dl>
           </div>
         </div>
       </article>
 
-      <article class="card card-pad">
-        <div class="status-row">
-          <div class="status-icon"><div class="spinner"></div></div>
-          <h3>Pago en verificación</h3>
+      <article class="kds-card-elevated kds-p-5">
+        <div class="kds-status-block inline" data-status="pending">
+          <div class="kds-status-block-icon"></div>
+          <div>
+            <h2 class="kds-status-block-title">Pago en verificaci&oacute;n</h2>
+          </div>
         </div>
-        <hr class="section-divider" />
-        <div class="alert warn">
-          La transferencia ya fue realizada. Ahora estamos verificando la recepción del pago. Esto demora apenas unos segundos.
+        <hr class="kds-hr-dashed" />
+        <div class="kds-alert kds-warning kds-alert-inline">
+          <div class="kds-alert-content">
+            <p class="kds-alert-description">La transferencia ya fue realizada. Ahora estamos verificando la recepci&oacute;n del pago. Esto demora apenas unos segundos.</p>
+          </div>
         </div>
-        <div style="margin-top:16px">
-          <button class="btn btn-primary" data-go="7">Finalizar</button>
+        <div class="kds-btn-stack">
+          <button class="kds-btn kds-btn-primary kds-btn-block" data-go="7">Finalizar</button>
         </div>
       </article>
 
-      <div class="secure-footer">
-        <span class="material-icons-round">shield</span>
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
         Pago seguro procesado por Khipu
       </div>
     </section>
@@ -1094,42 +554,44 @@ window.__TWEAKS__ = {
     <!-- ====================================================== -->
     <section class="screen" data-screen-label="07 Pago verificado" id="screen-7">
       <div class="brand-row">
-        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,Inter,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="#8347AD">khipu</text></svg>
       </div>
 
-      <article class="card card-pad">
-        <header class="invoice-head">
+      <article class="kds-card-elevated kds-p-5">
+        <header class="kds-invoice-header">
           <div>
-            <p class="amount ok" data-amount>$3.300</p>
-            <p class="code">Código fdap-sr2x-q3pf</p>
+            <p class="kds-invoice-amount success" data-amount>$3.300</p>
+            <p class="kds-invoice-code">C&oacute;digo fdap-sr2x-q3pf</p>
           </div>
-          <div class="merchant"><span class="material-icons-round">storefront</span></div>
+          <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="hr" />
-        <dl class="kv">
-          <dt>Pago a</dt><dd data-merchant>Belén Fuentes Mejías</dd>
+        <hr class="kds-hr" />
+        <dl class="kds-kv">
+          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
           <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
         </dl>
       </article>
 
-      <article class="card card-pad">
-        <div class="status-row">
-          <div class="status-icon">
-            <div class="check-ok"><span class="material-icons-round">check</span></div>
+      <article class="kds-card-elevated kds-p-5">
+        <div class="kds-status-block inline" data-status="success">
+          <div class="kds-status-block-icon"><i class="material-symbols-outlined">check</i></div>
+          <div>
+            <h2 class="kds-status-block-title">Pago verificado</h2>
           </div>
-          <h3>Pago verificado</h3>
         </div>
-        <hr class="section-divider" />
-        <div class="alert ok">
-          El pago a <b>"tu banco"</b> por <b>$3.300</b> está verificado.
+        <hr class="kds-hr-dashed" />
+        <div class="kds-alert kds-success kds-alert-inline">
+          <div class="kds-alert-content">
+            <p class="kds-alert-description">El pago a <b>&ldquo;tu banco&rdquo;</b> por <b>$3.300</b> est&aacute; verificado.</p>
+          </div>
         </div>
-        <div style="margin-top:16px">
-          <button class="btn btn-primary" data-go="1">Finalizar</button>
+        <div class="kds-btn-stack">
+          <button class="kds-btn kds-btn-primary kds-btn-block" data-go="1">Finalizar</button>
         </div>
       </article>
 
-      <div class="secure-footer">
-        <span class="material-icons-round">shield</span>
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
         Pago seguro procesado por Khipu
       </div>
     </section>
@@ -1138,11 +600,11 @@ window.__TWEAKS__ = {
 </div>
 
 <!-- ===================== Modal: ¿Ya transferiste? ===================== -->
-<div class="scrim" id="scrim">
-  <div class="sheet" role="dialog" aria-labelledby="sheet-title">
-    <div class="grabber"></div>
-    <h3 id="sheet-title">¿Ya transferiste?</h3>
-    <div class="sheet-icon">
+<div class="kds-bottom-sheet-scrim" id="scrim">
+  <div class="kds-bottom-sheet" role="dialog" aria-labelledby="sheet-title">
+    <div class="kds-bottom-sheet-grabber"></div>
+    <h3 class="kds-bottom-sheet-title" id="sheet-title">&iquest;Ya transferiste?</h3>
+    <div class="kds-bottom-sheet-illustration">
       <svg width="64" height="78" viewBox="0 0 64 78" fill="none">
         <path d="M40 2H6a4 4 0 0 0-4 4v66a4 4 0 0 0 4 4h52a4 4 0 0 0 4-4V24L40 2Z" stroke="#1E2939" stroke-width="3" stroke-linejoin="round"/>
         <path d="M40 2v18a4 4 0 0 0 4 4h18" stroke="#1E2939" stroke-width="3" stroke-linejoin="round"/>
@@ -1150,21 +612,21 @@ window.__TWEAKS__ = {
         <path d="m27 50 4 4 6-8" stroke="#1E2939" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-    <p>Si ya transferiste, recibirás un comprobante de pago en tu email.</p>
-    <p class="small">Esto tarda menos de un minuto.</p>
-    <p class="small" style="margin-top:8px">Si no lo has recibido, revisa los movimientos de egreso de tu cuenta bancaria.</p>
-    <div class="sheet-actions">
-      <button class="btn btn-ok" data-confirm-transfer>Finalizar</button>
-      <button class="btn btn-text" data-close-sheet>Volver</button>
+    <p class="kds-bottom-sheet-description">Si ya transferiste, recibir&aacute;s un comprobante de pago en tu email.</p>
+    <p class="kds-bottom-sheet-description-subtle">Esto tarda menos de un minuto.</p>
+    <p class="kds-bottom-sheet-description-subtle">Si no lo has recibido, revisa los movimientos de egreso de tu cuenta bancaria.</p>
+    <div class="kds-bottom-sheet-actions">
+      <button class="kds-btn kds-btn-success kds-btn-block" data-confirm-transfer>Finalizar</button>
+      <button class="kds-btn kds-btn-text kds-btn-block" data-close-sheet>Volver</button>
     </div>
   </div>
 </div>
 
 <!-- ===================== Proto nav ===================== -->
 <nav class="proto-nav" id="protoNav">
-  <button class="nav-arrow" id="navPrev" aria-label="Anterior"><span class="material-icons-round">chevron_left</span></button>
-  <span class="label" id="navLabel">01 · Datos para pago</span>
-  <button class="nav-arrow" id="navNext" aria-label="Siguiente"><span class="material-icons-round">chevron_right</span></button>
+  <button class="nav-arrow" id="navPrev" aria-label="Anterior"><i class="material-symbols-outlined">chevron_left</i></button>
+  <span class="label" id="navLabel">01 &middot; Datos para pago</span>
+  <button class="nav-arrow" id="navNext" aria-label="Siguiente"><i class="material-symbols-outlined">chevron_right</i></button>
 </nav>
 
 <!-- ===================== Tweaks panel ===================== -->
@@ -1189,11 +651,11 @@ window.__TWEAKS__ = {
   </div>
   <div class="tweak" style="flex-direction:column;align-items:stretch">
     <span>Pago a</span>
-    <input id="tw-merchant" style="margin-top:6px;padding:6px 8px;border:1px solid var(--rule-2);border-radius:6px;font:inherit" />
+    <input id="tw-merchant" style="margin-top:6px;padding:6px 8px;border:1px solid #E5E7EB;border-radius:6px;font:inherit" />
   </div>
   <div class="tweak" style="flex-direction:column;align-items:stretch">
     <span>Asunto</span>
-    <input id="tw-asunto" style="margin-top:6px;padding:6px 8px;border:1px solid var(--rule-2);border-radius:6px;font:inherit" />
+    <input id="tw-asunto" style="margin-top:6px;padding:6px 8px;border:1px solid #E5E7EB;border-radius:6px;font:inherit" />
   </div>
 </div>
 
@@ -1202,110 +664,68 @@ window.__TWEAKS__ = {
 
 <script>
 /* ========== Navigation ========== */
-const TOTAL = 7;
-const screens = document.querySelectorAll('.screen');
-const labels = [
-  '01 · Datos para pago',
-  '02 · Selección de banco',
-  '03 · Transferencia manual',
-  '04 · Datos del destinatario',
-  '05 · Confirmar transferencia',
-  '06 · Pago en verificación',
-  '07 · Pago verificado',
+var TOTAL = 7;
+var screens = document.querySelectorAll('.screen');
+var navLabels = [
+  '01 \u00b7 Datos para pago',
+  '02 \u00b7 Selecci\u00f3n de banco',
+  '03 \u00b7 Transferencia manual',
+  '04 \u00b7 Datos del destinatario',
+  '05 \u00b7 Confirmar transferencia',
+  '06 \u00b7 Pago en verificaci\u00f3n',
+  '07 \u00b7 Pago verificado',
 ];
 
 function show(n){
   n = Math.max(1, Math.min(TOTAL, n));
-  screens.forEach(s => s.classList.remove('active'));
-  const el = document.getElementById('screen-' + n);
+  screens.forEach(function(s){ s.classList.remove('active'); });
+  var el = document.getElementById('screen-' + n);
   if (el) el.classList.add('active');
-  // sheet on screen 5
-  const scrim = document.getElementById('scrim');
+  var scrim = document.getElementById('scrim');
   if (n === 5) scrim.classList.add('open'); else scrim.classList.remove('open');
-  document.getElementById('navLabel').textContent = labels[n-1];
+  document.getElementById('navLabel').textContent = navLabels[n-1];
   try { localStorage.setItem('khipuStep', n); } catch(e){}
   try { window.parent.postMessage({slideIndexChanged: n-1}, '*'); } catch(e){}
   window.scrollTo({top:0,behavior:'instant'});
 }
 
-document.addEventListener('click', (e) => {
-  const go = e.target.closest('[data-go]');
+document.addEventListener('click', function(e) {
+  var go = e.target.closest('[data-go]');
   if (go) { show(parseInt(go.dataset.go,10)); return; }
-  const ds = e.target.closest('[data-open-sheet]');
+  var ds = e.target.closest('[data-open-sheet]');
   if (ds) { show(5); return; }
-  const cs = e.target.closest('[data-close-sheet]');
+  var cs = e.target.closest('[data-close-sheet]');
   if (cs) { show(4); return; }
-  const ct = e.target.closest('[data-confirm-transfer]');
+  var ct = e.target.closest('[data-confirm-transfer]');
   if (ct) { show(6); return; }
-  // Detalle del cobro
-  const dt = e.target.closest('[data-detail-toggle]');
-  if (dt) {
-    const expanded = dt.getAttribute('aria-expanded') === 'true';
-    dt.setAttribute('aria-expanded', String(!expanded));
-    const panel = dt.parentElement.querySelector('[data-detail-panel]');
-    if (panel) panel.classList.toggle('open', !expanded);
-    return;
-  }
-  // Copy single
-  const cp = e.target.closest('[data-copy]');
-  if (cp) {
-    navigator.clipboard && navigator.clipboard.writeText(cp.dataset.copy).catch(()=>{});
-    cp.classList.add('copied');
-    setTimeout(()=> cp.classList.remove('copied'), 1200);
-    return;
-  }
-  const ca = e.target.closest('[data-copy-all]');
-  if (ca) {
-    const list = Array.from(document.querySelectorAll('#screen-4 [data-copy]'))
-      .map(x => x.dataset.copy).join('\n');
-    navigator.clipboard && navigator.clipboard.writeText(list).catch(()=>{});
-    ca.innerHTML = '<span class="material-icons-round">check</span> Copiado';
-    setTimeout(()=>{ ca.innerHTML = '<span class="material-icons-round">content_copy</span> Copiar datos'; }, 1600);
-    return;
-  }
 });
 
-document.getElementById('navPrev').addEventListener('click', () => {
-  const cur = Array.from(screens).findIndex(s => s.classList.contains('active')) + 1;
+document.getElementById('navPrev').addEventListener('click', function() {
+  var cur = Array.from(screens).findIndex(function(s){ return s.classList.contains('active'); }) + 1;
   show(cur - 1);
 });
-document.getElementById('navNext').addEventListener('click', () => {
-  const cur = Array.from(screens).findIndex(s => s.classList.contains('active')) + 1;
+document.getElementById('navNext').addEventListener('click', function() {
+  var cur = Array.from(screens).findIndex(function(s){ return s.classList.contains('active'); }) + 1;
   show(cur + 1);
 });
 
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', function(e) {
   if (e.target.matches('input,select,textarea')) return;
-  const cur = Array.from(screens).findIndex(s => s.classList.contains('active')) + 1;
+  var cur = Array.from(screens).findIndex(function(s){ return s.classList.contains('active'); }) + 1;
   if (e.key === 'ArrowRight') show(cur+1);
   if (e.key === 'ArrowLeft')  show(cur-1);
 });
 
-/* ========== Floating-label filled tracking ========== */
-document.addEventListener('input', (e) => {
-  const field = e.target.closest('[data-field]');
-  if (field) field.classList.toggle('filled', !!e.target.value);
-});
-
-/* ========== Segmented ========== */
-document.querySelectorAll('.segmented').forEach(seg => {
-  seg.addEventListener('click', (e) => {
-    const btn = e.target.closest('button'); if (!btn) return;
-    seg.querySelectorAll('button').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
-  });
-});
-
 /* ========== Tweaks wiring ========== */
 function applyTweaks(t) {
-  document.documentElement.style.setProperty('--brand-deep', t.merchant_color);
-  document.querySelectorAll('[data-amount]').forEach(el => el.textContent = t.amount);
-  document.querySelectorAll('[data-merchant]').forEach(el => el.textContent = t.merchant_name);
-  document.querySelectorAll('[data-asunto]').forEach(el => el.textContent = t.asunto);
+  document.querySelectorAll('.kds-invoice-merchant').forEach(function(el){ el.style.background = t.merchant_color; });
+  document.querySelectorAll('[data-amount]').forEach(function(el){ el.textContent = t.amount; });
+  document.querySelectorAll('[data-merchant]').forEach(function(el){ el.textContent = t.merchant_name; });
+  document.querySelectorAll('[data-asunto]').forEach(function(el){ el.textContent = t.asunto; });
   document.getElementById('tw-merchant').value = t.merchant_name;
   document.getElementById('tw-asunto').value = t.asunto;
-  document.querySelectorAll('[data-merchant-color]').forEach(s => s.classList.toggle('active', s.dataset.merchantColor === t.merchant_color));
-  document.querySelectorAll('[data-amt]').forEach(c => c.classList.toggle('active', c.dataset.amt === t.amount));
+  document.querySelectorAll('[data-merchant-color]').forEach(function(s){ s.classList.toggle('active', s.dataset.merchantColor === t.merchant_color); });
+  document.querySelectorAll('[data-amt]').forEach(function(c){ c.classList.toggle('active', c.dataset.amt === t.amount); });
 }
 applyTweaks(window.__TWEAKS__);
 
@@ -1315,26 +735,26 @@ function setTweak(patch) {
   try { window.parent.postMessage({type:'__edit_mode_set_keys', edits: patch}, '*'); } catch(e){}
 }
 
-document.querySelectorAll('[data-merchant-color]').forEach(s => {
-  s.addEventListener('click', () => setTweak({merchant_color: s.dataset.merchantColor}));
+document.querySelectorAll('[data-merchant-color]').forEach(function(s) {
+  s.addEventListener('click', function(){ setTweak({merchant_color: s.dataset.merchantColor}); });
 });
-document.querySelectorAll('[data-amt]').forEach(c => {
-  c.addEventListener('click', () => setTweak({amount: c.dataset.amt}));
+document.querySelectorAll('[data-amt]').forEach(function(c) {
+  c.addEventListener('click', function(){ setTweak({amount: c.dataset.amt}); });
 });
-document.getElementById('tw-merchant').addEventListener('change', (e) => setTweak({merchant_name: e.target.value}));
-document.getElementById('tw-asunto').addEventListener('change', (e) => setTweak({asunto: e.target.value}));
+document.getElementById('tw-merchant').addEventListener('change', function(e){ setTweak({merchant_name: e.target.value}); });
+document.getElementById('tw-asunto').addEventListener('change', function(e){ setTweak({asunto: e.target.value}); });
 
 /* ========== Edit-mode protocol ========== */
-window.addEventListener('message', (e) => {
-  const d = e.data || {};
+window.addEventListener('message', function(e) {
+  var d = e.data || {};
   if (d.type === '__activate_edit_mode')   document.getElementById('tweaks').classList.add('open');
   if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('open');
 });
 try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
 
 /* ========== Boot ========== */
-let startScreen = 1;
-try { const s = parseInt(localStorage.getItem('khipuStep'), 10); if (s>=1 && s<=TOTAL) startScreen = s; } catch(e){}
+var startScreen = 1;
+try { var s = parseInt(localStorage.getItem('khipuStep'), 10); if (s>=1 && s<=TOTAL) startScreen = s; } catch(e){}
 show(startScreen);
 </script>
 
