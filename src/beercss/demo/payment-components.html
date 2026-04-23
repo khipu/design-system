@@ -11,75 +11,12 @@
 
     <!-- Khipu BeerCSS Bundle -->
     <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
-
-    <style>
-        body { background: var(--kds-color-shell); }
-
-        .demo-container {
-            max-width: 480px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            padding: 24px 16px;
-        }
-
-        .demo-hero { text-align: center; }
-        .demo-hero h1 { font-size: var(--kds-font-size-xl); margin: 0; }
-        .demo-hero p {
-            font-size: var(--kds-font-size-sm);
-            color: var(--kds-color-text-secondary);
-            margin: 4px 0 0;
-        }
-
-        .demo-section {
-            background: var(--kds-color-background-paper);
-            border-radius: var(--kds-radius-card);
-            box-shadow: var(--kds-shadow-card);
-            padding: 16px;
-        }
-        .demo-section + .demo-section { margin-top: 12px; }
-
-        .demo-label {
-            font-size: var(--kds-font-size-caption);
-            color: var(--kds-color-text-hint);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        .demo-section-title {
-            font-size: var(--kds-font-size-sm);
-            font-weight: var(--kds-font-weight-semibold);
-        }
-
-        .demo-tab-output {
-            font-size: var(--kds-font-size-xs);
-            color: var(--kds-color-text-hint);
-            text-align: center;
-            margin: 0;
-        }
-
-        .demo-expand-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
-
-        .demo-tabs-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .demo-center { text-align: center; }
-        .demo-spacer { height: 24px; }
-    </style>
 </head>
 <body class="light">
 
-<div class="demo-container">
+<div class="kds-demo-container">
 
-    <div class="demo-hero">
+    <div class="kds-demo-hero">
         <h1>Componentes de pago</h1>
         <p>7 componentes <code>.kds-*</code> del bundle BeerCSS</p>
     </div>
@@ -88,8 +25,8 @@
          1. SECURE FOOTER
          ============================================ -->
     <section>
-        <span class="demo-label">1 &middot; kds-secure-footer</span>
-        <div class="demo-section">
+        <span class="kds-demo-label">1 &middot; kds-secure-footer</span>
+        <div class="kds-demo-section">
             <div class="kds-secure-footer">
                 <i class="material-symbols-outlined">lock</i>
                 <span>Pago seguro con encriptación de 256 bits</span>
@@ -106,10 +43,10 @@
          2. EXPAND TOGGLE + PANEL
          ============================================ -->
     <section>
-        <span class="demo-label">2 &middot; kds-expand-toggle + kds-expand-panel</span>
-        <div class="demo-section">
-            <div class="demo-expand-header">
-                <span class="demo-section-title">Total: $3.300</span>
+        <span class="kds-demo-label">2 &middot; kds-expand-toggle + kds-expand-panel</span>
+        <div class="kds-demo-section">
+            <div class="kds-demo-expand-header">
+                <span class="kds-demo-section-title">Total: $3.300</span>
                 <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false" aria-controls="demo-detail">
                     <span>Ver detalle</span> <i class="material-symbols-outlined">expand_more</i>
                 </button>
@@ -127,10 +64,10 @@
          3. COPY ROW + COPY LIST + COPY ALL
          ============================================ -->
     <section>
-        <span class="demo-label">3 &middot; kds-copy-row + kds-copy-list + kds-copy-all</span>
-        <div class="demo-section">
+        <span class="kds-demo-label">3 &middot; kds-copy-row + kds-copy-list + kds-copy-all</span>
+        <div class="kds-demo-section">
             <div class="kds-copy-header">
-                <span class="demo-section-title">Datos de la transferencia</span>
+                <span class="kds-demo-section-title">Datos de la transferencia</span>
                 <button class="kds-copy-all" data-copy-all>
                     <i class="material-symbols-outlined">content_copy</i> Copiar todo
                 </button>
@@ -176,9 +113,9 @@
          4. STATUS BLOCK (4 variants + inline)
          ============================================ -->
     <section>
-        <span class="demo-label">4 &middot; kds-status-block</span>
+        <span class="kds-demo-label">4 &middot; kds-status-block</span>
 
-        <div class="demo-section" data-status="success">
+        <div class="kds-demo-section" data-status="success">
             <div class="kds-status-block" data-status="success">
                 <div class="kds-status-block-icon"><i class="material-symbols-outlined">check</i></div>
                 <h2 class="kds-status-block-title">Pago realizado</h2>
@@ -186,7 +123,7 @@
             </div>
         </div>
 
-        <div class="demo-section">
+        <div class="kds-demo-section">
             <div class="kds-status-block" data-status="pending">
                 <div class="kds-status-block-icon"></div>
                 <h2 class="kds-status-block-title">Verificando pago</h2>
@@ -194,7 +131,7 @@
             </div>
         </div>
 
-        <div class="demo-section">
+        <div class="kds-demo-section">
             <div class="kds-status-block" data-status="warn">
                 <div class="kds-status-block-icon"><i class="material-symbols-outlined">schedule</i></div>
                 <h2 class="kds-status-block-title">Pago pendiente</h2>
@@ -202,7 +139,7 @@
             </div>
         </div>
 
-        <div class="demo-section">
+        <div class="kds-demo-section">
             <div class="kds-status-block" data-status="error">
                 <div class="kds-status-block-icon"><i class="material-symbols-outlined">close</i></div>
                 <h2 class="kds-status-block-title">Pago rechazado</h2>
@@ -210,8 +147,8 @@
             </div>
         </div>
 
-        <div class="demo-section">
-            <span class="demo-label">inline variant</span>
+        <div class="kds-demo-section">
+            <span class="kds-demo-label">inline variant</span>
             <div class="kds-status-block inline" data-status="success">
                 <div class="kds-status-block-icon"><i class="material-symbols-outlined">check</i></div>
                 <div>
@@ -226,8 +163,8 @@
          5. BOTTOM SHEET
          ============================================ -->
     <section>
-        <span class="demo-label">5 &middot; kds-bottom-sheet</span>
-        <div class="demo-section demo-center">
+        <span class="kds-demo-label">5 &middot; kds-bottom-sheet</span>
+        <div class="kds-demo-section kds-demo-center">
             <button class="kds-btn kds-btn-primary" onclick="document.getElementById('demo-sheet').classList.add('open')">
                 Abrir Bottom Sheet
             </button>
@@ -257,8 +194,8 @@
          6. COUNTDOWN
          ============================================ -->
     <section>
-        <span class="demo-label">6 &middot; kds-countdown</span>
-        <div class="demo-section">
+        <span class="kds-demo-label">6 &middot; kds-countdown</span>
+        <div class="kds-demo-section">
             <div class="kds-countdown" data-deadline="" id="demo-countdown">
                 <span class="kds-countdown-label">Tiempo restante para pagar</span>
                 <span class="kds-countdown-value">
@@ -279,8 +216,8 @@
          7. SEGMENTED TABS
          ============================================ -->
     <section>
-        <span class="demo-label">7 &middot; kds-segmented-tabs</span>
-        <div class="demo-section demo-tabs-grid">
+        <span class="kds-demo-label">7 &middot; kds-segmented-tabs</span>
+        <div class="kds-demo-section kds-demo-tabs-grid">
             <div class="kds-segmented-tabs" role="tablist">
                 <button class="active" aria-selected="true">Transferencia</button>
                 <button aria-selected="false">Tarjeta</button>
@@ -290,11 +227,11 @@
                 <button aria-selected="false">Empresa</button>
                 <button aria-selected="false">Otro</button>
             </div>
-            <p class="demo-tab-output" id="tab-output"></p>
+            <p class="kds-demo-tab-output" id="tab-output"></p>
         </div>
     </section>
 
-    <div class="demo-spacer"></div>
+    <div class="kds-demo-spacer"></div>
 </div>
 
 <!-- JS Bundle -->
