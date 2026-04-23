@@ -4785,3 +4785,235 @@ button.kds-btn-success::after {
 .kds-copy-header.spaced {
     margin-top: var(--kds-spacing-2-5);
 }
+
+/* ================================================================
+   PAYMENT FLOW LAYOUT
+   Stage, flow container, brand row, screen transitions
+   ================================================================ */
+
+/* Prevent card hover elevation in payment flow */
+.kds-payment-stage .kds-card-elevated:hover {
+    box-shadow: var(--kds-shadow-card);
+}
+
+/* Payment stage — full-viewport centered wrapper */
+.kds-payment-stage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: var(--kds-spacing-2-5) var(--kds-spacing-2) var(--kds-spacing-8);
+}
+
+/* Payment flow — narrow column */
+.kds-payment-flow {
+    width: 100%;
+    max-width: var(--kds-stage-narrow-max-width, 448px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-3);
+}
+
+/* Brand logo row */
+.kds-brand-row {
+    padding: 0 var(--kds-spacing-0-5);
+    display: flex;
+    align-items: center;
+}
+.kds-brand-row svg {
+    height: 22px;
+    display: block;
+}
+
+/* Screen transitions (multi-step flows) */
+.kds-screen {
+    display: none;
+    animation: kds-fadein .22s ease both;
+}
+.kds-screen.active {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-3);
+}
+@keyframes kds-fadein {
+    from { opacity: 0; transform: translateY(var(--kds-spacing-0-5)); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ================================================================
+   PROTOTYPE NAVIGATION & TWEAKS
+   Dev-only components for navigating and tweaking prototypes
+   ================================================================ */
+
+/* Proto nav — floating pill navigation */
+.kds-proto-nav {
+    position: fixed;
+    left: 50%;
+    bottom: var(--kds-spacing-1-75);
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-0-75);
+    background: var(--kds-color-text-primary);
+    color: var(--kds-color-background-paper);
+    padding: var(--kds-spacing-0-75) var(--kds-spacing-1);
+    border-radius: 9999px;
+    box-shadow: var(--kds-shadow-4);
+    z-index: 40;
+    font-size: var(--kds-font-size-xs);
+}
+.kds-proto-nav-label {
+    padding: 0 var(--kds-spacing-0-75);
+    color: var(--kds-color-text-hint);
+}
+.kds-proto-nav-arrow {
+    background: transparent;
+    border: 0;
+    color: var(--kds-color-text-disabled);
+    cursor: pointer;
+    width: var(--kds-spacing-3-5);
+    height: var(--kds-spacing-3-5);
+    border-radius: 9999px;
+    display: grid;
+    place-items: center;
+}
+.kds-proto-nav-arrow:hover {
+    color: var(--kds-color-background-paper);
+    background: rgba(255, 255, 255, .08);
+}
+
+/* Tweaks panel — floating config panel */
+.kds-proto-tweaks {
+    position: fixed;
+    right: var(--kds-spacing-2);
+    bottom: var(--kds-spacing-8);
+    width: 260px;
+    background: var(--kds-color-background-paper);
+    border-radius: var(--kds-radius-card);
+    box-shadow: var(--kds-shadow-4);
+    border: 1px solid var(--kds-color-divider);
+    padding: var(--kds-spacing-1-75);
+    font-size: var(--kds-font-size-body2);
+    z-index: 45;
+    display: none;
+}
+.kds-proto-tweaks.open { display: block; }
+.kds-proto-tweaks h4 {
+    margin: 0 0 var(--kds-spacing-1);
+    font-size: var(--kds-font-size-body2);
+    font-weight: var(--kds-font-weight-bold);
+}
+.kds-proto-tweak {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kds-spacing-1);
+    margin-bottom: var(--kds-spacing-1);
+}
+.kds-proto-tweak-column {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--kds-spacing-0-75);
+    margin-bottom: var(--kds-spacing-1);
+}
+.kds-proto-chips {
+    display: flex;
+    gap: var(--kds-spacing-0-75);
+    flex-wrap: wrap;
+}
+.kds-proto-chip {
+    border: 1px solid var(--kds-color-divider);
+    background: var(--kds-color-background-paper);
+    color: var(--kds-color-text-primary);
+    padding: var(--kds-spacing-0-5) var(--kds-spacing-1);
+    border-radius: 9999px;
+    font-size: var(--kds-font-size-xs);
+    cursor: pointer;
+}
+.kds-proto-chip.active {
+    background: var(--kds-color-primary-faint);
+    border-color: var(--kds-color-primary-main);
+    color: var(--kds-color-primary-main);
+}
+.kds-proto-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: var(--kds-spacing-0-75);
+    border: 1px solid rgba(0, 0, 0, .08);
+    cursor: pointer;
+}
+.kds-proto-swatch.active {
+    outline: 2px solid var(--kds-color-primary-main);
+    outline-offset: var(--kds-spacing-0-25);
+}
+.kds-proto-input {
+    margin-top: var(--kds-spacing-0-75);
+    padding: var(--kds-spacing-0-75) var(--kds-spacing-1);
+    border: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-spacing-0-75);
+    font: inherit;
+}
+
+/* ================================================================
+   DEMO PAGE LAYOUT
+   Showcase container, sections, labels for component demo pages
+   ================================================================ */
+
+.kds-demo-container {
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-3);
+    padding: var(--kds-spacing-3) var(--kds-spacing-2);
+}
+
+.kds-demo-hero { text-align: center; }
+.kds-demo-hero h1 { font-size: var(--kds-font-size-xl); margin: 0; }
+.kds-demo-hero p {
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-secondary);
+    margin: var(--kds-spacing-0-5) 0 0;
+}
+
+.kds-demo-section {
+    background: var(--kds-color-background-paper);
+    border-radius: var(--kds-radius-card);
+    box-shadow: var(--kds-shadow-card);
+    padding: var(--kds-spacing-2);
+}
+.kds-demo-section + .kds-demo-section { margin-top: var(--kds-spacing-1-5); }
+
+.kds-demo-label {
+    font-size: var(--kds-font-size-caption);
+    color: var(--kds-color-text-hint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.kds-demo-section-title {
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-semibold);
+}
+
+.kds-demo-tab-output {
+    font-size: var(--kds-font-size-xs);
+    color: var(--kds-color-text-hint);
+    text-align: center;
+    margin: 0;
+}
+
+.kds-demo-expand-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.kds-demo-tabs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-2);
+}
+
+.kds-demo-center { text-align: center; }
+.kds-demo-spacer { height: var(--kds-spacing-3); }
