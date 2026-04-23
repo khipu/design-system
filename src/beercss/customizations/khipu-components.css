@@ -3784,17 +3784,23 @@ dialog#surveyModal button.circle {
 .field.locked > input,
 .field.locked > textarea {
     background: var(--kds-color-shell);
-    color: var(--kds-color-text-primary);
+    color: var(--kds-color-text-secondary);
     cursor: default;
+    border-color: var(--kds-color-divider);
+}
+
+.field.locked > label {
+    color: var(--kds-color-text-hint);
 }
 
 .field.locked > i {
     position: absolute;
-    right: 12px;
+    right: var(--kds-spacing-1-5);
     top: 50%;
     transform: translateY(-50%);
     color: var(--kds-color-text-disabled);
     pointer-events: none;
+    font-size: 18px;
 }
 
 /* Verified variant (green check) */
