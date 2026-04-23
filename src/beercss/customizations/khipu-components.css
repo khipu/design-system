@@ -1563,8 +1563,8 @@ body.dark {
         'wght' 400,
         'GRAD' 0,
         'opsz' 24;
-    min-width: 24px;
-    min-height: 24px;
+    min-width: 30px;
+    min-height: 30px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -3586,4 +3586,858 @@ dialog#surveyModal button.circle {
 
 .secondary-nav-border {
     border-bottom: var(--kds-border-width-sm) solid var(--kds-color-divider);
+}
+
+/* ========================================
+   PAYMENT FLOW COMPONENTS
+   Components for mobile payment flows
+   Source: Beer CSS Proposal.md
+   ======================================== */
+
+/* ========================================
+   01 - MERCHANT TILE (.kds-merchant)
+   Identifies merchant in payment confirmation
+   ======================================== */
+
+.kds-merchant {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-1-75);
+}
+
+.kds-merchant-tile {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--kds-radius-card);
+    background: var(--kds-color-primary-deep);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: var(--kds-font-size-xl);  /* 1.25rem = 20px */
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+}
+
+/* Merchant tile with logo variant */
+.kds-merchant-tile.logo {
+    padding: var(--kds-spacing-0-5);
+}
+
+.kds-merchant-tile.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--kds-radius-md);
+}
+
+.kds-merchant-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.kds-merchant-label {
+    font-size: var(--kds-font-size-xs);
+    color: var(--kds-color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: var(--kds-spacing-0-25);
+}
+
+.kds-merchant-meta strong {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--kds-color-text-primary);
+}
+
+/* Compact variant for secondary headers */
+.kds-merchant.compact .kds-merchant-tile {
+    width: 40px;
+    height: 40px;
+    font-size: var(--kds-font-size-base);
+}
+
+.kds-merchant.compact .kds-merchant-label {
+    display: none;
+}
+
+/* ========================================
+   02 - AMOUNT DISPLAY (.kds-amount)
+   Large amount with secondary currency symbol
+   ======================================== */
+
+.kds-amount {
+    text-align: center;
+}
+
+.kds-amount-label {
+    display: block;
+    font-size: var(--kds-font-size-xs);
+    color: var(--kds-color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: var(--kds-spacing-1);
+}
+
+.kds-amount-value {
+    font-size: var(--kds-font-size-4xl);  /* 2.25rem = 36px */
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--kds-color-text-primary);
+}
+
+.kds-amount-value small {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--kds-color-text-secondary);
+    margin-right: var(--kds-spacing-0-5);
+}
+
+/* Brand color variant (for success screens) */
+.kds-amount.brand .kds-amount-value {
+    color: var(--kds-color-primary-main);
+}
+
+/* Inline variant (left-aligned) */
+.kds-amount.inline {
+    text-align: left;
+}
+
+/* ========================================
+   03 - DETAIL ROWS (.kds-details)
+   Key-value list for transaction summaries
+   ======================================== */
+
+.kds-details {
+    margin: 0;
+    padding: 0 var(--kds-spacing-4);
+}
+
+.kds-details-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--kds-spacing-3) 0;
+    border-bottom: 1px solid var(--kds-color-divider);
+    font-size: var(--kds-font-size-sm);
+}
+
+.kds-details-row:last-child {
+    border-bottom: none;
+}
+
+.kds-details-row dt {
+    color: var(--kds-color-text-secondary);
+    font-weight: 400;
+}
+
+.kds-details-row dd {
+    margin: 0;
+    font-weight: 500;
+    color: var(--kds-color-text-primary);
+}
+
+.kds-details-row.total dd {
+    color: var(--kds-color-primary-main);
+    font-weight: 700;
+    font-size: var(--kds-font-size-base);
+}
+
+/* ========================================
+   04 - DOT STEPPER (.kds-stepper.dots)
+   Compact stepper variant for mobile flows
+   ======================================== */
+
+.kds-stepper.dots {
+    display: flex;
+    gap: var(--kds-spacing-0-75);
+    justify-content: center;
+    padding: var(--kds-spacing-4) 0;
+}
+
+.kds-stepper.dots .kds-step {
+    width: var(--kds-spacing-1);
+    height: var(--kds-spacing-1);
+    border-radius: var(--kds-radius-full);
+    background: var(--kds-color-divider);
+    transition: width 0.25s, background 0.25s;
+}
+
+.kds-stepper.dots .kds-step.completed {
+    background: var(--kds-color-primary-main);
+}
+
+.kds-stepper.dots .kds-step.current {
+    width: var(--kds-spacing-3);
+    background: var(--kds-color-primary-main);
+}
+
+/* ========================================
+   05 - LOCKED FIELD (.field.locked)
+   Read-only field with lock icon
+   ======================================== */
+
+.field.locked {
+    position: relative;
+}
+
+.field.locked > input,
+.field.locked > textarea {
+    background: var(--kds-color-shell);
+    color: var(--kds-color-text-primary);
+    cursor: default;
+}
+
+.field.locked > i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--kds-color-text-disabled);
+    pointer-events: none;
+}
+
+/* Verified variant (green check) */
+.field.locked.verified > i {
+    color: var(--kds-color-success-main);
+}
+
+/* ========================================
+   06 - OTP INPUT (.kds-otp)
+   Segmented input for verification codes
+   ======================================== */
+
+.kds-otp {
+    display: flex;
+    gap: var(--kds-spacing-1-25);
+    justify-content: center;
+    margin: var(--kds-spacing-4) 0;
+}
+
+.kds-otp input {
+    width: 48px;
+    height: 56px;
+    border: 1.5px solid var(--kds-color-input-border);
+    border-radius: var(--kds-radius-md);
+    text-align: center;
+    font-size: var(--kds-font-size-xl);
+    font-weight: 600;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    background: var(--kds-color-background-paper);
+}
+
+.kds-otp input:not(:placeholder-shown) {
+    border-color: var(--kds-color-primary-main);
+    background: var(--kds-color-primary-faint);
+}
+
+.kds-otp input:focus {
+    outline: none;
+    border-color: var(--kds-color-primary-main);
+    box-shadow: 0 0 0 3px rgba(131,71,173,.12);
+}
+
+/* Invalid state with shake animation */
+.kds-otp.invalid input {
+    border-color: var(--kds-color-error-main);
+    animation: kds-shake 0.35s;
+}
+
+@keyframes kds-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}
+
+/* ========================================
+   07 - BANK ROW (.kds-bank-row)
+   Clickable bank selector row
+   ======================================== */
+
+.kds-bank-row {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-1-5);
+    width: 100%;
+    padding: var(--kds-spacing-1-75);
+    background: var(--kds-color-surface);
+    border: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-lg);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: var(--kds-spacing-2);
+}
+
+.kds-bank-row:hover {
+    border-color: var(--kds-color-primary-main);
+    background: var(--kds-color-primary-faint);
+}
+
+.kds-bank-row-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--kds-radius-md);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.kds-bank-row-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.kds-bank-row-name {
+    flex: 1;
+    font-weight: 500;
+    font-size: var(--kds-font-size-base);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-bank-row > i {
+    color: var(--kds-color-text-secondary);
+    flex-shrink: 0;
+}
+
+/* Selected state */
+.kds-bank-row.selected {
+    border-color: var(--kds-color-primary-main);
+    background: var(--kds-color-primary-faint);
+}
+
+.kds-bank-row.selected > i {
+    color: var(--kds-color-primary-main);
+}
+
+/* Disabled state */
+.kds-bank-row:disabled,
+.kds-bank-row.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ========================================
+   08 - STICKY CTA BAR (.kds-cta-bar)
+   Fixed bottom action bar with primary button
+   ======================================== */
+
+.kds-cta-bar {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    gap: var(--kds-spacing-1-25);
+    padding: var(--kds-spacing-2);
+    background: #FFFFFF;
+    border-top: 1px solid var(--kds-color-divider);
+    padding-bottom: calc(var(--kds-spacing-2) + env(safe-area-inset-bottom));
+    z-index: 100;
+}
+
+.kds-cta-bar > button {
+    flex: 1;
+    min-height: 48px;
+}
+
+.kds-cta-bar > button.primary,
+.kds-cta-bar > button.kds-btn-primary {
+    flex: 1;
+}
+
+/* Floating variant (no border, with shadow) */
+.kds-cta-bar.floating {
+    border-top: none;
+    box-shadow: 0 -4px 16px rgba(16,24,40,.08);
+}
+
+/* ========================================
+   09 - SUCCESS MARK (.kds-success-mark)
+   Large success icon for completion screens
+   ======================================== */
+
+.kds-success-mark {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--kds-radius-full);
+    background: var(--kds-color-success-soft);
+    border: 2px solid var(--kds-color-success-main);
+    display: grid;
+    place-items: center;
+    color: var(--kds-color-success-main);
+    animation: kds-pop 0.45s ease-out;
+    margin: 0 auto;
+}
+
+.kds-success-mark i {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+/* Error variant */
+.kds-success-mark.error {
+    background: rgba(211, 47, 47, 0.08);
+    border-color: var(--kds-color-error-main);
+    color: var(--kds-color-error-main);
+}
+
+/* Warning variant */
+.kds-success-mark.warning {
+    background: rgba(237, 108, 2, 0.08);
+    border-color: var(--kds-color-warning-main);
+    color: var(--kds-color-warning-main);
+}
+
+@keyframes kds-pop {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ========================================
+   RESET: Disable BeerCSS ripple ::after on kds-* buttons
+   ======================================== */
+
+.kds-expand-toggle::after,
+.kds-copy-row::after,
+.kds-copy-all::after,
+.kds-segmented-tabs button::after,
+.kds-bottom-sheet-actions button::after {
+    display: none;
+}
+
+/* ========================================
+   10 - SECURE FOOTER (.kds-secure-footer)
+   Trust badge footer for payment flows
+   ======================================== */
+
+.kds-secure-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kds-spacing-1);
+    color: var(--kds-color-text-disabled);
+    font-size: var(--kds-font-size-xs);
+    padding: var(--kds-spacing-1) 0;
+}
+
+.kds-secure-footer i {
+    font-size: var(--kds-font-size-sm);
+}
+
+.kds-secure-footer-code {
+    color: var(--kds-color-text-hint);
+}
+
+/* ========================================
+   11 - EXPAND TOGGLE (.kds-expand-toggle + .kds-expand-panel)
+   Collapsible detail section
+   ======================================== */
+
+.kds-expand-toggle {
+    background: none;
+    border: 0;
+    padding: var(--kds-spacing-0-5) 0;
+    color: var(--kds-color-primary-main);
+    font-weight: var(--kds-font-weight-medium);
+    font-size: var(--kds-font-size-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kds-spacing-0-75);
+}
+
+.kds-expand-toggle:hover {
+    background: transparent;
+}
+
+.kds-expand-toggle:hover span {
+    text-decoration: underline;
+}
+
+.kds-expand-toggle i {
+    font-size: var(--kds-font-size-base);
+    transition: transform var(--kds-transition-shorter, 0.2s);
+}
+
+.kds-expand-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+.kds-expand-panel {
+    overflow: hidden;
+    transition: max-height 0.28s ease, margin-top 0.28s ease;
+    max-height: 0;
+}
+
+.kds-expand-panel[hidden] {
+    display: block;
+    max-height: 0;
+}
+
+.kds-expand-panel.open {
+    max-height: 800px;
+    margin-top: var(--kds-spacing-1);
+}
+
+/* ========================================
+   12 - COPY ROW (.kds-copy-row + .kds-copy-list + .kds-copy-all)
+   Clipboard-copyable data rows with visual feedback
+   ======================================== */
+
+.kds-copy-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--kds-spacing-1-25);
+}
+
+.kds-copy-all {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kds-spacing-0-5);
+    color: var(--kds-color-primary-main);
+    font-weight: var(--kds-font-weight-semibold);
+    font-size: var(--kds-font-size-xs);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: var(--kds-spacing-0-5) var(--kds-spacing-0-75);
+    border-radius: var(--kds-radius-sm);
+}
+
+.kds-copy-all:hover {
+    background: var(--kds-color-action-hover);
+}
+
+.kds-copy-all i {
+    font-size: var(--kds-font-size-base);
+}
+
+.kds-copy-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1);
+}
+
+.kds-copy-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--kds-spacing-1-25);
+    padding: var(--kds-spacing-1-5) var(--kds-spacing-1-75);
+    border: var(--kds-border-width-sm) solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-color-surface, var(--kds-color-background-paper));
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    transition: background 0.15s, border-color 0.15s;
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-copy-row:hover {
+    background: var(--kds-color-background-muted);
+    border-color: var(--kds-border-light);
+}
+
+.kds-copy-row > i {
+    color: var(--kds-color-text-secondary);
+    font-size: var(--kds-font-size-lg);
+    flex-shrink: 0;
+}
+
+.kds-copy-row-label {
+    font-size: var(--kds-font-size-caption);
+    color: var(--kds-color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    display: block;
+    margin-bottom: var(--kds-spacing-0-25);
+}
+
+.kds-copy-row-value {
+    font-weight: var(--kds-font-weight-medium);
+}
+
+.kds-copy-row.copied {
+    background: var(--kds-color-success-soft);
+    border-color: var(--kds-color-success-main);
+}
+
+.kds-copy-toast {
+    position: absolute;
+    right: var(--kds-spacing-1-5);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--kds-color-success-main);
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-0-5);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-semibold);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.kds-copy-row.copied .kds-copy-toast {
+    opacity: 1;
+}
+
+/* ========================================
+   13 - STATUS BLOCK (.kds-status-block)
+   Status header with icon + title for result screens
+   ======================================== */
+
+.kds-status-block {
+    text-align: center;
+    padding: var(--kds-spacing-6) 0;
+}
+
+.kds-status-block-icon {
+    width: var(--kds-status-icon-size);
+    height: var(--kds-status-icon-size);
+    margin: 0 auto var(--kds-spacing-3);
+    border-radius: var(--kds-radius-full);
+    display: grid;
+    place-items: center;
+}
+
+.kds-status-block-icon i {
+    font-size: var(--kds-font-size-4xl);
+    font-weight: var(--kds-font-weight-bold);
+}
+
+.kds-status-block-title {
+    font-size: var(--kds-font-size-xl);
+    font-weight: var(--kds-font-weight-bold);
+    color: var(--kds-color-text-primary);
+    margin: 0 0 var(--kds-spacing-1);
+}
+
+.kds-status-block-description {
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-secondary);
+    margin: 0;
+}
+
+/* Variant: success */
+.kds-status-block[data-status="success"] .kds-status-block-icon {
+    background: var(--kds-color-success-soft);
+    border: var(--kds-border-width-md) solid var(--kds-color-success-main);
+    color: var(--kds-color-success-main);
+}
+
+/* Variant: pending (animated spinner) */
+.kds-status-block[data-status="pending"] .kds-status-block-icon {
+    background: transparent;
+    border: 3px solid var(--kds-color-divider);
+    border-top-color: var(--kds-color-primary-main);
+    animation: kds-spin 1s linear infinite;
+}
+
+/* Variant: warn */
+.kds-status-block[data-status="warn"] .kds-status-block-icon {
+    background: var(--kds-color-warning-soft);
+    border: var(--kds-border-width-md) solid var(--kds-color-warning-main);
+    color: var(--kds-color-warning-main);
+}
+
+/* Variant: error */
+.kds-status-block[data-status="error"] .kds-status-block-icon {
+    background: var(--kds-color-danger-soft);
+    border: var(--kds-border-width-md) solid var(--kds-color-error-main);
+    color: var(--kds-color-error-main);
+}
+
+/* Inline variant: icon left + text right */
+.kds-status-block.inline {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-3);
+    padding: var(--kds-spacing-1) 0;
+}
+
+.kds-status-block.inline .kds-status-block-icon {
+    width: var(--kds-status-icon-size-sm);
+    height: var(--kds-status-icon-size-sm);
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.kds-status-block.inline .kds-status-block-icon i {
+    font-size: var(--kds-font-size-xl);
+}
+
+@keyframes kds-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ========================================
+   14 - BOTTOM SHEET (.kds-bottom-sheet)
+   Modal bottom sheet for mobile confirmations
+   ======================================== */
+
+.kds-bottom-sheet-scrim {
+    position: fixed;
+    inset: 0;
+    background: var(--kds-modal-backdrop);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: var(--kds-z-index-modal, 50);
+    animation: kds-fade 0.2s ease both;
+}
+
+.kds-bottom-sheet-scrim.open {
+    display: flex;
+}
+
+.kds-bottom-sheet {
+    width: 100%;
+    max-width: var(--kds-bottom-sheet-max-width);
+    background: var(--kds-color-background-paper);
+    border-radius: var(--kds-radius-2xl) var(--kds-radius-2xl) 0 0;
+    padding: var(--kds-spacing-3-5) var(--kds-spacing-3) var(--kds-spacing-3);
+    box-shadow: var(--kds-bottom-sheet-shadow);
+    animation: kds-rise 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    text-align: center;
+    position: relative;
+}
+
+.kds-bottom-sheet-grabber {
+    position: absolute;
+    left: 50%;
+    top: var(--kds-spacing-1-25);
+    transform: translateX(-50%);
+    width: var(--kds-spacing-6);
+    height: var(--kds-spacing-0-5);
+    border-radius: var(--kds-radius-full);
+    background: var(--kds-color-divider);
+}
+
+.kds-bottom-sheet-icon {
+    font-size: var(--kds-font-size-4xl);
+}
+
+.kds-bottom-sheet-title {
+    font-size: var(--kds-font-size-xl);
+    margin: var(--kds-spacing-1-5) 0 var(--kds-spacing-0-5);
+}
+
+.kds-bottom-sheet-description {
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-secondary);
+    margin: 0;
+}
+
+.kds-bottom-sheet-actions {
+    margin-top: var(--kds-spacing-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1-25);
+}
+
+.kds-bottom-sheet-actions button {
+    padding: var(--kds-spacing-1-5);
+    border: 0;
+    border-radius: var(--kds-radius-btn, var(--kds-radius-md));
+    font-weight: var(--kds-font-weight-semibold);
+    cursor: pointer;
+}
+
+.kds-bottom-sheet-actions .kds-btn-danger {
+    background: var(--kds-color-error-main);
+    color: var(--kds-color-primary-contrast);
+}
+
+.kds-bottom-sheet-actions .kds-btn-ghost {
+    background: transparent;
+    color: var(--kds-color-text-secondary);
+    font-weight: var(--kds-font-weight-medium);
+}
+
+@keyframes kds-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes kds-rise {
+    from { transform: translateY(var(--kds-spacing-2-5)); opacity: 0.4; }
+    to { transform: none; opacity: 1; }
+}
+
+/* ========================================
+   15 - COUNTDOWN (.kds-countdown)
+   Timer with HH:MM:SS for deadline-based flows
+   ======================================== */
+
+.kds-countdown {
+    text-align: center;
+    padding: var(--kds-spacing-1) 0;
+}
+
+.kds-countdown-label {
+    display: block;
+    font-size: var(--kds-font-size-xs);
+    color: var(--kds-color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: var(--kds-spacing-1);
+}
+
+.kds-countdown-value {
+    font-size: var(--kds-font-size-2xl);
+    font-weight: var(--kds-font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    color: var(--kds-color-text-primary);
+}
+
+.kds-countdown.urgent .kds-countdown-value {
+    color: var(--kds-color-error-main);
+}
+
+/* ========================================
+   16 - SEGMENTED TABS (.kds-segmented-tabs)
+   Pill-group toggle for tab switching
+   ======================================== */
+
+.kds-segmented-tabs {
+    height: var(--kds-spacing-5);
+    background: var(--kds-color-background-elevated);
+    border-radius: var(--kds-radius-lg);
+    padding: var(--kds-spacing-0-25);
+    display: flex;
+}
+
+.kds-segmented-tabs.kds-segmented-tabs button {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    border-radius: calc(var(--kds-radius-lg) - var(--kds-spacing-0-25));
+    font-weight: var(--kds-font-weight-medium);
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-secondary);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.kds-segmented-tabs.kds-segmented-tabs button.active,
+.kds-segmented-tabs.kds-segmented-tabs button[aria-selected="true"] {
+    background: var(--kds-color-primary-main);
+    color: var(--kds-color-primary-contrast);
+    box-shadow: var(--kds-shadow-card);
 }

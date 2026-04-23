@@ -440,10 +440,13 @@ export const typography = {
 
 export const spacing = {
   0: '0px',
+  0.25: '2px',    // Quarter of base
   0.5: '4px',     // Half of base
   0.75: '6px',    // 3/4 of base
   1: '8px',       // Base unit
+  1.25: '10px',   // 1.25x base (for OTP gap)
   1.5: '12px',    // 1.5x base
+  1.75: '14px',   // 1.75x base (for bank-row padding)
   2: '16px',      // 2x base
   2.5: '20px',    // 2.5x base
   3: '24px',      // 3x base
@@ -672,7 +675,7 @@ export const borderRadius = {
   // Component-specific
   button: '4px',
   input: '4px',
-  card: '20px',
+  card: '14px',  // Payment card radius (between lg=12px and xl=16px) - Beer CSS Proposal
   modal: '20px',
   chip: '16px',
   avatar: '100px',
