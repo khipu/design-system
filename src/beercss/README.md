@@ -4,6 +4,8 @@
 
 This bundle combines [BeerCSS](https://www.beercss.com/) (a lightweight Material Design 3 CSS framework) with Khipu Design System tokens and custom components into a single, versioned package.
 
+📘 **[Components Usage Guide →](./COMPONENTS_GUIDE.md)** - Guía completa de uso de componentes avanzados (Modal de bancos, Sticky headers, etc.)
+
 ## What's Included
 
 - **BeerCSS v4.0.1** - Base Material Design 3 CSS framework
