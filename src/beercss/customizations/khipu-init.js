@@ -11,6 +11,7 @@
  * - Clipboard copy rows
  * - Countdown timers
  * - Segmented tabs
+ * - Bank modal (search and selection)
  * - Sticky invoice card (collapse on scroll)
  */
 
@@ -50,6 +51,7 @@
         initCountdown();
         initSegmentedTabs();
         initStickyInvoice();
+        initBankModal();
 
         console.log('Material Design initialization complete!');
     }
@@ -265,6 +267,105 @@
     }
 
     /**
+     * Initialize bank modal
+     * Handles opening, closing, search, and selection of banks
+     * Delegated events for [data-open-bank-modal], [data-close-bank-modal], and bank selection
+     * @param {Element} root - Root element to scope listeners (default: document)
+     */
+    function initBankModal(root) {
+        root = root || document;
+
+        var modal = root.querySelector('#bankModal');
+        var searchInput = root.querySelector('#bankSearch');
+        var bankList = root.querySelector('#bankModalList');
+        var noResults = root.querySelector('#bankNoResults');
+
+        if (!modal) return;
+
+        /**
+         * Filter banks by search query
+         * @param {string} query - Search term
+         */
+        function filterBanks(query) {
+            if (!bankList) return;
+
+            var q = query.toLowerCase().trim();
+            var rows = bankList.querySelectorAll('.kds-bank-row');
+            var visible = 0;
+
+            rows.forEach(function(row) {
+                var nameEl = row.querySelector('.kds-bank-row-name');
+                if (!nameEl) return;
+
+                var name = nameEl.textContent.toLowerCase();
+                var match = !q || name.indexOf(q) !== -1;
+                row.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+
+            if (noResults) {
+                noResults.classList.toggle('visible', visible === 0);
+            }
+        }
+
+        // Open modal
+        root.addEventListener('click', function(e) {
+            var opener = e.target.closest('[data-open-bank-modal]');
+            if (opener) {
+                modal.classList.add('open');
+                if (searchInput) {
+                    searchInput.value = '';
+                    searchInput.focus();
+                }
+                filterBanks('');
+            }
+        });
+
+        // Close modal
+        root.addEventListener('click', function(e) {
+            var closer = e.target.closest('[data-close-bank-modal]');
+            if (closer) {
+                modal.classList.remove('open');
+            }
+        });
+
+        // Select bank (closes modal and dispatches event)
+        if (bankList) {
+            bankList.addEventListener('click', function(e) {
+                var bankRow = e.target.closest('.kds-bank-row');
+                if (bankRow) {
+                    var bankId = bankRow.dataset.bankId || bankRow.dataset.bank || '';
+                    var bankName = bankRow.querySelector('.kds-bank-row-name');
+
+                    // Dispatch custom event with bank data
+                    modal.dispatchEvent(new CustomEvent('kds:bank:selected', {
+                        bubbles: true,
+                        detail: {
+                            id: bankId,
+                            name: bankName ? bankName.textContent : '',
+                            element: bankRow
+                        }
+                    }));
+
+                    // Close modal
+                    modal.classList.remove('open');
+                }
+            });
+        }
+
+        // Search input
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                filterBanks(e.target.value);
+            });
+        }
+
+        // Export filterBanks for manual use if needed
+        if (!window.Khipu) window.Khipu = {};
+        window.Khipu.filterBanks = filterBanks;
+    }
+
+    /**
      * Initialize sticky invoice card collapse on scroll
      * Toggles .collapsed class on .kds-invoice-sticky when user scrolls past threshold
      * Works with multiple screens - targets sticky element in currently active screen
@@ -356,6 +457,7 @@
     window.Khipu.initCopyRow = initCopyRow;
     window.Khipu.initCountdown = initCountdown;
     window.Khipu.initSegmentedTabs = initSegmentedTabs;
+    window.Khipu.initBankModal = initBankModal;
     window.Khipu.initStickyInvoice = initStickyInvoice;
 
     // Also export showSnackbar to global scope for backward compatibility
