@@ -54,7 +54,6 @@ Modal con lista completa de bancos, búsqueda en tiempo real y selección.
         type="text"
         id="bankSearch"
         placeholder="Buscar banco o billetera"
-        oninput="filterBanks(this.value)"
       />
     </div>
 
@@ -84,60 +83,41 @@ Modal con lista completa de bancos, búsqueda en tiempo real y selección.
 </div>
 ```
 
-### JavaScript requerido
+### JavaScript (Automático) ✅
 
-El bundle de Khipu **ya incluye** la inicialización automática. Solo necesitas agregar esta función para el filtrado:
+El bundle de Khipu **incluye toda la funcionalidad**. No necesitas escribir JavaScript adicional.
+
+**Funcionalidad incluida:**
+- ✅ Abrir modal al hacer click en `[data-open-bank-modal]`
+- ✅ Cerrar modal al hacer click en `[data-close-bank-modal]`
+- ✅ Búsqueda en tiempo real (filtra mientras escribes)
+- ✅ Cerrar modal al seleccionar un banco
+- ✅ Mensaje "sin resultados" cuando no hay coincidencias
+- ✅ Focus automático en input al abrir
+
+**Evento custom al seleccionar banco:**
+
+Cuando el usuario selecciona un banco, se dispara el evento `kds:bank:selected`:
 
 ```javascript
-/**
- * Filtra la lista de bancos según la búsqueda
- * @param {string} query - Texto de búsqueda
- */
-function filterBanks(query) {
-  var q = query.toLowerCase().trim();
-  var rows = document.querySelectorAll('#bankModalList .kds-bank-row');
-  var visible = 0;
+// Escuchar selección de banco
+document.getElementById('bankModal').addEventListener('kds:bank:selected', function(e) {
+  var bank = e.detail;
+  console.log('Banco seleccionado:', bank.id);
+  console.log('Nombre:', bank.name);
+  console.log('Elemento:', bank.element);
 
-  rows.forEach(function(row) {
-    var name = row.querySelector('.kds-bank-row-name').textContent.toLowerCase();
-    var match = !q || name.indexOf(q) !== -1;
-    row.style.display = match ? '' : 'none';
-    if (match) visible++;
-  });
-
-  // Mostrar/ocultar mensaje de "sin resultados"
-  document.getElementById('bankNoResults').classList.toggle('visible', visible === 0);
-}
+  // Tu lógica aquí (ej: navegar, enviar formulario, etc.)
+  window.location.href = '/pagar?banco=' + bank.id;
+});
 ```
 
-### Hooks de eventos
+**Reinicializar manualmente (opcional):**
 
-Manejo de apertura/cierre (incluido en el bundle):
+Si cargas el modal dinámicamente después del DOM ready:
 
 ```javascript
-// Abrir modal
-document.querySelector('[data-open-bank-modal]').addEventListener('click', function() {
-  document.getElementById('bankModal').classList.add('open');
-  document.getElementById('bankSearch').value = '';
-  filterBanks('');
-});
-
-// Cerrar modal
-document.querySelector('[data-close-bank-modal]').addEventListener('click', function() {
-  document.getElementById('bankModal').classList.remove('open');
-});
-
-// Banco seleccionado
-document.querySelectorAll('#bankModalList .kds-bank-row').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    var bankId = this.dataset.bankId;
-    // Tu lógica aquí (ej: navegar, enviar formulario, etc.)
-    console.log('Banco seleccionado:', bankId);
-
-    // Cerrar modal
-    document.getElementById('bankModal').classList.remove('open');
-  });
-});
+window.Khipu.initBankModal();
 ```
 
 ### Clases CSS disponibles
