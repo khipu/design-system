@@ -11,6 +11,7 @@
  * - Clipboard copy rows
  * - Countdown timers
  * - Segmented tabs
+ * - Sticky invoice card (collapse on scroll)
  */
 
 (function() {
@@ -48,6 +49,7 @@
         initCopyRow();
         initCountdown();
         initSegmentedTabs();
+        initStickyInvoice();
 
         console.log('Material Design initialization complete!');
     }
@@ -263,6 +265,44 @@
     }
 
     /**
+     * Initialize sticky invoice card collapse on scroll
+     * Toggles .collapsed class on .kds-invoice-sticky when user scrolls past threshold
+     * Works with multiple screens - targets sticky element in currently active screen
+     * Uses hysteresis (different thresholds for collapse/expand) to prevent oscillation
+     * @param {Element} root - Root element to scope queries (default: document)
+     */
+    function initStickyInvoice(root) {
+        root = root || document;
+
+        var collapseAt = 60;   // px scrolled to collapse
+        var expandAt = 20;     // px scrolled to expand (lower = hysteresis)
+        var collapsedStates = {}; // Track collapsed state per screen
+
+        function onScroll() {
+            // Find sticky element in currently active screen
+            var activeScreen = root.querySelector('.kds-screen.active');
+            if (!activeScreen) return;
+
+            var sticky = activeScreen.querySelector('.kds-invoice-sticky');
+            if (!sticky) return;
+
+            var screenId = activeScreen.id || 'default';
+            var isCollapsed = collapsedStates[screenId] || false;
+            var scrollY = window.scrollY || window.pageYOffset;
+
+            if (!isCollapsed && scrollY > collapseAt) {
+                sticky.classList.add('collapsed');
+                collapsedStates[screenId] = true;
+            } else if (isCollapsed && scrollY < expandAt) {
+                sticky.classList.remove('collapsed');
+                collapsedStates[screenId] = false;
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+    }
+
+    /**
      * Utility: Show a snackbar programmatically
      * @param {string} message - The message to display
      * @param {string} type - The type: 'info', 'success', 'error'
@@ -316,6 +356,7 @@
     window.Khipu.initCopyRow = initCopyRow;
     window.Khipu.initCountdown = initCountdown;
     window.Khipu.initSegmentedTabs = initSegmentedTabs;
+    window.Khipu.initStickyInvoice = initStickyInvoice;
 
     // Also export showSnackbar to global scope for backward compatibility
     window.showSnackbar = showSnackbar;

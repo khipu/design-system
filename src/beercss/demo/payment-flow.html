@@ -38,7 +38,7 @@ window.__TWEAKS__ = {
       </div>
 
       <!-- Invoice card -->
-      <article class="kds-card-elevated">
+      <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
             <p class="kds-invoice-amount" data-amount>$3.300</p>
@@ -48,20 +48,22 @@ window.__TWEAKS__ = {
             <i class="material-symbols-outlined">storefront</i>
           </div>
         </header>
-        <hr class="kds-hr" />
-        <dl class="kds-kv">
-          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-          <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-        </dl>
-        <div class="kds-expand-section">
-          <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false" aria-controls="s1-detail">
-            <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
-          </button>
-          <div id="s1-detail" class="kds-expand-panel" data-expand-panel>
-            <dl class="kds-detail-list">
-              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
-              <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, emitido para un cliente particular. Incluye saldo inicial, dep&oacute;sitos, compras con tarjeta, pagos de servicios y comisiones bancarias del per&iacute;odo.</dd></div>
-            </dl>
+        <div class="kds-invoice-collapsible">
+          <hr class="kds-hr" />
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+          </dl>
+          <div class="kds-expand-section">
+            <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false" aria-controls="s1-detail">
+              <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
+            </button>
+            <div id="s1-detail" class="kds-expand-panel" data-expand-panel>
+              <dl class="kds-detail-list">
+                <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+                <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, emitido para un cliente particular. Incluye saldo inicial, dep&oacute;sitos, compras con tarjeta, pagos de servicios y comisiones bancarias del per&iacute;odo.</dd></div>
+              </dl>
+            </div>
           </div>
         </div>
       </article>
@@ -100,8 +102,8 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
-      <!-- Invoice compact -->
-      <article class="kds-card-elevated">
+      <!-- Invoice compact (sticky + collapsible) -->
+      <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
             <p class="kds-invoice-amount" data-amount>$3.300</p>
@@ -109,21 +111,23 @@ window.__TWEAKS__ = {
           </div>
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="kds-hr" />
-        <dl class="kds-kv">
-          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-          <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-        </dl>
-        <div class="kds-expand-section">
-          <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
-            <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
-          </button>
-          <div class="kds-expand-panel" data-expand-panel>
-            <dl class="kds-detail-list">
-              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
-              <div class="kds-detail-group"><dt>Vence</dt><dd>31-12-2029 a las 11:03</dd></div>
-              <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, con saldo inicial, dep&oacute;sitos, compras y comisiones del per&iacute;odo.</dd></div>
-            </dl>
+        <div class="kds-invoice-collapsible">
+          <hr class="kds-hr" />
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+          </dl>
+          <div class="kds-expand-section">
+            <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
+              <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
+            </button>
+            <div class="kds-expand-panel" data-expand-panel>
+              <dl class="kds-detail-list">
+                <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+                <div class="kds-detail-group"><dt>Vence</dt><dd>31-12-2029 a las 11:03</dd></div>
+                <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, con saldo inicial, dep&oacute;sitos, compras y comisiones del per&iacute;odo.</dd></div>
+              </dl>
+            </div>
           </div>
         </div>
       </article>
@@ -163,7 +167,7 @@ window.__TWEAKS__ = {
             <span class="kds-bank-row-name">Banco BCI</span>
             <i class="material-symbols-outlined">chevron_right</i>
           </button>
-          <button class="kds-bank-row" data-go="4">
+          <button class="kds-bank-row" data-open-bank-modal>
             <span class="kds-bank-row-logo neutral"><i class="material-symbols-outlined">credit_card</i></span>
             <span class="kds-bank-row-name">Todos los bancos y billeteras</span>
             <span class="kds-badge primary">+17</span>
@@ -191,7 +195,7 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
-      <article class="kds-card-elevated">
+      <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
             <p class="kds-invoice-amount" data-amount>$3.300</p>
@@ -199,11 +203,13 @@ window.__TWEAKS__ = {
           </div>
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="kds-hr" />
-        <dl class="kds-kv">
-          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-          <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-        </dl>
+        <div class="kds-invoice-collapsible">
+          <hr class="kds-hr" />
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+          </dl>
+        </div>
       </article>
 
       <article class="kds-card-elevated">
@@ -268,7 +274,7 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
-      <article class="kds-card-elevated">
+      <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
             <p class="kds-invoice-amount" data-amount>$3.300</p>
@@ -276,11 +282,13 @@ window.__TWEAKS__ = {
           </div>
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="kds-hr" />
-        <dl class="kds-kv">
-          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-          <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-        </dl>
+        <div class="kds-invoice-collapsible">
+          <hr class="kds-hr" />
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+          </dl>
+        </div>
       </article>
 
       <article class="kds-card-elevated">
@@ -385,7 +393,7 @@ window.__TWEAKS__ = {
       <div class="kds-brand-row">
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
-      <article class="kds-card-elevated kds-card-dimmed">
+      <article class="kds-card-elevated kds-card-dimmed kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
             <p class="kds-invoice-amount" data-amount>$3.300</p>
@@ -393,11 +401,13 @@ window.__TWEAKS__ = {
           </div>
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="kds-hr" />
-        <dl class="kds-kv">
-          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-          <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-        </dl>
+        <div class="kds-invoice-collapsible">
+          <hr class="kds-hr" />
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+          </dl>
+        </div>
       </article>
       <article class="kds-card-elevated kds-card-dimmed">
         <h2 class="kds-card-title">Datos de transferencia manual</h2>
@@ -418,7 +428,7 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
-      <article class="kds-card-elevated ">
+      <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
             <p class="kds-invoice-amount" data-amount>$3.300</p>
@@ -426,19 +436,21 @@ window.__TWEAKS__ = {
           </div>
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="kds-hr" />
-        <dl class="kds-kv">
-          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-          <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-        </dl>
-        <div class="kds-expand-section">
-          <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
-            <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
-          </button>
-          <div class="kds-expand-panel" data-expand-panel>
-            <dl class="kds-detail-list">
-              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
-            </dl>
+        <div class="kds-invoice-collapsible">
+          <hr class="kds-hr" />
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+          </dl>
+          <div class="kds-expand-section">
+            <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
+              <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
+            </button>
+            <div class="kds-expand-panel" data-expand-panel>
+              <dl class="kds-detail-list">
+                <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+              </dl>
+            </div>
           </div>
         </div>
       </article>
@@ -475,7 +487,7 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
-      <article class="kds-card-elevated">
+      <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
             <p class="kds-invoice-amount success" data-amount>$3.300</p>
@@ -483,11 +495,13 @@ window.__TWEAKS__ = {
           </div>
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
-        <hr class="kds-hr" />
-        <dl class="kds-kv">
-          <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-          <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-        </dl>
+        <div class="kds-invoice-collapsible">
+          <hr class="kds-hr" />
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+          </dl>
+        </div>
       </article>
 
       <article class="kds-card-elevated">
@@ -536,6 +550,136 @@ window.__TWEAKS__ = {
     <div class="kds-bottom-sheet-actions">
       <button class="kds-btn kds-btn-success kds-btn-block" data-confirm-transfer>Finalizar</button>
       <button class="kds-btn kds-btn-text kds-btn-block" data-close-sheet>Volver</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== Modal: Todos los bancos ===================== -->
+<div class="kds-bank-modal-scrim" id="bankModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="kds-bank-modal" role="dialog" aria-labelledby="bank-modal-title">
+    <div class="kds-bank-modal-header">
+      <h3 id="bank-modal-title">Selecciona tu banco</h3>
+      <button class="kds-bank-modal-close" onclick="document.getElementById('bankModal').classList.remove('open')" aria-label="Cerrar">
+        <i class="material-symbols-outlined">close</i>
+      </button>
+    </div>
+    <div class="kds-bank-modal-search">
+      <input type="text" id="bankSearch" placeholder="Buscar banco o billetera" autocomplete="off" />
+    </div>
+    <div class="kds-bank-modal-body">
+      <div class="kds-bank-list" id="bankModalList">
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#E31837">BE</span>
+          <span class="kds-bank-row-name">Banco Estado</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#F97316">BF</span>
+          <span class="kds-bank-row-name">Banco Falabella</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#EC0000">S</span>
+          <span class="kds-bank-row-name">Banco Santander</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#003087">BC</span>
+          <span class="kds-bank-row-name">Banco de Chile</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#009A44">BCI</span>
+          <span class="kds-bank-row-name">Banco BCI</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#003DA5">S</span>
+          <span class="kds-bank-row-name">Banco Security</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#1D428A">BI</span>
+          <span class="kds-bank-row-name">Banco BICE</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#E4002B">SC</span>
+          <span class="kds-bank-row-name">Scotiabank</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#FF6B00">I</span>
+          <span class="kds-bank-row-name">Banco Itaú</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#FFB81C">RI</span>
+          <span class="kds-bank-row-name">Banco Ripley</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#232F3E">CO</span>
+          <span class="kds-bank-row-name">Banco Consorcio</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#00205B">IN</span>
+          <span class="kds-bank-row-name">Banco Internacional</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#7B2D8E">TN</span>
+          <span class="kds-bank-row-name">Tenpo</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#00C389">MP</span>
+          <span class="kds-bank-row-name">Mercado Pago</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#6236FF">VI</span>
+          <span class="kds-bank-row-name">Vita</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#1DB954">MA</span>
+          <span class="kds-bank-row-name">MACH</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#FF4081">FP</span>
+          <span class="kds-bank-row-name">Fpay</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#1E3A5F">CP</span>
+          <span class="kds-bank-row-name">Copec Pay</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#FF0000">TL</span>
+          <span class="kds-bank-row-name">Tapp</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#4A4A4A">GL</span>
+          <span class="kds-bank-row-name">Global66</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#0052FF">DA</span>
+          <span class="kds-bank-row-name">Dale</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button class="kds-bank-row" data-bank data-go="4">
+          <span class="kds-bank-row-logo initials" style="background:#00B4D8">PR</span>
+          <span class="kds-bank-row-name">Prepago Los H&eacute;roes</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+      </div>
+      <p class="kds-bank-modal-empty" id="bankNoResults">No se encontraron resultados</p>
     </div>
   </div>
 </div>
@@ -608,6 +752,12 @@ function show(n){
 }
 
 document.addEventListener('click', function(e) {
+  /* Open bank modal */
+  var bm = e.target.closest('[data-open-bank-modal]');
+  if (bm) { document.getElementById('bankModal').classList.add('open'); document.getElementById('bankSearch').value = ''; filterBanks(''); return; }
+  /* Bank selected inside modal → close modal, navigate */
+  var bankRow = e.target.closest('#bankModalList [data-go]');
+  if (bankRow) { document.getElementById('bankModal').classList.remove('open'); show(parseInt(bankRow.dataset.go,10)); return; }
   var go = e.target.closest('[data-go]');
   if (go) { show(parseInt(go.dataset.go,10)); return; }
   var ds = e.target.closest('[data-open-sheet]');
@@ -632,6 +782,24 @@ document.addEventListener('keydown', function(e) {
   var cur = Array.from(screens).findIndex(function(s){ return s.classList.contains('active'); }) + 1;
   if (e.key === 'ArrowRight') show(cur+1);
   if (e.key === 'ArrowLeft')  show(cur-1);
+});
+
+/* ========== Bank modal search ========== */
+function filterBanks(query) {
+  var q = query.toLowerCase().trim();
+  var rows = document.querySelectorAll('#bankModalList .kds-bank-row');
+  var visible = 0;
+  rows.forEach(function(row) {
+    var name = row.querySelector('.kds-bank-row-name').textContent.toLowerCase();
+    var match = !q || name.indexOf(q) !== -1;
+    row.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+  var empty = document.getElementById('bankNoResults');
+  empty.classList.toggle('visible', visible === 0);
+}
+document.getElementById('bankSearch').addEventListener('input', function(e) {
+  filterBanks(e.target.value);
 });
 
 /* ========== Tweaks wiring ========== */
