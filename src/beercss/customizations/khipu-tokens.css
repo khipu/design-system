@@ -164,12 +164,21 @@ body.dark {
     --kds-color-info-soft: #EFF6FF;        /* Alias for info backgrounds */
     --kds-color-success-soft: #ECFDF5;     /* Success mark and borders */
 
+    /* Border colors */
+    --kds-color-border-subtle: #F3F4F6;   /* Very light border for cards/rows (origin --rule) */
+    --kds-color-border-default: #E5E7EB;  /* Standard light border for hover/separators (origin --rule-2) */
+
+    /* Hover background */
+    --kds-color-hover-bg: #FAFAFA;        /* Ultra-subtle hover background for rows */
+
     /* Layout colors */
     --kds-color-shell: #F5F5F5;           /* Neutral page background */
 
     /* Card specific */
     --kds-radius-card: 14px;              /* Payment card radius (between lg and xl) */
+    --kds-radius-row: 10px;               /* Interactive row radius (copy-row, etc.) */
     --kds-shadow-card: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);  /* Subtle card shadow */
+    --kds-shadow-elevated: var(--kds-shadow-8);  /* Elevated surfaces like modals */
 
     /* Extended semantic soft backgrounds */
     --kds-color-warning-soft: var(--kds-alert-warning-bg);  /* #FFFBEB */

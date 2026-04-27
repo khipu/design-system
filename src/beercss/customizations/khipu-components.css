@@ -3864,11 +3864,11 @@ dialog#surveyModal button.circle {
     display: flex;
     align-items: center;
     gap: var(--kds-spacing-1-5);
-    padding: var(--kds-spacing-1-75);
+    padding: var(--kds-spacing-1-5);
     background: var(--kds-color-surface);
     color: var(--kds-color-text-primary);
-    border: 1px solid var(--kds-color-divider);
-    border-radius: var(--kds-radius-lg);
+    border: 1px solid var(--kds-color-border-subtle);
+    border-radius: var(--kds-radius-card);
     text-align: left;
     cursor: pointer;
     transition: border-color 0.2s, background 0.2s;
@@ -3876,8 +3876,8 @@ dialog#surveyModal button.circle {
 }
 
 .kds-bank-row:hover {
-    border-color: var(--kds-color-primary-main);
-    background: var(--kds-color-primary-faint);
+    border-color: var(--kds-color-border-default);
+    background: var(--kds-color-hover-bg);
 }
 
 .kds-bank-row-logo {
@@ -3899,12 +3899,12 @@ dialog#surveyModal button.circle {
 .kds-bank-row-name {
     flex: 1;
     font-weight: 500;
-    font-size: var(--kds-font-size-base);
+    font-size: var(--kds-font-size-sm);
     color: var(--kds-color-text-primary);
 }
 
 .kds-bank-row > i {
-    color: var(--kds-color-text-secondary);
+    color: var(--kds-color-border-default);
     flex-shrink: 0;
 }
 
@@ -4142,8 +4142,8 @@ dialog#surveyModal button.circle {
     justify-content: flex-start;
     gap: var(--kds-spacing-1-25);
     padding: var(--kds-spacing-1-5) var(--kds-spacing-1-75);
-    border: var(--kds-border-width-sm) solid var(--kds-color-divider);
-    border-radius: var(--kds-radius-md);
+    border: var(--kds-border-width-sm) solid var(--kds-color-border-subtle);
+    border-radius: var(--kds-radius-row);
     background: var(--kds-color-surface, var(--kds-color-background-paper));
     cursor: pointer;
     text-align: left;
@@ -4155,8 +4155,8 @@ dialog#surveyModal button.circle {
 }
 
 .kds-copy-row:hover {
-    background: var(--kds-color-background-muted);
-    border-color: var(--kds-border-light);
+    background: var(--kds-color-hover-bg);
+    border-color: var(--kds-color-border-default);
 }
 
 .kds-copy-row > i {
@@ -4455,6 +4455,67 @@ dialog#surveyModal button.circle {
    Invoice header, KV grid, dividers,
    amount summary, recap, success button
    ======================================== */
+
+/* -- Sticky Invoice Card (.kds-invoice-sticky) -- */
+/* Collapses detail rows on scroll via .collapsed class (JS toggle) */
+
+.kds-invoice-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    transition: box-shadow 0.25s ease, border-radius 0.25s ease;
+}
+
+.kds-invoice-sticky.collapsed {
+    box-shadow: var(--kds-shadow-2);
+    border-radius: 0 0 var(--kds-radius-card) var(--kds-radius-card);
+}
+
+.kds-invoice-sticky .kds-invoice-collapsible {
+    overflow: hidden;
+    max-height: 300px;
+    opacity: 1;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+.kds-invoice-sticky.collapsed .kds-invoice-collapsible {
+    max-height: 0;
+    opacity: 0;
+}
+
+.kds-invoice-sticky .kds-invoice-amount {
+    transition: font-size 0.25s ease;
+}
+
+.kds-invoice-sticky.collapsed .kds-invoice-amount {
+    font-size: var(--kds-font-size-xl);
+}
+
+.kds-invoice-sticky .kds-invoice-merchant {
+    transition: width 0.25s ease, height 0.25s ease;
+}
+
+.kds-invoice-sticky.collapsed .kds-invoice-merchant {
+    width: var(--kds-status-icon-size-sm);
+    height: var(--kds-status-icon-size-sm);
+}
+
+.kds-invoice-sticky .kds-invoice-merchant i {
+    transition: font-size 0.25s ease;
+}
+
+.kds-invoice-sticky.collapsed .kds-invoice-merchant i {
+    font-size: var(--kds-font-size-xl);
+}
+
+.kds-invoice-sticky .kds-invoice-code {
+    transition: margin-top 0.25s ease, font-size 0.25s ease;
+}
+
+.kds-invoice-sticky.collapsed .kds-invoice-code {
+    margin-top: 0;
+    font-size: var(--kds-font-size-caption);
+}
 
 /* -- Invoice Header (amount + merchant tile) -- */
 .kds-invoice-header {
@@ -5022,3 +5083,125 @@ button.kds-btn-success::after {
 
 .kds-demo-center { text-align: center; }
 .kds-demo-spacer { height: var(--kds-spacing-3); }
+
+/* ========================================
+   BANK MODAL (.kds-bank-modal)
+   Full-screen overlay with scrollable bank list + search
+   ======================================== */
+
+.kds-bank-modal-scrim {
+    position: fixed;
+    inset: 0;
+    background: var(--kds-modal-backdrop);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--kds-z-index-modal, 50);
+    animation: kds-fade 0.2s ease both;
+    padding: var(--kds-spacing-2);
+}
+
+.kds-bank-modal-scrim.open {
+    display: flex;
+}
+
+.kds-bank-modal {
+    width: 100%;
+    max-width: var(--kds-stage-narrow-max-width, 448px);
+    height: 85vh;
+    background: var(--kds-color-background-paper);
+    border-radius: var(--kds-radius-card);
+    box-shadow: var(--kds-shadow-elevated);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: kds-rise 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.kds-bank-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--kds-spacing-2) var(--kds-spacing-2) var(--kds-spacing-1);
+}
+
+.kds-bank-modal-header h3 {
+    font-size: var(--kds-font-size-lg);
+    font-weight: var(--kds-font-weight-semibold);
+    margin: 0;
+    color: var(--kds-color-text-primary);
+}
+
+.kds-bank-modal-close {
+    background: none;
+    border: 0;
+    padding: var(--kds-spacing-0-5);
+    cursor: pointer;
+    color: var(--kds-color-text-secondary);
+    border-radius: var(--kds-radius-full);
+    display: grid;
+    place-items: center;
+}
+
+.kds-bank-modal-close::after {
+    display: none;
+}
+
+.kds-bank-modal-search {
+    padding: 0 var(--kds-spacing-2) var(--kds-spacing-1-5);
+}
+
+.kds-bank-modal-search input {
+    width: 100%;
+    padding: var(--kds-spacing-1-25) var(--kds-spacing-1-5);
+    border: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-md);
+    font-size: var(--kds-font-size-sm);
+    font-family: inherit;
+    outline: none;
+    color: var(--kds-color-text-primary);
+    background: var(--kds-color-surface);
+}
+
+.kds-bank-modal-search input::placeholder {
+    color: var(--kds-color-text-hint);
+}
+
+.kds-bank-modal-search input:focus {
+    border-color: var(--kds-color-primary-main);
+    box-shadow: 0 0 0 2px var(--kds-color-primary-faint);
+}
+
+.kds-bank-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 var(--kds-spacing-1) var(--kds-spacing-1);
+}
+
+.kds-bank-modal-body .kds-bank-list {
+    margin-top: 0;
+    gap: var(--kds-spacing-0-5);
+}
+
+.kds-bank-modal-body .kds-bank-row {
+    border: 0;
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-spacing-1) var(--kds-spacing-1-25);
+}
+
+.kds-bank-modal-body .kds-bank-row:hover {
+    background: var(--kds-color-primary-faint);
+    border-color: transparent;
+}
+
+.kds-bank-modal-empty {
+    text-align: center;
+    padding: var(--kds-spacing-4) var(--kds-spacing-2);
+    color: var(--kds-color-text-hint);
+    font-size: var(--kds-font-size-sm);
+    display: none;
+}
+
+.kds-bank-modal-empty.visible {
+    display: block;
+}

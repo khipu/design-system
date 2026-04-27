@@ -59,4 +59,4 @@ android/captures/
 grails/bin/
 grails/.gradle/
 grails/build/
-grails/target/
+grails/target/.claude/
