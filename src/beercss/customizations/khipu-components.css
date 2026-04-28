@@ -4041,6 +4041,12 @@ dialog#surveyModal button.circle {
     font-size: var(--kds-font-size-sm);
 }
 
+/* Inside a card: push to bottom with auto margin, subtle top spacing */
+.kds-secure-footer.inside {
+    margin-top: auto;
+    padding-top: var(--kds-spacing-3);
+}
+
 .kds-secure-footer-code {
     color: var(--kds-color-text-hint);
 }
@@ -4457,64 +4463,157 @@ dialog#surveyModal button.circle {
    ======================================== */
 
 /* -- Sticky Invoice Card (.kds-invoice-sticky) -- */
-/* Collapses detail rows on scroll via .collapsed class (JS toggle) */
+/* MOBILE ONLY: Progressive scroll-linked collapse (0-150px) via --collapse-progress CSS variable */
+/* Desktop: Mantiene cajitas normales sin sticky behavior */
 
-.kds-invoice-sticky {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    transition: box-shadow 0.25s ease, border-radius 0.25s ease;
+/* Mobile only (< 768px): Sticky positioning and progressive collapse behavior */
+/* Animated properties match source prototype (Payment Flow.html lines 133-165) */
+@media (max-width: 767px) {
+    /* Scroll-linked collapse variables — defaults on screen, overridden by JS inline style.
+       Set on .kds-screen so both sticky card and siblings (via translateY) can inherit them. */
+    .kds-screen {
+        --collapse-progress: 0;
+        --collapse-collapsible-h: 0px;
+    }
+
+    /* Wrapper: carries sticky positioning + shadow (outside clip-path) */
+    .kds-invoice-sticky-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+
+        /* Shadow rendered on wrapper so clip-path on child doesn't clip it.
+           drop-shadow traces the child's clipped alpha boundary → follows rounded shape. */
+        -webkit-filter: drop-shadow(
+            0 calc(4px * var(--collapse-progress, 0))
+            calc(12px * var(--collapse-progress, 0))
+            rgba(16, 24, 40, calc(0.12 * var(--collapse-progress, 0)))
+        );
+        filter: drop-shadow(
+            0 calc(4px * var(--collapse-progress, 0))
+            calc(12px * var(--collapse-progress, 0))
+            rgba(16, 24, 40, calc(0.12 * var(--collapse-progress, 0)))
+        );
+    }
+
+    .kds-card-elevated.kds-invoice-sticky {
+        /* Symmetric padding */
+        padding: var(--kds-spacing-2);
+
+        /* Static border-radius on all corners */
+        border-radius: var(--kds-radius-card);
+
+        /* Override .kds-card-elevated transition — scroll drives the animation, not CSS transitions */
+        transition: none;
+
+        /* GPU acceleration */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        /* clip-path clips the card from the bottom to hide the collapsible space.
+           This is VISUAL ONLY — no layout change — prevents scroll feedback loop.
+           Safari 13.1+ compatible (inset + round)
+           When collapsed (progress=1): bottom corners get border-radius,
+           top stays flush with screen edge. */
+        /* Bottom inset = collapsible height + half the card padding to tighten
+           the gap between "Código" and the visible bottom edge when collapsed. */
+        clip-path: inset(
+            0 0
+            calc(
+                var(--collapse-collapsible-h) * var(--collapse-progress)
+                + var(--kds-spacing-1) * var(--collapse-progress)
+            )
+            0
+            round var(--kds-radius-card)
+        );
+
+        /* Suppress card's own shadow — wrapper handles it */
+        box-shadow: none !important;
+    }
+
+    /* Brand inner: shrink logo + reduce margin on collapse */
+    .kds-invoice-sticky .kds-brand-inner {
+        margin-bottom: calc(var(--kds-spacing-1) * (1 - var(--collapse-progress)) + var(--kds-spacing-0-5) * var(--collapse-progress));
+    }
+    .kds-invoice-sticky .kds-brand-inner svg {
+        height: calc(22px - 5px * var(--collapse-progress));
+    }
+
+    /* Collapsible content (kv-rows, detail-panel): Fade out only */
+    /* No max-height — clip-path on parent handles visual collapse without layout changes */
+    .kds-invoice-sticky .kds-invoice-collapsible {
+        opacity: calc(1 - var(--collapse-progress) * 1.5);
+    }
+
+    /* Amount: NO font-size change (source keeps 30px always) */
+
+    /* Merchant tile: 64×64px → 50×50px, radius 8px → 6px (progressive) */
+    .kds-invoice-sticky .kds-invoice-merchant {
+        width: calc(
+            var(--kds-merchant-size) -
+            (var(--kds-merchant-size) - var(--kds-merchant-size-collapsed)) * var(--collapse-progress)
+        );
+        height: calc(
+            var(--kds-merchant-size) -
+            (var(--kds-merchant-size) - var(--kds-merchant-size-collapsed)) * var(--collapse-progress)
+        );
+        border-radius: calc(
+            var(--kds-merchant-radius) -
+            (var(--kds-merchant-radius) - var(--kds-merchant-radius-collapsed)) * var(--collapse-progress)
+        );
+    }
+
+    /* Merchant icon: 30px → 24px (progressive) */
+    .kds-invoice-sticky .kds-invoice-merchant i {
+        font-size: calc(
+            var(--kds-merchant-icon-size) -
+            (var(--kds-merchant-icon-size) - var(--kds-merchant-icon-size-collapsed)) * var(--collapse-progress)
+        );
+    }
+
+    /* Code: margin-top 4px → 0 (progressive). Font-size stays 12px. */
+    .kds-invoice-sticky .kds-invoice-code {
+        margin-top: calc(var(--kds-spacing-1) * (1 - var(--collapse-progress)));
+        margin-bottom: 0;
+    }
+
+    /* Pull all siblings after sticky wrapper up to fill clipped gap.
+       transform: translateY is VISUAL ONLY — no layout change, no scroll feedback loop.
+       --collapse-progress and --collapse-collapsible-h are set on the .kds-screen parent by JS. */
+    .kds-invoice-sticky-wrap ~ * {
+        transform: translateY(calc(
+            -1 * (var(--collapse-collapsible-h, 0px) + var(--kds-spacing-1))
+            * var(--collapse-progress, 0)
+        ));
+    }
+
 }
 
-.kds-invoice-sticky.collapsed {
-    box-shadow: var(--kds-shadow-2);
-    border-radius: 0 0 var(--kds-radius-card) var(--kds-radius-card);
+/* Desktop (>= 768px): Regular card behavior, no sticky */
+@media (min-width: 768px) {
+    .kds-invoice-sticky {
+        position: relative;
+    }
 }
 
-.kds-invoice-sticky .kds-invoice-collapsible {
-    overflow: hidden;
-    max-height: 300px;
-    opacity: 1;
-    transition: max-height 0.3s ease, opacity 0.2s ease;
+/* -- Invoice Collapsible (kv rows below header) -- */
+.kds-invoice-collapsible {
+    margin-top: var(--kds-spacing-1-5);
 }
 
-.kds-invoice-sticky.collapsed .kds-invoice-collapsible {
-    max-height: 0;
-    opacity: 0;
+/* -- Invoice Summary (kv + expand toggle side by side) -- */
+.kds-invoice-summary {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--kds-spacing-2);
 }
-
-.kds-invoice-sticky .kds-invoice-amount {
-    transition: font-size 0.25s ease;
+.kds-invoice-summary .kds-kv {
+    flex: 1;
+    min-width: 0;
 }
-
-.kds-invoice-sticky.collapsed .kds-invoice-amount {
-    font-size: var(--kds-font-size-xl);
-}
-
-.kds-invoice-sticky .kds-invoice-merchant {
-    transition: width 0.25s ease, height 0.25s ease;
-}
-
-.kds-invoice-sticky.collapsed .kds-invoice-merchant {
-    width: var(--kds-status-icon-size-sm);
-    height: var(--kds-status-icon-size-sm);
-}
-
-.kds-invoice-sticky .kds-invoice-merchant i {
-    transition: font-size 0.25s ease;
-}
-
-.kds-invoice-sticky.collapsed .kds-invoice-merchant i {
-    font-size: var(--kds-font-size-xl);
-}
-
-.kds-invoice-sticky .kds-invoice-code {
-    transition: margin-top 0.25s ease, font-size 0.25s ease;
-}
-
-.kds-invoice-sticky.collapsed .kds-invoice-code {
-    margin-top: 0;
-    font-size: var(--kds-font-size-caption);
+.kds-invoice-summary .kds-expand-toggle {
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 /* -- Invoice Header (amount + merchant tile) -- */
@@ -4523,6 +4622,12 @@ dialog#surveyModal button.circle {
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--kds-spacing-2);
+}
+
+/* Reset BeerCSS sibling margin on <p> inside invoice header — specificity (0,4,1) ties BeerCSS, wins by source order */
+.kds-card-elevated.kds-invoice-sticky .kds-invoice-header p.kds-invoice-amount,
+.kds-card-elevated.kds-invoice-sticky .kds-invoice-header p.kds-invoice-code {
+    margin-block: 0;
 }
 
 .kds-invoice-amount {
@@ -4541,7 +4646,8 @@ dialog#surveyModal button.circle {
 .kds-invoice-code {
     font-size: var(--kds-font-size-xs);
     color: var(--kds-color-text-hint);
-    margin-top: var(--kds-spacing-0-5);
+    margin: 0;
+    margin-top: var(--kds-spacing-1);
 }
 
 .kds-invoice-merchant {
@@ -4879,7 +4985,30 @@ button.kds-btn-success::after {
     gap: var(--kds-spacing-3);
 }
 
-/* Brand logo row */
+/* Mobile: Cards full-width with rounded corners */
+@media (max-width: 767px) {
+    .kds-payment-stage {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .kds-payment-flow {
+        max-width: none;
+        padding: 0;
+    }
+
+    /* Cards: rounded corners, full width within padded stage */
+    .kds-card-elevated,
+    .khipu-card-elevated {
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: var(--kds-radius-card);
+        width: 100%;
+    }
+
+}
+
+/* Brand logo row (external, outside cards) */
 .kds-brand-row {
     padding: 0 var(--kds-spacing-0-5);
     display: flex;
@@ -4888,6 +5017,27 @@ button.kds-btn-success::after {
 .kds-brand-row svg {
     height: 22px;
     display: block;
+}
+
+/* Brand inner (inside invoice card, hidden on desktop) */
+.kds-brand-inner {
+    display: none;
+    align-items: center;
+    margin-bottom: var(--kds-spacing-1);
+}
+.kds-brand-inner svg {
+    height: 22px;
+    display: block;
+}
+
+/* Mobile: hide external brand, show inner brand */
+@media (max-width: 767px) {
+    .kds-brand-row {
+        display: none;
+    }
+    .kds-brand-inner {
+        display: flex;
+    }
 }
 
 /* Screen transitions (multi-step flows) */
@@ -5204,4 +5354,145 @@ button.kds-btn-success::after {
 
 .kds-bank-modal-empty.visible {
     display: block;
+}
+/* ========================================
+   QR FEATURED BUTTON (.kds-qr-row)
+   Featured payment option with gradient background
+   and badge for highlighting quick payment methods
+   ======================================== */
+
+.kds-qr-row {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-1-75);
+    background: var(--kds-qr-bg-gradient);
+    border: 1px solid var(--kds-qr-border);
+    border-radius: var(--kds-radius-card);
+    padding: var(--kds-spacing-1-75);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+    box-shadow: var(--kds-qr-shadow);
+    position: relative;
+}
+
+.kds-qr-row:hover {
+    border-color: var(--kds-qr-border-hover);
+    box-shadow: var(--kds-qr-shadow-hover);
+}
+
+.kds-qr-row:focus-visible {
+    outline: 2px solid var(--kds-qr-focus-ring);
+    outline-offset: 2px;
+}
+
+.kds-qr-row:active {
+    transform: translateY(1px);
+}
+
+/* QR Avatar - Icon container */
+.kds-qr-avatar {
+    width: var(--kds-status-icon-size-sm);
+    height: var(--kds-status-icon-size-sm);
+    border-radius: var(--kds-qr-avatar-radius);
+    background: var(--kds-qr-avatar-bg);
+    display: grid;
+    place-items: center;
+    color: var(--kds-color-primary-main);
+    flex: 0 0 auto;
+    border: 1px solid var(--kds-qr-avatar-border);
+}
+
+.kds-qr-avatar .material-symbols-outlined,
+.kds-qr-avatar .material-icons-round {
+    font-size: 24px;
+}
+
+/* QR Text content */
+.kds-qr-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.kds-qr-text .title {
+    font-family: var(--kds-font-family-primary);
+    font-weight: 600;
+    font-size: var(--kds-font-size-sm);
+    letter-spacing: -0.15px;
+    color: var(--kds-color-text-primary);
+}
+
+.kds-qr-text .sub {
+    font-family: var(--kds-font-family-primary);
+    font-size: var(--kds-font-size-caption);
+    color: var(--kds-color-text-secondary);
+}
+
+/* QR Badge - "Rápido" indicator */
+.kds-qr-badge {
+    font-family: var(--kds-font-family-primary);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--kds-qr-badge-text);
+    background: var(--kds-qr-badge-bg);
+    padding: 3px 7px;
+    border-radius: 9999px;
+}
+
+/* Chevron icon */
+.kds-qr-row .material-symbols-outlined:last-child,
+.kds-qr-row .material-icons-round:last-child {
+    color: var(--kds-color-primary-main);
+    font-size: 20px;
+}
+
+/* Mobile responsive: Ajustes para pantallas pequeñas */
+@media (max-width: 480px) {
+    .kds-qr-row {
+        gap: var(--kds-spacing-1-5);
+        padding: var(--kds-spacing-1-5);
+    }
+
+    .kds-qr-avatar {
+        width: var(--kds-spacing-4-5);
+        height: var(--kds-spacing-4-5);
+        flex-shrink: 0;
+    }
+
+    .kds-qr-avatar .material-symbols-outlined,
+    .kds-qr-avatar .material-icons-round {
+        font-size: var(--kds-font-size-lg);
+    }
+
+    .kds-qr-text .title {
+        font-size: var(--kds-font-size-xs);
+        line-height: var(--kds-line-height-tight);
+    }
+
+    .kds-qr-text .sub {
+        font-size: var(--kds-font-size-caption);
+        line-height: var(--kds-line-height-tight);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .kds-qr-badge {
+        font-size: var(--kds-font-size-caption);
+        padding: var(--kds-spacing-0-25) var(--kds-spacing-0-75);
+        flex-shrink: 0;
+    }
+
+    .kds-qr-row .material-symbols-outlined:last-child,
+    .kds-qr-row .material-icons-round:last-child {
+        font-size: var(--kds-font-size-base);
+        flex-shrink: 0;
+    }
 }

@@ -13,6 +13,8 @@
  * - Segmented tabs
  * - Bank modal (search and selection)
  * - Sticky invoice card (collapse on scroll)
+ * - Brand inner (logo inside sticky card on mobile)
+ * - Secure footer (moved inside last card per screen)
  */
 
 (function() {
@@ -46,6 +48,8 @@
         initModals();
 
         // Initialize payment flow components
+        initBrandInner();
+        initSecureFooterInside();
         initExpandToggle();
         initCopyRow();
         initCountdown();
@@ -107,6 +111,62 @@
                 modal.classList.remove('active');
             }
         };
+    }
+
+    /**
+     * Inject .kds-brand-inner logo into each .kds-invoice-sticky card
+     * On mobile the external .kds-brand-row is hidden via CSS; the inner brand
+     * keeps the logo visible inside the sticky card as the user scrolls.
+     * Clones the SVG from the nearest preceding .kds-brand-row so the logo
+     * markup is defined once in HTML (single source of truth).
+     * @param {Element} root - Root element to scope queries (default: document)
+     */
+    function initBrandInner(root) {
+        root = root || document;
+        var cards = root.querySelectorAll('.kds-invoice-sticky');
+
+        cards.forEach(function(card) {
+            // Skip if already injected
+            if (card.querySelector('.kds-brand-inner')) return;
+
+            // Find the brand-row logo for this screen (sibling before the sticky wrap)
+            var screen = card.closest('.kds-screen') || card.parentElement;
+            var brandRow = screen ? screen.querySelector('.kds-brand-row') : null;
+            var logoSource = brandRow ? brandRow.querySelector('svg, img') : null;
+
+            if (!logoSource) return;
+
+            var inner = document.createElement('div');
+            inner.className = 'kds-brand-inner';
+            inner.appendChild(logoSource.cloneNode(true));
+            card.insertBefore(inner, card.firstChild);
+        });
+    }
+
+    /**
+     * Move .kds-secure-footer inside the last card of each screen
+     * In the design, the "Pago seguro procesado por Khipu" line lives
+     * inside the bottom card, not as a standalone element.
+     * @param {Element} root - Root element to scope queries (default: document)
+     */
+    function initSecureFooterInside(root) {
+        root = root || document;
+        var screens = root.querySelectorAll('.kds-screen');
+
+        screens.forEach(function(screen) {
+            var footer = screen.querySelector('.kds-secure-footer');
+            if (!footer) return;
+
+            // Find the last non-sticky card in the screen
+            var cards = screen.querySelectorAll('.kds-card-elevated:not(.kds-invoice-sticky)');
+            if (!cards.length) return;
+
+            var lastCard = cards[cards.length - 1];
+
+            // Move (not clone) the footer inside the last card
+            footer.classList.add('inside');
+            lastCard.appendChild(footer);
+        });
     }
 
     /**
@@ -366,41 +426,94 @@
     }
 
     /**
-     * Initialize sticky invoice card collapse on scroll
-     * Toggles .collapsed class on .kds-invoice-sticky when user scrolls past threshold
+     * Initialize sticky invoice card progressive collapse on scroll
+     * MOBILE ONLY - Desktop mantiene cajitas normales
+     * Uses scroll-linked animation (0-150px) for smooth collapse/expand
+     * Updates CSS custom property --collapse-progress (0 to 1) for GPU-accelerated animations
      * Works with multiple screens - targets sticky element in currently active screen
-     * Uses hysteresis (different thresholds for collapse/expand) to prevent oscillation
+     * Safari-compatible: uses native CSS custom properties, calc(), and requestAnimationFrame
      * @param {Element} root - Root element to scope queries (default: document)
      */
     function initStickyInvoice(root) {
         root = root || document;
 
-        var collapseAt = 60;   // px scrolled to collapse
-        var expandAt = 20;     // px scrolled to expand (lower = hysteresis)
-        var collapsedStates = {}; // Track collapsed state per screen
+        // Progressive collapse range: 0px (expanded) to 150px (collapsed)
+        var COLLAPSE_START = 0;
+        var COLLAPSE_END = 150;
+
+        var lastScrollY = 0;
+        var ticking = false;
+        var MOBILE_BREAKPOINT = 768;
+
+        function isMobile() {
+            return window.innerWidth < MOBILE_BREAKPOINT;
+        }
 
         function onScroll() {
-            // Find sticky element in currently active screen
+            // Find active screen first (needed for both desktop and mobile)
             var activeScreen = root.querySelector('.kds-screen.active');
             if (!activeScreen) return;
 
             var sticky = activeScreen.querySelector('.kds-invoice-sticky');
             if (!sticky) return;
 
-            var screenId = activeScreen.id || 'default';
-            var isCollapsed = collapsedStates[screenId] || false;
-            var scrollY = window.scrollY || window.pageYOffset;
-
-            if (!isCollapsed && scrollY > collapseAt) {
-                sticky.classList.add('collapsed');
-                collapsedStates[screenId] = true;
-            } else if (isCollapsed && scrollY < expandAt) {
-                sticky.classList.remove('collapsed');
-                collapsedStates[screenId] = false;
+            // Desktop: Sin animación, siempre expandido
+            if (!isMobile()) {
+                activeScreen.style.removeProperty('--collapse-progress');
+                activeScreen.style.removeProperty('--collapse-collapsible-h');
+                return;
             }
+
+            // Mobile: Animación progresiva scroll-linked
+            if (ticking) return;
+            ticking = true;
+
+            requestAnimationFrame(function() {
+                ticking = false;
+
+                // Re-query inside rAF (screen may have changed)
+                var currentScreen = root.querySelector('.kds-screen.active');
+                if (!currentScreen) return;
+                var currentSticky = currentScreen.querySelector('.kds-invoice-sticky');
+                if (!currentSticky) return;
+
+                var scrollY = window.scrollY || window.pageYOffset;
+
+                // Calcular progress: 0 (inicio) a 1 (totalmente colapsado)
+                var progress = Math.min(Math.max((scrollY - COLLAPSE_START) / (COLLAPSE_END - COLLAPSE_START), 0), 1);
+
+                // Cache collapsible height once for clip-path + translateY calculations
+                // Set on screen so both sticky card and its siblings can access the variable
+                if (!currentScreen.style.getPropertyValue('--collapse-collapsible-h')) {
+                    var collapsible = currentSticky.querySelector('.kds-invoice-collapsible');
+                    if (collapsible) {
+                        currentScreen.style.setProperty('--collapse-collapsible-h', collapsible.offsetHeight + 'px');
+                    }
+                }
+
+                // Single DOM write per frame — set on screen (parent) so it cascades to sticky + siblings
+                currentScreen.style.setProperty('--collapse-progress', progress);
+
+                lastScrollY = scrollY;
+            });
         }
 
+        // Handle resize - cleanup on desktop
+        window.addEventListener('resize', function() {
+            if (!isMobile()) {
+                // Desktop: cleanup all collapsed state from screen elements
+                var screens = root.querySelectorAll('.kds-screen');
+                screens.forEach(function(screen) {
+                    screen.style.removeProperty('--collapse-progress');
+                    screen.style.removeProperty('--collapse-collapsible-h');
+                });
+            }
+        });
+
         window.addEventListener('scroll', onScroll, { passive: true });
+
+        // Init: Set initial state on page load
+        onScroll();
     }
 
     /**
@@ -453,6 +566,8 @@
     }
     window.Khipu.showSnackbar = showSnackbar;
     window.Khipu.closeModal = window.closeModal;
+    window.Khipu.initBrandInner = initBrandInner;
+    window.Khipu.initSecureFooterInside = initSecureFooterInside;
     window.Khipu.initExpandToggle = initExpandToggle;
     window.Khipu.initCopyRow = initCopyRow;
     window.Khipu.initCountdown = initCountdown;
