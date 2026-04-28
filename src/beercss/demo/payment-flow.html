@@ -38,6 +38,7 @@ window.__TWEAKS__ = {
       </div>
 
       <!-- Invoice card -->
+      <div class="kds-invoice-sticky-wrap">
       <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
@@ -49,24 +50,24 @@ window.__TWEAKS__ = {
           </div>
         </header>
         <div class="kds-invoice-collapsible">
-          <hr class="kds-hr" />
-          <dl class="kds-kv">
-            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-          </dl>
-          <div class="kds-expand-section">
+          <div class="kds-invoice-summary">
+            <dl class="kds-kv">
+              <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+              <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+            </dl>
             <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false" aria-controls="s1-detail">
-              <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
+              <span>Detalles</span> <i class="material-symbols-outlined">expand_more</i>
             </button>
-            <div id="s1-detail" class="kds-expand-panel" data-expand-panel>
-              <dl class="kds-detail-list">
-                <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
-                <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, emitido para un cliente particular. Incluye saldo inicial, dep&oacute;sitos, compras con tarjeta, pagos de servicios y comisiones bancarias del per&iacute;odo.</dd></div>
-              </dl>
-            </div>
+          </div>
+          <div id="s1-detail" class="kds-expand-panel" data-expand-panel>
+            <dl class="kds-detail-list">
+              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+              <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, emitido para un cliente particular. Incluye saldo inicial, dep&oacute;sitos, compras con tarjeta, pagos de servicios y comisiones bancarias del per&iacute;odo.</dd></div>
+            </dl>
           </div>
         </div>
       </article>
+      </div>
 
       <!-- Datos para pago -->
       <article class="kds-card-elevated">
@@ -103,6 +104,7 @@ window.__TWEAKS__ = {
       </div>
 
       <!-- Invoice compact (sticky + collapsible) -->
+      <div class="kds-invoice-sticky-wrap">
       <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
@@ -112,25 +114,25 @@ window.__TWEAKS__ = {
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
         <div class="kds-invoice-collapsible">
-          <hr class="kds-hr" />
-          <dl class="kds-kv">
-            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-          </dl>
-          <div class="kds-expand-section">
-            <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
-              <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
+          <div class="kds-invoice-summary">
+            <dl class="kds-kv">
+              <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+              <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+            </dl>
+            <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false" aria-controls="s2-detail">
+              <span>Detalles</span> <i class="material-symbols-outlined">expand_more</i>
             </button>
-            <div class="kds-expand-panel" data-expand-panel>
-              <dl class="kds-detail-list">
-                <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
-                <div class="kds-detail-group"><dt>Vence</dt><dd>31-12-2029 a las 11:03</dd></div>
-                <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, con saldo inicial, dep&oacute;sitos, compras y comisiones del per&iacute;odo.</dd></div>
-              </dl>
-            </div>
+          </div>
+          <div id="s2-detail" class="kds-expand-panel" data-expand-panel>
+            <dl class="kds-detail-list">
+              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+              <div class="kds-detail-group"><dt>Vence</dt><dd>31-12-2029 a las 11:03</dd></div>
+              <div class="kds-detail-group"><dt>Descripci&oacute;n</dt><dd>Estado de cuenta correspondiente a enero de 2026, con saldo inicial, dep&oacute;sitos, compras y comisiones del per&iacute;odo.</dd></div>
+            </dl>
           </div>
         </div>
       </article>
+      </div>
 
       <!-- How to pay -->
       <article class="kds-card-elevated">
@@ -142,6 +144,19 @@ window.__TWEAKS__ = {
         </div>
 
         <div class="kds-bank-list">
+          <!-- QR Featured Option -->
+          <button class="kds-qr-row" data-go="4">
+            <span class="kds-qr-avatar" aria-hidden="true">
+              <i class="material-symbols-outlined">qr_code_2</i>
+            </span>
+            <span class="kds-qr-text">
+              <span class="title">Pagar escaneando QR</span>
+              <span class="sub">Escanea con la app de tu banco</span>
+            </span>
+            <span class="kds-qr-badge">Rápido</span>
+            <i class="material-symbols-outlined">chevron_right</i>
+          </button>
+
           <button class="kds-bank-row" data-go="4">
             <span class="kds-bank-row-logo initials" style="background:#E31837">BE</span>
             <span class="kds-bank-row-name">Banco Estado</span>
@@ -195,6 +210,7 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
+      <div class="kds-invoice-sticky-wrap">
       <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
@@ -204,13 +220,13 @@ window.__TWEAKS__ = {
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
         <div class="kds-invoice-collapsible">
-          <hr class="kds-hr" />
           <dl class="kds-kv">
             <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
             <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
           </dl>
         </div>
       </article>
+      </div>
 
       <article class="kds-card-elevated">
         <h2 class="kds-card-title">Datos de transferencia manual</h2>
@@ -274,6 +290,7 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
+      <div class="kds-invoice-sticky-wrap">
       <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
@@ -283,13 +300,13 @@ window.__TWEAKS__ = {
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
         <div class="kds-invoice-collapsible">
-          <hr class="kds-hr" />
           <dl class="kds-kv">
             <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
             <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
           </dl>
         </div>
       </article>
+      </div>
 
       <article class="kds-card-elevated">
         <h2 class="kds-card-title">Datos de transferencia manual</h2>
@@ -393,6 +410,7 @@ window.__TWEAKS__ = {
       <div class="kds-brand-row">
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
+      <div class="kds-invoice-sticky-wrap">
       <article class="kds-card-elevated kds-card-dimmed kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
@@ -402,13 +420,13 @@ window.__TWEAKS__ = {
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
         <div class="kds-invoice-collapsible">
-          <hr class="kds-hr" />
           <dl class="kds-kv">
             <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
             <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
           </dl>
         </div>
       </article>
+      </div>
       <article class="kds-card-elevated kds-card-dimmed">
         <h2 class="kds-card-title">Datos de transferencia manual</h2>
         <p class="kds-text-secondary">Confirma si ya realizaste la transferencia desde tu banco.</p>
@@ -428,6 +446,7 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
+      <div class="kds-invoice-sticky-wrap">
       <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
@@ -437,23 +456,23 @@ window.__TWEAKS__ = {
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
         <div class="kds-invoice-collapsible">
-          <hr class="kds-hr" />
-          <dl class="kds-kv">
-            <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
-            <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
-          </dl>
-          <div class="kds-expand-section">
-            <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
-              <span>Detalle del cobro</span> <i class="material-symbols-outlined">expand_more</i>
+          <div class="kds-invoice-summary">
+            <dl class="kds-kv">
+              <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
+              <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
+            </dl>
+            <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false" aria-controls="s6-detail">
+              <span>Detalles</span> <i class="material-symbols-outlined">expand_more</i>
             </button>
-            <div class="kds-expand-panel" data-expand-panel>
-              <dl class="kds-detail-list">
-                <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
-              </dl>
-            </div>
+          </div>
+          <div id="s6-detail" class="kds-expand-panel" data-expand-panel>
+            <dl class="kds-detail-list">
+              <div class="kds-detail-group"><dt>Emisor cobro</dt><dd>Khipu</dd></div>
+            </dl>
           </div>
         </div>
       </article>
+      </div>
 
       <article class="kds-card-elevated">
         <div class="kds-status-block inline" data-status="pending">
@@ -487,6 +506,7 @@ window.__TWEAKS__ = {
         <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
       </div>
 
+      <div class="kds-invoice-sticky-wrap">
       <article class="kds-card-elevated kds-invoice-sticky">
         <header class="kds-invoice-header">
           <div>
@@ -496,13 +516,13 @@ window.__TWEAKS__ = {
           <div class="kds-invoice-merchant"><i class="material-symbols-outlined">storefront</i></div>
         </header>
         <div class="kds-invoice-collapsible">
-          <hr class="kds-hr" />
           <dl class="kds-kv">
             <dt>Pago a</dt><dd data-merchant>Bel&eacute;n Fuentes Mej&iacute;as</dd>
             <dt>Asunto</dt><dd data-asunto>Cuenta Enero 2026</dd>
           </dl>
         </div>
       </article>
+      </div>
 
       <article class="kds-card-elevated">
         <div class="kds-status-block inline" data-status="success">
