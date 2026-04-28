@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { KdsCheckbox } from './KdsCheckbox';
-import { borderRadius, spacing } from '../../../tokens';
+import { borderRadius, borders, fontWeights, spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsCheckbox> = {
   title: 'Core/KdsCheckbox',
@@ -111,8 +111,8 @@ export const FormExample: Story = {
     };
 
     return (
-      <fieldset style={{ border: '1px solid #ddd', borderRadius: borderRadius.md, padding: '16px' }}>
-        <legend style={{ padding: '0 8px', fontWeight: 500 }}>Preferencias de notificación</legend>
+      <fieldset style={{ border: borders.inputOutlined, borderRadius: borderRadius.md, padding: spacing[2] }}>
+        <legend style={{ padding: `0 ${spacing[1]}`, fontWeight: fontWeights.medium }}>Preferencias de notificación</legend>
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[1] }}>
           <KdsCheckbox
             label="Notificaciones por email"
@@ -158,14 +158,14 @@ export const SelectAllExample: Story = {
     };
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[0.5] }}>
         <KdsCheckbox
           label="Seleccionar todo"
           checked={allChecked}
           indeterminate={indeterminate}
           onChange={handleSelectAll}
         />
-        <div style={{ marginLeft: '24px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <div style={{ marginLeft: spacing[3], display: 'flex', flexDirection: 'column', gap: spacing[0.5] }}>
           {items.map((item) => (
             <KdsCheckbox
               key={item.id}

@@ -53,6 +53,7 @@ const lightModeColors = {
     accent: '#4C4E64',                     // From khenshin-web - accent/branded text
     tertiary: '#646872',                   // From khenshin-web - tertiary context text
     footer: '#666666',                     // From khenshin-web - footer/auxiliary text
+    code: '#d4d4d4',                      // Code block text color
   },
 
   // Background colors (updated to match khenshin-web)
@@ -62,6 +63,7 @@ const lightModeColors = {
     elevated: '#FAFAFA',
     brandSubtle: '#F0F0FA', // Subtle brand-tinted surface (e.g. icon boxes, accented headers)
     muted: '#F4F4F7',       // Light gray background for app shells, sections
+    code: '#1e1e1e',        // Code block backgrounds
   },
 
   // Neutral grays (for borders, backgrounds, etc.)
@@ -87,6 +89,9 @@ const lightModeColors = {
     disabledBackground: '#E0E0E0',        // From khenshin-web
     focus: 'rgba(0, 0, 0, 0.12)',        // Keep DS value
   },
+
+  // Overlay
+  overlay: 'rgba(255, 255, 255, 0.8)',     // Loading/modal overlay on light backgrounds
 
   // Divider
   divider: 'rgba(0, 0, 0, 0.12)',
@@ -158,6 +163,12 @@ const darkModeColors = {
     secondary: 'rgba(255, 255, 255, 0.70)',
     disabled: 'rgba(255, 255, 255, 0.38)',
     hint: 'rgba(255, 255, 255, 0.38)',
+    muted: 'rgba(255, 255, 255, 0.50)',        // Reduced emphasis
+    strong: 'rgba(255, 255, 255, 0.95)',        // High emphasis
+    accent: 'rgba(227, 181, 255, 0.87)',        // Brand-tinted
+    tertiary: 'rgba(255, 255, 255, 0.60)',      // Third-level
+    footer: 'rgba(255, 255, 255, 0.50)',        // Auxiliary
+    code: '#d4d4d4',                            // Code block text color
   },
 
   // Background colors - From Figma K-Tokens
@@ -165,6 +176,23 @@ const darkModeColors = {
     default: '#181818',
     paper: '#121212',
     elevated: '#2C2C2C',
+    brandSubtle: '#1E1030',   // Dark brand-tinted surface
+    muted: '#1E1E1E',        // Dark neutral surface
+    code: '#1e1e1e',         // Code block backgrounds (same as muted in dark)
+  },
+
+  // Neutral grays (absolute values, same as light mode)
+  gray: {
+    50: '#F9FAFB',
+    100: '#F3F4F6',
+    200: '#E5E7EB',
+    300: '#D1D5DB',
+    400: '#9CA3AF',
+    500: '#6B7280',
+    600: '#4B5563',
+    700: '#374151',
+    800: '#1F2937',
+    900: '#111827',
   },
 
   // Action colors (based on white with opacity) - From Figma K-Tokens
@@ -176,6 +204,9 @@ const darkModeColors = {
     disabledBackground: 'rgba(255, 255, 255, 0.12)',
     focus: 'rgba(255, 255, 255, 0.12)',
   },
+
+  // Overlay
+  overlay: 'rgba(0, 0, 0, 0.6)',            // Loading/modal overlay on dark backgrounds
 
   // Divider
   divider: 'rgba(255, 255, 255, 0.12)',
@@ -193,6 +224,20 @@ const darkModeColors = {
       warningBg: 'rgba(255, 152, 0, 0.16)',    // warning.light with 16% opacity for dark mode
       errorBg: 'rgba(239, 83, 80, 0.16)',      // error.light with 16% opacity for dark mode
       infoBg: 'rgba(3, 169, 244, 0.16)',       // info.light with 16% opacity for dark mode
+    },
+    alert: {
+      infoBg: 'rgba(2, 136, 209, 0.12)',
+      warningBg: 'rgba(239, 108, 0, 0.12)',
+      successBg: 'rgba(46, 125, 50, 0.12)',
+      errorBg: 'rgba(211, 47, 47, 0.12)',
+      successText: '#6AE079',
+      warningText: '#FFB74D',
+      errorText: '#EF9A9A',
+      infoText: '#4FC3F7',
+      successBorder: '#4CAF50',
+      warningBorder: '#FF9800',
+      errorBorder: '#EF5350',
+      infoBorder: '#03A9F4',
     },
   },
 };
@@ -689,27 +734,38 @@ export const borderRadius = {
 export const shadows = {
   none: 'none',
 
-  // Material Design elevation levels (from MUI)
+  // Material Design elevation levels 0-24 (MUI standard)
+  0: 'none',
   1: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
   2: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+  3: '0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)',
   4: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
-  6: '0px 3px 4px -2px rgba(0,0,0,0.2), 0px 6px 7px 0px rgba(0,0,0,0.14), 0px 2px 12px 1px rgba(0,0,0,0.12)',
+  5: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)',
+  6: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+  7: '0px 4px 5px -2px rgba(0,0,0,0.2), 0px 7px 10px 1px rgba(0,0,0,0.14), 0px 2px 16px 1px rgba(0,0,0,0.12)',
   8: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
+  9: '0px 5px 6px -3px rgba(0,0,0,0.2), 0px 9px 12px 1px rgba(0,0,0,0.14), 0px 3px 16px 2px rgba(0,0,0,0.12)',
+  10: '0px 6px 6px -3px rgba(0,0,0,0.2), 0px 10px 14px 1px rgba(0,0,0,0.14), 0px 4px 18px 3px rgba(0,0,0,0.12)',
+  11: '0px 6px 7px -4px rgba(0,0,0,0.2), 0px 11px 15px 1px rgba(0,0,0,0.14), 0px 4px 20px 3px rgba(0,0,0,0.12)',
+  12: '0px 7px 8px -4px rgba(0,0,0,0.2), 0px 12px 17px 2px rgba(0,0,0,0.14), 0px 5px 22px 4px rgba(0,0,0,0.12)',
+  13: '0px 7px 8px -4px rgba(0,0,0,0.2), 0px 13px 19px 2px rgba(0,0,0,0.14), 0px 5px 24px 4px rgba(0,0,0,0.12)',
+  14: '0px 7px 9px -4px rgba(0,0,0,0.2), 0px 14px 21px 2px rgba(0,0,0,0.14), 0px 5px 26px 4px rgba(0,0,0,0.12)',
+  15: '0px 8px 9px -5px rgba(0,0,0,0.2), 0px 15px 22px 2px rgba(0,0,0,0.14), 0px 6px 28px 5px rgba(0,0,0,0.12)',
   16: '0px 8px 10px -5px rgba(0,0,0,0.2), 0px 16px 24px 2px rgba(0,0,0,0.14), 0px 6px 30px 5px rgba(0,0,0,0.12)',
+  17: '0px 8px 11px -5px rgba(0,0,0,0.2), 0px 17px 26px 2px rgba(0,0,0,0.14), 0px 6px 32px 5px rgba(0,0,0,0.12)',
+  18: '0px 9px 11px -5px rgba(0,0,0,0.2), 0px 18px 28px 2px rgba(0,0,0,0.14), 0px 7px 34px 6px rgba(0,0,0,0.12)',
+  19: '0px 9px 12px -6px rgba(0,0,0,0.2), 0px 19px 29px 2px rgba(0,0,0,0.14), 0px 7px 36px 6px rgba(0,0,0,0.12)',
+  20: '0px 10px 13px -6px rgba(0,0,0,0.2), 0px 20px 31px 3px rgba(0,0,0,0.14), 0px 8px 38px 7px rgba(0,0,0,0.12)',
+  21: '0px 10px 13px -6px rgba(0,0,0,0.2), 0px 21px 33px 3px rgba(0,0,0,0.14), 0px 8px 40px 7px rgba(0,0,0,0.12)',
+  22: '0px 10px 14px -6px rgba(0,0,0,0.2), 0px 22px 35px 3px rgba(0,0,0,0.14), 0px 8px 42px 7px rgba(0,0,0,0.12)',
+  23: '0px 11px 14px -7px rgba(0,0,0,0.2), 0px 23px 36px 3px rgba(0,0,0,0.14), 0px 9px 44px 8px rgba(0,0,0,0.12)',
   24: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)',
 
-  // Elevation aliases
-  elevation1: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
-  elevation2: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
-  elevation3: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
-  elevation4: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)',
-
   // Semantic aliases
-  md: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)', // Same as elevation 4
-  button: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)', // elevation 2
   card: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)', // elevation 1
-  modal: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)', // elevation 24
+  button: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)', // elevation 2
   dropdown: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)', // elevation 8
+  modal: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)', // elevation 24
   stepperInfo: '0 2px 4px rgba(2, 136, 209, 0.25)',     // Info color shadow for current step
   stepperSuccess: '0 2px 4px rgba(46, 125, 50, 0.25)', // Success color shadow for completed step
 } as const;
@@ -727,6 +783,7 @@ export const borders = {
   // Border widths
   widthSm: '1px',
   widthMd: '2px',
+  widthLg: '4px',
 
   // Card borders (no shadow in Figma)
   card: '1px solid rgba(0, 0, 0, 0.42)',
@@ -739,6 +796,10 @@ export const borders = {
   // Button borders
   buttonOutlinedPrimary: '1px solid rgba(131, 71, 173, 0.5)',
   buttonOutlinedInfo: '1px solid rgba(2, 136, 209, 0.5)',
+
+  // Table borders
+  tableHeader: `2px solid #E0E0E0`,
+  tableRow: '1px solid #F0F0F0',
 
   // Dividers
   divider: '1px solid #e0e0e0',

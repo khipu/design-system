@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsSpinner } from './KdsSpinner';
 import { KdsButton } from '../KdsButton';
-import { colors, fontSizes, borderRadius, spacing } from '../../../tokens';
+import { colors, fontSizes, borderRadius, spacing, borders } from '../../../tokens';
 
 const meta: Meta<typeof KdsSpinner> = {
   title: 'Core/KdsSpinner',
@@ -37,15 +37,15 @@ export const Sizes: Story = {
     <div style={{ display: 'flex', gap: spacing[4], alignItems: 'center' }}>
       <div style={{ textAlign: 'center' }}>
         <KdsSpinner size="small" />
-        <p style={{ margin: '8px 0 0 0', fontSize: fontSizes.sm, color: 'rgba(0,0,0,0.6)' }}>Small</p>
+        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>Small</p>
       </div>
       <div style={{ textAlign: 'center' }}>
         <KdsSpinner size="medium" />
-        <p style={{ margin: '8px 0 0 0', fontSize: fontSizes.sm, color: 'rgba(0,0,0,0.6)' }}>Medium</p>
+        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>Medium</p>
       </div>
       <div style={{ textAlign: 'center' }}>
         <KdsSpinner size="large" />
-        <p style={{ margin: '8px 0 0 0', fontSize: fontSizes.sm, color: 'rgba(0,0,0,0.6)' }}>Large</p>
+        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>Large</p>
       </div>
     </div>
   ),
@@ -56,22 +56,22 @@ export const Colors: Story = {
     <div style={{ display: 'flex', gap: spacing[4], alignItems: 'center' }}>
       <div style={{ textAlign: 'center' }}>
         <KdsSpinner color="primary" />
-        <p style={{ margin: '8px 0 0 0', fontSize: fontSizes.sm, color: 'rgba(0,0,0,0.6)' }}>Primary</p>
+        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>Primary</p>
       </div>
       <div style={{ textAlign: 'center' }}>
         <KdsSpinner color="secondary" />
-        <p style={{ margin: '8px 0 0 0', fontSize: fontSizes.sm, color: 'rgba(0,0,0,0.6)' }}>Secondary</p>
+        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>Secondary</p>
       </div>
       <div
         style={{
           textAlign: 'center',
           backgroundColor: colors.primary.main,
-          padding: '16px',
+          padding: spacing[2],
           borderRadius: borderRadius.md,
         }}
       >
-        <KdsSpinner color="inherit" style={{ color: 'white' }} />
-        <p style={{ margin: '8px 0 0 0', fontSize: fontSizes.sm, color: 'white' }}>Inherit</p>
+        <KdsSpinner color="inherit" style={{ color: colors.primary.contrastText }} />
+        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.primary.contrastText }}>Inherit</p>
       </div>
     </div>
   ),
@@ -90,7 +90,7 @@ export const Thickness: Story = {
       {[2, 4, 6, 8].map((thickness) => (
         <div key={thickness} style={{ textAlign: 'center' }}>
           <KdsSpinner thickness={thickness} />
-          <p style={{ margin: '8px 0 0 0', fontSize: fontSizes.sm, color: 'rgba(0,0,0,0.6)' }}>
+          <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>
             thickness={thickness}
           </p>
         </div>
@@ -103,7 +103,7 @@ export const InButton: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: spacing[2], alignItems: 'center' }}>
       <KdsButton disabled>
-        <KdsSpinner size="small" color="inherit" style={{ marginRight: '8px' }} />
+        <KdsSpinner size="small" color="inherit" style={{ marginRight: spacing[1] }} />
         Cargando...
       </KdsButton>
       <KdsButton loading>
@@ -120,14 +120,14 @@ export const LoadingOverlay: Story = {
         position: 'relative',
         width: '300px',
         height: '200px',
-        border: '1px solid #ddd',
+        border: borders.inputOutlined,
         borderRadius: borderRadius.md,
         overflow: 'hidden',
       }}
     >
-      <div style={{ padding: '16px' }}>
-        <h4 style={{ margin: '0 0 8px 0' }}>Contenido</h4>
-        <p style={{ margin: 0, color: 'rgba(0,0,0,0.6)' }}>
+      <div style={{ padding: spacing[2] }}>
+        <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Contenido</h4>
+        <p style={{ margin: 0, color: colors.text.secondary }}>
           Este contenido está siendo cargado...
         </p>
       </div>
@@ -138,7 +138,7 @@ export const LoadingOverlay: Story = {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          backgroundColor: colors.overlay,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -163,7 +163,7 @@ export const CenteredLoading: Story = {
       }}
     >
       <KdsSpinner size="large" />
-      <p style={{ margin: 0, color: 'rgba(0,0,0,0.6)' }}>Cargando datos...</p>
+      <p style={{ margin: 0, color: colors.text.secondary }}>Cargando datos...</p>
     </div>
   ),
 };

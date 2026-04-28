@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { colors } from '../tokens';
+import { colors, fontFamilies, fontWeights, borderRadius, borders } from '../tokens';
 
 /**
  * Comparacion visual entre los valores de color primario de Figma (fuente de verdad)
@@ -30,7 +30,7 @@ const figma = {
   dark: colors.primary.dark,   // #5B3179
 };
 
-const fontFamily = '"Public Sans", sans-serif';
+const fontFamily = fontFamilies.primary;
 
 interface SwatchProps {
   label: string;
@@ -44,15 +44,15 @@ const Swatch = ({ label, hex, sublabel }: SwatchProps) => (
       style={{
         width: 80,
         height: 80,
-        borderRadius: 12,
+        borderRadius: borderRadius.lg,
         backgroundColor: hex,
         boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}
     />
-    <span style={{ fontSize: 13, fontWeight: 600, fontFamily, color: '#333' }}>{label}</span>
-    <code style={{ fontSize: 12, fontFamily: 'monospace', color: '#666', letterSpacing: '0.5px' }}>{hex}</code>
+    <span style={{ fontSize: 13, fontWeight: 600, fontFamily, color: colors.text.primary }}>{label}</span>
+    <code style={{ fontSize: 12, fontFamily: fontFamilies.mono, color: colors.text.footer, letterSpacing: '0.5px' }}>{hex}</code>
     {sublabel && (
-      <span style={{ fontSize: 11, color: '#999', fontFamily }}>{sublabel}</span>
+      <span style={{ fontSize: 11, color: colors.text.muted, fontFamily }}>{sublabel}</span>
     )}
   </div>
 );
@@ -67,10 +67,10 @@ export const Comparison: Story = {
     <div style={{ fontFamily, maxWidth: 700 }}>
       {/* Header */}
       <div style={{ marginBottom: 32, textAlign: 'center' }}>
-        <h2 style={{ fontSize: 24, fontWeight: 700, color: '#1a1a1a', margin: '0 0 8px' }}>
+        <h2 style={{ fontSize: 24, fontWeight: 700, color: colors.text.strong, margin: '0 0 8px' }}>
           Colores primarios: Figma vs khenshin-web
         </h2>
-        <p style={{ fontSize: 14, color: '#666', margin: 0, lineHeight: 1.6 }}>
+        <p style={{ fontSize: 14, color: colors.text.footer, margin: 0, lineHeight: 1.6 }}>
           La fuente de verdad es <strong>Figma</strong> (extraido con el plugin Khipu Token Extractor).
           <br />
           khenshin-web tenia valores diferentes que fueron corregidos.
@@ -83,14 +83,14 @@ export const Comparison: Story = {
         <div
           style={{
             flex: 1,
-            border: '2px solid #2CA24D',
-            borderRadius: 16,
+            border: `2px solid ${colors.components.alert.successBorder}`,
+            borderRadius: borderRadius.xl,
             padding: 24,
-            backgroundColor: '#FAFFF8',
+            backgroundColor: colors.success.container,
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-            <span style={{ fontSize: 16, fontWeight: 700, color: '#2CA24D' }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: colors.components.alert.successBorder }}>
               Figma (correcto)
             </span>
           </div>
@@ -105,14 +105,14 @@ export const Comparison: Story = {
         <div
           style={{
             flex: 1,
-            border: '2px solid #D32F2F',
-            borderRadius: 16,
+            border: `2px solid ${colors.error.main}`,
+            borderRadius: borderRadius.xl,
             padding: 24,
-            backgroundColor: '#FFF8F8',
+            backgroundColor: colors.error.container,
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-            <span style={{ fontSize: 16, fontWeight: 700, color: '#D32F2F' }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: colors.error.main }}>
               khenshin-web (anterior)
             </span>
           </div>
@@ -126,7 +126,7 @@ export const Comparison: Story = {
 
       {/* Discrepancy table */}
       <div style={{ marginTop: 32 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 600, color: '#333', marginBottom: 12 }}>
+        <h3 style={{ fontSize: 16, fontWeight: 600, color: colors.text.primary, marginBottom: 12 }}>
           Detalle de discrepancias
         </h3>
         <table
@@ -138,11 +138,11 @@ export const Comparison: Story = {
           }}
         >
           <thead>
-            <tr style={{ borderBottom: '2px solid #E5E7EB' }}>
-              <th style={{ textAlign: 'left', padding: '8px 12px', color: '#666' }}>Token</th>
-              <th style={{ textAlign: 'left', padding: '8px 12px', color: '#2CA24D' }}>Figma</th>
-              <th style={{ textAlign: 'left', padding: '8px 12px', color: '#D32F2F' }}>khenshin-web</th>
-              <th style={{ textAlign: 'left', padding: '8px 12px', color: '#666' }}>Diferencia</th>
+            <tr style={{ borderBottom: borders.tableHeader }}>
+              <th style={{ textAlign: 'left', padding: '8px 12px', color: colors.text.footer }}>Token</th>
+              <th style={{ textAlign: 'left', padding: '8px 12px', color: colors.components.alert.successBorder }}>Figma</th>
+              <th style={{ textAlign: 'left', padding: '8px 12px', color: colors.error.main }}>khenshin-web</th>
+              <th style={{ textAlign: 'left', padding: '8px 12px', color: colors.text.footer }}>Diferencia</th>
             </tr>
           </thead>
           <tbody>
@@ -166,9 +166,9 @@ export const Comparison: Story = {
                 diff: 'Figma usa un purpura mas oscuro',
               },
             ].map(({ token, figma: f, kweb, diff }) => (
-              <tr key={token} style={{ borderBottom: '1px solid #F3F4F6' }}>
+              <tr key={token} style={{ borderBottom: borders.tableRow }}>
                 <td style={{ padding: '10px 12px' }}>
-                  <code style={{ fontSize: 12, backgroundColor: '#F3F4F6', padding: '2px 6px', borderRadius: 4 }}>
+                  <code style={{ fontSize: 12, backgroundColor: colors.gray[100], padding: '2px 6px', borderRadius: 4 }}>
                     {token}
                   </code>
                 </td>
@@ -202,7 +202,7 @@ export const Comparison: Story = {
                     <code style={{ fontSize: 12 }}>{kweb}</code>
                   </span>
                 </td>
-                <td style={{ padding: '10px 12px', fontSize: 12, color: '#666' }}>{diff}</td>
+                <td style={{ padding: '10px 12px', fontSize: 12, color: colors.text.footer }}>{diff}</td>
               </tr>
             ))}
           </tbody>
@@ -211,7 +211,7 @@ export const Comparison: Story = {
 
       {/* Button comparison */}
       <div style={{ marginTop: 32 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 600, color: '#333', marginBottom: 12 }}>
+        <h3 style={{ fontSize: 16, fontWeight: 600, color: colors.text.primary, marginBottom: 12 }}>
           Impacto visual en botones
         </h3>
         <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
@@ -221,11 +221,11 @@ export const Comparison: Story = {
                 padding: '8px 22px',
                 minHeight: 50,
                 backgroundColor: figma.main,
-                color: '#FFFFFF',
+                color: colors.primary.contrastText,
                 border: 'none',
-                borderRadius: 4,
+                borderRadius: borderRadius.button,
                 fontSize: '0.9375rem',
-                fontWeight: 500,
+                fontWeight: fontWeights.medium,
                 textTransform: 'uppercase' as const,
                 letterSpacing: '0.46px',
                 cursor: 'pointer',
@@ -236,7 +236,7 @@ export const Comparison: Story = {
             >
               Continuar
             </button>
-            <span style={{ fontSize: 12, color: '#2CA24D', fontWeight: 600 }}>Figma {figma.main}</span>
+            <span style={{ fontSize: 12, color: colors.components.alert.successBorder, fontWeight: 600 }}>Figma {figma.main}</span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
@@ -245,11 +245,11 @@ export const Comparison: Story = {
                 padding: '8px 22px',
                 minHeight: 50,
                 backgroundColor: khenshinWeb.main,
-                color: '#FFFFFF',
+                color: colors.primary.contrastText,
                 border: 'none',
-                borderRadius: 4,
+                borderRadius: borderRadius.button,
                 fontSize: '0.9375rem',
-                fontWeight: 500,
+                fontWeight: fontWeights.medium,
                 textTransform: 'uppercase' as const,
                 letterSpacing: '0.46px',
                 cursor: 'pointer',
@@ -260,7 +260,7 @@ export const Comparison: Story = {
             >
               Continuar
             </button>
-            <span style={{ fontSize: 12, color: '#D32F2F', fontWeight: 600 }}>khenshin-web {khenshinWeb.main}</span>
+            <span style={{ fontSize: 12, color: colors.error.main, fontWeight: 600 }}>khenshin-web {khenshinWeb.main}</span>
           </div>
         </div>
       </div>
@@ -270,20 +270,20 @@ export const Comparison: Story = {
         style={{
           marginTop: 32,
           padding: 16,
-          backgroundColor: '#EFF6FF',
-          borderRadius: 8,
-          border: '1px solid #BFDBFE',
+          backgroundColor: colors.info.container,
+          borderRadius: borderRadius.md,
+          border: `1px solid ${colors.components.alert.infoBorder}`,
           fontSize: 13,
           lineHeight: 1.6,
-          color: '#1E40AF',
+          color: colors.components.alert.infoText,
         }}
       >
         <strong>Nota:</strong> Los tokens se extraen de Figma usando el plugin{' '}
-        <code style={{ backgroundColor: '#DBEAFE', padding: '1px 4px', borderRadius: 3 }}>
+        <code style={{ backgroundColor: colors.components.alert.infoBg, padding: '1px 4px', borderRadius: 3 }}>
           figma-plugin-token-extractor
         </code>{' '}
         ubicado en este repositorio. El archivo{' '}
-        <code style={{ backgroundColor: '#DBEAFE', padding: '1px 4px', borderRadius: 3 }}>
+        <code style={{ backgroundColor: colors.components.alert.infoBg, padding: '1px 4px', borderRadius: 3 }}>
           figmaTokens.json
         </code>{' '}
         contiene la ultima extraccion. khenshin-web debe eventualmente sincronizarse con estos valores.

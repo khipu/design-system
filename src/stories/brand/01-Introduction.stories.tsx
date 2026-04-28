@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { spacing } from '../../tokens';
 
 const meta: Meta = {
   title: 'Brand',
@@ -15,7 +16,7 @@ export default meta;
 
 export const Introducción: StoryObj = {
   render: () => (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: `${spacing[5]} ${spacing[2.5]}` }}>
       <h1>Introducción</h1>
 
       <p>Bienvenido a la guía de marca digital de Khipu. Este documento establece los fundamentos visuales y comunicacionales que definen nuestra identidad como plataforma de pagos.</p>

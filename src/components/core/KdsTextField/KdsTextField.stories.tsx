@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsTextField } from './KdsTextField';
-import { spacing } from '../../../tokens';
+import { spacing, colors, semanticSpacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsTextField> = {
   title: 'Core/KdsTextField',
@@ -94,18 +94,18 @@ export const WithAdornments: Story = {
       <KdsTextField
         label="Monto"
         placeholder="0"
-        startAdornment={<span style={{ color: 'rgba(0,0,0,0.6)' }}>$</span>}
+        startAdornment={<span style={{ color: colors.text.secondary }}>$</span>}
       />
       <KdsTextField
         label="Peso"
         placeholder="0"
-        endAdornment={<span style={{ color: 'rgba(0,0,0,0.6)' }}>kg</span>}
+        endAdornment={<span style={{ color: colors.text.secondary }}>kg</span>}
       />
       <KdsTextField
         label="Email"
         placeholder="usuario"
         endAdornment={
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="rgba(0,0,0,0.56)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill={colors.action.active}>
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
           </svg>
         }
@@ -136,7 +136,7 @@ export const InputTypes: Story = {
 
 export const FormExample: Story = {
   render: () => (
-    <form style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '400px' }}>
+    <form style={{ display: 'flex', flexDirection: 'column', gap: semanticSpacing.formGap, maxWidth: '400px' }}>
       <KdsTextField label="Nombre completo" required />
       <KdsTextField label="RUT" placeholder="12.345.678-9" required />
       <KdsTextField label="Email" type="email" required />

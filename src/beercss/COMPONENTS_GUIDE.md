@@ -152,109 +152,234 @@ window.Khipu.initBankModal();
 
 ## 📌 Sticky Invoice Header
 
-Header de factura que colapsa automáticamente al hacer scroll, manteniendo visible solo la información esencial (monto, código, merchant).
+Header de factura con animación progresiva de colapso vinculada al scroll. Mobile-only (< 768px). Al hacer scroll, el header se compacta suavemente manteniendo visible monto, código y merchant.
+
+### Arquitectura
+
+El sistema coordina 3 capas con una sola variable CSS: `--collapse-progress` (0→1).
+
+```
+JavaScript (scroll listener)
+  → Calcula progress = scrollY / 150
+  → Escribe --collapse-progress en .kds-screen
+
+CSS (calc() en 10+ propiedades)
+  → clip-path, opacity, width, height, translateY, drop-shadow...
+  → Todo GPU-accelerated, sin reflow
+```
+
+**Patrón wrapper:** `clip-path` recorta todo incluido `box-shadow`. Solución: el wrapper (`.kds-invoice-sticky-wrap`) lleva `position: sticky` + `filter: drop-shadow`, el card hijo lleva `clip-path`. El `drop-shadow` en el wrapper traza el contorno alfa del hijo recortado.
 
 ### Estructura HTML
 
 ```html
-<article class="kds-card-elevated kds-invoice-sticky">
-  <!-- Header - siempre visible -->
-  <header class="kds-invoice-header">
-    <div>
-      <p class="kds-invoice-amount">$3.300</p>
-      <p class="kds-invoice-code">Código fdap-sr2x-q3pf</p>
-    </div>
-    <div class="kds-invoice-merchant">
-      <i class="material-symbols-outlined">storefront</i>
-    </div>
-  </header>
+<!-- Wrapper: sticky positioning + shadow (fuera del clip-path) -->
+<div class="kds-invoice-sticky-wrap">
+  <article class="kds-card-elevated kds-invoice-sticky">
+    <!-- Header — siempre visible -->
+    <header class="kds-invoice-header">
+      <div>
+        <p class="kds-invoice-amount">$3.300</p>
+        <p class="kds-invoice-code">Código fdap-sr2x-q3pf</p>
+      </div>
+      <div class="kds-invoice-merchant">
+        <i class="material-symbols-outlined">storefront</i>
+      </div>
+    </header>
 
-  <!-- Contenido colapsable - se oculta al hacer scroll -->
-  <div class="kds-invoice-collapsible">
-    <hr class="kds-hr" />
+    <!-- Contenido colapsable — se recorta y desvanece al hacer scroll -->
+    <div class="kds-invoice-collapsible">
+      <hr class="kds-hr" />
 
-    <dl class="kds-kv">
-      <dt>Pago a</dt>
-      <dd>Belén Fuentes Mejías</dd>
-      <dt>Asunto</dt>
-      <dd>Cuenta Enero 2026</dd>
-    </dl>
+      <dl class="kds-kv">
+        <dt>Pago a</dt>
+        <dd>Belén Fuentes Mejías</dd>
+        <dt>Asunto</dt>
+        <dd>Cuenta Enero 2026</dd>
+      </dl>
 
-    <!-- Opcional: sección expandible con más detalles -->
-    <div class="kds-expand-section">
-      <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
-        <span>Detalle del cobro</span>
-        <i class="material-symbols-outlined">expand_more</i>
-      </button>
-      <div class="kds-expand-panel" data-expand-panel>
-        <dl class="kds-detail-list">
-          <div class="kds-detail-group">
-            <dt>Emisor cobro</dt>
-            <dd>Khipu</dd>
-          </div>
-          <div class="kds-detail-group">
-            <dt>Descripción</dt>
-            <dd>Estado de cuenta correspondiente a enero de 2026...</dd>
-          </div>
-        </dl>
+      <!-- Opcional: sección expandible con más detalles -->
+      <div class="kds-expand-section">
+        <button class="kds-expand-toggle" data-expand-toggle aria-expanded="false">
+          <span>Detalle del cobro</span>
+          <i class="material-symbols-outlined">expand_more</i>
+        </button>
+        <div class="kds-expand-panel" data-expand-panel>
+          <dl class="kds-detail-list">
+            <div class="kds-detail-group">
+              <dt>Emisor cobro</dt>
+              <dd>Khipu</dd>
+            </div>
+          </dl>
+        </div>
       </div>
     </div>
-  </div>
-</article>
+  </article>
+</div>
 ```
+
+**Requisitos del contexto:** El card debe estar dentro de un contenedor `.kds-screen.active` (el JS busca el sticky dentro de la pantalla activa para setear las variables CSS).
 
 ### JavaScript (automático)
 
 El bundle de Khipu **inicializa automáticamente** el sticky header. No necesitas JavaScript adicional.
 
-Si quieres inicializar manualmente:
+Si quieres inicializar manualmente (contenido cargado dinámicamente):
 
 ```javascript
-// Llamar después de cargar contenido dinámico
 window.Khipu.initStickyInvoice();
 ```
 
-### Comportamiento
+### Comportamiento (animación progresiva)
 
-| Acción | Resultado |
-|--------|-----------|
-| **Scroll > 60px** | Header colapsa (añade clase `.collapsed`) |
-| **Scroll < 20px** | Header se expande (remueve clase `.collapsed`) |
-| **Estado collapsed** | Solo se ve: monto (más pequeño), código (caption), merchant icon (40px) |
-| **Transiciones** | Suaves (0.25s - 0.3s) con easing |
+La animación es continua y proporcional al scroll (0–150px), no un toggle binario:
+
+| Propiedad | Expandido (scroll=0) | Colapsado (scroll≥150px) |
+|-----------|:---:|:---:|
+| **Contenido colapsable** | Visible (opacity 1) | Invisible (opacity 0, clip-path lo oculta) |
+| **Merchant tile** | 64×64px, radius 8px | 50×50px, radius 6px |
+| **Merchant icon** | 30px | 24px |
+| **Código margin-top** | 4px | 0px |
+| **Shadow (wrapper)** | Invisible | `0 4px 12px rgba(…, 0.12)` |
+| **Bottom border-radius** | 0 (edge-to-edge) | 14px (redondeado) |
+| **Siblings translateY** | 0 | Suben para llenar el espacio |
+
+### Clases CSS
+
+| Clase | Descripción |
+|-------|-------------|
+| `.kds-invoice-sticky-wrap` | Wrapper: `position: sticky` + `filter: drop-shadow` |
+| `.kds-invoice-sticky` | Card: `clip-path` progresivo, padding compacto |
+| `.kds-invoice-header` | Header con monto, código y merchant |
+| `.kds-invoice-amount` | Monto del pago (font-size se mantiene a 30px) |
+| `.kds-invoice-code` | Código de operación |
+| `.kds-invoice-merchant` | Tile de comercio (reduce tamaño progresivamente) |
+| `.kds-invoice-collapsible` | Contenido que se desvanece y recorta |
+
+### Mobile-only
+
+| Viewport | Comportamiento |
+|----------|---------------|
+| **< 768px** | Animación activa, cards edge-to-edge (sin border-radius), header colapsable con rounded bottom + shadow |
+| **≥ 768px** | Sin animación, cards con border-radius normal, todo visible |
+
+### Tokens de diseño utilizados
+
+```css
+/* Tamaños merchant (progresivos) */
+--kds-merchant-size: 64px;
+--kds-merchant-size-collapsed: 50px;
+--kds-merchant-radius: 8px;        /* var(--kds-radius-md) */
+--kds-merchant-radius-collapsed: 6px;
+--kds-merchant-icon-size: 30px;
+--kds-merchant-icon-size-collapsed: 24px;
+
+/* Card */
+--kds-radius-card: 14px;           /* Bottom border-radius al colapsar */
+--kds-shadow-sticky: 0 2px 10px rgba(16, 24, 40, 0.08);
+
+/* Variables runtime (seteadas por JS en .kds-screen) */
+--collapse-progress: 0;            /* 0 (expandido) a 1 (colapsado) */
+--collapse-collapsible-h: 0px;     /* Altura medida del contenido colapsable */
+```
+
+---
+
+## 🎯 QR Featured Button
+
+Botón destacado para opciones de pago prioritarias con gradiente, badge y diseño visual enfatizado.
+
+### Estructura HTML
+
+```html
+<button class="kds-qr-row">
+  <!-- Avatar con icono -->
+  <span class="kds-qr-avatar" aria-hidden="true">
+    <i class="material-symbols-outlined">qr_code_2</i>
+  </span>
+
+  <!-- Texto principal -->
+  <span class="kds-qr-text">
+    <span class="title">Pagar escaneando QR</span>
+    <span class="sub">Escanea con la app de tu banco</span>
+  </span>
+
+  <!-- Badge "Rápido" -->
+  <span class="kds-qr-badge">Rápido</span>
+
+  <!-- Chevron -->
+  <i class="material-symbols-outlined">chevron_right</i>
+</button>
+```
+
+### Características
+
+- ✅ Fondo con gradiente (púrpura → azul)
+- ✅ Avatar con icono y borde sutil
+- ✅ Badge personalizable (ej: "Rápido", "Nuevo")
+- ✅ Estados hover, focus, active
+- ✅ Sombras sutiles con color primario
+- ✅ Transiciones suaves
 
 ### Clases CSS disponibles
 
 | Clase | Descripción |
 |-------|-------------|
-| `.kds-invoice-sticky` | Habilita sticky positioning y comportamiento de collapse |
-| `.kds-invoice-sticky.collapsed` | Estado colapsado (aplicado por JS al hacer scroll) |
-| `.kds-invoice-header` | Header con monto, código y merchant |
-| `.kds-invoice-amount` | Monto del pago (reduce font-size al colapsar) |
-| `.kds-invoice-code` | Código de operación (reduce a caption al colapsar) |
-| `.kds-invoice-merchant` | Icono de comercio (reduce tamaño al colapsar) |
-| `.kds-invoice-collapsible` | Wrapper del contenido que se oculta |
-
-### Thresholds personalizables
-
-Si necesitas ajustar los thresholds de scroll, edita en tu código:
-
-```javascript
-// Copiar función initStickyInvoice del bundle y modificar:
-var collapseAt = 60;   // px scrolled para colapsar (por defecto: 60)
-var expandAt = 20;     // px scrolled para expandir (por defecto: 20)
-```
+| `.kds-qr-row` | Botón principal con gradiente y espaciado |
+| `.kds-qr-avatar` | Contenedor del icono (40x40px, borde redondeado) |
+| `.kds-qr-text` | Wrapper del título y subtítulo |
+| `.kds-qr-text .title` | Título principal (font-weight: 600, 14px) |
+| `.kds-qr-text .sub` | Subtítulo descriptivo (12px, color secundario) |
+| `.kds-qr-badge` | Badge pill (uppercase, 10px, fondo primario) |
 
 ### Tokens de diseño utilizados
 
 ```css
-/* Transiciones y tamaños del bundle khipu-beercss.css */
---kds-shadow-2: ...;                       /* Sombra cuando collapsed */
---kds-status-icon-size-sm: 40px;           /* Tamaño merchant icon collapsed */
---kds-font-size-xl: 1.5rem;                /* Monto collapsed */
---kds-font-size-caption: 0.75rem;          /* Código collapsed */
---kds-radius-card: 14px;                   /* Border radius */
+/* Gradiente y colores */
+--kds-qr-bg-gradient: linear-gradient(135deg, #F7EEFF 0%, #EEF6FF 100%);
+--kds-qr-border: rgba(131, 71, 173, 0.28);
+--kds-qr-border-hover: var(--kds-color-primary-main);
+--kds-qr-shadow: 0 1px 2px rgba(131, 71, 173, 0.08);
+--kds-qr-shadow-hover: 0 2px 8px rgba(131, 71, 173, 0.14);
+
+/* Avatar */
+--kds-qr-avatar-bg: #FFFFFF;
+--kds-qr-avatar-border: rgba(131, 71, 173, 0.2);
+--kds-qr-avatar-radius: 10px;
+--kds-status-icon-size-sm: 40px;  /* Tamaño del avatar */
+
+/* Badge */
+--kds-qr-badge-bg: var(--kds-color-primary-main);
+--kds-qr-badge-text: #FFFFFF;
 ```
+
+### Variantes
+
+**Badge personalizado:**
+```html
+<span class="kds-qr-badge">Nuevo</span>
+<span class="kds-qr-badge">Recomendado</span>
+<span class="kds-qr-badge">Beta</span>
+```
+
+**Diferentes iconos:**
+```html
+<!-- Transferencia -->
+<i class="material-symbols-outlined">payments</i>
+
+<!-- Billetera digital -->
+<i class="material-symbols-outlined">account_balance_wallet</i>
+
+<!-- Código QR -->
+<i class="material-symbols-outlined">qr_code_2</i>
+```
+
+### Cuándo usar
+
+- ✅ Opciones de pago prioritarias o destacadas
+- ✅ Métodos rápidos que quieres promover
+- ✅ Features nuevas que necesitan visibilidad
+- ❌ No usar para opciones estándar (usa `kds-bank-row` normal)
 
 ---
 

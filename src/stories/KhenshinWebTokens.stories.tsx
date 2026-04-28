@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { tokensByMode, borders } from '../tokens';
+import { tokensByMode, borders, fontFamilies, fontWeights, spacing, borderRadius, semanticSpacing } from '../tokens';
 
 const kds = tokensByMode.light;
 
@@ -23,9 +23,9 @@ export const PaymentForm: Story = {
     <div
       style={{
         width: 450,
-        fontFamily: '"Public Sans", sans-serif',
+        fontFamily: fontFamilies.primary,
         backgroundColor: kds.colors.background.muted,
-        borderRadius: 12,
+        borderRadius: borderRadius.lg,
         overflow: 'hidden',
       }}
     >
@@ -33,7 +33,7 @@ export const PaymentForm: Story = {
       <div
         style={{
           display: 'flex',
-          padding: '16px 20px',
+          padding: `${spacing[2]} ${spacing[2.5]}`,
           gap: 16,
           backgroundColor: kds.colors.background.muted,
         }}
@@ -57,7 +57,7 @@ export const PaymentForm: Story = {
           <span
             style={{
               fontSize: 16,
-              fontWeight: 600,
+              fontWeight: fontWeights.semiBold,
               lineHeight: '24px',
               color: kds.colors.text.primary,
             }}
@@ -67,7 +67,7 @@ export const PaymentForm: Story = {
           <span
             style={{
               fontSize: 14,
-              fontWeight: 600,
+              fontWeight: fontWeights.semiBold,
               lineHeight: '20px',
               color: kds.colors.text.muted,
             }}
@@ -76,7 +76,7 @@ export const PaymentForm: Story = {
           </span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center' }}>
-          <span style={{ fontWeight: 700, fontSize: '1.25rem', color: kds.colors.text.primary }}>
+          <span style={{ fontWeight: fontWeights.bold, fontSize: '1.25rem', color: kds.colors.text.primary }}>
             $15.000
           </span>
         </div>
@@ -86,8 +86,8 @@ export const PaymentForm: Story = {
       <div
         style={{
           backgroundColor: kds.colors.background.paper,
-          borderRadius: '20px 20px 0 0',
-          padding: '20px',
+          borderRadius: `${borderRadius.modal} ${borderRadius.modal} 0 0`,
+          padding: spacing[2.5],
         }}
       >
         {/* Form icon */}
@@ -96,7 +96,7 @@ export const PaymentForm: Story = {
             style={{
               width: 52,
               height: 52,
-              borderRadius: 10,
+              borderRadius: borderRadius.iconContainer,
               backgroundColor: kds.colors.background.brandSubtle,
               display: 'flex',
               alignItems: 'center',
@@ -110,7 +110,7 @@ export const PaymentForm: Story = {
             style={{
               marginTop: 8,
               fontSize: 20,
-              fontWeight: 600,
+              fontWeight: fontWeights.semiBold,
               lineHeight: '26px',
               color: kds.colors.text.primary,
               textAlign: 'center',
@@ -121,7 +121,7 @@ export const PaymentForm: Story = {
           <span
             style={{
               fontSize: 12,
-              fontWeight: 400,
+              fontWeight: fontWeights.regular,
               lineHeight: '15px',
               letterSpacing: '1px',
               textTransform: 'uppercase' as const,
@@ -148,7 +148,7 @@ export const PaymentForm: Story = {
               style={{
                 display: 'flex',
                 minHeight: 65,
-                padding: '12px 20px',
+                padding: `${spacing[1.5]} ${spacing[2.5]}`,
                 alignItems: 'center',
                 gap: 16,
                 borderRadius: 6,
@@ -170,7 +170,7 @@ export const PaymentForm: Story = {
                   flex: 1,
                   color: kds.colors.text.strong,
                   fontSize: 14,
-                  fontWeight: 600,
+                  fontWeight: fontWeights.semiBold,
                   lineHeight: '20px',
                   letterSpacing: '0.15px',
                 }}
@@ -186,7 +186,7 @@ export const PaymentForm: Story = {
           style={{
             color: kds.colors.text.hint,
             fontSize: 12,
-            fontWeight: 400,
+            fontWeight: fontWeights.regular,
             lineHeight: '166%',
             letterSpacing: '0.4px',
             textAlign: 'center',
@@ -200,18 +200,18 @@ export const PaymentForm: Story = {
         <button
           style={{
             width: '100%',
-            padding: '8px 22px',
+            padding: semanticSpacing.button.padding,
             minHeight: 50,
             backgroundColor: kds.colors.primary.main,
             color: kds.colors.primary.contrastText,
             border: 'none',
-            borderRadius: 4,
+            borderRadius: borderRadius.button,
             fontSize: '0.9375rem',
-            fontWeight: 500,
+            fontWeight: fontWeights.medium,
             textTransform: 'uppercase' as const,
             letterSpacing: '0.46px',
             cursor: 'pointer',
-            fontFamily: '"Public Sans", sans-serif',
+            fontFamily: fontFamilies.primary,
             boxShadow: '0 1px 5px 0 rgba(0,0,0,0.12), 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.20)',
           }}
         >
@@ -234,7 +234,7 @@ export const PaymentForm: Story = {
           style={{
             color: kds.colors.text.footer,
             fontSize: 11,
-            fontWeight: 400,
+            fontWeight: fontWeights.regular,
             lineHeight: '166%',
             letterSpacing: '0.4px',
           }}
@@ -260,7 +260,7 @@ export const PaymentForm: Story = {
 export const OutlinedAlerts: Story = {
   name: 'Alertas Outlined',
   render: () => (
-    <div style={{ width: 450, display: 'flex', flexDirection: 'column', gap: 12, fontFamily: '"Public Sans", sans-serif' }}>
+    <div style={{ width: 450, display: 'flex', flexDirection: 'column', gap: 12, fontFamily: fontFamilies.primary }}>
       {[
         { type: 'success' as const, icon: '✓', message: 'Pago realizado exitosamente' },
         { type: 'warning' as const, icon: '⚠', message: 'Tu sesión expirará en 5 minutos' },
@@ -274,8 +274,8 @@ export const OutlinedAlerts: Story = {
             alignItems: 'center',
             gap: 12,
             border: '1px solid',
-            borderRadius: 4,
-            padding: '12px 20px',
+            borderRadius: borderRadius.sm,
+            padding: `${spacing[1.5]} ${spacing[2.5]}`,
             fontSize: 14,
             textAlign: 'left',
             color: kds.colors.components.alert[`${type}Text`],
@@ -307,16 +307,16 @@ export const MerchantInfo: Story = {
     <div
       style={{
         width: 450,
-        fontFamily: '"Public Sans", sans-serif',
+        fontFamily: fontFamilies.primary,
         backgroundColor: kds.colors.background.paper,
-        borderRadius: 12,
+        borderRadius: borderRadius.lg,
         padding: 20,
       }}
     >
       {/* Back header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
         <span style={{ color: kds.colors.text.tertiary, fontSize: 24, cursor: 'pointer' }}>←</span>
-        <span style={{ color: kds.colors.text.strong, fontSize: 16, fontWeight: 600 }}>
+        <span style={{ color: kds.colors.text.strong, fontSize: 16, fontWeight: fontWeights.semiBold }}>
           Detalle del pago
         </span>
       </div>
@@ -332,9 +332,9 @@ export const MerchantInfo: Story = {
         <div key={label} style={{ marginBottom: 16 }}>
           <div
             style={{
-              color: 'rgba(76, 78, 100, 0.68)',
+              color: kds.colors.text.secondary,
               fontSize: 12,
-              fontWeight: 400,
+              fontWeight: fontWeights.regular,
               lineHeight: '15px',
               letterSpacing: '1px',
               textTransform: 'uppercase' as const,

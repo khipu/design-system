@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Box from '@mui/material/Box';
+import { colors, spacing, fontFamilies, fontSizes, borders } from '../tokens';
 import { BankSelectionExample } from '../examples/BankSelectionExample';
 import { MandateFormExample } from '../examples/MandateFormExample';
 import { SubscriptionDetailsExample } from '../examples/SubscriptionDetailsExample';
@@ -147,10 +148,10 @@ const bankImages = [
 export const BankImages: Story = {
   render: () => (
     <Box sx={{ maxWidth: 600 }}>
-      <h2 style={{ fontFamily: 'Public Sans, sans-serif', marginBottom: 24 }}>
+      <h2 style={{ fontFamily: fontFamilies.primary, marginBottom: 24 }}>
         Bank Images from Figma
       </h2>
-      <p style={{ color: '#666', marginBottom: 32 }}>
+      <p style={{ color: colors.text.footer, marginBottom: 32 }}>
         These images were extracted from the Figma design and saved locally in{' '}
         <code>src/assets/images/</code>
       </p>
@@ -170,7 +171,7 @@ export const BankImages: Story = {
               alignItems: 'center',
               gap: 1,
               p: 2,
-              border: '1px solid #eee',
+              border: borders.divider,
               borderRadius: 2,
             }}
           >
@@ -181,7 +182,7 @@ export const BankImages: Story = {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#f5f5f5',
+                backgroundColor: colors.background.elevated,
                 borderRadius: 1,
               }}
             >
@@ -197,8 +198,8 @@ export const BankImages: Story = {
             </Box>
             <span
               style={{
-                fontSize: 12,
-                color: '#666',
+                fontSize: fontSizes.xs,
+                color: colors.text.footer,
                 textAlign: 'center',
               }}
             >
@@ -208,18 +209,18 @@ export const BankImages: Story = {
         ))}
       </Box>
 
-      <Box sx={{ mt: 4, p: 2, backgroundColor: '#f5f5f5', borderRadius: 2 }}>
-        <h4 style={{ margin: '0 0 12px 0', fontFamily: 'Public Sans, sans-serif' }}>
+      <Box sx={{ mt: 4, p: 2, backgroundColor: colors.background.elevated, borderRadius: 2 }}>
+        <h4 style={{ margin: `0 0 ${spacing[1.5]} 0`, fontFamily: fontFamilies.primary }}>
           Usage Example
         </h4>
         <pre
           style={{
             margin: 0,
             padding: 12,
-            backgroundColor: '#272930',
-            color: '#fff',
+            backgroundColor: colors.text.strong,
+            color: colors.primary.contrastText,
             borderRadius: 4,
-            fontSize: 13,
+            fontSize: fontSizes.xs,
             overflow: 'auto',
           }}
         >
