@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { KdsModal } from './KdsModal';
 import { KdsButton } from '../KdsButton';
-import { borderRadius, spacing } from '../../../tokens';
+import { borderRadius, spacing, fontSizes, borders } from '../../../tokens';
 
 const meta: Meta<typeof KdsModal> = {
   title: 'Core/KdsModal',
@@ -175,7 +175,7 @@ export const LongContent: Story = {
         >
           <div>
             {Array.from({ length: 20 }).map((_, i) => (
-              <p key={i} style={{ margin: '0 0 16px 0' }}>
+              <p key={i} style={{ margin: `0 0 ${spacing[2]} 0` }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -212,23 +212,23 @@ export const FormModal: Story = {
         >
           <form style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
             <div>
-              <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>
+              <label style={{ display: 'block', marginBottom: spacing[0.5], fontSize: fontSizes.sm }}>
                 Nombre completo
               </label>
               <input
                 type="text"
                 style={{
                   width: '100%',
-                  padding: '12px',
-                  border: '1px solid #ddd',
+                  padding: spacing[1.5],
+                  border: borders.inputOutlined,
                   borderRadius: borderRadius.button,
-                  fontSize: '16px',
+                  fontSize: fontSizes.base,
                   boxSizing: 'border-box',
                 }}
               />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>
+              <label style={{ display: 'block', marginBottom: spacing[0.5], fontSize: fontSizes.sm }}>
                 RUT
               </label>
               <input
@@ -236,26 +236,26 @@ export const FormModal: Story = {
                 placeholder="12.345.678-9"
                 style={{
                   width: '100%',
-                  padding: '12px',
-                  border: '1px solid #ddd',
+                  padding: spacing[1.5],
+                  border: borders.inputOutlined,
                   borderRadius: borderRadius.button,
-                  fontSize: '16px',
+                  fontSize: fontSizes.base,
                   boxSizing: 'border-box',
                 }}
               />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>
+              <label style={{ display: 'block', marginBottom: spacing[0.5], fontSize: fontSizes.sm }}>
                 Email
               </label>
               <input
                 type="email"
                 style={{
                   width: '100%',
-                  padding: '12px',
-                  border: '1px solid #ddd',
+                  padding: spacing[1.5],
+                  border: borders.inputOutlined,
                   borderRadius: borderRadius.button,
-                  fontSize: '16px',
+                  fontSize: fontSizes.base,
                   boxSizing: 'border-box',
                 }}
               />

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { KdsTypography } from './KdsTypography';
+import { colors } from '../../../tokens';
 
 const meta: Meta<typeof KdsTypography> = {
   title: 'Core/KdsTypography',
@@ -89,7 +90,7 @@ export const LabelVariants: Story = {
 
 export const CardVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, bgcolor: colors.background.elevated, borderRadius: 1 }}>
       <KdsTypography variant="cardTitle">Card Title - 16px SemiBold</KdsTypography>
       <KdsTypography variant="cardSubtitle" color="tertiary">Card Subtitle - 14px SemiBold</KdsTypography>
       <KdsTypography variant="cardSubtitle">Product Name - 14px SemiBold</KdsTypography>
@@ -197,7 +198,7 @@ export const AllVariants: Story = {
 
 export const RealWorldExample: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 390, bgcolor: '#fff', p: 3, borderRadius: 2 }}>
+    <Box sx={{ maxWidth: 390, bgcolor: colors.background.paper, p: 3, borderRadius: 2 }}>
       <KdsTypography variant="heading3" sx={{ mb: 2 }}>
         Detalle de suscripcion
       </KdsTypography>
@@ -223,7 +224,7 @@ export const RealWorldExample: Story = {
         </Box>
       </Box>
 
-      <Box sx={{ mt: 3, p: 2, bgcolor: '#E3F2FD', borderRadius: 1 }}>
+      <Box sx={{ mt: 3, p: 2, bgcolor: colors.info[50], borderRadius: 1 }}>
         <KdsTypography variant="bodySmall" color="info">
           El tope mensual corresponde al monto maximo posible a cobrar mensualmente.
         </KdsTypography>

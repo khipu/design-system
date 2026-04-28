@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsTabs, KdsTab, KdsTabPanel } from './KdsTabs';
 import Box from '@mui/material/Box';
+import { borders } from '../../../tokens';
 
 const meta: Meta<typeof KdsTabs> = {
   title: 'Core/KdsTabs',
@@ -66,7 +67,7 @@ export const WithPanels: Story = {
           <KdsTab label="PERSONAS" value="personas" />
           <KdsTab label="EMPRESAS" value="empresas" />
         </KdsTabs>
-        <Box sx={{ mt: 2, p: 2, border: '1px solid #e0e0e0', borderRadius: 1 }}>
+        <Box sx={{ mt: 2, p: 2, border: borders.divider, borderRadius: 1 }}>
           <KdsTabPanel value="personas" selectedValue={value}>
             <Box>Contenido para personas - bancos personales</Box>
           </KdsTabPanel>
