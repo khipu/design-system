@@ -61,7 +61,7 @@ const lightModeColors = {
     paper: '#FFFFFF',
     elevated: '#FAFAFA',
     brandSubtle: '#F0F0FA', // Subtle brand-tinted surface (e.g. icon boxes, accented headers)
-    muted: '#F5F5F5',       // Light gray background for app shells, sections
+    muted: '#F4F4F7',       // Light gray background for app shells, sections
   },
 
   // Neutral grays (for borders, backgrounds, etc.)
