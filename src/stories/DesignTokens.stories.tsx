@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { KdsTypography as Typography } from '../components/core/KdsTypography';
-import { colors } from '../tokens';
+import { colors, fontFamilies, borderRadius, shadows, borders } from '../tokens';
 
 /**
  * Design Tokens - Colors, Typography, and Spacing
@@ -80,7 +80,7 @@ const TypographySample = ({
   lineHeight: string;
   letterSpacing?: string;
 }) => (
-  <Box sx={{ mb: 3, pb: 2, borderBottom: '1px solid #eee' }}>
+  <Box sx={{ mb: 3, pb: 2, borderBottom: borders.divider }}>
     <Box
       sx={{
         fontFamily,
@@ -126,16 +126,16 @@ export const Colors: Story = {
           <ColorSwatch name="Main" value={colors.primary.main} />
           <ColorSwatch name="Light" value={colors.primary.light} />
           <ColorSwatch name="Dark" value={colors.primary.dark} />
-          <ColorSwatch name="Contrast Text" value={colors.primary.contrastText} textColor="#272930" />
+          <ColorSwatch name="Contrast Text" value={colors.primary.contrastText} textColor={colors.text.strong} />
         </Box>
         <Typography variant="label" color="tertiary" sx={{ mt: 2 }}>
           States
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, mt: 1 }}>
-          <ColorSwatch name="Hover" value={colors.primary.states.hover} textColor="#272930" />
-          <ColorSwatch name="Selected" value={colors.primary.states.selected} textColor="#272930" />
-          <ColorSwatch name="Focus" value={colors.primary.states.focus} textColor="#272930" />
-          <ColorSwatch name="Focus Visible" value={colors.primary.states.focusVisible} textColor="#272930" />
+          <ColorSwatch name="Hover" value={colors.primary.states.hover} textColor={colors.text.strong} />
+          <ColorSwatch name="Selected" value={colors.primary.states.selected} textColor={colors.text.strong} />
+          <ColorSwatch name="Focus" value={colors.primary.states.focus} textColor={colors.text.strong} />
+          <ColorSwatch name="Focus Visible" value={colors.primary.states.focusVisible} textColor={colors.text.strong} />
           <ColorSwatch name="Outlined Border" value={colors.primary.states.outlinedBorder} />
         </Box>
       </Box>
@@ -148,10 +148,10 @@ export const Colors: Story = {
           Info (Blue)
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value="#0288D1" />
-          <ColorSwatch name="Light" value="#03A9F4" />
-          <ColorSwatch name="Dark" value="#01579B" />
-          <ColorSwatch name="Contrast Text" value="#FFFFFF" textColor="#272930" />
+          <ColorSwatch name="Main" value={colors.info.main} />
+          <ColorSwatch name="Light" value={colors.info.light} />
+          <ColorSwatch name="Dark" value={colors.info.dark} />
+          <ColorSwatch name="Contrast Text" value={colors.info.contrastText} textColor={colors.text.strong} />
         </Box>
       </Box>
 
@@ -163,10 +163,10 @@ export const Colors: Story = {
           Success (Green)
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value="#2E7D32" />
-          <ColorSwatch name="Light" value="#4CAF50" />
-          <ColorSwatch name="Dark" value="#1B5E20" />
-          <ColorSwatch name="Background" value="#EDF7ED" textColor="#272930" />
+          <ColorSwatch name="Main" value={colors.success.main} />
+          <ColorSwatch name="Light" value={colors.success.light} />
+          <ColorSwatch name="Dark" value={colors.success.dark} />
+          <ColorSwatch name="Background" value={colors.success.container} textColor={colors.text.strong} />
         </Box>
       </Box>
 
@@ -178,9 +178,9 @@ export const Colors: Story = {
           Warning (Orange)
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value="#ED6C02" />
-          <ColorSwatch name="Light" value="#FF9800" />
-          <ColorSwatch name="Dark" value="#E65100" />
+          <ColorSwatch name="Main" value={colors.warning.main} />
+          <ColorSwatch name="Light" value={colors.warning.light} />
+          <ColorSwatch name="Dark" value={colors.warning.dark} />
         </Box>
       </Box>
 
@@ -192,9 +192,9 @@ export const Colors: Story = {
           Error (Red)
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value="#D32F2F" />
-          <ColorSwatch name="Light" value="#EF5350" />
-          <ColorSwatch name="Dark" value="#C62828" />
+          <ColorSwatch name="Main" value={colors.error.main} />
+          <ColorSwatch name="Light" value={colors.error.light} />
+          <ColorSwatch name="Dark" value={colors.error.dark} />
         </Box>
       </Box>
 
@@ -206,12 +206,12 @@ export const Colors: Story = {
           Text Colors
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Primary (On Surface)" value="#272930" />
-          <ColorSwatch name="Primary (87%)" value="rgba(0, 0, 0, 0.87)" />
-          <ColorSwatch name="Secondary (60%)" value="rgba(0, 0, 0, 0.60)" textColor="#fff" />
-          <ColorSwatch name="Tertiary" value="#81848F" />
-          <ColorSwatch name="Disabled" value="#9797A5" textColor="#272930" />
-          <ColorSwatch name="Disabled (38%)" value="rgba(0, 0, 0, 0.38)" textColor="#fff" />
+          <ColorSwatch name="Primary (On Surface)" value={colors.text.strong} />
+          <ColorSwatch name="Primary (87%)" value={colors.text.primary} />
+          <ColorSwatch name="Secondary (60%)" value={colors.text.secondary} textColor={colors.primary.contrastText} />
+          <ColorSwatch name="Tertiary" value={colors.text.muted} />
+          <ColorSwatch name="Disabled" value={colors.text.disabled} textColor={colors.text.strong} />
+          <ColorSwatch name="Disabled (38%)" value={colors.text.hint} textColor={colors.primary.contrastText} />
         </Box>
       </Box>
 
@@ -223,9 +223,11 @@ export const Colors: Story = {
           Background Colors
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Default" value="#FFFFFF" textColor="#272930" />
-          <ColorSwatch name="Paper" value="#FFFFFF" textColor="#272930" />
-          <ColorSwatch name="App Bar" value="#F5F5F5" textColor="#272930" />
+          <ColorSwatch name="Default" value={colors.background.default} textColor={colors.text.strong} />
+          <ColorSwatch name="Paper" value={colors.background.paper} textColor={colors.text.strong} />
+          <ColorSwatch name="App Bar" value={colors.background.elevated} textColor={colors.text.strong} />
+          <ColorSwatch name="Muted" value={colors.background.muted} textColor={colors.text.strong} />
+          <ColorSwatch name="Brand Subtle" value={colors.background.brandSubtle} textColor={colors.text.strong} />
         </Box>
       </Box>
 
@@ -237,12 +239,12 @@ export const Colors: Story = {
           Alert Backgrounds
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Info Background" value="#E5F6FD" textColor="#014361" />
-          <ColorSwatch name="Info Text" value="#014361" />
-          <ColorSwatch name="Success Background" value="#EDF7ED" textColor="#1E4620" />
-          <ColorSwatch name="Success Text" value="#1E4620" />
-          <ColorSwatch name="Warning Background" value="#FFF4E5" textColor="#663C00" />
-          <ColorSwatch name="Error Background" value="#FDEDED" textColor="#5F2120" />
+          <ColorSwatch name="Info Background" value={colors.components.alert.infoBg} textColor={colors.components.alert.infoText} />
+          <ColorSwatch name="Info Text" value={colors.components.alert.infoText} />
+          <ColorSwatch name="Success Background" value={colors.components.alert.successBg} textColor={colors.components.alert.successText} />
+          <ColorSwatch name="Success Text" value={colors.components.alert.successText} />
+          <ColorSwatch name="Warning Background" value={colors.components.alert.warningBg} textColor={colors.components.alert.warningText} />
+          <ColorSwatch name="Error Background" value={colors.components.alert.errorBg} textColor={colors.components.alert.errorText} />
         </Box>
       </Box>
     </Box>
@@ -421,13 +423,13 @@ const CodeBlock = ({ children }: { children: string }) => (
   <Box
     component="pre"
     sx={{
-      backgroundColor: '#1e1e1e',
-      color: '#d4d4d4',
+      backgroundColor: colors.background.code,
+      color: colors.text.code,
       padding: 2,
       borderRadius: 1,
       fontSize: '13px',
       overflow: 'auto',
-      fontFamily: '"Open Sans Mono", monospace',
+      fontFamily: fontFamilies.mono,
       m: 0,
     }}
   >
@@ -472,13 +474,13 @@ export const Spacing: Story = {
       <Box sx={{ mb: 4 }}>
         <Typography variant="cardTitle" sx={{ mb: 1 }}>Card Spacing</Typography>
         <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>padding:</strong> 10px 20px</Typography>
           </Box>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>gap:</strong> 16px</Typography>
           </Box>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>listGap:</strong> 12px</Typography>
           </Box>
         </Box>
@@ -508,7 +510,7 @@ export const Spacing: Story = {
       <Box sx={{ mb: 4 }}>
         <Typography variant="cardTitle" sx={{ mb: 1 }}>Box/Container Spacing</Typography>
         <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>padding:</strong> 32px 20px</Typography>
           </Box>
         </Box>
@@ -525,7 +527,7 @@ export const Spacing: Story = {
       <Box sx={{ mb: 4 }}>
         <Typography variant="cardTitle" sx={{ mb: 1 }}>Input Spacing</Typography>
         <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>padding:</strong> 16px 12px</Typography>
           </Box>
         </Box>
@@ -541,7 +543,7 @@ export const Spacing: Story = {
       <Box sx={{ mb: 4 }}>
         <Typography variant="cardTitle" sx={{ mb: 1 }}>Button Spacing</Typography>
         <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>padding:</strong> 8px 22px</Typography>
           </Box>
         </Box>
@@ -555,13 +557,13 @@ export const Spacing: Story = {
       <Box sx={{ mb: 4 }}>
         <Typography variant="cardTitle" sx={{ mb: 1 }}>Layout Gaps</Typography>
         <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>sectionGap:</strong> 32px</Typography>
           </Box>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>formGap:</strong> 20px</Typography>
           </Box>
-          <Box sx={{ p: 1, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
             <Typography variant="bodySmall"><strong>stackGap:</strong> 16px</Typography>
           </Box>
         </Box>
@@ -602,8 +604,8 @@ export const BorderRadius: Story = {
             sx={{
               width: 80,
               height: 80,
-              backgroundColor: '#8347AD',
-              borderRadius: '4px',
+              backgroundColor: colors.primary.main,
+              borderRadius: borderRadius.sm,
             }}
           />
           <Box>
@@ -619,7 +621,7 @@ export const BorderRadius: Story = {
             sx={{
               width: 80,
               height: 80,
-              backgroundColor: '#0288D1',
+              backgroundColor: colors.info.main,
               borderRadius: '6px',
             }}
           />
@@ -636,8 +638,8 @@ export const BorderRadius: Story = {
             sx={{
               width: 80,
               height: 80,
-              backgroundColor: '#2E7D32',
-              borderRadius: '10px',
+              backgroundColor: colors.success.main,
+              borderRadius: borderRadius.iconContainer,
             }}
           />
           <Box>
@@ -653,8 +655,8 @@ export const BorderRadius: Story = {
             sx={{
               width: 80,
               height: 80,
-              backgroundColor: '#ED6C02',
-              borderRadius: '12px',
+              backgroundColor: colors.warning.main,
+              borderRadius: borderRadius.lg,
             }}
           />
           <Box>
@@ -670,8 +672,8 @@ export const BorderRadius: Story = {
             sx={{
               width: 80,
               height: 80,
-              backgroundColor: '#D32F2F',
-              borderRadius: '20px',
+              backgroundColor: colors.error.main,
+              borderRadius: borderRadius['2xl'],
             }}
           />
           <Box>
@@ -709,9 +711,9 @@ export const Shadows: Story = {
             sx={{
               width: 120,
               height: 80,
-              backgroundColor: '#fff',
+              backgroundColor: colors.background.default,
               borderRadius: '6px',
-              border: '1px solid rgba(0, 0, 0, 0.42)',
+              border: borders.card,
             }}
           />
           <Box>
@@ -728,10 +730,9 @@ export const Shadows: Story = {
             sx={{
               width: 120,
               height: 80,
-              backgroundColor: '#8347AD',
-              borderRadius: '4px',
-              boxShadow:
-                '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+              backgroundColor: colors.primary.main,
+              borderRadius: borderRadius.button,
+              boxShadow: shadows.button,
             }}
           />
           <Box>
@@ -748,9 +749,9 @@ export const Shadows: Story = {
             sx={{
               width: 120,
               height: 80,
-              backgroundColor: '#fff',
-              borderRadius: '4px',
-              border: '1px solid rgba(2, 136, 209, 0.5)',
+              backgroundColor: colors.background.default,
+              borderRadius: borderRadius.button,
+              border: borders.buttonOutlinedInfo,
             }}
           />
           <Box>
@@ -767,9 +768,9 @@ export const Shadows: Story = {
             sx={{
               width: 120,
               height: 80,
-              backgroundColor: '#fff',
-              borderRadius: '4px',
-              border: '1px solid rgba(0, 0, 0, 0.23)',
+              backgroundColor: colors.background.default,
+              borderRadius: borderRadius.input,
+              border: borders.inputOutlined,
             }}
           />
           <Box>
@@ -854,12 +855,12 @@ export const Overview: Story = {
 
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 4 }}>
         {/* Colors */}
-        <Box sx={{ p: 3, border: '1px solid #eee', borderRadius: 2 }}>
+        <Box sx={{ p: 3, border: borders.divider, borderRadius: 2 }}>
           <Typography variant="heading3" sx={{ mb: 2 }}>
             Colors
           </Typography>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            {['#8347AD', '#0288D1', '#2E7D32', '#ED6C02', '#D32F2F', '#272930'].map((color) => (
+            {[colors.primary.main, colors.info.main, colors.success.main, colors.warning.main, colors.error.main, colors.text.strong].map((color) => (
               <Box
                 key={color}
                 sx={{
@@ -877,7 +878,7 @@ export const Overview: Story = {
         </Box>
 
         {/* Typography */}
-        <Box sx={{ p: 3, border: '1px solid #eee', borderRadius: 2 }}>
+        <Box sx={{ p: 3, border: borders.divider, borderRadius: 2 }}>
           <Typography variant="heading3" sx={{ mb: 2 }}>
             Typography
           </Typography>
@@ -896,7 +897,7 @@ export const Overview: Story = {
         </Box>
 
         {/* Spacing */}
-        <Box sx={{ p: 3, border: '1px solid #eee', borderRadius: 2 }}>
+        <Box sx={{ p: 3, border: borders.divider, borderRadius: 2 }}>
           <Typography variant="heading3" sx={{ mb: 2 }}>
             Spacing
           </Typography>
@@ -907,7 +908,7 @@ export const Overview: Story = {
                 sx={{
                   width: 16,
                   height: size,
-                  backgroundColor: '#8347AD',
+                  backgroundColor: colors.primary.main,
                   borderRadius: 0.5,
                 }}
               />
@@ -919,7 +920,7 @@ export const Overview: Story = {
         </Box>
 
         {/* Border Radius */}
-        <Box sx={{ p: 3, border: '1px solid #eee', borderRadius: 2 }}>
+        <Box sx={{ p: 3, border: borders.divider, borderRadius: 2 }}>
           <Typography variant="heading3" sx={{ mb: 2 }}>
             Border Radius
           </Typography>
@@ -930,7 +931,7 @@ export const Overview: Story = {
                 sx={{
                   width: 32,
                   height: 32,
-                  backgroundColor: '#0288D1',
+                  backgroundColor: colors.info.main,
                   borderRadius: `${radius}px`,
                 }}
               />

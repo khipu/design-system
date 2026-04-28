@@ -8,6 +8,7 @@ import {
   MicrocopyTable,
   PunctuationRulesTable
 } from './components/VoiceAndToneComponents';
+import { spacing } from '../../tokens';
 
 const meta: Meta = {
   title: 'Brand',
@@ -25,7 +26,7 @@ export default meta;
 export const Voz_y_tono: StoryObj = {
   name: 'Voz y tono',
   render: () => (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: `${spacing[5]} ${spacing[2.5]}` }}>
       <h1>Voz y Tono</h1>
 
       <p>La forma en que comunicamos es tan importante como lo que comunicamos. La voz de Khipu es consistente, mientras que el tono se adapta al contexto.</p>

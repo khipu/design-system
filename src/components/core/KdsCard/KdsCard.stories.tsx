@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsCard, KdsCardHeader, KdsCardContent, KdsCardActions } from './KdsCard';
 import { KdsButton } from '../KdsButton';
-import { colors, fontWeights, fontSizes, borderRadius, spacing } from '../../../tokens';
+import { colors, fontFamilies, fontWeights, fontSizes, borderRadius, spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsCard> = {
   title: 'Core/KdsCard',
@@ -73,16 +73,16 @@ export const Variants: Story = {
     <div style={{ display: 'flex', gap: spacing[3] }}>
       <KdsCard variant="elevation" elevation={2} style={{ width: '250px' }}>
         <KdsCardContent>
-          <h4 style={{ margin: '0 0 8px 0' }}>Elevation</h4>
-          <p style={{ margin: 0, color: 'rgba(0,0,0,0.6)' }}>
+          <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Elevation</h4>
+          <p style={{ margin: 0, color: colors.text.secondary }}>
             Tarjeta con sombra
           </p>
         </KdsCardContent>
       </KdsCard>
       <KdsCard variant="outlined" style={{ width: '250px' }}>
         <KdsCardContent>
-          <h4 style={{ margin: '0 0 8px 0' }}>Outlined</h4>
-          <p style={{ margin: 0, color: 'rgba(0,0,0,0.6)' }}>
+          <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Outlined</h4>
+          <p style={{ margin: 0, color: colors.text.secondary }}>
             Tarjeta con borde
           </p>
         </KdsCardContent>
@@ -95,7 +95,7 @@ export const Elevations: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: spacing[2], flexWrap: 'wrap' }}>
       {([0, 1, 2, 4, 8, 12, 16, 24] as const).map((elevation) => (
-        <KdsCard key={elevation} elevation={elevation} style={{ width: '120px', padding: '16px' }}>
+        <KdsCard key={elevation} elevation={elevation} style={{ width: '120px', padding: spacing[2] }}>
           <p style={{ margin: 0, textAlign: 'center' }}>
             elevation={elevation}
           </p>
@@ -113,8 +113,8 @@ export const Clickable: Story = {
       style={{ maxWidth: '300px' }}
     >
       <KdsCardContent>
-        <h4 style={{ margin: '0 0 8px 0' }}>Tarjeta clickeable</h4>
-        <p style={{ margin: 0, color: 'rgba(0,0,0,0.6)' }}>
+        <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Tarjeta clickeable</h4>
+        <p style={{ margin: 0, color: colors.text.secondary }}>
           Haz clic en esta tarjeta para ver el efecto.
         </p>
       </KdsCardContent>
@@ -136,7 +136,7 @@ export const WithAvatar: Story = {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'white',
+              color: colors.primary.contrastText,
               fontWeight: fontWeights.medium,
             }}
           >
@@ -151,10 +151,10 @@ export const WithAvatar: Story = {
               border: 'none',
               background: 'none',
               cursor: 'pointer',
-              padding: '8px',
+              padding: spacing[1],
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="rgba(0,0,0,0.56)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill={colors.action.active}>
               <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
             </svg>
           </button>
@@ -181,30 +181,30 @@ export const PaymentCard: Story = {
               width: '48px',
               height: '48px',
               borderRadius: borderRadius.lg,
-              backgroundColor: '#E8F5E9',
+              backgroundColor: colors.success.container,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E7D32">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill={colors.success.main}>
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
             </svg>
           </div>
         }
       />
       <KdsCardContent>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ color: 'rgba(0,0,0,0.6)' }}>Monto</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: spacing[1] }}>
+          <span style={{ color: colors.text.secondary }}>Monto</span>
           <span style={{ fontWeight: fontWeights.medium }}>$150.000</span>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ color: 'rgba(0,0,0,0.6)' }}>Origen</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: spacing[1] }}>
+          <span style={{ color: colors.text.secondary }}>Origen</span>
           <span>Banco Estado</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: 'rgba(0,0,0,0.6)' }}>Referencia</span>
-          <span style={{ fontFamily: 'monospace' }}>KHP-2024-001234</span>
+          <span style={{ color: colors.text.secondary }}>Referencia</span>
+          <span style={{ fontFamily: fontFamilies.mono }}>KHP-2024-001234</span>
         </div>
       </KdsCardContent>
       <KdsCardActions>
@@ -221,8 +221,8 @@ export const CardGrid: Story = {
       {[1, 2, 3, 4, 5, 6].map((i) => (
         <KdsCard key={i} clickable elevation={1}>
           <KdsCardContent>
-            <h4 style={{ margin: '0 0 8px 0' }}>Tarjeta {i}</h4>
-            <p style={{ margin: 0, color: 'rgba(0,0,0,0.6)', fontSize: fontSizes.sm }}>
+            <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Tarjeta {i}</h4>
+            <p style={{ margin: 0, color: colors.text.secondary, fontSize: fontSizes.sm }}>
               Descripción breve del contenido de esta tarjeta.
             </p>
           </KdsCardContent>
@@ -235,33 +235,33 @@ export const CardGrid: Story = {
 export const PaddingVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
-      <p style={{ margin: 0, color: '#666', fontSize: fontSizes.sm }}>
+      <p style={{ margin: 0, color: colors.text.footer, fontSize: fontSizes.sm }}>
         Padding values from Figma design (vertical horizontal):
       </p>
       <div style={{ display: 'flex', gap: spacing[2], flexWrap: 'wrap', alignItems: 'flex-start' }}>
         <div style={{ textAlign: 'center' }}>
-          <KdsCard padding="none" variant="outlined" style={{ width: '150px', marginBottom: '8px' }}>
+          <KdsCard padding="none" variant="outlined" style={{ width: '150px', marginBottom: spacing[1] }}>
             <p style={{ margin: 0 }}>none</p>
           </KdsCard>
-          <span style={{ fontSize: fontSizes.xs, color: '#666' }}>0px</span>
+          <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>0px</span>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <KdsCard padding="sm" variant="outlined" style={{ width: '150px', marginBottom: '8px' }}>
+          <KdsCard padding="sm" variant="outlined" style={{ width: '150px', marginBottom: spacing[1] }}>
             <p style={{ margin: 0 }}>sm</p>
           </KdsCard>
-          <span style={{ fontSize: fontSizes.xs, color: '#666' }}>8px 16px</span>
+          <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>8px 16px</span>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <KdsCard padding="md" variant="outlined" style={{ width: '150px', marginBottom: '8px' }}>
+          <KdsCard padding="md" variant="outlined" style={{ width: '150px', marginBottom: spacing[1] }}>
             <p style={{ margin: 0 }}>md (Figma)</p>
           </KdsCard>
-          <span style={{ fontSize: fontSizes.xs, color: '#666' }}>10px 20px</span>
+          <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>10px 20px</span>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <KdsCard padding="lg" variant="outlined" style={{ width: '150px', marginBottom: '8px' }}>
+          <KdsCard padding="lg" variant="outlined" style={{ width: '150px', marginBottom: spacing[1] }}>
             <p style={{ margin: 0 }}>lg</p>
           </KdsCard>
-          <span style={{ fontSize: fontSizes.xs, color: '#666' }}>16px 20px</span>
+          <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>16px 20px</span>
         </div>
       </div>
     </div>

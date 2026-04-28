@@ -10,7 +10,8 @@ import {
   colors,
   fontFamilies,
   fontWeights,
-  fontSizes
+  fontSizes,
+  shadows as shadowTokens,
 } from '../tokens';
 
 // =============================================================================
@@ -505,8 +506,6 @@ const components: ThemeOptions['components'] = {
     styleOverrides: {
       root: {
         borderRadius: 6,
-        // Default shadow from Figma --joy-shadow-xs
-        boxShadow: '0px 1px 2px 0px rgba(187, 187, 187, 0.12)',
       },
     },
   },
@@ -749,6 +748,45 @@ const components: ThemeOptions['components'] = {
 };
 
 // =============================================================================
+// SHADOWS (MUI requires exactly 25 entries: index 0-24)
+// All values from shadow tokens (source of truth)
+// =============================================================================
+
+const shadows: [
+  'none', string, string, string, string,
+  string, string, string, string, string,
+  string, string, string, string, string,
+  string, string, string, string, string,
+  string, string, string, string, string,
+] = [
+  'none',
+  shadowTokens[1],
+  shadowTokens[2],
+  shadowTokens[3],
+  shadowTokens[4],
+  shadowTokens[5],
+  shadowTokens[6],
+  shadowTokens[7],
+  shadowTokens[8],
+  shadowTokens[9],
+  shadowTokens[10],
+  shadowTokens[11],
+  shadowTokens[12],
+  shadowTokens[13],
+  shadowTokens[14],
+  shadowTokens[15],
+  shadowTokens[16],
+  shadowTokens[17],
+  shadowTokens[18],
+  shadowTokens[19],
+  shadowTokens[20],
+  shadowTokens[21],
+  shadowTokens[22],
+  shadowTokens[23],
+  shadowTokens[24],
+];
+
+// =============================================================================
 // CREATE THEME
 // =============================================================================
 
@@ -756,6 +794,7 @@ export const khipuTheme = createTheme({
   palette,
   typography,
   shape,
+  shadows,
   components,
 });
 
