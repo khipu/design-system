@@ -96,6 +96,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.3.0",
+    "@vueless/storybook-dark-mode": "10.0.7",
     "beercss": "^4.0.1",
     "cssnano": "^6.0.0",
     "eslint": "^8.50.0",
