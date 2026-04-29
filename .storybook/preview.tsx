@@ -1,34 +1,95 @@
 import type { Preview } from '@storybook/react';
 import React from 'react';
 import { create } from 'storybook/theming';
+import { useDarkMode } from '@vueless/storybook-dark-mode';
 import { KhipuThemeProvider } from '../src/theme/ThemeProvider';
+import { colorsByMode, fontFamilies } from '../src/tokens';
 import '../src/tokens/css-variables.css';
 
-const khipuTheme = create({
+// Storybook UI themes — create() requires literal values, so we reference tokens as source
+const light = colorsByMode.light;
+const dark = colorsByMode.dark;
+
+const khipuLightTheme = create({
   base: 'light',
   brandTitle: 'Khipu Design System',
   brandUrl: 'https://design.khipu.com',
   brandImage: '/khipu-200x75-color.svg',
   brandTarget: '_self',
 
-  colorPrimary: '#8347AD',
-  colorSecondary: '#8347AD',
+  colorPrimary: light.primary.main,
+  colorSecondary: light.primary.main,
 
-  appBg: '#FFFFFF',
-  appContentBg: '#FFFFFF',
-  appBorderColor: '#E0E0E0',
+  appBg: light.background.default,
+  appContentBg: light.background.default,
+  appBorderColor: light.gray[200],
   appBorderRadius: 8,
 
-  textColor: '#333333',
-  textInverseColor: '#FFFFFF',
+  textColor: light.text.primary,
+  textInverseColor: light.primary.contrastText,
 
-  barTextColor: '#666666',
-  barSelectedColor: '#8347AD',
-  barBg: '#FFFFFF',
+  barTextColor: light.text.footer,
+  barSelectedColor: light.primary.main,
+  barBg: light.background.default,
 
-  fontBase: '"Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  fontCode: 'monospace',
+  fontBase: fontFamilies.primary,
+  fontCode: fontFamilies.mono,
 });
+
+const khipuDarkTheme = create({
+  base: 'dark',
+  brandTitle: 'Khipu Design System',
+  brandUrl: 'https://design.khipu.com',
+  brandImage: '/khipu-200x75-color.svg',
+  brandTarget: '_self',
+
+  colorPrimary: dark.primary.main,
+  colorSecondary: dark.primary.main,
+
+  appBg: dark.background.default,
+  appContentBg: dark.background.paper,
+  appBorderColor: dark.divider,
+  appBorderRadius: 8,
+
+  textColor: dark.text.primary,
+  textInverseColor: dark.background.default,
+
+  barTextColor: dark.text.secondary,
+  barSelectedColor: dark.primary.main,
+  barBg: dark.background.default,
+
+  fontBase: fontFamilies.primary,
+  fontCode: fontFamilies.mono,
+});
+
+const darkPaletteOverrides = {
+  palette: {
+    mode: 'dark' as const,
+    primary: dark.primary,
+    secondary: dark.secondary,
+    text: dark.text,
+    background: dark.background,
+    action: dark.action,
+    divider: dark.divider,
+  },
+};
+
+function StoryDecorator({ Story }: { Story: React.ComponentType }) {
+  const isDark = useDarkMode();
+  const mode = isDark ? 'dark' : 'light';
+  const modeColors = colorsByMode[mode];
+
+  return (
+    <KhipuThemeProvider
+      mode={mode}
+      themeOverrides={isDark ? darkPaletteOverrides : undefined}
+    >
+      <div style={{ backgroundColor: modeColors.background.default, minHeight: '100%' }}>
+        <Story />
+      </div>
+    </KhipuThemeProvider>
+  );
+}
 
 const preview: Preview = {
   parameters: {
@@ -38,29 +99,23 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    backgrounds: {
-      default: 'light',
-      values: [
-        { name: 'light', value: '#FFFFFF' },
-        { name: 'gray', value: '#FAFAFA' },
-        { name: 'dark', value: '#1a1a1a' },
-      ],
-    },
+    backgrounds: { disable: true },
     options: {
       storySort: {
         order: ['Brand', 'Core', 'Domain', 'Examples'],
       },
     },
     docs: {
-      theme: khipuTheme,
+      theme: khipuLightTheme,
+    },
+    darkMode: {
+      dark: khipuDarkTheme,
+      light: khipuLightTheme,
+      current: 'light',
     },
   },
   decorators: [
-    (Story) => (
-      <KhipuThemeProvider>
-        <Story />
-      </KhipuThemeProvider>
-    ),
+    (Story) => <StoryDecorator Story={Story} />,
   ],
 };
 
