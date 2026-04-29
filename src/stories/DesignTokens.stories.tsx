@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import { useDarkMode } from '@vueless/storybook-dark-mode';
 import { KdsTypography as Typography } from '../components/core/KdsTypography';
-import { colors, fontFamilies, borderRadius, shadows, borders } from '../tokens';
+import { colors, colorsByMode, tokensByMode, fontFamilies, borderRadius, shadows, borders } from '../tokens';
 
 /**
  * Design Tokens - Colors, Typography, and Spacing
@@ -14,11 +15,13 @@ import { colors, fontFamilies, borderRadius, shadows, borders } from '../tokens'
 // Color Swatch Component
 const ColorSwatch = ({
   name,
-  value
+  value,
+  borderColor,
 }: {
   name: string;
   value: string;
   textColor?: string;
+  borderColor?: string;
 }) => (
   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1.5 }}>
     <Box
@@ -27,7 +30,7 @@ const ColorSwatch = ({
         height: 48,
         backgroundColor: value,
         borderRadius: 1,
-        border: '1px solid rgba(0,0,0,0.1)',
+        border: `1px solid ${borderColor ?? 'divider'}`,
         flexShrink: 0,
       }}
     />
@@ -111,32 +114,41 @@ export default meta;
 type Story = StoryObj;
 
 // =============================================================================
-// COLORS
+// COLORS (mode-aware via toolbar toggle)
 // =============================================================================
 
-export const Colors: Story = {
-  render: () => (
+function ColorsStory() {
+  const isDark = useDarkMode();
+  const mode = isDark ? 'dark' : 'light';
+  const modeColors = tokensByMode[mode].colors;
+  const border = colorsByMode[mode].divider;
+
+  return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <Typography variant="bodySmall" sx={{ color: 'text.secondary', fontFamily: 'monospace' }}>
+        Showing: {mode} mode tokens
+      </Typography>
+
       {/* Primary */}
       <Box>
         <Typography variant="heading2" sx={{ mb: 2 }}>
           Primary
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value={colors.primary.main} />
-          <ColorSwatch name="Light" value={colors.primary.light} />
-          <ColorSwatch name="Dark" value={colors.primary.dark} />
-          <ColorSwatch name="Contrast Text" value={colors.primary.contrastText} textColor={colors.text.strong} />
+          <ColorSwatch name="Main" value={modeColors.primary.main} borderColor={border} />
+          <ColorSwatch name="Light" value={modeColors.primary.light} borderColor={border} />
+          <ColorSwatch name="Dark" value={modeColors.primary.dark} borderColor={border} />
+          <ColorSwatch name="Contrast Text" value={modeColors.primary.contrastText} borderColor={border} />
         </Box>
         <Typography variant="label" color="tertiary" sx={{ mt: 2 }}>
           States
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, mt: 1 }}>
-          <ColorSwatch name="Hover" value={colors.primary.states.hover} textColor={colors.text.strong} />
-          <ColorSwatch name="Selected" value={colors.primary.states.selected} textColor={colors.text.strong} />
-          <ColorSwatch name="Focus" value={colors.primary.states.focus} textColor={colors.text.strong} />
-          <ColorSwatch name="Focus Visible" value={colors.primary.states.focusVisible} textColor={colors.text.strong} />
-          <ColorSwatch name="Outlined Border" value={colors.primary.states.outlinedBorder} />
+          <ColorSwatch name="Hover" value={modeColors.primary.states.hover} borderColor={border} />
+          <ColorSwatch name="Selected" value={modeColors.primary.states.selected} borderColor={border} />
+          <ColorSwatch name="Focus" value={modeColors.primary.states.focus} borderColor={border} />
+          <ColorSwatch name="Focus Visible" value={modeColors.primary.states.focusVisible} borderColor={border} />
+          <ColorSwatch name="Outlined Border" value={modeColors.primary.states.outlinedBorder} borderColor={border} />
         </Box>
       </Box>
 
@@ -148,10 +160,10 @@ export const Colors: Story = {
           Info (Blue)
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value={colors.info.main} />
-          <ColorSwatch name="Light" value={colors.info.light} />
-          <ColorSwatch name="Dark" value={colors.info.dark} />
-          <ColorSwatch name="Contrast Text" value={colors.info.contrastText} textColor={colors.text.strong} />
+          <ColorSwatch name="Main" value={modeColors.info.main} borderColor={border} />
+          <ColorSwatch name="Light" value={modeColors.info.light} borderColor={border} />
+          <ColorSwatch name="Dark" value={modeColors.info.dark} borderColor={border} />
+          <ColorSwatch name="Contrast Text" value={modeColors.info.contrastText} borderColor={border} />
         </Box>
       </Box>
 
@@ -163,10 +175,10 @@ export const Colors: Story = {
           Success (Green)
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value={colors.success.main} />
-          <ColorSwatch name="Light" value={colors.success.light} />
-          <ColorSwatch name="Dark" value={colors.success.dark} />
-          <ColorSwatch name="Background" value={colors.success.container} textColor={colors.text.strong} />
+          <ColorSwatch name="Main" value={modeColors.success.main} borderColor={border} />
+          <ColorSwatch name="Light" value={modeColors.success.light} borderColor={border} />
+          <ColorSwatch name="Dark" value={modeColors.success.dark} borderColor={border} />
+          <ColorSwatch name="Background" value={modeColors.success.container} borderColor={border} />
         </Box>
       </Box>
 
@@ -178,9 +190,9 @@ export const Colors: Story = {
           Warning (Orange)
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value={colors.warning.main} />
-          <ColorSwatch name="Light" value={colors.warning.light} />
-          <ColorSwatch name="Dark" value={colors.warning.dark} />
+          <ColorSwatch name="Main" value={modeColors.warning.main} borderColor={border} />
+          <ColorSwatch name="Light" value={modeColors.warning.light} borderColor={border} />
+          <ColorSwatch name="Dark" value={modeColors.warning.dark} borderColor={border} />
         </Box>
       </Box>
 
@@ -192,9 +204,9 @@ export const Colors: Story = {
           Error (Red)
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Main" value={colors.error.main} />
-          <ColorSwatch name="Light" value={colors.error.light} />
-          <ColorSwatch name="Dark" value={colors.error.dark} />
+          <ColorSwatch name="Main" value={modeColors.error.main} borderColor={border} />
+          <ColorSwatch name="Light" value={modeColors.error.light} borderColor={border} />
+          <ColorSwatch name="Dark" value={modeColors.error.dark} borderColor={border} />
         </Box>
       </Box>
 
@@ -206,12 +218,12 @@ export const Colors: Story = {
           Text Colors
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Primary (On Surface)" value={colors.text.strong} />
-          <ColorSwatch name="Primary (87%)" value={colors.text.primary} />
-          <ColorSwatch name="Secondary (60%)" value={colors.text.secondary} textColor={colors.primary.contrastText} />
-          <ColorSwatch name="Tertiary" value={colors.text.muted} />
-          <ColorSwatch name="Disabled" value={colors.text.disabled} textColor={colors.text.strong} />
-          <ColorSwatch name="Disabled (38%)" value={colors.text.hint} textColor={colors.primary.contrastText} />
+          <ColorSwatch name="Strong" value={modeColors.text.strong} borderColor={border} />
+          <ColorSwatch name="Primary" value={modeColors.text.primary} borderColor={border} />
+          <ColorSwatch name="Secondary" value={modeColors.text.secondary} borderColor={border} />
+          <ColorSwatch name="Muted" value={modeColors.text.muted} borderColor={border} />
+          <ColorSwatch name="Disabled" value={modeColors.text.disabled} borderColor={border} />
+          <ColorSwatch name="Hint" value={modeColors.text.hint} borderColor={border} />
         </Box>
       </Box>
 
@@ -223,11 +235,11 @@ export const Colors: Story = {
           Background Colors
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Default" value={colors.background.default} textColor={colors.text.strong} />
-          <ColorSwatch name="Paper" value={colors.background.paper} textColor={colors.text.strong} />
-          <ColorSwatch name="App Bar" value={colors.background.elevated} textColor={colors.text.strong} />
-          <ColorSwatch name="Muted" value={colors.background.muted} textColor={colors.text.strong} />
-          <ColorSwatch name="Brand Subtle" value={colors.background.brandSubtle} textColor={colors.text.strong} />
+          <ColorSwatch name="Default" value={modeColors.background.default} borderColor={border} />
+          <ColorSwatch name="Paper" value={modeColors.background.paper} borderColor={border} />
+          <ColorSwatch name="Elevated" value={modeColors.background.elevated} borderColor={border} />
+          <ColorSwatch name="Muted" value={modeColors.background.muted} borderColor={border} />
+          <ColorSwatch name="Brand Subtle" value={modeColors.background.brandSubtle} borderColor={border} />
         </Box>
       </Box>
 
@@ -236,19 +248,23 @@ export const Colors: Story = {
       {/* Alert Backgrounds */}
       <Box>
         <Typography variant="heading2" sx={{ mb: 2 }}>
-          Alert Backgrounds
+          Alert Colors
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
-          <ColorSwatch name="Info Background" value={colors.components.alert.infoBg} textColor={colors.components.alert.infoText} />
-          <ColorSwatch name="Info Text" value={colors.components.alert.infoText} />
-          <ColorSwatch name="Success Background" value={colors.components.alert.successBg} textColor={colors.components.alert.successText} />
-          <ColorSwatch name="Success Text" value={colors.components.alert.successText} />
-          <ColorSwatch name="Warning Background" value={colors.components.alert.warningBg} textColor={colors.components.alert.warningText} />
-          <ColorSwatch name="Error Background" value={colors.components.alert.errorBg} textColor={colors.components.alert.errorText} />
+          <ColorSwatch name="Info Background" value={modeColors.components.alert.infoBg} borderColor={border} />
+          <ColorSwatch name="Info Text" value={modeColors.components.alert.infoText} borderColor={border} />
+          <ColorSwatch name="Success Background" value={modeColors.components.alert.successBg} borderColor={border} />
+          <ColorSwatch name="Success Text" value={modeColors.components.alert.successText} borderColor={border} />
+          <ColorSwatch name="Warning Background" value={modeColors.components.alert.warningBg} borderColor={border} />
+          <ColorSwatch name="Error Background" value={modeColors.components.alert.errorBg} borderColor={border} />
         </Box>
       </Box>
     </Box>
-  ),
+  );
+}
+
+export const Colors: Story = {
+  render: () => <ColorsStory />,
 };
 
 // =============================================================================
