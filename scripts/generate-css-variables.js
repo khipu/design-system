@@ -63,6 +63,8 @@ function generateColorVariables(colors) {
       variables.push({ name: '--kds-color-primary-selected', value: colors.primary.states.selected });
       variables.push({ name: '--kds-color-primary-focus', value: colors.primary.states.focus });
       variables.push({ name: '--kds-color-primary-focus-visible', value: colors.primary.states.focusVisible });
+      variables.push({ name: '--kds-color-primary-outlined-border-light', value: colors.primary.states.outlinedBorderLight });
+      variables.push({ name: '--kds-color-primary-outlined-border', value: colors.primary.states.outlinedBorder });
     }
   }
 
