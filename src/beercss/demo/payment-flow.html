@@ -489,6 +489,123 @@ window.__TWEAKS__ = {
       </div>
     </section>
 
+    <!-- ====================================================== -->
+    <!-- 08 — Pago verificado (merchant detail — Statements)     -->
+    <!-- ====================================================== -->
+    <section class="kds-screen" data-screen-label="08 Pago verificado (detalle)" id="screen-8">
+      <div class="kds-brand-row">
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
+      </div>
+
+      <!-- Invoice sticky — green amount -->
+      <div class="kds-invoice-sticky-wrap">
+      <article class="kds-card-elevated kds-invoice-sticky">
+        <header class="kds-invoice-header">
+          <div>
+            <p class="kds-invoice-amount success">$119.258</p>
+            <p class="kds-invoice-code">C&oacute;digo es8j-h9uv-hcf0</p>
+          </div>
+          <div class="kds-invoice-merchant kds-invoice-merchant-neutral initials" data-no-tweak style="color:#019DF4">
+            M
+          </div>
+        </header>
+        <div class="kds-invoice-collapsible">
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd>TELEFONICA CHILE SA</dd>
+            <dt>Asunto</dt><dd>Pagos_MOVISTAR</dd>
+          </dl>
+        </div>
+      </article>
+      </div>
+
+      <!-- Status + actions card -->
+      <article class="kds-card-elevated">
+        <div class="kds-status-block" data-status="success">
+          <div class="kds-status-block-icon"><i class="material-symbols-outlined">check</i></div>
+          <h2 class="kds-status-block-title">Pago verificado</h2>
+        </div>
+
+        <hr class="kds-hr-dashed" />
+
+        <div class="kds-btn-stack">
+          <button class="kds-btn kds-btn-outlined kds-btn-block">
+            <span class="kds-icon"><i class="material-symbols-outlined">download</i></span>
+            Descargar comprobante de pago
+          </button>
+          <button class="kds-btn kds-btn-primary kds-btn-block" data-go="1">Volver al dashboard de pagos</button>
+        </div>
+      </article>
+
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
+        Pago seguro procesado por Khipu
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- 09 — Pago verificado (drawer / bottom sheet)            -->
+    <!-- ====================================================== -->
+    <section class="kds-screen" data-screen-label="09 Pago verificado (drawer)" id="screen-9">
+      <div class="kds-brand-row">
+        <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="Public Sans,sans-serif" font-size="28" font-weight="700" letter-spacing="-0.5" fill="var(--kds-color-primary-main)">khipu</text></svg>
+      </div>
+
+      <!-- Invoice sticky — dimmed background -->
+      <div class="kds-invoice-sticky-wrap">
+      <article class="kds-card-elevated kds-card-dimmed kds-invoice-sticky">
+        <header class="kds-invoice-header">
+          <div>
+            <p class="kds-invoice-amount success">$119.258</p>
+            <p class="kds-invoice-code">C&oacute;digo es8j-h9uv-hcf0</p>
+          </div>
+          <div class="kds-invoice-merchant kds-invoice-merchant-neutral initials" data-no-tweak style="color:#019DF4">
+            M
+          </div>
+        </header>
+        <div class="kds-invoice-collapsible">
+          <dl class="kds-kv">
+            <dt>Pago a</dt><dd>TELEFONICA CHILE SA</dd>
+            <dt>Asunto</dt><dd>Pagos_MOVISTAR</dd>
+          </dl>
+        </div>
+      </article>
+      </div>
+
+      <!-- Dimmed content card -->
+      <article class="kds-card-elevated kds-card-dimmed">
+        <h2 class="kds-card-title">Pago verificado</h2>
+        <p class="kds-text-secondary">Tu pago ha sido procesado exitosamente.</p>
+      </article>
+
+      <div class="kds-secure-footer">
+        <i class="material-symbols-outlined">shield</i>
+        Pago seguro procesado por Khipu
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ===================== Modal: Pago verificado (drawer) ===================== -->
+<div class="kds-bottom-sheet-scrim" id="successScrim">
+  <div class="kds-bottom-sheet" role="dialog" aria-labelledby="success-sheet-title">
+    <div class="kds-bottom-sheet-grabber"></div>
+    <div class="kds-bottom-sheet-illustration">
+      <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+        <circle cx="36" cy="36" r="34" stroke="var(--kds-color-success-main)" stroke-width="3" fill="var(--kds-color-success-soft)"/>
+        <path d="m24 36 8 8 16-16" stroke="var(--kds-color-success-main)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3 class="kds-bottom-sheet-title" id="success-sheet-title">Pago verificado</h3>
+    <p class="kds-bottom-sheet-description">El pago a <b>TELEFONICA CHILE SA</b> por <b>$119.258</b> ha sido verificado exitosamente.</p>
+    <p class="kds-bottom-sheet-description-subtle">C&oacute;digo es8j-h9uv-hcf0</p>
+    <div class="kds-bottom-sheet-actions">
+      <button class="kds-btn kds-btn-outlined kds-btn-block" onclick="void(0)">
+        <span class="kds-icon"><i class="material-symbols-outlined">download</i></span>
+        Descargar comprobante de pago
+      </button>
+      <button class="kds-btn kds-btn-primary kds-btn-block" data-go="1">Volver al dashboard de pagos</button>
+    </div>
   </div>
 </div>
 
@@ -687,7 +804,7 @@ window.__TWEAKS__ = {
 
 <script>
 /* ========== Navigation ========== */
-var TOTAL = 7;
+var TOTAL = 9;
 var screens = document.querySelectorAll('.kds-screen');
 var navLabels = [
   '01 \u00b7 Datos para pago',
@@ -697,6 +814,8 @@ var navLabels = [
   '05 \u00b7 Confirmar transferencia',
   '06 \u00b7 Pago en verificaci\u00f3n',
   '07 \u00b7 Pago verificado',
+  '08 \u00b7 Pago verificado (detalle)',
+  '09 \u00b7 Pago verificado (drawer)',
 ];
 
 function show(n){
@@ -706,6 +825,8 @@ function show(n){
   if (el) el.classList.add('active');
   var scrim = document.getElementById('scrim');
   if (n === 5) scrim.classList.add('open'); else scrim.classList.remove('open');
+  var successScrim = document.getElementById('successScrim');
+  if (n === 9) successScrim.classList.add('open'); else successScrim.classList.remove('open');
   document.getElementById('navLabel').textContent = navLabels[n-1];
   try { localStorage.setItem('khipuStep', n); } catch(e){}
   try { window.parent.postMessage({slideIndexChanged: n-1}, '*'); } catch(e){}
@@ -780,7 +901,7 @@ document.getElementById('bankSearch').addEventListener('input', function(e) {
 
 /* ========== Tweaks wiring ========== */
 function applyTweaks(t) {
-  document.querySelectorAll('.kds-invoice-merchant').forEach(function(el){ el.style.background = t.merchant_color; });
+  document.querySelectorAll('.kds-invoice-merchant:not([data-no-tweak])').forEach(function(el){ el.style.background = t.merchant_color; });
   document.querySelectorAll('[data-amount]').forEach(function(el){ el.textContent = t.amount; });
   document.querySelectorAll('[data-merchant]').forEach(function(el){ el.textContent = t.merchant_name; });
   document.querySelectorAll('[data-asunto]').forEach(function(el){ el.textContent = t.asunto; });
