@@ -783,9 +783,4 @@
     window.FileUploadHandler = FileUploadHandler;
     window.OTPInputHandler = OTPInputHandler;
 
-    // Auto-initialize if config exists
-    if (window.KHIPU_ONBOARDING_CONFIG) {
-        window.khipuOnboarding = new KhipuOnboarding(window.KHIPU_ONBOARDING_CONFIG);
-    }
-
 })(window);

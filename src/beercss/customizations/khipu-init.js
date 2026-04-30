@@ -52,6 +52,9 @@
         initSecureFooterInside();
         initExpandToggle();
         initCopyRow();
+        initCopyableTable();
+        initCopyAllBtn();
+        initInfoTip();
         initCountdown();
         initSegmentedTabs();
         initStickyInvoice();
@@ -517,6 +520,121 @@
     }
 
     /**
+     * Initialize copyable table rows
+     * Delegated click on .kds-copyable-table-row[data-copy] copies value and shows feedback
+     * @param {Element} root - Root element to scope listeners (default: document)
+     */
+    function initCopyableTable(root) {
+        root = root || document;
+
+        root.addEventListener('click', function(e) {
+            var row = e.target.closest('.kds-copyable-table-row[data-copy]');
+            if (!row) return;
+
+            navigator.clipboard.writeText(row.dataset.copy).then(function() {
+                row.classList.add('copied');
+                setTimeout(function() {
+                    row.classList.remove('copied');
+                }, 1200);
+            });
+        });
+    }
+
+    /**
+     * Initialize copy-all buttons
+     * Delegated click on .kds-copy-all-btn[data-copy-all] copies all values from sibling table
+     * @param {Element} root - Root element to scope listeners (default: document)
+     */
+    function initCopyAllBtn(root) {
+        root = root || document;
+
+        root.addEventListener('click', function(e) {
+            var btn = e.target.closest('.kds-copy-all-btn[data-copy-all]');
+            if (!btn) return;
+
+            var targetSelector = btn.dataset.copyAll;
+            var container = targetSelector
+                ? document.querySelector(targetSelector)
+                : btn.previousElementSibling;
+            if (!container) return;
+
+            var rows = container.querySelectorAll('.kds-copyable-table-row[data-copy]');
+            var values = [];
+            rows.forEach(function(r) {
+                var key = r.querySelector('.k');
+                var val = r.dataset.copy;
+                if (key) {
+                    values.push(key.textContent.trim() + ': ' + val);
+                } else {
+                    values.push(val);
+                }
+            });
+
+            navigator.clipboard.writeText(values.join('\n')).then(function() {
+                btn.classList.add('copied');
+                var label = btn.querySelector('span:not(.kds-icon)');
+                var origText = label ? label.textContent : '';
+                if (label) label.textContent = 'Copiado';
+
+                rows.forEach(function(r) {
+                    r.classList.add('copied');
+                });
+
+                setTimeout(function() {
+                    btn.classList.remove('copied');
+                    if (label) label.textContent = origText;
+                    rows.forEach(function(r) {
+                        r.classList.remove('copied');
+                    });
+                }, 1400);
+            });
+        });
+    }
+
+    /**
+     * Initialize info tooltip toggle
+     * Delegated click on .kds-info-tip toggles aria-expanded and injects bubble if needed
+     * @param {Element} root - Root element to scope listeners (default: document)
+     */
+    function initInfoTip(root) {
+        root = root || document;
+
+        // Inject bubble elements upfront so CSS :hover can show them
+        root.querySelectorAll('.kds-info-tip[data-tip]').forEach(function(tip) {
+            if (tip.querySelector('.kds-tip-bubble')) return;
+            var bubble = document.createElement('span');
+            bubble.className = 'kds-tip-bubble';
+            bubble.setAttribute('role', 'tooltip');
+            bubble.textContent = tip.dataset.tip;
+            tip.appendChild(bubble);
+        });
+
+        // Click toggles aria-expanded (for mobile tap support)
+        root.addEventListener('click', function(e) {
+            var tip = e.target.closest('.kds-info-tip');
+            if (tip) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var isOpen = tip.getAttribute('aria-expanded') === 'true';
+
+                // Close all other tooltips first
+                document.querySelectorAll('.kds-info-tip[aria-expanded="true"]').forEach(function(t) {
+                    t.setAttribute('aria-expanded', 'false');
+                });
+
+                tip.setAttribute('aria-expanded', String(!isOpen));
+                return;
+            }
+
+            // Click outside any tooltip closes them
+            document.querySelectorAll('.kds-info-tip[aria-expanded="true"]').forEach(function(t) {
+                t.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+
+    /**
      * Utility: Show a snackbar programmatically
      * @param {string} message - The message to display
      * @param {string} type - The type: 'info', 'success', 'error'
@@ -572,6 +690,9 @@
     window.Khipu.initCopyRow = initCopyRow;
     window.Khipu.initCountdown = initCountdown;
     window.Khipu.initSegmentedTabs = initSegmentedTabs;
+    window.Khipu.initCopyableTable = initCopyableTable;
+    window.Khipu.initCopyAllBtn = initCopyAllBtn;
+    window.Khipu.initInfoTip = initInfoTip;
     window.Khipu.initBankModal = initBankModal;
     window.Khipu.initStickyInvoice = initStickyInvoice;
 

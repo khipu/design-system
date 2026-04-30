@@ -29,6 +29,7 @@ const lightModeColors = {
       selected: 'rgba(131, 71, 173, 0.08)',      // primary.main with 8% opacity
       focus: 'rgba(131, 71, 173, 0.12)',         // primary.main with 12% opacity
       focusVisible: 'rgba(131, 71, 173, 0.30)',  // primary.main with 30% opacity
+      outlinedBorderLight: 'rgba(131, 71, 173, 0.20)', // primary.main with 20% opacity
       outlinedBorder: 'rgba(131, 71, 173, 0.50)', // primary.main with 50% opacity
     },
   },
@@ -40,6 +41,12 @@ const lightModeColors = {
     light: '#6AC6EB',       // From Figma: secondary/light
     dark: '#198EBE',        // From Figma: secondary/dark
     contrastText: '#FFFFFF',
+  },
+
+  // Link colors (distinct from info palette - from khenshin-web payment flows)
+  link: {
+    main: '#096BDE',        // Link/action text in tables and radio options
+    disabled: '#096BDE80',  // Link color with 50% alpha for disabled state
   },
 
   // Text colors (updated to match khenshin-web)
@@ -155,6 +162,12 @@ const darkModeColors = {
     light: '#D6F3FF',       // From Figma: secondary/light
     dark: '#065676',        // From Figma: secondary/dark
     contrastText: 'rgba(6, 86, 118, 0.87)',
+  },
+
+  // Link colors (dark mode variant)
+  link: {
+    main: '#6AC6EB',        // Cyan/secondary light for dark mode (similar brightness to light mode #096BDE)
+    disabled: '#6AC6EB80',  // Link color with 50% alpha for disabled state
   },
 
   // Text colors (based on white with opacity) - From Figma K-Tokens
