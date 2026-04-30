@@ -5496,3 +5496,283 @@ button.kds-btn-success::after {
         flex-shrink: 0;
     }
 }
+
+/* ========================================
+   COPYABLE TABLE (.kds-copyable-table)
+   Compact bordered table with tap-to-copy rows.
+   Used for bank details, receipts, etc.
+   ======================================== */
+
+.kds-copyable-table {
+    border: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-color-background-paper);
+    padding: var(--kds-spacing-0-5) var(--kds-spacing-0-75);
+    box-shadow: 0 1px 0 rgba(20, 16, 38, .02);
+}
+
+.kds-copyable-table-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kds-spacing-1-5);
+    padding: var(--kds-spacing-1-25) var(--kds-spacing-1);
+    border-top: 1px solid var(--kds-color-divider);
+    border-radius: var(--kds-spacing-0-75);
+    font-size: var(--kds-font-size-sm);
+    cursor: pointer;
+    transition: background 0.12s ease;
+    position: relative;
+    user-select: none;
+}
+
+.kds-copyable-table-row:first-child {
+    border-top: 0;
+}
+
+.kds-copyable-table-row:hover {
+    background: var(--kds-color-primary-faint);
+}
+
+.kds-copyable-table-row:hover + .kds-copyable-table-row {
+    border-top-color: transparent;
+}
+
+.kds-copyable-table-row:active {
+    background: var(--kds-color-primary-selected);
+}
+
+.kds-copyable-table-row .k {
+    color: var(--kds-color-text-secondary);
+    font-size: var(--kds-font-size-caption);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    font-weight: var(--kds-font-weight-medium);
+    flex: 0 0 auto;
+}
+
+.kds-copyable-table-row .v {
+    color: var(--kds-color-text-primary);
+    font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-weight: var(--kds-font-weight-medium);
+    text-align: right;
+    font-size: var(--kds-font-size-sm);
+    letter-spacing: -0.1px;
+    word-break: break-word;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-1);
+    justify-content: flex-end;
+    flex: 1 1 auto;
+}
+
+.kds-copyable-table-row .v::after {
+    content: 'content_copy';
+    font-family: 'Material Symbols Outlined';
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-primary-main);
+    opacity: 0;
+    transition: opacity 0.12s ease;
+    flex: 0 0 auto;
+}
+
+.kds-copyable-table-row:hover .v::after {
+    opacity: 0.7;
+}
+
+.kds-copyable-table-row.copied {
+    background: var(--kds-color-success-soft);
+}
+
+.kds-copyable-table-row.copied .v {
+    color: var(--kds-color-success-dark);
+}
+
+.kds-copyable-table-row.copied .v::after {
+    content: 'check';
+    font-family: 'Material Symbols Outlined';
+    color: var(--kds-color-success-dark);
+    opacity: 1;
+}
+
+/* Disable BeerCSS ripple on copyable table rows */
+.kds-copyable-table-row::after {
+    display: none;
+}
+
+/* ========================================
+   COPY-ALL BUTTON (.kds-copy-all-btn)
+   Modifier for kds-btn kds-btn-outlined that adds
+   brand-tint background and a .copied success state.
+   Use with: kds-btn kds-btn-outlined kds-btn-block kds-copy-all-btn
+   ======================================== */
+
+button.kds-copy-all-btn,
+a.kds-copy-all-btn {
+    background: var(--kds-color-primary-faint);
+    border-color: var(--kds-color-primary-outlined-border-light);
+    margin-top: var(--kds-spacing-1-25);
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+button.kds-copy-all-btn:hover:not(:disabled):not(.copied),
+a.kds-copy-all-btn:hover:not(:disabled):not(.copied) {
+    background: var(--kds-color-primary-selected);
+    border-color: var(--kds-color-primary-main);
+}
+
+button.kds-copy-all-btn.copied,
+button.kds-copy-all-btn.copied:hover,
+a.kds-copy-all-btn.copied,
+a.kds-copy-all-btn.copied:hover {
+    background: var(--kds-color-success-soft);
+    color: var(--kds-color-success-dark);
+    border-color: var(--kds-color-success-border-light);
+}
+
+/* ========================================
+   SECTION NOTE (.kds-section-note)
+   Lightweight inline note for contextual caveats.
+   Lighter than .kds-alert — informs without
+   competing with the main content.
+   ======================================== */
+
+.kds-section-note {
+    display: flex;
+    align-items: center;
+    font-size: var(--kds-font-size-caption);
+    color: var(--kds-color-warning-dark);
+    margin: -2px 0 var(--kds-spacing-1-5) !important;
+    margin-block-start: 0 !important;
+    letter-spacing: -0.05px;
+}
+
+.kds-section-note > i {
+    font-size: var(--kds-font-size-base);
+    flex: 0 0 auto;
+    color: var(--kds-color-warning-dark);
+    margin-top: 1px;
+    min-width: unset;
+    min-height: unset;
+}
+
+/* ========================================
+   INFO TOOLTIP (.kds-info-tip)
+   Inline info button with hover/click tooltip bubble.
+   Reusable in any context.
+   ======================================== */
+
+.kds-info-tip {
+    background: none;
+    border: 0;
+    padding: 2px;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--kds-color-text-secondary);
+    cursor: pointer;
+    border-radius: 9999px;
+    line-height: 1;
+    position: relative;
+    transition: color 0.12s, background 0.12s;
+    /* Reset BeerCSS button sizing (block-size: 2.5rem, content-box, padding: 1rem) */
+    block-size: auto;
+    inline-size: auto;
+    box-sizing: border-box;
+}
+
+.kds-info-tip:hover {
+    color: var(--kds-color-primary-main);
+    background: var(--kds-color-primary-faint);
+}
+
+.kds-info-tip:focus-visible {
+    outline: 2px solid var(--kds-color-primary-focus-visible);
+    outline-offset: 2px;
+}
+
+.kds-info-tip > i {
+    font-size: var(--kds-font-size-base);
+}
+
+.kds-tip-bubble {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: -6px;
+    width: max-content;
+    max-width: 240px;
+    background: var(--kds-color-text-primary);
+    color: var(--kds-color-background-paper);
+    font-family: inherit;
+    font-weight: var(--kds-font-weight-regular);
+    font-size: var(--kds-font-size-xs);
+    line-height: 1.45;
+    letter-spacing: -0.05px;
+    text-align: left;
+    padding: var(--kds-spacing-1) var(--kds-spacing-1-25);
+    border-radius: var(--kds-spacing-1);
+    box-shadow: var(--kds-shadow-4);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(2px);
+    transition: opacity 0.14s ease, transform 0.14s ease;
+    z-index: 10;
+    white-space: normal;
+}
+
+.kds-tip-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 10px;
+    border: 5px solid transparent;
+    border-top-color: var(--kds-color-text-primary);
+}
+
+.kds-info-tip[aria-expanded="true"] .kds-tip-bubble,
+.kds-info-tip:hover .kds-tip-bubble,
+.kds-info-tip:focus-visible .kds-tip-bubble {
+    opacity: 1;
+    transform: none;
+}
+
+/* Disable BeerCSS ripple */
+.kds-info-tip::after {
+    display: none;
+}
+
+/* ========================================
+   MONTO ROW (.kds-monto-row)
+   Summary row with title + deadline left, big amount right.
+   Split layout separated by dashed border.
+   ======================================== */
+
+.kds-monto-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: var(--kds-spacing-1-75) 0 var(--kds-spacing-1);
+    border-top: 1px dashed var(--kds-color-divider);
+    margin-top: var(--kds-spacing-1-75);
+}
+
+.kds-monto-row-title {
+    font-weight: var(--kds-font-weight-bold);
+    font-size: var(--kds-font-size-base);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-monto-row-deadline {
+    font-size: var(--kds-font-size-xs);
+    color: var(--kds-color-text-hint);
+    margin-top: var(--kds-spacing-0-5);
+}
+
+.kds-monto-row-value {
+    font-weight: var(--kds-font-weight-bold);
+    font-size: 24px;
+    color: var(--kds-color-text-primary);
+}

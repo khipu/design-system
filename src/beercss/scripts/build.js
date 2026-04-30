@@ -4,10 +4,9 @@
  *
  * This script builds a combined BeerCSS bundle with Khipu customizations:
  * 1. Reads BeerCSS from node_modules
- * 2. Reads Material Dynamic Colors from node_modules
- * 3. Combines with Khipu customizations (tokens, components, init)
- * 4. Minifies CSS with cssnano and JS with terser
- * 5. Outputs to dist/beercss/
+ * 2. Combines with Khipu customizations (tokens, components, init)
+ * 3. Minifies CSS with cssnano and JS with terser
+ * 4. Outputs to dist/beercss/
  *
  * Usage:
  *   node src/beercss/scripts/build.js
@@ -27,7 +26,6 @@ const OUTPUT_DIR = path.join(ROOT_DIR, 'dist/beercss');
 
 // BeerCSS package paths
 const BEERCSS_DIR = path.join(ROOT_DIR, 'node_modules/beercss/dist/cdn');
-const MATERIAL_COLORS_DIR = path.join(ROOT_DIR, 'node_modules/material-dynamic-colors/dist/cdn');
 
 /**
  * Ensure directory exists
@@ -114,23 +112,17 @@ async function buildJS() {
 
     // Read source files - use non-minified beer.js and minify all together
     let beerJS = readFile(path.join(BEERCSS_DIR, 'beer.js'));
-    let materialColorsJS = readFile(path.join(MATERIAL_COLORS_DIR, 'material-dynamic-colors.min.js'));
     const sidebarJS = readFile(path.join(__dirname, '../scripts/sidebar.js'));
-    const khipuOnboardingJS = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-onboarding.js'));
     const khipuInitJS = readFile(path.join(CUSTOMIZATIONS_DIR, 'khipu-init.js'));
 
     // Remove ES6 export statements from CDN files (they're meant for modules, but we're using regular script tag)
     beerJS = beerJS.replace(/export\s*\{[^}]*\};?/g, '');
     beerJS = beerJS.replace(/export\s+default\s+[^;]+;?/g, '');
-    materialColorsJS = materialColorsJS.replace(/export\s*\{[^}]*\};?/g, '');
-    materialColorsJS = materialColorsJS.replace(/export\s+default\s+[^;]+;?/g, '');
 
-    // Combine JS in order: BeerCSS → Material Colors → Sidebar → Onboarding → Init (init must be last!)
+    // Combine JS in order: BeerCSS → Sidebar → Init (init must be last!)
     const combinedJS = `/* Khipu BeerCSS Bundle - Combined JavaScript */\n\n` +
         `/* BeerCSS v4.0.1 */\n${beerJS}\n\n` +
-        `/* Material Dynamic Colors v1.1.2 */\n${materialColorsJS}\n\n` +
         `/* Khipu Sidebar Navigation */\n${sidebarJS}\n\n` +
-        `/* Khipu Onboarding Controller */\n${khipuOnboardingJS}\n\n` +
         `/* Khipu Initialization (must be last to initialize all components) */\n${khipuInitJS}\n`;
 
     // Write non-minified version
@@ -187,7 +179,6 @@ function generateMetadata() {
         buildDate: new Date().toISOString(),
         includes: {
             'beercss': '4.0.1',
-            'material-dynamic-colors': '1.1.2',
             'khipu-tokens': 'latest',
             'khipu-components': 'latest',
             'khipu-init': 'latest'
@@ -221,7 +212,7 @@ async function build() {
     // Check if BeerCSS is installed
     if (!fs.existsSync(BEERCSS_DIR)) {
         console.error('❌ Error: BeerCSS not found in node_modules.');
-        console.error('   Run: npm install beercss material-dynamic-colors');
+        console.error('   Run: npm install beercss');
         process.exit(1);
     }
 

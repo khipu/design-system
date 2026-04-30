@@ -229,51 +229,28 @@ window.__TWEAKS__ = {
       </div>
 
       <article class="kds-card-elevated">
-        <h2 class="kds-card-title">Datos de transferencia manual</h2>
+        <h2 class="kds-card-title">Datos para transferencia manual</h2>
         <hr class="kds-hr-dashed" />
 
         <div class="kds-recap-header">
           Datos del pagador
-          <i class="material-symbols-outlined">north_east</i>
+          <i class="material-symbols-outlined">arrow_upward</i>
         </div>
 
         <div class="field label border kds-field-group">
-          <select>
-            <option>Banco Estado</option>
-            <option>Banco de Chile</option>
-            <option>BCI</option>
-            <option>Banco Security</option>
-            <option>Santander</option>
-          </select>
-          <label class="active">Banco</label>
+          <input type="text" placeholder=" " id="payer-rut" inputmode="numeric" autocomplete="off" />
+          <label>RUT / DNI del titular</label>
         </div>
 
         <div class="field label border kds-field-group">
-          <input type="text" placeholder=" " />
-          <label>RUT titular</label>
-        </div>
-        <p class="kds-field-helper">Para pagos cuenta empresa, ingresa un RUT empresa</p>
-
-        <div class="field label border kds-field-group">
-          <input type="email" placeholder=" " />
+          <input type="email" placeholder=" " id="payer-email" autocomplete="email" />
           <label>Email</label>
-        </div>
-        <p class="kds-field-helper">Enviaremos el comprobante a este correo</p>
-
-        <div class="kds-amount-row">
-          <div>
-            <div class="kds-amount-row-title">Monto a transferir</div>
-            <div class="kds-amount-row-subtitle">Fecha l&iacute;mite para transferencia 01-04-2026 a las 16:33</div>
-          </div>
-          <div class="kds-amount-row-value" data-amount>$3.300</div>
         </div>
 
         <div class="kds-btn-stack">
-          <button class="kds-btn kds-btn-primary kds-btn-block" data-go="4">Continuar</button>
+          <button class="kds-btn kds-btn-primary kds-btn-block" data-save-payer>Guardar y continuar</button>
+          <button class="kds-btn kds-btn-outlined kds-btn-block" data-go="2">Cancelar</button>
         </div>
-        <p class="kds-field-helper-center">
-          Al continuar, est&aacute;s aceptando las <a href="#" class="kds-link">condiciones de uso</a> de Khipu
-        </p>
       </article>
 
       <div class="kds-secure-footer">
@@ -309,90 +286,54 @@ window.__TWEAKS__ = {
       </div>
 
       <article class="kds-card-elevated">
-        <h2 class="kds-card-title">Datos de transferencia manual</h2>
+        <h2 class="kds-card-title">Datos para transferencia manual</h2>
+        <hr class="kds-hr-dashed" />
+
+        <p class="kds-section-note">
+          <i class="material-symbols-outlined">info</i>
+          <span>Los dep&oacute;sitos por caja no ser&aacute;n procesados.</span>
+        </p>
+
+        <div class="kds-copyable-table" id="recipient-table">
+          <div class="kds-copyable-table-row" data-copy="Banco Security"><span class="k">Banco</span><span class="v">Banco Security</span></div>
+          <div class="kds-copyable-table-row" data-copy="76.187.287-7"><span class="k">RUT</span><span class="v">76.187.287-7</span></div>
+          <div class="kds-copyable-table-row" data-copy="98765432"><span class="k">N&deg; cuenta</span><span class="v">98765432</span></div>
+          <div class="kds-copyable-table-row" data-copy="Corriente"><span class="k">Tipo</span><span class="v">Corriente</span></div>
+          <div class="kds-copyable-table-row" data-copy="Khipu CLBS"><span class="k">Titular</span><span class="v">Khipu CLBS</span></div>
+          <div class="kds-copyable-table-row" data-copy="transferencias@khipu.com"><span class="k">Email</span><span class="v">transferencias@khipu.com</span></div>
+          <div class="kds-copyable-table-row" data-copy="3300"><span class="k">Monto</span><span class="v" data-amount>$3.300</span></div>
+        </div>
+        <button class="kds-btn kds-btn-outlined kds-btn-block kds-copy-all-btn" data-copy-all="#recipient-table">
+          <span class="kds-icon"><i class="material-symbols-outlined">content_copy</i></span>
+          <span>Copiar todos los datos</span>
+        </button>
+
         <hr class="kds-hr-dashed" />
 
         <div class="kds-recap-header">
           Datos del pagador
-          <i class="material-symbols-outlined">north_east</i>
+          <i class="material-symbols-outlined">arrow_upward</i>
         </div>
         <ul class="kds-recap-list">
-          <li><span class="k">Banco</span><span class="v">Banco Estado</span></li>
-          <li><span class="k">RUT Titular</span><span class="v placeholder">&mdash;</span></li>
+          <li>
+            <span class="k">RUT / DNI Titular</span>
+            <span class="v" id="recap-rut">&mdash;
+              <button type="button" class="kds-info-tip" aria-label="M&aacute;s informaci&oacute;n sobre el RUT/DNI" data-tip="El pago ser&aacute; procesado y asociado a este RUT/DNI.">
+                <i class="material-symbols-outlined">info</i>
+              </button>
+            </span>
+          </li>
         </ul>
-        <div class="kds-btn-stack">
-          <button class="kds-btn kds-btn-outlined kds-btn-block kds-btn-sm" data-go="3">Cambiar datos del pagador</button>
-        </div>
 
-        <hr class="kds-hr-dashed" />
-
-        <div class="kds-alert kds-info kds-alert-inline">
-          <div class="kds-alert-content">
-            <p class="kds-alert-description">
-              Ingresa a la p&aacute;gina web o a la App de tu banco y haz una transferencia con los siguientes datos. A continuaci&oacute;n, te enviaremos un comprobante de pago.
-            </p>
-            <p class="kds-alert-description"><b>Los dep&oacute;sitos por caja no ser&aacute;n procesados.</b></p>
-          </div>
-        </div>
-
-        <div class="kds-copy-header spaced">
-          <div class="kds-recap-header">
-            <i class="material-symbols-outlined">south_west</i> Datos del destinatario
-          </div>
-          <button class="kds-copy-all" data-copy-all>
-            <i class="material-symbols-outlined">content_copy</i> Copiar datos
-          </button>
-        </div>
-
-        <div class="kds-copy-list">
-          <button class="kds-copy-row" data-copy="Banco Security">
-            <i class="material-symbols-outlined">content_copy</i>
-            <div><span class="kds-copy-row-label">Banco</span><span class="kds-copy-row-value">Banco Security</span></div>
-            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
-          </button>
-          <button class="kds-copy-row" data-copy="76.187.287-7">
-            <i class="material-symbols-outlined">content_copy</i>
-            <div><span class="kds-copy-row-label">RUT</span><span class="kds-copy-row-value">76.187.287-7</span></div>
-            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
-          </button>
-          <button class="kds-copy-row" data-copy="98765432">
-            <i class="material-symbols-outlined">content_copy</i>
-            <div><span class="kds-copy-row-label">N&deg; de cuenta</span><span class="kds-copy-row-value">98765432</span></div>
-            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
-          </button>
-          <button class="kds-copy-row" data-copy="Corriente">
-            <i class="material-symbols-outlined">content_copy</i>
-            <div><span class="kds-copy-row-label">Tipo de cuenta</span><span class="kds-copy-row-value">Corriente</span></div>
-            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
-          </button>
-          <button class="kds-copy-row" data-copy="Khipu CLBS">
-            <i class="material-symbols-outlined">content_copy</i>
-            <div><span class="kds-copy-row-label">Titular</span><span class="kds-copy-row-value">Khipu CLBS</span></div>
-            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
-          </button>
-          <button class="kds-copy-row" data-copy="transferencias@khipu.com">
-            <i class="material-symbols-outlined">content_copy</i>
-            <div><span class="kds-copy-row-label">Email</span><span class="kds-copy-row-value">transferencias@khipu.com</span></div>
-            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
-          </button>
-          <button class="kds-copy-row" data-copy="3300">
-            <i class="material-symbols-outlined">content_copy</i>
-            <div><span class="kds-copy-row-label">Monto</span><span class="kds-copy-row-value">3.300</span></div>
-            <span class="kds-copy-toast"><i class="material-symbols-outlined">check_circle</i> Copiado</span>
-          </button>
-        </div>
-
-        <div class="kds-amount-row">
+        <div class="kds-monto-row">
           <div>
-            <div class="kds-amount-row-title">Monto a transferir</div>
-            <div class="kds-amount-row-subtitle">Fecha l&iacute;mite para transferencia 01-04-2026 a las 16:33</div>
+            <div class="kds-monto-row-title">Monto a transferir</div>
+            <div class="kds-monto-row-deadline">Fecha l&iacute;mite para transferencia<br>01-04-2026 a las 16:33</div>
           </div>
-          <div class="kds-amount-row-value" data-amount>$3.300</div>
+          <div class="kds-monto-row-value" data-amount>$3.300</div>
         </div>
 
         <div class="kds-btn-stack">
-          <button class="kds-btn kds-btn-primary kds-btn-block">Ir a mi banco</button>
-          <button class="kds-btn kds-btn-outlined kds-btn-block" data-go="2">Cambiar a pago instant&aacute;neo</button>
           <button class="kds-btn kds-btn-text kds-btn-block" data-open-sheet>&iquest;Ya transferiste?</button>
         </div>
       </article>
@@ -778,6 +719,21 @@ document.addEventListener('click', function(e) {
   /* Bank selected inside modal → close modal, navigate */
   var bankRow = e.target.closest('#bankModalList [data-go]');
   if (bankRow) { document.getElementById('bankModal').classList.remove('open'); show(parseInt(bankRow.dataset.go,10)); return; }
+  /* Save payer data → update recap on screen 4, navigate */
+  var sp = e.target.closest('[data-save-payer]');
+  if (sp) {
+    e.preventDefault();
+    var rutInput = document.getElementById('payer-rut');
+    var rutValue = rutInput ? rutInput.value.trim() : '';
+    var recapRut = document.getElementById('recap-rut');
+    if (recapRut) {
+      var tipBtn = recapRut.querySelector('.kds-info-tip');
+      recapRut.textContent = rutValue || '\u2014';
+      if (tipBtn) recapRut.appendChild(tipBtn);
+    }
+    show(4);
+    return;
+  }
   var go = e.target.closest('[data-go]');
   if (go) { show(parseInt(go.dataset.go,10)); return; }
   var ds = e.target.closest('[data-open-sheet]');

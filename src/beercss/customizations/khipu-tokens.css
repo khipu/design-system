@@ -162,7 +162,8 @@ body.dark {
 
     /* Extended semantic colors */
     --kds-color-info-soft: #EFF6FF;        /* Alias for info backgrounds */
-    --kds-color-success-soft: #ECFDF5;     /* Success mark and borders */
+    --kds-color-success-soft: #ECFDF5;     /* Success soft background */
+    --kds-color-success-border-light: #BBE2C4; /* Subtle success border for copied/confirmed states */
 
     /* Border colors */
     --kds-color-border-subtle: #F3F4F6;   /* Very light border for cards/rows (origin --rule) */
