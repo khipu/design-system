@@ -4665,6 +4665,18 @@ dialog#surveyModal button.circle {
     font-size: 30px;
 }
 
+.kds-invoice-merchant-neutral {
+    background: var(--kds-color-background-paper);
+    border: 1px solid var(--kds-color-border-subtle);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-invoice-merchant.initials {
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 1;
+}
+
 /* -- Card Title -- */
 .kds-card-title {
     font-weight: 700;
