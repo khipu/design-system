@@ -3286,48 +3286,48 @@ dialog#surveyModal button.circle {
     font-size: var(--kds-font-size-4xl, 36px);
     font-weight: var(--kds-font-weight-bold, 700);
     line-height: var(--kds-line-height-tight, 1.2);
-    letter-spacing: var(--kds-letter-spacing-tight, -0.5px);
+    letter-spacing: var(--kds-letter-spacing-tight, -0.025em);
 }
 
 .kds-text-display2 {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
-    font-size: var(--kds-font-size-3xl, 32px);
+    font-size: var(--kds-font-size-3xl, 30px);
     font-weight: var(--kds-font-weight-bold, 700);
     line-height: var(--kds-line-height-tight, 1.2);
-    letter-spacing: var(--kds-letter-spacing-tight, -0.5px);
+    letter-spacing: var(--kds-letter-spacing-tight, -0.025em);
 }
 
 .kds-text-heading1 {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
-    font-size: var(--kds-font-size-2xl, 28px);
-    font-weight: var(--kds-font-weight-semiBold, 600);
-    line-height: var(--kds-line-height-snug, 1.3);
+    font-size: var(--kds-font-size-2xl, 24px);
+    font-weight: var(--kds-font-weight-semibold, 600);
+    line-height: var(--kds-line-height-snug, 1.375);
 }
 
 .kds-text-heading2 {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
-    font-size: var(--kds-font-size-xl, 24px);
-    font-weight: var(--kds-font-weight-semiBold, 600);
-    line-height: var(--kds-line-height-snug, 1.3);
+    font-size: var(--kds-font-size-xl, 20px);
+    font-weight: var(--kds-font-weight-semibold, 600);
+    line-height: var(--kds-line-height-snug, 1.375);
 }
 
 .kds-text-heading3 {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
-    font-size: var(--kds-font-size-lg, 20px);
-    font-weight: var(--kds-font-weight-semiBold, 600);
+    font-size: var(--kds-font-size-lg, 18px);
+    font-weight: var(--kds-font-weight-semibold, 600);
     line-height: var(--kds-line-height-normal, 1.5);
 }
 
 .kds-text-body-large {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
-    font-size: var(--kds-font-size-md, 16px);
+    font-size: var(--kds-font-size-base, 16px);
     font-weight: var(--kds-font-weight-regular, 400);
-    line-height: var(--kds-line-height-relaxed, 1.6);
+    line-height: var(--kds-line-height-relaxed, 1.66);
 }
 
 .kds-text-body {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
-    font-size: var(--kds-font-size-base, 14px);
+    font-size: var(--kds-font-size-sm, 14px);
     font-weight: var(--kds-font-weight-regular, 400);
     line-height: var(--kds-line-height-normal, 1.5);
 }
@@ -3342,18 +3342,18 @@ dialog#surveyModal button.circle {
 .kds-text-label {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
     font-size: var(--kds-font-size-sm, 12px);
-    font-weight: var(--kds-font-weight-semiBold, 600);
+    font-weight: var(--kds-font-weight-semibold, 600);
     line-height: var(--kds-line-height-normal, 1.5);
-    letter-spacing: var(--kds-letter-spacing-uppercase, 1px);
+    letter-spacing: var(--kds-letter-spacing-widest, 1px);
     text-transform: uppercase;
 }
 
 .kds-text-label-small {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
     font-size: var(--kds-font-size-xs, 10px);
-    font-weight: var(--kds-font-weight-semiBold, 600);
+    font-weight: var(--kds-font-weight-semibold, 600);
     line-height: var(--kds-line-height-normal, 1.5);
-    letter-spacing: var(--kds-letter-spacing-uppercase, 1px);
+    letter-spacing: var(--kds-letter-spacing-widest, 1px);
     text-transform: uppercase;
 }
 
