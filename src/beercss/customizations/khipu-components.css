@@ -47,6 +47,7 @@ a.kds-btn {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    text-align: center;
 
     /* Typography - Using design tokens */
     font-family: var(--kds-font-family-secondary);
@@ -232,7 +233,12 @@ a.kds-btn > .kds-icon > i {
     min-width: var(--kds-spacing-button-icon-size);
     min-height: var(--kds-spacing-button-icon-size);
     line-height: 1;
-    top: 1px;
+}
+
+/* Full-width button */
+button.kds-btn.kds-btn-block,
+a.kds-btn.kds-btn-block {
+    width: 100%;
 }
 
 /* ========================================
@@ -255,12 +261,6 @@ a.kds-btn.kds-btn-md {
 }
 
 /* Default .kds-btn uses --kds-spacing-button-min-height (50px) from base styles */
-
-/* Full-width button */
-button.kds-btn.kds-btn-block,
-a.kds-btn.kds-btn-block {
-    width: 100%;
-}
 
 /* ========================================
    Card Components (Material Design 3)
@@ -3278,6 +3278,96 @@ dialog#surveyModal button.circle {
 
 .kds-text-sm {
     font-size: var(--kds-font-size-sm);
+}
+
+/* ── Typography variants ── */
+.kds-text-display1 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-4xl, 36px);
+    font-weight: var(--kds-font-weight-bold, 700);
+    line-height: var(--kds-line-height-tight, 1.2);
+    letter-spacing: var(--kds-letter-spacing-tight, -0.5px);
+}
+
+.kds-text-display2 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-3xl, 32px);
+    font-weight: var(--kds-font-weight-bold, 700);
+    line-height: var(--kds-line-height-tight, 1.2);
+    letter-spacing: var(--kds-letter-spacing-tight, -0.5px);
+}
+
+.kds-text-heading1 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-2xl, 28px);
+    font-weight: var(--kds-font-weight-semiBold, 600);
+    line-height: var(--kds-line-height-snug, 1.3);
+}
+
+.kds-text-heading2 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-xl, 24px);
+    font-weight: var(--kds-font-weight-semiBold, 600);
+    line-height: var(--kds-line-height-snug, 1.3);
+}
+
+.kds-text-heading3 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-lg, 20px);
+    font-weight: var(--kds-font-weight-semiBold, 600);
+    line-height: var(--kds-line-height-normal, 1.5);
+}
+
+.kds-text-body-large {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-md, 16px);
+    font-weight: var(--kds-font-weight-regular, 400);
+    line-height: var(--kds-line-height-relaxed, 1.6);
+}
+
+.kds-text-body {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-base, 14px);
+    font-weight: var(--kds-font-weight-regular, 400);
+    line-height: var(--kds-line-height-normal, 1.5);
+}
+
+.kds-text-body-small {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-sm, 12px);
+    font-weight: var(--kds-font-weight-regular, 400);
+    line-height: var(--kds-line-height-normal, 1.5);
+}
+
+.kds-text-label {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-sm, 12px);
+    font-weight: var(--kds-font-weight-semiBold, 600);
+    line-height: var(--kds-line-height-normal, 1.5);
+    letter-spacing: var(--kds-letter-spacing-uppercase, 1px);
+    text-transform: uppercase;
+}
+
+.kds-text-label-small {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-xs, 10px);
+    font-weight: var(--kds-font-weight-semiBold, 600);
+    line-height: var(--kds-line-height-normal, 1.5);
+    letter-spacing: var(--kds-letter-spacing-uppercase, 1px);
+    text-transform: uppercase;
+}
+
+.kds-text-link {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: inherit;
+    font-weight: var(--kds-font-weight-medium, 500);
+    color: var(--kds-color-primary-main, #8347AD);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.kds-text-link:hover {
+    color: var(--kds-color-primary-dark, #5B3179);
 }
 
 /* Display utilities */
