@@ -7,10 +7,13 @@
 export { clsx } from 'clsx';
 
 /**
- * Parse a hex color string into [r, g, b] values (0-255).
+ * Parse a hex color string (#RGB or #RRGGBB) into [r, g, b] values (0-255).
  */
 function hexToRgb(hex: string): [number, number, number] {
-  const h = hex.replace('#', '');
+  let h = hex.replace('#', '');
+  if (h.length === 3) {
+    h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+  }
   return [
     parseInt(h.slice(0, 2), 16),
     parseInt(h.slice(2, 4), 16),
