@@ -5,9 +5,13 @@ export function useCopyToClipboard(resetMs = 1200) {
 
   const copy = useCallback(
     async (text: string) => {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), resetMs);
+      try {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), resetMs);
+      } catch {
+        // Clipboard API not available or denied — fail silently
+      }
     },
     [resetMs],
   );
