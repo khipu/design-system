@@ -1,58 +1,37 @@
 /**
  * Khipu Design System - Select Component
  *
- * A select dropdown component built on MUI Select with Khipu design system styling.
+ * A select dropdown component built on Radix UI Select with BeerCSS field styling.
  */
 
 import React, { forwardRef } from 'react';
-import MuiSelect, { SelectProps as MuiSelectProps } from '@mui/material/Select';
-import MuiMenuItem, { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import FormHelperText from '@mui/material/FormHelperText';
+import * as Select from '@radix-ui/react-select';
+import { clsx } from '../utils';
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
-export type KdsSelectVariant = 'outlined' | 'filled' | 'standard';
-export type KdsSelectSize = 'small' | 'medium';
-
-export interface KdsSelectOption {
-  /** Option value */
-  value: string | number;
-  /** Option label */
-  label: React.ReactNode;
-  /** Whether this option is disabled */
-  disabled?: boolean;
-}
-
-export interface KdsSelectProps extends Omit<MuiSelectProps, 'variant' | 'size'> {
-  /** Visual variant */
-  variant?: KdsSelectVariant;
-  /** Size */
-  size?: KdsSelectSize;
-  /** Select options (shorthand for creating MenuItems) */
-  options?: KdsSelectOption[];
-  /** Helper text below the select */
+export interface KdsSelectProps {
+  value: string;
+  onValueChange: (value: string) => void;
+  placeholder?: string;
+  label?: string;
+  error?: boolean;
   helperText?: React.ReactNode;
-  /** Whether the field is full width */
+  disabled?: boolean;
   fullWidth?: boolean;
+  children: React.ReactNode;
+  className?: string;
 }
 
-export interface KdsMenuItemProps extends MuiMenuItemProps {}
+export interface KdsSelectItemProps extends Select.SelectItemProps {
+  children: React.ReactNode;
+}
 
 // =============================================================================
 // COMPONENTS
 // =============================================================================
-
-export const KdsMenuItem = forwardRef<HTMLLIElement, KdsMenuItemProps>(
-  (props, ref) => {
-    return <MuiMenuItem ref={ref} {...props} />;
-  }
-);
-
-KdsMenuItem.displayName = 'KdsMenuItem';
 
 /**
  * Select dropdown component for choosing one option from a list.
@@ -62,69 +41,79 @@ KdsMenuItem.displayName = 'KdsMenuItem';
  * <KdsSelect
  *   label="Banco"
  *   value={bank}
- *   onChange={(e) => setBank(e.target.value)}
- *   options={[
- *     { value: 'bci', label: 'BCI' },
- *     { value: 'santander', label: 'Santander' },
- *   ]}
- * />
+ *   onValueChange={setBank}
+ *   placeholder="Selecciona tu banco"
+ * >
+ *   <KdsSelect.Item value="bci">BCI</KdsSelect.Item>
+ *   <KdsSelect.Item value="santander">Santander</KdsSelect.Item>
+ * </KdsSelect>
  * ```
  */
-export const KdsSelect = forwardRef<HTMLDivElement, KdsSelectProps>(
+const KdsSelectRoot = forwardRef<HTMLDivElement, KdsSelectProps>(
   (
     {
-      variant = 'outlined',
-      size = 'medium',
+      value,
+      onValueChange,
+      placeholder,
       label,
-      options,
-      helperText,
-      fullWidth = true,
       error,
-      required,
+      helperText,
       disabled,
+      fullWidth = true,
       children,
-      ...props
+      className,
     },
-    ref
-  ) => {
-    const labelId = label ? `kds-select-label-${String(label).replace(/\s/g, '-')}` : undefined;
-
-    return (
-      <FormControl
-        variant={variant}
-        size={size}
-        fullWidth={fullWidth}
-        error={error}
-        required={required}
-        disabled={disabled}
-      >
-        {label && <InputLabel id={labelId}>{label}</InputLabel>}
-        <MuiSelect
-          ref={ref}
-          labelId={labelId}
-          label={label}
-          variant={variant}
-          size={size}
-          {...props}
-        >
-          {options
-            ? options.map((option) => (
-                <MuiMenuItem
-                  key={option.value}
-                  value={option.value}
-                  disabled={option.disabled}
-                >
-                  {option.label}
-                </MuiMenuItem>
-              ))
-            : children}
-        </MuiSelect>
-        {helperText && <FormHelperText>{helperText}</FormHelperText>}
-      </FormControl>
-    );
-  }
+    ref,
+  ) => (
+    <div
+      ref={ref}
+      className={clsx(
+        'kds-select',
+        error && 'kds-select-error',
+        fullWidth && 'kds-select-full',
+        className,
+      )}
+    >
+      {label && <label className="kds-select-label">{label}</label>}
+      <Select.Root value={value} onValueChange={onValueChange} disabled={disabled}>
+        <Select.Trigger className="kds-select-trigger">
+          <Select.Value placeholder={placeholder} />
+          <Select.Icon className="kds-select-icon">
+            <i className="material-symbols-outlined">expand_more</i>
+          </Select.Icon>
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Content className="kds-select-content" position="popper" sideOffset={4}>
+            <Select.Viewport className="kds-select-viewport">
+              {children}
+            </Select.Viewport>
+          </Select.Content>
+        </Select.Portal>
+      </Select.Root>
+      {helperText && (
+        <span className={clsx('kds-select-helper', error && 'kds-select-helper-error')}>
+          {helperText}
+        </span>
+      )}
+    </div>
+  ),
 );
+KdsSelectRoot.displayName = 'KdsSelect';
 
-KdsSelect.displayName = 'KdsSelect';
+const KdsSelectItem = forwardRef<HTMLDivElement, KdsSelectItemProps>(
+  ({ children, className, ...props }, ref) => (
+    <Select.Item ref={ref} className={clsx('kds-select-item', className)} {...props}>
+      <Select.ItemText>{children}</Select.ItemText>
+      <Select.ItemIndicator className="kds-select-item-indicator">
+        <i className="material-symbols-outlined">check</i>
+      </Select.ItemIndicator>
+    </Select.Item>
+  ),
+);
+KdsSelectItem.displayName = 'KdsSelect.Item';
+
+export const KdsSelect = Object.assign(KdsSelectRoot, {
+  Item: KdsSelectItem,
+});
 
 export default KdsSelect;
