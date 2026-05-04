@@ -9,10 +9,10 @@
 export { KdsButton, type KdsButtonProps, type KdsButtonVariant, type KdsButtonSize } from './KdsButton';
 
 // TextField
-export { KdsTextField, type KdsTextFieldProps, type KdsTextFieldVariant, type KdsTextFieldSize } from './KdsTextField';
+export { KdsTextField, type KdsTextFieldProps } from './KdsTextField';
 
 // Checkbox
-export { KdsCheckbox, type KdsCheckboxProps, type KdsCheckboxColor, type KdsCheckboxSize } from './KdsCheckbox';
+export { KdsCheckbox, type KdsCheckboxProps } from './KdsCheckbox';
 
 // Modal
 export { KdsModal, type KdsModalProps, type KdsModalSize } from './KdsModal';
@@ -29,10 +29,10 @@ export {
 } from './KdsCard';
 
 // Spinner
-export { KdsSpinner, type KdsSpinnerProps, type KdsSpinnerSize, type KdsSpinnerColor } from './KdsSpinner';
+export { KdsSpinner, type KdsSpinnerProps, type KdsSpinnerSize } from './KdsSpinner';
 
 // LinearProgress
-export { KdsLinearProgress, type KdsLinearProgressProps, type KdsLinearProgressColor, type KdsLinearProgressVariant } from './KdsLinearProgress';
+export { KdsLinearProgress, type KdsLinearProgressProps } from './KdsLinearProgress';
 
 // Alert
 export { KdsAlert, type KdsAlertProps, type KdsAlertSeverity } from './KdsAlert';
@@ -69,12 +69,8 @@ export {
 // RadioGroup
 export {
   KdsRadioGroup,
-  KdsRadio,
   type KdsRadioGroupProps,
-  type KdsRadioProps,
   type KdsRadioOption,
-  type KdsRadioColor,
-  type KdsRadioSize,
 } from './KdsRadioGroup';
 
 // Select
@@ -92,9 +88,7 @@ export {
 export {
   KdsChip,
   type KdsChipProps,
-  type KdsChipVariant,
   type KdsChipColor,
-  type KdsChipSize,
 } from './KdsChip';
 
 // Snackbar
@@ -122,3 +116,15 @@ export {
   type KdsAccordionDetailsProps,
   type KdsAccordionVariant,
 } from './KdsAccordion';
+
+// Divider
+export { KdsDivider, type KdsDividerProps } from './KdsDivider';
+
+// SectionNote
+export { KdsSectionNote, type KdsSectionNoteProps } from './KdsSectionNote';
+
+// StatusBlock
+export { KdsStatusBlock, type KdsStatusBlockProps, type KdsStatusType } from './KdsStatusBlock';
+
+// Stepper
+export { KdsStepper, type KdsStepperProps } from './KdsStepper';
