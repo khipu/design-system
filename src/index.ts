@@ -16,10 +16,6 @@
 
 export { KdsThemeProvider, type KdsThemeProviderProps } from './theme/KdsThemeProvider';
 
-// Legacy theme exports (deprecated - will be removed in v1.0)
-export { khipuTheme, type KhipuTheme } from './theme';
-export { KhipuThemeProvider, type KhipuThemeProviderProps } from './theme/ThemeProvider';
-
 // =============================================================================
 // DESIGN TOKENS
 // =============================================================================

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { KdsTabs, type KdsTabsProps } from '../KdsTabs/KdsTabs';
 
 export type KdsSegmentedTabsProps = Omit<KdsTabsProps, 'variant'>;

@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import { KdsTypography } from './KdsTypography';
 import { colors } from '../../../tokens';
 
@@ -39,26 +37,26 @@ export const Default: Story = {
 
 export const DisplayVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <KdsTypography variant="display1">Display 1 - Hero Headline (40px Bold)</KdsTypography>
       <KdsTypography variant="display2">Display 2 - Large Headline (32px Bold)</KdsTypography>
-    </Box>
+    </div>
   ),
 };
 
 export const HeadingVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <KdsTypography variant="heading1">Heading 1 - Section Heading (28px SemiBold)</KdsTypography>
       <KdsTypography variant="heading2">Heading 2 - Subsection Heading (24px SemiBold)</KdsTypography>
       <KdsTypography variant="heading3">Heading 3 - Page Title (20px SemiBold)</KdsTypography>
-    </Box>
+    </div>
   ),
 };
 
 export const BodyVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <KdsTypography variant="body-large">
         Body Large - 16px Regular. Used for large paragraphs and main content areas.
       </KdsTypography>
@@ -68,131 +66,131 @@ export const BodyVariants: Story = {
       <KdsTypography variant="body-small">
         Body Small - 12px Regular. Used for captions, help text, and secondary information.
       </KdsTypography>
-    </Box>
+    </div>
   ),
 };
 
 export const LabelVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <KdsTypography variant="label">Label - 12px Uppercase</KdsTypography>
       <KdsTypography variant="label-small">Label Small - 10px Medium</KdsTypography>
-    </Box>
+    </div>
   ),
 };
 
 export const CardVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, bgcolor: colors.background.elevated, borderRadius: 1 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
       <KdsTypography variant="heading3">Card Title - 20px SemiBold</KdsTypography>
       <KdsTypography variant="body" color="muted">Card Subtitle - 14px Regular</KdsTypography>
       <KdsTypography variant="body">Product Name - 14px Regular</KdsTypography>
-    </Box>
+    </div>
   ),
 };
 
 export const SemanticVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <KdsTypography variant="muted">Muted text - For secondary/less important information</KdsTypography>
       <KdsTypography variant="link">Link text - Clickable link style</KdsTypography>
-    </Box>
+    </div>
   ),
 };
 
 export const Colors: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       <KdsTypography variant="body" color="primary">Primary color</KdsTypography>
       <KdsTypography variant="body" color="secondary">Secondary color</KdsTypography>
       <KdsTypography variant="body" color="muted">Muted color</KdsTypography>
       <KdsTypography variant="body" color="error">Error color</KdsTypography>
       <KdsTypography variant="body" color="success">Success color</KdsTypography>
-    </Box>
+    </div>
   ),
 };
 
 
 export const AllVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Box>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Display</KdsTypography>
-        <Divider sx={{ mb: 2 }} />
+        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
         <KdsTypography variant="display1">Display 1</KdsTypography>
         <KdsTypography variant="display2">Display 2</KdsTypography>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Headings</KdsTypography>
-        <Divider sx={{ mb: 2 }} />
+        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
         <KdsTypography variant="heading1">Heading 1</KdsTypography>
         <KdsTypography variant="heading2">Heading 2</KdsTypography>
         <KdsTypography variant="heading3">Heading 3</KdsTypography>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Body</KdsTypography>
-        <Divider sx={{ mb: 2 }} />
+        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
         <KdsTypography variant="body-large">Body Large</KdsTypography>
         <KdsTypography variant="body">Body</KdsTypography>
         <KdsTypography variant="body-small">Body Small</KdsTypography>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Labels</KdsTypography>
-        <Divider sx={{ mb: 2 }} />
+        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
         <KdsTypography variant="label">Label</KdsTypography>
         <KdsTypography variant="label-small">Label Small</KdsTypography>
-      </Box>
+      </div>
 
-      <Box>
+      <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Semantic</KdsTypography>
-        <Divider sx={{ mb: 2 }} />
+        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
         <KdsTypography variant="muted">Muted</KdsTypography>
         <KdsTypography variant="link">Link</KdsTypography>
-      </Box>
-    </Box>
+      </div>
+    </div>
   ),
 };
 
 export const RealWorldExample: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 390, bgcolor: colors.background.paper, p: 3, borderRadius: 2 }}>
+    <div style={{ maxWidth: 390, backgroundColor: colors.background.paper, padding: '24px', borderRadius: '8px' }}>
       <KdsTypography variant="heading3" style={{ marginBottom: '1rem', display: 'block' }}>
         Detalle de suscripcion
       </KdsTypography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Box>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div>
           <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block' }}>Tipo de pago</KdsTypography>
           <KdsTypography variant="body">Monto variable</KdsTypography>
-        </Box>
+        </div>
 
-        <Divider />
+        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', margin: 0 }} />
 
-        <Box>
+        <div>
           <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block' }}>Tope por cargo</KdsTypography>
           <KdsTypography variant="body">$50.000</KdsTypography>
-        </Box>
+        </div>
 
-        <Divider />
+        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', margin: 0 }} />
 
-        <Box>
+        <div>
           <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block' }}>Tope mensual</KdsTypography>
           <KdsTypography variant="body">$150.000</KdsTypography>
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Box sx={{ mt: 3, p: 2, bgcolor: colors.info[50], borderRadius: 1 }}>
+      <div style={{ marginTop: '24px', padding: '16px', backgroundColor: colors.info[50], borderRadius: '4px' }}>
         <KdsTypography variant="body-small" color="muted">
           El tope mensual corresponde al monto maximo posible a cobrar mensualmente.
         </KdsTypography>
-      </Box>
+      </div>
 
       <KdsTypography as="span" variant="label-small" color="muted" style={{ marginTop: '1.5rem', textAlign: 'center', display: 'block' }}>
         CODIGO * HUSK-P7ZZ-XGYG
       </KdsTypography>
-    </Box>
+    </div>
   ),
 };
