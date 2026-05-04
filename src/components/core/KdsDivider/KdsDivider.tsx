@@ -1,7 +1,7 @@
 /**
  * Khipu Design System - Divider Component
  *
- * Native HTML horizontal rule with kds-* styling.
+ * Native HTML divider with BeerCSS styling.
  */
 
 import React, { forwardRef } from 'react';
