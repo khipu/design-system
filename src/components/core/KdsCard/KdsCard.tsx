@@ -1,52 +1,27 @@
 /**
  * Khipu Design System - Card Component
  *
- * A card component built on MUI Card with Khipu design system styling.
+ * A card component built with native HTML and kds-* CSS classes.
  * Matches the Figma design: Pagos Automáticos - MUI v610
  */
 
-import { forwardRef } from 'react';
-import MuiCard, { CardProps as MuiCardProps } from '@mui/material/Card';
-import MuiCardHeader, { CardHeaderProps as MuiCardHeaderProps } from '@mui/material/CardHeader';
-import MuiCardContent, { CardContentProps as MuiCardContentProps } from '@mui/material/CardContent';
-import MuiCardActions, { CardActionsProps as MuiCardActionsProps } from '@mui/material/CardActions';
-import CardActionArea from '@mui/material/CardActionArea';
+import React, { forwardRef } from 'react';
+import { clsx } from '../utils';
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
-export type KdsCardVariant = 'elevation' | 'outlined';
-export type KdsCardElevation = 0 | 1 | 2 | 3 | 4 | 6 | 8 | 12 | 16 | 24;
-export type KdsCardPadding = 'none' | 'sm' | 'md' | 'lg';
+export type KdsCardVariant = 'elevated' | 'outlined';
 
-/**
- * Padding values from Figma design
- * Default card padding in Figma: 10px vertical, 20px horizontal
- */
-const paddingMap: Record<KdsCardPadding, string> = {
-  none: '0',
-  sm: '8px 16px',    // Compact
-  md: '10px 20px',   // Figma default (bank selection cards)
-  lg: '16px 20px',   // Spacious
-};
-
-export interface KdsCardProps extends Omit<MuiCardProps, 'variant'> {
+export interface KdsCardProps extends React.HTMLAttributes<HTMLElement> {
   /** Visual variant */
   variant?: KdsCardVariant;
-  /** Elevation level (only for elevation variant) */
-  elevation?: KdsCardElevation;
-  /** Padding size from Figma design tokens */
-  padding?: KdsCardPadding;
-  /** Clickable card with hover effect */
-  clickable?: boolean;
-  /** Click handler for clickable cards */
-  onCardClick?: () => void;
+  /** Dimmed appearance */
+  dimmed?: boolean;
 }
 
-export interface KdsCardHeaderProps extends MuiCardHeaderProps {}
-export interface KdsCardContentProps extends MuiCardContentProps {}
-export interface KdsCardActionsProps extends MuiCardActionsProps {}
+export interface KdsCardSectionProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 // =============================================================================
 // COMPONENT
@@ -55,78 +30,38 @@ export interface KdsCardActionsProps extends MuiCardActionsProps {}
 /**
  * Card container component for grouping related content.
  *
- * Built on MUI Card with Khipu design system styling.
+ * Built with native HTML and kds-* CSS classes.
  *
  * @example
  * ```tsx
- * // Bank selection card
- * <KdsCard variant="outlined" clickable onCardClick={() => selectBank('estado')}>
- *   <CardContent sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
- *     <img src={bankLogo} alt="Banco Estado" />
- *     <Typography variant="body1" fontWeight={600}>
- *       Banco Estado
- *     </Typography>
- *   </CardContent>
+ * // Basic card
+ * <KdsCard>
+ *   <KdsCardBody>Content</KdsCardBody>
  * </KdsCard>
  *
- * // Account card
- * <KdsCard variant="outlined">
- *   <CardContent>
- *     <Typography variant="body2" fontWeight={600}>
- *       Cuenta Corriente N° ***002344
- *     </Typography>
- *     <Typography variant="body2" color="info.light">
- *       Disponible $1.000.000
- *     </Typography>
- *   </CardContent>
+ * // Card with header and footer
+ * <KdsCard>
+ *   <KdsCardHeader>Title</KdsCardHeader>
+ *   <KdsCardBody>Content</KdsCardBody>
+ *   <KdsCardFooter>Footer</KdsCardFooter>
  * </KdsCard>
  * ```
  */
-export const KdsCard = forwardRef<HTMLDivElement, KdsCardProps>(
-  (
-    {
-      variant = 'elevation',
-      elevation = 1,
-      padding,
-      clickable = false,
-      onCardClick,
-      children,
-      sx,
-      ...props
-    },
-    ref
-  ) => {
-    const cardContent = clickable ? (
-      <CardActionArea onClick={onCardClick}>
-        {children}
-      </CardActionArea>
-    ) : (
-      children
-    );
-
-    return (
-      <MuiCard
-        ref={ref}
-        variant={variant}
-        elevation={variant === 'elevation' ? elevation : 0}
-        sx={{
-          borderRadius: '6px',
-          ...(variant === 'outlined' && {
-            border: '1px solid rgba(0, 0, 0, 0.42)',
-          }),
-          ...(padding && {
-            padding: paddingMap[padding],
-          }),
-          ...sx,
-        }}
-        {...props}
-      >
-        {cardContent}
-      </MuiCard>
-    );
-  }
+export const KdsCard = forwardRef<HTMLElement, KdsCardProps>(
+  ({ variant = 'elevated', dimmed, children, className, ...props }, ref) => (
+    <article
+      ref={ref}
+      className={clsx(
+        variant === 'elevated' ? 'kds-card-elevated' : 'kds-card-outlined',
+        dimmed && 'kds-card-dimmed',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </article>
+  ),
 );
-
 KdsCard.displayName = 'KdsCard';
 
 // =============================================================================
@@ -134,36 +69,39 @@ KdsCard.displayName = 'KdsCard';
 // =============================================================================
 
 /**
- * Card header with title, subtitle, avatar, and action areas.
+ * Card header section.
  */
-export const KdsCardHeader = forwardRef<HTMLDivElement, KdsCardHeaderProps>(
-  (props, ref) => {
-    return <MuiCardHeader ref={ref} {...props} />;
-  }
+export const KdsCardHeader = forwardRef<HTMLDivElement, KdsCardSectionProps>(
+  ({ children, className, ...props }, ref) => (
+    <div ref={ref} className={clsx('kds-card-header', className)} {...props}>
+      {children}
+    </div>
+  ),
 );
-
 KdsCardHeader.displayName = 'KdsCardHeader';
 
 /**
  * Main content area of the card.
  */
-export const KdsCardContent = forwardRef<HTMLDivElement, KdsCardContentProps>(
-  (props, ref) => {
-    return <MuiCardContent ref={ref} {...props} />;
-  }
+export const KdsCardBody = forwardRef<HTMLDivElement, KdsCardSectionProps>(
+  ({ children, className, ...props }, ref) => (
+    <div ref={ref} className={clsx('kds-card-body', className)} {...props}>
+      {children}
+    </div>
+  ),
 );
-
-KdsCardContent.displayName = 'KdsCardContent';
+KdsCardBody.displayName = 'KdsCardBody';
 
 /**
- * Actions area at the bottom of the card, typically for buttons.
+ * Card footer section, typically for actions.
  */
-export const KdsCardActions = forwardRef<HTMLDivElement, KdsCardActionsProps>(
-  (props, ref) => {
-    return <MuiCardActions ref={ref} {...props} />;
-  }
+export const KdsCardFooter = forwardRef<HTMLDivElement, KdsCardSectionProps>(
+  ({ children, className, ...props }, ref) => (
+    <div ref={ref} className={clsx('kds-card-footer', className)} {...props}>
+      {children}
+    </div>
+  ),
 );
-
-KdsCardActions.displayName = 'KdsCardActions';
+KdsCardFooter.displayName = 'KdsCardFooter';
 
 export default KdsCard;
