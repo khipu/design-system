@@ -1,7 +1,7 @@
 /**
  * Khipu Design System - Stepper Component
  *
- * A visual progress indicator showing steps in a multi-step process.
+ * Native HTML stepper for multi-step flows.
  */
 
 import React, { forwardRef } from 'react';

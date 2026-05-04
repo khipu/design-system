@@ -1,7 +1,7 @@
 /**
  * Khipu Design System - SectionNote Component
  *
- * An informational note with icon, used in forms and sections.
+ * Native HTML section note with BeerCSS styling.
  */
 
 import React, { forwardRef } from 'react';
