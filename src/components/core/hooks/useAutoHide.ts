@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export function useAutoHide(durationMs: number, onHide?: () => void) {
   const [visible, setVisible] = useState(true);
+  const onHideRef = useRef(onHide);
+  onHideRef.current = onHide;
 
   useEffect(() => {
     if (durationMs <= 0) return;
     const timer = setTimeout(() => {
       setVisible(false);
-      onHide?.();
+      onHideRef.current?.();
     }, durationMs);
     return () => clearTimeout(timer);
-  }, [durationMs, onHide]);
+  }, [durationMs]);
 
   return { visible, setVisible };
 }

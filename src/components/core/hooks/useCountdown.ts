@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-interface CountdownResult {
+export interface CountdownResult {
   hours: number;
   minutes: number;
   seconds: number;
