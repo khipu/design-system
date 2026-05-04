@@ -1,5 +1,1 @@
-export {
-  KdsTooltip,
-  type KdsTooltipProps,
-  type KdsTooltipPlacement,
-} from './KdsTooltip';
+export { KdsTooltip, type KdsTooltipProps, type KdsTooltipPlacement } from './KdsTooltip';
