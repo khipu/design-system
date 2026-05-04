@@ -1,24 +1,13 @@
 /**
  * Khipu Design System - Modal Component
  *
- * A modal dialog component built on MUI Dialog with Khipu design system styling.
- * Matches the Figma design: Pagos Automáticos - MUI v610
+ * A modal dialog component built on Radix Dialog with Khipu design system styling.
+ * Uses kds-bottom-sheet BeerCSS classes for visual presentation.
  */
 
 import React, { forwardRef } from 'react';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
+import * as Dialog from '@radix-ui/react-dialog';
+import { clsx } from '../utils';
 
 // =============================================================================
 // TYPES
@@ -26,31 +15,26 @@ import { TransitionProps } from '@mui/material/transitions';
 
 export type KdsModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export interface KdsModalProps extends Omit<DialogProps, 'maxWidth' | 'title' | 'fullScreen'> {
+export interface KdsModalProps {
   /** Controls modal visibility */
   open: boolean;
   /** Callback when modal should close */
   onClose: () => void;
   /** Modal title */
-  title?: React.ReactNode;
-  /** Modal content */
-  children: React.ReactNode;
+  title?: string;
+  /** Modal description text */
+  description?: string;
   /** Footer content (usually action buttons) */
   footer?: React.ReactNode;
-  /** Modal max width (ignored when fullScreen is true) */
+  /** Modal content */
+  children: React.ReactNode;
+  /** Modal max width */
   size?: KdsModalSize;
   /** Show close button */
   showCloseButton?: boolean;
-  /** Render as a fullScreen dialog with AppBar header and slide transition */
-  fullScreen?: boolean;
+  /** Additional CSS class */
+  className?: string;
 }
-
-const SlideTransition = forwardRef(function SlideTransition(
-  props: TransitionProps & { children: React.ReactElement<unknown> },
-  ref: React.Ref<unknown>,
-) {
-  return <Slide direction="left" ref={ref} {...props} />;
-});
 
 // =============================================================================
 // COMPONENT
@@ -59,39 +43,18 @@ const SlideTransition = forwardRef(function SlideTransition(
 /**
  * Modal dialog component for displaying content that requires attention.
  *
- * Built on MUI Dialog with Khipu design system styling.
+ * Built on Radix Dialog with kds-bottom-sheet BeerCSS classes.
  *
  * @example
  * ```tsx
- * // Token authorization modal
  * <KdsModal
  *   open={isOpen}
  *   onClose={() => setIsOpen(false)}
- *   title={
- *     <>
- *       Autoriza la operación desde tu App{' '}
- *       <Typography component="span" color="info.main">tokenPass</Typography>
- *     </>
- *   }
- *   footer={
- *     <Button disabled fullWidth>CONTINUAR</Button>
- *   }
- * >
- *   <Box sx={{ textAlign: 'center' }}>
- *     <img src={tokenImage} alt="TokenPass" />
- *     <Typography color="text.disabled">3:27 restantes</Typography>
- *   </Box>
- * </KdsModal>
- *
- * // Confirmation modal
- * <KdsModal
- *   open={isOpen}
- *   onClose={handleCancel}
  *   title="Confirmar pago"
  *   footer={
  *     <>
- *       <Button variant="text" onClick={handleCancel}>Cancelar</Button>
- *       <Button onClick={handleConfirm}>Confirmar</Button>
+ *       <button onClick={handleCancel}>Cancelar</button>
+ *       <button onClick={handleConfirm}>Confirmar</button>
  *     </>
  *   }
  * >
@@ -99,136 +62,68 @@ const SlideTransition = forwardRef(function SlideTransition(
  * </KdsModal>
  * ```
  */
-export const KdsModal: React.FC<KdsModalProps> = ({
-  open,
-  onClose,
-  title,
-  children,
-  footer,
-  size = 'sm',
-  showCloseButton = true,
-  fullScreen = false,
-  ...props
-}) => {
-  // FullScreen variant: AppBar with back button + slide transition
-  if (fullScreen) {
-    return (
-      <Dialog
-        open={open}
-        onClose={onClose}
-        fullScreen
-        TransitionComponent={SlideTransition}
-        {...props}
-      >
-        <AppBar
-          sx={{
-            position: 'relative',
-            backgroundColor: 'background.paper',
-            color: 'text.primary',
-            boxShadow: 0,
-            py: 1,
-          }}
-        >
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={onClose}
-              aria-label="Cerrar"
-            >
-              <ChevronLeftIcon />
-            </IconButton>
-            {title && (
-              <Typography sx={{ ml: 1, flex: 1 }} fontWeight={600} variant="h6" component="div">
-                {title}
-              </Typography>
-            )}
-          </Toolbar>
-        </AppBar>
-        <DialogContent sx={{ px: 5, py: 5 }}>
-          {children}
-        </DialogContent>
-        {footer && (
-          <DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
-            {footer}
-          </DialogActions>
-        )}
-      </Dialog>
-    );
-  }
-
-  // Standard variant: centered dialog with optional close button
-  return (
-    <Dialog
+export const KdsModal = forwardRef<HTMLDivElement, KdsModalProps>(
+  (
+    {
+      open,
+      onClose,
+      title,
+      description,
+      footer,
+      children,
+      size = 'md',
+      showCloseButton = true,
+      className,
+    },
+    ref,
+  ) => (
+    <Dialog.Root
       open={open}
-      onClose={onClose}
-      maxWidth={size}
-      fullWidth
-      PaperProps={{
-        sx: {
-          borderRadius: '12px',
-          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        },
+      onOpenChange={(o) => {
+        if (!o) onClose();
       }}
-      {...props}
     >
-      {(title || showCloseButton) && (
-        <DialogTitle
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: title ? 'space-between' : 'flex-end',
-            fontFamily: '"Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-            fontFeatureSettings: "'liga' off, 'clig' off",
-            fontWeight: 600,
-            fontSize: '1.25rem',
-            lineHeight: '32px',
-            letterSpacing: '0.15px',
-            textAlign: 'center',
-            py: 2,
-            px: 3,
-          }}
-        >
-          {title && <Box sx={{ flex: 1 }}>{title}</Box>}
-          {showCloseButton && (
-            <IconButton
-              aria-label="Cerrar"
-              onClick={onClose}
-              sx={{
-                color: 'text.secondary',
-                ml: 'auto',
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
+      <Dialog.Portal>
+        <Dialog.Overlay className="kds-bottom-sheet-scrim" />
+        <Dialog.Content
+          ref={ref}
+          className={clsx(
+            'kds-bottom-sheet',
+            `kds-bottom-sheet-${size}`,
+            className,
           )}
-        </DialogTitle>
-      )}
-
-      <DialogContent
-        sx={{
-          px: 3,
-          py: 2,
-        }}
-      >
-        {children}
-      </DialogContent>
-
-      {footer && (
-        <DialogActions
-          sx={{
-            px: 3,
-            py: 2,
-            gap: 1,
-          }}
         >
-          {footer}
-        </DialogActions>
-      )}
-    </Dialog>
-  );
-};
-
+          {title && (
+            <div className="kds-bottom-sheet-header">
+              <Dialog.Title className="kds-bottom-sheet-title">
+                {title}
+              </Dialog.Title>
+              {showCloseButton && (
+                <Dialog.Close asChild>
+                  <button
+                    className="kds-bottom-sheet-close"
+                    aria-label="Cerrar"
+                  >
+                    <i className="material-symbols-outlined">close</i>
+                  </button>
+                </Dialog.Close>
+              )}
+            </div>
+          )}
+          {description && (
+            <Dialog.Description className="kds-bottom-sheet-description">
+              {description}
+            </Dialog.Description>
+          )}
+          <div className="kds-bottom-sheet-body">{children}</div>
+          {footer && (
+            <div className="kds-bottom-sheet-actions">{footer}</div>
+          )}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  ),
+);
 KdsModal.displayName = 'KdsModal';
 
 export default KdsModal;
