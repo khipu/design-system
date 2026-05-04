@@ -4425,15 +4425,35 @@ dialog#surveyModal button.circle {
 
 /* ========================================
    16 - SEGMENTED TABS (.kds-segmented-tabs)
-   Pill-group toggle for tab switching
+   Pill-group toggle with sliding indicator
    ======================================== */
 
 .kds-segmented-tabs {
+    --_tab-count: 2;
+    --_active-idx: 0;
     height: var(--kds-spacing-5);
-    background: var(--kds-color-background-elevated);
+    background: var(--kds-color-background-muted);
     border-radius: var(--kds-radius-lg);
     padding: var(--kds-spacing-0-25);
     display: flex;
+    position: relative;
+}
+
+/* Sliding pill indicator */
+.kds-segmented-tabs::before {
+    content: "";
+    position: absolute;
+    top: var(--kds-spacing-0-25);
+    bottom: var(--kds-spacing-0-25);
+    left: var(--kds-spacing-0-25);
+    width: calc((100% - var(--kds-spacing-0-25) * 2) / var(--_tab-count));
+    border-radius: calc(var(--kds-radius-lg) - var(--kds-spacing-0-25));
+    background: var(--kds-color-background-default);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(calc(var(--_active-idx) * 100%));
+    z-index: 0;
+    pointer-events: none;
 }
 
 .kds-segmented-tabs.kds-segmented-tabs button {
@@ -4445,14 +4465,16 @@ dialog#surveyModal button.circle {
     font-size: var(--kds-font-size-sm);
     color: var(--kds-color-text-secondary);
     cursor: pointer;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    transition: color 0.2s;
+    position: relative;
+    z-index: 1;
 }
 
 .kds-segmented-tabs.kds-segmented-tabs button.active,
 .kds-segmented-tabs.kds-segmented-tabs button[aria-selected="true"] {
-    background: var(--kds-color-primary-main);
-    color: var(--kds-color-primary-contrast);
-    box-shadow: var(--kds-shadow-card);
+    background: transparent;
+    color: var(--kds-color-text-primary);
+    font-weight: var(--kds-font-weight-semibold);
 }
 
 

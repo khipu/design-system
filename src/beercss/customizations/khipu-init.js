@@ -301,11 +301,24 @@
     /**
      * Initialize segmented tabs
      * Delegated click on .kds-segmented-tabs button toggles .active and aria-selected
+     * Sets --_active-idx and --_tab-count CSS custom properties for sliding pill animation
      * Dispatches kds:tab:change with { index, button }
      * @param {Element} root - Root element to scope listeners (default: document)
      */
     function initSegmentedTabs(root) {
         root = root || document;
+
+        /* Set initial CSS vars on all segmented-tab containers */
+        root.querySelectorAll('.kds-segmented-tabs').forEach(function(tabs) {
+            var buttons = tabs.querySelectorAll('button');
+            tabs.style.setProperty('--_tab-count', buttons.length);
+            var activeIdx = 0;
+            buttons.forEach(function(b, i) {
+                if (b.classList.contains('active') || b.getAttribute('aria-selected') === 'true') activeIdx = i;
+            });
+            tabs.style.setProperty('--_active-idx', activeIdx);
+        });
+
         root.addEventListener('click', function(e) {
             var btn = e.target.closest('.kds-segmented-tabs button');
             if (!btn) return;
@@ -322,6 +335,8 @@
             btn.setAttribute('aria-selected', 'true');
 
             var index = Array.prototype.indexOf.call(buttons, btn);
+            tabs.style.setProperty('--_active-idx', index);
+
             tabs.dispatchEvent(new CustomEvent('kds:tab:change', {
                 bubbles: true,
                 detail: { index: index, button: btn }
