@@ -11,7 +11,7 @@ export const KdsExpandPanel = forwardRef<HTMLDivElement, KdsExpandPanelProps>(
     const [expanded, setExpanded] = useState(defaultExpanded);
 
     return (
-      <div ref={ref} className={clsx('kds-expand-panel', expanded && 'expanded', className)} {...props}>
+      <div ref={ref} className={className} {...props}>
         <button
           className="kds-expand-toggle"
           onClick={() => setExpanded((v) => !v)}
@@ -20,7 +20,7 @@ export const KdsExpandPanel = forwardRef<HTMLDivElement, KdsExpandPanelProps>(
           <span>{label}</span>
           <i className="material-symbols-outlined">{expanded ? 'expand_less' : 'expand_more'}</i>
         </button>
-        <div className="kds-expand-content" hidden={!expanded}>
+        <div className={clsx('kds-expand-panel', expanded && 'open')} hidden={!expanded}>
           {children}
         </div>
       </div>
