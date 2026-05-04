@@ -302,13 +302,14 @@
      * Initialize segmented tabs
      * Delegated click on .kds-segmented-tabs button toggles .active and aria-selected
      * Sets --_active-idx and --_tab-count CSS custom properties for sliding pill animation
+     * Auto-manages tab panels via data-kds-tab-panel attributes on sibling elements
      * Dispatches kds:tab:change with { index, button }
      * @param {Element} root - Root element to scope listeners (default: document)
      */
     function initSegmentedTabs(root) {
         root = root || document;
 
-        /* Set initial CSS vars on all segmented-tab containers */
+        /* Set initial CSS vars and panel visibility on all segmented-tab containers */
         root.querySelectorAll('.kds-segmented-tabs').forEach(function(tabs) {
             var buttons = tabs.querySelectorAll('button');
             tabs.style.setProperty('--_tab-count', buttons.length);
@@ -317,6 +318,15 @@
                 if (b.classList.contains('active') || b.getAttribute('aria-selected') === 'true') activeIdx = i;
             });
             tabs.style.setProperty('--_active-idx', activeIdx);
+
+            /* Auto-bind panels: find sibling elements with data-kds-tab-panel */
+            var parent = tabs.parentElement;
+            if (parent) {
+                var panels = parent.querySelectorAll('[data-kds-tab-panel]');
+                panels.forEach(function(panel, i) {
+                    panel.hidden = i !== activeIdx;
+                });
+            }
         });
 
         root.addEventListener('click', function(e) {
@@ -336,6 +346,14 @@
 
             var index = Array.prototype.indexOf.call(buttons, btn);
             tabs.style.setProperty('--_active-idx', index);
+
+            /* Auto-toggle panels */
+            var parent = tabs.parentElement;
+            if (parent) {
+                parent.querySelectorAll('[data-kds-tab-panel]').forEach(function(panel, i) {
+                    panel.hidden = i !== index;
+                });
+            }
 
             tabs.dispatchEvent(new CustomEvent('kds:tab:change', {
                 bubbles: true,
