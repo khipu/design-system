@@ -2,9 +2,10 @@
  * Khipu Design System
  *
  * A comprehensive design system for the Khipu payment platform.
- * Built with TypeScript, React, and Material UI.
+ * Built with TypeScript, React, and BeerCSS.
  *
- * Based on Figma design: Pagos Automáticos - MUI v610
+ * IMPORTANT: Consumers must load the CSS bundle:
+ *   import '@khipu/design-system/beercss/css';
  *
  * @packageDocumentation
  */
@@ -13,6 +14,9 @@
 // THEME
 // =============================================================================
 
+export { KdsThemeProvider, type KdsThemeProviderProps } from './theme/KdsThemeProvider';
+
+// Legacy theme exports (deprecated - will be removed in v1.0)
 export { khipuTheme, type KhipuTheme } from './theme';
 export { KhipuThemeProvider, type KhipuThemeProviderProps } from './theme/ThemeProvider';
 
@@ -54,199 +58,27 @@ export {
 // CORE COMPONENTS
 // =============================================================================
 
+export * from './components/core';
+
+// =============================================================================
+// DOMAIN COMPONENTS
+// =============================================================================
+
+export * from './components/domain';
+
+// =============================================================================
+// HOOKS
+// =============================================================================
+
 export {
-  // Button
-  KdsButton,
-  type KdsButtonProps,
-  type KdsButtonVariant,
-  type KdsButtonSize,
-
-  // TextField
-  KdsTextField,
-  type KdsTextFieldProps,
-
-  // Checkbox
-  KdsCheckbox,
-  type KdsCheckboxProps,
-
-  // Modal
-  KdsModal,
-  type KdsModalProps,
-  type KdsModalSize,
-
-  // Card
-  KdsCard,
-  KdsCardHeader,
-  KdsCardBody,
-  KdsCardFooter,
-  type KdsCardProps,
-  type KdsCardVariant,
-  type KdsCardSectionProps,
-
-  // Spinner
-  KdsSpinner,
-  type KdsSpinnerProps,
-  type KdsSpinnerSize,
-
-  // LinearProgress
-  KdsLinearProgress,
-  type KdsLinearProgressProps,
-
-  // Alert
-  KdsAlert,
-  type KdsAlertProps,
-  type KdsAlertSeverity,
-
-  // Typography
-  KdsTypography,
-  type KdsTypographyProps,
-  type KdsTypographyVariant,
-
-  // Tabs
-  KdsTabs,
-  KdsTab,
-  KdsTabPanel,
-  type KdsTabsProps,
-  type KdsTabProps,
-  type KdsTabPanelProps,
-
-  // LogoHeader
-  KdsLogoHeader,
-  KdsLogoHeaderLogo,
-  KdsLogoHeaderSeparator,
-  KdsLogoHeaderCode,
-  KdsLogoHeaderCloseButton,
-  type KdsLogoHeaderProps,
-  type KdsLogoHeaderLogoProps,
-  type KdsLogoHeaderSeparatorProps,
-  type KdsLogoHeaderCodeProps,
-  type KdsLogoHeaderCloseButtonProps,
-
-  // RadioGroup
-  KdsRadioGroup,
-  type KdsRadioGroupProps,
-  type KdsRadioOption,
-
-  // Select
-  KdsSelect,
-  type KdsSelectProps,
-  type KdsSelectItemProps,
-
-  // Chip
-  KdsChip,
-  type KdsChipProps,
-  type KdsChipColor,
-
-  // Snackbar
-  KdsSnackbar,
-  type KdsSnackbarProps,
-  type KdsSnackbarType,
-
-  // Tooltip
-  KdsTooltip,
-  type KdsTooltipProps,
-  type KdsTooltipPlacement,
-
-  // Accordion
-  KdsAccordion,
-  KdsAccordionSummary,
-  KdsAccordionDetails,
-  type KdsAccordionProps,
-  type KdsAccordionSummaryProps,
-  type KdsAccordionDetailsProps,
-
-  // Divider
-  KdsDivider,
-  type KdsDividerProps,
-
-  // SectionNote
-  KdsSectionNote,
-  type KdsSectionNoteProps,
-
-  // StatusBlock
-  KdsStatusBlock,
-  type KdsStatusBlockProps,
-  type KdsStatusType,
-
-  // Stepper
-  KdsStepper,
-  type KdsStepperProps,
-
-  // CopyRow
-  KdsCopyRow,
-  type KdsCopyRowProps,
-
-  // CopyableTable
-  KdsCopyableTable,
-  type KdsCopyableTableProps,
-  type KdsCopyableTableRow,
-
-  // ExpandPanel
-  KdsExpandPanel,
-  type KdsExpandPanelProps,
-
-  // Countdown
-  KdsCountdown,
-  type KdsCountdownProps,
-
-  // SegmentedTabs
-  KdsSegmentedTabs,
-  type KdsSegmentedTabsProps,
-} from './components/core';
+  useCopyToClipboard,
+  useAutoHide,
+  useCountdown,
+  useTabsKeyboard,
+} from './components/core/hooks';
 
 // =============================================================================
-// MUI COMPONENT RE-EXPORTS
+// UTILITIES
 // =============================================================================
-// These are commonly used MUI components re-exported for convenience.
-// Users can import everything from '@khipu/design-system' without needing
-// to import directly from '@mui/material'.
 
-export { default as Box } from '@mui/material/Box';
-export type { BoxProps } from '@mui/material/Box';
-
-export { default as InputAdornment } from '@mui/material/InputAdornment';
-export type { InputAdornmentProps } from '@mui/material/InputAdornment';
-
-export { default as Divider } from '@mui/material/Divider';
-export type { DividerProps } from '@mui/material/Divider';
-
-export { default as Link } from '@mui/material/Link';
-export type { LinkProps } from '@mui/material/Link';
-
-export { default as IconButton } from '@mui/material/IconButton';
-export type { IconButtonProps } from '@mui/material/IconButton';
-
-export { default as Stack } from '@mui/material/Stack';
-export type { StackProps } from '@mui/material/Stack';
-
-export { default as Grid } from '@mui/material/Grid';
-export type { GridProps } from '@mui/material/Grid';
-
-export { default as Container } from '@mui/material/Container';
-export type { ContainerProps } from '@mui/material/Container';
-
-// =============================================================================
-// ICON RE-EXPORTS
-// =============================================================================
-// Commonly used icons from Material Icons, re-exported for convenience.
-
-export { default as SearchIcon } from '@mui/icons-material/Search';
-export { default as ChevronRightIcon } from '@mui/icons-material/ChevronRight';
-export { default as ChevronLeftIcon } from '@mui/icons-material/ChevronLeft';
-export { default as CloseIcon } from '@mui/icons-material/Close';
-export { default as CheckIcon } from '@mui/icons-material/Check';
-export { default as CheckCircleIcon } from '@mui/icons-material/CheckCircle';
-export { default as PersonIcon } from '@mui/icons-material/Person';
-export { default as LockIcon } from '@mui/icons-material/Lock';
-export { default as LockOutlinedIcon } from '@mui/icons-material/LockOutlined';
-export { default as MailOutlineIcon } from '@mui/icons-material/MailOutline';
-export { default as ExpandMoreIcon } from '@mui/icons-material/ExpandMore';
-export { default as ExpandLessIcon } from '@mui/icons-material/ExpandLess';
-export { default as InfoIcon } from '@mui/icons-material/Info';
-export { default as WarningIcon } from '@mui/icons-material/Warning';
-export { default as ErrorIcon } from '@mui/icons-material/Error';
-export { default as VisibilityIcon } from '@mui/icons-material/Visibility';
-export { default as VisibilityOffIcon } from '@mui/icons-material/VisibilityOff';
-export { default as ContentCopyIcon } from '@mui/icons-material/ContentCopy';
-export { default as KeyboardArrowUpIcon } from '@mui/icons-material/KeyboardArrowUp';
-export { default as KeyboardArrowDownIcon } from '@mui/icons-material/KeyboardArrowDown';
+export { clsx, getContrastColor, lighten } from './components/core/utils';
