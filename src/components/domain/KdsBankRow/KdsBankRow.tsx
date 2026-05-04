@@ -1,23 +1,25 @@
 import React, { forwardRef } from 'react';
 import { clsx } from '../../core/utils';
 
-export interface KdsBankRowProps extends React.HTMLAttributes<HTMLButtonElement> {
-  bankName: string;
-  bankLogo?: string;
+export interface KdsBankRowProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  name: string;
+  logoUrl?: string;
   selected?: boolean;
 }
 
 export const KdsBankRow = forwardRef<HTMLButtonElement, KdsBankRowProps>(
-  ({ bankName, bankLogo, selected, className, ...props }, ref) => (
+  ({ name, logoUrl, selected, className, ...props }, ref) => (
     <button
       ref={ref}
       type="button"
       className={clsx('kds-bank-row', selected && 'selected', className)}
-      aria-pressed={selected}
       {...props}
     >
-      {bankLogo && <img src={bankLogo} alt="" className="kds-bank-row-logo" />}
-      <span className="kds-bank-row-name">{bankName}</span>
+      <span className="kds-bank-row-logo">
+        {logoUrl ? <img src={logoUrl} alt={name} /> : <span className="initials">{name.charAt(0)}</span>}
+      </span>
+      <span className="kds-bank-row-name">{name}</span>
+      <i className="material-symbols-outlined">{selected ? 'check_circle' : 'chevron_right'}</i>
     </button>
   ),
 );
