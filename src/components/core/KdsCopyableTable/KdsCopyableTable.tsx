@@ -24,8 +24,8 @@ export const KdsCopyableTable = forwardRef<HTMLDivElement, KdsCopyableTableProps
       <div ref={ref} className={clsx('kds-copyable-table', className)} {...props}>
         {rows.map((row) => (
           <div key={row.label} className="kds-copyable-table-row">
-            <span className="kds-copyable-table-label">{row.label}</span>
-            <span className="kds-copyable-table-value">{row.value}</span>
+            <span className="k">{row.label}</span>
+            <span className="v">{row.value}</span>
           </div>
         ))}
         <button className="kds-copyable-table-copy-all" onClick={handleCopyAll} aria-label="Copiar todo">
