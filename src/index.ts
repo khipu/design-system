@@ -81,14 +81,11 @@ export {
   // Card
   KdsCard,
   KdsCardHeader,
-  KdsCardContent,
-  KdsCardActions,
+  KdsCardBody,
+  KdsCardFooter,
   type KdsCardProps,
-  type KdsCardHeaderProps,
-  type KdsCardContentProps,
-  type KdsCardActionsProps,
   type KdsCardVariant,
-  type KdsCardElevation,
+  type KdsCardSectionProps,
 
   // Spinner
   KdsSpinner,
@@ -106,7 +103,6 @@ export {
   KdsAlert,
   type KdsAlertProps,
   type KdsAlertSeverity,
-  type KdsAlertVariant,
 
   // Typography
   KdsTypography,
