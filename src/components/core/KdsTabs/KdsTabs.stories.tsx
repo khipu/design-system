@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsTabs, KdsTab, KdsTabPanel } from './KdsTabs';
-import Box from '@mui/material/Box';
-import { borders } from '../../../tokens';
 
 const meta: Meta<typeof KdsTabs> = {
   title: 'Core/KdsTabs',
@@ -12,14 +10,9 @@ const meta: Meta<typeof KdsTabs> = {
     layout: 'centered',
   },
   argTypes: {
-    color: {
-      control: 'select',
-      options: ['primary', 'secondary', 'info'],
-      description: 'The color of the active tab indicator',
-    },
     variant: {
       control: 'select',
-      options: ['standard', 'fullWidth', 'scrollable'],
+      options: ['standard', 'segmented'],
       description: 'The layout variant of the tabs',
     },
   },
@@ -29,23 +22,22 @@ export default meta;
 type Story = StoryObj<typeof KdsTabs>;
 
 /**
- * Default KdsTabs with full width layout (matching Figma design).
+ * Default KdsTabs with standard variant layout.
  */
 export const Default: Story = {
   render: () => {
-    const [value, setValue] = useState('personas');
+    const [activeIndex, setActiveIndex] = useState(0);
     return (
-      <Box sx={{ width: 350 }}>
+      <div style={{ width: 350 }}>
         <KdsTabs
-          value={value}
-          onChange={(_, v) => setValue(v as string)}
-          variant="fullWidth"
-          color="info"
+          activeIndex={activeIndex}
+          onChange={setActiveIndex}
+          variant="standard"
         >
-          <KdsTab label="PERSONAS" value="personas" />
-          <KdsTab label="EMPRESAS" value="empresas" />
+          <KdsTab>PERSONAS</KdsTab>
+          <KdsTab>EMPRESAS</KdsTab>
         </KdsTabs>
-      </Box>
+      </div>
     );
   },
 };
@@ -55,49 +47,26 @@ export const Default: Story = {
  */
 export const WithPanels: Story = {
   render: () => {
-    const [value, setValue] = useState('personas');
+    const [activeIndex, setActiveIndex] = useState(0);
     return (
-      <Box sx={{ width: 350 }}>
+      <div style={{ width: 350 }}>
         <KdsTabs
-          value={value}
-          onChange={(_, v) => setValue(v as string)}
-          variant="fullWidth"
-          color="info"
+          activeIndex={activeIndex}
+          onChange={setActiveIndex}
+          variant="standard"
         >
-          <KdsTab label="PERSONAS" value="personas" />
-          <KdsTab label="EMPRESAS" value="empresas" />
+          <KdsTab>PERSONAS</KdsTab>
+          <KdsTab>EMPRESAS</KdsTab>
         </KdsTabs>
-        <Box sx={{ mt: 2, p: 2, border: borders.divider, borderRadius: 1 }}>
-          <KdsTabPanel value="personas" selectedValue={value}>
-            <Box>Contenido para personas - bancos personales</Box>
+        <div style={{ marginTop: '16px', padding: '16px', border: '1px solid #e0e0e0', borderRadius: '4px' }}>
+          <KdsTabPanel active={activeIndex === 0}>
+            <div>Contenido para personas - bancos personales</div>
           </KdsTabPanel>
-          <KdsTabPanel value="empresas" selectedValue={value}>
-            <Box>Contenido para empresas - bancos corporativos</Box>
+          <KdsTabPanel active={activeIndex === 1}>
+            <div>Contenido para empresas - bancos corporativos</div>
           </KdsTabPanel>
-        </Box>
-      </Box>
-    );
-  },
-};
-
-/**
- * Primary color tabs.
- */
-export const PrimaryColor: Story = {
-  render: () => {
-    const [value, setValue] = useState('tab1');
-    return (
-      <Box sx={{ width: 350 }}>
-        <KdsTabs
-          value={value}
-          onChange={(_, v) => setValue(v as string)}
-          variant="fullWidth"
-          color="primary"
-        >
-          <KdsTab label="TAB 1" value="tab1" />
-          <KdsTab label="TAB 2" value="tab2" />
-        </KdsTabs>
-      </Box>
+        </div>
+      </div>
     );
   },
 };
@@ -107,42 +76,40 @@ export const PrimaryColor: Story = {
  */
 export const ThreeTabs: Story = {
   render: () => {
-    const [value, setValue] = useState('first');
+    const [activeIndex, setActiveIndex] = useState(0);
     return (
-      <Box sx={{ width: 450 }}>
+      <div style={{ width: 450 }}>
         <KdsTabs
-          value={value}
-          onChange={(_, v) => setValue(v as string)}
-          variant="fullWidth"
-          color="info"
+          activeIndex={activeIndex}
+          onChange={setActiveIndex}
+          variant="standard"
         >
-          <KdsTab label="PRIMERO" value="first" />
-          <KdsTab label="SEGUNDO" value="second" />
-          <KdsTab label="TERCERO" value="third" />
+          <KdsTab>PRIMERO</KdsTab>
+          <KdsTab>SEGUNDO</KdsTab>
+          <KdsTab>TERCERO</KdsTab>
         </KdsTabs>
-      </Box>
+      </div>
     );
   },
 };
 
 /**
- * Standard variant (not full width).
+ * Segmented variant tabs.
  */
-export const StandardVariant: Story = {
+export const SegmentedVariant: Story = {
   render: () => {
-    const [value, setValue] = useState('personas');
+    const [activeIndex, setActiveIndex] = useState(0);
     return (
-      <Box sx={{ width: 350 }}>
+      <div style={{ width: 350 }}>
         <KdsTabs
-          value={value}
-          onChange={(_, v) => setValue(v as string)}
-          variant="standard"
-          color="info"
+          activeIndex={activeIndex}
+          onChange={setActiveIndex}
+          variant="segmented"
         >
-          <KdsTab label="PERSONAS" value="personas" />
-          <KdsTab label="EMPRESAS" value="empresas" />
+          <KdsTab>PERSONAS</KdsTab>
+          <KdsTab>EMPRESAS</KdsTab>
         </KdsTabs>
-      </Box>
+      </div>
     );
   },
 };
@@ -152,19 +119,18 @@ export const StandardVariant: Story = {
  */
 export const WithDisabledTab: Story = {
   render: () => {
-    const [value, setValue] = useState('active');
+    const [activeIndex, setActiveIndex] = useState(0);
     return (
-      <Box sx={{ width: 350 }}>
+      <div style={{ width: 350 }}>
         <KdsTabs
-          value={value}
-          onChange={(_, v) => setValue(v as string)}
-          variant="fullWidth"
-          color="info"
+          activeIndex={activeIndex}
+          onChange={setActiveIndex}
+          variant="standard"
         >
-          <KdsTab label="ACTIVE" value="active" />
-          <KdsTab label="DISABLED" value="disabled" disabled />
+          <KdsTab>ACTIVE</KdsTab>
+          <KdsTab disabled>DISABLED</KdsTab>
         </KdsTabs>
-      </Box>
+      </div>
     );
   },
 };
