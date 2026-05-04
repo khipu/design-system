@@ -70,8 +70,6 @@ export {
   // Checkbox
   KdsCheckbox,
   type KdsCheckboxProps,
-  type KdsCheckboxColor,
-  type KdsCheckboxSize,
 
   // Modal
   KdsModal,
@@ -91,13 +89,10 @@ export {
   KdsSpinner,
   type KdsSpinnerProps,
   type KdsSpinnerSize,
-  type KdsSpinnerColor,
 
   // LinearProgress
   KdsLinearProgress,
   type KdsLinearProgressProps,
-  type KdsLinearProgressColor,
-  type KdsLinearProgressVariant,
 
   // Alert
   KdsAlert,
@@ -133,12 +128,8 @@ export {
 
   // RadioGroup
   KdsRadioGroup,
-  KdsRadio,
   type KdsRadioGroupProps,
-  type KdsRadioProps,
   type KdsRadioOption,
-  type KdsRadioColor,
-  type KdsRadioSize,
 
   // Select
   KdsSelect,
@@ -152,9 +143,7 @@ export {
   // Chip
   KdsChip,
   type KdsChipProps,
-  type KdsChipVariant,
   type KdsChipColor,
-  type KdsChipSize,
 
   // Snackbar
   KdsSnackbar,
@@ -175,6 +164,23 @@ export {
   type KdsAccordionSummaryProps,
   type KdsAccordionDetailsProps,
   type KdsAccordionVariant,
+
+  // Divider
+  KdsDivider,
+  type KdsDividerProps,
+
+  // SectionNote
+  KdsSectionNote,
+  type KdsSectionNoteProps,
+
+  // StatusBlock
+  KdsStatusBlock,
+  type KdsStatusBlockProps,
+  type KdsStatusType,
+
+  // Stepper
+  KdsStepper,
+  type KdsStepperProps,
 } from './components/core';
 
 // =============================================================================
