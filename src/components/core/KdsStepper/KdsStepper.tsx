@@ -1,7 +1,7 @@
 /**
  * Khipu Design System - Stepper Component
  *
- * Native HTML stepper for multi-step flows.
+ * Native HTML stepper with BeerCSS styling.
  */
 
 import React, { forwardRef } from 'react';
