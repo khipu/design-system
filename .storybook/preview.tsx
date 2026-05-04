@@ -2,11 +2,12 @@ import type { Preview } from '@storybook/react';
 import React from 'react';
 import { create } from 'storybook/theming';
 import { useDarkMode } from '@vueless/storybook-dark-mode';
-import { KhipuThemeProvider } from '../src/theme/ThemeProvider';
 import { colorsByMode, fontFamilies } from '../src/tokens';
 import '../src/tokens/css-variables.css';
 
-// Storybook UI themes — create() requires literal values, so we reference tokens as source
+// Load the BeerCSS bundle for component styling
+import '../dist/beercss/khipu-beercss.min.css';
+
 const light = colorsByMode.light;
 const dark = colorsByMode.dark;
 
@@ -62,32 +63,15 @@ const khipuDarkTheme = create({
   fontCode: fontFamilies.mono,
 });
 
-const darkPaletteOverrides = {
-  palette: {
-    mode: 'dark' as const,
-    primary: dark.primary,
-    secondary: dark.secondary,
-    text: dark.text,
-    background: dark.background,
-    action: dark.action,
-    divider: dark.divider,
-  },
-};
-
 function StoryDecorator({ Story }: { Story: React.ComponentType }) {
   const isDark = useDarkMode();
-  const mode = isDark ? 'dark' : 'light';
-  const modeColors = colorsByMode[mode];
+  const modeColors = colorsByMode[isDark ? 'dark' : 'light'];
 
   return (
-    <KhipuThemeProvider
-      mode={mode}
-      themeOverrides={isDark ? darkPaletteOverrides : undefined}
-    >
-      <div style={{ backgroundColor: modeColors.background.default, minHeight: '100%' }}>
-        <Story />
-      </div>
-    </KhipuThemeProvider>
+    <div className={`kds-theme-root ${isDark ? 'dark' : ''}`}
+         style={{ backgroundColor: modeColors.background.default, minHeight: '100%' }}>
+      <Story />
+    </div>
   );
 }
 
@@ -102,7 +86,7 @@ const preview: Preview = {
     backgrounds: { disable: true },
     options: {
       storySort: {
-        order: ['Brand', 'Core', 'Domain', 'Examples'],
+        order: ['Brand', 'Core', 'Domain', 'Hooks', 'Examples'],
       },
     },
     docs: {
