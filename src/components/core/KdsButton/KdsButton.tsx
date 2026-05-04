@@ -88,6 +88,7 @@ export const KdsButton = forwardRef<HTMLButtonElement, KdsButtonProps>(
         className,
       )}
       disabled={disabled || loading}
+      aria-busy={loading || undefined}
       {...props}
     >
       {!loading && startIcon && (
@@ -114,4 +115,3 @@ export const KdsButton = forwardRef<HTMLButtonElement, KdsButtonProps>(
 
 KdsButton.displayName = 'KdsButton';
 
-export default KdsButton;

@@ -272,7 +272,7 @@ export const DeleteConfirmation: Story = {
     const [open, setOpen] = useState(false);
     return (
       <>
-        <KdsButton color="error" onClick={() => setOpen(true)}>Eliminar</KdsButton>
+        <KdsButton variant="primary" onClick={() => setOpen(true)}>Eliminar</KdsButton>
         <KdsModal
           open={open}
           onClose={() => setOpen(false)}
@@ -283,7 +283,7 @@ export const DeleteConfirmation: Story = {
               <KdsButton variant="text" onClick={() => setOpen(false)}>
                 Cancelar
               </KdsButton>
-              <KdsButton color="error" onClick={() => setOpen(false)}>
+              <KdsButton variant="primary" onClick={() => setOpen(false)}>
                 Eliminar
               </KdsButton>
             </>
