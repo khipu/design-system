@@ -4482,6 +4482,11 @@ dialog#surveyModal button.circle {
     font-weight: var(--kds-font-weight-semibold);
 }
 
+/* Auto-managed tab panels: hidden attribute must win over any display rule */
+[data-kds-tab-panel][hidden] {
+    display: none;
+}
+
 
 /* ========================================
    PAYMENT FLOW — DOMAIN COMPONENTS
@@ -4945,6 +4950,7 @@ button.kds-btn-success::after {
     gap: var(--kds-spacing-1);
     margin-top: var(--kds-spacing-1);
 }
+
 
 /* -- Field group spacing -- */
 .kds-field-group {
