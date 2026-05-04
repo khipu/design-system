@@ -76,7 +76,7 @@ export const LabelVariants: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <KdsTypography variant="label">Label - 12px Uppercase</KdsTypography>
-      <KdsTypography variant="labelSmall">Label Small - 10px Medium</KdsTypography>
+      <KdsTypography variant="label-small">Label Small - 10px Medium</KdsTypography>
     </Box>
   ),
 };
@@ -84,9 +84,9 @@ export const LabelVariants: Story = {
 export const CardVariants: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, bgcolor: colors.background.elevated, borderRadius: 1 }}>
-      <KdsTypography variant="cardTitle">Card Title - 16px SemiBold</KdsTypography>
-      <KdsTypography variant="cardSubtitle" color="tertiary">Card Subtitle - 14px SemiBold</KdsTypography>
-      <KdsTypography variant="cardSubtitle">Product Name - 14px SemiBold</KdsTypography>
+      <KdsTypography variant="heading3">Card Title - 20px SemiBold</KdsTypography>
+      <KdsTypography variant="body" color="muted">Card Subtitle - 14px Regular</KdsTypography>
+      <KdsTypography variant="body">Product Name - 14px Regular</KdsTypography>
     </Box>
   ),
 };
@@ -103,54 +103,28 @@ export const SemanticVariants: Story = {
 export const Colors: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-      <KdsTypography variant="body" color="primary">Primary - #272930</KdsTypography>
-      <KdsTypography variant="body" color="secondary">Secondary - rgba(0,0,0,0.60)</KdsTypography>
-      <KdsTypography variant="body" color="tertiary">Tertiary - #81848F</KdsTypography>
-      <KdsTypography variant="body" color="disabled">Disabled - #9797A5</KdsTypography>
-      <KdsTypography variant="body" color="error">Error - #D32F2F</KdsTypography>
-      <KdsTypography variant="body" color="success">Success - #2E7D32</KdsTypography>
-      <KdsTypography variant="body" color="info">Info - #0288D1</KdsTypography>
+      <KdsTypography variant="body" color="primary">Primary color</KdsTypography>
+      <KdsTypography variant="body" color="secondary">Secondary color</KdsTypography>
+      <KdsTypography variant="body" color="muted">Muted color</KdsTypography>
+      <KdsTypography variant="body" color="error">Error color</KdsTypography>
+      <KdsTypography variant="body" color="success">Success color</KdsTypography>
     </Box>
   ),
 };
 
-export const Truncation: Story = {
-  render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 300 }}>
-      <Box>
-        <KdsTypography variant="label" color="tertiary">Single line truncate</KdsTypography>
-        <KdsTypography variant="body" truncate>
-          This is a very long text that will be truncated with an ellipsis when it exceeds the container width.
-        </KdsTypography>
-      </Box>
-      <Box>
-        <KdsTypography variant="label" color="tertiary">Multi-line truncate (2 lines)</KdsTypography>
-        <KdsTypography variant="body" truncate maxLines={2}>
-          This is a very long text that will be truncated after two lines. It continues with more content that should be hidden after the second line with an ellipsis.
-        </KdsTypography>
-      </Box>
-      <Box>
-        <KdsTypography variant="label" color="tertiary">Multi-line truncate (3 lines)</KdsTypography>
-        <KdsTypography variant="body" truncate maxLines={3}>
-          This is a very long text that will be truncated after three lines. It continues with more content that should be hidden after the third line. This allows for slightly more content to be visible before truncation occurs.
-        </KdsTypography>
-      </Box>
-    </Box>
-  ),
-};
 
 export const AllVariants: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box>
-        <KdsTypography variant="label" color="tertiary" sx={{ mb: 1 }}>Display</KdsTypography>
+        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Display</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="display1">Display 1</KdsTypography>
         <KdsTypography variant="display2">Display 2</KdsTypography>
       </Box>
 
       <Box>
-        <KdsTypography variant="label" color="tertiary" sx={{ mb: 1 }}>Headings</KdsTypography>
+        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Headings</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="heading1">Heading 1</KdsTypography>
         <KdsTypography variant="heading2">Heading 2</KdsTypography>
@@ -158,29 +132,22 @@ export const AllVariants: Story = {
       </Box>
 
       <Box>
-        <KdsTypography variant="label" color="tertiary" sx={{ mb: 1 }}>Body</KdsTypography>
+        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Body</KdsTypography>
         <Divider sx={{ mb: 2 }} />
-        <KdsTypography variant="bodyLarge">Body Large</KdsTypography>
+        <KdsTypography variant="body-large">Body Large</KdsTypography>
         <KdsTypography variant="body">Body</KdsTypography>
-        <KdsTypography variant="bodySmall">Body Small</KdsTypography>
+        <KdsTypography variant="body-small">Body Small</KdsTypography>
       </Box>
 
       <Box>
-        <KdsTypography variant="label" color="tertiary" sx={{ mb: 1 }}>Labels</KdsTypography>
+        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Labels</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="label">Label</KdsTypography>
-        <KdsTypography variant="labelSmall">Label Small</KdsTypography>
+        <KdsTypography variant="label-small">Label Small</KdsTypography>
       </Box>
 
       <Box>
-        <KdsTypography variant="label" color="tertiary" sx={{ mb: 1 }}>Card Elements</KdsTypography>
-        <Divider sx={{ mb: 2 }} />
-        <KdsTypography variant="cardTitle">Card Title</KdsTypography>
-        <KdsTypography variant="cardSubtitle">Card Subtitle</KdsTypography>
-      </Box>
-
-      <Box>
-        <KdsTypography variant="label" color="tertiary" sx={{ mb: 1 }}>Semantic</KdsTypography>
+        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Semantic</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="muted">Muted</KdsTypography>
         <KdsTypography variant="link">Link</KdsTypography>
@@ -192,38 +159,38 @@ export const AllVariants: Story = {
 export const RealWorldExample: Story = {
   render: () => (
     <Box sx={{ maxWidth: 390, bgcolor: colors.background.paper, p: 3, borderRadius: 2 }}>
-      <KdsTypography variant="heading3" sx={{ mb: 2 }}>
+      <KdsTypography variant="heading3" sx={{ mb: 2, display: 'block' }}>
         Detalle de suscripcion
       </KdsTypography>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Box>
-          <KdsTypography variant="label" color="secondary">Tipo de pago</KdsTypography>
+          <KdsTypography variant="label" color="muted" sx={{ display: 'block' }}>Tipo de pago</KdsTypography>
           <KdsTypography variant="body">Monto variable</KdsTypography>
         </Box>
 
         <Divider />
 
         <Box>
-          <KdsTypography variant="label" color="secondary">Tope por cargo</KdsTypography>
+          <KdsTypography variant="label" color="muted" sx={{ display: 'block' }}>Tope por cargo</KdsTypography>
           <KdsTypography variant="body">$50.000</KdsTypography>
         </Box>
 
         <Divider />
 
         <Box>
-          <KdsTypography variant="label" color="secondary">Tope mensual</KdsTypography>
+          <KdsTypography variant="label" color="muted" sx={{ display: 'block' }}>Tope mensual</KdsTypography>
           <KdsTypography variant="body">$150.000</KdsTypography>
         </Box>
       </Box>
 
       <Box sx={{ mt: 3, p: 2, bgcolor: colors.info[50], borderRadius: 1 }}>
-        <KdsTypography variant="bodySmall" color="info">
+        <KdsTypography variant="body-small" color="muted">
           El tope mensual corresponde al monto maximo posible a cobrar mensualmente.
         </KdsTypography>
       </Box>
 
-      <KdsTypography variant="labelSmall" color="disabled" sx={{ mt: 3, textAlign: 'center', display: 'block' }}>
+      <KdsTypography variant="label-small" color="muted" sx={{ mt: 3, textAlign: 'center', display: 'block' }}>
         CODIGO * HUSK-P7ZZ-XGYG
       </KdsTypography>
     </Box>
