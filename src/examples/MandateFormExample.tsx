@@ -227,10 +227,8 @@ export const MandateFormExample: React.FC = () => {
             />
 
             <KdsButton
-              variant="contained"
-              color="primary"
+              variant="primary"
               fullWidth
-              size="large"
               onClick={handleSubmit}
               disabled={!termsAccepted}
             >

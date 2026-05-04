@@ -200,19 +200,15 @@ export const SubscriptionDetailsExample: React.FC = () => {
           {/* Action Buttons */}
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', width: 350 }}>
             <KdsButton
-              variant="contained"
-              color="primary"
+              variant="primary"
               fullWidth
-              size="large"
               onClick={handleAuthorize}
             >
               AUTORIZAR
             </KdsButton>
             <KdsButton
               variant="outlined"
-              color="info"
               fullWidth
-              size="large"
               onClick={handleReject}
             >
               RECHAZAR
