@@ -4449,8 +4449,8 @@ dialog#surveyModal button.circle {
     width: calc((100% - var(--kds-spacing-0-25) * 2) / var(--_tab-count));
     border-radius: calc(var(--kds-radius-lg) - var(--kds-spacing-0-25));
     background: var(--kds-color-background-default);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--kds-shadow-card);
+    transition: transform var(--kds-transition-standard) var(--kds-easing-standard);
     transform: translateX(calc(var(--_active-idx) * 100%));
     z-index: 0;
     pointer-events: none;
@@ -4465,9 +4465,14 @@ dialog#surveyModal button.circle {
     font-size: var(--kds-font-size-sm);
     color: var(--kds-color-text-secondary);
     cursor: pointer;
-    transition: color 0.2s;
+    transition: color var(--kds-transition-shorter);
     position: relative;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    block-size: auto;
 }
 
 .kds-segmented-tabs.kds-segmented-tabs button.active,
