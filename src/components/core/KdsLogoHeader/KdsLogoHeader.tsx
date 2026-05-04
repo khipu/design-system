@@ -3,16 +3,12 @@
  *
  * A header bar component that displays the Khipu logo, a transaction code,
  * and a close button. Used at the top of payment flow screens.
- * Matches the Figma design: Pagos Instantaneos - MUI v610
  *
  * Built with composable sub-components for maximum flexibility.
  */
 
 import React, { forwardRef } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import { colors, fontFamilies, fontWeights, spacing, semanticSpacing } from '../../../tokens';
+import { clsx } from '../utils';
 
 // Import Khipu logo
 import khipuLogo from '../../../assets/images/khipu-logo-color.svg';
@@ -21,27 +17,27 @@ import khipuLogo from '../../../assets/images/khipu-logo-color.svg';
 // TYPES
 // =============================================================================
 
-export interface KdsLogoHeaderProps extends BoxProps {
+export interface KdsLogoHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Content - typically LogoHeader sub-components */
   children?: React.ReactNode;
 }
 
-export interface KdsLogoHeaderLogoProps extends BoxProps {
+export interface KdsLogoHeaderLogoProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Custom logo content. Defaults to Khipu text logo */
   children?: React.ReactNode;
 }
 
-export interface KdsLogoHeaderSeparatorProps extends BoxProps {
+export interface KdsLogoHeaderSeparatorProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Separator character. Defaults to "|" */
   children?: React.ReactNode;
 }
 
-export interface KdsLogoHeaderCodeProps extends BoxProps {
+export interface KdsLogoHeaderCodeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Transaction or reference code to display */
   children: React.ReactNode;
 }
 
-export interface KdsLogoHeaderCloseButtonProps extends Omit<IconButtonProps, 'children'> {
+export interface KdsLogoHeaderCloseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Callback fired when the close button is clicked */
   onClose?: () => void;
 }
@@ -51,17 +47,10 @@ export interface KdsLogoHeaderCloseButtonProps extends Omit<IconButtonProps, 'ch
 // =============================================================================
 
 const KhipuLogo = () => (
-  <Box
-    component="img"
+  <img
     src={khipuLogo}
     alt="Khipu"
-    sx={{
-      height: '15px',
-      maxHeight: '15px',
-      width: 'auto',
-      maxWidth: '50px',
-      objectFit: 'contain',
-    }}
+    className="kds-logo-header-logo-img"
   />
 );
 
@@ -82,21 +71,15 @@ const KhipuLogo = () => (
  * ```
  */
 export const KdsLogoHeaderLogo = forwardRef<HTMLDivElement, KdsLogoHeaderLogoProps>(
-  ({ children, sx, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
-      <Box
+      <div
         ref={ref}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: '15px',
-          overflow: 'hidden',
-          ...sx,
-        }}
+        className={clsx('kds-logo-header-logo', className)}
         {...props}
       >
         {children || <KhipuLogo />}
-      </Box>
+      </div>
     );
   }
 );
@@ -114,23 +97,15 @@ KdsLogoHeaderLogo.displayName = 'KdsLogoHeaderLogo';
  * ```
  */
 export const KdsLogoHeaderSeparator = forwardRef<HTMLSpanElement, KdsLogoHeaderSeparatorProps>(
-  ({ children = '|', sx, ...props }, ref) => {
+  ({ children = '|', className, ...props }, ref) => {
     return (
-      <Box
+      <span
         ref={ref}
-        component="span"
-        sx={{
-          fontFamily: fontFamilies.secondary,
-          fontWeight: fontWeights.medium,
-          fontSize: '10px',
-          lineHeight: '14px',
-          color: '#9797A5',
-          ...sx,
-        }}
+        className={clsx('kds-logo-header-separator', className)}
         {...props}
       >
         {children}
-      </Box>
+      </span>
     );
   }
 );
@@ -146,24 +121,15 @@ KdsLogoHeaderSeparator.displayName = 'KdsLogoHeaderSeparator';
  * ```
  */
 export const KdsLogoHeaderCode = forwardRef<HTMLSpanElement, KdsLogoHeaderCodeProps>(
-  ({ children, sx, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
-      <Box
+      <span
         ref={ref}
-        component="span"
-        sx={{
-          fontFamily: fontFamilies.primary,
-          fontWeight: fontWeights.medium,
-          fontSize: '9px',
-          lineHeight: '14px',
-          color: '#9797A5',
-          whiteSpace: 'nowrap',
-          ...sx,
-        }}
+        className={clsx('kds-logo-header-code', className)}
         {...props}
       >
         {children}
-      </Box>
+      </span>
     );
   }
 );
@@ -179,33 +145,19 @@ KdsLogoHeaderCode.displayName = 'KdsLogoHeaderCode';
  * ```
  */
 export const KdsLogoHeaderCloseButton = forwardRef<HTMLButtonElement, KdsLogoHeaderCloseButtonProps>(
-  ({ onClose, sx, ...props }, ref) => {
+  ({ onClose, className, ...props }, ref) => {
     return (
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'flex-end',
-        }}
-      >
-        <IconButton
+      <div className="kds-logo-header-close-wrapper">
+        <button
           ref={ref}
           onClick={onClose}
-          size="small"
+          className={clsx('kds-btn kds-btn-icon', className)}
           aria-label="close"
-          sx={{
-            color: colors.action.active,
-            padding: 0,
-            '&:hover': {
-              backgroundColor: colors.action.hover,
-            },
-            ...sx,
-          }}
           {...props}
         >
-          <CloseIcon sx={{ fontSize: 24 }} />
-        </IconButton>
-      </Box>
+          <i className="material-symbols-outlined">close</i>
+        </button>
+      </div>
     );
   }
 );
@@ -241,27 +193,17 @@ KdsLogoHeaderCloseButton.displayName = 'KdsLogoHeaderCloseButton';
  * ```
  */
 export const KdsLogoHeader = forwardRef<HTMLDivElement, KdsLogoHeaderProps>(
-  ({ children, sx, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
-      <Box
+      <div
         ref={ref}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: spacing[2],
-          paddingX: semanticSpacing.card.paddingX,
-          paddingY: semanticSpacing.card.paddingY,
-          backgroundColor: colors.background.default,
-          ...sx,
-        }}
+        className={clsx('kds-brand-row', className)}
         {...props}
       >
         {children}
-      </Box>
+      </div>
     );
   }
 );
 
 KdsLogoHeader.displayName = 'KdsLogoHeader';
-
-export default KdsLogoHeader;

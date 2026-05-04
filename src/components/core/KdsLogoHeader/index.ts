@@ -10,4 +10,3 @@ export {
   type KdsLogoHeaderCodeProps,
   type KdsLogoHeaderCloseButtonProps,
 } from './KdsLogoHeader';
-export { default } from './KdsLogoHeader';
