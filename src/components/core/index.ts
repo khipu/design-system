@@ -21,14 +21,11 @@ export { KdsModal, type KdsModalProps, type KdsModalSize } from './KdsModal';
 export {
   KdsCard,
   KdsCardHeader,
-  KdsCardContent,
-  KdsCardActions,
+  KdsCardBody,
+  KdsCardFooter,
   type KdsCardProps,
-  type KdsCardHeaderProps,
-  type KdsCardContentProps,
-  type KdsCardActionsProps,
   type KdsCardVariant,
-  type KdsCardElevation,
+  type KdsCardSectionProps,
 } from './KdsCard';
 
 // Spinner
@@ -38,7 +35,7 @@ export { KdsSpinner, type KdsSpinnerProps, type KdsSpinnerSize, type KdsSpinnerC
 export { KdsLinearProgress, type KdsLinearProgressProps, type KdsLinearProgressColor, type KdsLinearProgressVariant } from './KdsLinearProgress';
 
 // Alert
-export { KdsAlert, type KdsAlertProps, type KdsAlertSeverity, type KdsAlertVariant } from './KdsAlert';
+export { KdsAlert, type KdsAlertProps, type KdsAlertSeverity } from './KdsAlert';
 
 // Typography
 export { KdsTypography, type KdsTypographyProps, type KdsTypographyVariant } from './KdsTypography';
