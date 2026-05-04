@@ -94,7 +94,7 @@ export const KdsTypography = forwardRef<HTMLElement, KdsTypographyProps>(
 
     return (
       <Tag
-        ref={ref as React.Ref<HTMLParagraphElement>}
+        ref={ref as any}
         className={clsx(
           `kds-text-${variant}`,
           color && color !== 'inherit' && `kds-text-${color}`,

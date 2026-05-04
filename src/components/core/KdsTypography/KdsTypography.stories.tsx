@@ -117,14 +117,14 @@ export const AllVariants: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box>
-        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Display</KdsTypography>
+        <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Display</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="display1">Display 1</KdsTypography>
         <KdsTypography variant="display2">Display 2</KdsTypography>
       </Box>
 
       <Box>
-        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Headings</KdsTypography>
+        <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Headings</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="heading1">Heading 1</KdsTypography>
         <KdsTypography variant="heading2">Heading 2</KdsTypography>
@@ -132,7 +132,7 @@ export const AllVariants: Story = {
       </Box>
 
       <Box>
-        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Body</KdsTypography>
+        <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Body</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="body-large">Body Large</KdsTypography>
         <KdsTypography variant="body">Body</KdsTypography>
@@ -140,14 +140,14 @@ export const AllVariants: Story = {
       </Box>
 
       <Box>
-        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Labels</KdsTypography>
+        <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Labels</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="label">Label</KdsTypography>
         <KdsTypography variant="label-small">Label Small</KdsTypography>
       </Box>
 
       <Box>
-        <KdsTypography variant="label" color="muted" sx={{ mb: 1, display: 'block' }}>Semantic</KdsTypography>
+        <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Semantic</KdsTypography>
         <Divider sx={{ mb: 2 }} />
         <KdsTypography variant="muted">Muted</KdsTypography>
         <KdsTypography variant="link">Link</KdsTypography>
@@ -159,27 +159,27 @@ export const AllVariants: Story = {
 export const RealWorldExample: Story = {
   render: () => (
     <Box sx={{ maxWidth: 390, bgcolor: colors.background.paper, p: 3, borderRadius: 2 }}>
-      <KdsTypography variant="heading3" sx={{ mb: 2, display: 'block' }}>
+      <KdsTypography variant="heading3" style={{ marginBottom: '1rem', display: 'block' }}>
         Detalle de suscripcion
       </KdsTypography>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Box>
-          <KdsTypography variant="label" color="muted" sx={{ display: 'block' }}>Tipo de pago</KdsTypography>
+          <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block' }}>Tipo de pago</KdsTypography>
           <KdsTypography variant="body">Monto variable</KdsTypography>
         </Box>
 
         <Divider />
 
         <Box>
-          <KdsTypography variant="label" color="muted" sx={{ display: 'block' }}>Tope por cargo</KdsTypography>
+          <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block' }}>Tope por cargo</KdsTypography>
           <KdsTypography variant="body">$50.000</KdsTypography>
         </Box>
 
         <Divider />
 
         <Box>
-          <KdsTypography variant="label" color="muted" sx={{ display: 'block' }}>Tope mensual</KdsTypography>
+          <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block' }}>Tope mensual</KdsTypography>
           <KdsTypography variant="body">$150.000</KdsTypography>
         </Box>
       </Box>
@@ -190,7 +190,7 @@ export const RealWorldExample: Story = {
         </KdsTypography>
       </Box>
 
-      <KdsTypography variant="label-small" color="muted" sx={{ mt: 3, textAlign: 'center', display: 'block' }}>
+      <KdsTypography as="span" variant="label-small" color="muted" style={{ marginTop: '1.5rem', textAlign: 'center', display: 'block' }}>
         CODIGO * HUSK-P7ZZ-XGYG
       </KdsTypography>
     </Box>
