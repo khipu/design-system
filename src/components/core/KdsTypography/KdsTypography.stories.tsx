@@ -14,22 +14,15 @@ const meta: Meta<typeof KdsTypography> = {
       options: [
         'display1', 'display2',
         'heading1', 'heading2', 'heading3',
-        'bodyLarge', 'body', 'bodySmall',
-        'label', 'labelSmall',
-        'cardTitle', 'cardSubtitle',
+        'body-large', 'body', 'body-small',
+        'label', 'label-small',
         'muted', 'link',
-        // MUI variants
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-        'subtitle1', 'subtitle2', 'body1', 'body2',
-        'caption', 'overline', 'button',
       ],
     },
     color: {
       control: 'select',
-      options: ['primary', 'secondary', 'tertiary', 'disabled', 'error', 'success', 'info', 'inherit'],
+      options: ['primary', 'secondary', 'muted', 'error', 'success', 'inherit'],
     },
-    truncate: { control: 'boolean' },
-    maxLines: { control: 'number' },
   },
 };
 
@@ -66,13 +59,13 @@ export const HeadingVariants: Story = {
 export const BodyVariants: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <KdsTypography variant="bodyLarge">
+      <KdsTypography variant="body-large">
         Body Large - 16px Regular. Used for large paragraphs and main content areas.
       </KdsTypography>
       <KdsTypography variant="body">
         Body - 14px Regular. Default body text for most content throughout the application.
       </KdsTypography>
-      <KdsTypography variant="bodySmall">
+      <KdsTypography variant="body-small">
         Body Small - 12px Regular. Used for captions, help text, and secondary information.
       </KdsTypography>
     </Box>
