@@ -115,5 +115,3 @@ KdsSelectItem.displayName = 'KdsSelect.Item';
 export const KdsSelect = Object.assign(KdsSelectRoot, {
   Item: KdsSelectItem,
 });
-
-export default KdsSelect;

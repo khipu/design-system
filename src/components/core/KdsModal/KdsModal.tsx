@@ -125,5 +125,3 @@ export const KdsModal = forwardRef<HTMLDivElement, KdsModalProps>(
   ),
 );
 KdsModal.displayName = 'KdsModal';
-
-export default KdsModal;
