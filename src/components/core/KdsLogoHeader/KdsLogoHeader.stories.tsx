@@ -6,8 +6,7 @@ import {
   KdsLogoHeaderCode,
   KdsLogoHeaderCloseButton,
 } from './KdsLogoHeader';
-import Box from '@mui/material/Box';
-import { colors, fontWeights, fontSizes, borderRadius, spacing, borders } from '../../../tokens';
+import { colors, fontWeights, fontSizes, borderRadius, spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsLogoHeader> = {
   title: 'Core/KdsLogoHeader',
@@ -69,16 +68,15 @@ export const CustomLogo: Story = {
   render: () => (
     <KdsLogoHeader>
       <KdsLogoHeaderLogo>
-        <Box
-          component="span"
-          sx={{
+        <span
+          style={{
             fontWeight: fontWeights.bold,
             fontSize: fontSizes.sm,
             color: colors.primary.main,
           }}
         >
           CustomBrand
-        </Box>
+        </span>
       </KdsLogoHeaderLogo>
       <KdsLogoHeaderSeparator />
       <KdsLogoHeaderCode>CUSTOM-LOGO</KdsLogoHeaderCode>
@@ -94,7 +92,7 @@ export const CustomSeparator: Story = {
   render: () => (
     <KdsLogoHeader>
       <KdsLogoHeaderLogo />
-      <KdsLogoHeaderSeparator>•</KdsLogoHeaderSeparator>
+      <KdsLogoHeaderSeparator>&bull;</KdsLogoHeaderSeparator>
       <KdsLogoHeaderCode>HUSK-P7ZZ-XGYG</KdsLogoHeaderCode>
       <KdsLogoHeaderCloseButton onClose={() => console.log('Close clicked')} />
     </KdsLogoHeader>
@@ -106,17 +104,17 @@ export const CustomSeparator: Story = {
  */
 export const InContext: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 400, border: borders.divider, borderRadius: borderRadius.md }}>
+    <div style={{ maxWidth: 400, border: '1px solid #e0e0e0', borderRadius: borderRadius.md }}>
       <KdsLogoHeader>
         <KdsLogoHeaderLogo />
         <KdsLogoHeaderSeparator />
         <KdsLogoHeaderCode>HUSK-P7ZZ-XGYG</KdsLogoHeaderCode>
         <KdsLogoHeaderCloseButton onClose={() => console.log('Close clicked')} />
       </KdsLogoHeader>
-      <Box sx={{ padding: spacing[2.5], backgroundColor: colors.background.elevated, minHeight: '200px' }}>
+      <div style={{ padding: spacing[2.5], backgroundColor: colors.background.elevated, minHeight: '200px' }}>
         Payment content goes here...
-      </Box>
-    </Box>
+      </div>
+    </div>
   ),
 };
 
@@ -125,35 +123,35 @@ export const InContext: Story = {
  */
 export const SubComponents: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: spacing[3], padding: spacing[2.5] }}>
-      <Box>
-        <Box sx={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderLogo (default)</Box>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3], padding: spacing[2.5] }}>
+      <div>
+        <div style={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderLogo (default)</div>
         <KdsLogoHeaderLogo />
-      </Box>
+      </div>
 
-      <Box>
-        <Box sx={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderLogo (custom)</Box>
+      <div>
+        <div style={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderLogo (custom)</div>
         <KdsLogoHeaderLogo>
           <span style={{ fontWeight: fontWeights.bold, color: colors.success.main }}>GreenBrand</span>
         </KdsLogoHeaderLogo>
-      </Box>
+      </div>
 
-      <Box>
-        <Box sx={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderSeparator</Box>
+      <div>
+        <div style={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderSeparator</div>
         <KdsLogoHeaderSeparator />
-      </Box>
+      </div>
 
-      <Box>
-        <Box sx={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderCode</Box>
+      <div>
+        <div style={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderCode</div>
         <KdsLogoHeaderCode>HUSK-P7ZZ-XGYG</KdsLogoHeaderCode>
-      </Box>
+      </div>
 
-      <Box>
-        <Box sx={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderCloseButton</Box>
-        <Box sx={{ width: '100px' }}>
+      <div>
+        <div style={{ fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>LogoHeaderCloseButton</div>
+        <div style={{ width: '100px' }}>
           <KdsLogoHeaderCloseButton onClose={() => console.log('Close clicked')} />
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   ),
 };

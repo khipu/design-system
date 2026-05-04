@@ -1,12 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Box, Typography, Paper, Grid, Stack } from '@mui/material';
 import { colors } from '../../tokens';
 
 /**
  * Colores del Design System
  *
- * Paleta completa de colores del Khipu Design System extraída de Figma.
- * Incluye colores primarios, secundarios, semánticos, de texto y de fondo.
+ * Paleta completa de colores del Khipu Design System extraida de Figma.
+ * Incluye colores primarios, secundarios, semanticos, de texto y de fondo.
  *
  * **Fuente:** `src/tokens/index.ts`
  * **Referencia en Figma:** K-Tokens for Figma - Material UI
@@ -17,7 +16,7 @@ const meta = {
     layout: 'padded',
     docs: {
       description: {
-        component: 'Sistema de colores completo con todas las paletas semánticas.',
+        component: 'Sistema de colores completo con todas las paletas semanticas.',
       },
     },
   },
@@ -33,30 +32,29 @@ interface ColorSwatchProps {
 }
 
 const ColorSwatch = ({ name, value, description }: ColorSwatchProps) => (
-  <Box>
-    <Box
-      sx={{
+  <div>
+    <div
+      style={{
         width: '100%',
         height: 80,
-        bgcolor: value,
-        borderRadius: 2,
-        border: '1px solid',
-        borderColor: 'divider',
-        mb: 1,
+        backgroundColor: value,
+        borderRadius: '8px',
+        border: '1px solid #e0e0e0',
+        marginBottom: '8px',
       }}
     />
-    <Typography variant="body2" fontWeight={600}>
+    <div style={{ fontWeight: 600, fontSize: '14px' }}>
       {name}
-    </Typography>
-    <Typography variant="caption" color="text.secondary" sx={{ fontFamily: 'monospace' }}>
+    </div>
+    <div style={{ fontSize: '12px', color: '#666', fontFamily: 'monospace' }}>
       {value}
-    </Typography>
+    </div>
     {description && (
-      <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
+      <div style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
         {description}
-      </Typography>
+      </div>
     )}
-  </Box>
+  </div>
 );
 
 interface ColorPaletteProps {
@@ -73,7 +71,6 @@ const flattenColorPalette = (palette: Record<string, any>): Record<string, strin
     if (typeof value === 'string') {
       flattened[key] = value;
     } else if (typeof value === 'object' && value !== null) {
-      // Skip nested objects like 'states'
       Object.entries(value).forEach(([nestedKey, nestedValue]) => {
         if (typeof nestedValue === 'string') {
           flattened[`${key}.${nestedKey}`] = nestedValue;
@@ -89,23 +86,21 @@ const ColorPalette = ({ title, palette, description }: ColorPaletteProps) => {
   const flatPalette = flattenColorPalette(palette);
 
   return (
-    <Paper sx={{ p: 3, height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
+    <div style={{ padding: '24px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e0e0e0', height: '100%' }}>
+      <h3 style={{ margin: '0 0 8px 0', fontSize: '18px' }}>
         {title}
-      </Typography>
+      </h3>
       {description && (
-        <Typography variant="body2" color="text.secondary" paragraph>
+        <p style={{ color: '#666', fontSize: '14px', margin: '0 0 16px 0' }}>
           {description}
-        </Typography>
+        </p>
       )}
-      <Grid container spacing={2}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '16px' }}>
         {Object.entries(flatPalette).map(([key, value]) => (
-          <Grid size={{ xs: 6, sm: 4, md: 3 }} key={key}>
-            <ColorSwatch name={key} value={value} />
-          </Grid>
+          <ColorSwatch key={key} name={key} value={value} />
         ))}
-      </Grid>
-    </Paper>
+      </div>
+    </div>
   );
 };
 
@@ -116,111 +111,97 @@ const ColorPalette = ({ title, palette, description }: ColorPaletteProps) => {
  */
 export const AllColors: Story = {
   render: () => (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h3" gutterBottom>
+    <div style={{ padding: '24px' }}>
+      <h2 style={{ margin: '0 0 8px 0', fontSize: '30px' }}>
         Sistema de Colores
-      </Typography>
-      <Typography variant="body1" color="text.secondary" paragraph>
-        Todas las paletas de colores del Khipu Design System, organizadas por categoría semántica.
-      </Typography>
+      </h2>
+      <p style={{ color: '#666', fontSize: '16px', margin: '0 0 32px 0' }}>
+        Todas las paletas de colores del Khipu Design System, organizadas por categoria semantica.
+      </p>
 
-      <Stack spacing={4} sx={{ mt: 4 }}>
-        {/* Primary */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', marginTop: '32px' }}>
         <ColorPalette
-          title="🎨 Primary - Púrpura Khipu"
+          title="Primary - Purpura Khipu"
           palette={colors.primary}
           description="Color principal de la marca Khipu. Usado en elementos principales de UI como botones primarios y enlaces."
         />
 
-        {/* Secondary */}
         <ColorPalette
-          title="🔷 Secondary - Teal"
+          title="Secondary - Teal"
           palette={colors.secondary}
           description="Color secundario complementario. Usado en elementos de soporte y acciones secundarias."
         />
 
-        {/* Success */}
         <ColorPalette
-          title="✅ Success - Verde"
+          title="Success - Verde"
           palette={colors.success}
-          description="Indica operaciones exitosas, estados aprobados y mensajes de confirmación."
+          description="Indica operaciones exitosas, estados aprobados y mensajes de confirmacion."
         />
 
-        {/* Error */}
         <ColorPalette
-          title="❌ Error - Rojo"
+          title="Error - Rojo"
           palette={colors.error}
-          description="Indica errores, validaciones fallidas y estados críticos que requieren atención."
+          description="Indica errores, validaciones fallidas y estados criticos que requieren atencion."
         />
 
-        {/* Warning */}
         <ColorPalette
-          title="⚠️ Warning - Amarillo"
+          title="Warning - Amarillo"
           palette={colors.warning}
-          description="Indica advertencias, precauciones y estados que requieren revisión."
+          description="Indica advertencias, precauciones y estados que requieren revision."
         />
 
-        {/* Info */}
         <ColorPalette
-          title="ℹ️ Info - Azul"
+          title="Info - Azul"
           palette={colors.info}
           description="Mensajes informativos, tooltips y elementos de ayuda contextual."
         />
 
-        {/* Text */}
         <ColorPalette
-          title="📝 Text - Colores de Texto"
+          title="Text - Colores de Texto"
           palette={colors.text}
-          description="Jerarquía de colores para contenido textual, desde primario hasta deshabilitado."
+          description="Jerarquia de colores para contenido textual, desde primario hasta deshabilitado."
         />
 
-        {/* Background */}
         <ColorPalette
-          title="🎭 Background - Fondos"
+          title="Background - Fondos"
           palette={colors.background}
-          description="Colores de fondo para diferentes superficies y niveles de elevación."
+          description="Colores de fondo para diferentes superficies y niveles de elevacion."
         />
 
-        {/* Action */}
         <ColorPalette
-          title="🔘 Action - Estados de Interacción"
+          title="Action - Estados de Interaccion"
           palette={colors.action}
           description="Estados visuales para elementos interactivos: hover, active, disabled, focus."
         />
-      </Stack>
+      </div>
 
       {/* Usage Examples */}
-      <Paper sx={{ p: 3, mt: 4, bgcolor: 'grey.50' }}>
-        <Typography variant="h6" gutterBottom>
-          📚 Uso en Código
-        </Typography>
-        <Typography variant="body2" component="pre" sx={{
+      <div style={{ padding: '24px', marginTop: '32px', backgroundColor: '#fafafa', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '18px' }}>
+          Uso en Codigo
+        </h3>
+        <pre style={{
           fontFamily: 'monospace',
-          bgcolor: 'background.paper',
-          p: 2,
-          borderRadius: 1,
-          overflow: 'auto'
+          backgroundColor: '#fff',
+          padding: '16px',
+          borderRadius: '4px',
+          overflow: 'auto',
+          fontSize: '13px',
+          margin: 0,
         }}>
 {`// Importar colores
 import { colors } from '@khipu/design-system';
 
-// Usar en sx prop
-<Button sx={{
-  bgcolor: colors.primary.main,
-  '&:hover': { bgcolor: colors.primary.dark }
+// Usar en style prop
+<button style={{
+  backgroundColor: colors.primary.main,
 }} />
-
-// Usar en styled components
-const StyledBox = styled(Box)({
-  backgroundColor: colors.background.paper,
-  color: colors.text.primary,
-});
 
 // Usar variables CSS
 <div style={{ color: 'var(--kds-color-primary-main)' }} />`}
-        </Typography>
-      </Paper>
-    </Box>
+        </pre>
+      </div>
+    </div>
   ),
 };
 
@@ -231,81 +212,63 @@ const StyledBox = styled(Box)({
  */
 export const BrandColors: Story = {
   render: () => (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
+    <div style={{ padding: '24px' }}>
+      <h2 style={{ margin: '0 0 16px 0', fontSize: '24px' }}>
         Colores de Marca
-      </Typography>
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <ColorPalette
-            title="Primary - Púrpura Khipu"
-            palette={colors.primary}
-            description="Color principal de la identidad de marca"
-          />
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <ColorPalette
-            title="Secondary - Teal"
-            palette={colors.secondary}
-            description="Color secundario complementario"
-          />
-        </Grid>
-      </Grid>
-    </Box>
+      </h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginTop: '16px' }}>
+        <ColorPalette
+          title="Primary - Purpura Khipu"
+          palette={colors.primary}
+          description="Color principal de la identidad de marca"
+        />
+        <ColorPalette
+          title="Secondary - Teal"
+          palette={colors.secondary}
+          description="Color secundario complementario"
+        />
+      </div>
+    </div>
   ),
 };
 
 /**
- * Colores Semánticos
+ * Colores Semanticos
  *
  * Colores para estados y mensajes (success, error, warning, info).
  */
 export const SemanticColors: Story = {
   render: () => (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Colores Semánticos
-      </Typography>
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <ColorPalette title="Success" palette={colors.success} />
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <ColorPalette title="Error" palette={colors.error} />
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <ColorPalette title="Warning" palette={colors.warning} />
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <ColorPalette title="Info" palette={colors.info} />
-        </Grid>
-      </Grid>
-    </Box>
+    <div style={{ padding: '24px' }}>
+      <h2 style={{ margin: '0 0 16px 0', fontSize: '24px' }}>
+        Colores Semanticos
+      </h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginTop: '16px' }}>
+        <ColorPalette title="Success" palette={colors.success} />
+        <ColorPalette title="Error" palette={colors.error} />
+        <ColorPalette title="Warning" palette={colors.warning} />
+        <ColorPalette title="Info" palette={colors.info} />
+      </div>
+    </div>
   ),
 };
 
 /**
  * Colores de Sistema
  *
- * Colores para texto, fondos y estados de interacción.
+ * Colores para texto, fondos y estados de interaccion.
  */
 export const SystemColors: Story = {
   render: () => (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
+    <div style={{ padding: '24px' }}>
+      <h2 style={{ margin: '0 0 16px 0', fontSize: '24px' }}>
         Colores de Sistema
-      </Typography>
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <ColorPalette title="Text" palette={colors.text} />
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <ColorPalette title="Background" palette={colors.background} />
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <ColorPalette title="Action" palette={colors.action} />
-        </Grid>
-      </Grid>
-    </Box>
+      </h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '16px' }}>
+        <ColorPalette title="Text" palette={colors.text} />
+        <ColorPalette title="Background" palette={colors.background} />
+        <ColorPalette title="Action" palette={colors.action} />
+      </div>
+    </div>
   ),
 };

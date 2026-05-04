@@ -1,10 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Box from '@mui/material/Box';
-import { colors, spacing, fontFamilies, fontSizes, borders } from '../tokens';
-import { BankSelectionExample } from '../examples/BankSelectionExample';
-import { MandateFormExample } from '../examples/MandateFormExample';
-import { SubscriptionDetailsExample } from '../examples/SubscriptionDetailsExample';
-import { SecureFormExample } from '../examples/SecureFormExample';
+import { KdsTypography } from '../components/core/KdsTypography';
+import { colors, fontSizes, borders } from '../tokens';
 
 // Import bank images for the image gallery story
 import bancoEstadoLogo from '../assets/images/banco-estado.png';
@@ -20,7 +16,11 @@ import shoppingBagIcon from '../assets/images/shopping-bag.png';
  * Example Screens - Full page examples from Figma design
  *
  * These examples demonstrate complete screens built using the Khipu Design System,
- * matching the Figma design: "Pagos Automáticos - MUI v610"
+ * matching the Figma design: "Pagos Automaticos - MUI v610"
+ *
+ * Note: Full-page example components (BankSelection, MandateForm, SubscriptionDetails,
+ * SecureForm) were removed during the MUI-to-BeerCSS migration. See the BeerCSS demo
+ * pages in src/beercss/demo/ for interactive examples.
  */
 
 const meta: Meta = {
@@ -32,97 +32,6 @@ const meta: Meta = {
 
 export default meta;
 type Story = StoryObj;
-
-// =============================================================================
-// BANK SELECTION EXAMPLE
-// =============================================================================
-
-/**
- * Bank Selection screen (Figma node-id=17023-7688)
- *
- * Features:
- * - Merchant header with shopping bag icon from Figma
- * - Search field for filtering banks
- * - Bank cards with actual logos extracted from Figma
- * - Selectable cards with visual feedback
- */
-export const BankSelection: Story = {
-  render: () => <BankSelectionExample />,
-  parameters: {
-    docs: {
-      description: {
-        story: 'Bank selection screen with real bank logos extracted from the Figma design. Users can search and select their bank.',
-      },
-    },
-  },
-};
-
-// =============================================================================
-// MANDATE FORM EXAMPLE
-// =============================================================================
-
-/**
- * Mandate Form screen
- *
- * Form for setting up automatic payment mandates.
- */
-export const MandateForm: Story = {
-  render: () => <MandateFormExample />,
-  parameters: {
-    docs: {
-      description: {
-        story: 'Form screen for configuring automatic payment mandates.',
-      },
-    },
-  },
-};
-
-// =============================================================================
-// SUBSCRIPTION DETAILS EXAMPLE
-// =============================================================================
-
-/**
- * Subscription Details screen
- *
- * Shows subscription information and payment details.
- */
-export const SubscriptionDetails: Story = {
-  render: () => <SubscriptionDetailsExample />,
-  parameters: {
-    docs: {
-      description: {
-        story: 'Subscription details screen showing payment information.',
-      },
-    },
-  },
-};
-
-// =============================================================================
-// SECURE FORM EXAMPLE (EMAIL ENTRY)
-// =============================================================================
-
-/**
- * Secure Form screen (Figma node-id=17401-1136)
- *
- * Email entry form for payment confirmation.
- * Features:
- * - Header with Khipu logo and close button
- * - Merchant info with payment amount
- * - Email input with validation
- * - Terms acceptance checkbox
- * - Security message with lock icon
- */
-export const SecureForm: Story = {
-  render: () => <SecureFormExample />,
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Email entry form matching the "Ingresar email" screen from Figma. Users enter their email to receive payment confirmation.',
-      },
-    },
-  },
-};
 
 // =============================================================================
 // BANK IMAGES GALLERY
@@ -147,79 +56,79 @@ const bankImages = [
  */
 export const BankImages: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 600 }}>
-      <h2 style={{ fontFamily: fontFamilies.primary, marginBottom: 24 }}>
+    <div style={{ maxWidth: '600px' }}>
+      <KdsTypography variant="heading2" style={{ marginBottom: '24px' }}>
         Bank Images from Figma
-      </h2>
-      <p style={{ color: colors.text.footer, marginBottom: 32 }}>
+      </KdsTypography>
+      <KdsTypography variant="body" color="muted" style={{ marginBottom: '32px' }}>
         These images were extracted from the Figma design and saved locally in{' '}
         <code>src/assets/images/</code>
-      </p>
-      <Box
-        sx={{
+      </KdsTypography>
+      <div
+        style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: 3,
+          gap: '24px',
         }}
       >
         {bankImages.map((bank) => (
-          <Box
+          <div
             key={bank.name}
-            sx={{
+            style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 1,
-              p: 2,
+              gap: '8px',
+              padding: '16px',
               border: borders.divider,
-              borderRadius: 2,
+              borderRadius: '8px',
             }}
           >
-            <Box
-              sx={{
-                width: 60,
-                height: 60,
+            <div
+              style={{
+                width: '60px',
+                height: '60px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: colors.background.elevated,
-                borderRadius: 1,
+                borderRadius: '4px',
               }}
             >
               <img
                 src={bank.src}
                 alt={bank.name}
                 style={{
-                  maxWidth: 50,
-                  maxHeight: 50,
+                  maxWidth: '50px',
+                  maxHeight: '50px',
                   objectFit: 'contain',
                 }}
               />
-            </Box>
+            </div>
             <span
               style={{
                 fontSize: fontSizes.xs,
-                color: colors.text.footer,
+                color: colors.text.muted,
                 textAlign: 'center',
               }}
             >
               {bank.name}
             </span>
-          </Box>
+          </div>
         ))}
-      </Box>
+      </div>
 
-      <Box sx={{ mt: 4, p: 2, backgroundColor: colors.background.elevated, borderRadius: 2 }}>
-        <h4 style={{ margin: `0 0 ${spacing[1.5]} 0`, fontFamily: fontFamilies.primary }}>
+      <div style={{ marginTop: '32px', padding: '16px', backgroundColor: colors.background.elevated, borderRadius: '8px' }}>
+        <KdsTypography variant="heading3" style={{ margin: '0 0 12px 0' }}>
           Usage Example
-        </h4>
+        </KdsTypography>
         <pre
           style={{
             margin: 0,
-            padding: 12,
+            padding: '12px',
             backgroundColor: colors.text.strong,
             color: colors.primary.contrastText,
-            borderRadius: 4,
+            borderRadius: '4px',
             fontSize: fontSizes.xs,
             overflow: 'auto',
           }}
@@ -228,8 +137,8 @@ export const BankImages: Story = {
 
 <img src={bancoEstadoLogo} alt="Banco Estado" />`}
         </pre>
-      </Box>
-    </Box>
+      </div>
+    </div>
   ),
   parameters: {
     docs: {

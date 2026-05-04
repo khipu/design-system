@@ -5,8 +5,8 @@
 import '@testing-library/jest-dom';
 
 // Polyfill ResizeObserver for Radix UI components (jsdom doesn't provide it)
-if (!global.ResizeObserver) {
-  global.ResizeObserver = class ResizeObserver {
+if (!(globalThis as any).ResizeObserver) {
+  (globalThis as any).ResizeObserver = class ResizeObserver {
     observe() {}
     unobserve() {}
     disconnect() {}
