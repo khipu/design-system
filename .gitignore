@@ -60,3 +60,4 @@ grails/bin/
 grails/.gradle/
 grails/build/
 grails/target/.claude/
+.worktrees
