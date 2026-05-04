@@ -4,11 +4,12 @@ import { useCountdown } from '../hooks/useCountdown';
 
 export interface KdsCountdownProps extends React.HTMLAttributes<HTMLDivElement> {
   deadline: string;
+  label?: string;
   onExpire?: () => void;
 }
 
 export const KdsCountdown = forwardRef<HTMLDivElement, KdsCountdownProps>(
-  ({ deadline, onExpire, className, ...props }, ref) => {
+  ({ deadline, label, onExpire, className, ...props }, ref) => {
     const { hours, minutes, seconds, expired, urgent } = useCountdown(deadline);
     const onExpireRef = useRef(onExpire);
     onExpireRef.current = onExpire;
@@ -27,7 +28,8 @@ export const KdsCountdown = forwardRef<HTMLDivElement, KdsCountdownProps>(
 
     return (
       <div ref={ref} className={clsx('kds-countdown', urgent && 'urgent', className)} {...props}>
-        <span className="kds-countdown-time">
+        {label && <span className="kds-countdown-label">{label}</span>}
+        <span className="kds-countdown-value">
           {pad(hours)}:{pad(minutes)}:{pad(seconds)}
         </span>
       </div>
