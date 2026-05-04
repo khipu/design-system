@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import { useDarkMode } from '@vueless/storybook-dark-mode';
 import { KdsTypography as Typography } from '../components/core/KdsTypography';
 import { colors, colorsByMode, tokensByMode, fontFamilies, borderRadius, shadows, borders } from '../tokens';
@@ -23,48 +21,48 @@ const ColorSwatch = ({
   textColor?: string;
   borderColor?: string;
 }) => (
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1.5 }}>
-    <Box
-      sx={{
-        width: 48,
-        height: 48,
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
+    <div
+      style={{
+        width: '48px',
+        height: '48px',
         backgroundColor: value,
-        borderRadius: 1,
-        border: `1px solid ${borderColor ?? 'divider'}`,
+        borderRadius: '4px',
+        border: `1px solid ${borderColor ?? '#e0e0e0'}`,
         flexShrink: 0,
       }}
     />
-    <Box>
+    <div>
       <Typography variant="body">{name}</Typography>
       <Typography
-        variant="bodySmall"
-        sx={{
-          color: 'text.secondary',
+        variant="body-small"
+        style={{
+          color: colors.text.secondary,
           fontFamily: 'monospace',
           fontSize: '11px',
         }}
       >
         {value}
       </Typography>
-    </Box>
-  </Box>
+    </div>
+  </div>
 );
 
 // Spacing Demo Component
 const SpacingDemo = ({ size, label }: { size: number; label: string }) => (
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-    <Box
-      sx={{
-        width: size,
-        height: 24,
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}>
+    <div
+      style={{
+        width: `${size}px`,
+        height: '24px',
         backgroundColor: colors.primary.main,
-        borderRadius: 1,
+        borderRadius: '4px',
       }}
     />
     <Typography variant="body">
       {label} - {size}px
     </Typography>
-  </Box>
+  </div>
 );
 
 // Typography Sample Component
@@ -83,24 +81,24 @@ const TypographySample = ({
   lineHeight: string;
   letterSpacing?: string;
 }) => (
-  <Box sx={{ mb: 3, pb: 2, borderBottom: borders.divider }}>
-    <Box
-      sx={{
+  <div style={{ marginBottom: '24px', paddingBottom: '16px', borderBottom: borders.divider }}>
+    <div
+      style={{
         fontFamily,
         fontWeight,
         fontSize,
         lineHeight,
         letterSpacing: letterSpacing || 'normal',
-        mb: 1,
+        marginBottom: '8px',
       }}
     >
       {name}
-    </Box>
-    <Typography variant="bodySmall" color="tertiary">
+    </div>
+    <Typography variant="body-small" color="muted">
       {fontFamily} • {fontWeight} • {fontSize} • Line Height: {lineHeight}
       {letterSpacing && ` • Letter Spacing: ${letterSpacing}`}
     </Typography>
-  </Box>
+  </div>
 );
 
 const meta: Meta = {
@@ -124,142 +122,142 @@ function ColorsStory() {
   const border = colorsByMode[mode].divider;
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      <Typography variant="bodySmall" sx={{ color: 'text.secondary', fontFamily: 'monospace' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <Typography variant="body-small" style={{ color: colors.text.secondary, fontFamily: 'monospace' }}>
         Showing: {mode} mode tokens
       </Typography>
 
       {/* Primary */}
-      <Box>
-        <Typography variant="heading2" sx={{ mb: 2 }}>
+      <div>
+        <Typography variant="heading2" style={{ marginBottom: '16px' }}>
           Primary
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           <ColorSwatch name="Main" value={modeColors.primary.main} borderColor={border} />
           <ColorSwatch name="Light" value={modeColors.primary.light} borderColor={border} />
           <ColorSwatch name="Dark" value={modeColors.primary.dark} borderColor={border} />
           <ColorSwatch name="Contrast Text" value={modeColors.primary.contrastText} borderColor={border} />
-        </Box>
-        <Typography variant="label" color="tertiary" sx={{ mt: 2 }}>
+        </div>
+        <Typography variant="label" color="muted" style={{ marginTop: '16px', display: 'block' }}>
           States
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, mt: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginTop: '8px' }}>
           <ColorSwatch name="Hover" value={modeColors.primary.states.hover} borderColor={border} />
           <ColorSwatch name="Selected" value={modeColors.primary.states.selected} borderColor={border} />
           <ColorSwatch name="Focus" value={modeColors.primary.states.focus} borderColor={border} />
           <ColorSwatch name="Focus Visible" value={modeColors.primary.states.focusVisible} borderColor={border} />
           <ColorSwatch name="Outlined Border" value={modeColors.primary.states.outlinedBorder} borderColor={border} />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Divider />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: 0 }} />
 
       {/* Info */}
-      <Box>
-        <Typography variant="heading2" sx={{ mb: 2 }}>
+      <div>
+        <Typography variant="heading2" style={{ marginBottom: '16px' }}>
           Info (Blue)
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           <ColorSwatch name="Main" value={modeColors.info.main} borderColor={border} />
           <ColorSwatch name="Light" value={modeColors.info.light} borderColor={border} />
           <ColorSwatch name="Dark" value={modeColors.info.dark} borderColor={border} />
           <ColorSwatch name="Contrast Text" value={modeColors.info.contrastText} borderColor={border} />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Divider />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: 0 }} />
 
       {/* Success */}
-      <Box>
-        <Typography variant="heading2" sx={{ mb: 2 }}>
+      <div>
+        <Typography variant="heading2" style={{ marginBottom: '16px' }}>
           Success (Green)
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           <ColorSwatch name="Main" value={modeColors.success.main} borderColor={border} />
           <ColorSwatch name="Light" value={modeColors.success.light} borderColor={border} />
           <ColorSwatch name="Dark" value={modeColors.success.dark} borderColor={border} />
           <ColorSwatch name="Background" value={modeColors.success.container} borderColor={border} />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Divider />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: 0 }} />
 
       {/* Warning */}
-      <Box>
-        <Typography variant="heading2" sx={{ mb: 2 }}>
+      <div>
+        <Typography variant="heading2" style={{ marginBottom: '16px' }}>
           Warning (Orange)
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           <ColorSwatch name="Main" value={modeColors.warning.main} borderColor={border} />
           <ColorSwatch name="Light" value={modeColors.warning.light} borderColor={border} />
           <ColorSwatch name="Dark" value={modeColors.warning.dark} borderColor={border} />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Divider />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: 0 }} />
 
       {/* Error */}
-      <Box>
-        <Typography variant="heading2" sx={{ mb: 2 }}>
+      <div>
+        <Typography variant="heading2" style={{ marginBottom: '16px' }}>
           Error (Red)
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           <ColorSwatch name="Main" value={modeColors.error.main} borderColor={border} />
           <ColorSwatch name="Light" value={modeColors.error.light} borderColor={border} />
           <ColorSwatch name="Dark" value={modeColors.error.dark} borderColor={border} />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Divider />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: 0 }} />
 
       {/* Text Colors */}
-      <Box>
-        <Typography variant="heading2" sx={{ mb: 2 }}>
+      <div>
+        <Typography variant="heading2" style={{ marginBottom: '16px' }}>
           Text Colors
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           <ColorSwatch name="Strong" value={modeColors.text.strong} borderColor={border} />
           <ColorSwatch name="Primary" value={modeColors.text.primary} borderColor={border} />
           <ColorSwatch name="Secondary" value={modeColors.text.secondary} borderColor={border} />
           <ColorSwatch name="Muted" value={modeColors.text.muted} borderColor={border} />
           <ColorSwatch name="Disabled" value={modeColors.text.disabled} borderColor={border} />
           <ColorSwatch name="Hint" value={modeColors.text.hint} borderColor={border} />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Divider />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: 0 }} />
 
       {/* Background */}
-      <Box>
-        <Typography variant="heading2" sx={{ mb: 2 }}>
+      <div>
+        <Typography variant="heading2" style={{ marginBottom: '16px' }}>
           Background Colors
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           <ColorSwatch name="Default" value={modeColors.background.default} borderColor={border} />
           <ColorSwatch name="Paper" value={modeColors.background.paper} borderColor={border} />
           <ColorSwatch name="Elevated" value={modeColors.background.elevated} borderColor={border} />
           <ColorSwatch name="Muted" value={modeColors.background.muted} borderColor={border} />
           <ColorSwatch name="Brand Subtle" value={modeColors.background.brandSubtle} borderColor={border} />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Divider />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: 0 }} />
 
       {/* Alert Backgrounds */}
-      <Box>
-        <Typography variant="heading2" sx={{ mb: 2 }}>
+      <div>
+        <Typography variant="heading2" style={{ marginBottom: '16px' }}>
           Alert Colors
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           <ColorSwatch name="Info Background" value={modeColors.components.alert.infoBg} borderColor={border} />
           <ColorSwatch name="Info Text" value={modeColors.components.alert.infoText} borderColor={border} />
           <ColorSwatch name="Success Background" value={modeColors.components.alert.successBg} borderColor={border} />
           <ColorSwatch name="Success Text" value={modeColors.components.alert.successText} borderColor={border} />
           <ColorSwatch name="Warning Background" value={modeColors.components.alert.warningBg} borderColor={border} />
           <ColorSwatch name="Error Background" value={modeColors.components.alert.errorBg} borderColor={border} />
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -273,37 +271,37 @@ export const Colors: Story = {
 
 export const TypographyScale: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 800 }}>
-      <Typography variant="heading2" sx={{ mb: 3 }}>
+    <div style={{ maxWidth: '800px' }}>
+      <Typography variant="heading2" style={{ marginBottom: '24px' }}>
         Typography Scale
       </Typography>
 
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="label" color="tertiary" sx={{ mb: 2, display: 'block' }}>
+      <div style={{ marginBottom: '32px' }}>
+        <Typography variant="label" color="muted" style={{ marginBottom: '16px', display: 'block' }}>
           Font Families
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
-          <Box>
-            <Typography variant="body" sx={{ fontFamily: '"Public Sans", sans-serif' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
+          <div>
+            <Typography variant="body" style={{ fontFamily: '"Public Sans", sans-serif' }}>
               Public Sans - Primary font for headings and UI elements
             </Typography>
-          </Box>
-          <Box>
-            <Typography variant="body" sx={{ fontFamily: '"Public Sans", sans-serif' }}>
+          </div>
+          <div>
+            <Typography variant="body" style={{ fontFamily: '"Public Sans", sans-serif' }}>
               Public Sans - Body text, forms, and general content
             </Typography>
-          </Box>
-          <Box>
-            <Typography variant="body" sx={{ fontFamily: '"Public Sans", sans-serif' }}>
+          </div>
+          <div>
+            <Typography variant="body" style={{ fontFamily: '"Public Sans", sans-serif' }}>
               Public Sans - Display text for hero sections
             </Typography>
-          </Box>
-        </Box>
-      </Box>
+          </div>
+        </div>
+      </div>
 
-      <Divider sx={{ my: 3 }} />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: '24px 0' }} />
 
-      <Typography variant="label" color="tertiary" sx={{ mb: 2, display: 'block' }}>
+      <Typography variant="label" color="muted" style={{ marginBottom: '16px', display: 'block' }}>
         Display
       </Typography>
       <TypographySample
@@ -323,7 +321,7 @@ export const TypographyScale: Story = {
         letterSpacing="-0.25px"
       />
 
-      <Typography variant="label" color="tertiary" sx={{ mb: 2, display: 'block' }}>
+      <Typography variant="label" color="muted" style={{ marginBottom: '16px', display: 'block' }}>
         Headings
       </Typography>
       <TypographySample
@@ -349,7 +347,7 @@ export const TypographyScale: Story = {
         letterSpacing="0.15px"
       />
 
-      <Typography variant="label" color="tertiary" sx={{ mb: 2, display: 'block' }}>
+      <Typography variant="label" color="muted" style={{ marginBottom: '16px', display: 'block' }}>
         Body Text
       </Typography>
       <TypographySample
@@ -377,7 +375,7 @@ export const TypographyScale: Story = {
         letterSpacing="0.4px"
       />
 
-      <Typography variant="label" color="tertiary" sx={{ mb: 2, display: 'block' }}>
+      <Typography variant="label" color="muted" style={{ marginBottom: '16px', display: 'block' }}>
         Labels
       </Typography>
       <TypographySample
@@ -396,7 +394,7 @@ export const TypographyScale: Story = {
         lineHeight="14px"
       />
 
-      <Typography variant="label" color="tertiary" sx={{ mb: 2, display: 'block' }}>
+      <Typography variant="label" color="muted" style={{ marginBottom: '16px', display: 'block' }}>
         Card Elements
       </Typography>
       <TypographySample
@@ -416,7 +414,7 @@ export const TypographyScale: Story = {
         letterSpacing="0.15px"
       />
 
-      <Typography variant="label" color="tertiary" sx={{ mb: 2, display: 'block' }}>
+      <Typography variant="label" color="muted" style={{ marginBottom: '16px', display: 'block' }}>
         Button
       </Typography>
       <TypographySample
@@ -427,7 +425,7 @@ export const TypographyScale: Story = {
         lineHeight="26px"
         letterSpacing="0.46px"
       />
-    </Box>
+    </div>
   ),
 };
 
@@ -436,36 +434,35 @@ export const TypographyScale: Story = {
 // =============================================================================
 
 const CodeBlock = ({ children }: { children: string }) => (
-  <Box
-    component="pre"
-    sx={{
+  <pre
+    style={{
       backgroundColor: colors.background.code,
       color: colors.text.code,
-      padding: 2,
-      borderRadius: 1,
+      padding: '16px',
+      borderRadius: '4px',
       fontSize: '13px',
       overflow: 'auto',
       fontFamily: fontFamilies.mono,
-      m: 0,
+      margin: 0,
     }}
   >
     <code>{children}</code>
-  </Box>
+  </pre>
 );
 
 export const Spacing: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 700 }}>
-      <Typography variant="heading2" sx={{ mb: 3 }}>
+    <div style={{ maxWidth: '700px' }}>
+      <Typography variant="heading2" style={{ marginBottom: '24px' }}>
         Spacing Scale
       </Typography>
 
-      <Typography variant="body" color="secondary" sx={{ mb: 3 }}>
+      <Typography variant="body" color="secondary" style={{ marginBottom: '24px' }}>
         The spacing scale is based on an 8px grid system, with additional sizes for fine-tuning.
       </Typography>
 
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="label" color="tertiary" sx={{ mb: 2, display: 'block' }}>
+      <div style={{ marginBottom: '32px' }}>
+        <Typography variant="label" color="muted" style={{ marginBottom: '16px', display: 'block' }}>
           Base Unit: 8px
         </Typography>
         <SpacingDemo size={4} label="0.5x (4px)" />
@@ -478,28 +475,28 @@ export const Spacing: Story = {
         <SpacingDemo size={40} label="5x (40px)" />
         <SpacingDemo size={48} label="6x (48px)" />
         <SpacingDemo size={64} label="8x (64px)" />
-      </Box>
+      </div>
 
-      <Divider sx={{ my: 3 }} />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: '24px 0' }} />
 
-      <Typography variant="heading3" sx={{ mb: 2 }}>
+      <Typography variant="heading3" style={{ marginBottom: '16px' }}>
         Semantic Spacing (from Figma)
       </Typography>
 
       {/* Card Spacing */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="cardTitle" sx={{ mb: 1 }}>Card Spacing</Typography>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>padding:</strong> 10px 20px</Typography>
-          </Box>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>gap:</strong> 16px</Typography>
-          </Box>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>listGap:</strong> 12px</Typography>
-          </Box>
-        </Box>
+      <div style={{ marginBottom: '32px' }}>
+        <Typography variant="heading3" style={{ marginBottom: '8px' }}>Card Spacing</Typography>
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>padding:</strong> 10px 20px</Typography>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>gap:</strong> 16px</Typography>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>listGap:</strong> 12px</Typography>
+          </div>
+        </div>
         <CodeBlock>{`import { semanticSpacing } from '@/tokens';
 
 // Using tokens in sx prop
@@ -520,16 +517,16 @@ export const Spacing: Story = {
 
 // Or use the padding prop directly
 <Card padding="md" />  // 10px 20px (Figma default)`}</CodeBlock>
-      </Box>
+      </div>
 
       {/* Box/Container Spacing */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="cardTitle" sx={{ mb: 1 }}>Box/Container Spacing</Typography>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>padding:</strong> 32px 20px</Typography>
-          </Box>
-        </Box>
+      <div style={{ marginBottom: '32px' }}>
+        <Typography variant="heading3" style={{ marginBottom: '8px' }}>Box/Container Spacing</Typography>
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>padding:</strong> 32px 20px</Typography>
+          </div>
+        </div>
         <CodeBlock>{`// Container with Figma spacing
 <Box sx={{
   padding: semanticSpacing.box.padding,   // '32px 20px'
@@ -537,52 +534,52 @@ export const Spacing: Story = {
   paddingY: semanticSpacing.box.paddingY, // '32px'
   paddingX: semanticSpacing.box.paddingX, // '20px'
 }} />`}</CodeBlock>
-      </Box>
+      </div>
 
       {/* Input Spacing */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="cardTitle" sx={{ mb: 1 }}>Input Spacing</Typography>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>padding:</strong> 16px 12px</Typography>
-          </Box>
-        </Box>
+      <div style={{ marginBottom: '32px' }}>
+        <Typography variant="heading3" style={{ marginBottom: '8px' }}>Input Spacing</Typography>
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>padding:</strong> 16px 12px</Typography>
+          </div>
+        </div>
         <CodeBlock>{`// Input field padding
 <TextField sx={{
   '& .MuiInputBase-input': {
     padding: semanticSpacing.input.padding, // '16px 12px'
   }
 }} />`}</CodeBlock>
-      </Box>
+      </div>
 
       {/* Button Spacing */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="cardTitle" sx={{ mb: 1 }}>Button Spacing</Typography>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>padding:</strong> 8px 22px</Typography>
-          </Box>
-        </Box>
+      <div style={{ marginBottom: '32px' }}>
+        <Typography variant="heading3" style={{ marginBottom: '8px' }}>Button Spacing</Typography>
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>padding:</strong> 8px 22px</Typography>
+          </div>
+        </div>
         <CodeBlock>{`// Button padding
 <Button sx={{
   padding: semanticSpacing.button.padding, // '8px 22px'
 }} />`}</CodeBlock>
-      </Box>
+      </div>
 
       {/* Layout Gaps */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="cardTitle" sx={{ mb: 1 }}>Layout Gaps</Typography>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>sectionGap:</strong> 32px</Typography>
-          </Box>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>formGap:</strong> 20px</Typography>
-          </Box>
-          <Box sx={{ p: 1, backgroundColor: colors.background.elevated, borderRadius: 1 }}>
-            <Typography variant="bodySmall"><strong>stackGap:</strong> 16px</Typography>
-          </Box>
-        </Box>
+      <div style={{ marginBottom: '32px' }}>
+        <Typography variant="heading3" style={{ marginBottom: '8px' }}>Layout Gaps</Typography>
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>sectionGap:</strong> 32px</Typography>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>formGap:</strong> 20px</Typography>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>stackGap:</strong> 16px</Typography>
+          </div>
+        </div>
         <CodeBlock>{`// Section layout
 <Box sx={{
   display: 'flex',
@@ -598,8 +595,8 @@ export const Spacing: Story = {
   <TextField />
   <TextField />
 </Box>`}</CodeBlock>
-      </Box>
-    </Box>
+      </div>
+    </div>
   ),
 };
 
@@ -609,98 +606,98 @@ export const Spacing: Story = {
 
 export const BorderRadius: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 600 }}>
-      <Typography variant="heading2" sx={{ mb: 3 }}>
+    <div style={{ maxWidth: '600px' }}>
+      <Typography variant="heading2" style={{ marginBottom: '24px' }}>
         Border Radius
       </Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 80,
-              height: 80,
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
               backgroundColor: colors.primary.main,
               borderRadius: borderRadius.sm,
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">4px - Default</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">4px - Default</Typography>
+            <Typography variant="body-small" color="muted">
               Buttons, inputs, alerts, tooltips
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 80,
-              height: 80,
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
               backgroundColor: colors.info.main,
               borderRadius: '6px',
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">6px - Cards</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">6px - Cards</Typography>
+            <Typography variant="body-small" color="muted">
               Card components, containers
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 80,
-              height: 80,
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
               backgroundColor: colors.success.main,
               borderRadius: borderRadius.iconContainer,
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">10px - Icons</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">10px - Icons</Typography>
+            <Typography variant="body-small" color="muted">
               Icon containers, badges
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 80,
-              height: 80,
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
               backgroundColor: colors.warning.main,
               borderRadius: borderRadius.lg,
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">12px - Modals</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">12px - Modals</Typography>
+            <Typography variant="body-small" color="muted">
               Dialog/modal containers
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 80,
-              height: 80,
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
               backgroundColor: colors.error.main,
               borderRadius: borderRadius['2xl'],
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">20px - Large Containers</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">20px - Large Containers</Typography>
+            <Typography variant="body-small" color="muted">
               Content sections with rounded tops
             </Typography>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+          </div>
+        </div>
+      </div>
+    </div>
   ),
 };
 
@@ -710,102 +707,102 @@ export const BorderRadius: Story = {
 
 export const Shadows: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 700 }}>
-      <Typography variant="heading2" sx={{ mb: 3 }}>
+    <div style={{ maxWidth: '700px' }}>
+      <Typography variant="heading2" style={{ marginBottom: '24px' }}>
         Shadows & Borders - From Figma
       </Typography>
 
-      <Typography variant="body" color="secondary" sx={{ mb: 3 }}>
+      <Typography variant="body" color="secondary" style={{ marginBottom: '24px' }}>
         In the Figma design, most components use borders instead of shadows.
         Only primary buttons use elevation shadows.
       </Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
         {/* Card - No shadow, border only */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 120,
-              height: 80,
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '120px',
+              height: '80px',
               backgroundColor: colors.background.default,
               borderRadius: '6px',
               border: borders.card,
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">Card (No Shadow)</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">Card (No Shadow)</Typography>
+            <Typography variant="body-small" color="muted">
               Bank selection cards - border only
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
         {/* elevation/2 - Buttons */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 120,
-              height: 80,
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '120px',
+              height: '80px',
               backgroundColor: colors.primary.main,
               borderRadius: borderRadius.button,
               boxShadow: shadows.button,
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">elevation/2</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">elevation/2</Typography>
+            <Typography variant="body-small" color="muted">
               Primary buttons (contained)
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
         {/* Outlined Button - No shadow */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 120,
-              height: 80,
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '120px',
+              height: '80px',
               backgroundColor: colors.background.default,
               borderRadius: borderRadius.button,
               border: borders.buttonOutlinedInfo,
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">Outlined Button</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">Outlined Button</Typography>
+            <Typography variant="body-small" color="muted">
               Secondary/info buttons - border only
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
         {/* Input border */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Box
-            sx={{
-              width: 120,
-              height: 80,
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div
+            style={{
+              width: '120px',
+              height: '80px',
               backgroundColor: colors.background.default,
               borderRadius: borderRadius.input,
               border: borders.inputOutlined,
             }}
           />
-          <Box>
-            <Typography variant="cardTitle">Input (Outlined)</Typography>
-            <Typography variant="bodySmall" color="tertiary">
+          <div>
+            <Typography variant="heading3">Input (Outlined)</Typography>
+            <Typography variant="body-small" color="muted">
               Text fields - border only
             </Typography>
-          </Box>
-        </Box>
-      </Box>
+          </div>
+        </div>
+      </div>
 
-      <Divider sx={{ my: 4 }} />
+      <hr style={{ border: 'none', borderTop: borders.divider, margin: '32px 0' }} />
 
-      <Typography variant="heading3" sx={{ mb: 2 }}>
+      <Typography variant="heading3" style={{ marginBottom: '16px' }}>
         Code Examples
       </Typography>
 
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="cardTitle" sx={{ mb: 1 }}>Using Shadow & Border Tokens</Typography>
+      <div style={{ marginBottom: '24px' }}>
+        <Typography variant="heading3" style={{ marginBottom: '8px' }}>Using Shadow & Border Tokens</Typography>
         <CodeBlock>{`import { shadows, borders } from '@/tokens';
 
 // Primary button with shadow
@@ -836,10 +833,10 @@ export const Shadows: Story = {
     border: borders.inputOutlined,     // '1px solid rgba(0, 0, 0, 0.23)'
   }
 }} />`}</CodeBlock>
-      </Box>
+      </div>
 
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="cardTitle" sx={{ mb: 1 }}>Available Border Tokens</Typography>
+      <div style={{ marginBottom: '24px' }}>
+        <Typography variant="heading3" style={{ marginBottom: '8px' }}>Available Border Tokens</Typography>
         <CodeBlock>{`borders = {
   card: '1px solid rgba(0, 0, 0, 0.42)',
   cardSelected: '2px solid #8347AD',
@@ -850,8 +847,8 @@ export const Shadows: Story = {
   divider: '1px solid #e0e0e0',
   container: '1px solid rgba(58, 53, 65, 0.3)',
 }`}</CodeBlock>
-      </Box>
-    </Box>
+      </div>
+    </div>
   ),
 };
 
@@ -861,103 +858,103 @@ export const Shadows: Story = {
 
 export const Overview: Story = {
   render: () => (
-    <Box sx={{ maxWidth: 800 }}>
-      <Typography variant="display2" sx={{ mb: 2 }}>
+    <div style={{ maxWidth: '800px' }}>
+      <Typography variant="display2" style={{ marginBottom: '16px' }}>
         Khipu Design System
       </Typography>
-      <Typography variant="bodyLarge" color="secondary" sx={{ mb: 4 }}>
+      <Typography variant="body-large" color="secondary" style={{ marginBottom: '32px' }}>
         Design tokens extracted from Figma: Pagos Automáticos - MUI v610
       </Typography>
 
-      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 4 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px' }}>
         {/* Colors */}
-        <Box sx={{ p: 3, border: borders.divider, borderRadius: 2 }}>
-          <Typography variant="heading3" sx={{ mb: 2 }}>
+        <div style={{ padding: '24px', border: borders.divider, borderRadius: '8px' }}>
+          <Typography variant="heading3" style={{ marginBottom: '16px' }}>
             Colors
           </Typography>
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {[colors.primary.main, colors.info.main, colors.success.main, colors.warning.main, colors.error.main, colors.text.strong].map((color) => (
-              <Box
+              <div
                 key={color}
-                sx={{
-                  width: 40,
-                  height: 40,
+                style={{
+                  width: '40px',
+                  height: '40px',
                   backgroundColor: color,
-                  borderRadius: 1,
+                  borderRadius: '4px',
                 }}
               />
             ))}
-          </Box>
-          <Typography variant="bodySmall" color="tertiary" sx={{ mt: 2 }}>
+          </div>
+          <Typography variant="body-small" color="muted" style={{ marginTop: '16px' }}>
             Primary, Info, Success, Warning, Error, Text
           </Typography>
-        </Box>
+        </div>
 
         {/* Typography */}
-        <Box sx={{ p: 3, border: borders.divider, borderRadius: 2 }}>
-          <Typography variant="heading3" sx={{ mb: 2 }}>
+        <div style={{ padding: '24px', border: borders.divider, borderRadius: '8px' }}>
+          <Typography variant="heading3" style={{ marginBottom: '16px' }}>
             Typography
           </Typography>
-          <Typography variant="bodySmall" sx={{ fontFamily: '"Public Sans", sans-serif' }}>
+          <Typography variant="body-small" style={{ fontFamily: '"Public Sans", sans-serif' }}>
             Public Sans (Headings)
           </Typography>
-          <Typography variant="bodySmall" sx={{ fontFamily: '"Public Sans", sans-serif' }}>
+          <Typography variant="body-small" style={{ fontFamily: '"Public Sans", sans-serif' }}>
             Public Sans (Body)
           </Typography>
-          <Typography variant="bodySmall" sx={{ fontFamily: '"Public Sans", sans-serif' }}>
+          <Typography variant="body-small" style={{ fontFamily: '"Public Sans", sans-serif' }}>
             Public Sans (Display)
           </Typography>
-          <Typography variant="bodySmall" color="tertiary" sx={{ mt: 2 }}>
+          <Typography variant="body-small" color="muted" style={{ marginTop: '16px' }}>
             14 custom variants defined
           </Typography>
-        </Box>
+        </div>
 
         {/* Spacing */}
-        <Box sx={{ p: 3, border: borders.divider, borderRadius: 2 }}>
-          <Typography variant="heading3" sx={{ mb: 2 }}>
+        <div style={{ padding: '24px', border: borders.divider, borderRadius: '8px' }}>
+          <Typography variant="heading3" style={{ marginBottom: '16px' }}>
             Spacing
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 0.5 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px' }}>
             {[4, 8, 12, 16, 20, 24, 32].map((size) => (
-              <Box
+              <div
                 key={size}
-                sx={{
-                  width: 16,
-                  height: size,
+                style={{
+                  width: '16px',
+                  height: `${size}px`,
                   backgroundColor: colors.primary.main,
-                  borderRadius: 0.5,
+                  borderRadius: '2px',
                 }}
               />
             ))}
-          </Box>
-          <Typography variant="bodySmall" color="tertiary" sx={{ mt: 2 }}>
+          </div>
+          <Typography variant="body-small" color="muted" style={{ marginTop: '16px' }}>
             8px base unit grid system
           </Typography>
-        </Box>
+        </div>
 
         {/* Border Radius */}
-        <Box sx={{ p: 3, border: borders.divider, borderRadius: 2 }}>
-          <Typography variant="heading3" sx={{ mb: 2 }}>
+        <div style={{ padding: '24px', border: borders.divider, borderRadius: '8px' }}>
+          <Typography variant="heading3" style={{ marginBottom: '16px' }}>
             Border Radius
           </Typography>
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <div style={{ display: 'flex', gap: '8px' }}>
             {[4, 6, 10, 12, 20].map((radius) => (
-              <Box
+              <div
                 key={radius}
-                sx={{
-                  width: 32,
-                  height: 32,
+                style={{
+                  width: '32px',
+                  height: '32px',
                   backgroundColor: colors.info.main,
                   borderRadius: `${radius}px`,
                 }}
               />
             ))}
-          </Box>
-          <Typography variant="bodySmall" color="tertiary" sx={{ mt: 2 }}>
+          </div>
+          <Typography variant="body-small" color="muted" style={{ marginTop: '16px' }}>
             4px, 6px, 10px, 12px, 20px
           </Typography>
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   ),
 };

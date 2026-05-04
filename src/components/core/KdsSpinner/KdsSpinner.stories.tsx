@@ -12,16 +12,6 @@ const meta: Meta<typeof KdsSpinner> = {
       control: 'select',
       options: ['small', 'medium', 'large'],
     },
-    color: {
-      control: 'select',
-      options: ['primary', 'secondary', 'inherit'],
-    },
-    thickness: {
-      control: { type: 'range', min: 1, max: 8, step: 0.5 },
-    },
-    customSize: {
-      control: { type: 'range', min: 16, max: 100, step: 4 },
-    },
   },
 };
 
@@ -51,59 +41,18 @@ export const Sizes: Story = {
   ),
 };
 
-export const Colors: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: spacing[4], alignItems: 'center' }}>
-      <div style={{ textAlign: 'center' }}>
-        <KdsSpinner color="primary" />
-        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>Primary</p>
-      </div>
-      <div style={{ textAlign: 'center' }}>
-        <KdsSpinner color="secondary" />
-        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>Secondary</p>
-      </div>
-      <div
-        style={{
-          textAlign: 'center',
-          backgroundColor: colors.primary.main,
-          padding: spacing[2],
-          borderRadius: borderRadius.md,
-        }}
-      >
-        <KdsSpinner color="inherit" style={{ color: colors.primary.contrastText }} />
-        <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.primary.contrastText }}>Inherit</p>
-      </div>
-    </div>
-  ),
-};
-
-export const CustomSize: Story = {
+export const WithLabel: Story = {
   args: {
-    customSize: 80,
-    thickness: 2,
+    size: 'medium',
+    label: 'Cargando datos...',
   },
-};
-
-export const Thickness: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: spacing[4], alignItems: 'center' }}>
-      {[2, 4, 6, 8].map((thickness) => (
-        <div key={thickness} style={{ textAlign: 'center' }}>
-          <KdsSpinner thickness={thickness} />
-          <p style={{ margin: `${spacing[1]} 0 0 0`, fontSize: fontSizes.sm, color: colors.text.secondary }}>
-            thickness={thickness}
-          </p>
-        </div>
-      ))}
-    </div>
-  ),
 };
 
 export const InButton: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: spacing[2], alignItems: 'center' }}>
       <KdsButton disabled>
-        <KdsSpinner size="small" color="inherit" style={{ marginRight: spacing[1] }} />
+        <KdsSpinner size="small" style={{ marginRight: spacing[1] }} />
         Cargando...
       </KdsButton>
       <KdsButton loading>
@@ -177,24 +126,21 @@ export const InlineWithText: Story = {
   ),
 };
 
-export const MultipleSpinners: Story = {
+export const AllSizesGrid: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: spacing[3] }}>
-      {['primary', 'secondary'].map((color) => (
-        <div
-          key={color}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: spacing[2],
-          }}
-        >
-          <KdsSpinner size="small" color={color as 'primary' | 'secondary'} />
-          <KdsSpinner size="medium" color={color as 'primary' | 'secondary'} />
-          <KdsSpinner size="large" color={color as 'primary' | 'secondary'} />
-        </div>
-      ))}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: spacing[2],
+        }}
+      >
+        <KdsSpinner size="small" />
+        <KdsSpinner size="medium" />
+        <KdsSpinner size="large" />
+      </div>
     </div>
   ),
 };

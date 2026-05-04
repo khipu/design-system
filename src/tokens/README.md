@@ -141,18 +141,20 @@ function MyComponent({ theme = 'light' }: { theme?: ThemeMode }) {
 }
 ```
 
-### Con MUI Theme
+### Con CSS Variables
 
-```typescript
-import { createTheme } from '@mui/material/styles';
-import { getTokensForMode } from '@khipu/design-system/tokens';
+```css
+/* Los tokens se exponen como CSS custom properties */
+:root {
+  --kds-color-primary: #8347AD;
+  --kds-color-success: #4CAF50;
+  /* ... etc */
+}
 
-const theme = createTheme({
-  palette: {
-    mode: 'light', // o 'dark'
-    ...getTokensForMode('light').colors,
-  },
-});
+/* Uso en CSS */
+.my-element {
+  color: var(--kds-color-primary);
+}
 ```
 
 ## Categorías de Tokens
