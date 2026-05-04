@@ -3,23 +3,26 @@ import { clsx } from '../../core/utils';
 
 export interface KdsRecapItem {
   label: string;
-  value: React.ReactNode;
+  value?: string;
+  placeholder?: string;
 }
 
-export interface KdsRecapListProps extends React.HTMLAttributes<HTMLDListElement> {
+export interface KdsRecapListProps extends React.HTMLAttributes<HTMLUListElement> {
   items: KdsRecapItem[];
 }
 
-export const KdsRecapList = forwardRef<HTMLDListElement, KdsRecapListProps>(
+export const KdsRecapList = forwardRef<HTMLUListElement, KdsRecapListProps>(
   ({ items, className, ...props }, ref) => (
-    <dl ref={ref} className={clsx('kds-recap-list', className)} {...props}>
+    <ul ref={ref} className={clsx('kds-recap-list', className)} {...props}>
       {items.map((item, i) => (
-        <div key={i} className="kds-recap-item">
-          <dt>{item.label}</dt>
-          <dd>{item.value}</dd>
-        </div>
+        <li key={i}>
+          <span className="k">{item.label}</span>
+          <span className={clsx('v', !item.value && item.placeholder && 'placeholder')}>
+            {item.value || item.placeholder || '-'}
+          </span>
+        </li>
       ))}
-    </dl>
+    </ul>
   ),
 );
 KdsRecapList.displayName = 'KdsRecapList';

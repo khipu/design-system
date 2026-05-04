@@ -64,8 +64,6 @@ export {
   // TextField
   KdsTextField,
   type KdsTextFieldProps,
-  type KdsTextFieldVariant,
-  type KdsTextFieldSize,
 
   // Checkbox
   KdsCheckbox,
@@ -111,8 +109,6 @@ export {
   type KdsTabsProps,
   type KdsTabProps,
   type KdsTabPanelProps,
-  type KdsTabsColor,
-  type KdsTabsVariant,
 
   // LogoHeader
   KdsLogoHeader,
@@ -133,12 +129,8 @@ export {
 
   // Select
   KdsSelect,
-  KdsMenuItem,
   type KdsSelectProps,
-  type KdsMenuItemProps,
-  type KdsSelectOption,
-  type KdsSelectVariant,
-  type KdsSelectSize,
+  type KdsSelectItemProps,
 
   // Chip
   KdsChip,
@@ -148,8 +140,7 @@ export {
   // Snackbar
   KdsSnackbar,
   type KdsSnackbarProps,
-  type KdsSnackbarAnchorVertical,
-  type KdsSnackbarAnchorHorizontal,
+  type KdsSnackbarType,
 
   // Tooltip
   KdsTooltip,
@@ -163,7 +154,6 @@ export {
   type KdsAccordionProps,
   type KdsAccordionSummaryProps,
   type KdsAccordionDetailsProps,
-  type KdsAccordionVariant,
 
   // Divider
   KdsDivider,
@@ -181,6 +171,27 @@ export {
   // Stepper
   KdsStepper,
   type KdsStepperProps,
+
+  // CopyRow
+  KdsCopyRow,
+  type KdsCopyRowProps,
+
+  // CopyableTable
+  KdsCopyableTable,
+  type KdsCopyableTableProps,
+  type KdsCopyableTableRow,
+
+  // ExpandPanel
+  KdsExpandPanel,
+  type KdsExpandPanelProps,
+
+  // Countdown
+  KdsCountdown,
+  type KdsCountdownProps,
+
+  // SegmentedTabs
+  KdsSegmentedTabs,
+  type KdsSegmentedTabsProps,
 } from './components/core';
 
 // =============================================================================

@@ -4,9 +4,9 @@ import { KdsCardPlan } from './KdsCardPlan';
 
 describe('KdsCardPlan', () => {
   it('renders title and price', () => {
-    render(<KdsCardPlan title="Plan Básico" price="$9.990/mes" />);
-    expect(screen.getByText('Plan Básico')).toHaveClass('kds-card-plan-title');
-    expect(screen.getByText('$9.990/mes')).toHaveClass('kds-card-plan-price');
+    render(<KdsCardPlan title="Plan Basico" price="$9.990" />);
+    expect(screen.getByText('Plan Basico')).toBeInTheDocument();
+    expect(screen.getByText('$9.990')).toBeInTheDocument();
   });
 
   it('applies kds-card-plan class to container', () => {
@@ -14,11 +14,16 @@ describe('KdsCardPlan', () => {
     expect(screen.getByTestId('plan')).toHaveClass('kds-card-plan');
   });
 
+  it('renders period when provided', () => {
+    render(<KdsCardPlan title="Plan" price="$9.990" period="mes" />);
+    expect(screen.getByText('/mes')).toBeInTheDocument();
+  });
+
   it('renders features list', () => {
     render(
       <KdsCardPlan
         title="Pro"
-        price="$19.990/mes"
+        price="$19.990"
         features={['Feature A', 'Feature B']}
       />,
     );
@@ -31,15 +36,29 @@ describe('KdsCardPlan', () => {
     expect(container.querySelector('.kds-card-plan-features')).toBeNull();
   });
 
-  it('renders recommended badge and class', () => {
-    render(<KdsCardPlan title="Premium" price="$29.990/mes" recommended data-testid="plan" />);
+  it('renders recommended class and custom badge text', () => {
+    render(
+      <KdsCardPlan title="Premium" price="$29.990" recommended badgeText="Mejor opcion" data-testid="plan" />,
+    );
     expect(screen.getByTestId('plan')).toHaveClass('kds-card-plan', 'recommended');
-    expect(screen.getByText('Recomendado')).toHaveClass('kds-card-plan-badge');
+    expect(screen.getByText('Mejor opcion')).toHaveClass('kds-card-plan-badge');
   });
 
-  it('does not render badge when not recommended', () => {
+  it('does not render badge when not provided', () => {
     render(<KdsCardPlan title="Plan" price="$0" />);
     expect(screen.queryByText('Recomendado')).toBeNull();
+  });
+
+  it('renders action node', () => {
+    render(
+      <KdsCardPlan title="Plan" price="$0" action={<button>Seleccionar</button>} />,
+    );
+    expect(screen.getByText('Seleccionar')).toBeInTheDocument();
+  });
+
+  it('merges custom className', () => {
+    render(<KdsCardPlan title="Plan" price="$0" data-testid="plan" className="custom" />);
+    expect(screen.getByTestId('plan')).toHaveClass('kds-card-plan', 'custom');
   });
 
   it('forwards ref', () => {
