@@ -11,15 +11,25 @@ describe('KdsStatusBlock', () => {
     expect(screen.getByText('Payment successful')).toBeInTheDocument();
   });
 
-  it('renders status block with description', () => {
+  it('renders with description', () => {
     render(
-      <KdsStatusBlock
-        status="error"
-        title="Error"
-        description="Something went wrong"
+      <KdsStatusBlock 
+        status="success" 
+        title="Done" 
+        description="Transaction completed" 
       />
     );
-    expect(screen.getByText('Error')).toBeInTheDocument();
-    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+    expect(screen.getByText('Transaction completed')).toBeInTheDocument();
+  });
+
+  it('renders with custom icon', () => {
+    render(
+      <KdsStatusBlock 
+        status="success" 
+        title="Done" 
+        icon="check_circle" 
+      />
+    );
+    expect(screen.getByText('check_circle')).toBeInTheDocument();
   });
 });

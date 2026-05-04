@@ -1,7 +1,7 @@
 /**
  * Khipu Design System - StatusBlock Component
  *
- * A status feedback component with icon, title, and description.
+ * Native HTML status block with BeerCSS styling.
  */
 
 import React, { forwardRef } from 'react';
