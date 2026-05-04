@@ -4,45 +4,56 @@ import userEvent from '@testing-library/user-event';
 import { KdsCardSelector } from './KdsCardSelector';
 
 describe('KdsCardSelector', () => {
-  it('renders label with kds-card-selector class', () => {
-    render(<KdsCardSelector label="Transferencia" />);
-    const btn = screen.getByRole('button', { name: 'Transferencia' });
+  it('renders title with kds-card-selector class', () => {
+    render(<KdsCardSelector title="Transferencia" />);
+    const btn = screen.getByRole('button');
     expect(btn).toHaveClass('kds-card-selector');
-    expect(screen.getByText('Transferencia')).toHaveClass('kds-card-selector-label');
+    expect(screen.getByText('Transferencia')).toHaveClass('kds-card-selector-title');
   });
 
-  it('applies selected class and aria-pressed', () => {
-    render(<KdsCardSelector label="Tarjeta" selected />);
+  it('applies selected class', () => {
+    render(<KdsCardSelector title="Tarjeta" selected />);
     const btn = screen.getByRole('button');
     expect(btn).toHaveClass('kds-card-selector', 'selected');
-    expect(btn).toHaveAttribute('aria-pressed', 'true');
   });
 
-  it('renders icon when provided', () => {
-    render(<KdsCardSelector label="QR" icon="qr_code" />);
+  it('renders icon wrapped in kds-card-selector-icon', () => {
+    render(<KdsCardSelector title="QR" icon="qr_code" />);
+    const iconWrapper = screen.getByText('qr_code').parentElement;
+    expect(iconWrapper).toHaveClass('kds-card-selector-icon');
     expect(screen.getByText('qr_code')).toHaveClass('material-symbols-outlined');
   });
 
   it('renders description when provided', () => {
-    render(<KdsCardSelector label="QR" description="Escanea el código" />);
-    expect(screen.getByText('Escanea el código')).toHaveClass('kds-card-selector-description');
+    render(<KdsCardSelector title="QR" description="Escanea el codigo" />);
+    expect(screen.getByText('Escanea el codigo')).toHaveClass('kds-card-selector-description');
   });
 
   it('does not render description when omitted', () => {
-    render(<KdsCardSelector label="QR" />);
-    expect(screen.queryByText(/description/i)).toBeNull();
+    const { container } = render(<KdsCardSelector title="QR" />);
+    expect(container.querySelector('.kds-card-selector-description')).toBeNull();
+  });
+
+  it('does not render icon when omitted', () => {
+    const { container } = render(<KdsCardSelector title="QR" />);
+    expect(container.querySelector('.kds-card-selector-icon')).toBeNull();
   });
 
   it('fires onClick handler', async () => {
     const onClick = vi.fn();
-    render(<KdsCardSelector label="Click" onClick={onClick} />);
+    render(<KdsCardSelector title="Click" onClick={onClick} />);
     await userEvent.click(screen.getByRole('button'));
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
+  it('merges custom className', () => {
+    render(<KdsCardSelector title="Test" className="custom" />);
+    expect(screen.getByRole('button')).toHaveClass('kds-card-selector', 'custom');
+  });
+
   it('forwards ref', () => {
     const ref = { current: null as HTMLButtonElement | null };
-    render(<KdsCardSelector ref={ref} label="Test" />);
+    render(<KdsCardSelector ref={ref} title="Test" />);
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
   });
 });

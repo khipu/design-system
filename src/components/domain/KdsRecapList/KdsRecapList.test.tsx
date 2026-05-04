@@ -8,50 +8,56 @@ describe('KdsRecapList', () => {
     { label: 'Banco', value: 'Banco Estado' },
   ];
 
-  it('renders dt/dd pairs with kds-recap-list class', () => {
+  it('renders all items with kds-recap-list class', () => {
     const { container } = render(<KdsRecapList items={items} />);
-    const dl = container.querySelector('dl');
-    expect(dl).toHaveClass('kds-recap-list');
-
-    const terms = container.querySelectorAll('dt');
-    const descriptions = container.querySelectorAll('dd');
-    expect(terms).toHaveLength(2);
-    expect(descriptions).toHaveLength(2);
-    expect(terms[0]).toHaveTextContent('Monto');
-    expect(descriptions[0]).toHaveTextContent('$10.000');
-    expect(terms[1]).toHaveTextContent('Banco');
-    expect(descriptions[1]).toHaveTextContent('Banco Estado');
+    const ul = container.querySelector('ul');
+    expect(ul).toHaveClass('kds-recap-list');
+    const lis = container.querySelectorAll('li');
+    expect(lis).toHaveLength(2);
   });
 
-  it('wraps each pair in a kds-recap-item div', () => {
-    const { container } = render(<KdsRecapList items={items} />);
-    const wrappers = container.querySelectorAll('.kds-recap-item');
-    expect(wrappers).toHaveLength(2);
+  it('renders label with k class and value with v class', () => {
+    render(<KdsRecapList items={items} />);
+    expect(screen.getByText('Monto')).toHaveClass('k');
+    expect(screen.getByText('$10.000')).toHaveClass('v');
+  });
+
+  it('renders placeholder with placeholder class when value is missing', () => {
+    render(
+      <KdsRecapList items={[{ label: 'Email', placeholder: 'Sin email' }]} />,
+    );
+    const placeholderEl = screen.getByText('Sin email');
+    expect(placeholderEl).toHaveClass('v', 'placeholder');
+  });
+
+  it('renders dash when both value and placeholder are missing', () => {
+    render(<KdsRecapList items={[{ label: 'Dato' }]} />);
+    expect(screen.getByText('-')).toHaveClass('v');
+  });
+
+  it('does not apply placeholder class when value is present', () => {
+    render(
+      <KdsRecapList items={[{ label: 'Dato', value: 'Algo', placeholder: 'N/A' }]} />,
+    );
+    const valueEl = screen.getByText('Algo');
+    expect(valueEl).toHaveClass('v');
+    expect(valueEl).not.toHaveClass('placeholder');
   });
 
   it('renders empty list when items is empty', () => {
     const { container } = render(<KdsRecapList items={[]} />);
-    expect(container.querySelector('dl')).toHaveClass('kds-recap-list');
-    expect(container.querySelectorAll('dt')).toHaveLength(0);
-  });
-
-  it('supports ReactNode values', () => {
-    render(
-      <KdsRecapList
-        items={[{ label: 'Estado', value: <strong>Aprobado</strong> }]}
-      />,
-    );
-    expect(screen.getByText('Aprobado').tagName).toBe('STRONG');
+    expect(container.querySelector('ul')).toHaveClass('kds-recap-list');
+    expect(container.querySelectorAll('li')).toHaveLength(0);
   });
 
   it('merges custom className', () => {
     const { container } = render(<KdsRecapList items={[]} className="custom" />);
-    expect(container.querySelector('dl')).toHaveClass('kds-recap-list', 'custom');
+    expect(container.querySelector('ul')).toHaveClass('kds-recap-list', 'custom');
   });
 
   it('forwards ref', () => {
-    const ref = { current: null as HTMLDListElement | null };
+    const ref = { current: null as HTMLUListElement | null };
     render(<KdsRecapList ref={ref} items={[]} />);
-    expect(ref.current).toBeInstanceOf(HTMLDListElement);
+    expect(ref.current).toBeInstanceOf(HTMLUListElement);
   });
 });
