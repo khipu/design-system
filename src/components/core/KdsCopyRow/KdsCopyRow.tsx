@@ -11,7 +11,7 @@ export const KdsCopyRow = forwardRef<HTMLDivElement, KdsCopyRowProps>(
   ({ label, value, className, ...props }, ref) => {
     const { copied, copy } = useCopyToClipboard();
     return (
-      <div ref={ref} className={clsx('kds-copy-row', className)} {...props}>
+      <div ref={ref} className={clsx('kds-copy-row', copied && 'copied', className)} {...props}>
         <span className="kds-copy-row-label">{label}</span>
         <span className="kds-copy-row-value">{value}</span>
         <button className="kds-copy-row-btn" onClick={() => copy(value)} aria-label={`Copiar ${label}`}>
