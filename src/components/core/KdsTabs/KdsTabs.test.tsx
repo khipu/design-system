@@ -52,8 +52,6 @@ describe('KdsTabs', () => {
 
   it('hides inactive panels', () => {
     setup(0);
-    const panels = screen.getAllByRole('tabpanel', { hidden: true });
-    // Only active panel should be visible
     expect(screen.getByText('Panel 1')).toBeVisible();
   });
 });
