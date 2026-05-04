@@ -208,8 +208,8 @@ export const PaymentCard: Story = {
         </div>
       </KdsCardContent>
       <KdsCardActions>
-        <KdsButton variant="text" size="small">Ver detalle</KdsButton>
-        <KdsButton variant="text" size="small">Descargar</KdsButton>
+        <KdsButton variant="text" size="sm">Ver detalle</KdsButton>
+        <KdsButton variant="text" size="sm">Descargar</KdsButton>
       </KdsCardActions>
     </KdsCard>
   ),

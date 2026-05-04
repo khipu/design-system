@@ -6,7 +6,7 @@
  */
 
 // Button
-export { KdsButton, type KdsButtonProps, type KdsButtonVariant, type KdsButtonColor, type KdsButtonSize } from './KdsButton';
+export { KdsButton, type KdsButtonProps, type KdsButtonVariant, type KdsButtonSize } from './KdsButton';
 
 // TextField
 export { KdsTextField, type KdsTextFieldProps, type KdsTextFieldVariant, type KdsTextFieldSize } from './KdsTextField';

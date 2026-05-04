@@ -474,10 +474,8 @@ export const SecureFormExample: React.FC = () => {
           {/* Submit KdsButton */}
           <Box sx={{ width: '100%' }}>
             <KdsButton
-              variant="contained"
-              color="primary"
+              variant="primary"
               fullWidth
-              size="large"
               onClick={handleSubmit}
               disabled={!isFormValid}
             >
