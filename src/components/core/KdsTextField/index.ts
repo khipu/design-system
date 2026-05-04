@@ -1,2 +1,1 @@
-export { KdsTextField, type KdsTextFieldProps, type KdsTextFieldVariant, type KdsTextFieldSize } from './KdsTextField';
-export { default } from './KdsTextField';
+export { KdsTextField, type KdsTextFieldProps } from './KdsTextField';

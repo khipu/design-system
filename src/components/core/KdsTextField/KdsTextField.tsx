@@ -1,30 +1,30 @@
 /**
  * Khipu Design System - TextField Component
  *
- * A text input component built on MUI TextField with Khipu design system styling.
+ * A text input component built with native HTML and BeerCSS floating labels.
  * Matches the Figma design: Pagos Automáticos - MUI v610
  */
 
 import React, { forwardRef } from 'react';
-import MuiTextField, { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
+import { clsx } from '../utils';
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
-export type KdsTextFieldVariant = 'outlined' | 'filled' | 'standard';
-export type KdsTextFieldSize = 'small' | 'medium';
-
-export interface KdsTextFieldProps extends Omit<MuiTextFieldProps, 'variant' | 'size'> {
-  /** Visual variant */
-  variant?: KdsTextFieldVariant;
-  /** Input size */
-  size?: KdsTextFieldSize;
-  /** Icon/element at the start of input */
-  startAdornment?: React.ReactNode;
-  /** Icon/element at the end of input */
-  endAdornment?: React.ReactNode;
+export interface KdsTextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+  /** Label text for the field */
+  label: string;
+  /** Helper text shown below field (error or info) */
+  helperText?: string;
+  /** Error state - applies invalid class and red styling */
+  error?: boolean;
+  /** Full width field (default: true) */
+  fullWidth?: boolean;
+  /** Material Symbols icon name at the start of input, e.g. "search" */
+  startIcon?: string;
+  /** Material Symbols icon name at the end of input, e.g. "visibility_off" */
+  endIcon?: string;
 }
 
 // =============================================================================
@@ -32,21 +32,21 @@ export interface KdsTextFieldProps extends Omit<MuiTextFieldProps, 'variant' | '
 // =============================================================================
 
 /**
- * Text input field with label, validation, and adornments.
+ * Text input field with label, validation, and icons.
  *
- * Built on MUI TextField with Khipu design system styling.
+ * Built with native HTML and BeerCSS floating labels.
+ * The label animates up when the input has focus or value.
  *
  * @example
  * ```tsx
  * <KdsTextField
  *   label="RUT Suscriptor"
  *   placeholder="12.345.678-9"
- *   endAdornment={<PersonIcon />}
  * />
  *
  * <KdsTextField
  *   label="Buscar por nombre"
- *   variant="outlined"
+ *   startIcon="search"
  * />
  *
  * <KdsTextField
@@ -55,53 +55,57 @@ export interface KdsTextFieldProps extends Omit<MuiTextFieldProps, 'variant' | '
  *   error
  *   helperText="Contraseña incorrecta"
  * />
+ *
+ * <KdsTextField
+ *   label="Monto"
+ *   value="$1.000"
+ *   readOnly
+ * />
  * ```
  */
 export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
   (
     {
-      variant = 'outlined',
-      size = 'medium',
+      label,
+      helperText,
+      error,
       fullWidth = true,
-      startAdornment,
-      endAdornment,
-      InputProps,
+      readOnly,
+      startIcon,
+      endIcon,
+      className,
+      id,
       ...props
     },
-    ref
+    ref,
   ) => {
-    // Merge adornments with any existing InputProps
-    const mergedInputProps = {
-      ...InputProps,
-      ...(startAdornment && {
-        startAdornment: (
-          <InputAdornment position="start">
-            {startAdornment}
-          </InputAdornment>
-        ),
-      }),
-      ...(endAdornment && {
-        endAdornment: (
-          <InputAdornment position="end">
-            {endAdornment}
-          </InputAdornment>
-        ),
-      }),
-    };
+    const fieldId = id || `kds-field-${label.toLowerCase().replace(/\s+/g, '-')}`;
 
     return (
-      <MuiTextField
-        inputRef={ref}
-        variant={variant}
-        size={size}
-        fullWidth={fullWidth}
-        InputProps={mergedInputProps}
-        {...props}
-      />
+      <div
+        className={clsx(
+          'field', 'label', 'border',
+          error && 'invalid',
+          readOnly && 'locked',
+          fullWidth && 'kds-w-full',
+          className,
+        )}
+      >
+        {startIcon && <i className="material-symbols-outlined">{startIcon}</i>}
+        <input
+          ref={ref}
+          id={fieldId}
+          placeholder=" "
+          readOnly={readOnly}
+          {...props}
+        />
+        <label htmlFor={fieldId}>{label}</label>
+        {readOnly && <i className="material-symbols-outlined">lock</i>}
+        {endIcon && !readOnly && <i className="material-symbols-outlined">{endIcon}</i>}
+        {helperText && <span className="helper">{helperText}</span>}
+      </div>
     );
-  }
+  },
 );
 
 KdsTextField.displayName = 'KdsTextField';
-
-export default KdsTextField;
