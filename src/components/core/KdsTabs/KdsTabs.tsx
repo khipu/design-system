@@ -2,7 +2,7 @@ import React, { forwardRef, Children } from 'react';
 import { clsx } from '../utils';
 import { useTabsKeyboard } from '../hooks/useTabsKeyboard';
 
-export interface KdsTabsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface KdsTabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   activeIndex: number;
   onChange: (index: number) => void;
   variant?: 'standard' | 'segmented';

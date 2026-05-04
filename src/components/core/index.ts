@@ -48,8 +48,6 @@ export {
   type KdsTabsProps,
   type KdsTabProps,
   type KdsTabPanelProps,
-  type KdsTabsColor,
-  type KdsTabsVariant,
 } from './KdsTabs';
 
 // LogoHeader
