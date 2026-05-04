@@ -1,8 +1,8 @@
 /**
  * Khipu Design System - Core Components
  *
- * These are the foundational UI primitives built on Material UI.
- * All components are styled to match the Figma design: Pagos Automáticos - MUI v610.
+ * Foundational UI primitives using native HTML + BeerCSS kds-* classes.
+ * Radix UI used only for Modal, Select, and Tooltip.
  */
 
 // Button
@@ -74,12 +74,8 @@ export {
 // Select
 export {
   KdsSelect,
-  KdsMenuItem,
   type KdsSelectProps,
-  type KdsMenuItemProps,
-  type KdsSelectOption,
-  type KdsSelectVariant,
-  type KdsSelectSize,
+  type KdsSelectItemProps,
 } from './KdsSelect';
 
 // Chip
@@ -93,8 +89,7 @@ export {
 export {
   KdsSnackbar,
   type KdsSnackbarProps,
-  type KdsSnackbarAnchorVertical,
-  type KdsSnackbarAnchorHorizontal,
+  type KdsSnackbarType,
 } from './KdsSnackbar';
 
 // Tooltip
@@ -112,7 +107,6 @@ export {
   type KdsAccordionProps,
   type KdsAccordionSummaryProps,
   type KdsAccordionDetailsProps,
-  type KdsAccordionVariant,
 } from './KdsAccordion';
 
 // Divider
@@ -126,3 +120,18 @@ export { KdsStatusBlock, type KdsStatusBlockProps, type KdsStatusType } from './
 
 // Stepper
 export { KdsStepper, type KdsStepperProps } from './KdsStepper';
+
+// CopyRow
+export { KdsCopyRow, type KdsCopyRowProps } from './KdsCopyRow';
+
+// CopyableTable
+export { KdsCopyableTable, type KdsCopyableTableProps, type KdsCopyableTableRow } from './KdsCopyableTable';
+
+// ExpandPanel
+export { KdsExpandPanel, type KdsExpandPanelProps } from './KdsExpandPanel';
+
+// Countdown
+export { KdsCountdown, type KdsCountdownProps } from './KdsCountdown';
+
+// SegmentedTabs
+export { KdsSegmentedTabs, type KdsSegmentedTabsProps } from './KdsSegmentedTabs';

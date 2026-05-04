@@ -17,6 +17,18 @@ describe('KdsSecureFooter', () => {
     expect(screen.queryByText('Pago seguro con Khipu')).toBeNull();
   });
 
+  it('applies inside variant class', () => {
+    render(<KdsSecureFooter variant="inside" />);
+    expect(screen.getByRole('contentinfo')).toHaveClass('kds-secure-footer', 'inside');
+  });
+
+  it('does not apply inside class for default variant', () => {
+    render(<KdsSecureFooter variant="default" />);
+    const footer = screen.getByRole('contentinfo');
+    expect(footer).toHaveClass('kds-secure-footer');
+    expect(footer).not.toHaveClass('inside');
+  });
+
   it('merges custom className', () => {
     render(<KdsSecureFooter className="custom" />);
     expect(screen.getByRole('contentinfo')).toHaveClass('kds-secure-footer', 'custom');
