@@ -88,7 +88,14 @@ const preview: Preview = {
     backgrounds: { disable: true },
     options: {
       storySort: {
-        order: ['Brand', 'Core', 'Domain', 'Hooks', 'Examples'],
+        order: [
+          'Brand',
+          ['Integración', 'Uso de marca', 'Uso de colores', 'Uso tipográfico', 'Voz y tono'],
+          'Core',
+          'Domain',
+          'Hooks',
+          'Examples'
+        ],
       },
     },
     docs: {
