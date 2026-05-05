@@ -1,4 +1,4 @@
-import React, { forwardRef, Children } from 'react';
+import React, { forwardRef, Children, useMemo } from 'react';
 import { clsx } from '../utils';
 import { useTabsKeyboard } from '../hooks/useTabsKeyboard';
 
@@ -9,15 +9,25 @@ export interface KdsTabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
 }
 
 export const KdsTabs = forwardRef<HTMLDivElement, KdsTabsProps>(
-  ({ activeIndex, onChange, variant = 'standard', children, className, ...props }, ref) => {
+  ({ activeIndex, onChange, variant = 'standard', children, className, style, ...props }, ref) => {
     const tabCount = Children.count(children);
     const { onKeyDown } = useTabsKeyboard(tabCount, activeIndex, onChange);
+
+    const mergedStyle = useMemo(() => {
+      if (variant !== 'segmented') return style;
+      return {
+        ...style,
+        '--_tab-count': tabCount,
+        '--_active-idx': activeIndex,
+      } as React.CSSProperties;
+    }, [variant, tabCount, activeIndex, style]);
 
     return (
       <div
         ref={ref}
         role="tablist"
         className={clsx(variant === 'segmented' ? 'kds-segmented-tabs' : 'kds-tabs', className)}
+        style={mergedStyle}
         onKeyDown={onKeyDown}
         {...props}
       >

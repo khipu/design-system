@@ -21,18 +21,20 @@ export const KdsCopyableTable = forwardRef<HTMLDivElement, KdsCopyableTableProps
     };
 
     return (
-      <div ref={ref} className={clsx('kds-copyable-table', className)} {...props}>
-        {rows.map((row) => (
-          <div key={row.label} className="kds-copyable-table-row">
-            <span className="kds-copyable-table-label">{row.label}</span>
-            <span className="kds-copyable-table-value">{row.value}</span>
-          </div>
-        ))}
-        <button className="kds-copyable-table-copy-all" onClick={handleCopyAll} aria-label="Copiar todo">
-          <i className="material-symbols-outlined">{copied ? 'check' : 'content_copy'}</i>
-          <span>{copied ? 'Copiado' : 'Copiar todo'}</span>
+      <>
+        <div ref={ref} className={clsx('kds-copyable-table', className)} {...props}>
+          {rows.map((row) => (
+            <div key={row.label} className="kds-copyable-table-row">
+              <span className="kds-copyable-table-label">{row.label}</span>
+              <span className="kds-copyable-table-value">{row.value}</span>
+            </div>
+          ))}
+        </div>
+        <button className={`kds-btn kds-btn-outlined kds-btn-block kds-copy-all-btn${copied ? ' copied' : ''}`} onClick={handleCopyAll} aria-label="Copiar todo">
+          <span className="kds-icon"><i className="material-symbols-outlined">{copied ? 'check' : 'content_copy'}</i></span>
+          <span>{copied ? 'Copiado' : 'Copiar todos los datos'}</span>
         </button>
-      </div>
+      </>
     );
   },
 );
