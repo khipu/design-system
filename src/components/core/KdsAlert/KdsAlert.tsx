@@ -1,28 +1,28 @@
 /**
  * Khipu Design System - Alert Component
  *
- * An alert component built on MUI Alert with Khipu design system styling.
+ * An alert component built with native HTML and kds-* CSS classes.
  * Matches the Figma design: Pagos Automáticos - MUI v610
  */
 
-import React from 'react';
-import MuiAlert, { AlertProps as MuiAlertProps } from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+import React, { forwardRef } from 'react';
+import { clsx } from '../utils';
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
 export type KdsAlertSeverity = 'success' | 'info' | 'warning' | 'error';
-export type KdsAlertVariant = 'standard' | 'filled' | 'outlined';
 
-export interface KdsAlertProps extends Omit<MuiAlertProps, 'severity' | 'variant' | 'title'> {
+export interface KdsAlertProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Alert severity/type */
-  severity?: KdsAlertSeverity;
-  /** Visual variant */
-  variant?: KdsAlertVariant;
+  severity: KdsAlertSeverity;
   /** Alert title */
-  title?: React.ReactNode;
+  title?: string;
+  /** Material Symbols icon name, e.g. "info" */
+  icon?: string;
+  /** Inline variant (compact display) */
+  inline?: boolean;
   /** Alert content */
   children: React.ReactNode;
   /** Closable alert */
@@ -36,7 +36,7 @@ export interface KdsAlertProps extends Omit<MuiAlertProps, 'severity' | 'variant
 /**
  * Alert component for displaying important messages.
  *
- * Built on MUI Alert with Khipu design system styling.
+ * Built with native HTML and kds-* CSS classes from the BeerCSS bundle.
  *
  * @example
  * ```tsx
@@ -61,37 +61,30 @@ export interface KdsAlertProps extends Omit<MuiAlertProps, 'severity' | 'variant
  * </KdsAlert>
  * ```
  */
-export const KdsAlert: React.FC<KdsAlertProps> = ({
-  severity = 'info',
-  variant = 'standard',
-  title,
-  children,
-  onClose,
-  sx,
-  ...props
-}) => {
-  return (
-    <MuiAlert
-      severity={severity}
-      variant={variant}
-      onClose={onClose}
-      sx={{
-        borderRadius: '4px',
-        fontFamily: '"Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-        fontFeatureSettings: "'liga' off, 'clig' off",
-        fontSize: '0.875rem',
-        lineHeight: 1.43,
-        letterSpacing: '0.17px',
-        ...sx,
-      }}
+export const KdsAlert = forwardRef<HTMLDivElement, KdsAlertProps>(
+  ({ severity, title, icon, inline, onClose, children, className, ...props }, ref) => (
+    <div
+      ref={ref}
+      role="alert"
+      className={clsx('kds-alert', `kds-${severity}`, inline && 'kds-alert-inline', className)}
       {...props}
     >
-      {title && <AlertTitle>{title}</AlertTitle>}
-      {children}
-    </MuiAlert>
-  );
-};
+      {icon && (
+        <div className="kds-alert-icon">
+          <i className="material-symbols-outlined">{icon}</i>
+        </div>
+      )}
+      <div className="kds-alert-content">
+        {title && <p className="kds-alert-title">{title}</p>}
+        <p className="kds-alert-description">{children}</p>
+      </div>
+      {onClose && (
+        <button className="kds-btn kds-btn-text kds-btn-sm" onClick={onClose} aria-label="Cerrar">
+          <i className="material-symbols-outlined">close</i>
+        </button>
+      )}
+    </div>
+  ),
+);
 
 KdsAlert.displayName = 'KdsAlert';
-
-export default KdsAlert;

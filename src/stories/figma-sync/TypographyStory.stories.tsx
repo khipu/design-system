@@ -1,15 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { typography } from '../../tokens';
 
 /**
- * Tipografía del Design System
+ * Tipografia del Design System
  *
- * Sistema completo de tipografía del Khipu Design System.
- * Incluye todas las variantes de texto con sus propiedades de fuente, tamaño, peso y altura de línea.
+ * Sistema completo de tipografia del Khipu Design System.
+ * Incluye todas las variantes de texto con sus propiedades de fuente, tamano, peso y altura de linea.
  *
  * **Fuentes:**
- * - Primary: Public Sans (títulos, encabezados, UI)
+ * - Primary: Public Sans (titulos, encabezados, UI)
  * - Secondary: Roboto (cuerpo de texto, labels)
  *
  * **Fuente:** `src/tokens/index.ts`
@@ -20,7 +19,7 @@ const meta = {
     layout: 'padded',
     docs: {
       description: {
-        component: 'Sistema de tipografía con variantes predefinidas basadas en MUI.',
+        component: 'Sistema de tipografia con variantes predefinidas.',
       },
     },
   },
@@ -32,235 +31,237 @@ type Story = StoryObj<typeof meta>;
 /**
  * Todas las Variantes
  *
- * Muestra todas las variantes de tipografía del sistema con ejemplos en vivo.
+ * Muestra todas las variantes de tipografia del sistema con ejemplos en vivo.
  */
 export const AllVariants: Story = {
   render: () => (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h3" gutterBottom>
-        Sistema de Tipografía
-      </Typography>
-      <Typography variant="body1" color="text.secondary" paragraph>
-        El Khipu Design System utiliza dos familias tipográficas: <strong>Public Sans</strong> para
-        títulos y elementos de UI, y <strong>Roboto</strong> para cuerpo de texto.
-      </Typography>
+    <div style={{ padding: '24px' }}>
+      <h2 style={{ margin: '0 0 8px 0', fontSize: '30px' }}>
+        Sistema de Tipografia
+      </h2>
+      <p style={{ color: '#666', fontSize: '16px', margin: '0 0 32px 0' }}>
+        El Khipu Design System utiliza dos familias tipograficas: <strong>Public Sans</strong> para
+        titulos y elementos de UI, y <strong>Roboto</strong> para cuerpo de texto.
+      </p>
 
       {/* Heading Variants */}
-      <Paper sx={{ p: 3, mt: 4 }}>
-        <Typography variant="h5" gutterBottom>
+      <div style={{ padding: '24px', marginTop: '32px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+        <h3 style={{ margin: '0 0 8px 0', fontSize: '20px' }}>
           Heading Variants
-        </Typography>
-        <Typography variant="body2" color="text.secondary" paragraph>
-          Encabezados jerárquicos para estructura de contenido.
-        </Typography>
+        </h3>
+        <p style={{ color: '#666', fontSize: '14px', margin: '0 0 24px 0' }}>
+          Encabezados jerarquicos para estructura de contenido.
+        </p>
 
-        <Box sx={{ mt: 3 }}>
+        <div style={{ marginTop: '24px' }}>
           {(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const).map((variant) => (
-            <Box key={variant} sx={{ mb: 3 }}>
-              <Typography variant={variant} gutterBottom>
+            <div key={variant} style={{ marginBottom: '24px' }}>
+              <div style={{ ...(typography[variant] as React.CSSProperties), marginBottom: '4px' }}>
                 {variant.toUpperCase()} - The quick brown fox
-              </Typography>
-              <Typography variant="caption" color="text.secondary" display="block">
-                {typography[variant].fontFamily} • {typography[variant].fontSize} • Weight: {typography[variant].fontWeight}
-              </Typography>
-            </Box>
+              </div>
+              <span style={{ fontSize: '12px', color: '#666', display: 'block' }}>
+                {typography[variant].fontFamily} &bull; {typography[variant].fontSize} &bull; Weight: {typography[variant].fontWeight}
+              </span>
+            </div>
           ))}
-        </Box>
-      </Paper>
+        </div>
+      </div>
 
       {/* Body Variants */}
-      <Paper sx={{ p: 3, mt: 3 }}>
-        <Typography variant="h5" gutterBottom>
+      <div style={{ padding: '24px', marginTop: '24px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+        <h3 style={{ margin: '0 0 8px 0', fontSize: '20px' }}>
           Body Variants
-        </Typography>
-        <Typography variant="body2" color="text.secondary" paragraph>
+        </h3>
+        <p style={{ color: '#666', fontSize: '14px', margin: '0 0 24px 0' }}>
           Textos de cuerpo para contenido principal.
-        </Typography>
+        </p>
 
-        <Box sx={{ mt: 3 }}>
-          <Typography variant="body1" gutterBottom>
+        <div style={{ marginTop: '24px' }}>
+          <p style={{ ...(typography.body1 as React.CSSProperties), marginBottom: '4px' }}>
             Body 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </Typography>
-          <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 3 }}>
-            {typography.body1.fontFamily} • {typography.body1.fontSize} • Weight: {typography.body1.fontWeight}
-          </Typography>
+          </p>
+          <span style={{ fontSize: '12px', color: '#666', display: 'block', marginBottom: '24px' }}>
+            {typography.body1.fontFamily} &bull; {typography.body1.fontSize} &bull; Weight: {typography.body1.fontWeight}
+          </span>
 
-          <Typography variant="body2" gutterBottom>
+          <p style={{ ...(typography.body2 as React.CSSProperties), marginBottom: '4px' }}>
             Body 2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-          </Typography>
-          <Typography variant="caption" color="text.secondary" display="block">
-            {typography.body2.fontFamily} • {typography.body2.fontSize} • Weight: {typography.body2.fontWeight}
-          </Typography>
-        </Box>
-      </Paper>
+          </p>
+          <span style={{ fontSize: '12px', color: '#666', display: 'block' }}>
+            {typography.body2.fontFamily} &bull; {typography.body2.fontSize} &bull; Weight: {typography.body2.fontWeight}
+          </span>
+        </div>
+      </div>
 
       {/* UI Variants */}
-      <Paper sx={{ p: 3, mt: 3 }}>
-        <Typography variant="h5" gutterBottom>
+      <div style={{ padding: '24px', marginTop: '24px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+        <h3 style={{ margin: '0 0 8px 0', fontSize: '20px' }}>
           UI Variants
-        </Typography>
-        <Typography variant="body2" color="text.secondary" paragraph>
-          Textos para elementos de interfaz como botones, labels y subtítulos.
-        </Typography>
+        </h3>
+        <p style={{ color: '#666', fontSize: '14px', margin: '0 0 24px 0' }}>
+          Textos para elementos de interfaz como botones, labels y subtitulos.
+        </p>
 
-        <Box sx={{ mt: 3 }}>
-          <Typography variant="subtitle1" gutterBottom>
+        <div style={{ marginTop: '24px' }}>
+          <div style={{ ...(typography.subtitle1 as React.CSSProperties), marginBottom: '4px' }}>
             Subtitle 1 - Secondary descriptive text
-          </Typography>
-          <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 3 }}>
-            {typography.subtitle1.fontFamily} • {typography.subtitle1.fontSize} • Weight: {typography.subtitle1.fontWeight}
-          </Typography>
+          </div>
+          <span style={{ fontSize: '12px', color: '#666', display: 'block', marginBottom: '24px' }}>
+            {typography.subtitle1.fontFamily} &bull; {typography.subtitle1.fontSize} &bull; Weight: {typography.subtitle1.fontWeight}
+          </span>
 
-          <Typography variant="subtitle2" gutterBottom>
+          <div style={{ ...(typography.subtitle2 as React.CSSProperties), marginBottom: '4px' }}>
             Subtitle 2 - Smaller secondary text
-          </Typography>
-          <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 3 }}>
-            {typography.subtitle2.fontFamily} • {typography.subtitle2.fontSize} • Weight: {typography.subtitle2.fontWeight}
-          </Typography>
+          </div>
+          <span style={{ fontSize: '12px', color: '#666', display: 'block', marginBottom: '24px' }}>
+            {typography.subtitle2.fontFamily} &bull; {typography.subtitle2.fontSize} &bull; Weight: {typography.subtitle2.fontWeight}
+          </span>
 
-          <Typography variant="button" display="block" gutterBottom>
+          <div style={{ ...(typography.button as React.CSSProperties), display: 'block', marginBottom: '4px' }}>
             BUTTON TEXT
-          </Typography>
-          <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 3 }}>
-            {typography.button.fontFamily} • {typography.button.fontSize} • Weight: {typography.button.fontWeight}
-          </Typography>
+          </div>
+          <span style={{ fontSize: '12px', color: '#666', display: 'block', marginBottom: '24px' }}>
+            {typography.button.fontFamily} &bull; {typography.button.fontSize} &bull; Weight: {typography.button.fontWeight}
+          </span>
 
-          <Typography variant="caption" gutterBottom display="block">
+          <div style={{ ...(typography.caption as React.CSSProperties), display: 'block', marginBottom: '4px' }}>
             Caption - Small helper or metadata text
-          </Typography>
-          <Typography variant="caption" color="text.secondary" display="block">
-            {typography.caption.fontFamily} • {typography.caption.fontSize} • Weight: {typography.caption.fontWeight}
-          </Typography>
-        </Box>
-      </Paper>
+          </div>
+          <span style={{ fontSize: '12px', color: '#666', display: 'block' }}>
+            {typography.caption.fontFamily} &bull; {typography.caption.fontSize} &bull; Weight: {typography.caption.fontWeight}
+          </span>
+        </div>
+      </div>
 
       {/* Specifications Table */}
-      <Paper sx={{ p: 3, mt: 4 }}>
-        <Typography variant="h5" gutterBottom>
+      <div style={{ padding: '24px', marginTop: '32px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+        <h3 style={{ margin: '0 0 8px 0', fontSize: '20px' }}>
           Especificaciones Completas
-        </Typography>
-        <TableContainer sx={{ mt: 2 }}>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell><strong>Variante</strong></TableCell>
-                <TableCell><strong>Familia</strong></TableCell>
-                <TableCell><strong>Tamaño</strong></TableCell>
-                <TableCell><strong>Peso</strong></TableCell>
-                <TableCell><strong>Altura de Línea</strong></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
+        </h3>
+        <div style={{ marginTop: '16px', overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+            <thead>
+              <tr style={{ borderBottom: '2px solid #e0e0e0' }}>
+                <th style={{ textAlign: 'left', padding: '12px 16px' }}>Variante</th>
+                <th style={{ textAlign: 'left', padding: '12px 16px' }}>Familia</th>
+                <th style={{ textAlign: 'left', padding: '12px 16px' }}>Tamano</th>
+                <th style={{ textAlign: 'left', padding: '12px 16px' }}>Peso</th>
+                <th style={{ textAlign: 'left', padding: '12px 16px' }}>Altura de Linea</th>
+              </tr>
+            </thead>
+            <tbody>
               {Object.entries(typography).map(([variant, specs]) => (
-                <TableRow key={variant}>
-                  <TableCell sx={{ fontFamily: 'monospace' }}>{variant}</TableCell>
-                  <TableCell>{specs.fontFamily}</TableCell>
-                  <TableCell>{specs.fontSize}</TableCell>
-                  <TableCell>{specs.fontWeight}</TableCell>
-                  <TableCell>{specs.lineHeight}</TableCell>
-                </TableRow>
+                <tr key={variant} style={{ borderBottom: '1px solid #e0e0e0' }}>
+                  <td style={{ padding: '12px 16px', fontFamily: 'monospace' }}>{variant}</td>
+                  <td style={{ padding: '12px 16px' }}>{specs.fontFamily}</td>
+                  <td style={{ padding: '12px 16px' }}>{specs.fontSize}</td>
+                  <td style={{ padding: '12px 16px' }}>{specs.fontWeight}</td>
+                  <td style={{ padding: '12px 16px' }}>{specs.lineHeight}</td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       {/* Usage Examples */}
-      <Paper sx={{ p: 3, mt: 4, bgcolor: 'grey.50' }}>
-        <Typography variant="h6" gutterBottom>
-          Uso en Código
-        </Typography>
-        <Typography variant="body2" component="pre" sx={{
+      <div style={{ padding: '24px', marginTop: '32px', backgroundColor: '#fafafa', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '18px' }}>
+          Uso en Codigo
+        </h3>
+        <pre style={{
           fontFamily: 'monospace',
-          bgcolor: 'background.paper',
-          p: 2,
-          borderRadius: 1,
-          overflow: 'auto'
+          backgroundColor: '#fff',
+          padding: '16px',
+          borderRadius: '4px',
+          overflow: 'auto',
+          fontSize: '13px',
+          margin: 0,
         }}>
-{`// Importar tokens de tipografía
+{`// Importar tokens de tipografia
 import { typography } from '@khipu/design-system';
 
-// Usar en componente Typography
-<Typography variant="h1">
-  Título Principal
-</Typography>
+// Usar en componente KdsTypography
+<KdsTypography variant="heading1">
+  Titulo Principal
+</KdsTypography>
 
-// Usar en sx prop
-<Box sx={{ ...typography.body1 }}>
+// Usar en style prop
+<div style={{ ...typography.body1 }}>
   Texto con estilos de body1
-</Box>
+</div>
 
 // Aplicar propiedades individuales
-<Box sx={{
+<div style={{
   fontFamily: typography.h1.fontFamily,
   fontSize: typography.h1.fontSize,
   fontWeight: typography.h1.fontWeight,
 }} />`}
-        </Typography>
-      </Paper>
-    </Box>
+        </pre>
+      </div>
+    </div>
   ),
 };
 
 /**
- * Jerarquía de Encabezados
+ * Jerarquia de Encabezados
  *
- * Ejemplo de uso correcto de la jerarquía tipográfica en una página.
+ * Ejemplo de uso correcto de la jerarquia tipografica en una pagina.
  */
 export const HeadingHierarchy: Story = {
   render: () => (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h1" gutterBottom>
-        H1: Título Hero de Página
-      </Typography>
-      <Typography variant="body1" color="text.secondary" paragraph>
+    <div style={{ padding: '24px' }}>
+      <h1 style={{ ...(typography.h1 as React.CSSProperties), marginBottom: '8px' }}>
+        H1: Titulo Hero de Pagina
+      </h1>
+      <p style={{ ...(typography.body1 as React.CSSProperties), color: '#666', marginBottom: '32px' }}>
         Texto introductorio usando Body 1 para destacar el contenido principal.
-      </Typography>
+      </p>
 
-      <Typography variant="h2" gutterBottom sx={{ mt: 4 }}>
-        H2: Sección Principal
-      </Typography>
-      <Typography variant="body1" paragraph>
+      <h2 style={{ ...(typography.h2 as React.CSSProperties), marginTop: '32px', marginBottom: '8px' }}>
+        H2: Seccion Principal
+      </h2>
+      <p style={{ ...(typography.body1 as React.CSSProperties), marginBottom: '24px' }}>
         Contenido regular usando Body 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </Typography>
+      </p>
 
-      <Typography variant="h3" gutterBottom sx={{ mt: 3 }}>
-        H3: Subsección
-      </Typography>
-      <Typography variant="body1" paragraph>
-        Más contenido de body text para explicar conceptos y proporcionar información.
-      </Typography>
+      <h3 style={{ ...(typography.h3 as React.CSSProperties), marginTop: '24px', marginBottom: '8px' }}>
+        H3: Subseccion
+      </h3>
+      <p style={{ ...(typography.body1 as React.CSSProperties), marginBottom: '24px' }}>
+        Mas contenido de body text para explicar conceptos y proporcionar informacion.
+      </p>
 
-      <Typography variant="h4" gutterBottom sx={{ mt: 3 }}>
-        H4: Sub-subsección
-      </Typography>
-      <Typography variant="body2" paragraph>
+      <h4 style={{ ...(typography.h4 as React.CSSProperties), marginTop: '24px', marginBottom: '8px' }}>
+        H4: Sub-subseccion
+      </h4>
+      <p style={{ ...(typography.body2 as React.CSSProperties), marginBottom: '16px' }}>
         Body 2 para texto secundario o notas adicionales.
-      </Typography>
+      </p>
 
-      <Typography variant="h5" gutterBottom sx={{ mt: 2 }}>
+      <h5 style={{ ...(typography.h5 as React.CSSProperties), marginTop: '16px', marginBottom: '4px' }}>
         H5: Detalles Menores
-      </Typography>
-      <Typography variant="caption" color="text.secondary">
-        Caption para metadata, timestamps, o información auxiliar.
-      </Typography>
-    </Box>
+      </h5>
+      <span style={{ ...(typography.caption as React.CSSProperties), color: '#666' }}>
+        Caption para metadata, timestamps, o informacion auxiliar.
+      </span>
+    </div>
   ),
 };
 
 /**
- * Escala de Tamaños
+ * Escala de Tamanos
  *
- * Comparación visual de todos los tamaños de fuente.
+ * Comparacion visual de todos los tamanos de fuente.
  */
 export const FontSizeScale: Story = {
   render: () => (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Escala de Tamaños de Fuente
-      </Typography>
-      <Paper sx={{ p: 3, mt: 3 }}>
+    <div style={{ padding: '24px' }}>
+      <h2 style={{ margin: '0 0 16px 0', fontSize: '24px' }}>
+        Escala de Tamanos de Fuente
+      </h2>
+      <div style={{ padding: '24px', marginTop: '24px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
         {Object.entries(typography)
           .sort((a, b) => {
             const sizeA = parseFloat(a[1].fontSize);
@@ -268,21 +269,21 @@ export const FontSizeScale: Story = {
             return sizeB - sizeA;
           })
           .map(([variant, specs]) => (
-            <Box key={variant} sx={{ mb: 2, pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
-              <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: 1 }}>
-                <Typography variant="caption" color="text.secondary" sx={{ minWidth: 100, fontFamily: 'monospace' }}>
+            <div key={variant} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #e0e0e0' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', marginBottom: '8px' }}>
+                <span style={{ minWidth: 100, fontFamily: 'monospace', fontSize: '12px', color: '#666' }}>
                   {variant}
-                </Typography>
-                <Typography variant="caption" color="text.secondary" sx={{ minWidth: 60 }}>
+                </span>
+                <span style={{ minWidth: 60, fontSize: '12px', color: '#666' }}>
                   {specs.fontSize}
-                </Typography>
-                <Typography sx={{ ...specs }}>
+                </span>
+                <span style={{ ...(specs as React.CSSProperties) }}>
                   The quick brown fox jumps over the lazy dog
-                </Typography>
-              </Box>
-            </Box>
+                </span>
+              </div>
+            </div>
           ))}
-      </Paper>
-    </Box>
+      </div>
+    </div>
   ),
 };

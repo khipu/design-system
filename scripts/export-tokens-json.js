@@ -43,6 +43,7 @@ const jsonTokens = {
   semanticSpacing: tokens.semanticSpacing,
   responsiveSpacing: tokens.responsiveSpacing,
   responsiveTypography: tokens.responsiveTypography,
+  responsiveBaseFontSizes: tokens.responsiveBaseFontSizes,
   borderRadius: tokens.borderRadius,
   borders: tokens.borders,
   shadows: tokens.shadows,

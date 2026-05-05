@@ -1,18 +1,18 @@
 /**
  * Khipu Design System - Core Components
  *
- * These are the foundational UI primitives built on Material UI.
- * All components are styled to match the Figma design: Pagos Automáticos - MUI v610.
+ * Foundational UI primitives using native HTML + BeerCSS kds-* classes.
+ * Radix UI used only for Modal, Select, and Tooltip.
  */
 
 // Button
-export { KdsButton, type KdsButtonProps, type KdsButtonVariant, type KdsButtonColor, type KdsButtonSize } from './KdsButton';
+export { KdsButton, type KdsButtonProps, type KdsButtonVariant, type KdsButtonSize } from './KdsButton';
 
 // TextField
-export { KdsTextField, type KdsTextFieldProps, type KdsTextFieldVariant, type KdsTextFieldSize } from './KdsTextField';
+export { KdsTextField, type KdsTextFieldProps } from './KdsTextField';
 
 // Checkbox
-export { KdsCheckbox, type KdsCheckboxProps, type KdsCheckboxColor, type KdsCheckboxSize } from './KdsCheckbox';
+export { KdsCheckbox, type KdsCheckboxProps } from './KdsCheckbox';
 
 // Modal
 export { KdsModal, type KdsModalProps, type KdsModalSize } from './KdsModal';
@@ -21,24 +21,21 @@ export { KdsModal, type KdsModalProps, type KdsModalSize } from './KdsModal';
 export {
   KdsCard,
   KdsCardHeader,
-  KdsCardContent,
-  KdsCardActions,
+  KdsCardBody,
+  KdsCardFooter,
   type KdsCardProps,
-  type KdsCardHeaderProps,
-  type KdsCardContentProps,
-  type KdsCardActionsProps,
   type KdsCardVariant,
-  type KdsCardElevation,
+  type KdsCardSectionProps,
 } from './KdsCard';
 
 // Spinner
-export { KdsSpinner, type KdsSpinnerProps, type KdsSpinnerSize, type KdsSpinnerColor } from './KdsSpinner';
+export { KdsSpinner, type KdsSpinnerProps, type KdsSpinnerSize } from './KdsSpinner';
 
 // LinearProgress
-export { KdsLinearProgress, type KdsLinearProgressProps, type KdsLinearProgressColor, type KdsLinearProgressVariant } from './KdsLinearProgress';
+export { KdsLinearProgress, type KdsLinearProgressProps } from './KdsLinearProgress';
 
 // Alert
-export { KdsAlert, type KdsAlertProps, type KdsAlertSeverity, type KdsAlertVariant } from './KdsAlert';
+export { KdsAlert, type KdsAlertProps, type KdsAlertSeverity } from './KdsAlert';
 
 // Typography
 export { KdsTypography, type KdsTypographyProps, type KdsTypographyVariant } from './KdsTypography';
@@ -51,8 +48,6 @@ export {
   type KdsTabsProps,
   type KdsTabProps,
   type KdsTabPanelProps,
-  type KdsTabsColor,
-  type KdsTabsVariant,
 } from './KdsTabs';
 
 // LogoHeader
@@ -72,40 +67,29 @@ export {
 // RadioGroup
 export {
   KdsRadioGroup,
-  KdsRadio,
   type KdsRadioGroupProps,
-  type KdsRadioProps,
   type KdsRadioOption,
-  type KdsRadioColor,
-  type KdsRadioSize,
 } from './KdsRadioGroup';
 
 // Select
 export {
   KdsSelect,
-  KdsMenuItem,
   type KdsSelectProps,
-  type KdsMenuItemProps,
-  type KdsSelectOption,
-  type KdsSelectVariant,
-  type KdsSelectSize,
+  type KdsSelectItemProps,
 } from './KdsSelect';
 
 // Chip
 export {
   KdsChip,
   type KdsChipProps,
-  type KdsChipVariant,
   type KdsChipColor,
-  type KdsChipSize,
 } from './KdsChip';
 
 // Snackbar
 export {
   KdsSnackbar,
   type KdsSnackbarProps,
-  type KdsSnackbarAnchorVertical,
-  type KdsSnackbarAnchorHorizontal,
+  type KdsSnackbarType,
 } from './KdsSnackbar';
 
 // Tooltip
@@ -123,5 +107,31 @@ export {
   type KdsAccordionProps,
   type KdsAccordionSummaryProps,
   type KdsAccordionDetailsProps,
-  type KdsAccordionVariant,
 } from './KdsAccordion';
+
+// Divider
+export { KdsDivider, type KdsDividerProps } from './KdsDivider';
+
+// SectionNote
+export { KdsSectionNote, type KdsSectionNoteProps } from './KdsSectionNote';
+
+// StatusBlock
+export { KdsStatusBlock, type KdsStatusBlockProps, type KdsStatusType } from './KdsStatusBlock';
+
+// Stepper
+export { KdsStepper, type KdsStepperProps } from './KdsStepper';
+
+// CopyRow
+export { KdsCopyRow, type KdsCopyRowProps } from './KdsCopyRow';
+
+// CopyableTable
+export { KdsCopyableTable, type KdsCopyableTableProps, type KdsCopyableTableRow } from './KdsCopyableTable';
+
+// ExpandPanel
+export { KdsExpandPanel, type KdsExpandPanelProps } from './KdsExpandPanel';
+
+// Countdown
+export { KdsCountdown, type KdsCountdownProps } from './KdsCountdown';
+
+// SegmentedTabs
+export { KdsSegmentedTabs, type KdsSegmentedTabsProps } from './KdsSegmentedTabs';
