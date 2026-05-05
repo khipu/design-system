@@ -182,18 +182,9 @@ function generateTypographyVariables(typography) {
     variables.push({ name: '--kds-font-weight-bold', value: typography.fontWeights.bold });
   }
 
-  // Font sizes
-  if (typography.fontSizes) {
-    const sizes = typography.fontSizes;
-    variables.push({ name: '--kds-font-size-xs', value: sizes.xs, comment: 'Font sizes' });
-    variables.push({ name: '--kds-font-size-sm', value: sizes.sm });
-    variables.push({ name: '--kds-font-size-base', value: sizes.base });
-    variables.push({ name: '--kds-font-size-lg', value: sizes.lg });
-    variables.push({ name: '--kds-font-size-xl', value: sizes.xl });
-    variables.push({ name: '--kds-font-size-2xl', value: sizes['2xl'] });
-    variables.push({ name: '--kds-font-size-3xl', value: sizes['3xl'] });
-    variables.push({ name: '--kds-font-size-4xl', value: sizes['4xl'] });
-  }
+  // Font sizes — base scale (xs–4xl) is now set via responsive mobile-first
+  // in generateResponsiveBaseFontSizeVariables(). Only static fontSizes.md alias here.
+  variables.push({ comment: 'Font sizes (base scale xs–4xl: see responsive section below)' });
 
   // Line heights
   if (typography.lineHeights) {
@@ -345,6 +336,28 @@ function generateResponsiveTypographyVariables(responsiveTypography) {
       tablet.push({ name: `--kds-font-size-${variant}`, value: responsiveTypography[variant].tablet });
       desktop.push({ name: `--kds-font-size-${variant}`, value: responsiveTypography[variant].desktop });
     }
+  }
+
+  return { mobile, tablet, desktop };
+}
+
+/**
+ * Generate RESPONSIVE base font-size variables (Mobile-First)
+ * Scales --kds-font-size-xs through --kds-font-size-4xl by breakpoint
+ */
+function generateResponsiveBaseFontSizeVariables(responsiveBaseFontSizes) {
+  const mobile = [];
+  const tablet = [];
+  const desktop = [];
+
+  const sizes = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl'];
+
+  for (const size of sizes) {
+    const entry = responsiveBaseFontSizes[size];
+    const comment = size === 'xs' ? 'Base font-size scale' : undefined;
+    mobile.push({ name: `--kds-font-size-${size}`, value: entry.mobile, comment });
+    tablet.push({ name: `--kds-font-size-${size}`, value: entry.tablet, comment });
+    desktop.push({ name: `--kds-font-size-${size}`, value: entry.desktop, comment });
   }
 
   return { mobile, tablet, desktop };
@@ -645,45 +658,43 @@ const sections = [
 // Generate responsive sections (Mobile-First)
 const responsiveSections = [];
 
-if (tokens.responsiveSpacing || tokens.responsiveTypography) {
-  const respSpacing = generateResponsiveSpacingVariables(tokens.responsiveSpacing);
-  const respTypography = generateResponsiveTypographyVariables(tokens.responsiveTypography);
+const respSpacing = generateResponsiveSpacingVariables(tokens.responsiveSpacing);
+const respTypography = generateResponsiveTypographyVariables(tokens.responsiveTypography);
+const respBaseFontSizes = generateResponsiveBaseFontSizeVariables(tokens.responsiveBaseFontSizes);
 
-  // Base mobile values are already in :root
-  // Add mobile values as base
-  sections.push({
-    title: 'RESPONSIVE SPACING (Mobile Base)',
-    variables: respSpacing.mobile,
-  });
-  sections.push({
-    title: 'RESPONSIVE TYPOGRAPHY (Mobile Base)',
-    variables: respTypography.mobile,
-  });
+// Base mobile values go into :root
+sections.push({
+  title: 'RESPONSIVE SPACING (Mobile Base)',
+  variables: respSpacing.mobile,
+});
+sections.push({
+  title: 'RESPONSIVE TYPOGRAPHY (Mobile Base)',
+  variables: [...respBaseFontSizes.mobile, ...respTypography.mobile],
+});
 
-  // Tablet breakpoint (min-width: 600px)
-  responsiveSections.push({
-    title: 'Tablet (600px+) - Spacing',
-    breakpoint: '600px',
-    variables: respSpacing.tablet,
-  });
-  responsiveSections.push({
-    title: 'Tablet (600px+) - Typography',
-    breakpoint: '600px',
-    variables: respTypography.tablet,
-  });
+// Tablet breakpoint (min-width: 600px)
+responsiveSections.push({
+  title: 'Tablet (600px+) - Spacing',
+  breakpoint: '600px',
+  variables: respSpacing.tablet,
+});
+responsiveSections.push({
+  title: 'Tablet (600px+) - Typography',
+  breakpoint: '600px',
+  variables: [...respBaseFontSizes.tablet, ...respTypography.tablet],
+});
 
-  // Desktop breakpoint (min-width: 840px)
-  responsiveSections.push({
-    title: 'Desktop (840px+) - Spacing',
-    breakpoint: '840px',
-    variables: respSpacing.desktop,
-  });
-  responsiveSections.push({
-    title: 'Desktop (840px+) - Typography',
-    breakpoint: '840px',
-    variables: respTypography.desktop,
-  });
-}
+// Desktop breakpoint (min-width: 840px)
+responsiveSections.push({
+  title: 'Desktop (840px+) - Spacing',
+  breakpoint: '840px',
+  variables: respSpacing.desktop,
+});
+responsiveSections.push({
+  title: 'Desktop (840px+) - Typography',
+  breakpoint: '840px',
+  variables: [...respBaseFontSizes.desktop, ...respTypography.desktop],
+});
 
 const cssContent = formatCSSVariables(sections, responsiveSections);
 

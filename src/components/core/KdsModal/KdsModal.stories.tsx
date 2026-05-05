@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { KdsModal } from './KdsModal';
 import { KdsButton } from '../KdsButton';
-import { borderRadius, spacing, fontSizes, borders } from '../../../tokens';
 
 const meta: Meta<typeof KdsModal> = {
   title: 'Core/KdsModal',
@@ -29,10 +28,10 @@ export const Default: Story = {
         <KdsModal
           open={open}
           onClose={() => setOpen(false)}
-          title="Título del KdsModal"
+          title="Titulo del KdsModal"
         >
           <p style={{ margin: 0 }}>
-            Este es el contenido del modal. Puedes agregar cualquier elemento aquí.
+            Este es el contenido del modal. Puedes agregar cualquier elemento aqui.
           </p>
         </KdsModal>
       </>
@@ -62,7 +61,7 @@ export const WithFooter: Story = {
           }
         >
           <p style={{ margin: 0 }}>
-            ¿Estás seguro de que deseas realizar este pago por <strong>$150.000</strong>?
+            ¿Estas seguro de que deseas realizar este pago por <strong>$150.000</strong>?
           </p>
         </KdsModal>
       </>
@@ -76,7 +75,7 @@ export const Sizes: Story = {
     const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
     return (
-      <div style={{ display: 'flex', gap: spacing[1], flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         {sizes.map((size) => (
           <div key={size}>
             <KdsButton variant="outlined" onClick={() => setOpenSize(size)}>
@@ -89,7 +88,7 @@ export const Sizes: Story = {
               size={size}
             >
               <p style={{ margin: 0 }}>
-                Este modal tiene un ancho máximo de {size.toUpperCase()}.
+                Este modal tiene un ancho maximo de {size.toUpperCase()}.
               </p>
             </KdsModal>
           </div>
@@ -104,11 +103,11 @@ export const NoCloseButton: Story = {
     const [open, setOpen] = useState(false);
     return (
       <>
-        <KdsButton onClick={() => setOpen(true)}>KdsModal sin botón cerrar</KdsButton>
+        <KdsButton onClick={() => setOpen(true)}>KdsModal sin boton cerrar</KdsButton>
         <KdsModal
           open={open}
           onClose={() => setOpen(false)}
-          title="Sin botón cerrar"
+          title="Sin boton cerrar"
           showCloseButton={false}
           footer={
             <KdsButton onClick={() => setOpen(false)}>
@@ -117,8 +116,8 @@ export const NoCloseButton: Story = {
           }
         >
           <p style={{ margin: 0 }}>
-            Este modal no tiene botón de cerrar en el header.
-            Debes usar el botón del footer o hacer clic fuera.
+            Este modal no tiene boton de cerrar en el header.
+            Debes usar el boton del footer o hacer clic fuera.
           </p>
         </KdsModal>
       </>
@@ -135,7 +134,7 @@ export const PreventClose: Story = {
         <KdsModal
           open={open}
           onClose={() => setOpen(false)}
-          title="Acción requerida"
+          title="Accion requerida"
           showCloseButton={false}
           footer={
             <KdsButton onClick={() => setOpen(false)}>
@@ -144,7 +143,7 @@ export const PreventClose: Story = {
           }
         >
           <p style={{ margin: 0 }}>
-            Este modal se cierra solo con el botón de Aceptar.
+            Este modal se cierra solo con el boton de Aceptar.
           </p>
         </KdsModal>
       </>
@@ -161,7 +160,7 @@ export const LongContent: Story = {
         <KdsModal
           open={open}
           onClose={() => setOpen(false)}
-          title="Términos y Condiciones"
+          title="Terminos y Condiciones"
           footer={
             <>
               <KdsButton variant="text" onClick={() => setOpen(false)}>
@@ -175,7 +174,7 @@ export const LongContent: Story = {
         >
           <div>
             {Array.from({ length: 20 }).map((_, i) => (
-              <p key={i} style={{ margin: `0 0 ${spacing[2]} 0` }}>
+              <p key={i} style={{ margin: '0 0 16px 0' }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -210,25 +209,25 @@ export const FormModal: Story = {
             </>
           }
         >
-          <form style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
+          <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
-              <label style={{ display: 'block', marginBottom: spacing[0.5], fontSize: fontSizes.sm }}>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.875rem' }}>
                 Nombre completo
               </label>
               <input
                 type="text"
                 style={{
                   width: '100%',
-                  padding: spacing[1.5],
-                  border: borders.inputOutlined,
-                  borderRadius: borderRadius.button,
-                  fontSize: fontSizes.base,
+                  padding: '12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  fontSize: '1rem',
                   boxSizing: 'border-box',
                 }}
               />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: spacing[0.5], fontSize: fontSizes.sm }}>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.875rem' }}>
                 RUT
               </label>
               <input
@@ -236,26 +235,26 @@ export const FormModal: Story = {
                 placeholder="12.345.678-9"
                 style={{
                   width: '100%',
-                  padding: spacing[1.5],
-                  border: borders.inputOutlined,
-                  borderRadius: borderRadius.button,
-                  fontSize: fontSizes.base,
+                  padding: '12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  fontSize: '1rem',
                   boxSizing: 'border-box',
                 }}
               />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: spacing[0.5], fontSize: fontSizes.sm }}>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.875rem' }}>
                 Email
               </label>
               <input
                 type="email"
                 style={{
                   width: '100%',
-                  padding: spacing[1.5],
-                  border: borders.inputOutlined,
-                  borderRadius: borderRadius.button,
-                  fontSize: fontSizes.base,
+                  padding: '12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  fontSize: '1rem',
                   boxSizing: 'border-box',
                 }}
               />
@@ -272,7 +271,7 @@ export const DeleteConfirmation: Story = {
     const [open, setOpen] = useState(false);
     return (
       <>
-        <KdsButton color="error" onClick={() => setOpen(true)}>Eliminar</KdsButton>
+        <KdsButton variant="primary" onClick={() => setOpen(true)}>Eliminar</KdsButton>
         <KdsModal
           open={open}
           onClose={() => setOpen(false)}
@@ -283,14 +282,14 @@ export const DeleteConfirmation: Story = {
               <KdsButton variant="text" onClick={() => setOpen(false)}>
                 Cancelar
               </KdsButton>
-              <KdsButton color="error" onClick={() => setOpen(false)}>
+              <KdsButton variant="primary" onClick={() => setOpen(false)}>
                 Eliminar
               </KdsButton>
             </>
           }
         >
           <p style={{ margin: 0 }}>
-            ¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.
+            ¿Estas seguro de que deseas eliminar este registro? Esta accion no se puede deshacer.
           </p>
         </KdsModal>
       </>

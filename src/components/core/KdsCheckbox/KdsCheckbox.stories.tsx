@@ -8,16 +8,7 @@ const meta: Meta<typeof KdsCheckbox> = {
   component: KdsCheckbox,
   tags: ['autodocs'],
   argTypes: {
-    color: {
-      control: 'select',
-      options: ['primary', 'secondary', 'success', 'error', 'warning', 'info'],
-    },
-    size: {
-      control: 'select',
-      options: ['small', 'medium'],
-    },
     disabled: { control: 'boolean' },
-    indeterminate: { control: 'boolean' },
   },
 };
 
@@ -50,28 +41,6 @@ export const Controlled: Story = {
   },
 };
 
-export const Colors: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[1] }}>
-      <KdsCheckbox label="Primary" color="primary" defaultChecked />
-      <KdsCheckbox label="Secondary" color="secondary" defaultChecked />
-      <KdsCheckbox label="Success" color="success" defaultChecked />
-      <KdsCheckbox label="Error" color="error" defaultChecked />
-      <KdsCheckbox label="Warning" color="warning" defaultChecked />
-      <KdsCheckbox label="Info" color="info" defaultChecked />
-    </div>
-  ),
-};
-
-export const Sizes: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: spacing[3], alignItems: 'center' }}>
-      <KdsCheckbox label="Small" size="small" defaultChecked />
-      <KdsCheckbox label="Medium" size="medium" defaultChecked />
-    </div>
-  ),
-};
-
 export const Disabled: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[1] }}>
@@ -79,13 +48,6 @@ export const Disabled: Story = {
       <KdsCheckbox label="Disabled checked" disabled checked />
     </div>
   ),
-};
-
-export const Indeterminate: Story = {
-  args: {
-    label: 'Seleccionar todo',
-    indeterminate: true,
-  },
 };
 
 export const WithoutLabel: Story = {
@@ -144,8 +106,6 @@ export const SelectAllExample: Story = {
     ]);
 
     const allChecked = items.every((item) => item.checked);
-    const someChecked = items.some((item) => item.checked);
-    const indeterminate = someChecked && !allChecked;
 
     const handleSelectAll = () => {
       setItems((prev) => prev.map((item) => ({ ...item, checked: !allChecked })));
@@ -162,7 +122,6 @@ export const SelectAllExample: Story = {
         <KdsCheckbox
           label="Seleccionar todo"
           checked={allChecked}
-          indeterminate={indeterminate}
           onChange={handleSelectAll}
         />
         <div style={{ marginLeft: spacing[3], display: 'flex', flexDirection: 'column', gap: spacing[0.5] }}>

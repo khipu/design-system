@@ -5,8 +5,8 @@ export function BrandVoiceCards() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }}>
       <div style={{ padding: '24px', background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-        <Typography variant="heading3" sx={{ marginBottom: '12px', color: colors.primary.main }}>
-          🤝 Cercana
+        <Typography variant="heading3" style={{ marginBottom: '12px', color: colors.primary.main }}>
+          Cercana
         </Typography>
         <Typography variant="body">
           Hablamos como un aliado confiable, no como una institución distante
@@ -14,8 +14,8 @@ export function BrandVoiceCards() {
       </div>
 
       <div style={{ padding: '24px', background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-        <Typography variant="heading3" sx={{ marginBottom: '12px', color: colors.primary.main }}>
-          💎 Clara
+        <Typography variant="heading3" style={{ marginBottom: '12px', color: colors.primary.main }}>
+          Clara
         </Typography>
         <Typography variant="body">
           Eliminamos la jerga financiera innecesaria. Explicamos conceptos complejos de forma simple
@@ -23,8 +23,8 @@ export function BrandVoiceCards() {
       </div>
 
       <div style={{ padding: '24px', background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-        <Typography variant="heading3" sx={{ marginBottom: '12px', color: colors.primary.main }}>
-          🔒 Confiable
+        <Typography variant="heading3" style={{ marginBottom: '12px', color: colors.primary.main }}>
+          Confiable
         </Typography>
         <Typography variant="body">
           Transmitimos seguridad y profesionalismo sin ser intimidantes
@@ -32,8 +32,8 @@ export function BrandVoiceCards() {
       </div>
 
       <div style={{ padding: '24px', background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-        <Typography variant="heading3" sx={{ marginBottom: '12px', color: colors.primary.main }}>
-          ⚡ Directa
+        <Typography variant="heading3" style={{ marginBottom: '12px', color: colors.primary.main }}>
+          Directa
         </Typography>
         <Typography variant="body">
           Vamos al grano. Respetamos el tiempo del usuario
@@ -55,10 +55,10 @@ export function WritingPrincipleCallout() {
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
         <span style={{ fontSize: '24px', lineHeight: '1' }}>💡</span>
         <div>
-          <Typography variant="body" sx={{ fontWeight: 600, marginBottom: '8px', display: 'block' }}>
+          <Typography variant="body" style={{ fontWeight: 600, marginBottom: '8px', display: 'block' }}>
             Principio clave: Comunicación digital efectiva
           </Typography>
-          <Typography variant="body" sx={{ lineHeight: '1.6' }}>
+          <Typography variant="body" style={{ lineHeight: '1.6' }}>
             La comunicación digital apela a la <strong>concisión</strong>, al <strong>lenguaje concreto</strong> y <strong>cercano</strong>. Los usuarios escanean contenido en lugar de leerlo palabra por palabra, por lo que cada palabra debe aportar valor.
           </Typography>
         </div>
@@ -79,10 +79,10 @@ export function PunctuationContextCallout() {
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
         <span style={{ fontSize: '24px', lineHeight: '1' }}>⚠️</span>
         <div>
-          <Typography variant="body" sx={{ fontWeight: 600, marginBottom: '8px', display: 'block' }}>
+          <Typography variant="body" style={{ fontWeight: 600, marginBottom: '8px', display: 'block' }}>
             Contexto de aplicación
           </Typography>
-          <Typography variant="body" sx={{ lineHeight: '1.6' }}>
+          <Typography variant="body" style={{ lineHeight: '1.6' }}>
             Estas reglas de puntuación son <strong>preferentemente usadas en lenguaje digital en el uso de interfaces de pago</strong> para facilitar la concisión. Las <strong>excepciones son permitidas</strong> en las redacciones de otro tipo de contenidos (documentación extensa, artículos, comunicados oficiales, etc.).
           </Typography>
         </div>
@@ -96,8 +96,8 @@ export function WritingGuidelinesTable() {
     <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
       <thead>
         <tr style={{ borderBottom: borders.tableHeader }}>
-          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '50%' }}>✅ Recomendado</th>
-          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '50%' }}>❌ Evitar</th>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '50%' }}>Recomendado</th>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '50%' }}>Evitar</th>
         </tr>
       </thead>
       <tbody>
@@ -149,8 +149,8 @@ export function SpecificExamplesTable() {
     <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
       <thead>
         <tr style={{ borderBottom: borders.tableHeader }}>
-          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '50%' }}>✅ Recomendado</th>
-          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '50%' }}>❌ Evitar</th>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '50%' }}>Recomendado</th>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '50%' }}>Evitar</th>
         </tr>
       </thead>
       <tbody>
@@ -181,48 +181,48 @@ export function MicrocopyTable() {
       <thead>
         <tr style={{ borderBottom: borders.tableHeader }}>
           <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '33.33%' }}>Elemento</th>
-          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '33.33%' }}>✅ Recomendado</th>
-          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '33.34%' }}>❌ Evitar</th>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '33.33%' }}>Recomendado</th>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '33.34%' }}>Evitar</th>
         </tr>
       </thead>
       <tbody>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, fontWeight: fontWeights.semiBold, verticalAlign: 'top' }}>Botones</td>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
-            • Pagar ahora<br/>
-            • Confirmar pago<br/>
-            • Agregar cuenta
+            Pagar ahora<br/>
+            Confirmar pago<br/>
+            Agregar cuenta
           </td>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
-            • OK / Aceptar (como CTA)<br/>
-            • Submit<br/>
-            • Click aquí
+            OK / Aceptar (como CTA)<br/>
+            Submit<br/>
+            Click aquí
           </td>
         </tr>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, fontWeight: fontWeights.semiBold, verticalAlign: 'top' }}>Labels de formularios</td>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
-            • Correo electrónico<br/>
-            • Monto a pagar<br/>
-            • Contraseña
+            Correo electrónico<br/>
+            Monto a pagar<br/>
+            Contraseña
           </td>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
-            • Por favor ingrese su email<br/>
-            • Ingrese el monto de la transacción<br/>
-            • Ingrese su password
+            Por favor ingrese su email<br/>
+            Ingrese el monto de la transacción<br/>
+            Ingrese su password
           </td>
         </tr>
         <tr>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, fontWeight: fontWeights.semiBold, verticalAlign: 'top' }}>Mensajes de error</td>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
-            • Ingresa un email válido<br/>
-            • El RUT debe tener 8-9 dígitos<br/>
-            • La contraseña debe tener al menos 8 caracteres
+            Ingresa un email válido<br/>
+            El RUT debe tener 8-9 dígitos<br/>
+            La contraseña debe tener al menos 8 caracteres
           </td>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
-            • Error en el campo<br/>
-            • Formato inválido<br/>
-            • Error de validación
+            Error en el campo<br/>
+            Formato inválido<br/>
+            Error de validación
           </td>
         </tr>
       </tbody>
@@ -242,31 +242,31 @@ export function PunctuationRulesTable() {
       <tbody>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm }}><strong>Mensajes completos</strong> (alertas, confirmación, error, info, etc.)</td>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>✅ Sí</td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>Sí</td>
         </tr>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm }}><strong>Oraciones descriptivas</strong></td>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>✅ Sí</td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>Sí</td>
         </tr>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm }}><strong>Botones/CTAs</strong></td>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>❌ No</td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>No</td>
         </tr>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm }}><strong>Labels de formularios</strong></td>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>❌ No</td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>No</td>
         </tr>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm }}><strong>Títulos</strong></td>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>❌ No</td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>No</td>
         </tr>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm }}><strong>Frases cortas de UI</strong></td>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>❌ No</td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>No</td>
         </tr>
         <tr>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm }}><strong>Listas</strong> (tabuladas/bullet points)</td>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>❌ No</td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, textAlign: 'center' }}>No</td>
         </tr>
       </tbody>
     </table>

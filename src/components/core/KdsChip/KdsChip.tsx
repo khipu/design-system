@@ -1,70 +1,31 @@
 /**
  * Khipu Design System - Chip Component
  *
- * A chip component built on MUI Chip with Khipu design system styling.
+ * Native HTML chip with BeerCSS kds-badge styling.
  */
 
-import { forwardRef } from 'react';
-import MuiChip, { ChipProps as MuiChipProps } from '@mui/material/Chip';
+import React, { forwardRef } from 'react';
+import { clsx } from '../utils';
 
-// =============================================================================
-// TYPES
-// =============================================================================
+export type KdsChipColor = 'primary' | 'success' | 'error' | 'warning' | 'info';
 
-export type KdsChipVariant = 'filled' | 'outlined';
-export type KdsChipColor = 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
-export type KdsChipSize = 'small' | 'medium';
-
-export interface KdsChipProps extends Omit<MuiChipProps, 'variant' | 'color' | 'size'> {
-  /** Visual variant */
-  variant?: KdsChipVariant;
-  /** Color scheme */
+export interface KdsChipProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: KdsChipColor;
-  /** Size */
-  size?: KdsChipSize;
+  icon?: string;
+  onDelete?: () => void;
 }
 
-// =============================================================================
-// COMPONENT
-// =============================================================================
-
-/**
- * Chip component for displaying compact information, tags, or actions.
- *
- * @example
- * ```tsx
- * <KdsChip label="ABC123" size="small" variant="outlined" />
- * <KdsChip label="Pagado" color="success" />
- * <KdsChip label="Pendiente" color="warning" onDelete={() => {}} />
- * ```
- */
-export const KdsChip = forwardRef<HTMLDivElement, KdsChipProps>(
-  (
-    {
-      variant = 'filled',
-      color = 'default',
-      size = 'medium',
-      sx,
-      ...props
-    },
-    ref
-  ) => {
-    return (
-      <MuiChip
-        ref={ref}
-        variant={variant}
-        color={color}
-        size={size}
-        sx={{
-          borderRadius: '4px',
-          ...sx,
-        }}
-        {...props}
-      />
-    );
-  }
+export const KdsChip = forwardRef<HTMLSpanElement, KdsChipProps>(
+  ({ color, icon, onDelete, children, className, ...props }, ref) => (
+    <span ref={ref} className={clsx('kds-badge', color, className)} {...props}>
+      {icon && <i className="material-symbols-outlined">{icon}</i>}
+      {children}
+      {onDelete && (
+        <button className="kds-btn kds-btn-text kds-btn-sm" onClick={onDelete} aria-label="Eliminar">
+          <i className="material-symbols-outlined">close</i>
+        </button>
+      )}
+    </span>
+  ),
 );
-
 KdsChip.displayName = 'KdsChip';
-
-export default KdsChip;

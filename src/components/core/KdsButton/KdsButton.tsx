@@ -1,39 +1,33 @@
 /**
  * Khipu Design System - Button Component
  *
- * A button component built on MUI Button with Khipu design system styling.
+ * A button component built with native HTML and kds-* CSS classes.
  * Matches the Figma design: Pagos Automáticos - MUI v610
  */
 
 import React, { forwardRef } from 'react';
-import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
+import { clsx } from '../utils';
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
-export type KdsButtonVariant = 'contained' | 'outlined' | 'text';
-export type KdsButtonColor = 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
-export type KdsButtonSize = 'small' | 'medium' | 'large';
+export type KdsButtonVariant = 'primary' | 'secondary' | 'outlined' | 'outlined-white' | 'text' | 'success';
+export type KdsButtonSize = 'sm' | 'md';
 
-export interface KdsButtonProps extends Omit<MuiButtonProps, 'variant' | 'color' | 'size'> {
+export interface KdsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual style variant */
   variant?: KdsButtonVariant;
-  /** Color scheme */
-  color?: KdsButtonColor;
   /** Button size */
   size?: KdsButtonSize;
   /** Full width button */
   fullWidth?: boolean;
   /** Loading state - shows spinner and disables button */
   loading?: boolean;
-  /** Icon before label */
-  startIcon?: React.ReactNode;
-  /** Icon after label */
-  endIcon?: React.ReactNode;
-  /** Content */
-  children: React.ReactNode;
+  /** Material Symbols icon name before label, e.g. "download" */
+  startIcon?: string;
+  /** Material Symbols icon name after label, e.g. "arrow_forward" */
+  endIcon?: string;
 }
 
 // =============================================================================
@@ -43,79 +37,81 @@ export interface KdsButtonProps extends Omit<MuiButtonProps, 'variant' | 'color'
 /**
  * Primary action button component.
  *
- * Built on MUI Button with Khipu design system styling.
+ * Built with native HTML and kds-* CSS classes from the BeerCSS bundle.
  *
  * @example
  * ```tsx
- * <KdsButton variant="contained" color="primary">
- *   INGRESAR
+ * <KdsButton variant="primary">
+ *   Continuar
  * </KdsButton>
  *
- * <KdsButton variant="outlined" color="info">
- *   RECHAZAR
+ * <KdsButton variant="outlined">
+ *   Cancelar
  * </KdsButton>
  *
- * <KdsButton variant="contained" color="success" fullWidth>
- *   VOLVER AL COMERCIO
+ * <KdsButton variant="success" fullWidth>
+ *   Finalizar
  * </KdsButton>
  *
  * <KdsButton loading>
- *   Processing...
+ *   Procesando...
+ * </KdsButton>
+ *
+ * <KdsButton startIcon="download">
+ *   Descargar comprobante
  * </KdsButton>
  * ```
  */
 export const KdsButton = forwardRef<HTMLButtonElement, KdsButtonProps>(
   (
     {
-      variant = 'contained',
-      color = 'primary',
-      size = 'large',
+      variant = 'primary',
+      size,
       fullWidth = false,
       loading = false,
       disabled = false,
       startIcon,
       endIcon,
       children,
-      sx,
+      className,
       ...props
     },
-    ref
-  ) => {
-    const isDisabled = disabled || loading;
-
-    return (
-      <MuiButton
-        ref={ref}
-        variant={variant}
-        color={color}
-        size={size}
-        fullWidth={fullWidth}
-        disabled={isDisabled}
-        startIcon={loading ? undefined : startIcon}
-        endIcon={loading ? undefined : endIcon}
-        sx={{
-          // Additional custom styles can be merged here
-          ...sx,
-        }}
-        {...props}
-      >
-        {loading ? (
-          <>
-            <CircularProgress
-              size={20}
-              color="inherit"
-              sx={{ mr: 1 }}
-            />
-            {children}
-          </>
-        ) : (
-          children
-        )}
-      </MuiButton>
-    );
-  }
+    ref,
+  ) => (
+    <button
+      ref={ref}
+      className={clsx(
+        'kds-btn',
+        `kds-btn-${variant}`,
+        size && `kds-btn-${size}`,
+        fullWidth && 'kds-btn-block',
+        className,
+      )}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      {...props}
+    >
+      {!loading && startIcon && (
+        <span className="kds-icon">
+          <i className="material-symbols-outlined">{startIcon}</i>
+        </span>
+      )}
+      {loading ? (
+        <>
+          <span className="loader small" />
+          <span>{children}</span>
+        </>
+      ) : (
+        <span>{children}</span>
+      )}
+      {!loading && endIcon && (
+        <span className="kds-icon">
+          <i className="material-symbols-outlined">{endIcon}</i>
+        </span>
+      )}
+    </button>
+  ),
 );
 
 KdsButton.displayName = 'KdsButton';
 
-export default KdsButton;

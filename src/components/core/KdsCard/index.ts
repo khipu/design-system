@@ -1,13 +1,10 @@
 export {
   KdsCard,
   KdsCardHeader,
-  KdsCardContent,
-  KdsCardActions,
+  KdsCardBody,
+  KdsCardFooter,
   type KdsCardProps,
-  type KdsCardHeaderProps,
-  type KdsCardContentProps,
-  type KdsCardActionsProps,
   type KdsCardVariant,
-  type KdsCardElevation,
+  type KdsCardSectionProps,
 } from './KdsCard';
 export { default } from './KdsCard';

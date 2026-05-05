@@ -47,6 +47,7 @@ a.kds-btn {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    text-align: center;
 
     /* Typography - Using design tokens */
     font-family: var(--kds-font-family-secondary);
@@ -232,7 +233,12 @@ a.kds-btn > .kds-icon > i {
     min-width: var(--kds-spacing-button-icon-size);
     min-height: var(--kds-spacing-button-icon-size);
     line-height: 1;
-    top: 1px;
+}
+
+/* Full-width button */
+button.kds-btn.kds-btn-block,
+a.kds-btn.kds-btn-block {
+    width: 100%;
 }
 
 /* ========================================
@@ -255,12 +261,6 @@ a.kds-btn.kds-btn-md {
 }
 
 /* Default .kds-btn uses --kds-spacing-button-min-height (50px) from base styles */
-
-/* Full-width button */
-button.kds-btn.kds-btn-block,
-a.kds-btn.kds-btn-block {
-    width: 100%;
-}
 
 /* ========================================
    Card Components (Material Design 3)
@@ -3280,6 +3280,96 @@ dialog#surveyModal button.circle {
     font-size: var(--kds-font-size-sm);
 }
 
+/* ── Typography variants ── */
+.kds-text-display1 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-4xl, 36px);
+    font-weight: var(--kds-font-weight-bold, 700);
+    line-height: var(--kds-line-height-tight, 1.2);
+    letter-spacing: var(--kds-letter-spacing-tight, -0.025em);
+}
+
+.kds-text-display2 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-3xl, 30px);
+    font-weight: var(--kds-font-weight-bold, 700);
+    line-height: var(--kds-line-height-tight, 1.2);
+    letter-spacing: var(--kds-letter-spacing-tight, -0.025em);
+}
+
+.kds-text-heading1 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-2xl, 24px);
+    font-weight: var(--kds-font-weight-semibold, 600);
+    line-height: var(--kds-line-height-snug, 1.375);
+}
+
+.kds-text-heading2 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-xl, 20px);
+    font-weight: var(--kds-font-weight-semibold, 600);
+    line-height: var(--kds-line-height-snug, 1.375);
+}
+
+.kds-text-heading3 {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-lg, 18px);
+    font-weight: var(--kds-font-weight-semibold, 600);
+    line-height: var(--kds-line-height-normal, 1.5);
+}
+
+.kds-text-body-large {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-base, 16px);
+    font-weight: var(--kds-font-weight-regular, 400);
+    line-height: var(--kds-line-height-relaxed, 1.66);
+}
+
+.kds-text-body {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-sm, 14px);
+    font-weight: var(--kds-font-weight-regular, 400);
+    line-height: var(--kds-line-height-normal, 1.5);
+}
+
+.kds-text-body-small {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-sm, 12px);
+    font-weight: var(--kds-font-weight-regular, 400);
+    line-height: var(--kds-line-height-normal, 1.5);
+}
+
+.kds-text-label {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-sm, 12px);
+    font-weight: var(--kds-font-weight-semibold, 600);
+    line-height: var(--kds-line-height-normal, 1.5);
+    letter-spacing: var(--kds-letter-spacing-widest, 1px);
+    text-transform: uppercase;
+}
+
+.kds-text-label-small {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-xs, 10px);
+    font-weight: var(--kds-font-weight-semibold, 600);
+    line-height: var(--kds-line-height-normal, 1.5);
+    letter-spacing: var(--kds-letter-spacing-widest, 1px);
+    text-transform: uppercase;
+}
+
+.kds-text-link {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: inherit;
+    font-weight: var(--kds-font-weight-medium, 500);
+    color: var(--kds-color-primary-main, #8347AD);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.kds-text-link:hover {
+    color: var(--kds-color-primary-dark, #5B3179);
+}
+
 /* Display utilities */
 .kds-hidden {
     display: none;
@@ -3783,14 +3873,26 @@ dialog#surveyModal button.circle {
 
 .field.locked > input,
 .field.locked > textarea {
-    background: var(--kds-color-shell);
-    color: var(--kds-color-text-secondary);
+    color: var(--kds-color-text-disabled);
     cursor: default;
-    border-color: var(--kds-color-divider);
+    pointer-events: none;
 }
 
 .field.locked > label {
-    color: var(--kds-color-text-hint);
+    color: var(--kds-color-text-disabled);
+}
+
+/* Locked: suppress all hover/focus visual changes */
+.field.label.border:not(.fill).locked:hover:not(:focus-within) > label::after,
+.field.label.border:not(.fill).locked:focus-within > label::after {
+    border-block-start-color: var(--outline);
+}
+.field.label.border:not(.fill).locked:hover:not(:focus-within) > :is(input, textarea, select),
+.field.label.border:not(.fill).locked:focus-within > :is(input, textarea, select) {
+    border-color: var(--outline);
+}
+.field.label.locked:hover:not(:focus-within) > label {
+    color: var(--kds-color-text-disabled);
 }
 
 .field.locked > i {
@@ -4532,8 +4634,8 @@ dialog#surveyModal button.circle {
         /* Symmetric padding */
         padding: var(--kds-spacing-2);
 
-        /* Static border-radius on all corners */
-        border-radius: var(--kds-radius-card);
+        /* Bottom-only border-radius — top is flush so the brand-inner logo isn't clipped */
+        border-radius: 0 0 var(--kds-radius-card) var(--kds-radius-card);
 
         /* Override .kds-card-elevated transition — scroll drives the animation, not CSS transitions */
         transition: none;
@@ -4545,10 +4647,8 @@ dialog#surveyModal button.circle {
         /* clip-path clips the card from the bottom to hide the collapsible space.
            This is VISUAL ONLY — no layout change — prevents scroll feedback loop.
            Safari 13.1+ compatible (inset + round)
-           When collapsed (progress=1): bottom corners get border-radius,
-           top stays flush with screen edge. */
-        /* Bottom inset = collapsible height + half the card padding to tighten
-           the gap between "Código" and the visible bottom edge when collapsed. */
+           round uses bottom-only radii (0 top, card-radius bottom) to match
+           border-radius and avoid clipping the brand logo at the top corners. */
         clip-path: inset(
             0 0
             calc(
@@ -4556,7 +4656,7 @@ dialog#surveyModal button.circle {
                 + var(--kds-spacing-1) * var(--collapse-progress)
             )
             0
-            round var(--kds-radius-card)
+            round 0 0 var(--kds-radius-card) var(--kds-radius-card)
         );
 
         /* Suppress card's own shadow — wrapper handles it */
@@ -4567,7 +4667,8 @@ dialog#surveyModal button.circle {
     .kds-invoice-sticky .kds-brand-inner {
         margin-bottom: calc(var(--kds-spacing-1) * (1 - var(--collapse-progress)) + var(--kds-spacing-0-5) * var(--collapse-progress));
     }
-    .kds-invoice-sticky .kds-brand-inner svg {
+    .kds-invoice-sticky .kds-brand-inner svg,
+    .kds-invoice-sticky .kds-brand-inner img {
         height: calc(22px - 5px * var(--collapse-progress));
     }
 
@@ -4628,6 +4729,12 @@ dialog#surveyModal button.circle {
     }
 }
 
+/* Invoice sticky: mobile-first — bottom-only border-radius to prevent clipping the brand logo.
+   Desktop restores full border-radius (see min-width:768px block below). */
+.kds-card-elevated.kds-invoice-sticky {
+    border-radius: 0 0 var(--kds-radius-card) var(--kds-radius-card);
+}
+
 /* -- Invoice Collapsible (kv rows below header) -- */
 .kds-invoice-collapsible {
     margin-top: var(--kds-spacing-1-5);
@@ -4649,11 +4756,17 @@ dialog#surveyModal button.circle {
 }
 
 /* -- Invoice Header (amount + merchant tile) -- */
+/* Compound selector overrides BeerCSS `header { padding:0 1rem; display:grid; align-content:center }` */
+header.kds-invoice-header,
+div.kds-invoice-header,
 .kds-invoice-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--kds-spacing-2);
+    padding: 0;
+    border-radius: 0;
+    align-content: initial;
 }
 
 /* Reset BeerCSS sibling margin on <p> inside invoice header — specificity (0,4,1) ties BeerCSS, wins by source order */
@@ -4951,7 +5064,6 @@ button.kds-btn-success::after {
     margin-top: var(--kds-spacing-1);
 }
 
-
 /* -- Field group spacing -- */
 .kds-field-group {
     margin-top: var(--kds-spacing-1-75);
@@ -5013,6 +5125,18 @@ button.kds-btn-success::after {
     box-shadow: var(--kds-shadow-card);
 }
 
+/* Payment flow cards — mobile-first: no vertical padding.
+   Desktop (min-width: 768px) restores padding + full border-radius. */
+.kds-payment-flow .kds-card-elevated {
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.kds-payment-flow .kds-card-elevated.kds-invoice-sticky {
+    padding-top: var(--kds-spacing-1);
+    padding-bottom: 0;
+}
+
 /* Payment stage — full-viewport centered wrapper */
 .kds-payment-stage {
     min-height: 100vh;
@@ -5053,13 +5177,26 @@ button.kds-btn-success::after {
 
 }
 
+/* Desktop: restore card padding and full border-radius on invoice sticky */
+@media (min-width: 768px) {
+    .kds-payment-flow .kds-card-elevated,
+    .kds-payment-flow .kds-card-elevated.kds-invoice-sticky {
+        padding-top: var(--kds-spacing-2);
+        padding-bottom: var(--kds-spacing-2);
+    }
+    .kds-card-elevated.kds-invoice-sticky {
+        border-radius: var(--kds-radius-card);
+    }
+}
+
 /* Brand logo row (external, outside cards) */
 .kds-brand-row {
     padding: 0 var(--kds-spacing-0-5);
     display: flex;
     align-items: center;
 }
-.kds-brand-row svg {
+.kds-brand-row svg,
+.kds-brand-row img {
     height: 22px;
     display: block;
 }
@@ -5069,8 +5206,10 @@ button.kds-btn-success::after {
     display: none;
     align-items: center;
     margin-bottom: var(--kds-spacing-1);
+    border-radius: 0;
 }
-.kds-brand-inner svg {
+.kds-brand-inner svg,
+.kds-brand-inner img {
     height: 22px;
     display: block;
 }
