@@ -1,9 +1,1 @@
-export {
-  KdsRadioGroup,
-  KdsRadio,
-  type KdsRadioGroupProps,
-  type KdsRadioProps,
-  type KdsRadioOption,
-  type KdsRadioColor,
-  type KdsRadioSize,
-} from './KdsRadioGroup';
+export { KdsRadioGroup, type KdsRadioGroupProps, type KdsRadioOption } from './KdsRadioGroup';

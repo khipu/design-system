@@ -1,81 +1,32 @@
-/**
- * Khipu Design System - Snackbar Component
- *
- * A snackbar component built on MUI Snackbar with Khipu design system styling.
- */
+import React, { forwardRef } from 'react';
+import { clsx } from '../utils';
+import { useAutoHide } from '../hooks/useAutoHide';
 
-import { forwardRef } from 'react';
-import MuiSnackbar, { SnackbarProps as MuiSnackbarProps } from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+export type KdsSnackbarType = 'success' | 'error' | 'info';
 
-// =============================================================================
-// TYPES
-// =============================================================================
-
-export type KdsSnackbarAnchorVertical = 'top' | 'bottom';
-export type KdsSnackbarAnchorHorizontal = 'left' | 'center' | 'right';
-
-export interface KdsSnackbarProps extends Omit<MuiSnackbarProps, 'anchorOrigin'> {
-  /** Vertical position */
-  vertical?: KdsSnackbarAnchorVertical;
-  /** Horizontal position */
-  horizontal?: KdsSnackbarAnchorHorizontal;
-  /** Show close button */
-  showCloseButton?: boolean;
+export interface KdsSnackbarProps extends React.HTMLAttributes<HTMLDivElement> {
+  message: string;
+  type?: KdsSnackbarType;
+  duration?: number;
+  onClose?: () => void;
+  open?: boolean;
 }
 
-// =============================================================================
-// COMPONENT
-// =============================================================================
-
-/**
- * Snackbar component for brief notifications.
- *
- * @example
- * ```tsx
- * <KdsSnackbar
- *   open={open}
- *   autoHideDuration={5000}
- *   onClose={handleClose}
- *   message="Copiado al portapapeles"
- * />
- * ```
- */
 export const KdsSnackbar = forwardRef<HTMLDivElement, KdsSnackbarProps>(
-  (
-    {
-      vertical = 'bottom',
-      horizontal = 'center',
-      showCloseButton = false,
-      onClose,
-      ...props
-    },
-    ref
-  ) => {
-    const action = showCloseButton ? (
-      <IconButton
-        size="small"
-        aria-label="Cerrar"
-        color="inherit"
-        onClick={(e) => onClose?.(e, 'escapeKeyDown')}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    ) : undefined;
+  ({ message, type, duration = 5000, onClose, open = true, className, ...props }, ref) => {
+    const { visible } = useAutoHide(duration, onClose);
+    if (!open || !visible) return null;
 
     return (
-      <MuiSnackbar
-        ref={ref}
-        anchorOrigin={{ vertical, horizontal }}
-        onClose={onClose}
-        action={props.action || action}
-        {...props}
-      />
+      <div ref={ref} role="status" className={clsx('snackbar', 'active', type, className)} {...props}>
+        <span>{message}</span>
+        {onClose && (
+          <button onClick={onClose} aria-label="Cerrar">
+            <i className="material-symbols-outlined">close</i>
+          </button>
+        )}
+      </div>
     );
-  }
+  },
 );
-
 KdsSnackbar.displayName = 'KdsSnackbar';
-
-export default KdsSnackbar;

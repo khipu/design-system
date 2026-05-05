@@ -5,5 +5,4 @@ export {
   type KdsAccordionProps,
   type KdsAccordionSummaryProps,
   type KdsAccordionDetailsProps,
-  type KdsAccordionVariant,
 } from './KdsAccordion';

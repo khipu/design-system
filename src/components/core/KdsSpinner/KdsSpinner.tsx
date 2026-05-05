@@ -1,97 +1,26 @@
 /**
  * Khipu Design System - Spinner Component
  *
- * A loading spinner component built on MUI CircularProgress with Khipu design system styling.
- * Matches the Figma design: Pagos Automáticos - MUI v610
+ * Native HTML spinner with BeerCSS loader styling.
  */
 
-import React from 'react';
-import CircularProgress, { CircularProgressProps } from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-
-// =============================================================================
-// TYPES
-// =============================================================================
+import React, { forwardRef } from 'react';
+import { clsx } from '../utils';
 
 export type KdsSpinnerSize = 'small' | 'medium' | 'large';
-export type KdsSpinnerColor = 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info' | 'inherit';
 
-export interface KdsSpinnerProps extends Omit<CircularProgressProps, 'size' | 'color'> {
-  /** Spinner size */
+export interface KdsSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: KdsSpinnerSize;
-  /** Spinner color */
-  color?: KdsSpinnerColor;
-  /** Custom size in pixels */
-  customSize?: number;
-  /** Accessible label */
   label?: string;
 }
 
-// =============================================================================
-// SIZE MAPPINGS
-// =============================================================================
-
-const sizeMap: Record<KdsSpinnerSize, number> = {
-  small: 20,
-  medium: 40,
-  large: 60,
-};
-
-// =============================================================================
-// COMPONENT
-// =============================================================================
-
-/**
- * Loading spinner component.
- *
- * Built on MUI CircularProgress with Khipu design system styling.
- *
- * @example
- * ```tsx
- * // Basic usage
- * <KdsSpinner size="medium" color="primary" />
- *
- * // Inside a button
- * <Button loading>
- *   Processing...
- * </Button>
- *
- * // Centered in container
- * <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
- *   <KdsSpinner size="large" />
- * </Box>
- * ```
- */
-export const KdsSpinner: React.FC<KdsSpinnerProps> = ({
-  size = 'medium',
-  color = 'primary',
-  customSize,
-  label = 'Cargando...',
-  sx,
-  ...props
-}) => {
-  const spinnerSize = customSize || sizeMap[size];
-
-  return (
-    <Box
-      sx={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      role="progressbar"
-      aria-label={label}
-    >
-      <CircularProgress
-        size={spinnerSize}
-        color={color}
-        sx={sx}
-        {...props}
-      />
-    </Box>
-  );
-};
-
+export const KdsSpinner = forwardRef<HTMLDivElement, KdsSpinnerProps>(
+  ({ size = 'medium', label, className, ...props }, ref) => (
+    <div ref={ref} className={clsx('kds-flex kds-flex-col kds-items-center kds-gap-2', className)} role="status" {...props}>
+      <span className={clsx('loader', size)} />
+      {label && <span className="kds-text-body-small kds-text-muted">{label}</span>}
+      {!label && <span className="kds-hidden">Cargando</span>}
+    </div>
+  ),
+);
 KdsSpinner.displayName = 'KdsSpinner';
-
-export default KdsSpinner;
