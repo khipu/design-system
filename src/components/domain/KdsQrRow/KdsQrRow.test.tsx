@@ -4,33 +4,52 @@ import userEvent from '@testing-library/user-event';
 import { KdsQrRow } from './KdsQrRow';
 
 describe('KdsQrRow', () => {
-  it('renders button with name', () => {
+  it('renders button with kds-qr-row class', () => {
     render(<KdsQrRow name="Pago QR" />);
     const btn = screen.getByRole('button');
-    expect(btn).toHaveClass('kds-bank-row');
-    expect(screen.getByText('Pago QR')).toHaveClass('kds-bank-row-name');
+    expect(btn).toHaveClass('kds-qr-row');
   });
 
-  it('renders description when provided', () => {
+  it('renders name in .title span', () => {
+    render(<KdsQrRow name="Pago QR" />);
+    expect(screen.getByText('Pago QR')).toHaveClass('title');
+  });
+
+  it('renders description in .sub span when provided', () => {
     render(<KdsQrRow name="Pago QR" description="Escanea el codigo" />);
-    expect(screen.getByText('Escanea el codigo')).toHaveClass('kds-text-secondary');
+    expect(screen.getByText('Escanea el codigo')).toHaveClass('sub');
   });
 
   it('does not render description when omitted', () => {
     const { container } = render(<KdsQrRow name="Pago QR" />);
-    expect(container.querySelector('.kds-text-secondary')).toBeNull();
+    expect(container.querySelector('.sub')).toBeNull();
   });
 
-  it('renders logo image when logoUrl is provided', () => {
-    render(<KdsQrRow name="MACH" logoUrl="/mach.png" />);
-    const img = screen.getByRole('img');
-    expect(img).toHaveAttribute('src', '/mach.png');
-    expect(img).toHaveAttribute('alt', 'MACH');
-  });
-
-  it('renders qr_code icon fallback when no logoUrl', () => {
+  it('renders default qr_code_2 icon in avatar', () => {
     render(<KdsQrRow name="Pago QR" />);
-    expect(screen.getByText('qr_code')).toHaveClass('material-symbols-outlined');
+    expect(screen.getByText('qr_code_2')).toHaveClass('material-symbols-outlined');
+  });
+
+  it('renders custom icon when provided', () => {
+    render(<KdsQrRow name="Pago QR" icon="smartphone" />);
+    expect(screen.getByText('smartphone')).toHaveClass('material-symbols-outlined');
+  });
+
+  it('renders badge when provided', () => {
+    render(<KdsQrRow name="Pago QR" badge="Rápido" />);
+    expect(screen.getByText('Rápido')).toHaveClass('kds-qr-badge');
+  });
+
+  it('does not render badge when omitted', () => {
+    const { container } = render(<KdsQrRow name="Pago QR" />);
+    expect(container.querySelector('.kds-qr-badge')).toBeNull();
+  });
+
+  it('renders kds-qr-avatar with aria-hidden', () => {
+    const { container } = render(<KdsQrRow name="Pago QR" />);
+    const avatar = container.querySelector('.kds-qr-avatar');
+    expect(avatar).toBeTruthy();
+    expect(avatar).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('renders chevron_right icon', () => {
@@ -47,7 +66,7 @@ describe('KdsQrRow', () => {
 
   it('merges custom className', () => {
     render(<KdsQrRow name="Pago QR" className="custom" />);
-    expect(screen.getByRole('button')).toHaveClass('kds-bank-row', 'custom');
+    expect(screen.getByRole('button')).toHaveClass('kds-qr-row', 'custom');
   });
 
   it('forwards ref', () => {

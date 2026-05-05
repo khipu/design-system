@@ -716,6 +716,22 @@ export const responsiveTypography = {
   },
 } as const;
 
+/**
+ * Base font-size scale responsive — scales down on mobile for tighter UIs.
+ * Mobile values are the base (defined in fontSizes above).
+ * Tablet/Desktop get slightly larger sizes.
+ */
+export const responsiveBaseFontSizes = {
+  xs:  { mobile: '0.6875rem', tablet: '0.75rem',  desktop: '0.75rem'  }, // 11px → 12px
+  sm:  { mobile: '0.8125rem', tablet: '0.875rem', desktop: '0.875rem' }, // 13px → 14px
+  base:{ mobile: '0.875rem',  tablet: '1rem',     desktop: '1rem'     }, // 14px → 16px
+  lg:  { mobile: '1rem',      tablet: '1.125rem', desktop: '1.125rem' }, // 16px → 18px
+  xl:  { mobile: '1.125rem',  tablet: '1.25rem',  desktop: '1.25rem'  }, // 18px → 20px
+  '2xl':{ mobile: '1.25rem',  tablet: '1.5rem',   desktop: '1.5rem'   }, // 20px → 24px
+  '3xl':{ mobile: '1.5rem',   tablet: '1.875rem', desktop: '1.875rem' }, // 24px → 30px
+  '4xl':{ mobile: '1.875rem', tablet: '2.25rem',  desktop: '2.25rem'  }, // 30px → 36px
+} as const;
+
 // =============================================================================
 // BORDER RADIUS TOKENS
 // =============================================================================
@@ -876,6 +892,7 @@ export const tokensByMode = {
     semanticSpacing,
     responsiveSpacing,
     responsiveTypography,
+    responsiveBaseFontSizes,
     borderRadius,
     borders,
     shadows,
@@ -895,6 +912,7 @@ export const tokensByMode = {
     semanticSpacing,
     responsiveSpacing,
     responsiveTypography,
+    responsiveBaseFontSizes,
     borderRadius,
     borders,
     shadows,
@@ -922,6 +940,7 @@ export const tokens = {
   semanticSpacing,
   responsiveSpacing,
   responsiveTypography,
+  responsiveBaseFontSizes,
   borderRadius,
   borders,
   shadows,
