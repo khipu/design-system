@@ -14,13 +14,25 @@ const meta: Meta = {
 
 export default meta;
 
-export const Cómo_funciona: StoryObj = {
-  name: 'Cómo funciona',
+export const Integración: StoryObj = {
+  name: 'Integración',
   render: () => (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: `${spacing[5]} ${spacing[2.5]}` }}>
-      <h1>Cómo funciona</h1>
+      <h1>Integración</h1>
 
       <p>Aprende a integrar el Design System de Khipu con agentes de IA para generar contenido consistente con la marca.</p>
+
+      <h2>📚 Navegación de la guía</h2>
+
+      <p>Esta guía está organizada en las siguientes secciones:</p>
+
+      <ol>
+        <li><strong>Integración</strong>: Opciones para integrar con agentes de IA</li>
+        <li><strong>Uso de marca</strong>: Uso correcto del logotipo y variantes</li>
+        <li><strong>Uso de colores</strong>: Paleta de colores y aplicación</li>
+        <li><strong>Uso tipográfico</strong>: Fundamentos de la familia tipográfica</li>
+        <li><strong>Voz y tono</strong>: Guías de comunicación y redacción</li>
+      </ol>
 
       <blockquote style={{
         borderLeft: `${borders.widthLg} solid ${colors.primary.main}`,
