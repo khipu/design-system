@@ -12,6 +12,36 @@ import Logo140Simple from './assets/logos/khipu-140x140-simple.svg';
 import Logo140White from './assets/logos/khipu-140x140-white.svg';
 import Logo140WhiteNeg from './assets/logos/khipu-140x140-white-negative.svg';
 
+// Helper component para botones de descarga
+const DownloadButton = ({ href, fileName }: { href: string; fileName: string }) => (
+  <a
+    href={href}
+    download={fileName}
+    style={{
+      display: 'inline-block',
+      marginTop: spacing[1],
+      padding: `${spacing[0.5]} 0`,
+      fontSize: fontSizes.sm,
+      fontWeight: fontWeights.medium,
+      color: colors.primary.main,
+      textDecoration: 'none',
+      transition: 'opacity 0.2s ease',
+      cursor: 'pointer',
+      opacity: 0.9,
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.opacity = '1';
+      e.currentTarget.style.textDecoration = 'underline';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.opacity = '0.9';
+      e.currentTarget.style.textDecoration = 'none';
+    }}
+  >
+    ↓ Descargar SVG
+  </a>
+);
+
 const meta: Meta = {
   title: 'Brand',
   parameters: {
@@ -69,6 +99,132 @@ export const Uso_de_marca: StoryObj = {
         </ul>
       </div>
 
+      {/* Separador */}
+      <div style={{
+        borderTop: `${borders.widthSm} solid ${colors.divider}`,
+        marginTop: spacing[6],
+        marginBottom: spacing[6]
+      }} />
+
+      <h2>📦 Variantes de logos</h2>
+
+      <h3>Logos horizontales</h3>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: spacing[2], marginBottom: spacing[4] }}>
+        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+            <img
+              src={Logo200x75Color}
+              alt="Logo Khipu Color"
+              style={{ width: '100%', height: 'auto' }}
+            />
+          </div>
+          <div style={{ fontSize: fontSizes.sm, marginBottom: spacing[1] }}>
+            <strong>Uso:</strong> Espacio positivo (logo color sobre fondo blanco)
+          </div>
+          <DownloadButton href={Logo200x75Color} fileName="khipu-200x75-color.svg" />
+        </div>
+
+        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+            <img
+              src={Logo200x75Purple}
+              alt="Logo Khipu Púrpura"
+              style={{ width: '100%', height: 'auto' }}
+            />
+          </div>
+          <div style={{ fontSize: fontSizes.sm, marginBottom: spacing[1] }}>
+            <strong>Uso:</strong> Espacio negativo (logo blanco sobre fondo de color)
+          </div>
+          <DownloadButton href={Logo200x75Purple} fileName="khipu-200x75-purple.svg" />
+        </div>
+
+        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+            <img
+              src={Logo200x75Black}
+              alt="Logo Khipu Negro"
+              style={{ width: '100%', height: 'auto' }}
+            />
+          </div>
+          <div style={{ fontSize: fontSizes.sm, marginBottom: spacing[1] }}>
+            <strong>Uso:</strong> Espacio negativo B&N (logo blanco sobre fondo negro)
+          </div>
+          <DownloadButton href={Logo200x75Black} fileName="khipu-200x75-black.svg" />
+        </div>
+      </div>
+
+      <h3>Logos cuadrados</h3>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: spacing[2], marginBottom: spacing[4] }}>
+        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+            <img
+              src={Logo140Simple}
+              alt="K Color"
+              style={{ width: '100px', height: 'auto' }}
+            />
+          </div>
+          <div style={{ fontSize: fontSizes.sm, marginBottom: spacing[1] }}>
+            <strong>K Color</strong><br/>
+            <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>UI minimalista</span>
+          </div>
+          <DownloadButton href={Logo140Simple} fileName="khipu-140x140-simple.svg" />
+        </div>
+
+        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+            <img
+              src={Logo140Purple}
+              alt="K Púrpura"
+              style={{ width: '100px', height: 'auto' }}
+            />
+          </div>
+          <div style={{ fontSize: fontSizes.sm, marginBottom: spacing[1] }}>
+            <strong>K Púrpura</strong><br/>
+            <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>Íconos de app, favicons</span>
+          </div>
+          <DownloadButton href={Logo140Purple} fileName="khipu-140x140-purple.svg" />
+        </div>
+
+        <div style={{ padding: spacing[2.5], background: colorsByMode.dark.background.elevated, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colorsByMode.dark.divider}`, color: colors.primary.contrastText }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colorsByMode.dark.action.hover, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+            <img
+              src={Logo140White}
+              alt="K Blanco"
+              style={{ width: '100px', height: 'auto' }}
+            />
+          </div>
+          <div style={{ fontSize: fontSizes.sm, marginBottom: spacing[1] }}>
+            <strong>K Blanco</strong><br/>
+            <span style={{ fontSize: fontSizes.xs, color: colorsByMode.dark.text.secondary }}>Fondos oscuros</span>
+          </div>
+          <DownloadButton href={Logo140White} fileName="khipu-140x140-white.svg" />
+        </div>
+
+        <div style={{ padding: spacing[2.5], background: colorsByMode.dark.background.elevated, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colorsByMode.dark.divider}`, color: colors.primary.contrastText }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colorsByMode.dark.action.hover, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+            <img
+              src={Logo140WhiteNeg}
+              alt="K Blanco Negativo"
+              style={{ width: '100px', height: 'auto' }}
+            />
+          </div>
+          <div style={{ fontSize: fontSizes.sm, marginBottom: spacing[1] }}>
+            <strong>K Blanco Negativo</strong><br/>
+            <span style={{ fontSize: fontSizes.xs, color: colorsByMode.dark.text.secondary }}>Alto contraste</span>
+          </div>
+          <DownloadButton href={Logo140WhiteNeg} fileName="khipu-140x140-white-negative.svg" />
+        </div>
+      </div>
+
+      {/* Separador */}
+      <div style={{
+        borderTop: `${borders.widthSm} solid ${colors.divider}`,
+        marginTop: spacing[6],
+        marginBottom: spacing[6]
+      }} />
+
       <h2>🎯 Guía de uso</h2>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: spacing[3], marginBottom: spacing[4] }}>
@@ -115,119 +271,12 @@ export const Uso_de_marca: StoryObj = {
         </div>
       </div>
 
-      <h2>📦 Variantes de logos</h2>
-
-      <h3>Logos horizontales</h3>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: spacing[2], marginBottom: spacing[4] }}>
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ fontSize: fontSizes.base, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: colors.success.light }}>
-            Color
-          </div>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
-            <img
-              src={Logo200x75Color}
-              alt="Logo Khipu Color"
-              style={{ width: '100%', height: 'auto' }}
-            />
-          </div>
-          <div style={{ fontSize: fontSizes.sm }}>
-            <strong>Uso:</strong> Espacio positivo (modo claro), impresos.
-          </div>
-        </div>
-
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ fontSize: fontSizes.base, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: colors.primary.main }}>
-            Púrpura completo
-          </div>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
-            <img
-              src={Logo200x75Purple}
-              alt="Logo Khipu Púrpura"
-              style={{ width: '100%', height: 'auto' }}
-            />
-          </div>
-          <div style={{ fontSize: fontSizes.sm }}>
-            <strong>Uso:</strong> Espacio negativo (modo oscuro color), impresos.
-          </div>
-        </div>
-
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ fontSize: fontSizes.base, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5] }}>
-            Negro
-          </div>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
-            <img
-              src={Logo200x75Black}
-              alt="Logo Khipu Negro"
-              style={{ width: '100%', height: 'auto' }}
-            />
-          </div>
-          <div style={{ fontSize: fontSizes.sm }}>
-            <strong>Uso:</strong> Espacio negativo (modo oscuro), impresos.
-          </div>
-        </div>
-      </div>
-
-      <h3>Logos cuadrados</h3>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: spacing[2], marginBottom: spacing[4] }}>
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
-            <img
-              src={Logo140Simple}
-              alt="K Color"
-              style={{ width: '100px', height: 'auto' }}
-            />
-          </div>
-          <div style={{ fontSize: fontSizes.sm }}>
-            <strong>K Color</strong><br/>
-            <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>UI minimalista</span>
-          </div>
-        </div>
-
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
-            <img
-              src={Logo140Purple}
-              alt="K Púrpura"
-              style={{ width: '100px', height: 'auto' }}
-            />
-          </div>
-          <div style={{ fontSize: fontSizes.sm }}>
-            <strong>K Púrpura</strong><br/>
-            <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>Íconos de app, favicons</span>
-          </div>
-        </div>
-
-        <div style={{ padding: spacing[2.5], background: colorsByMode.dark.background.elevated, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colorsByMode.dark.divider}`, color: colors.primary.contrastText }}>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colorsByMode.dark.action.hover, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
-            <img
-              src={Logo140White}
-              alt="K Blanco"
-              style={{ width: '100px', height: 'auto' }}
-            />
-          </div>
-          <div style={{ fontSize: fontSizes.sm }}>
-            <strong>K Blanco</strong><br/>
-            <span style={{ fontSize: fontSizes.xs, color: colorsByMode.dark.text.secondary }}>Fondos oscuros</span>
-          </div>
-        </div>
-
-        <div style={{ padding: spacing[2.5], background: colorsByMode.dark.background.elevated, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colorsByMode.dark.divider}`, color: colors.primary.contrastText }}>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colorsByMode.dark.action.hover, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
-            <img
-              src={Logo140WhiteNeg}
-              alt="K Blanco Negativo"
-              style={{ width: '100px', height: 'auto' }}
-            />
-          </div>
-          <div style={{ fontSize: fontSizes.sm }}>
-            <strong>K Blanco Negativo</strong><br/>
-            <span style={{ fontSize: fontSizes.xs, color: colorsByMode.dark.text.secondary }}>Alto contraste</span>
-          </div>
-        </div>
-      </div>
+      {/* Separador */}
+      <div style={{
+        borderTop: `${borders.widthSm} solid ${colors.divider}`,
+        marginTop: spacing[6],
+        marginBottom: spacing[6]
+      }} />
 
       <h2>Valores de marca</h2>
 
