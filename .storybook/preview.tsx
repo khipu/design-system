@@ -5,8 +5,10 @@ import { useDarkMode } from '@vueless/storybook-dark-mode';
 import { colorsByMode, fontFamilies } from '../src/tokens';
 import '../src/tokens/css-variables.css';
 
-// Load the BeerCSS bundle for component styling
-import '../dist/beercss/khipu-beercss.min.css';
+// BeerCSS base + Khipu customizations (source imports for Vite HMR)
+import 'beercss/dist/cdn/beer.min.css';
+import '../src/beercss/customizations/khipu-tokens.css';
+import '../src/beercss/customizations/khipu-components.css';
 
 const light = colorsByMode.light;
 const dark = colorsByMode.dark;

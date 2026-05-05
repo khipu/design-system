@@ -16,8 +16,13 @@ describe('KdsCopyableTable', () => {
     expect(screen.getByText('12345')).toBeInTheDocument();
   });
 
-  it('has copy all button', () => {
+  it('has copy all button with bundle classes', () => {
     render(<KdsCopyableTable rows={rows} />);
-    expect(screen.getByLabelText('Copiar todo')).toBeInTheDocument();
+    const btn = screen.getByLabelText('Copiar todo');
+    expect(btn).toBeInTheDocument();
+    expect(btn.classList.contains('kds-btn')).toBe(true);
+    expect(btn.classList.contains('kds-btn-outlined')).toBe(true);
+    expect(btn.classList.contains('kds-btn-block')).toBe(true);
+    expect(btn.classList.contains('kds-copy-all-btn')).toBe(true);
   });
 });
