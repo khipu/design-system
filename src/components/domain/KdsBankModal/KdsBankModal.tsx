@@ -24,7 +24,7 @@ export const KdsBankModal = forwardRef<HTMLDivElement, KdsBankModalProps>(
     };
 
     return (
-      <Dialog.Root open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+      <Dialog.Root open={open} onOpenChange={(o: boolean) => { if (!o) onClose(); }}>
         <Dialog.Portal container={container}>
           <Dialog.Overlay className="kds-bank-modal-scrim open">
             <Dialog.Content ref={ref} className={clsx('kds-bank-modal', className)}>

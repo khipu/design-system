@@ -142,6 +142,7 @@ body.dark {
     /* Scroll Container Utilities */
     --kds-scroll-sm-height: 280px;
     --kds-scroll-md-height: 420px;
+
     --kds-scroll-lg-height: 600px;
 
     /* Stage Layout */
