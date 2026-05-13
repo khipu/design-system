@@ -4134,19 +4134,45 @@ dialog#surveyModal button.circle {
     align-items: center;
     justify-content: center;
     gap: var(--kds-spacing-1);
-    color: var(--kds-color-text-disabled);
+    color: var(--kds-color-gray-400);
     font-size: var(--kds-font-size-xs);
+    letter-spacing: var(--kds-letter-spacing-wide);
     padding: var(--kds-spacing-1) 0;
 }
 
-.kds-secure-footer i {
-    font-size: var(--kds-font-size-sm);
+/* Desktop: footer inside card hidden; Mobile: footer outside card hidden */
+.kds-card-elevated > .kds-secure-footer {
+    display: none;
 }
 
-/* Inside a card: push to bottom with auto margin, subtle top spacing */
-.kds-secure-footer.inside {
-    margin-top: auto;
-    padding-top: var(--kds-spacing-3);
+@media (max-width: 767px) {
+    .kds-card-elevated > .kds-secure-footer {
+        display: flex;
+    }
+    .kds-screen > .kds-secure-footer {
+        display: none;
+    }
+}
+
+.kds-secure-footer-lock {
+    width: 12px;
+    height: 12px;
+    flex: 0 0 auto;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.kds-secure-footer .khipu-mark {
+    height: 11px;
+    width: auto;
+    flex: 0 0 auto;
+    display: block;
+    object-fit: contain;
+    overflow: visible;
 }
 
 .kds-secure-footer-code {
@@ -4161,7 +4187,7 @@ dialog#surveyModal button.circle {
 .kds-expand-toggle {
     background: none;
     border: 0;
-    padding: var(--kds-spacing-0-5) 0;
+    padding: 0;
     color: var(--kds-color-primary-main);
     font-weight: var(--kds-font-weight-medium);
     font-size: var(--kds-font-size-sm);
@@ -4201,7 +4227,7 @@ dialog#surveyModal button.circle {
 
 .kds-expand-panel.open {
     max-height: 800px;
-    margin-top: var(--kds-spacing-1);
+    margin-top: 0;
 }
 
 /* ========================================
@@ -4678,7 +4704,13 @@ dialog#surveyModal button.circle {
         opacity: calc(1 - var(--collapse-progress) * 1.5);
     }
 
-    /* Amount: NO font-size change (source keeps 30px always) */
+    /* Amount: 30px → 24px (progressive) */
+    .kds-invoice-sticky .kds-invoice-amount {
+        font-size: calc(
+            var(--kds-font-size-3xl) -
+            (var(--kds-font-size-3xl) - var(--kds-font-size-2xl)) * var(--collapse-progress)
+        );
+    }
 
     /* Merchant tile: 64×64px → 50×50px, radius 8px → 6px (progressive) */
     .kds-invoice-sticky .kds-invoice-merchant {
@@ -4704,10 +4736,11 @@ dialog#surveyModal button.circle {
         );
     }
 
-    /* Code: margin-top 4px → 0 (progressive). Font-size stays 12px. */
+    /* Code: margin-top 8px → 0, font-size 12px → 11px (progressive) */
     .kds-invoice-sticky .kds-invoice-code {
         margin-top: calc(var(--kds-spacing-1) * (1 - var(--collapse-progress)));
         margin-bottom: 0;
+        font-size: calc(var(--kds-font-size-xs) - 1px * var(--collapse-progress));
     }
 
     /* Pull all siblings after sticky wrapper up to fill clipped gap.
@@ -4737,22 +4770,18 @@ dialog#surveyModal button.circle {
 
 /* -- Invoice Collapsible (kv rows below header) -- */
 .kds-invoice-collapsible {
-    margin-top: var(--kds-spacing-1-5);
+    margin-top: var(--kds-spacing-1);
 }
 
-/* -- Invoice Summary (kv + expand toggle side by side) -- */
+/* -- Invoice Summary -- */
 .kds-invoice-summary {
     display: flex;
     align-items: flex-end;
-    gap: var(--kds-spacing-2);
+    gap: var(--kds-spacing-1);
 }
 .kds-invoice-summary .kds-kv {
     flex: 1;
     min-width: 0;
-}
-.kds-invoice-summary .kds-expand-toggle {
-    flex-shrink: 0;
-    white-space: nowrap;
 }
 
 /* -- Invoice Header (amount + merchant tile) -- */
@@ -4776,11 +4805,11 @@ div.kds-invoice-header,
 }
 
 .kds-invoice-amount {
-    font-weight: 700;
-    font-size: 30px;
-    line-height: 1.25;
-    letter-spacing: 0.4px;
-    color: var(--kds-color-text-primary);
+    font-weight: var(--kds-font-weight-bold);
+    font-size: var(--kds-font-size-3xl);
+    line-height: var(--kds-line-height-tight);
+    letter-spacing: var(--kds-letter-spacing-wide);
+    color: var(--kds-color-gray-900);
     margin: 0;
 }
 
@@ -4789,10 +4818,19 @@ div.kds-invoice-header,
 }
 
 .kds-invoice-code {
+    font-family: var(--kds-font-family-mono);
     font-size: var(--kds-font-size-xs);
-    color: var(--kds-color-text-hint);
+    font-weight: var(--kds-font-weight-regular);
+    letter-spacing: var(--kds-letter-spacing-wider);
+    font-variant-numeric: tabular-nums;
+    color: var(--kds-color-gray-400);
+    text-transform: uppercase;
     margin: 0;
     margin-top: var(--kds-spacing-1);
+}
+
+.kds-invoice-code::first-letter {
+    text-transform: uppercase;
 }
 
 .kds-invoice-merchant {
@@ -4822,6 +4860,13 @@ div.kds-invoice-header,
     line-height: 1;
 }
 
+.kds-invoice-merchant img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--kds-radius-md);
+}
+
 /* -- Card Title -- */
 .kds-card-title {
     font-weight: 700;
@@ -4843,17 +4888,21 @@ div.kds-invoice-header,
 
 .kds-kv dt {
     font-size: var(--kds-font-size-xs);
-    letter-spacing: 0.2px;
-    color: var(--kds-color-text-hint);
+    line-height: var(--kds-line-height-relaxed);
+    letter-spacing: normal;
+    color: var(--kds-color-text-secondary);
     text-transform: uppercase;
     margin: 0;
 }
 
 .kds-kv dd {
     margin: 0;
-    font-size: var(--kds-font-size-sm);
-    font-weight: 600;
-    color: var(--kds-color-text-primary);
+    font-size: var(--kds-font-size-xs);
+    line-height: var(--kds-line-height-relaxed);
+    font-weight: var(--kds-font-weight-bold);
+    letter-spacing: normal;
+    color: var(--kds-color-gray-800);
+    min-width: 0;
 }
 
 /* -- Dividers -- */
@@ -4875,13 +4924,13 @@ div.kds-invoice-header,
 .kds-detail-list {
     display: flex;
     flex-direction: column;
-    gap: var(--kds-spacing-1-75);
-    margin: var(--kds-spacing-1-75) 0 0;
-    padding: 0;
+    gap: var(--kds-spacing-1-5);
+    margin: 0;
+    padding: 0 0 var(--kds-spacing-1);
 }
 
 .kds-detail-group {
-    margin-bottom: var(--kds-spacing-1-75);
+    margin-bottom: var(--kds-spacing-1-5);
 }
 
 .kds-detail-group:last-child {
@@ -4890,7 +4939,7 @@ div.kds-invoice-header,
 
 .kds-detail-group dt {
     font-size: var(--kds-font-size-xs);
-    letter-spacing: 0.2px;
+    letter-spacing: var(--kds-letter-spacing-wide);
     color: var(--kds-color-text-hint);
     text-transform: uppercase;
     margin: 0 0 var(--kds-spacing-0-5);
@@ -4899,7 +4948,7 @@ div.kds-invoice-header,
 .kds-detail-group dd {
     margin: 0;
     font-size: var(--kds-font-size-sm);
-    line-height: 1.45;
+    line-height: var(--kds-line-height-normal);
     color: var(--kds-color-text-primary);
 }
 
@@ -5115,6 +5164,134 @@ button.kds-btn-success::after {
     margin-top: var(--kds-spacing-2-5);
 }
 
+/* -- PSP Banner -- */
+.kds-psp-banner {
+    padding: var(--kds-spacing-0-5) var(--kds-spacing-1-25);
+    font-size: var(--kds-font-size-sm);
+    border-radius: var(--kds-radius-sm);
+    margin-top: var(--kds-spacing-1-5);
+}
+
+/* -- Bill Description -- */
+.kds-bill-description-body {
+    font-family: inherit;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--kds-color-text-secondary);
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-normal);
+}
+
+.kds-bill-description-picture {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    background: var(--kds-color-background-paper);
+    padding: var(--kds-spacing-1-25);
+    border-radius: var(--kds-radius-md);
+    margin-top: var(--kds-spacing-1);
+    display: block;
+    box-sizing: content-box;
+}
+
+/* -- Share Card (mustContinue) -- */
+.kds-share-card {
+    margin-top: var(--kds-spacing-2);
+    padding: var(--kds-spacing-2);
+    border: var(--kds-border-width-sm) solid var(--kds-color-gray-200);
+    border-radius: var(--kds-radius-lg);
+    background: var(--kds-color-background-paper);
+}
+
+.kds-share-eyebrow {
+    font-size: var(--kds-font-size-caption);
+    letter-spacing: var(--kds-letter-spacing-wide);
+    color: var(--kds-color-gray-500);
+    text-transform: uppercase;
+    font-weight: var(--kds-font-weight-bold);
+    margin: 0 0 var(--kds-spacing-0-75);
+}
+
+.kds-share-copy {
+    font-size: var(--kds-font-size-body1);
+    line-height: var(--kds-line-height-normal);
+    color: var(--kds-color-gray-800);
+    margin: 0 0 var(--kds-spacing-1-5);
+}
+
+.kds-share-divider {
+    height: 0;
+    border: 0;
+    border-top: var(--kds-border-width-sm) dashed var(--kds-color-gray-200);
+    margin: var(--kds-spacing-1-5) 0;
+}
+
+.kds-share-link {
+    display: block;
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-primary-main);
+    text-decoration: none;
+    word-break: break-all;
+    margin: 0 0 var(--kds-spacing-1-5);
+}
+
+.kds-share-link:hover {
+    text-decoration: underline;
+}
+
+.kds-share-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kds-spacing-0-75);
+    background: none;
+    border: 0;
+    padding: var(--kds-spacing-0-75) var(--kds-spacing-1-25);
+    cursor: pointer;
+    color: var(--kds-color-text-primary);
+    font-size: var(--kds-font-size-sm);
+    font-family: inherit;
+    border-radius: var(--kds-radius-sm);
+    margin: 0 auto;
+}
+
+.kds-share-action:hover {
+    background: var(--kds-color-primary-hover);
+    color: var(--kds-color-primary-main);
+}
+
+.kds-share-action .material-symbols-outlined {
+    font-size: var(--kds-font-size-2xl);
+}
+
+/* -- Participants List (mustContinue) -- */
+.kds-participants {
+    margin: 0 0 var(--kds-spacing-2);
+    padding: var(--kds-spacing-1-5) var(--kds-spacing-1-75);
+    background: var(--kds-alert-success-bg);
+    border-radius: var(--kds-radius-md);
+}
+
+.kds-participants-label {
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-bold);
+    color: var(--kds-alert-success-text);
+    margin: 0 0 var(--kds-spacing-0-75);
+    text-transform: uppercase;
+    letter-spacing: var(--kds-letter-spacing-wide);
+}
+
+.kds-participants-list {
+    margin: 0;
+    padding-left: var(--kds-spacing-2);
+    color: var(--kds-alert-success-text);
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-relaxed);
+}
+
 /* ================================================================
    PAYMENT FLOW LAYOUT
    Stage, flow container, brand row, screen transitions
@@ -5157,6 +5334,7 @@ button.kds-btn-success::after {
 /* Mobile: Cards full-width with rounded corners */
 @media (max-width: 767px) {
     .kds-payment-stage {
+        padding-top: 0;
         padding-left: 0;
         padding-right: 0;
     }
@@ -5166,7 +5344,7 @@ button.kds-btn-success::after {
         padding: 0;
     }
 
-    /* Cards: rounded corners, full width within padded stage */
+    /* Cards: rounded corners, full width, explicit vertical padding */
     .kds-card-elevated,
     .khipu-card-elevated {
         margin-left: 0;
@@ -5174,6 +5352,18 @@ button.kds-btn-success::after {
         border-radius: var(--kds-radius-card);
         width: 100%;
     }
+
+    .kds-payment-flow .kds-card-elevated {
+        padding-top: var(--kds-spacing-2);
+        padding-bottom: var(--kds-spacing-2);
+    }
+
+    /* Invoice sticky card: progressive padding-top (expanded 20px → collapsed 8px).
+       Overrides base rule at same specificity; source order wins here. */
+    .kds-payment-flow .kds-card-elevated.kds-invoice-sticky {
+        padding-top: var(--kds-spacing-1-5);
+    }
+
 
 }
 
@@ -5222,6 +5412,7 @@ button.kds-btn-success::after {
     .kds-brand-inner {
         display: flex;
     }
+
 }
 
 /* Screen transitions (multi-step flows) */
@@ -5235,8 +5426,8 @@ button.kds-btn-success::after {
     gap: var(--kds-spacing-3);
 }
 @keyframes kds-fadein {
-    from { opacity: 0; transform: translateY(var(--kds-spacing-0-5)); }
-    to   { opacity: 1; transform: none; }
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 /* ================================================================
