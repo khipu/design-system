@@ -4,6 +4,10 @@
  * Source: design.khipu.com and Material Design 3 specifications
  */
 
+ * {
+    border-radius: 0;
+ }
+
 
 :has(>main) {
     background-color: transparent !important;
@@ -4905,7 +4909,6 @@ div.kds-invoice-header,
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border-radius: 0;
 }
 
 /* -- Dividers -- */
