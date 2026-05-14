@@ -255,7 +255,7 @@ footer {
    ======================================== */
 :root {
     /* Scroll-linked collapse range (mobile sticky invoice) */
-    --kds-scroll-collapse-end: 150px;
+    --kds-scroll-collapse-end: 60px;
 
     /* Merchant tile: normal and collapsed sizes (from source prototype) */
     --kds-merchant-size: 64px;
