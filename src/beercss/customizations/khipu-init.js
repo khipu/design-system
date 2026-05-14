@@ -464,7 +464,7 @@
     /**
      * Initialize sticky invoice card progressive collapse on scroll
      * MOBILE ONLY - Desktop mantiene cajitas normales
-     * Uses scroll-linked animation (0-150px) for smooth collapse/expand
+     * Uses scroll-linked animation (0-60px) for smooth collapse/expand
      * Updates CSS custom property --collapse-progress (0 to 1) for GPU-accelerated animations
      * Works with multiple screens - targets sticky element in currently active screen
      * Safari-compatible: uses native CSS custom properties, calc(), and requestAnimationFrame
@@ -473,9 +473,9 @@
     function initStickyInvoice(root) {
         root = root || document;
 
-        // Progressive collapse range: 0px (expanded) to 150px (collapsed)
+        // Progressive collapse range: 0px (expanded) to 60px (collapsed)
         var COLLAPSE_START = 0;
-        var COLLAPSE_END = 150;
+        var COLLAPSE_END = 60;
 
         var lastScrollY = 0;
         var ticking = false;
