@@ -456,8 +456,8 @@ export const typography = {
   button: {
     fontFamily: fontFamilies.secondary,
     fontWeight: fontWeights.medium,
-    fontSize: '0.9375rem', // 15px
-    lineHeight: '26px',
+    fontSize: '0.875rem', // 14px
+    lineHeight: '1.5',
     letterSpacing: '0.46px',
     textTransform: 'uppercase' as const,
   },
@@ -553,10 +553,10 @@ export const semanticSpacing = {
 
   // Button spacing
   button: {
-    paddingY: '8px',
-    paddingX: '22px',
-    padding: '8px 22px',
-    minHeight: '50px',  // Altura mínima para coincidir con KdsButton
+    paddingY: '0',
+    paddingX: '16px',
+    padding: '0 16px',
+    minHeight: '44px',  // Altura mínima para coincidir con KdsButton
     iconSize: '20px',   // Tamaño de iconos en botones (Material Design medium)
   },
 
@@ -747,7 +747,7 @@ export const borderRadius = {
   full: '9999px',
 
   // Component-specific
-  button: '4px',
+  button: '10px',
   input: '4px',
   card: '14px',  // Payment card radius (between lg=12px and xl=16px) - Beer CSS Proposal
   modal: '20px',

@@ -5,6 +5,13 @@ const meta: Meta<typeof KdsButton> = {
   title: 'Core/KdsButton',
   component: KdsButton,
   tags: ['autodocs'],
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '300px' }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     variant: {
       control: 'select',
@@ -43,6 +50,13 @@ export const WithStartIcon: Story = {
 
 export const FullWidth: Story = {
   args: { variant: 'primary', fullWidth: true, children: 'Continuar' },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '100%' }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const Loading: Story = {
@@ -53,17 +67,6 @@ export const Small: Story = {
   args: { variant: 'primary', size: 'sm', children: 'Pequeño' },
 };
 
-export const AllVariants: Story = {
-  render: () => (
-    <div className="kds-flex kds-flex-col kds-gap-4" style={{ maxWidth: 300 }}>
-      <KdsButton variant="primary">Primary</KdsButton>
-      <KdsButton variant="secondary">Secondary</KdsButton>
-      <KdsButton variant="outlined">Outlined</KdsButton>
-      <KdsButton variant="text">Text</KdsButton>
-      <KdsButton variant="success">Success</KdsButton>
-      <KdsButton variant="primary" startIcon="download">With Icon</KdsButton>
-      <KdsButton variant="primary" loading>Loading</KdsButton>
-      <KdsButton variant="primary" disabled>Disabled</KdsButton>
-    </div>
-  ),
+export const Disabled: Story = {
+  args: { variant: 'primary', disabled: true, children: 'Deshabilitado' },
 };
