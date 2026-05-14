@@ -5319,6 +5319,14 @@ button.kds-btn-success::after {
     padding-top: 0;
     padding-bottom: 0;
 }
+
+/* Reset BeerCSS sibling margin on form/section inside payment cards.
+   BeerCSS sets `:not(.grid,nav,.row) > … + form/section { margin-block-start:1rem }`
+   which adds unwanted spacing inside cards that contain forms. */
+.kds-payment-flow .kds-card-elevated > form,
+.kds-payment-flow .kds-card-elevated > section {
+    margin-block-start: 0;
+}
 .kds-payment-flow .kds-card-elevated.kds-invoice-sticky {
     padding-top: var(--kds-spacing-1);
     padding-bottom: 0;
