@@ -4561,6 +4561,7 @@ dialog#surveyModal button.circle {
     background: var(--kds-color-background-muted);
     border-radius: var(--kds-radius-lg);
     padding: var(--kds-spacing-0-25);
+    margin-bottom: var(--kds-spacing-2);
     display: flex;
     position: relative;
 }
@@ -4827,8 +4828,8 @@ div.kds-invoice-header,
     margin-top: var(--kds-spacing-1);
 }
 
-.kds-invoice-code::first-letter {
-    text-transform: uppercase;
+.kds-invoice-code-value {
+    text-transform: lowercase;
 }
 
 .kds-invoice-merchant {
@@ -4872,7 +4873,7 @@ div.kds-invoice-header,
     line-height: 1.5;
     letter-spacing: -0.31px;
     color: var(--kds-color-text-primary);
-    margin: 0 0 var(--kds-spacing-2);
+    margin-bottom: var(--kds-spacing-2) !important;
 }
 
 /* -- Key-Value Grid -- */
@@ -4895,12 +4896,15 @@ div.kds-invoice-header,
 
 .kds-kv dd {
     margin: 0;
-    font-size: var(--kds-font-size-xs);
+    font-size: var(--kds-font-size-sm);
     line-height: var(--kds-line-height-relaxed);
     font-weight: var(--kds-font-weight-bold);
     letter-spacing: normal;
     color: var(--kds-color-gray-800);
     min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* -- Dividers -- */
@@ -5108,7 +5112,11 @@ button.kds-btn-success::after {
     display: flex;
     flex-direction: column;
     gap: var(--kds-spacing-1);
-    margin-top: var(--kds-spacing-1);
+    margin-bottom: var(--kds-spacing-1);
+}
+
+.kds-bank-list:last-child {
+    margin-bottom: 0;
 }
 
 /* -- Field group spacing -- */
