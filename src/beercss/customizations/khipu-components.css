@@ -4905,6 +4905,7 @@ div.kds-invoice-header,
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    border-radius: 0;
 }
 
 /* -- Dividers -- */
