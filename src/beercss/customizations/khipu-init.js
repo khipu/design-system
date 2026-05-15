@@ -548,9 +548,8 @@
                 // Single DOM write per frame — set on screen (parent) so it cascades to sticky + siblings
                 currentScreen.style.setProperty('--collapse-progress', progress);
 
-                // Close expand panels inside the sticky card when fully collapsed
-                // so they don't reappear open when scrolling back up
-                if (progress === 1) {
+                // Close expand panels as soon as the sticky header starts collapsing
+                if (progress > 0) {
                     currentSticky.querySelectorAll('[data-expand-toggle][aria-expanded="true"]').forEach(function(toggle) {
                         toggle.setAttribute('aria-expanded', 'false');
                         var panelId = toggle.getAttribute('aria-controls');
