@@ -276,6 +276,7 @@ a.kds-btn.kds-btn-md {
     padding: var(--kds-spacing-2);
     box-shadow: var(--kds-shadow-card);
     transition: box-shadow 0.3s ease;
+    margin-block-start: 0 !important;
 }
 
 .kds-card-elevated:hover,
@@ -952,7 +953,7 @@ a.kds-btn.kds-btn-md {
 }
 
 /* ========================================
-   Snackbar Positioning
+   Snackbar Positioning & Styling
    ======================================== */
 
 .snackbar {
@@ -964,41 +965,99 @@ a.kds-btn.kds-btn-md {
     min-width: 344px;
     max-width: var(--kds-snackbar-max-width);
     box-shadow: var(--kds-shadow-8);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-spacing-1-5) var(--kds-spacing-2);
+    gap: var(--kds-spacing-1);
+    font-family: var(--kds-font-family-primary);
+    font-size: var(--kds-font-size-body2);
+    font-weight: var(--kds-font-weight-medium);
+    line-height: var(--kds-line-height-normal);
+    letter-spacing: var(--kds-letter-spacing-normal);
+    overflow: hidden;
 }
 
 /* Snackbar active state - ensure visibility when toggled via JS */
 .snackbar.active {
     visibility: visible !important;
     opacity: 1 !important;
-    transform: translateX(-50%) !important;
 }
 
-/* Snackbar semantic variants - background + text/icon color */
+/* Snackbar semantic variants
+   All use white text (--kds-color-primary-contrast) on solid semantic backgrounds */
 .snackbar.error {
     background-color: var(--kds-color-error-main) !important;
-    color: var(--on-error, var(--kds-color-primary-contrast)) !important;
+    color: var(--kds-color-primary-contrast) !important;
 }
 
 .snackbar.error i {
-    color: var(--on-error, var(--kds-color-primary-contrast)) !important;
+    color: var(--kds-color-primary-contrast) !important;
 }
 
 .snackbar.info {
     background-color: var(--kds-color-info-main) !important;
-    color: var(--on-info, var(--kds-color-primary-contrast)) !important;
+    color: var(--kds-color-primary-contrast) !important;
 }
 
 .snackbar.info i {
-    color: var(--on-info, var(--kds-color-primary-contrast)) !important;
+    color: var(--kds-color-primary-contrast) !important;
 }
 
 .snackbar.success {
     background-color: var(--kds-color-success-main) !important;
-    color: var(--on-success, var(--kds-color-primary-contrast)) !important;
+    color: var(--kds-color-primary-contrast) !important;
 }
 
 .snackbar.success i {
-    color: var(--on-success, var(--kds-color-primary-contrast)) !important;
+    color: var(--kds-color-primary-contrast) !important;
+}
+
+/* Snackbar progress bar — animated timer for auto-dismiss */
+.snackbar[data-auto-dismiss]::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 0 0 var(--kds-radius-md) var(--kds-radius-md);
+    animation: kds-snackbar-timer var(--kds-snackbar-duration, 5s) linear forwards;
+}
+
+@keyframes kds-snackbar-timer {
+    from { width: 100%; }
+    to { width: 0; }
+}
+
+/* Snackbar close button */
+.kds-snackbar-close {
+    background: none !important;
+    border: none !important;
+    color: var(--kds-color-primary-contrast) !important;
+    cursor: pointer;
+    padding: var(--kds-spacing-0-5) !important;
+    margin: calc(-1 * var(--kds-spacing-0-5)) !important;
+    margin-left: 0 !important;
+    border-radius: var(--kds-radius-full) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 150ms;
+    min-width: auto !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+.kds-snackbar-close:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.kds-snackbar-close i {
+    font-size: 18px !important;
+    color: var(--kds-color-primary-contrast) !important;
 }
 
 /* ========================================
@@ -1418,12 +1477,16 @@ body.dark {
    Asegurar que el dropdown arrow sea visible
    ========================================== */
 
-/* Select: mantener appearance nativa para mostrar el dropdown arrow */
+/* Select: reset nativo + arrow custom via SVG (iOS Safari ignora estilos con appearance:auto) */
 .field select {
-  /* BeerCSS puede estar ocultando el arrow, aseguramos que sea visible */
-  appearance: auto;
-  -webkit-appearance: auto;
-  -moz-appearance: auto;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23333' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--kds-spacing-1) center;
+  background-size: 20px;
+  padding-right: var(--kds-spacing-4) !important;
 }
 
 /* ==========================================
@@ -1971,7 +2034,8 @@ dialog.modal .field.border:focus-within {
         padding: var(--kds-spacing-2);
     }
 
-    .snackbar {
+    .snackbar,
+    .snackbar.active {
         min-width: calc(100% - 32px);
         left: 16px;
         right: 16px;
@@ -4154,6 +4218,10 @@ dialog#surveyModal button.circle {
     .kds-screen > .kds-secure-footer {
         display: none;
     }
+
+    .kds-screen > form {
+        margin-block-start: 0 !important;
+    }
 }
 
 .kds-secure-footer-lock {
@@ -5418,7 +5486,8 @@ button.kds-btn-success::after {
 }
 .kds-brand-inner svg,
 .kds-brand-inner img {
-    height: 22px;
+    width: calc(50px - 16px * var(--collapse-progress, 0));
+    height: auto;
     display: block;
 }
 
