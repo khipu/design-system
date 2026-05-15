@@ -89,16 +89,34 @@
     }
 
     /**
-     * Initialize flash messages with auto-dismiss
+     * Dismiss and remove a snackbar with fade-out
+     */
+    function dismissSnackbar(snackbar) {
+        snackbar.classList.remove('active');
+        setTimeout(function() { snackbar.remove(); }, 300);
+    }
+
+    /**
+     * Initialize flash messages with auto-dismiss and close button
      */
     function initFlashMessages() {
-        const snackbars = document.querySelectorAll('.snackbar[data-auto-dismiss="true"]');
+        var snackbars = document.querySelectorAll('.snackbar[data-auto-dismiss="true"]');
 
         snackbars.forEach(function(snackbar) {
+            // Give text span flex-grow so close button stays right
+            var span = snackbar.querySelector('span');
+            if (span) span.classList.add('max');
+
+            // Inject close button
+            var closeBtn = document.createElement('button');
+            closeBtn.className = 'kds-snackbar-close';
+            closeBtn.setAttribute('aria-label', 'Cerrar');
+            closeBtn.innerHTML = '<i class="material-symbols-outlined">close</i>';
+            closeBtn.onclick = function() { dismissSnackbar(snackbar); };
+            snackbar.appendChild(closeBtn);
+
             // Auto-dismiss after 5 seconds
-            setTimeout(function() {
-                snackbar.classList.remove('active');
-            }, 5000);
+            setTimeout(function() { dismissSnackbar(snackbar); }, 5000);
         });
     }
 
@@ -677,25 +695,24 @@
         type = type || 'info';
         duration = duration || 5000;
 
-        const snackbar = document.createElement('div');
+        var snackbar = document.createElement('div');
         snackbar.className = 'snackbar active ' + type;
+        snackbar.setAttribute('data-auto-dismiss', 'true');
+        snackbar.style.setProperty('--kds-snackbar-duration', duration + 'ms');
 
-        const icon = document.createElement('i');
+        var icon = document.createElement('i');
         icon.className = 'material-symbols-outlined';
         icon.textContent = type === 'success' ? 'check_circle' : (type === 'error' ? 'error' : 'info');
 
-        const span = document.createElement('span');
+        var span = document.createElement('span');
+        span.className = 'max';
         span.textContent = message;
 
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'transparent circle';
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'kds-snackbar-close';
+        closeBtn.setAttribute('aria-label', 'Cerrar');
         closeBtn.innerHTML = '<i class="material-symbols-outlined">close</i>';
-        closeBtn.onclick = function() {
-            snackbar.classList.remove('active');
-            setTimeout(function() {
-                snackbar.remove();
-            }, 300);
-        };
+        closeBtn.onclick = function() { dismissSnackbar(snackbar); };
 
         snackbar.appendChild(icon);
         snackbar.appendChild(span);
@@ -703,12 +720,7 @@
 
         document.body.appendChild(snackbar);
 
-        setTimeout(function() {
-            snackbar.classList.remove('active');
-            setTimeout(function() {
-                snackbar.remove();
-            }, 300);
-        }, duration);
+        setTimeout(function() { dismissSnackbar(snackbar); }, duration);
     }
 
     // Export utilities to window for backward compatibility
