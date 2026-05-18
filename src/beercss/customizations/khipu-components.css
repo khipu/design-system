@@ -4471,10 +4471,10 @@ dialog#surveyModal button.circle {
     color: var(--kds-color-error-main);
 }
 
-/* Variant: info — icon has its own circle, so no outer border/background */
+/* Variant: info */
 .kds-status-block[data-status="info"] .kds-status-block-icon {
-    background: none;
-    border: none;
+    background: var(--kds-color-info-soft);
+    border: var(--kds-border-width-md) solid var(--kds-color-info-main);
     color: var(--kds-color-info-main);
 }
 
