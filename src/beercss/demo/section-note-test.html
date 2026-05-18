@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Section Note — Variantes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+<style>
+  body { font-family: 'Public Sans', sans-serif; background: #f5f5f5; margin: 0; padding: 32px; }
+  .demo { max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+  h2 { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+</style>
+</head>
+<body>
+
+<div class="demo">
+
+  <div>
+    <h2>Warning (default — sin clase extra)</h2>
+    <p class="kds-section-note">
+      <i class="material-symbols-outlined">warning</i>
+      <span>Los depósitos por caja no serán procesados.</span>
+    </p>
+  </div>
+
+  <div>
+    <h2>Info (.kds-info)</h2>
+    <p class="kds-section-note kds-info">
+      <i class="material-symbols-outlined">info</i>
+      <span>El comprobante fue enviado a tu correo electrónico.</span>
+    </p>
+  </div>
+
+  <div>
+    <h2>Success (.kds-success)</h2>
+    <p class="kds-section-note kds-success">
+      <i class="material-symbols-outlined">check_circle</i>
+      <span>Tu pago fue verificado correctamente.</span>
+    </p>
+  </div>
+
+  <div>
+    <h2>Error (.kds-error)</h2>
+    <p class="kds-section-note kds-error">
+      <i class="material-symbols-outlined">error</i>
+      <span>No pudimos procesar tu transferencia.</span>
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>
