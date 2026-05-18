@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Textarea — Variantes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+<style>
+  body { font-family: 'Public Sans', sans-serif; background: #f5f5f5; margin: 0; padding: 32px; }
+  .demo { max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+  h2 { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+</style>
+</head>
+<body>
+
+<div class="demo">
+
+  <div>
+    <h2>Default</h2>
+    <div class="field label border">
+      <textarea placeholder=" "></textarea>
+      <label>Mensaje</label>
+    </div>
+  </div>
+
+  <div>
+    <h2>Con texto prellenado</h2>
+    <div class="field label border">
+      <textarea placeholder=" ">Transferencia por concepto de arriendo mes de mayo 2026.</textarea>
+      <label>Descripci&oacute;n del pago</label>
+    </div>
+  </div>
+
+  <div>
+    <h2>Con helper text</h2>
+    <div class="field label border">
+      <textarea placeholder=" "></textarea>
+      <label>Comentario</label>
+      <span class="helper">M&aacute;ximo 500 caracteres</span>
+    </div>
+  </div>
+
+  <div>
+    <h2>Con icono</h2>
+    <div class="field label border">
+      <i class="material-symbols-outlined">edit_note</i>
+      <textarea placeholder=" "></textarea>
+      <label>Notas adicionales</label>
+    </div>
+  </div>
+
+  <div>
+    <h2>Error (invalid)</h2>
+    <div class="field label border invalid">
+      <textarea placeholder=" "></textarea>
+      <label>Motivo del reclamo</label>
+      <span class="error">Este campo es obligatorio</span>
+    </div>
+  </div>
+
+  <div>
+    <h2>Locked (solo lectura)</h2>
+    <div class="field label border locked">
+      <textarea placeholder=" ">Pago verificado el 18/05/2026 a las 14:32 hrs. Monto: $3.300 CLP. Banco: Banco Security.</textarea>
+      <label>Detalle de la operaci&oacute;n</label>
+    </div>
+  </div>
+
+  <div>
+    <h2>Fill (fondo relleno)</h2>
+    <div class="field label fill">
+      <textarea placeholder=" "></textarea>
+      <label>Observaciones</label>
+    </div>
+  </div>
+
+  <div>
+    <h2>Dentro de KdsCard</h2>
+    <article class="kds-card-elevated" style="padding: 20px;">
+      <div class="field label border">
+        <textarea placeholder=" "></textarea>
+        <label>Raz&oacute;n de la devoluci&oacute;n</label>
+        <span class="helper">Describe brevemente el motivo</span>
+      </div>
+    </article>
+  </div>
+
+</div>
+
+</body>
+</html>

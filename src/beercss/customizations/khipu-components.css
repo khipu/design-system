@@ -1387,6 +1387,17 @@ body.dark {
   transition: border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
 }
 
+/* === TEXTAREA FIX === */
+/* BeerCSS base sets minimal block padding; add breathing room for textarea */
+.field > textarea {
+  padding-block: 0.75rem;
+  resize: vertical;
+}
+
+.field.label > textarea {
+  padding-block-start: 1.5rem;
+}
+
 /* ==========================================
    NOTCH VISIBILITY (opacity)
    ========================================== */
@@ -4881,7 +4892,7 @@ div.kds-invoice-header,
 }
 
 .kds-invoice-amount {
-    font-weight: var(--kds-font-weight-bold);
+    font-weight: var(--kds-font-weight-semibold);
     font-size: var(--kds-font-size-3xl);
     line-height: var(--kds-line-height-tight);
     letter-spacing: var(--kds-letter-spacing-wide);
@@ -4900,7 +4911,7 @@ div.kds-invoice-header,
     letter-spacing: var(--kds-letter-spacing-wider);
     font-variant-numeric: tabular-nums;
     color: var(--kds-color-gray-400);
-    text-transform: uppercase;
+    text-transform: none;
     margin: 0;
     margin-block: unset;
     margin: var(--kds-spacing-1) 0;
@@ -4968,7 +4979,7 @@ div.kds-invoice-header,
     line-height: var(--kds-line-height-relaxed);
     letter-spacing: normal;
     color: var(--kds-color-text-secondary);
-    text-transform: uppercase;
+    text-transform: none;
     margin: 0;
 }
 
@@ -4976,7 +4987,7 @@ div.kds-invoice-header,
     margin: 0;
     font-size: var(--kds-font-size-sm);
     line-height: var(--kds-line-height-relaxed);
-    font-weight: var(--kds-font-weight-bold);
+    font-weight: var(--kds-font-weight-semibold);
     letter-spacing: normal;
     color: var(--kds-color-gray-800);
     min-width: 0;
@@ -5021,7 +5032,7 @@ div.kds-invoice-header,
     font-size: var(--kds-font-size-xs);
     letter-spacing: var(--kds-letter-spacing-wide);
     color: var(--kds-color-text-hint);
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 .kds-detail-group dd {
