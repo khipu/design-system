@@ -958,9 +958,6 @@ a.kds-btn.kds-btn-md {
 
 .snackbar {
     position: fixed;
-    bottom: var(--kds-spacing-3);
-    left: 50%;
-    transform: translateX(-50%);
     z-index: var(--kds-z-index-snackbar);
     min-width: 344px;
     max-width: var(--kds-snackbar-max-width);
@@ -4199,7 +4196,7 @@ dialog#surveyModal button.circle {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--kds-spacing-1);
+    gap: var(--kds-spacing-0-5);
     color: var(--kds-color-gray-400);
     font-size: var(--kds-font-size-xs);
     letter-spacing: var(--kds-letter-spacing-wide);
@@ -4261,10 +4258,11 @@ dialog#surveyModal button.circle {
     color: var(--kds-color-primary-main);
     font-weight: var(--kds-font-weight-medium);
     font-size: var(--kds-font-size-sm);
+    padding-bottom: var(--kds-spacing-1-25);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: var(--kds-spacing-0-75);
+    gap: 0;
 }
 
 .kds-expand-toggle:hover {
@@ -4897,11 +4895,13 @@ div.kds-invoice-header,
     color: var(--kds-color-gray-400);
     text-transform: uppercase;
     margin: 0;
-    margin-top: var(--kds-spacing-1);
+    margin-block: unset;
+    margin: var(--kds-spacing-1) 0;
 }
 
 .kds-invoice-code-value {
     text-transform: lowercase;
+    color: var(--kds-text-primary);
 }
 
 .kds-invoice-merchant {
@@ -4952,7 +4952,6 @@ div.kds-invoice-header,
 .kds-kv {
     display: grid;
     grid-template-columns: auto 1fr;
-    row-gap: var(--kds-spacing-1);
     column-gap: var(--kds-spacing-1-5);
     align-items: baseline;
 }
@@ -5000,7 +4999,7 @@ div.kds-invoice-header,
     flex-direction: column;
     gap: var(--kds-spacing-1-5);
     margin: 0;
-    padding: 0 0 var(--kds-spacing-1);
+    padding: 0 0 var(--kds-spacing-2);
 }
 
 .kds-detail-group {
@@ -5016,7 +5015,6 @@ div.kds-invoice-header,
     letter-spacing: var(--kds-letter-spacing-wide);
     color: var(--kds-color-text-hint);
     text-transform: uppercase;
-    margin: 0 0 var(--kds-spacing-0-5);
 }
 
 .kds-detail-group dd {
@@ -5706,7 +5704,7 @@ button.kds-btn-success::after {
     inset: 0;
     background: var(--kds-modal-backdrop);
     display: none;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     z-index: var(--kds-z-index-modal, 50);
     animation: kds-fade 0.2s ease both;
@@ -5734,7 +5732,7 @@ button.kds-btn-success::after {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--kds-spacing-2) var(--kds-spacing-2) var(--kds-spacing-1);
+    padding: var(--kds-spacing-1) var(--kds-spacing-2) var(--kds-spacing-1);
 }
 
 .kds-bank-modal-header h3 {
