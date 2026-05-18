@@ -157,10 +157,15 @@
 
             if (!logoSource) return;
 
+            // Insert inside the amount div (first child of .kds-invoice-header)
+            var header = card.querySelector('.kds-invoice-header');
+            var amountDiv = header ? header.firstElementChild : null;
+            if (!amountDiv) return;
+
             var inner = document.createElement('div');
             inner.className = 'kds-brand-inner';
             inner.appendChild(logoSource.cloneNode(true));
-            card.insertBefore(inner, card.firstChild);
+            amountDiv.insertBefore(inner, amountDiv.firstChild);
         });
     }
 
@@ -491,9 +496,9 @@
     function initStickyInvoice(root) {
         root = root || document;
 
-        // Progressive collapse range: 0px (expanded) to 60px (collapsed)
+        // Progressive collapse range: 0px (expanded) to 30px (collapsed)
         var COLLAPSE_START = 0;
-        var COLLAPSE_END = 60;
+        var COLLAPSE_END = 30;
 
         var lastScrollY = 0;
         var ticking = false;
@@ -541,7 +546,7 @@
                 if (!currentScreen.style.getPropertyValue('--collapse-collapsible-h')) {
                     var collapsible = currentSticky.querySelector('.kds-invoice-collapsible');
                     if (collapsible) {
-                        currentScreen.style.setProperty('--collapse-collapsible-h', collapsible.offsetHeight + 'px');
+                        currentScreen.style.setProperty('--collapse-collapsible-h', Math.min(collapsible.offsetHeight, 87) + 'px');
                     }
                 }
 
