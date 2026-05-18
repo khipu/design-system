@@ -6118,6 +6118,14 @@ a.kds-copy-all-btn.copied:hover {
     min-height: unset;
 }
 
+/* Severity variants — default stays warning (backward-compatible) */
+.kds-section-note.kds-info          { color: var(--kds-color-info-dark); }
+.kds-section-note.kds-info > i      { color: var(--kds-color-info-dark); }
+.kds-section-note.kds-success       { color: var(--kds-color-success-dark); }
+.kds-section-note.kds-success > i   { color: var(--kds-color-success-dark); }
+.kds-section-note.kds-error         { color: var(--kds-color-error-dark); }
+.kds-section-note.kds-error > i     { color: var(--kds-color-error-dark); }
+
 /* ========================================
    INFO TOOLTIP (.kds-info-tip)
    Inline info button with hover/click tooltip bubble.
