@@ -4269,7 +4269,6 @@ dialog#surveyModal button.circle {
     color: var(--kds-color-primary-main);
     font-weight: var(--kds-font-weight-medium);
     font-size: var(--kds-font-size-sm);
-    padding-bottom: var(--kds-spacing-1-25);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
