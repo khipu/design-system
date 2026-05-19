@@ -5310,8 +5310,9 @@ button.kds-btn-success::after {
 .kds-bill-attachment {
     display: inline-flex;
     align-items: center;
-    gap: var(--kds-spacing-0-75);
-    color: var(--kds-color-primary-main);
+    justify-content: flex-start;
+    width: fit-content;
+    color: var(--kds-color-info-main);
     font-size: var(--kds-font-size-sm);
     font-weight: var(--kds-font-weight-medium);
     text-decoration: none;
@@ -5323,6 +5324,8 @@ button.kds-btn-success::after {
 
 .kds-bill-attachment i {
     font-size: var(--kds-font-size-lg);
+    min-width: unset;
+    justify-content: flex-start;
 }
 
 /* -- Share Card (mustContinue) -- */
