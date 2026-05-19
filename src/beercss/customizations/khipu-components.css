@@ -4275,11 +4275,17 @@ dialog#surveyModal button.circle {
     gap: 0;
 }
 
-.kds-expand-toggle:hover {
+.kds-expand-toggle:hover,
+.kds-expand-toggle:focus,
+.kds-expand-toggle:active {
     background: transparent;
+    outline: none;
+    box-shadow: none;
 }
 
-.kds-expand-toggle:hover span {
+.kds-expand-toggle:hover span,
+.kds-expand-toggle:focus span,
+.kds-expand-toggle:active span {
     text-decoration: underline;
 }
 
@@ -4920,12 +4926,13 @@ div.kds-invoice-header,
     text-transform: uppercase;
     margin: 0;
     margin-block: unset;
-    margin: var(--kds-spacing-1) 0;
+    display: flex;
+    gap: var(--kds-spacing-1-5);
 }
 
 .kds-invoice-code-value {
     text-transform: lowercase;
-    color: var(--kds-text-primary);
+    color: var(--kds-color-gray-400);
 }
 
 .kds-invoice-merchant {
@@ -4976,7 +4983,7 @@ div.kds-invoice-header,
 .kds-kv {
     display: grid;
     grid-template-columns: auto 1fr;
-    column-gap: var(--kds-spacing-1-5);
+    column-gap: var(--kds-spacing-1);
     align-items: baseline;
 }
 
