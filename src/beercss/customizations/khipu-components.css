@@ -4884,6 +4884,13 @@ div.kds-invoice-header,
     align-content: initial;
 }
 
+/* Mobile collapsed state: center-align so merchant tile aligns with the smaller amount */
+@media (max-width: 767px) {
+    .kds-invoice-sticky.is-collapsed .kds-invoice-header {
+        align-items: center;
+    }
+}
+
 /* Reset BeerCSS sibling margin on <p> inside invoice header — specificity (0,4,1) ties BeerCSS, wins by source order */
 .kds-card-elevated.kds-invoice-sticky .kds-invoice-header p.kds-invoice-amount,
 .kds-card-elevated.kds-invoice-sticky .kds-invoice-header p.kds-invoice-code {
@@ -4910,7 +4917,7 @@ div.kds-invoice-header,
     letter-spacing: var(--kds-letter-spacing-wider);
     font-variant-numeric: tabular-nums;
     color: var(--kds-color-gray-400);
-    text-transform: none;
+    text-transform: uppercase;
     margin: 0;
     margin-block: unset;
     margin: var(--kds-spacing-1) 0;
@@ -4957,7 +4964,7 @@ div.kds-invoice-header,
 
 /* -- Card Title -- */
 .kds-card-title {
-    font-weight: 700;
+    font-weight: var(--kds-font-weight-semibold);
     font-size: var(--kds-font-size-base);
     line-height: 1.5;
     letter-spacing: -0.31px;
@@ -4978,7 +4985,7 @@ div.kds-invoice-header,
     line-height: var(--kds-line-height-relaxed);
     letter-spacing: normal;
     color: var(--kds-color-text-secondary);
-    text-transform: none;
+    text-transform: uppercase;
     margin: 0;
 }
 
@@ -5016,7 +5023,13 @@ div.kds-invoice-header,
     flex-direction: column;
     gap: var(--kds-spacing-1-5);
     margin: 0;
-    padding: 0 0 var(--kds-spacing-2);
+    padding: 0;
+}
+
+@media (max-width: 767px) {
+    .kds-detail-list {
+        padding-bottom: var(--kds-spacing-2);
+    }
 }
 
 .kds-detail-group {
@@ -5031,7 +5044,7 @@ div.kds-invoice-header,
     font-size: var(--kds-font-size-xs);
     letter-spacing: var(--kds-letter-spacing-wide);
     color: var(--kds-color-text-hint);
-    text-transform: none;
+    text-transform: uppercase;
 }
 
 .kds-detail-group dd {
@@ -5279,15 +5292,37 @@ button.kds-btn-success::after {
 }
 
 .kds-bill-description-picture {
-    width: 120px;
-    height: 120px;
+    max-width: 100px;
     object-fit: contain;
     background: var(--kds-color-background-paper);
-    padding: var(--kds-spacing-1-25);
-    border-radius: var(--kds-radius-md);
-    margin-top: var(--kds-spacing-1);
+    margin-top: var(--kds-spacing-1-25);
     display: block;
     box-sizing: content-box;
+}
+
+/* -- Bill Attachments -- */
+.kds-bill-attachments {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-0-75);
+}
+
+.kds-bill-attachment {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kds-spacing-0-75);
+    color: var(--kds-color-primary-main);
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-medium);
+    text-decoration: none;
+}
+
+.kds-bill-attachment:hover span {
+    text-decoration: underline;
+}
+
+.kds-bill-attachment i {
+    font-size: var(--kds-font-size-lg);
 }
 
 /* -- Share Card (mustContinue) -- */
@@ -6238,7 +6273,7 @@ a.kds-copy-all-btn.copied:hover {
 .kds-monto-row {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
     padding: var(--kds-spacing-1-75) 0 var(--kds-spacing-1);
     border-top: 1px dashed var(--kds-color-divider);
     margin-top: var(--kds-spacing-1-75);
