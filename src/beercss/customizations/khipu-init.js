@@ -496,9 +496,9 @@
     function initStickyInvoice(root) {
         root = root || document;
 
-        // Progressive collapse range: 0px (expanded) to 30px (collapsed)
+        // Progressive collapse range: 0px (expanded) to 20px (collapsed)
         var COLLAPSE_START = 0;
-        var COLLAPSE_END = 30;
+        var COLLAPSE_END = 20;
 
         var lastScrollY = 0;
         var ticking = false;
@@ -546,12 +546,15 @@
                 if (!currentScreen.style.getPropertyValue('--collapse-collapsible-h')) {
                     var collapsible = currentSticky.querySelector('.kds-invoice-collapsible');
                     if (collapsible) {
-                        currentScreen.style.setProperty('--collapse-collapsible-h', Math.min(collapsible.offsetHeight, 87) + 'px');
+                        currentScreen.style.setProperty('--collapse-collapsible-h', collapsible.offsetHeight + 'px');
                     }
                 }
 
                 // Single DOM write per frame — set on screen (parent) so it cascades to sticky + siblings
                 currentScreen.style.setProperty('--collapse-progress', progress);
+
+                // Toggle collapsed state class for discrete styling that can't interpolate (e.g. align-items)
+                currentSticky.classList.toggle('is-collapsed', progress >= 1);
 
                 // Close expand panels as soon as the sticky header starts collapsing
                 if (progress > 0) {
@@ -575,6 +578,9 @@
                 screens.forEach(function(screen) {
                     screen.style.removeProperty('--collapse-progress');
                     screen.style.removeProperty('--collapse-collapsible-h');
+                });
+                root.querySelectorAll('.kds-invoice-sticky.is-collapsed').forEach(function(el) {
+                    el.classList.remove('is-collapsed');
                 });
             }
         });
