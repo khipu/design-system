@@ -5191,6 +5191,8 @@ button.kds-btn-success::after {
 /* -- Alert inline (borderless, used inside cards) -- */
 .kds-alert-inline {
     border: none;
+    padding: var(--kds-spacing-1) var(--kds-spacing-1-5);
+    margin-bottom: var(--kds-spacing-1-5);
 }
 
 /* -- Card dimmed (behind overlays) -- */
