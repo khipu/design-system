@@ -4931,8 +4931,11 @@ div.kds-invoice-header,
 }
 
 .kds-invoice-code-value {
-    text-transform: lowercase;
     color: var(--kds-color-gray-400);
+}
+
+.kds-invoice-code-value--lowercase {
+    text-transform: lowercase;
 }
 
 .kds-invoice-merchant {
