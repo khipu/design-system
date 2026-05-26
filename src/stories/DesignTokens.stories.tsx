@@ -557,12 +557,16 @@ export const Spacing: Story = {
         <Typography variant="heading3" style={{ marginBottom: '8px' }}>Button Spacing</Typography>
         <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
           <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
-            <Typography variant="body-small"><strong>padding:</strong> 8px 22px</Typography>
+            <Typography variant="body-small"><strong>padding:</strong> 0 16px</Typography>
+          </div>
+          <div style={{ padding: '8px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+            <Typography variant="body-small"><strong>minHeight:</strong> 44px</Typography>
           </div>
         </div>
         <CodeBlock>{`// Button padding
 <Button sx={{
-  padding: semanticSpacing.button.padding, // '8px 22px'
+  padding: semanticSpacing.button.padding,     // '0 16px'
+  minHeight: semanticSpacing.button.minHeight, // '44px'
 }} />`}</CodeBlock>
       </div>
 

@@ -8,3 +8,11 @@ export { KdsInvoiceSticky, type KdsInvoiceStickyProps } from './KdsInvoiceSticky
 export { KdsBottomSheet, type KdsBottomSheetProps } from './KdsBottomSheet';
 export { KdsSecureFooter, type KdsSecureFooterProps } from './KdsSecureFooter';
 export { KdsRecapList, type KdsRecapListProps, type KdsRecapItem } from './KdsRecapList';
+export { KdsMontoRow, type KdsMontoRowProps } from './KdsMontoRow';
+export { KdsMerchantTile, type KdsMerchantTileProps } from './KdsMerchantTile';
+export {
+  KdsBillAttachment,
+  KdsBillAttachments,
+  type KdsBillAttachmentProps,
+  type KdsBillAttachmentsProps,
+} from './KdsBillAttachment';

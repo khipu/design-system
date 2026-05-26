@@ -1,1 +1,1 @@
-export { KdsSelect, type KdsSelectProps, type KdsSelectItemProps } from './KdsSelect';
+export { KdsSelect, type KdsSelectProps, type KdsSelectOption } from './KdsSelect';

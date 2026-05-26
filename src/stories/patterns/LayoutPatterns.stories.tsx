@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { KdsCard, KdsCardBody } from '../../components/core/KdsCard';
 import { KdsButton } from '../../components/core/KdsButton';
 import { KdsTextField } from '../../components/core/KdsTextField';
-import { KdsLogoHeader, KdsLogoHeaderLogo, KdsLogoHeaderSeparator, KdsLogoHeaderCode } from '../../components/core/KdsLogoHeader';
 import { KdsInvoiceSticky } from '../../components/domain/KdsInvoiceSticky';
 import { KdsSecureFooter } from '../../components/domain/KdsSecureFooter';
+import { KdsMontoRow } from '../../components/domain/KdsMontoRow';
 import { KdsTypography } from '../../components/core/KdsTypography';
 import { semanticSpacing, spacing } from '../../tokens';
 
@@ -25,30 +25,31 @@ export default meta;
 type Story = StoryObj;
 
 /**
- * Formulario vertical dentro de KdsCard.
- * Usa `semanticSpacing.formGap` (20px) entre campos y boton de accion al final.
+ * Formulario vertical dentro de KdsCard — patrón de producción (`manualMaterial.gsp`).
+ *
+ * Spacing canónico:
+ * - Cada field usa `kds-field-group` → `margin-top: var(--kds-spacing-1-75)` (14px) entre campos.
+ * - El bloque de botones usa `kds-btn-stack` → `margin-top: var(--kds-spacing-2)` (16px) + gap 10px.
+ *
+ * NO se usa flex/gap en el `<form>`; el spacing viene de las clases de cada elemento.
  */
 export const FormStack: Story = {
   render: function FormStackPattern() {
     return (
-      <div style={{ maxWidth: '440px', margin: '0 auto' }}>
+      <div style={{ maxWidth: 'var(--kds-stage-narrow-max-width, 448px)', margin: '0 auto' }}>
         <KdsCard>
           <KdsCardBody>
-            <form
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: semanticSpacing.formGap,
-              }}
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <KdsTextField label="Nombre completo" fullWidth />
-              <KdsTextField label="RUT" placeholder="12.345.678-9" fullWidth />
-              <KdsTextField label="Correo electronico" type="email" fullWidth />
-              <KdsTextField label="Monto" placeholder="$0" fullWidth />
-              <KdsButton variant="primary" fullWidth>
-                Confirmar pago
-              </KdsButton>
+            <h2 className="kds-card-title">Datos para pago</h2>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <KdsTextField label="Nombre completo" fullWidth className="kds-field-group" />
+              <KdsTextField label="RUT" fullWidth className="kds-field-group" />
+              <KdsTextField label="Correo electronico" type="email" fullWidth className="kds-field-group" />
+              <KdsTextField label="Monto" fullWidth className="kds-field-group" />
+              <div className="kds-btn-stack">
+                <KdsButton variant="primary" fullWidth>
+                  Confirmar pago
+                </KdsButton>
+              </div>
             </form>
           </KdsCardBody>
         </KdsCard>
@@ -86,7 +87,7 @@ export const CardGrid: Story = {
               <KdsTypography variant="heading3" style={{ marginBottom: spacing[1] }}>
                 {card.title}
               </KdsTypography>
-              <KdsTypography variant="body" style={{ color: 'var(--kds-text-secondary)' }}>
+              <KdsTypography variant="body" color="secondary">
                 {card.desc}
               </KdsTypography>
             </KdsCardBody>
@@ -99,30 +100,25 @@ export const CardGrid: Story = {
 
 /**
  * Estructura completa de una pantalla de pago Khipu:
- * LogoHeader (brand-row) > InvoiceSticky > Card con contenido > ButtonStack > SecureFooter.
+ * brand-row > InvoiceSticky > Card con contenido > ButtonStack > SecureFooter.
  *
- * Usa `semanticSpacing.sectionGap` (32px) entre secciones principales
- * y `semanticSpacing.stackGap` (16px) entre elementos internos.
+ * Usa utility classes del DS: `kds-flex kds-flex-col`.
  */
 export const PaymentScreenLayout: Story = {
   render: function PaymentScreenLayoutPattern() {
     return (
       <div
+        className="kds-flex kds-flex-col"
         style={{
-          maxWidth: '440px',
+          maxWidth: 'var(--kds-stage-narrow-max-width, 448px)',
           margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: semanticSpacing.stackGap,
           minHeight: '100vh',
         }}
       >
-        {/* Brand row */}
-        <KdsLogoHeader>
-          <KdsLogoHeaderLogo />
-          <KdsLogoHeaderSeparator />
-          <KdsLogoHeaderCode>fdap-sr2x-q3pf</KdsLogoHeaderCode>
-        </KdsLogoHeader>
+        {/* Brand row — usa la clase CSS-only kds-brand-row del DS */}
+        <div className="kds-brand-row">
+          <strong style={{ color: 'var(--kds-color-primary-main)' }}>khipu</strong>
+        </div>
 
         {/* Invoice sticky */}
         <KdsInvoiceSticky>
@@ -138,21 +134,21 @@ export const PaymentScreenLayout: Story = {
             <KdsTypography variant="heading3" style={{ marginBottom: spacing[2] }}>
               Datos del destinatario
             </KdsTypography>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[1] }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <KdsTypography variant="body" style={{ color: 'var(--kds-text-secondary)' }}>
+            <div className="kds-flex kds-flex-col">
+              <div className="kds-flex" style={{ justifyContent: 'space-between' }}>
+                <KdsTypography variant="body" color="secondary">
                   Banco
                 </KdsTypography>
                 <KdsTypography variant="body">Banco Security</KdsTypography>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <KdsTypography variant="body" style={{ color: 'var(--kds-text-secondary)' }}>
+              <div className="kds-flex" style={{ justifyContent: 'space-between' }}>
+                <KdsTypography variant="body" color="secondary">
                   RUT
                 </KdsTypography>
                 <KdsTypography variant="body">76.187.287-7</KdsTypography>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <KdsTypography variant="body" style={{ color: 'var(--kds-text-secondary)' }}>
+              <div className="kds-flex" style={{ justifyContent: 'space-between' }}>
+                <KdsTypography variant="body" color="secondary">
                   Titular
                 </KdsTypography>
                 <KdsTypography variant="body">Khipu CLBS</KdsTypography>
@@ -188,7 +184,7 @@ export const PaymentScreenLayout: Story = {
 export const ButtonStack: Story = {
   render: function ButtonStackPattern() {
     return (
-      <div style={{ maxWidth: '440px', margin: '0 auto' }}>
+      <div style={{ maxWidth: 'var(--kds-stage-narrow-max-width, 448px)', margin: '0 auto' }}>
         <div className="kds-btn-stack">
           <KdsButton variant="primary" fullWidth>
             Confirmar transferencia
@@ -206,61 +202,48 @@ export const ButtonStack: Story = {
 };
 
 /**
- * Secciones verticales separadas por `semanticSpacing.sectionGap` (32px).
- * Cada seccion es una KdsCard independiente. Util para formularios largos
- * o pantallas con multiples bloques de contenido.
+ * Múltiples secciones dentro de UNA sola KdsCard, separadas por `kds-hr-dashed`
+ * (el divisor que usa producción dentro de cards: `margin: var(--kds-spacing-2) 0`).
+ *
+ * - Fields usan `kds-field-group` (margin-top 14px entre campos).
+ * - 2 inputs en fila: `kds-flex kds-gap-2`.
+ * - Botón final en `kds-btn-stack`.
  */
 export const SectionStack: Story = {
   render: function SectionStackPattern() {
     return (
-      <div
-        style={{
-          maxWidth: '440px',
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: semanticSpacing.sectionGap,
-        }}
-      >
+      <div style={{ maxWidth: 'var(--kds-stage-narrow-max-width, 448px)', margin: '0 auto' }}>
         <KdsCard>
           <KdsCardBody>
-            <KdsTypography variant="heading3" style={{ marginBottom: spacing[1.5] }}>
-              Seccion 1: Datos personales
-            </KdsTypography>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: semanticSpacing.formGap }}>
-              <KdsTextField label="Nombre" fullWidth />
-              <KdsTextField label="Email" type="email" fullWidth />
-            </div>
-          </KdsCardBody>
-        </KdsCard>
+            {/* Sección 1 */}
+            <KdsTypography variant="heading3">Datos personales</KdsTypography>
+            <KdsTextField label="Nombre" fullWidth className="kds-field-group" />
+            <KdsTextField label="Email" type="email" fullWidth className="kds-field-group" />
 
-        <KdsCard>
-          <KdsCardBody>
-            <KdsTypography variant="heading3" style={{ marginBottom: spacing[1.5] }}>
-              Seccion 2: Datos de pago
-            </KdsTypography>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: semanticSpacing.formGap }}>
-              <KdsTextField label="Numero de tarjeta" fullWidth />
-              <div style={{ display: 'flex', gap: spacing[2] }}>
-                <KdsTextField label="Vencimiento" placeholder="MM/AA" fullWidth />
+            <hr className="kds-hr-dashed" />
+
+            {/* Sección 2 */}
+            <KdsTypography variant="heading3">Datos de pago</KdsTypography>
+            <KdsTextField label="Numero de tarjeta" fullWidth className="kds-field-group" />
+            {/* 2 inputs en una fila: flex row con gap horizontal + kds-field-group. */}
+            <div className="kds-flex kds-gap-2 kds-field-group">
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <KdsTextField label="Vencimiento" fullWidth />
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <KdsTextField label="CVV" fullWidth />
               </div>
             </div>
-          </KdsCardBody>
-        </KdsCard>
 
-        <KdsCard>
-          <KdsCardBody>
-            <KdsTypography variant="heading3" style={{ marginBottom: spacing[1.5] }}>
-              Seccion 3: Resumen
-            </KdsTypography>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: spacing[2] }}>
-              <KdsTypography variant="body-large">Total</KdsTypography>
-              <KdsTypography variant="heading2">$3.300</KdsTypography>
+            {/* Sección 3 — total: usa KdsMontoRow (patrón `kds-monto-row` de producción).
+                Title izquierda, value grande a la derecha, con border-top dashed propio
+                (no necesita hr-dashed separado). */}
+            <KdsMontoRow title="Total a pagar" value="$3.300" />
+            <div className="kds-btn-stack">
+              <KdsButton variant="primary" fullWidth>
+                Pagar ahora
+              </KdsButton>
             </div>
-            <KdsButton variant="primary" fullWidth>
-              Pagar ahora
-            </KdsButton>
           </KdsCardBody>
         </KdsCard>
       </div>
