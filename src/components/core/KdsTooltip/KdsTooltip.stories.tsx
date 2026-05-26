@@ -68,26 +68,78 @@ export const Placements: Story = {
 };
 
 /**
- * Tooltip sobre un boton de icono.
+ * Tooltip con contenido largo — verifica `max-width: 280px` con word wrap.
+ */
+export const LongContent: Story = {
+  render: function LongTooltip() {
+    return (
+      <KdsTooltip content="Este tooltip tiene contenido largo que debería ajustarse a varias líneas respetando el ancho máximo de 280px establecido en el design system.">
+        <KdsButton variant="outlined">Hover para texto largo</KdsButton>
+      </KdsTooltip>
+    );
+  },
+};
+
+/**
+ * Tooltip que aparece instantáneamente (sin delay).
+ */
+export const InstantOpen: Story = {
+  render: function InstantTooltip() {
+    return (
+      <KdsTooltip content="Aparece de inmediato" delayDuration={0}>
+        <KdsButton variant="outlined">Sin delay</KdsButton>
+      </KdsTooltip>
+    );
+  },
+};
+
+/**
+ * Tooltip sobre un boton de icono — usa el patrón canónico de icon-button del DS.
  */
 export const WithIcon: Story = {
   render: function TooltipWithIcon() {
     return (
       <KdsTooltip content="Copiar al portapapeles">
         <button
+          type="button"
+          aria-label="Copiar"
           style={{
-            background: 'none',
-            border: '1px solid #ccc',
-            borderRadius: '8px',
-            padding: '8px',
-            cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
+            width: 40,
+            height: 40,
+            padding: 0,
+            background: 'transparent',
+            border: '1px solid var(--kds-color-border-default)',
+            borderRadius: 'var(--kds-radius-full)',
+            color: 'var(--kds-color-text-primary)',
+            cursor: 'pointer',
+            fontFamily: 'inherit',
           }}
         >
-          <i className="material-symbols-outlined">content_copy</i>
+          <i
+            className="material-symbols-outlined"
+            style={{ fontSize: 20, lineHeight: 1 }}
+          >
+            content_copy
+          </i>
         </button>
+      </KdsTooltip>
+    );
+  },
+};
+
+/**
+ * Tooltip sobre un KdsButton — patrón en uso real.
+ */
+export const OnButton: Story = {
+  render: function TooltipOnButton() {
+    return (
+      <KdsTooltip content="Descargar comprobante en PDF">
+        <KdsButton variant="outlined" startIcon="download">
+          Descargar
+        </KdsButton>
       </KdsTooltip>
     );
   },

@@ -3,12 +3,56 @@ import { KdsCardPlan } from './KdsCardPlan';
 import { KdsButton } from '../../core/KdsButton';
 import { spacing } from '../../../tokens';
 
+/**
+ * KdsCardPlan — card de plan/pricing para flujos de suscripción.
+ *
+ * Layout & sizing (spec):
+ * - `padding: 32px` (`var(--kds-spacing-4)`)
+ * - `gap: 16px` (`var(--kds-spacing-2)`) entre secciones internas
+ * - `max-width: 400px`
+ * - `border: 2px solid var(--kds-border-medium)`
+ * - `border-radius: var(--kds-radius-lg)`
+ *
+ * Header / Title:
+ * - h3 con `font-size: heading3`, `font-weight: semibold`
+ *
+ * Price section:
+ * - `padding: 32px 0`, `min-height: 88px`
+ * - Price font: `font-size: 3xl` (~32px), `font-weight: 700`
+ * - Period (`/mes`): `font-size: lg`, color text-secondary
+ *
+ * Features list:
+ * - `<ul class="kds-card-plan-features">` — li con check icon
+ * - gap entre features: `12px`
+ *
+ * Badge (cuando `recommended`):
+ * - Position absolute: `top: -12px; right: 48px`
+ * - `padding: 8px 32px`
+ * - `background: var(--kds-color-primary-main)`, color white
+ *
+ * Estados:
+ * - Hover: `transform: translateY(-2px)` + shadow elevation-2
+ * - `recommended`: border purple + gradient bg suave + shadow más fuerte
+ *
+ * Grid responsive:
+ * - `grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))`
+ *
+ * **Nota**: Este componente es para flows de marketing/billing — NO se usa en payment flow.
+ *
+ * @css .kds-card-plan, .kds-card-plan-badge, .kds-card-plan-header, .kds-card-plan-price, .kds-card-plan-features, .kds-card-plan.recommended
+ */
 const meta: Meta<typeof KdsCardPlan> = {
   title: 'Domain/KdsCardPlan',
   component: KdsCardPlan,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Card de pricing/plan para suscripciones. Padding 32px, max-width 400px, border 2px, radius lg. Header (heading3 semibold) + price section (3xl bold, padding-y 32px, min-height 88px) + features list (gap 12px) + action. Estado `recommended` agrega badge absolute (top -12px right 48px), gradient bg suave, hover translateY -2px.',
+      },
+    },
   },
 };
 

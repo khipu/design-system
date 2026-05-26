@@ -299,63 +299,90 @@ a.kds-btn.kds-btn-md {
     }
 }
 
-/* Selection card */
+/* Selection card.
+   IMPORTANTE: este componente se renderiza como `<button>`. BeerCSS aplica al
+   `button` base: `display: inline-flex; align-items: center; justify-content: center;
+   block-size: 2.5rem; padding: 0 1rem; background: var(--primary); color: on-primary`.
+   Todas esas reglas hay que sobreescribirlas para que el card-selector funcione como
+   un contenedor flex column de altura variable y alineado a la izquierda.
+
+   Convención del DS: spacing entre hijos via `gap` del flex padre + padding.
+   Los elementos internos (.kds-card-selector-icon/-title/-description) NO usan margin. */
 .kds-card-selector {
-    padding: var(--kds-spacing-3);
-    border-radius: var(--kds-radius-md);
-    border: 2px solid var(--kds-border-light);
-    background: var(--kds-color-background-paper);
-    transition: all 0.3s ease;
-    text-align: left;
-    cursor: pointer;
+    /* Reset BeerCSS button */
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    block-size: auto;
+    inline-size: 100%;
+    text-align: left;
+    line-height: 1.5;
+    color: var(--kds-color-text-primary);
+    /* Estilos propios del card-selector */
+    padding: var(--kds-spacing-3);
+    gap: var(--kds-spacing-1-5);
+    border-radius: var(--kds-radius-md);
+    border: var(--kds-border-width-md) solid var(--kds-border-light);
+    background: var(--kds-color-background-paper);
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.kds-card-selector:hover {
-    border-color: #D1D5DB;  /* gray-300 */
+.kds-card-selector:hover:not(.selected) {
+    border-color: var(--kds-color-primary-light);
+    background: var(--kds-color-primary-hover);
+}
+
+/* Override del ripple/overlay default de BeerCSS:
+   `:is(.wave,.chip,.button,button,nav.tabbed>a,...):not([class*=ripple])::after`
+   tiene specificity (0,2,4) según DevTools (Chrome cuenta cada selector dentro
+   de :is() individualmente para algunos motores). Usamos !important — consistente
+   con cómo se overridean otros estilos de BeerCSS en este archivo (67 usos previos).
+   Antes pintaba negro porque `currentColor` resolvía a text-primary del card. */
+.kds-card-selector::after {
+    background-image: radial-gradient(circle, var(--kds-color-primary-main) 1%, transparent 1%) !important;
 }
 
 .kds-card-selector.selected {
-    border-color: #3B82F6;  /* blue-600 */
-    background: #EFF6FF;    /* blue-50 */
+    border-color: var(--kds-color-primary-main);
+    background: var(--kds-color-primary-faint);
     box-shadow: var(--kds-shadow-md);
 }
 
-/* Icon container */
+/* Icon container — spacing manejado por gap del padre, no margin */
 .kds-card-selector-icon {
-    width: 48px;
-    height: 48px;
-    background: #DBEAFE;  /* blue-100 */
-    border-radius: 8px;
+    width: var(--kds-spacing-6);
+    height: var(--kds-spacing-6);
+    background: var(--kds-color-primary-focus);
+    border-radius: var(--kds-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
 }
 
 .kds-card-selector-icon i,
 .kds-card-selector-icon svg {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
-    color: #3B82F6;  /* blue-600 */
+    width: var(--kds-spacing-3);
+    height: var(--kds-spacing-3);
+    min-width: var(--kds-spacing-3);
+    min-height: var(--kds-spacing-3);
+    font-size: var(--kds-spacing-3);
+    color: var(--kds-color-primary-main);
 }
 
-/* Title */
+/* Title — spacing manejado por gap del padre, no margin */
 .kds-card-selector-title {
-    font-weight: 600;
+    font-weight: var(--kds-font-weight-semibold);
     color: var(--kds-color-text-primary);
-    margin-bottom: 8px;
-    font-size: 16px;
+    font-size: var(--kds-font-size-lg);
 }
 
 /* Description */
 .kds-card-selector-description {
-    font-size: 14px;
-    color: #4B5563;  /* gray-600 */
-    line-height: 1.5;
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-secondary);
+    line-height: var(--kds-line-height-normal);
 }
 
 /* Selected state - visual feedback via border only */
@@ -367,14 +394,22 @@ a.kds-btn.kds-btn-md {
     display: flex;
     flex-direction: column;
     gap: var(--kds-spacing-2);
-    padding: var(--kds-spacing-4);
+    padding: var(--kds-spacing-2);
     border-radius: var(--kds-radius-lg);
     border: 2px solid var(--kds-border-medium);
-    max-width: 400px; /* Increased from 365px for better text spacing */
+    /* Ancho mínimo aplicado a TODOS los planes — así un plan sin badge en una
+       grilla con un plan recomendado mantiene la misma anchura, y el badge nunca
+       se superpone al título por estrechez del card. */
+    min-width: 260px;
+    max-width: 400px;
     background: var(--kds-surface-base);
     transition: all 0.3s ease;
     cursor: pointer;
-    height: 100%; /* Ensure cards fill grid height */
+    /* Alto fijo: el card se estira al alto de su row del grid (align-items stretch
+       es el default) — todas las cards de la misma fila quedan a la misma altura
+       sin importar el contenido. `align-self: stretch` lo hace explícito. */
+    height: 100%;
+    align-self: stretch;
 }
 
 .kds-card-plan:hover {
@@ -394,18 +429,19 @@ a.kds-btn.kds-btn-md {
     box-shadow: var(--kds-shadow-elevation-4);
 }
 
-/* Recommended Badge */
+/* Recommended Badge — inline dentro del card (no flotante).
+   Es el primer hijo del .kds-card-plan, así que aparece arriba de todo
+   el contenido, alineado a la izquierda. */
 .kds-card-plan-badge {
-    position: absolute;
-    top: -12px;
-    right: var(--kds-spacing-6);
-    padding: var(--kds-spacing-1) var(--kds-spacing-4);
+    align-self: flex-start;
+    padding: var(--kds-spacing-0-5) var(--kds-spacing-1-5);
     background: var(--primary);
     color: white;
-    font-size: var(--kds-font-size-sm);
+    font-size: var(--kds-font-size-xs);
     font-weight: var(--kds-font-weight-semibold);
+    line-height: 1;
     border-radius: var(--kds-radius-full);
-    box-shadow: var(--kds-shadow-elevation-1);
+    white-space: nowrap;
 }
 
 /* Plan Header */
@@ -433,13 +469,11 @@ a.kds-btn.kds-btn-md {
     display: flex;
     align-items: baseline;
     gap: var(--kds-spacing-2);
-    padding: var(--kds-spacing-4) 0;
     border-bottom: 1px solid var(--kds-border-light);
-    min-height: 88px; /* Standardize price area height */
 }
 
 .kds-price {
-    font-size: 42px;
+    font-size: var(--kds-font-size-4xl);
     font-weight: var(--kds-font-weight-bold);
     color: var(--primary);
     line-height: 1.1;
@@ -1627,6 +1661,71 @@ body.dark {
 }
 
 /* ========================================
+   Radix Tooltip (.kds-tooltip)
+   Espejo de `.tooltip` pero para popovers de Radix:
+   bg oscuro, texto blanco, sombra + animación fade/slide direccional.
+   ======================================== */
+
+.kds-tooltip {
+    background-color: var(--kds-color-text-primary);
+    color: var(--kds-color-background-paper);
+    font-family: var(--kds-font-family-primary);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-medium);
+    line-height: var(--kds-line-height-normal);
+    border-radius: var(--kds-radius-sm);
+    padding: var(--kds-spacing-0-75) var(--kds-spacing-1-5);
+    box-shadow: var(--kds-shadow-4);
+    max-width: 280px;
+    z-index: var(--kds-z-index-tooltip, 1500);
+    user-select: none;
+    /* Animación direccional según Radix data-side — coordinada con copy-row
+       (cubic-bezier 0.2, 0.8, 0.2, 1) para un feel consistente del DS. */
+    animation-duration: 240ms;
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform, opacity;
+}
+
+.kds-tooltip[data-state='closed'] {
+    animation-duration: 140ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Direccional según data-side (Radix añade el attr en runtime).
+   Cada lado entra desde su dirección con ~8px de offset (más visible que 4px). */
+.kds-tooltip[data-side='top'][data-state='delayed-open'],
+.kds-tooltip[data-side='top'][data-state='instant-open']    { animation-name: kds-tooltip-in-top; }
+.kds-tooltip[data-side='bottom'][data-state='delayed-open'],
+.kds-tooltip[data-side='bottom'][data-state='instant-open'] { animation-name: kds-tooltip-in-bottom; }
+.kds-tooltip[data-side='left'][data-state='delayed-open'],
+.kds-tooltip[data-side='left'][data-state='instant-open']   { animation-name: kds-tooltip-in-left; }
+.kds-tooltip[data-side='right'][data-state='delayed-open'],
+.kds-tooltip[data-side='right'][data-state='instant-open']  { animation-name: kds-tooltip-in-right; }
+
+/* Fallback cuando no hay data-side resuelto aún */
+.kds-tooltip[data-state='delayed-open']:not([data-side]),
+.kds-tooltip[data-state='instant-open']:not([data-side]) {
+    animation-name: kds-tooltip-in-top;
+}
+
+.kds-tooltip[data-state='closed'] { animation-name: kds-tooltip-out; }
+
+@keyframes kds-tooltip-in-top    { from { opacity: 0; transform: translateY(8px)  scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes kds-tooltip-in-bottom { from { opacity: 0; transform: translateY(-8px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes kds-tooltip-in-left   { from { opacity: 0; transform: translateX(8px)  scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes kds-tooltip-in-right  { from { opacity: 0; transform: translateX(-8px) scale(0.96); } to { opacity: 1; transform: none; } }
+
+@keyframes kds-tooltip-out {
+    from { opacity: 1; transform: none; }
+    to   { opacity: 0; transform: scale(0.96); }
+}
+
+/* Arrow (SVG path generado por Radix) */
+.kds-tooltip-arrow {
+    fill: var(--kds-color-text-primary);
+}
+
+/* ========================================
    Material Symbols Icon Sizing
    ======================================== */
 
@@ -2340,6 +2439,32 @@ footer > .kds-container-center {
 
 .kds-alert.kds-error .kds-alert-icon {
     color: var(--kds-color-error-dark);
+}
+
+/* Close button — icon-only, discreto, no usa kds-btn para no romper el flex layout del alert */
+.kds-alert-close {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.kds-alert-close:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.kds-alert-close i {
+    font-size: 18px;
+    line-height: 1;
 }
 
 /* Lists inside alerts */
@@ -3564,12 +3689,48 @@ dialog#surveyModal button.circle {
    ======================================== */
 
 .kds-badge {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     padding: 2px 8px;
     border-radius: var(--kds-radius-sm);
     font-size: var(--kds-font-size-xs);
     font-weight: var(--kds-font-weight-medium);
     line-height: 1.5;
+}
+
+/* Icon prefix inside chip — small inline icon */
+.kds-badge > i.material-symbols-outlined {
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* Deletable chip close button — discreto, sin kds-btn (eso lo agrandaba ridículo) */
+.kds-badge-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-right: -2px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s, background-color 0.15s;
+}
+
+.kds-badge-close:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.kds-badge-close i {
+    font-size: 14px;
+    line-height: 1;
 }
 
 .kds-badge.success {
@@ -4465,11 +4626,11 @@ dialog#surveyModal button.circle {
     color: var(--kds-color-success-main);
 }
 
-/* Variant: pending (animated spinner) */
+/* Variant: pending (animated blue spinner, sin icono interno) */
 .kds-status-block[data-status="pending"] .kds-status-block-icon {
     background: transparent;
     border: 3px solid var(--kds-color-divider);
-    border-top-color: var(--kds-color-primary-main);
+    border-top-color: var(--kds-color-info-main);
     animation: kds-spin 1s linear infinite;
 }
 
@@ -4487,7 +4648,9 @@ dialog#surveyModal button.circle {
     color: var(--kds-color-error-main);
 }
 
-/* Variant: info */
+/* Variant: info — usar SIEMPRE con icon "info_i" (i minúscula sin glyph circular)
+   para que solo se vea nuestro círculo decorativo. Iconos como "info" tienen
+   su propio círculo built-in → causarían doble círculo. */
 .kds-status-block[data-status="info"] .kds-status-block-icon {
     background: var(--kds-color-info-soft);
     border: var(--kds-border-width-md) solid var(--kds-color-info-main);
@@ -4559,6 +4722,40 @@ dialog#surveyModal button.circle {
     height: var(--kds-spacing-0-5);
     border-radius: var(--kds-radius-full);
     background: var(--kds-color-divider);
+}
+
+/* Close button — top-right discreto, NO usa kds-btn (rompía el flex layout) */
+.kds-bottom-sheet-close {
+    position: absolute;
+    top: var(--kds-spacing-1);
+    right: var(--kds-spacing-1);
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    color: var(--kds-color-text-secondary);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.kds-bottom-sheet-close:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.kds-bottom-sheet-close i {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Body container — separa el content del title/actions */
+.kds-bottom-sheet-body {
+    text-align: left;
+    margin-top: var(--kds-spacing-1);
 }
 
 .kds-bottom-sheet-icon {
@@ -5506,10 +5703,17 @@ button.kds-btn-success::after {
         padding-bottom: var(--kds-spacing-2);
     }
 
-    /* Invoice sticky card: progressive padding-top (expanded 20px → collapsed 8px).
-       Overrides base rule at same specificity; source order wins here. */
+    /* Invoice sticky card padding (mobile).
+       Top: estático 12px. Bottom: progresivo 20px (expandido) → 8px (colapsado).
+       El padding-bottom animado da breathing room natural cuando expandido y se
+       reduce convencionalmente al colapsar — sin depender de que el clip-path
+       corte el padding abruptamente. */
     .kds-payment-flow .kds-card-elevated.kds-invoice-sticky {
         padding-top: var(--kds-spacing-1-5);
+        padding-bottom: calc(
+            var(--kds-spacing-2-5)
+            - var(--kds-spacing-1-5) * var(--collapse-progress, 0)
+        );
     }
 
 
@@ -5955,6 +6159,11 @@ button.kds-btn-success::after {
     font-family: var(--kds-font-family-primary);
     font-size: var(--kds-font-size-caption);
     color: var(--kds-color-text-secondary);
+    /* Trunca con ellipsis en lugar de wrap a 2 líneas — evita apretar el row
+       cuando el contenedor es angosto (mobile o decorator constrained). */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* QR Badge - "Rápido" indicator */
@@ -5977,46 +6186,26 @@ button.kds-btn-success::after {
     font-size: 20px;
 }
 
-/* Mobile responsive: Ajustes para pantallas pequeñas */
+/* Mobile responsive (≤480px): respira más — mantenemos padding/gap/avatar igual
+   que desktop y solo agregamos truncation al subtitle y `flex-shrink: 0` en los
+   ítems que deben mantener su tamaño (avatar, badge, chevron). */
 @media (max-width: 480px) {
-    .kds-qr-row {
-        gap: var(--kds-spacing-1-5);
-        padding: var(--kds-spacing-1-5);
-    }
-
     .kds-qr-avatar {
-        width: var(--kds-spacing-4-5);
-        height: var(--kds-spacing-4-5);
         flex-shrink: 0;
     }
 
-    .kds-qr-avatar .material-symbols-outlined,
-    .kds-qr-avatar .material-icons-round {
-        font-size: var(--kds-font-size-lg);
-    }
-
-    .kds-qr-text .title {
-        font-size: var(--kds-font-size-xs);
-        line-height: var(--kds-line-height-tight);
-    }
-
     .kds-qr-text .sub {
-        font-size: var(--kds-font-size-caption);
-        line-height: var(--kds-line-height-tight);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
     .kds-qr-badge {
-        font-size: var(--kds-font-size-caption);
-        padding: var(--kds-spacing-0-25) var(--kds-spacing-0-75);
         flex-shrink: 0;
     }
 
     .kds-qr-row .material-symbols-outlined:last-child,
     .kds-qr-row .material-icons-round:last-child {
-        font-size: var(--kds-font-size-base);
         flex-shrink: 0;
     }
 }
@@ -6045,7 +6234,11 @@ button.kds-btn-success::after {
     border-radius: var(--kds-spacing-0-75);
     font-size: var(--kds-font-size-sm);
     cursor: pointer;
-    transition: background 0.12s ease;
+    /* Transición más amplia y suave: bg + color + border ease-out */
+    transition:
+        background-color 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        color 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-top-color 280ms ease-out;
     position: relative;
     user-select: none;
 }
@@ -6054,15 +6247,17 @@ button.kds-btn-success::after {
     border-top: 0;
 }
 
-.kds-copyable-table-row:hover {
+/* Hover NO aplica mientras la row esté en `.copied` o `.settling`
+   (evita el flicker del hover state al desaparecer el verde de "copiado") */
+.kds-copyable-table-row:not(.copied):not(.settling):hover {
     background: var(--kds-color-primary-faint);
 }
 
-.kds-copyable-table-row:hover + .kds-copyable-table-row {
+.kds-copyable-table-row:not(.copied):not(.settling):hover + .kds-copyable-table-row {
     border-top-color: transparent;
 }
 
-.kds-copyable-table-row:active {
+.kds-copyable-table-row:not(.copied):not(.settling):active {
     background: var(--kds-color-primary-selected);
 }
 
@@ -6097,11 +6292,12 @@ button.kds-btn-success::after {
     font-size: var(--kds-font-size-sm);
     color: var(--kds-color-primary-main);
     opacity: 0;
-    transition: opacity 0.12s ease;
+    /* Transición coordinada con la row */
+    transition: opacity 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
     flex: 0 0 auto;
 }
 
-.kds-copyable-table-row:hover .v::after {
+.kds-copyable-table-row:not(.copied):not(.settling):hover .v::after {
     opacity: 0.7;
 }
 
@@ -6118,6 +6314,14 @@ button.kds-btn-success::after {
     font-family: 'Material Symbols Outlined';
     color: var(--kds-color-success-dark);
     opacity: 1;
+}
+
+/* `.settling`: estado de "recién copiado" — la row vuelve al normal sin
+   activar hover. Dura lo mismo que la transición (~300ms) y se aplica
+   desde React tras quitar `.copied`. */
+.kds-copyable-table-row.settling .v::after {
+    /* Mantén el check con opacity 0 mientras settling, fade out suave */
+    opacity: 0;
 }
 
 /* Disable BeerCSS ripple on copyable table rows */

@@ -1,32 +1,50 @@
+/**
+ * Khipu Design System - Tabs Component
+ *
+ * Matchea exactamente el markup que usa producción payment:
+ *
+ *   <div class="kds-segmented-tabs" role="tablist">
+ *     <button type="button" class="active" role="tab" aria-selected="true">Personas</button>
+ *     <button type="button" role="tab" aria-selected="false">Empresas</button>
+ *   </div>
+ *
+ * Solo existe la variante segmented — producción payment no usa otra cosa, y el
+ * "standard" Material Design 3 underline tab no está en el Khipu DS.
+ *
+ * @gsp `_choosePaymentMethodFormMaterial.gsp` (líneas 18-25)
+ */
+
 import React, { forwardRef, Children, useMemo } from 'react';
 import { clsx } from '../utils';
 import { useTabsKeyboard } from '../hooks/useTabsKeyboard';
 
 export interface KdsTabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Índice 0-based del tab activo. */
   activeIndex: number;
+  /** Callback cuando cambia el tab activo. */
   onChange: (index: number) => void;
-  variant?: 'standard' | 'segmented';
 }
 
 export const KdsTabs = forwardRef<HTMLDivElement, KdsTabsProps>(
-  ({ activeIndex, onChange, variant = 'standard', children, className, style, ...props }, ref) => {
+  ({ activeIndex, onChange, children, className, style, ...props }, ref) => {
     const tabCount = Children.count(children);
     const { onKeyDown } = useTabsKeyboard(tabCount, activeIndex, onChange);
 
-    const mergedStyle = useMemo(() => {
-      if (variant !== 'segmented') return style;
-      return {
+    // CSS custom properties para que `.kds-segmented-tabs::before` (el background del active) se anime.
+    const mergedStyle = useMemo(
+      () => ({
         ...style,
         '--_tab-count': tabCount,
         '--_active-idx': activeIndex,
-      } as React.CSSProperties;
-    }, [variant, tabCount, activeIndex, style]);
+      }) as React.CSSProperties,
+      [tabCount, activeIndex, style],
+    );
 
     return (
       <div
         ref={ref}
         role="tablist"
-        className={clsx(variant === 'segmented' ? 'kds-segmented-tabs' : 'kds-tabs', className)}
+        className={clsx('kds-segmented-tabs', className)}
         style={mergedStyle}
         onKeyDown={onKeyDown}
         {...props}
@@ -55,6 +73,7 @@ export const KdsTab = forwardRef<HTMLButtonElement, KdsTabProps & KdsTabInternal
   ({ _active, _onClick, children, className, ...props }, ref) => (
     <button
       ref={ref}
+      type="button"
       role="tab"
       aria-selected={_active}
       tabIndex={_active ? 0 : -1}

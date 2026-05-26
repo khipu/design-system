@@ -98,7 +98,7 @@ export const KdsButton = forwardRef<HTMLButtonElement, KdsButtonProps>(
       )}
       {loading ? (
         <>
-          <span className="loader small" />
+          <progress className="circle indeterminate small" />
           <span>{children}</span>
         </>
       ) : (

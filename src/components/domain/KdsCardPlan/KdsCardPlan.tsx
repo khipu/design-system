@@ -18,14 +18,14 @@ export const KdsCardPlan = forwardRef<HTMLDivElement, KdsCardPlanProps>(
       className={clsx('kds-card-plan', recommended && 'recommended', className)}
       {...props}
     >
-      {badgeText && <span className="kds-card-plan-badge">{badgeText}</span>}
       <div className="kds-card-plan-header">
         <h3>{title}</h3>
       </div>
       <div className="kds-card-plan-price">
-        <span>{price}</span>
-        {period && <span>/{period}</span>}
+        <span className="kds-price">{price}</span>
+        {period && <span className="kds-price-period">/{period}</span>}
       </div>
+      {badgeText && <span className="kds-card-plan-badge">{badgeText}</span>}
       {features && features.length > 0 && (
         <ul className="kds-card-plan-features">
           {features.map((f, i) => (

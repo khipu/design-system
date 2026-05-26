@@ -5,10 +5,45 @@ import { KdsButton } from '../../core/KdsButton';
 import { KdsBankList } from '../KdsBankList';
 import { KdsBankRow } from '../KdsBankRow';
 
+/**
+ * KdsBankModal — modal de selección de banco con buscador y lista scrolleable.
+ *
+ * Layout & sizing (spec):
+ * - Content: `max-width: 448px`, `height: 85vh`, `border-radius: var(--kds-radius-card)`
+ * - Scrim padding: `var(--kds-spacing-2)` (16px) — el modal centra el contenido
+ * - Header padding: `8px 16px 8px` (top/x/bottom) — título + close button
+ * - Search wrapper padding: `10px 12px`
+ * - Body padding: `0 8px 8px` — espacio para `KdsBankList` que vive dentro
+ *
+ * Animación:
+ * - `animation: kds-rise 0.28s ease-out` al abrir
+ *
+ * Comportamiento:
+ * - Usa Radix Dialog con `Portal` (opcionalmente custom via prop `container`)
+ * - `Dialog.Close` cierra al click en X o ESC
+ * - El buscador delega via `onSearch(query)` — el filtrado es responsabilidad del consumidor
+ * - El body es scroll-area (`overflow-y: auto` heredado)
+ *
+ * @gsp _bankModalMaterial.gsp
+ * @css .kds-bank-modal, .kds-bank-modal-scrim, .kds-bank-modal-header, .kds-bank-modal-search, .kds-bank-modal-body, .kds-bank-modal-empty
+ */
 const meta: Meta<typeof KdsBankModal> = {
   title: 'Domain/KdsBankModal',
   component: KdsBankModal,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Modal de selección de banco basado en Radix Dialog. Content `max-width: 448px / height: 85vh`, header padding `8px 16px`, search `10px 12px`, body con scroll vertical. Anima entrada con `kds-rise 0.28s`. El filtrado de búsqueda lo hace el consumidor vía `onSearch`.',
+      },
+    },
+  },
+  argTypes: {
+    open: { control: 'boolean', description: 'Controla la visibilidad del modal.' },
+    title: { control: 'text', description: 'Título mostrado en el header. Default: "Selecciona tu banco".' },
+    searchPlaceholder: { control: 'text', description: 'Placeholder del input de búsqueda. Default: "Buscar banco...".' },
+  },
 };
 
 export default meta;
@@ -22,6 +57,7 @@ const banks = [
   { name: 'Banco de Chile', logoUrl: 'https://placehold.co/40x40/003DA5/white?text=BC' },
 ];
 
+/** Modal básico con lista de bancos sin filtrado. */
 export const Default: Story = {
   render: function DefaultBankModal() {
     const [open, setOpen] = useState(false);
@@ -45,6 +81,7 @@ export const Default: Story = {
   },
 };
 
+/** Con búsqueda — el consumidor filtra. */
 export const WithSearch: Story = {
   render: function BankModalWithSearch() {
     const [open, setOpen] = useState(false);
@@ -81,18 +118,27 @@ export const WithSearch: Story = {
       </>
     );
   },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'El callback `onSearch(query: string)` se ejecuta en cada keystroke. El filtrado real lo hace el consumidor. Útil para listas dinámicas o queries a backend.',
+      },
+    },
+  },
 };
 
+/** Título custom — cuando el flow no es "seleccionar banco" sino "elegir institución". */
 export const CustomTitle: Story = {
   render: function BankModalCustomTitle() {
     const [open, setOpen] = useState(false);
     return (
       <>
-        <KdsButton onClick={() => setOpen(true)}>Elegir institucion</KdsButton>
+        <KdsButton onClick={() => setOpen(true)}>Elegir institución</KdsButton>
         <KdsBankModal
           open={open}
           onClose={() => setOpen(false)}
-          title="Selecciona tu institucion financiera"
+          title="Selecciona tu institución financiera"
         >
           <KdsBankList>
             {banks.map((bank) => (
@@ -103,6 +149,34 @@ export const CustomTitle: Story = {
                 onClick={() => setOpen(false)}
               />
             ))}
+          </KdsBankList>
+        </KdsBankModal>
+      </>
+    );
+  },
+};
+
+/**
+ * Estado vacío — cuando el filtro no encuentra coincidencias.
+ *
+ * @spec La clase `.kds-bank-modal-empty.visible` muestra el mensaje. Padding 32px 16px, color text-hint, centrado.
+ */
+export const EmptyState: Story = {
+  render: function BankModalEmpty() {
+    const [open, setOpen] = useState(true);
+    return (
+      <>
+        <KdsButton onClick={() => setOpen(true)}>Abrir modal vacío</KdsButton>
+        <KdsBankModal
+          open={open}
+          onClose={() => setOpen(false)}
+          searchPlaceholder="Buscar banco..."
+          onSearch={() => undefined}
+        >
+          <KdsBankList>
+            <p className="kds-bank-modal-empty visible">
+              No se encontraron resultados
+            </p>
           </KdsBankList>
         </KdsBankModal>
       </>
