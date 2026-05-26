@@ -3,10 +3,31 @@ import { useState } from 'react';
 import { KdsBottomSheet } from './KdsBottomSheet';
 import { KdsButton } from '../../core/KdsButton';
 
+/**
+ * KdsBottomSheet — único componente de modales del DS (KdsModal fue unificado aquí).
+ *
+ * Bottom-sheet basado en Radix Dialog. En mobile sube desde abajo, en desktop se
+ * centra. Soporta: title, description, body, actions (footer), grabber (handle),
+ * close button (X), y prevención de cierre al click adentro.
+ */
 const meta: Meta<typeof KdsBottomSheet> = {
   title: 'Domain/KdsBottomSheet',
   component: KdsBottomSheet,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Único componente de modales del DS. Reemplaza a `KdsModal`. Slots: title, description, body, actions. Flags: showGrabber, showCloseButton.',
+      },
+    },
+  },
+  argTypes: {
+    showGrabber: { control: 'boolean' },
+    showCloseButton: { control: 'boolean' },
+    title: { control: 'text' },
+    description: { control: 'text' },
+  },
 };
 
 export default meta;
@@ -86,6 +107,78 @@ export const TransferConfirmation: Story = {
             &quot;Finalizar&quot; para completar el pago. Khipu verificará la
             transacción en los próximos minutos.
           </p>
+        </KdsBottomSheet>
+      </>
+    );
+  },
+};
+
+/** Con description bajo el título. */
+export const WithDescription: Story = {
+  render: function BottomSheetWithDescription() {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <KdsButton onClick={() => setOpen(true)}>Confirmar pago</KdsButton>
+        <KdsBottomSheet
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Confirmar pago"
+          description="Revisa los datos antes de proceder."
+          actions={
+            <>
+              <KdsButton variant="success" onClick={() => setOpen(false)}>
+                Confirmar
+              </KdsButton>
+              <KdsButton variant="text" onClick={() => setOpen(false)}>
+                Cancelar
+              </KdsButton>
+            </>
+          }
+        >
+          <p style={{ margin: 0 }}>
+            ¿Estás seguro de que deseas realizar este pago por <strong>$150.000</strong>?
+          </p>
+        </KdsBottomSheet>
+      </>
+    );
+  },
+};
+
+/** Con X de cierre en el top-right (`showCloseButton`). */
+export const WithCloseButton: Story = {
+  render: function BottomSheetWithClose() {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <KdsButton onClick={() => setOpen(true)}>Abrir con X</KdsButton>
+        <KdsBottomSheet
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Con botón de cerrar"
+          showCloseButton
+        >
+          <p style={{ margin: 0 }}>El usuario puede cerrar con la X del top-right, ESC, o click fuera.</p>
+        </KdsBottomSheet>
+      </>
+    );
+  },
+};
+
+/** Sin grabber visual (`showGrabber={false}`). */
+export const NoGrabber: Story = {
+  render: function BottomSheetNoGrabber() {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <KdsButton onClick={() => setOpen(true)}>Sin grabber</KdsButton>
+        <KdsBottomSheet
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Sin handle visual"
+          showGrabber={false}
+        >
+          <p style={{ margin: 0 }}>Sin el handle visual del top.</p>
         </KdsBottomSheet>
       </>
     );

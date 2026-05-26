@@ -1,68 +1,46 @@
 /**
  * Khipu Design System - TextField Component
  *
- * A text input component built with native HTML and BeerCSS floating labels.
- * Matches the Figma design: Pagos Automáticos - MUI v610
+ * Matchea exactamente el markup que genera `matFieldImpl()` del taglib `mat:textField` de payment:
+ *
+ *   <div class="field label border [prefix] [suffix] [invalid|valid|info|warning]">
+ *     <i class="material-symbols-outlined">prefixIcon</i>    // si startIcon
+ *     <input type="..." id="..." name="..." value="..." placeholder=" " [required] [disabled]>
+ *     <label for="...">Label [*]</label>
+ *     <i class="material-symbols-outlined">suffixIcon</i>    // si endIcon
+ *     <span class="helper">errorMessage o help</span>        // si helperText
+ *   </div>
+ *
+ * Reglas críticas del truco floating-label de BeerCSS:
+ * - `placeholder=" "` (un espacio) — NUNCA aceptar placeholder real del consumidor.
+ *   BeerCSS usa `input:placeholder-shown ~ label` para mantener la label abajo cuando el input
+ *   está vacío. Si pasas un placeholder real, el label se queda siempre arriba y se superpone.
+ * - El wrapper DEBE tener `.prefix` cuando hay icono al inicio (alinea la label al lado del icono).
+ * - El wrapper DEBE tener `.suffix` cuando hay icono al final.
+ *
+ * @gsp `mat:textField`, `mat:emailField`, `mat:passwordField`, `mat:numberField` (taglib `matFieldImpl`)
  */
 
 import React, { forwardRef } from 'react';
 import { clsx } from '../utils';
 
-// =============================================================================
-// TYPES
-// =============================================================================
-
-export interface KdsTextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
-  /** Label text for the field */
+// Omit `placeholder` — el componente lo controla internamente (siempre `" "`)
+export interface KdsTextFieldProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'placeholder'> {
+  /** Floating label. */
   label: string;
-  /** Helper text shown below field (error or info) */
+  /** Helper text bajo el field (error o info). */
   helperText?: string;
-  /** Error state - applies invalid class and red styling */
+  /** Estado inválido — aplica `.invalid` al wrapper. */
   error?: boolean;
-  /** Full width field (default: true) */
+  /** Full width (default: true). */
   fullWidth?: boolean;
-  /** Material Symbols icon name at the start of input, e.g. "search" */
+  /** Material Symbol al inicio del input (aplica clase `.prefix`). */
   startIcon?: string;
-  /** Material Symbols icon name at the end of input, e.g. "visibility_off" */
+  /** Material Symbol al final del input (aplica clase `.suffix`). */
   endIcon?: string;
 }
 
-// =============================================================================
-// COMPONENT
-// =============================================================================
-
-/**
- * Text input field with label, validation, and icons.
- *
- * Built with native HTML and BeerCSS floating labels.
- * The label animates up when the input has focus or value.
- *
- * @example
- * ```tsx
- * <KdsTextField
- *   label="RUT Suscriptor"
- *   placeholder="12.345.678-9"
- * />
- *
- * <KdsTextField
- *   label="Buscar por nombre"
- *   startIcon="search"
- * />
- *
- * <KdsTextField
- *   label="Contraseña"
- *   type="password"
- *   error
- *   helperText="Contraseña incorrecta"
- * />
- *
- * <KdsTextField
- *   label="Monto"
- *   value="$1.000"
- *   readOnly
- * />
- * ```
- */
 export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
   (
     {
@@ -73,6 +51,7 @@ export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
       readOnly,
       startIcon,
       endIcon,
+      required,
       className,
       id,
       ...props
@@ -80,11 +59,17 @@ export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
     ref,
   ) => {
     const fieldId = id || `kds-field-${label.toLowerCase().replace(/\s+/g, '-')}`;
+    // readOnly hace que el "lock" icon se renderice al final como suffix.
+    const hasSuffix = !!endIcon || readOnly;
 
     return (
       <div
         className={clsx(
-          'field', 'label', 'border',
+          'field',
+          'label',
+          'border',
+          startIcon && 'prefix',
+          hasSuffix && 'suffix',
           error && 'invalid',
           readOnly && 'locked',
           fullWidth && 'kds-w-full',
@@ -95,11 +80,17 @@ export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
         <input
           ref={ref}
           id={fieldId}
-          placeholder=" "
           readOnly={readOnly}
+          required={required}
           {...props}
+          /* `placeholder=" "` va DESPUÉS del spread para que NO se pueda override:
+             el truco floating-label requiere exactamente un espacio. */
+          placeholder=" "
         />
-        <label htmlFor={fieldId}>{label}</label>
+        <label htmlFor={fieldId}>
+          {label}
+          {required && ' *'}
+        </label>
         {readOnly && <i className="material-symbols-outlined">lock</i>}
         {endIcon && !readOnly && <i className="material-symbols-outlined">{endIcon}</i>}
         {helperText && <span className="helper">{helperText}</span>}

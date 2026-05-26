@@ -24,7 +24,7 @@ import shoppingBagIcon from '../assets/images/shopping-bag.png';
  */
 
 const meta: Meta = {
-  title: 'Examples',
+  title: 'Design System/Assets/Bank Logos',
   parameters: {
     layout: 'centered',
   },

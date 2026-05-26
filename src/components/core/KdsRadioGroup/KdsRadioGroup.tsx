@@ -1,7 +1,21 @@
 /**
  * Khipu Design System - RadioGroup Component
  *
- * Native HTML radio group with BeerCSS styling.
+ * Native HTML radio group with BeerCSS `.radio` class.
+ *
+ * Contrato BeerCSS:
+ *   <fieldset class="kds-radio-group">
+ *     <legend>Label</legend>
+ *     <label class="radio">
+ *       <input type="radio" name="x" value="a" />
+ *       <span>Opción A</span>
+ *     </label>
+ *     ...
+ *   </fieldset>
+ *
+ * Specs:
+ * - Input oculto, sprite circular generado por `:is(.checkbox, .radio) > span::before`
+ * - Tamaño default 18x18; modifiers `.small` (14px) / `.large` (22px)
  */
 
 import React, { forwardRef } from 'react';
@@ -19,14 +33,16 @@ export interface KdsRadioGroupProps extends Omit<React.FieldsetHTMLAttributes<HT
   options: KdsRadioOption[];
   value?: string;
   onChange?: (value: string) => void;
+  /** Tamaño del sprite del radio (aplicado a cada opción). */
+  size?: 'small' | 'large';
 }
 
 export const KdsRadioGroup = forwardRef<HTMLFieldSetElement, KdsRadioGroupProps>(
-  ({ label, name, options, value, onChange, className, ...props }, ref) => (
+  ({ label, name, options, value, onChange, size, className, ...props }, ref) => (
     <fieldset ref={ref} className={clsx('kds-radio-group', className)} {...props}>
       {label && <legend>{label}</legend>}
       {options.map((opt) => (
-        <label key={opt.value} className="field">
+        <label key={opt.value} className={clsx('radio', size)}>
           <input
             type="radio"
             name={name}

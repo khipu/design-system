@@ -94,6 +94,13 @@ const initialState: FlowState = {
   bankSearchQuery: '',
 };
 
+const makeInitialState = (screen: number): FlowState => ({
+  ...initialState,
+  currentScreen: Math.max(1, Math.min(TOTAL_SCREENS, screen)),
+  transferSheetOpen: screen === 5,
+  successSheetOpen: screen === 9,
+});
+
 function reducer(state: FlowState, action: FlowAction): FlowState {
   switch (action.type) {
     case 'GO_TO_SCREEN': {
@@ -234,10 +241,17 @@ const InvoiceContent: React.FC<InvoiceContentProps> = ({
 // MAIN STORY
 // =============================================================================
 
-export const Default: StoryObj = {
-  name: 'Payment flow React',
-  render: function PaymentFlowStory() {
-    const [state, dispatch] = useReducer(reducer, initialState);
+// =============================================================================
+// FLOW RENDERER (used by Default + per-screen stories)
+// =============================================================================
+
+interface PaymentFlowArgs {
+  /** Screen to start on (1-9). Stories use this to deep-link to a specific screen. */
+  initialScreen?: number;
+}
+
+function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
+    const [state, dispatch] = useReducer(reducer, makeInitialState(initialScreen));
     const { currentScreen } = state;
     const screenRef = useRef<HTMLElement>(null);
     const portalRef = useRef<HTMLDivElement>(null);
@@ -681,7 +695,7 @@ export const Default: StoryObj = {
                   inline
                 />
                 <KdsDivider dashed />
-                <KdsAlert severity="warning" inline>
+                <KdsAlert severity="warning" inline icon={false}>
                   La transferencia ya fue realizada. Ahora estamos verificando
                   la recepción del pago. Esto demora apenas unos segundos.
                 </KdsAlert>
@@ -721,7 +735,7 @@ export const Default: StoryObj = {
                   inline
                 />
                 <KdsDivider dashed />
-                <KdsAlert severity="success" inline>
+                <KdsAlert severity="success" inline icon={false}>
                   El pago a <b>&ldquo;tu banco&rdquo;</b> por{' '}
                   <b>{defaultInvoice.amount}</b> está verificado.
                 </KdsAlert>
@@ -976,5 +990,151 @@ export const Default: StoryObj = {
         </nav>
       </div>
     );
+}
+
+// =============================================================================
+// STORIES — one per screen + the full interactive flow
+// =============================================================================
+
+type Story = StoryObj<PaymentFlowArgs>;
+
+const screenStory = (
+  initialScreen: number,
+  storyName: string,
+  description: string,
+): Story => ({
+  name: storyName,
+  args: { initialScreen },
+  argTypes: { initialScreen: { control: { type: 'number', min: 1, max: TOTAL_SCREENS } } },
+  parameters: {
+    docs: { description: { story: description } },
   },
-};
+  render: (args) => <PaymentFlowStory initialScreen={args.initialScreen ?? initialScreen} />,
+});
+
+/**
+ * Full interactive flow (Screen 1 → 9). Navigate with the bottom arrows or
+ * keyboard (←/→). Use the per-screen stories below to deep-link to a specific
+ * screen for MCP-driven UI generation.
+ */
+export const Default: Story = screenStory(
+  1,
+  'Full interactive flow',
+  'Full interactive flow starting at Screen 1. Use the per-screen stories to deep-link to a specific screen.',
+);
+
+/**
+ * Pantalla inicial del flujo de pago.
+ *
+ * @gsp showMaterial.gsp (parcial) — variante "Datos para pago"
+ * @layout kds-payment-stage > kds-payment-flow > kds-screen.active
+ * @components KdsInvoiceSticky, KdsCard, KdsTextField, KdsButton, KdsSecureFooter
+ * @spec kds-screen gap=24px; card padding=20px; form fields gap=20px (semanticSpacing.formGap)
+ */
+export const Screen1Welcome: Story = screenStory(
+  1,
+  'Screen 1 — Datos para pago',
+  'Entrada del flujo: muestra factura sticky + form con monto/cantidad. Equivalente parcial a `showMaterial.gsp`.',
+);
+
+/**
+ * Selección del método de pago / banco.
+ *
+ * @gsp _choosePaymentMethodFormMaterial.gsp + showMaterial.gsp
+ * @components KdsSegmentedTabs (Personas/Empresas), KdsBankList, KdsBankRow, KdsQrRow, KdsBankModal
+ * @spec segmented-tabs gap=4px; bank-list gap=8px (var(--kds-spacing-1)); bank-row padding=14px gap=12px
+ */
+export const Screen2BankSelection: Story = screenStory(
+  2,
+  'Screen 2 — Selección de banco',
+  'Selector de método de pago con tabs Personas/Empresas y lista de bancos. El botón "Todos los bancos" abre `KdsBankModal`.',
+);
+
+/**
+ * Formulario de transferencia manual — datos del pagador.
+ *
+ * @gsp manualMaterial.gsp + _manualFormChileMaterial.gsp
+ * @components KdsCard, KdsDivider, KdsTextField, KdsButton (kds-btn-stack)
+ * @spec form fields gap=20px (formGap); kds-btn-stack gap=10px margin-top=16px
+ */
+export const Screen3ManualForm: Story = screenStory(
+  3,
+  'Screen 3 — Transferencia manual',
+  'Formulario para capturar RUT y email del pagador antes de mostrar los datos del destinatario.',
+);
+
+/**
+ * Datos del destinatario para la transferencia manual.
+ *
+ * @gsp manualVerifyMaterial.gsp + _manualVerifyChileMaterial.gsp
+ * @components KdsSectionNote, KdsCopyableTable, KdsRecapList + kds-monto-row (CSS-only)
+ * @spec kds-monto-row padding=14px 0 8px; monto value font-size=24px bold; border-top=1px dashed
+ */
+export const Screen4Recipient: Story = screenStory(
+  4,
+  'Screen 4 — Datos del destinatario',
+  'Pantalla central del flujo manual: muestra los datos bancarios del destinatario en una `KdsCopyableTable` + recap del pagador + monto destacado.',
+);
+
+/**
+ * Estado dimmed mientras el bottom-sheet "¿Ya transferiste?" está abierto.
+ *
+ * @components KdsCard dimmed, KdsInvoiceSticky.kds-card-dimmed, KdsBottomSheet (overlay)
+ * @spec dimmed = opacity 0.4 + pointer-events none aplicado a card+sticky
+ */
+export const Screen5DimmedConfirm: Story = screenStory(
+  5,
+  'Screen 5 — Confirmar transferencia (dimmed)',
+  'Pantalla con card y sticky en estado dimmed + bottom-sheet de confirmación abierto.',
+);
+
+/**
+ * Estado "pago en verificación" tras confirmar la transferencia.
+ *
+ * @gsp processingMaterial.gsp
+ * @components KdsStatusBlock status="pending", KdsAlert severity="warning" inline, KdsLinearProgress
+ * @spec status-block inline gap=12px; alert inline padding reducido (var(--kds-spacing-1-25))
+ */
+export const Screen6Verifying: Story = screenStory(
+  6,
+  'Screen 6 — Pago en verificación',
+  'Estado intermedio mientras Khipu verifica la recepción del pago. Usa `KdsLinearProgress` indeterminada.',
+);
+
+/**
+ * Estado terminal "pago verificado" — variante simple.
+ *
+ * @gsp isPaidOkMaterial.gsp
+ * @components KdsStatusBlock status="success" icon="check", KdsAlert severity="success" inline
+ * @spec invoice amount color=success-main; status-block icon=check 24px
+ */
+export const Screen7Verified: Story = screenStory(
+  7,
+  'Screen 7 — Pago verificado',
+  'Estado final: pago confirmado. Botón único "Finalizar" que reinicia el flujo.',
+);
+
+/**
+ * Estado terminal "pago verificado" — variante merchant con CTA de descarga.
+ *
+ * @gsp isPaidOkMaterial.gsp (variante merchant)
+ * @components KdsStatusBlock, KdsButton variant="outlined" startIcon="download", KdsButton primary
+ * @spec kds-btn-stack apila descargar comprobante + volver al dashboard
+ */
+export const Screen8VerifiedMerchant: Story = screenStory(
+  8,
+  'Screen 8 — Pago verificado (merchant)',
+  'Variante de Screen 7 con CTA secundaria "Descargar comprobante" y vuelta al dashboard del merchant.',
+);
+
+/**
+ * Estado terminal con drawer de éxito abierto sobre fondo dimmed.
+ *
+ * @components KdsCard dimmed, KdsBottomSheet success
+ * @spec dimmed + bottom-sheet con illustration SVG circular success
+ */
+export const Screen9DrawerSuccess: Story = screenStory(
+  9,
+  'Screen 9 — Drawer de éxito',
+  'Variante con drawer overlay mostrando confirmación de pago. Fondo dimmed.',
+);

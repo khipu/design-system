@@ -9,7 +9,7 @@ const meta: Meta<typeof KdsStatusBlock> = {
   argTypes: {
     status: {
       control: 'select',
-      options: ['success', 'pending', 'warn', 'error'],
+      options: ['success', 'pending', 'warn', 'error', 'info'],
     },
     inline: { control: 'boolean' },
   },
@@ -46,7 +46,7 @@ export const Warning: Story = {
 export const Error: Story = {
   args: {
     status: 'error',
-    icon: 'error',
+    icon: 'close',
     title: 'Pago rechazado',
     description: 'No se pudo verificar la transferencia.',
   },
@@ -61,14 +61,46 @@ export const Inline: Story = {
   },
 };
 
+/**
+ * Status info — versión inline (alineada a la izquierda).
+ *
+ * Usado en pantallas NotPaying, ReportPaid, ReportAbuse de payment.
+ *
+ * @spec icono `info_i` solo (sin círculo / sin border / sin background), color info-main.
+ * @gsp notPayingMaterial.gsp, reportPaidMaterial.gsp, reportAbuseMaterial.gsp
+ */
+export const Info: Story = {
+  args: {
+    status: 'info',
+    icon: 'info_i',
+    title: '¿Ya realizaste el pago?',
+    description: 'Cuéntanos para investigar lo ocurrido.',
+    inline: true,
+  },
+};
+
+/**
+ * Status info — versión centrada (sin `inline`).
+ *
+ * @spec icono `info_i` centrado horizontalmente sobre el título, sin círculo de fondo, color info-main.
+ */
+export const InfoCentered: Story = {
+  args: {
+    status: 'info',
+    icon: 'info_i',
+    title: '¿Ya realizaste el pago?',
+    description: 'Cuéntanos para investigar lo ocurrido.',
+  },
+};
+
 export const AllStatuses: Story = {
   render: function AllStatusesBlock() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
         <KdsStatusBlock status="success" icon="check" title="Pago verificado" description="La transferencia fue recibida correctamente." />
-        <KdsStatusBlock status="pending" icon="schedule" title="Pago en verificación" description="Estamos confirmando la recepción de tu transferencia." />
+        <KdsStatusBlock status="pending" title="Pago en verificación" description="Estamos confirmando la recepción de tu transferencia." />
         <KdsStatusBlock status="warn" icon="warning" title="Pago pendiente" description="La transferencia aún no ha sido confirmada." />
-        <KdsStatusBlock status="error" icon="error" title="Pago rechazado" description="No se pudo verificar la transferencia." />
+        <KdsStatusBlock status="error" icon="close" title="Pago rechazado" description="No se pudo verificar la transferencia." />
       </div>
     );
   },

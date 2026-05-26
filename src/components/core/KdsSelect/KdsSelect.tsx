@@ -1,117 +1,114 @@
 /**
  * Khipu Design System - Select Component
  *
- * A select dropdown component built on Radix UI Select with BeerCSS field styling.
+ * Native HTML `<select>` wrapped en el patrón BeerCSS `field label border`.
+ * Matchea exactamente el markup que genera la taglib `mat:select` de payment.
+ *
+ * Markup canónico:
+ *
+ *   <div class="field label border [prefix] [invalid|valid|info|warning]">
+ *     <i class="material-symbols-outlined">prefixIcon</i>  // opcional
+ *     <select id="..." name="..." [required] [disabled]>
+ *       <option value="">Placeholder...</option>           // opcional (noSelection)
+ *       <option value="bci">BCI</option>
+ *       ...
+ *     </select>
+ *     <label for="...">Banco *</label>
+ *     <span class="helper">errorMessage o help</span>      // opcional
+ *   </div>
+ *
+ * BeerCSS dibuja el chevron automáticamente, el floating label, focus ring, etc.
+ *
+ * @gsp `mat:select` taglib (MaterialTagLib.groovy:260)
  */
 
 import React, { forwardRef } from 'react';
-import * as Select from '@radix-ui/react-select';
 import { clsx } from '../utils';
 
-// =============================================================================
-// TYPES
-// =============================================================================
-
-export interface KdsSelectProps {
+export interface KdsSelectOption {
+  /** Valor del `<option>` (string serializable). */
   value: string;
-  onValueChange: (value: string) => void;
-  placeholder?: string;
-  label?: string;
-  error?: boolean;
-  helperText?: React.ReactNode;
+  /** Texto visible del `<option>`. */
+  label: string;
+  /** Si está disabled. */
   disabled?: boolean;
+}
+
+export interface KdsSelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'children'> {
+  /** Floating label. */
+  label: string;
+  /** Lista de opciones del select. */
+  options: KdsSelectOption[];
+  /**
+   * Texto del primer `<option>` con value="" (placeholder). Si está vacío, no se renderiza.
+   * Equivalente a `noSelection` del taglib.
+   */
+  placeholder?: string;
+  /** Helper text bajo el field (error o info). */
+  helperText?: string;
+  /** Estado inválido — aplica clase `.invalid` al wrapper. */
+  error?: boolean;
+  /** Material Symbols icon al inicio del field (aplica clase `.prefix`). */
+  prefixIcon?: string;
+  /** Full width (default: true). */
   fullWidth?: boolean;
-  children: React.ReactNode;
-  className?: string;
 }
 
-export interface KdsSelectItemProps extends Select.SelectItemProps {
-  children: React.ReactNode;
-}
-
-// =============================================================================
-// COMPONENTS
-// =============================================================================
-
-/**
- * Select dropdown component for choosing one option from a list.
- *
- * @example
- * ```tsx
- * <KdsSelect
- *   label="Banco"
- *   value={bank}
- *   onValueChange={setBank}
- *   placeholder="Selecciona tu banco"
- * >
- *   <KdsSelect.Item value="bci">BCI</KdsSelect.Item>
- *   <KdsSelect.Item value="santander">Santander</KdsSelect.Item>
- * </KdsSelect>
- * ```
- */
-const KdsSelectRoot = forwardRef<HTMLDivElement, KdsSelectProps>(
+export const KdsSelect = forwardRef<HTMLSelectElement, KdsSelectProps>(
   (
     {
-      value,
-      onValueChange,
-      placeholder,
       label,
-      error,
+      options,
+      placeholder,
       helperText,
-      disabled,
+      error,
+      prefixIcon,
       fullWidth = true,
-      children,
+      disabled,
+      required,
       className,
+      id,
+      ...props
     },
     ref,
-  ) => (
-    <div
-      ref={ref}
-      className={clsx(
-        'kds-select',
-        error && 'kds-select-error',
-        fullWidth && 'kds-select-full',
-        className,
-      )}
-    >
-      {label && <label className="kds-select-label">{label}</label>}
-      <Select.Root value={value} onValueChange={onValueChange} disabled={disabled}>
-        <Select.Trigger className="kds-select-trigger">
-          <Select.Value placeholder={placeholder} />
-          <Select.Icon className="kds-select-icon">
-            <i className="material-symbols-outlined">expand_more</i>
-          </Select.Icon>
-        </Select.Trigger>
-        <Select.Portal>
-          <Select.Content className="kds-select-content" position="popper" sideOffset={4}>
-            <Select.Viewport className="kds-select-viewport">
-              {children}
-            </Select.Viewport>
-          </Select.Content>
-        </Select.Portal>
-      </Select.Root>
-      {helperText && (
-        <span className={clsx('kds-select-helper', error && 'kds-select-helper-error')}>
-          {helperText}
-        </span>
-      )}
-    </div>
-  ),
-);
-KdsSelectRoot.displayName = 'KdsSelect';
+  ) => {
+    const fieldId = id || `kds-select-${label.toLowerCase().replace(/\s+/g, '-')}`;
 
-const KdsSelectItem = forwardRef<HTMLDivElement, KdsSelectItemProps>(
-  ({ children, className, ...props }, ref) => (
-    <Select.Item ref={ref} className={clsx('kds-select-item', className)} {...props}>
-      <Select.ItemText>{children}</Select.ItemText>
-      <Select.ItemIndicator className="kds-select-item-indicator">
-        <i className="material-symbols-outlined">check</i>
-      </Select.ItemIndicator>
-    </Select.Item>
-  ),
+    return (
+      <div
+        className={clsx(
+          'field',
+          'label',
+          'border',
+          prefixIcon && 'prefix',
+          error && 'invalid',
+          fullWidth && 'kds-w-full',
+          className,
+        )}
+      >
+        {prefixIcon && <i className="material-symbols-outlined">{prefixIcon}</i>}
+        <select
+          ref={ref}
+          id={fieldId}
+          disabled={disabled}
+          required={required}
+          {...props}
+        >
+          {placeholder !== undefined && <option value="">{placeholder}</option>}
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value} disabled={opt.disabled}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <label htmlFor={fieldId}>
+          {label}
+          {required && ' *'}
+        </label>
+        {helperText && <span className="helper">{helperText}</span>}
+      </div>
+    );
+  },
 );
-KdsSelectItem.displayName = 'KdsSelect.Item';
 
-export const KdsSelect = Object.assign(KdsSelectRoot, {
-  Item: KdsSelectItem,
-});
+KdsSelect.displayName = 'KdsSelect';

@@ -19,7 +19,6 @@ type Story = StoryObj<typeof KdsTextField>;
 export const Default: Story = {
   args: {
     label: 'Email',
-    placeholder: 'nombre@ejemplo.com',
   },
 };
 
@@ -66,7 +65,6 @@ export const ReadOnly: Story = {
 export const FullWidth: Story = {
   args: {
     label: 'Dirección',
-    placeholder: 'Ingrese su dirección completa',
     fullWidth: true,
   },
   decorators: [
@@ -83,7 +81,7 @@ export const WithIcons: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
       <KdsTextField
         label="Buscar"
-        placeholder="Buscar por nombre"
+       
         startIcon="search"
       />
       <KdsTextField
@@ -98,10 +96,10 @@ export const WithIcons: Story = {
 export const InputTypes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
-      <KdsTextField label="Texto" type="text" placeholder="Texto normal" />
-      <KdsTextField label="Password" type="password" placeholder="Contraseña" />
-      <KdsTextField label="Email" type="email" placeholder="nombre@ejemplo.com" />
-      <KdsTextField label="Número" type="number" placeholder="0" />
+      <KdsTextField label="Texto" type="text" />
+      <KdsTextField label="Password" type="password" />
+      <KdsTextField label="Email" type="email" />
+      <KdsTextField label="Número" type="number" />
     </div>
   ),
 };
@@ -110,9 +108,9 @@ export const FormExample: Story = {
   render: () => (
     <form style={{ display: 'flex', flexDirection: 'column', gap: semanticSpacing.formGap, maxWidth: '400px' }}>
       <KdsTextField label="Nombre completo" required />
-      <KdsTextField label="RUT" placeholder="12.345.678-9" required />
+      <KdsTextField label="RUT" required />
       <KdsTextField label="Email" type="email" required />
-      <KdsTextField label="Teléfono" type="tel" placeholder="+56 9 1234 5678" />
+      <KdsTextField label="Teléfono" type="tel" />
     </form>
   ),
 };

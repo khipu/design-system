@@ -2,18 +2,25 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsTabs, KdsTab, KdsTabPanel } from './KdsTabs';
 
+/**
+ * KdsTabs — Tabs segmented (única variante existente del Khipu DS).
+ *
+ * Matchea el markup de producción payment (`_choosePaymentMethodFormMaterial.gsp`):
+ *   `<div class="kds-segmented-tabs" role="tablist"><button class="active" role="tab">...`
+ *
+ * Si necesitas un wrapper semántico explícito, usa `KdsSegmentedTabs` (alias).
+ */
 const meta: Meta<typeof KdsTabs> = {
   title: 'Core/KdsTabs',
   component: KdsTabs,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-  },
-  argTypes: {
-    variant: {
-      control: 'select',
-      options: ['standard', 'segmented'],
-      description: 'The layout variant of the tabs',
+    docs: {
+      description: {
+        component:
+          'Tabs segmented (única variante del Khipu DS). Renderiza `.kds-segmented-tabs` con botones `.active` para el tab seleccionado.',
+      },
     },
   },
 };
@@ -21,49 +28,44 @@ const meta: Meta<typeof KdsTabs> = {
 export default meta;
 type Story = StoryObj<typeof KdsTabs>;
 
-/**
- * Default KdsTabs with standard variant layout.
- */
+/** Caso típico — dos tabs (Personas / Empresas) del flow payment. */
 export const Default: Story = {
   render: () => {
     const [activeIndex, setActiveIndex] = useState(0);
     return (
       <div style={{ width: 350 }}>
-        <KdsTabs
-          activeIndex={activeIndex}
-          onChange={setActiveIndex}
-          variant="standard"
-        >
-          <KdsTab>PERSONAS</KdsTab>
-          <KdsTab>EMPRESAS</KdsTab>
+        <KdsTabs activeIndex={activeIndex} onChange={setActiveIndex}>
+          <KdsTab>Personas</KdsTab>
+          <KdsTab>Empresas</KdsTab>
         </KdsTabs>
       </div>
     );
   },
 };
 
-/**
- * KdsTabs with TabPanels showing content switching.
- */
+/** Con paneles de contenido — patrón completo de tabs con switching. */
 export const WithPanels: Story = {
   render: () => {
     const [activeIndex, setActiveIndex] = useState(0);
     return (
       <div style={{ width: 350 }}>
-        <KdsTabs
-          activeIndex={activeIndex}
-          onChange={setActiveIndex}
-          variant="standard"
-        >
-          <KdsTab>PERSONAS</KdsTab>
-          <KdsTab>EMPRESAS</KdsTab>
+        <KdsTabs activeIndex={activeIndex} onChange={setActiveIndex}>
+          <KdsTab>Personas</KdsTab>
+          <KdsTab>Empresas</KdsTab>
         </KdsTabs>
-        <div style={{ marginTop: '16px', padding: '16px', border: '1px solid #e0e0e0', borderRadius: '4px' }}>
+        <div
+          style={{
+            marginTop: 16,
+            padding: 16,
+            border: '1px solid #e0e0e0',
+            borderRadius: 8,
+          }}
+        >
           <KdsTabPanel active={activeIndex === 0}>
-            <div>Contenido para personas - bancos personales</div>
+            <div>Contenido para personas — bancos personales</div>
           </KdsTabPanel>
           <KdsTabPanel active={activeIndex === 1}>
-            <div>Contenido para empresas - bancos corporativos</div>
+            <div>Contenido para empresas — bancos corporativos</div>
           </KdsTabPanel>
         </div>
       </div>
@@ -71,64 +73,31 @@ export const WithPanels: Story = {
   },
 };
 
-/**
- * Three tabs example.
- */
+/** Tres tabs — el componente reparte equitativamente. */
 export const ThreeTabs: Story = {
   render: () => {
     const [activeIndex, setActiveIndex] = useState(0);
     return (
       <div style={{ width: 450 }}>
-        <KdsTabs
-          activeIndex={activeIndex}
-          onChange={setActiveIndex}
-          variant="standard"
-        >
-          <KdsTab>PRIMERO</KdsTab>
-          <KdsTab>SEGUNDO</KdsTab>
-          <KdsTab>TERCERO</KdsTab>
+        <KdsTabs activeIndex={activeIndex} onChange={setActiveIndex}>
+          <KdsTab>Primero</KdsTab>
+          <KdsTab>Segundo</KdsTab>
+          <KdsTab>Tercero</KdsTab>
         </KdsTabs>
       </div>
     );
   },
 };
 
-/**
- * Segmented variant tabs.
- */
-export const SegmentedVariant: Story = {
-  render: () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    return (
-      <div style={{ width: 350 }}>
-        <KdsTabs
-          activeIndex={activeIndex}
-          onChange={setActiveIndex}
-          variant="segmented"
-        >
-          <KdsTab>PERSONAS</KdsTab>
-          <KdsTab>EMPRESAS</KdsTab>
-        </KdsTabs>
-      </div>
-    );
-  },
-};
-
-/**
- * With disabled tab.
- */
+/** Con un tab disabled. */
 export const WithDisabledTab: Story = {
   render: () => {
     const [activeIndex, setActiveIndex] = useState(0);
     return (
       <div style={{ width: 350 }}>
-        <KdsTabs
-          activeIndex={activeIndex}
-          onChange={setActiveIndex}
-          variant="standard"
-        >
-          <KdsTab>ACTIVE</KdsTab>
-          <KdsTab disabled>DISABLED</KdsTab>
+        <KdsTabs activeIndex={activeIndex} onChange={setActiveIndex}>
+          <KdsTab>Activo</KdsTab>
+          <KdsTab disabled>Disabled</KdsTab>
         </KdsTabs>
       </div>
     );

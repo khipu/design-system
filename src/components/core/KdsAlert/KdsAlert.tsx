@@ -1,90 +1,81 @@
 /**
  * Khipu Design System - Alert Component
  *
- * An alert component built with native HTML and kds-* CSS classes.
- * Matches the Figma design: Pagos Automáticos - MUI v610
+ * Alert con icon opcional, content y close button.
+ *
+ * Specs (CSS-derived):
+ * - `.kds-alert`: flex, align-items center, gap 8px, padding 16px, border-radius md, border 1px
+ * - `.kds-alert-icon`: 24px, flex-shrink 0
+ * - `.kds-alert-content`: flex 1, min-width 0 (permite ellipsis del texto)
+ * - Variantes: kds-info / kds-success / kds-warning / kds-error
+ * - `.kds-alert-inline` reduce padding y bottom-margin
  */
 
 import React, { forwardRef } from 'react';
 import { clsx } from '../utils';
 
-// =============================================================================
-// TYPES
-// =============================================================================
-
 export type KdsAlertSeverity = 'success' | 'info' | 'warning' | 'error';
 
+/** Default icon por severity (Material Symbols). */
+const DEFAULT_ICONS: Record<KdsAlertSeverity, string> = {
+  success: 'check_circle',
+  info: 'info',
+  warning: 'warning',
+  error: 'error',
+};
+
 export interface KdsAlertProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Alert severity/type */
+  /** Alert severity/type. */
   severity: KdsAlertSeverity;
-  /** Alert title */
+  /** Alert title (negrita arriba). */
   title?: string;
-  /** Material Symbols icon name, e.g. "info" */
-  icon?: string;
-  /** Inline variant (compact display) */
+  /**
+   * Material Symbols icon name. Si es `true` (o se omite y hay otra prop), se usa el default por severity.
+   * Pasar `false` para ocultar el icon. Pasar un string custom para override.
+   */
+  icon?: string | boolean;
+  /** Inline variant (compact display, sin border-radius grande). */
   inline?: boolean;
-  /** Alert content */
+  /** Alert body. */
   children: React.ReactNode;
-  /** Closable alert */
+  /** Callback para cerrar — renderiza icon-button discreto a la derecha. */
   onClose?: () => void;
 }
 
-// =============================================================================
-// COMPONENT
-// =============================================================================
-
-/**
- * Alert component for displaying important messages.
- *
- * Built with native HTML and kds-* CSS classes from the BeerCSS bundle.
- *
- * @example
- * ```tsx
- * // Info alert (like in subscription details)
- * <KdsAlert severity="info">
- *   El tope mensual corresponde al monto máximo posible a cobrar mensualmente.
- * </KdsAlert>
- *
- * // Success alert
- * <KdsAlert severity="success" title="¡Todo listo!">
- *   Espera la confirmación por parte de tu banco
- * </KdsAlert>
- *
- * // Warning alert
- * <KdsAlert severity="warning" onClose={() => setOpen(false)}>
- *   Tu sesión expirará pronto
- * </KdsAlert>
- *
- * // Error alert
- * <KdsAlert severity="error">
- *   Ha ocurrido un error al procesar tu pago
- * </KdsAlert>
- * ```
- */
 export const KdsAlert = forwardRef<HTMLDivElement, KdsAlertProps>(
-  ({ severity, title, icon, inline, onClose, children, className, ...props }, ref) => (
-    <div
-      ref={ref}
-      role="alert"
-      className={clsx('kds-alert', `kds-${severity}`, inline && 'kds-alert-inline', className)}
-      {...props}
-    >
-      {icon && (
-        <div className="kds-alert-icon">
-          <i className="material-symbols-outlined">{icon}</i>
+  ({ severity, title, icon, inline, onClose, children, className, ...props }, ref) => {
+    const resolvedIcon =
+      icon === false ? null : typeof icon === 'string' ? icon : DEFAULT_ICONS[severity];
+
+    return (
+      <div
+        ref={ref}
+        role="alert"
+        className={clsx('kds-alert', `kds-${severity}`, inline && 'kds-alert-inline', className)}
+        {...props}
+      >
+        {resolvedIcon && (
+          <div className="kds-alert-icon">
+            <i className="material-symbols-outlined">{resolvedIcon}</i>
+          </div>
+        )}
+        <div className="kds-alert-content">
+          {title && <p className="kds-alert-title">{title}</p>}
+          <p className="kds-alert-description">{children}</p>
         </div>
-      )}
-      <div className="kds-alert-content">
-        {title && <p className="kds-alert-title">{title}</p>}
-        <p className="kds-alert-description">{children}</p>
+        {onClose && (
+          <button
+            type="button"
+            className="kds-alert-close"
+            onClick={onClose}
+            aria-label="Cerrar"
+          >
+            <i className="material-symbols-outlined">close</i>
+          </button>
+        )}
       </div>
-      {onClose && (
-        <button className="kds-btn kds-btn-text kds-btn-sm" onClick={onClose} aria-label="Cerrar">
-          <i className="material-symbols-outlined">close</i>
-        </button>
-      )}
-    </div>
-  ),
+    );
+  },
 );
 
 KdsAlert.displayName = 'KdsAlert';

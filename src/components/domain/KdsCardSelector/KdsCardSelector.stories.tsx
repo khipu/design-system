@@ -2,15 +2,53 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsCardSelector } from './KdsCardSelector';
 
+/**
+ * KdsCardSelector — card grande clickeable con icon + título + descripción para selección de método.
+ *
+ * Layout & sizing (spec):
+ * - `padding: 24px` (`var(--kds-spacing-3)`)
+ * - `border: 2px solid var(--kds-border-light)`
+ * - `border-radius: var(--kds-radius-md)`
+ * - `text-align: left`, `cursor: pointer`
+ * - `display: flex; flex-direction: column`
+ *
+ * Icon container (`.kds-card-selector-icon`):
+ * - `48 x 48`, `border-radius: 8px`, `margin-bottom: 16px`
+ * - `background: var(--kds-color-primary-focus)` (rgba primary 12%)
+ * - Icon i: `24 x 24`, `color: var(--kds-color-primary-main)`
+ *
+ * Title (`.kds-card-selector-title`):
+ * - `font-size: 16px`, `font-weight: 600`, `margin-bottom: 8px`
+ * - `color: var(--kds-color-text-primary)`
+ *
+ * Description (`.kds-card-selector-description`):
+ * - `font-size: 14px`, `line-height: 1.5`
+ * - `color: var(--kds-color-text-secondary)`
+ *
+ * Estados:
+ * - Hover: `border-color: #D1D5DB` (gray-300)
+ * - **Selected** (fix Fase 1): `border-color: var(--kds-color-primary-main)` + `background: var(--kds-color-primary-faint)` + `box-shadow: var(--kds-shadow-md)`
+ *
+ * @css .kds-card-selector, .kds-card-selector-icon, .kds-card-selector-title, .kds-card-selector-description, .kds-card-selector.selected
+ */
 const meta: Meta<typeof KdsCardSelector> = {
   title: 'Domain/KdsCardSelector',
   component: KdsCardSelector,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Card grande clickeable para selección de método (típicamente pagos). Padding 24px, border 2px, radius md. Icon container 48×48 con bg primary-focus (12% purple). Title 16px/600, description 14px text-secondary. Estado `selected` aplica border + bg primary-main/primary-faint (corregido en Fase 1: antes usaba azul Material).',
+      },
+    },
   },
   argTypes: {
-    selected: { control: 'boolean' },
+    selected: { control: 'boolean', description: 'Aplica border + background primary y shadow-md.' },
+    title: { control: 'text', description: 'Título principal (16px semibold).' },
+    description: { control: 'text', description: 'Descripción opcional (14px text-secondary).' },
+    icon: { control: 'text', description: 'Material Symbol del icon container.' },
   },
 };
 

@@ -32,9 +32,14 @@ export function KdsTooltip({
           {children}
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <Tooltip.Content className={clsx('kds-tooltip', className)} side={placement} sideOffset={4}>
+          <Tooltip.Content
+            className={clsx('kds-tooltip', className)}
+            side={placement}
+            sideOffset={6}
+            collisionPadding={8}
+          >
             {content}
-            <Tooltip.Arrow className="kds-tooltip-arrow" />
+            <Tooltip.Arrow className="kds-tooltip-arrow" width={10} height={5} />
           </Tooltip.Content>
         </Tooltip.Portal>
       </Tooltip.Root>

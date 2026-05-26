@@ -3,19 +3,52 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { KdsStepper } from './KdsStepper';
 import { KdsButton } from '../KdsButton';
 
+/**
+ * KdsStepper — indicador de progreso multi-stage usado en onboarding y checkout flows.
+ *
+ * Layout (spec):
+ * - Container: flex space-between, padding 24px 0, bg paper
+ * - Línea conectora horizontal: `.kds-stepper::before` (NO un `<div>`)
+ * - Step: flex column align-center, flex 1 1 0 (anchura igual entre todos)
+ * - Indicator: círculo 40×40 (light-gray pending / info-main current / success-main completed)
+ * - Label: 14px, color text-secondary (text-primary cuando current/completed)
+ * - Checkmark de completed: `::after { content: "check" }` (Material Symbols 24px white)
+ *
+ * El componente requiere un container con ancho razonable (≥ 320px) para que la línea
+ * conectora horizontal se vea bien — por eso el decorator default le da `width: 480px`.
+ *
+ * @gsp `mat:stepper` taglib en payment
+ */
 const meta: Meta<typeof KdsStepper> = {
   title: 'Core/KdsStepper',
   component: KdsStepper,
   tags: ['autodocs'],
+  // Container fluido (100%) con max-width — ocupa todo el ancho disponible
+  // del preview pero no se estira indefinidamente en pantallas anchas.
+  decorators: [
+    (Story) => (
+      <div style={{ width: '100%', maxWidth: 560, margin: '0 auto' }}>
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'Stepper con labels visible bajo cada indicador. Flex space-between, conector horizontal vía `::before`, checkmark de completed vía `::after { content: "check" }`. Container fluido (100% con `max-width: 560px`) — requiere ≥ 320px para verse correctamente.',
+      },
+    },
   },
   argTypes: {
-    steps: {
-      control: { type: 'number', min: 2, max: 8 },
-    },
     current: {
-      control: { type: 'number', min: 0, max: 7 },
+      control: { type: 'number', min: 0 },
+      description: 'Índice 0-based del step actual.',
+    },
+    steps: {
+      control: 'object',
+      description: 'Array de labels (string[]).',
     },
   },
 };
@@ -23,52 +56,55 @@ const meta: Meta<typeof KdsStepper> = {
 export default meta;
 type Story = StoryObj<typeof KdsStepper>;
 
-/**
- * Stepper en el segundo paso de cuatro.
- */
+const DEFAULT_LABELS = ['Seleccionar banco', 'Autorizar pago', 'Confirmar', 'Comprobante'];
+
+/** Segundo paso (índice 1) de cuatro. */
 export const Default: Story = {
   args: {
-    steps: 4,
+    steps: DEFAULT_LABELS,
+    current: 1,
+  },
+};
+
+/** Primer paso — nada completado todavía. */
+export const FirstStep: Story = {
+  args: {
+    steps: DEFAULT_LABELS,
+    current: 0,
+  },
+};
+
+/** Último paso — todos los anteriores con check verde. */
+export const LastStep: Story = {
+  args: {
+    steps: DEFAULT_LABELS,
+    current: 3,
+  },
+};
+
+/** Tres pasos solamente — el container se reparte equitativamente. */
+export const ThreeSteps: Story = {
+  args: {
+    steps: ['Datos', 'Verificar', 'Listo'],
     current: 1,
   },
 };
 
 /**
- * Stepper en el primer paso.
- */
-export const FirstStep: Story = {
-  args: {
-    steps: 4,
-    current: 0,
-  },
-};
-
-/**
- * Stepper en el ultimo paso.
- */
-export const LastStep: Story = {
-  args: {
-    steps: 4,
-    current: 3,
-  },
-};
-
-/**
- * Stepper interactivo con botones para avanzar y retroceder.
+ * Stepper interactivo con botones Anterior / Siguiente.
  */
 export const Interactive: Story = {
   render: function InteractiveStepper() {
-    const totalSteps = 4;
     const [current, setCurrent] = useState(0);
-    const stepLabels = ['Seleccionar banco', 'Autorizar pago', 'Confirmar', 'Comprobante'];
+    const labels = DEFAULT_LABELS;
 
     return (
-      <div style={{ width: 400 }}>
-        <KdsStepper steps={totalSteps} current={current} />
+      <div>
+        <KdsStepper steps={labels} current={current} />
         <p style={{ textAlign: 'center', margin: '16px 0', fontWeight: 600 }}>
-          Paso {current + 1} de {totalSteps}: {stepLabels[current]}
+          Paso {current + 1} de {labels.length}: {labels[current]}
         </p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 8 }}>
           <KdsButton
             variant="outlined"
             onClick={() => setCurrent((prev) => Math.max(0, prev - 1))}
@@ -77,8 +113,8 @@ export const Interactive: Story = {
             Anterior
           </KdsButton>
           <KdsButton
-            onClick={() => setCurrent((prev) => Math.min(totalSteps - 1, prev + 1))}
-            disabled={current === totalSteps - 1}
+            onClick={() => setCurrent((prev) => Math.min(labels.length - 1, prev + 1))}
+            disabled={current === labels.length - 1}
           >
             Siguiente
           </KdsButton>

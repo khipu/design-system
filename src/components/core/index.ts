@@ -14,9 +14,6 @@ export { KdsTextField, type KdsTextFieldProps } from './KdsTextField';
 // Checkbox
 export { KdsCheckbox, type KdsCheckboxProps } from './KdsCheckbox';
 
-// Modal
-export { KdsModal, type KdsModalProps, type KdsModalSize } from './KdsModal';
-
 // Card
 export {
   KdsCard,
@@ -50,20 +47,6 @@ export {
   type KdsTabPanelProps,
 } from './KdsTabs';
 
-// LogoHeader
-export {
-  KdsLogoHeader,
-  KdsLogoHeaderLogo,
-  KdsLogoHeaderSeparator,
-  KdsLogoHeaderCode,
-  KdsLogoHeaderCloseButton,
-  type KdsLogoHeaderProps,
-  type KdsLogoHeaderLogoProps,
-  type KdsLogoHeaderSeparatorProps,
-  type KdsLogoHeaderCodeProps,
-  type KdsLogoHeaderCloseButtonProps,
-} from './KdsLogoHeader';
-
 // RadioGroup
 export {
   KdsRadioGroup,
@@ -75,7 +58,7 @@ export {
 export {
   KdsSelect,
   type KdsSelectProps,
-  type KdsSelectItemProps,
+  type KdsSelectOption,
 } from './KdsSelect';
 
 // Chip

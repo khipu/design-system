@@ -7,7 +7,7 @@
 import React, { forwardRef } from 'react';
 import { clsx } from '../utils';
 
-export type KdsStatusType = 'success' | 'pending' | 'warn' | 'error';
+export type KdsStatusType = 'success' | 'pending' | 'warn' | 'error' | 'info';
 
 export interface KdsStatusBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   status: KdsStatusType;
