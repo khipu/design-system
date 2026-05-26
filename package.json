@@ -1,9 +1,9 @@
 {
   "name": "@khipu/design-system",
-  "version": "0.2.0-alpha.20",
+  "version": "0.2.0-alpha.23",
   "description": "Khipu Design System - UI components and design tokens for the Khipu payment platform",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "sideEffects": [
     "*.css"
@@ -20,7 +20,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.esm.js",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
     "./tokens": {
