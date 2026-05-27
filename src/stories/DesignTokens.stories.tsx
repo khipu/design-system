@@ -102,7 +102,7 @@ const TypographySample = ({
 );
 
 const meta: Meta = {
-  title: 'Design Tokens',
+  title: 'Design System/Tokens/Reference',
   parameters: {
     layout: 'padded',
   },

@@ -89,12 +89,15 @@ const preview: Preview = {
     options: {
       storySort: {
         order: [
-          'Brand',
-          ['Integración', 'Uso de marca', 'Uso de colores', 'Uso tipográfico', 'Voz y tono'],
+          'Design System',
+          ['Tokens', 'Assets'],
+          'Patterns',
           'Core',
           'Domain',
           'Hooks',
-          'Examples'
+          'Examples',
+          'Brand',
+          ['Integración', 'Uso de marca', 'Uso de colores', 'Uso tipográfico', 'Voz y tono'],
         ],
       },
     },
