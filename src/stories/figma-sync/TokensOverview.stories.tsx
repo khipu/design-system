@@ -11,6 +11,12 @@ import { colors, spacing, typography, borderRadius, shadows } from '../../tokens
  * **Referencia en Figma:** K-Tokens for Figma - Material UI
  *
  * Para sincronizar con Figma, ejecuta: `npm run sync:figma:tokens`
+ *
+ * Reglas de oro al usar tokens: (1) siempre `var(--kds-*)`, nunca valores
+ * hardcoded (font-size/weight/color); (2) spacing entre elementos por
+ * `padding`+`gap` del padre, nunca `margin` en hijos. Convenciones completas
+ * (React vs HTML plano, gotchas BeerCSS, iconos, composición) en
+ * `Design System/Conventions`.
  */
 const meta = {
   title: 'Design System/Tokens/Overview',
@@ -18,7 +24,8 @@ const meta = {
     layout: 'padded',
     docs: {
       description: {
-        component: 'Vista general de todos los tokens de diseno del sistema.',
+        component:
+          'Vista general de todos los tokens de diseno del sistema. Reglas de oro al usarlos: (1) siempre `var(--kds-*)`, nunca valores hardcoded (font-size/weight/color); (2) spacing entre elementos por `padding`+`gap` del padre, nunca `margin` en hijos. Detalle completo de convenciones (React vs HTML plano, gotchas BeerCSS, iconos, composicion) en `Design System/Conventions`.',
       },
     },
   },

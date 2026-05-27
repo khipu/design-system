@@ -39,6 +39,10 @@ export interface KdsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
  *
  * Built with native HTML and kds-* CSS classes from the BeerCSS bundle.
  *
+ * Compose with: para apilar CTAs al pie de una card, envolver en
+ * `.kds-btn-stack` (NO usar gap/margin inline) — primario arriba, outlined
+ * debajo, todos `fullWidth`. Ver `Patterns/CSS-only → ButtonStack`.
+ *
  * @example
  * ```tsx
  * <KdsButton variant="primary">

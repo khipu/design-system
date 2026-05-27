@@ -18,7 +18,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Clases CSS-only del DS usadas en producción payment sin wrapper React. Documentan contrato HTML + specs cuantitativos para que MCP pueda generar markup preciso.',
+          'Clases CSS-only del DS (BeerCSS) usadas en producción payment. Cada story trae el CONTRATO HTML + specs cuantitativos. Sirven para DOS targets: (1) markup HTML plano directo en GSP/Grails/legacy, y (2) la base CSS que envuelven los wrappers React `Kds*`. Para generar una pantalla de pago en HTML plano, componer estos contratos (ej. MerchantHeader + KeyValue + MontoRow + ButtonStack + SecureFooter dentro del shell PaymentStage).',
       },
     },
   },
@@ -362,6 +362,139 @@ export const MontoRowSimple: Story = {
         </div>
         <div className="kds-monto-row-value">$3.300</div>
       </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// MERCHANT HEADER (.kds-merchant)
+// =============================================================================
+
+/**
+ * `.kds-merchant` — header de comercio en confirmación de pago: tile + "estás
+ * pagando a" + nombre. Patrón de COMPOSICIÓN (envuelve `KdsMerchantTile`).
+ *
+ * Layout (spec):
+ * - `.kds-merchant`: `display: flex; align-items: center; gap: var(--kds-spacing-1-75)` (14px)
+ * - `.kds-merchant-tile`: 56×56, `border-radius: var(--kds-radius-card)`, `background: var(--kds-color-primary-deep)`
+ * - `.kds-merchant-meta`: `display: flex; flex-direction: column` (SIN gap; el espaciado va por margin del label)
+ * - `.kds-merchant-label`: `font-size: xs`, `text-transform: uppercase`, `letter-spacing: 0.04em`, `color: text-secondary`, `margin-bottom: var(--kds-spacing-0-25)` (2px)
+ * - `.kds-merchant-meta strong`: `font-size: 15px; font-weight: 600; color: text-primary`
+ * - Variante `.kds-merchant.compact`: tile 40×40, label oculto
+ *
+ * Contrato HTML (usar tal cual en GSP/BeerCSS):
+ * ```html
+ * <div class="kds-merchant">
+ *   <div class="kds-merchant-tile">CS</div>
+ *   <div class="kds-merchant-meta">
+ *     <span class="kds-merchant-label">Estás pagando a</span>
+ *     <strong>Comercial Santiago SpA</strong>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * En React: `<KdsMerchantTile name="…" />` SOLO renderiza `.kds-merchant-tile`;
+ * el header completo se compone con este markup alrededor.
+ *
+ * @gsp `_payInvoiceCard.gsp` y pantallas de confirmación
+ * @css .kds-merchant, .kds-merchant-tile, .kds-merchant-meta, .kds-merchant-label
+ */
+export const MerchantHeader: Story = {
+  name: 'MerchantHeader (.kds-merchant)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="kds-merchant">
+        <div className="kds-merchant-tile">CS</div>
+        <div className="kds-merchant-meta">
+          <span className="kds-merchant-label">Estás pagando a</span>
+          <strong>Comercial Santiago SpA</strong>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// BUTTON STACK (.kds-btn-stack)
+// =============================================================================
+
+/**
+ * `.kds-btn-stack` — apilado vertical canónico de CTAs al pie de una card.
+ *
+ * Layout (spec):
+ * - `display: flex; flex-direction: column`
+ * - `gap: var(--kds-spacing-1-25)` (10px) entre botones
+ * - `margin-top: var(--kds-spacing-2)` (16px) — separa del contenido anterior
+ *
+ * Regla: el espaciado de los CTAs viene de esta clase, NO de estilos inline
+ * en los botones. Primario arriba, secundario/outlined debajo.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-btn-stack">
+ *   <button class="kds-btn kds-btn-primary kds-btn-block">Pagar $3.300</button>
+ *   <button class="kds-btn kds-btn-outlined kds-btn-block">Cancelar</button>
+ * </div>
+ * ```
+ * (`kds-btn-block` = full width, equivalente a `fullWidth` en React.)
+ *
+ * En React: `<div className="kds-btn-stack"><KdsButton fullWidth/>…</div>`.
+ *
+ * @css .kds-btn-stack, .kds-btn, .kds-btn-block
+ */
+export const ButtonStack: Story = {
+  name: 'ButtonStack (.kds-btn-stack)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="kds-btn-stack">
+        <button className="kds-btn kds-btn-primary kds-btn-block">
+          Pagar $3.300
+        </button>
+        <button className="kds-btn kds-btn-outlined kds-btn-block">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// SECURE FOOTER (.kds-secure-footer — par responsive)
+// =============================================================================
+
+/**
+ * `.kds-secure-footer` — "Pago seguro procesado por Khipu" con icon lock.
+ *
+ * Layout (spec):
+ * - `display: flex; align-items: center; justify-content: center`
+ * - `gap: var(--kds-spacing-0-5)`, `padding: var(--kds-spacing-1) 0`
+ * - `font-size: xs`, `color: gray-400`, `letter-spacing: wide`
+ *
+ * Patrón responsive (clave): se usan DOS instancias y el CSS muestra una según viewport:
+ * - **default** (fuera de la card): visible en desktop ≥768px, oculto en mobile
+ * - **`.inside`** (dentro de `KdsCard`): visible en mobile <768px, oculto en desktop
+ *
+ * Contrato HTML:
+ * ```html
+ * <!-- dentro de la card (mobile) -->
+ * <p class="kds-secure-footer inside"><i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu</p>
+ * <!-- fuera de la card (desktop) -->
+ * <p class="kds-secure-footer"><i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu</p>
+ * ```
+ *
+ * En React: `<KdsSecureFooter variant="inside"/>` dentro de la card +
+ * `<KdsSecureFooter/>` fuera.
+ *
+ * @css .kds-secure-footer, .kds-secure-footer.inside
+ */
+export const SecureFooterPair: Story = {
+  name: 'SecureFooter (par responsive)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <p className="kds-secure-footer">
+        <i className="material-symbols-outlined">lock</i> Pago seguro procesado
+        por Khipu
+      </p>
     </div>
   ),
 };

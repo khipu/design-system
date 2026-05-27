@@ -13,6 +13,12 @@ import { KdsMerchantTile } from './KdsMerchantTile';
  * Variante con logo (`logoUrl`):
  * - Agrega clase `.logo`, padding 4px
  * - `<img>` cover, radius md
+ *
+ * Compose with: este componente SOLO renderiza el tile cuadrado. Para el header
+ * de comercio completo ("estás pagando a" + nombre) envolver en `.kds-merchant`
+ * > tile + `.kds-merchant-meta` (`.kds-merchant-label` + `<strong>`), con gap
+ * `var(--kds-spacing-1-75)` y label `margin-bottom: var(--kds-spacing-0-25)`.
+ * Ver `Patterns/CSS-only → MerchantHeader`.
  */
 const meta: Meta<typeof KdsMerchantTile> = {
   title: 'Domain/KdsMerchantTile',
@@ -22,7 +28,7 @@ const meta: Meta<typeof KdsMerchantTile> = {
     docs: {
       description: {
         component:
-          'Tile 56×56 (o 40×40 compact) con logo del merchant o initials fallback. Background `var(--kds-color-primary-deep)`, initials white xl/700. Cuando hay `logoUrl`, renderiza `<img>` con object-fit cover y padding 4px.',
+          'Tile 56×56 (o 40×40 compact) con logo del merchant o initials fallback. Background `var(--kds-color-primary-deep)`, initials white xl/700. Cuando hay `logoUrl`, renderiza `<img>` con object-fit cover y padding 4px. Compose with: este componente SOLO renderiza el tile; para el header completo ("estás pagando a" + nombre) envolver en `.kds-merchant` > tile + `.kds-merchant-meta`(`.kds-merchant-label` + `<strong>`), gap `var(--kds-spacing-1-75)`, label `margin-bottom var(--kds-spacing-0-25)`. Ver `Patterns/CSS-only → MerchantHeader`.',
       },
     },
   },

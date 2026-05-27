@@ -26,6 +26,21 @@ export interface KdsMerchantTileProps extends Omit<React.HTMLAttributes<HTMLDivE
  * - Agrega clase `.logo`, padding `var(--kds-spacing-0-5)` (4px)
  * - `<img>` interna: `object-fit: cover`, `border-radius: var(--kds-radius-md)`
  *
+ * Compose with: este componente SOLO renderiza el tile cuadrado. Para el header
+ * de comercio completo ("estás pagando a" + nombre), envolver en el patrón
+ * `.kds-merchant`:
+ * ```html
+ * <div class="kds-merchant">
+ *   <!-- KdsMerchantTile → .kds-merchant-tile -->
+ *   <div class="kds-merchant-meta">
+ *     <span class="kds-merchant-label">Estás pagando a</span>
+ *     <strong>Comercial Santiago SpA</strong>
+ *   </div>
+ * </div>
+ * ```
+ * Spacing canónico: `.kds-merchant` gap `var(--kds-spacing-1-75)`; label
+ * `margin-bottom: var(--kds-spacing-0-25)`. Ver `Patterns/CSS-only → MerchantHeader`.
+ *
  * @css .kds-merchant-tile, .kds-merchant-tile.logo, .kds-merchant.compact .kds-merchant-tile
  */
 export const KdsMerchantTile = forwardRef<HTMLDivElement, KdsMerchantTileProps>(
