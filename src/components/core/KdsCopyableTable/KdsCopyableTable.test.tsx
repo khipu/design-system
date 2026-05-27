@@ -18,7 +18,7 @@ describe('KdsCopyableTable', () => {
 
   it('has copy all button with bundle classes', () => {
     render(<KdsCopyableTable rows={rows} />);
-    const btn = screen.getByLabelText('Copiar todo');
+    const btn = screen.getByLabelText('Copiar todos los datos');
     expect(btn).toBeInTheDocument();
     expect(btn.classList.contains('kds-btn')).toBe(true);
     expect(btn.classList.contains('kds-btn-outlined')).toBe(true);

@@ -35,7 +35,7 @@ describe('KdsButton', () => {
     render(<KdsButton loading>Submit</KdsButton>);
     const btn = screen.getByRole('button');
     expect(btn).toBeDisabled();
-    expect(btn.querySelector('.loader')).toBeTruthy();
+    expect(btn.querySelector('progress.circle')).toBeTruthy();
   });
 
   it('disables button when disabled prop is true', () => {
