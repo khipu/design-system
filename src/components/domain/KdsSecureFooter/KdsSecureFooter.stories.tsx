@@ -42,7 +42,7 @@ const meta: Meta<typeof KdsSecureFooter> = {
     docs: {
       description: {
         component:
-          'Footer "Pago seguro con Khipu". `font xs, color gray-400, gap 4px, padding 8px 0, letter-spacing wide`. Variante `default` visible solo en desktop (≥768px); variante `inside` visible solo en mobile (dentro de cards). Combinar ambas en el mismo flow garantiza visibilidad en cualquier viewport.',
+          'Footer "Pago seguro con Khipu". `font xs, color gray-400, gap 4px, padding 8px 0, letter-spacing wide`. Variante `default` visible solo en desktop (≥768px); variante `inside` visible solo en mobile (dentro de cards). Combinar ambas en el mismo flow garantiza visibilidad en cualquier viewport. Compose: poné `<KdsSecureFooter variant="inside"/>` como último hijo de la `KdsCard` y `<KdsSecureFooter/>` fuera de la card. Ver `Patterns/CSS-only → SecureFooter`.',
       },
     },
   },

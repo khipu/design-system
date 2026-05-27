@@ -90,7 +90,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'Design System',
-          ['Tokens', 'Assets'],
+          ['Conventions', 'Tokens', 'Assets'],
           'Brand',
           ['Integración', 'Uso de marca', 'Uso de colores', 'Uso tipográfico', 'Voz y tono'],
           'Patterns',
