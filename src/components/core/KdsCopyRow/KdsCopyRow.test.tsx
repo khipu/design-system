@@ -11,7 +11,7 @@ describe('KdsCopyRow', () => {
 
   it('has copy button with aria-label', () => {
     render(<KdsCopyRow label="RUT" value="123" />);
-    expect(screen.getByLabelText('Copiar RUT')).toBeInTheDocument();
+    expect(screen.getByLabelText('Copiar RUT: 123')).toBeInTheDocument();
   });
 
   it('applies custom className', () => {
