@@ -1,5 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { colors } from '../../tokens';
+import { useDarkMode } from '@vueless/storybook-dark-mode';
+import { tokensByMode } from '../../tokens';
+
+// Mode-aware palette: resolves light/dark tokens from tokens.ts so this story
+// always coincides with Design System/Tokens/Reference under the theme toggle.
+const useModeColors = () => {
+  const isDark = useDarkMode();
+  return tokensByMode[isDark ? 'dark' : 'light'].colors;
+};
 
 /**
  * Colores del Design System
@@ -109,8 +117,9 @@ const ColorPalette = ({ title, palette, description }: ColorPaletteProps) => {
  *
  * Vista completa de todas las paletas de colores disponibles en el sistema.
  */
-export const AllColors: Story = {
-  render: () => (
+const AllColorsView = () => {
+  const modeColors = useModeColors();
+  return (
     <div style={{ padding: '24px' }}>
       <h2 style={{ margin: '0 0 8px 0', fontSize: '30px' }}>
         Sistema de Colores
@@ -122,55 +131,55 @@ export const AllColors: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', marginTop: '32px' }}>
         <ColorPalette
           title="Primary - Purpura Khipu"
-          palette={colors.primary}
+          palette={modeColors.primary}
           description="Color principal de la marca Khipu. Usado en elementos principales de UI como botones primarios y enlaces."
         />
 
         <ColorPalette
           title="Secondary - Teal"
-          palette={colors.secondary}
+          palette={modeColors.secondary}
           description="Color secundario complementario. Usado en elementos de soporte y acciones secundarias."
         />
 
         <ColorPalette
           title="Success - Verde"
-          palette={colors.success}
+          palette={modeColors.success}
           description="Indica operaciones exitosas, estados aprobados y mensajes de confirmacion."
         />
 
         <ColorPalette
           title="Error - Rojo"
-          palette={colors.error}
+          palette={modeColors.error}
           description="Indica errores, validaciones fallidas y estados criticos que requieren atencion."
         />
 
         <ColorPalette
           title="Warning - Amarillo"
-          palette={colors.warning}
+          palette={modeColors.warning}
           description="Indica advertencias, precauciones y estados que requieren revision."
         />
 
         <ColorPalette
           title="Info - Azul"
-          palette={colors.info}
+          palette={modeColors.info}
           description="Mensajes informativos, tooltips y elementos de ayuda contextual."
         />
 
         <ColorPalette
           title="Text - Colores de Texto"
-          palette={colors.text}
+          palette={modeColors.text}
           description="Jerarquia de colores para contenido textual, desde primario hasta deshabilitado."
         />
 
         <ColorPalette
           title="Background - Fondos"
-          palette={colors.background}
+          palette={modeColors.background}
           description="Colores de fondo para diferentes superficies y niveles de elevacion."
         />
 
         <ColorPalette
           title="Action - Estados de Interaccion"
-          palette={colors.action}
+          palette={modeColors.action}
           description="Estados visuales para elementos interactivos: hover, active, disabled, focus."
         />
       </div>
@@ -202,7 +211,11 @@ import { colors } from '@khipu/design-system';
         </pre>
       </div>
     </div>
-  ),
+  );
+};
+
+export const AllColors: Story = {
+  render: () => <AllColorsView />,
 };
 
 /**
@@ -210,8 +223,9 @@ import { colors } from '@khipu/design-system';
  *
  * Colores primarios y secundarios de la marca.
  */
-export const BrandColors: Story = {
-  render: () => (
+const BrandColorsView = () => {
+  const modeColors = useModeColors();
+  return (
     <div style={{ padding: '24px' }}>
       <h2 style={{ margin: '0 0 16px 0', fontSize: '24px' }}>
         Colores de Marca
@@ -219,17 +233,21 @@ export const BrandColors: Story = {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginTop: '16px' }}>
         <ColorPalette
           title="Primary - Purpura Khipu"
-          palette={colors.primary}
+          palette={modeColors.primary}
           description="Color principal de la identidad de marca"
         />
         <ColorPalette
           title="Secondary - Teal"
-          palette={colors.secondary}
+          palette={modeColors.secondary}
           description="Color secundario complementario"
         />
       </div>
     </div>
-  ),
+  );
+};
+
+export const BrandColors: Story = {
+  render: () => <BrandColorsView />,
 };
 
 /**
@@ -237,20 +255,25 @@ export const BrandColors: Story = {
  *
  * Colores para estados y mensajes (success, error, warning, info).
  */
-export const SemanticColors: Story = {
-  render: () => (
+const SemanticColorsView = () => {
+  const modeColors = useModeColors();
+  return (
     <div style={{ padding: '24px' }}>
       <h2 style={{ margin: '0 0 16px 0', fontSize: '24px' }}>
         Colores Semanticos
       </h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginTop: '16px' }}>
-        <ColorPalette title="Success" palette={colors.success} />
-        <ColorPalette title="Error" palette={colors.error} />
-        <ColorPalette title="Warning" palette={colors.warning} />
-        <ColorPalette title="Info" palette={colors.info} />
+        <ColorPalette title="Success" palette={modeColors.success} />
+        <ColorPalette title="Error" palette={modeColors.error} />
+        <ColorPalette title="Warning" palette={modeColors.warning} />
+        <ColorPalette title="Info" palette={modeColors.info} />
       </div>
     </div>
-  ),
+  );
+};
+
+export const SemanticColors: Story = {
+  render: () => <SemanticColorsView />,
 };
 
 /**
@@ -258,17 +281,22 @@ export const SemanticColors: Story = {
  *
  * Colores para texto, fondos y estados de interaccion.
  */
-export const SystemColors: Story = {
-  render: () => (
+const SystemColorsView = () => {
+  const modeColors = useModeColors();
+  return (
     <div style={{ padding: '24px' }}>
       <h2 style={{ margin: '0 0 16px 0', fontSize: '24px' }}>
         Colores de Sistema
       </h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '16px' }}>
-        <ColorPalette title="Text" palette={colors.text} />
-        <ColorPalette title="Background" palette={colors.background} />
-        <ColorPalette title="Action" palette={colors.action} />
+        <ColorPalette title="Text" palette={modeColors.text} />
+        <ColorPalette title="Background" palette={modeColors.background} />
+        <ColorPalette title="Action" palette={modeColors.action} />
       </div>
     </div>
-  ),
+  );
+};
+
+export const SystemColors: Story = {
+  render: () => <SystemColorsView />,
 };
