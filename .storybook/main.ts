@@ -18,6 +18,12 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
+  features: {
+    // Enables the components manifest so addon-mcp exposes the docs toolset
+    // (list-all-documentation / get-documentation). Renamed to
+    // `componentsManifest` in Storybook 10.3+.
+    experimentalComponentsManifest: true,
+  },
   typescript: {
     reactDocgen: 'react-docgen-typescript',
   },
