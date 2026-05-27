@@ -4,7 +4,6 @@ import {
   KdsButton,
   KdsDivider,
   KdsSectionNote,
-  KdsTypography,
 } from '../../components/core';
 import {
   KdsMerchantTile,
@@ -62,25 +61,11 @@ const Shell = ({ children }: { children: React.ReactNode }) => (
 );
 
 const MerchantHeader = () => (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'var(--kds-spacing-1-5)',
-    }}
-  >
+  <div className="kds-merchant">
     <KdsMerchantTile name="Comercial Santiago SpA" initials="CS" />
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--kds-spacing-0-25)',
-      }}
-    >
-      <KdsTypography variant="label" color="secondary">
-        Estás pagando a
-      </KdsTypography>
-      <KdsTypography variant="body">Comercial Santiago SpA</KdsTypography>
+    <div className="kds-merchant-meta">
+      <span className="kds-merchant-label">Estás pagando a</span>
+      <strong>Comercial Santiago SpA</strong>
     </div>
   </div>
 );
