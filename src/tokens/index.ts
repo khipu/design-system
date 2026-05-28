@@ -273,6 +273,7 @@ const semanticColors = {
     main: '#EF6C00',        // From Figma: warning/main
     light: '#FF9800',       // From Figma: warning/light
     dark: '#E65100',        // From Figma: warning/dark
+    warm: '#8A6D1A',        // Warm/olive variant for header icons (LigoPay handoff v2)
     container: '#FFFBEB',   // Light amber background for chips/badges
     contrastText: '#FFFFFF',
   },
@@ -291,6 +292,7 @@ const semanticColors = {
     main: '#0288D1',
     light: '#03A9F4',
     dark: '#01579B',
+    blue: '#5A5FE0',       // Khipu-blue / LigoPay informational blue (distinct from cyan main)
     container: '#EFF6FF',  // Light blue background for chips/badges
     contrastText: '#FFFFFF',
   },
@@ -350,6 +352,7 @@ export const fontSizes = {
   '2xl': '1.5rem',  // 24px
   '3xl': '1.875rem', // 30px
   '4xl': '2.25rem', // 36px
+  decimalSup: '0.5em', // Relative size for decimal superscript in amount displays
 } as const;
 
 export const lineHeights = {
