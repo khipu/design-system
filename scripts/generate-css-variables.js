@@ -78,12 +78,19 @@ function generateColorVariables(colors) {
 
   // Semantic colors
   const semanticColors = ['success', 'warning', 'error', 'info'];
+  // Extra semantic variants beyond main/light/dark (LigoPay handoff: info.blue, warning.warm)
+  const extraSemanticKeys = ['blue', 'warm'];
   for (const semantic of semanticColors) {
     if (colors[semantic]) {
       const commentText = semantic === 'success' ? 'Semantic colors' : undefined;
       variables.push({ name: `--kds-color-${semantic}-main`, value: colors[semantic].main, comment: commentText });
       variables.push({ name: `--kds-color-${semantic}-light`, value: colors[semantic].light });
       variables.push({ name: `--kds-color-${semantic}-dark`, value: colors[semantic].dark });
+      for (const extraKey of extraSemanticKeys) {
+        if (colors[semantic][extraKey]) {
+          variables.push({ name: `--kds-color-${semantic}-${extraKey}`, value: colors[semantic][extraKey] });
+        }
+      }
     }
   }
 
@@ -183,8 +190,16 @@ function generateTypographyVariables(typography) {
   }
 
   // Font sizes — base scale (xs–4xl) is now set via responsive mobile-first
-  // in generateResponsiveBaseFontSizeVariables(). Only static fontSizes.md alias here.
+  // in generateResponsiveBaseFontSizeVariables(). Only static aliases here.
   variables.push({ comment: 'Font sizes (base scale xs–4xl: see responsive section below)' });
+
+  // Static font-size aliases (relative-unit tokens that should not scale with breakpoint)
+  if (typography.fontSizes && typography.fontSizes.decimalSup) {
+    variables.push({
+      name: '--kds-font-size-decimal-sup',
+      value: typography.fontSizes.decimalSup,
+    });
+  }
 
   // Line heights
   if (typography.lineHeights) {

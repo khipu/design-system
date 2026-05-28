@@ -5,7 +5,7 @@ import UIKit
  * 
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Source: design-system/src/tokens/tokens.json
- * Generated: 2026-05-14T15:26:58.815Z
+ * Generated: 2026-05-28T15:22:53.552Z
  * 
  * To regenerate:
  *   cd design-system && npm run tokens:generate
@@ -92,6 +92,7 @@ public struct KdsTokens {
         public static let fontSizeSize2Xl: CGFloat = 24
         public static let fontSizeSize3Xl: CGFloat = 30
         public static let fontSizeSize4Xl: CGFloat = 36
+        public static let fontSizeDecimalSup: CGFloat = 0.5
         
         // Line heights
         public static let lineHeightTight: CGFloat = 1.2
