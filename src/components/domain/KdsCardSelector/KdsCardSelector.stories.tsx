@@ -122,3 +122,37 @@ export const PaymentMethodSelector: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <button type="button" class="kds-card-selector selected">
+ *   <span class="kds-card-selector-icon">
+ *     <i class="material-symbols-outlined">credit_card</i>
+ *   </span>
+ *   <span class="kds-card-selector-title">Tarjeta de crédito</span>
+ *   <span class="kds-card-selector-description">Pago instantáneo, sin necesidad de cuenta bancaria.</span>
+ * </button>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → CardSelector` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <button type="button" className="kds-card-selector selected">
+        <span className="kds-card-selector-icon">
+          <i className="material-symbols-outlined">credit_card</i>
+        </span>
+        <span className="kds-card-selector-title">Tarjeta de crédito</span>
+        <span className="kds-card-selector-description">
+          Pago instantáneo, sin necesidad de cuenta bancaria.
+        </span>
+      </button>
+    </div>
+  ),
+};

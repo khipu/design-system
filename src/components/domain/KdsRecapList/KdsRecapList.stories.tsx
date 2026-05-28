@@ -115,3 +115,45 @@ export const Empty: Story = {
     ],
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <ul class="kds-recap-list">
+ *   <li>
+ *     <span class="k">Monto</span>
+ *     <span class="v">$3.300</span>
+ *   </li>
+ *   <li>
+ *     <span class="k">Comisión</span>
+ *     <span class="v placeholder">Sin comisión</span>
+ *   </li>
+ * </ul>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → RecapList` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <ul className="kds-recap-list">
+        <li>
+          <span className="k">Monto</span>
+          <span className="v">$3.300</span>
+        </li>
+        <li>
+          <span className="k">Comisión</span>
+          <span className="v placeholder">Sin comisión</span>
+        </li>
+        <li>
+          <span className="k">Total</span>
+          <span className="v">$3.300</span>
+        </li>
+      </ul>
+    </div>
+  ),
+};

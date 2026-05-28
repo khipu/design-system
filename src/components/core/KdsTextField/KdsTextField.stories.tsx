@@ -114,3 +114,33 @@ export const FormExample: Story = {
     </form>
   ),
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Recordar: `placeholder=" "` (un espacio) es obligatorio para el truco floating-label.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="field label border">
+ *   <input type="email" id="email" name="email" placeholder=" "/>
+ *   <label for="email">Email</label>
+ *   <span class="helper">Te enviaremos la confirmación aquí</span>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → TextField` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="field label border">
+        <input type="email" id="email-html-markup" name="email" placeholder=" " />
+        <label htmlFor="email-html-markup">Email</label>
+        <span className="helper">Te enviaremos la confirmación aquí</span>
+      </div>
+    </div>
+  ),
+};

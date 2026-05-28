@@ -107,3 +107,47 @@ export const InsideDetailGroup: Story = {
     </div>
   ),
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-bill-attachments">
+ *   <a class="kds-bill-attachment" href="/files/factura-enero.pdf" target="_blank" rel="noopener noreferrer">
+ *     <i class="material-symbols-outlined">attach_file</i>
+ *     <span>Factura Enero 2026.pdf</span>
+ *   </a>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → BillAttachment` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-bill-attachments">
+        <a
+          className="kds-bill-attachment"
+          href="#factura-enero"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="material-symbols-outlined">attach_file</i>
+          <span>Factura Enero 2026.pdf</span>
+        </a>
+        <a
+          className="kds-bill-attachment"
+          href="#orden-compra"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="material-symbols-outlined">attach_file</i>
+          <span>Orden de compra OC-001.pdf</span>
+        </a>
+      </div>
+    </div>
+  ),
+};

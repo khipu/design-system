@@ -63,3 +63,39 @@ export const Multiple: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <details class="kds-accordion" open>
+ *   <summary class="kds-accordion-summary">
+ *     ¿Cómo funciona el pago?
+ *     <i class="material-symbols-outlined">expand_more</i>
+ *   </summary>
+ *   <div class="kds-accordion-details">
+ *     <p>El pago se procesa directamente con tu banco.</p>
+ *   </div>
+ * </details>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → Accordion` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <details className="kds-accordion" open>
+        <summary className="kds-accordion-summary">
+          ¿Cómo funciona el pago?
+          <i className="material-symbols-outlined">expand_more</i>
+        </summary>
+        <div className="kds-accordion-details">
+          <p>El pago se procesa directamente con tu banco.</p>
+        </div>
+      </details>
+    </div>
+  ),
+};

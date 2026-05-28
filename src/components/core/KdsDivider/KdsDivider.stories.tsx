@@ -32,3 +32,28 @@ export const AllVariants: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <hr class="kds-hr" />
+ * <hr class="kds-hr-dashed" />
+ * ```
+ *
+ * Ver `Patterns/CSS-only → Divider` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <p>Sección superior</p>
+      <hr className="kds-hr" />
+      <p>Sección intermedia</p>
+      <hr className="kds-hr-dashed" />
+      <p>Sección inferior</p>
+    </div>
+  ),
+};

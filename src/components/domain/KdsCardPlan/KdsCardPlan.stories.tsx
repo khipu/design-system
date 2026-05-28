@@ -177,3 +177,50 @@ export const PlanGrid: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-card-plan recommended">
+ *   <span class="kds-card-plan-badge">Recomendado</span>
+ *   <div class="kds-card-plan-header">
+ *     <h3>Plan Pro</h3>
+ *   </div>
+ *   <div class="kds-card-plan-price">
+ *     <span class="kds-price">$29.990</span>
+ *     <span class="kds-price-period">/mes</span>
+ *   </div>
+ *   <ul class="kds-card-plan-features">
+ *     <li>Hasta 1000 transacciones/mes</li>
+ *     <li>Soporte prioritario</li>
+ *   </ul>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → CardPlan` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-card-plan recommended">
+        <span className="kds-card-plan-badge">Recomendado</span>
+        <div className="kds-card-plan-header">
+          <h3>Plan Pro</h3>
+        </div>
+        <div className="kds-card-plan-price">
+          <span className="kds-price">$29.990</span>
+          <span className="kds-price-period">/mes</span>
+        </div>
+        <ul className="kds-card-plan-features">
+          <li>Hasta 1000 transacciones/mes</li>
+          <li>Soporte prioritario</li>
+          <li>Reportes avanzados</li>
+        </ul>
+      </div>
+    </div>
+  ),
+};
