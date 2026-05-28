@@ -51,3 +51,43 @@ export const WithDisabledOption: Story = {
     ],
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <fieldset class="kds-radio-group">
+ *   <legend>Elige tu banco</legend>
+ *   <label class="radio">
+ *     <input type="radio" name="banco" value="security" checked />
+ *     <span>Banco Security</span>
+ *   </label>
+ *   <label class="radio">
+ *     <input type="radio" name="banco" value="estado" />
+ *     <span>BancoEstado</span>
+ *   </label>
+ * </fieldset>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → RadioGroup` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <fieldset className="kds-radio-group">
+        <legend>Elige tu banco</legend>
+        <label className="radio">
+          <input type="radio" name="banco-html" value="security" defaultChecked />
+          <span>Banco Security</span>
+        </label>
+        <label className="radio">
+          <input type="radio" name="banco-html" value="estado" />
+          <span>BancoEstado</span>
+        </label>
+      </fieldset>
+    </div>
+  ),
+};

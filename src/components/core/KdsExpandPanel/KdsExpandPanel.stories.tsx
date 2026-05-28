@@ -76,3 +76,37 @@ export const InContext: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML (estado expandido):
+ * ```html
+ * <div>
+ *   <button class="kds-expand-toggle" aria-expanded="true">
+ *     <span>Ver detalles</span>
+ *     <i class="material-symbols-outlined">expand_less</i>
+ *   </button>
+ *   <div class="kds-expand-panel open">
+ *     <p>Contenido extendido del panel cuando está abierto.</p>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → ExpandPanel` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <button className="kds-expand-toggle" aria-expanded="true">
+        <span>Ver detalles</span>
+        <i className="material-symbols-outlined">expand_less</i>
+      </button>
+      <div className="kds-expand-panel open">
+        <p>Contenido extendido del panel cuando está abierto.</p>
+      </div>
+    </div>
+  ),
+};

@@ -132,3 +132,43 @@ export const AllVariants: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <button type="button" class="kds-qr-row">
+ *   <span class="kds-qr-avatar" aria-hidden="true">
+ *     <i class="material-symbols-outlined">qr_code_2</i>
+ *   </span>
+ *   <span class="kds-qr-text">
+ *     <span class="title">Pagar escaneando QR</span>
+ *     <span class="sub">Apunta tu app bancaria al código</span>
+ *   </span>
+ *   <span class="kds-qr-badge">Rápido</span>
+ *   <i class="material-symbols-outlined">chevron_right</i>
+ * </button>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → QrRow` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <button type="button" className="kds-qr-row">
+        <span className="kds-qr-avatar" aria-hidden="true">
+          <i className="material-symbols-outlined">qr_code_2</i>
+        </span>
+        <span className="kds-qr-text">
+          <span className="title">Pagar escaneando QR</span>
+          <span className="sub">Apunta tu app bancaria al código</span>
+        </span>
+        <span className="kds-qr-badge">Rápido</span>
+        <i className="material-symbols-outlined">chevron_right</i>
+      </button>
+    </div>
+  ),
+};

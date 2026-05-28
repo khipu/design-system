@@ -143,3 +143,49 @@ export const WithCustomActionRow: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-bank-list" role="list">
+ *   <button type="button" class="kds-bank-row">…</button>
+ *   <button type="button" class="kds-bank-row selected">…</button>
+ *   <button type="button" class="kds-bank-row">…</button>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → BankList` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-bank-list" role="list">
+        <button type="button" className="kds-bank-row">
+          <span className="kds-bank-row-logo">
+            <span className="initials">B</span>
+          </span>
+          <span className="kds-bank-row-name">Banco Security</span>
+          <i className="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button type="button" className="kds-bank-row selected">
+          <span className="kds-bank-row-logo">
+            <span className="initials">B</span>
+          </span>
+          <span className="kds-bank-row-name">BancoEstado</span>
+          <i className="material-symbols-outlined">check_circle</i>
+        </button>
+        <button type="button" className="kds-bank-row">
+          <span className="kds-bank-row-logo">
+            <span className="initials">B</span>
+          </span>
+          <span className="kds-bank-row-name">BCI</span>
+          <i className="material-symbols-outlined">chevron_right</i>
+        </button>
+      </div>
+    </div>
+  ),
+};
