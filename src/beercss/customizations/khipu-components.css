@@ -6647,6 +6647,12 @@ a.kds-copy-all-btn.copied:hover {
     --kds-payment-amount-weight: var(--kds-font-weight-semibold);
 }
 
+/* Tone modifier: swaps the amount color to the khipu-blue / LigoPay info blue.
+   Combinable with --email or with the default variant. */
+.kds-payment-total--tone-info {
+    --kds-payment-amount-color: var(--kds-color-info-blue);  /* #5A5FE0 */
+}
+
 /* Responsive: mobile ≤ 1024px — centra y conmuta los títulos (sólo variante default) */
 @media (max-width: 1024px) {
     .kds-payment-total {

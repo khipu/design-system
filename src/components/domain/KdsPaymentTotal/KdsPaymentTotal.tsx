@@ -3,6 +3,13 @@ import { clsx } from '../../core/utils';
 
 export type KdsPaymentTotalVariant = 'default' | 'email';
 
+/**
+ * Color tone for the amount value.
+ * - `brand`: default Khipu purple (current behaviour).
+ * - `info`: khipu-blue (#5A5FE0) — LigoPay QR / transfer flows.
+ */
+export type KdsPaymentTotalTone = 'brand' | 'info';
+
 export interface KdsPaymentTotalProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
    * Variante visual.
@@ -11,6 +18,13 @@ export interface KdsPaymentTotalProps extends Omit<React.HTMLAttributes<HTMLDivE
    * @default 'default'
    */
   variant?: KdsPaymentTotalVariant;
+  /**
+   * Tono de color del monto. Combinable con cualquier `variant`.
+   * - `brand` (default): purple Khipu / texto primario según variante.
+   * - `info`: khipu-blue (#5A5FE0) — pantallas QR/transfer de LigoPay.
+   * @default 'brand'
+   */
+  tone?: KdsPaymentTotalTone;
   /**
    * Monto a mostrar.
    * - `number`: el componente formatea (entera + decimal) con `Intl.NumberFormat`.
@@ -84,6 +98,7 @@ export const KdsPaymentTotal = forwardRef<HTMLDivElement, KdsPaymentTotalProps>(
   (
     {
       variant = 'default',
+      tone = 'brand',
       amount,
       currency = 'S/',
       decimals = 2,
@@ -98,11 +113,17 @@ export const KdsPaymentTotal = forwardRef<HTMLDivElement, KdsPaymentTotalProps>(
   ) => {
     const { integer, fraction } = formatAmount(amount, decimals, locale);
     const isEmail = variant === 'email';
+    const isInfoTone = tone === 'info';
 
     return (
       <div
         ref={ref}
-        className={clsx('kds-payment-total', isEmail && 'kds-payment-total--email', className)}
+        className={clsx(
+          'kds-payment-total',
+          isEmail && 'kds-payment-total--email',
+          isInfoTone && 'kds-payment-total--tone-info',
+          className,
+        )}
         {...props}
       >
         {!isEmail && title != null && <h5 className="kds-payment-total-title">{title}</h5>}
