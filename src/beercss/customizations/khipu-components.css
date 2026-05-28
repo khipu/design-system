@@ -6515,3 +6515,99 @@ a.kds-copy-all-btn.copied:hover {
     font-size: 24px;
     color: var(--kds-color-text-primary);
 }
+
+/* ========================================
+   PAYMENT TOTAL (.kds-payment-total)
+   Bloque "monto a pagar" para QR view y email templates.
+   Portado desde paylink-ligopay → <kh:paymentTotal> + materialize-config.css.
+   Variantes:
+     - default: amount grande (3rem) en color primario Khipu.
+     - email:   amount compacto (1.5rem) en color texto primario.
+   Responsive (default): mobile (≤ 1024px) centra y oculta titleMobile.
+   ======================================== */
+
+.kds-payment-total {
+    /* Component-scoped tokens — overrideables sin tocar el CSS global. */
+    --kds-payment-total-title-size: var(--kds-font-size-2xl);    /* 24px */
+    --kds-payment-total-label-size: var(--kds-font-size-xl);     /* 20px */
+    --kds-payment-amount-size: 3rem;                              /* 48px — destacado */
+    --kds-payment-amount-line-height: var(--kds-line-height-snug);
+    --kds-payment-amount-color: var(--kds-color-primary-main);
+    --kds-payment-amount-weight: var(--kds-font-weight-medium);
+
+    padding-left: var(--kds-spacing-10);
+    padding-top: var(--kds-spacing-4);
+    text-align: left;
+}
+
+.kds-payment-total-title,
+.kds-payment-total-title-mobile {
+    font-size: var(--kds-payment-total-title-size);
+    font-weight: var(--kds-font-weight-semibold);
+    color: var(--kds-color-text-primary);
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.kds-payment-total-title-mobile {
+    display: none;
+}
+
+.kds-payment-total .kds-payment-label {
+    font-size: var(--kds-payment-total-label-size);
+    font-weight: var(--kds-font-weight-semibold);
+    color: var(--kds-color-text-primary);
+    margin-bottom: var(--kds-spacing-1);
+    padding-top: 0;
+}
+
+.kds-payment-total .kds-payment-amount {
+    font-size: var(--kds-payment-amount-size);
+    font-weight: var(--kds-payment-amount-weight);
+    line-height: var(--kds-payment-amount-line-height);
+    color: var(--kds-payment-amount-color);
+    margin-bottom: var(--kds-spacing-4);
+}
+
+.kds-payment-total .kds-payment-amount .kds-payment-total-decimal-sup {
+    font-size: 0.5em;
+    font-weight: var(--kds-font-weight-semibold);
+    position: relative;
+    top: -0.7em;
+}
+
+/* Variante email: amount compacto en color texto primario, alineación izquierda fija */
+.kds-payment-total--email {
+    --kds-payment-amount-size: var(--kds-font-size-2xl);  /* 24px */
+    --kds-payment-amount-line-height: var(--kds-line-height-snug);
+    --kds-payment-amount-color: var(--kds-color-text-primary);
+    --kds-payment-amount-weight: var(--kds-font-weight-semibold);
+}
+
+/* Responsive: mobile ≤ 1024px — centra y conmuta los títulos (sólo variante default) */
+@media (max-width: 1024px) {
+    .kds-payment-total {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .kds-payment-total .kds-payment-total-title {
+        display: none;
+    }
+
+    .kds-payment-total .kds-payment-total-title-mobile {
+        display: block;
+        text-align: center;
+    }
+
+    .kds-payment-total .kds-payment-label,
+    .kds-payment-total .kds-payment-amount {
+        text-align: center;
+    }
+
+    /* Email mantiene alineación izquierda incluso en mobile (matchea email clients) */
+    .kds-payment-total--email,
+    .kds-payment-total--email .kds-payment-label,
+    .kds-payment-total--email .kds-payment-amount {
+        text-align: left;
+    }
+}
