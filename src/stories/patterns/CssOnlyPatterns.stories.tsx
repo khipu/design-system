@@ -508,11 +508,9 @@ export const SecureFooterPair: Story = {
  * Portado del taglib `<kh:paymentTotal>` de paylink-ligopay
  * (`KhipuTagLib.groovy:131-177` + `materialize-config.css → .payment-total`).
  *
- * Layout (default — vista QR, desktop):
- * - `padding-left: var(--kds-spacing-10)` (asimétrico — para LigoPay QR)
- * - `padding-top: var(--kds-spacing-4)`
- * - `text-align: left`
- * - Mobile (≤ 1024px): `padding-left: 0`, `text-align: center`; `titleMobile` reemplaza `title`.
+ * Layout (default — desktop):
+ * - `text-align: left` (sin paddings; el espaciado vertical lo aporta el contenedor padre o los `margin-bottom` internos de `title`/`amount`).
+ * - Mobile (≤ 1024px): `text-align: center`; `titleMobile` reemplaza `title`.
  *
  * Tipografía:
  * - `.kds-payment-total-title` / `-title-mobile`: `font-size: 2xl`, `weight: semibold`
