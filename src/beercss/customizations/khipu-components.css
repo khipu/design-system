@@ -3479,6 +3479,54 @@ dialog#surveyModal button.circle {
     font-size: var(--kds-font-size-sm);
 }
 
+/* ── Font-size scale utilities (additive — opt-in companions to .kds-text-sm) ── */
+.kds-text-base {
+    font-size: var(--kds-font-size-base);
+}
+
+.kds-text-lg {
+    font-size: var(--kds-font-size-lg);
+}
+
+.kds-text-xl {
+    font-size: var(--kds-font-size-xl);
+}
+
+.kds-text-2xl {
+    font-size: var(--kds-font-size-2xl);
+}
+
+/* ── Font-weight utilities ── */
+.kds-fw-regular {
+    font-weight: var(--kds-font-weight-regular);
+}
+
+.kds-fw-medium {
+    font-weight: var(--kds-font-weight-medium);
+}
+
+.kds-fw-semibold {
+    font-weight: var(--kds-font-weight-semibold);
+}
+
+.kds-fw-bold {
+    font-weight: var(--kds-font-weight-bold);
+}
+
+/* ── Text-transform utilities ── */
+.kds-text-transform-none {
+    text-transform: none;
+}
+
+/* ── Soft background utilities (semantic muted backgrounds for callouts) ── */
+.kds-bg-warning-soft {
+    background-color: var(--kds-color-warning-soft);
+}
+
+.kds-bg-info-soft {
+    background-color: var(--kds-color-info-soft);
+}
+
 /* ── Typography variants ── */
 .kds-text-display1 {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
