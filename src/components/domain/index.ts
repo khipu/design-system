@@ -11,6 +11,11 @@ export { KdsRecapList, type KdsRecapListProps, type KdsRecapItem } from './KdsRe
 export { KdsMontoRow, type KdsMontoRowProps } from './KdsMontoRow';
 export { KdsMerchantTile, type KdsMerchantTileProps } from './KdsMerchantTile';
 export {
+  KdsPaymentTotal,
+  type KdsPaymentTotalProps,
+  type KdsPaymentTotalVariant,
+} from './KdsPaymentTotal';
+export {
   KdsBillAttachment,
   KdsBillAttachments,
   type KdsBillAttachmentProps,
