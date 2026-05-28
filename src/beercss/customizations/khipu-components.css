@@ -3463,6 +3463,14 @@ dialog#surveyModal button.circle {
     text-align: center;
 }
 
+.kds-text-left {
+    text-align: left;
+}
+
+.kds-text-right {
+    text-align: right;
+}
+
 .kds-text-underline {
     text-decoration: underline;
 }
@@ -6651,6 +6659,21 @@ a.kds-copy-all-btn.copied:hover {
    Combinable with --email or with the default variant. */
 .kds-payment-total--tone-info {
     --kds-payment-amount-color: var(--kds-color-info-blue);  /* #5A5FE0 */
+}
+
+/* Centered modifier: removes the asymmetric desktop padding (which exists for
+   LigoPay QR view) and centers all internal text. Composable with --email and
+   --tone-info. */
+.kds-payment-total--centered {
+    padding-left: 0;
+    padding-top: 0;
+    text-align: center;
+}
+.kds-payment-total--centered .kds-payment-total-title,
+.kds-payment-total--centered .kds-payment-total-title-mobile,
+.kds-payment-total--centered .kds-payment-label,
+.kds-payment-total--centered .kds-payment-amount {
+    text-align: center;
 }
 
 /* Responsive: mobile ≤ 1024px — centra y conmuta los títulos (sólo variante default) */

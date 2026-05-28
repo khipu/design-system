@@ -172,3 +172,50 @@ export const VariantsComparison: Story = {
     </div>
   ),
 };
+
+/**
+ * Variante `centered` — aplica `kds-payment-total--centered`: remueve el
+ * `padding-left` asimétrico (default para LigoPay QR) y centra todo el texto.
+ * Combinable con `variant` y `tone`.
+ */
+export const Centered: Story = {
+  args: { centered: true, amount: '1500.50' },
+};
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML (variante default con decimal):
+ * ```html
+ * <div class="kds-payment-total">
+ *   <h5 class="kds-payment-total-title">Escanea el QR</h5>
+ *   <h5 class="kds-payment-total-title-mobile">Descarga el QR</h5>
+ *   <h6 class="kds-payment-label">Monto a pagar</h6>
+ *   <h5 class="kds-payment-amount">
+ *     S/ 1,500<sup class="kds-payment-total-decimal-sup">50</sup>
+ *   </h5>
+ * </div>
+ * ```
+ *
+ * Modificadores BEM combinables: `--email` (compacto, sin títulos), `--tone-info`
+ * (amount en khipu-blue), `--centered` (sin padding-left, texto centrado).
+ *
+ * Ver `Patterns/CSS-only → PaymentTotal` para spec cuantitativa completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-payment-total">
+        <h5 className="kds-payment-total-title">Escanea el QR</h5>
+        <h5 className="kds-payment-total-title-mobile">Descarga el QR</h5>
+        <h6 className="kds-payment-label">Monto a pagar</h6>
+        <h5 className="kds-payment-amount">
+          S/ 1,500
+          <sup className="kds-payment-total-decimal-sup">50</sup>
+        </h5>
+      </div>
+    </div>
+  ),
+};

@@ -498,3 +498,89 @@ export const SecureFooterPair: Story = {
     </div>
   ),
 };
+
+// =============================================================================
+// PAYMENT TOTAL (.kds-payment-total)
+// =============================================================================
+
+/**
+ * `.kds-payment-total` — bloque "monto a pagar" para QR view y emails de cobro.
+ * Portado del taglib `<kh:paymentTotal>` de paylink-ligopay
+ * (`KhipuTagLib.groovy:131-177` + `materialize-config.css → .payment-total`).
+ *
+ * Layout (default — vista QR, desktop):
+ * - `padding-left: var(--kds-spacing-10)` (asimétrico — para LigoPay QR)
+ * - `padding-top: var(--kds-spacing-4)`
+ * - `text-align: left`
+ * - Mobile (≤ 1024px): `padding-left: 0`, `text-align: center`; `titleMobile` reemplaza `title`.
+ *
+ * Tipografía:
+ * - `.kds-payment-total-title` / `-title-mobile`: `font-size: 2xl`, `weight: semibold`
+ * - `.kds-payment-label`: `font-size: xl`, `weight: semibold`, `color: text-primary`
+ * - `.kds-payment-amount`: `font-size: 3rem` (48px), `weight: medium`, `color: primary-main`
+ * - `.kds-payment-total-decimal-sup`: `font-size: var(--kds-font-size-decimal-sup)` (0.5em), `weight: semibold`
+ *
+ * Variantes (modificadores BEM, combinables):
+ * - `.kds-payment-total--email`: amount compacto (`2xl`), color texto primario, sin títulos.
+ * - `.kds-payment-total--tone-info`: amount en khipu-blue (#5A5FE0) para LigoPay QR/transfer.
+ * - `.kds-payment-total--centered`: remueve el `padding-left` asimétrico y centra todo el texto.
+ *
+ * Contrato HTML (variante default con decimal):
+ * ```html
+ * <div class="kds-payment-total">
+ *   <h5 class="kds-payment-total-title">Escanea el QR</h5>
+ *   <h5 class="kds-payment-total-title-mobile">Descarga el QR</h5>
+ *   <h6 class="kds-payment-label">Monto a pagar</h6>
+ *   <h5 class="kds-payment-amount">
+ *     S/ 1,500<sup class="kds-payment-total-decimal-sup">50</sup>
+ *   </h5>
+ * </div>
+ * ```
+ *
+ * En React: `<KdsPaymentTotal amount="1500.50" />` · props `variant`, `tone`, `centered`.
+ *
+ * @gsp Origen: `paylink-ligopay/.../KhipuTagLib.groovy:131-177` (`<kh:paymentTotal>`)
+ * @css .kds-payment-total, .kds-payment-total--email, .kds-payment-total--tone-info, .kds-payment-total--centered, .kds-payment-total-title, .kds-payment-total-title-mobile, .kds-payment-label, .kds-payment-amount, .kds-payment-total-decimal-sup
+ */
+export const PaymentTotal: Story = {
+  name: 'PaymentTotal (.kds-payment-total)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="kds-payment-total">
+        <h5 className="kds-payment-total-title">Escanea el QR</h5>
+        <h5 className="kds-payment-total-title-mobile">Descarga el QR</h5>
+        <h6 className="kds-payment-label">Monto a pagar</h6>
+        <h5 className="kds-payment-amount">
+          S/ 1,500
+          <sup className="kds-payment-total-decimal-sup">50</sup>
+        </h5>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Variante `--centered`: sin padding-left asimétrico, texto centrado en todos los breakpoints.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-payment-total kds-payment-total--centered">
+ *   <h6 class="kds-payment-label">Monto a pagar</h6>
+ *   <h5 class="kds-payment-amount">S/ 1,500<sup class="kds-payment-total-decimal-sup">50</sup></h5>
+ * </div>
+ * ```
+ */
+export const PaymentTotalCentered: Story = {
+  name: 'PaymentTotal — centered (.kds-payment-total--centered)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="kds-payment-total kds-payment-total--centered">
+        <h6 className="kds-payment-label">Monto a pagar</h6>
+        <h5 className="kds-payment-amount">
+          S/ 1,500
+          <sup className="kds-payment-total-decimal-sup">50</sup>
+        </h5>
+      </div>
+    </div>
+  ),
+};
