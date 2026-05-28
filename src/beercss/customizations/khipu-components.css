@@ -6633,10 +6633,10 @@ a.kds-copy-all-btn.copied:hover {
 }
 
 .kds-payment-total .kds-payment-amount .kds-payment-total-decimal-sup {
-    font-size: 0.5em;
+    font-size: var(--kds-font-size-decimal-sup);
     font-weight: var(--kds-font-weight-semibold);
     position: relative;
-    top: -0.7em;
+    top: 0;
 }
 
 /* Variante email: amount compacto en color texto primario, alineación izquierda fija */
