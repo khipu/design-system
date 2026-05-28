@@ -6607,8 +6607,6 @@ a.kds-copy-all-btn.copied:hover {
     --kds-payment-amount-color: var(--kds-color-primary-main);
     --kds-payment-amount-weight: var(--kds-font-weight-medium);
 
-    padding-left: var(--kds-spacing-10);
-    padding-top: var(--kds-spacing-4);
     text-align: left;
 }
 
@@ -6679,7 +6677,6 @@ a.kds-copy-all-btn.copied:hover {
 /* Responsive: mobile ≤ 1024px — centra y conmuta los títulos (sólo variante default) */
 @media (max-width: 1024px) {
     .kds-payment-total {
-        padding-left: 0;
         text-align: center;
     }
 
