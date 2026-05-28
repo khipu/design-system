@@ -4059,6 +4059,11 @@ dialog#surveyModal button.circle {
     color: var(--kds-color-text-primary);
 }
 
+/* Opt-in color modifier — switches the value to the LigoPay/khipu-blue tone */
+.kds-amount-value--info {
+    color: var(--kds-color-info-blue);  /* #5A5FE0 */
+}
+
 .kds-amount-value small {
     font-size: 18px;
     font-weight: 500;
