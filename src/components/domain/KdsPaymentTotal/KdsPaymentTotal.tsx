@@ -26,6 +26,13 @@ export interface KdsPaymentTotalProps extends Omit<React.HTMLAttributes<HTMLDivE
    */
   tone?: KdsPaymentTotalTone;
   /**
+   * Si `true`, aplica el modificador `kds-payment-total--centered`: remueve el
+   * `padding-left` asimétrico (que existe por defecto para la vista QR de
+   * LigoPay) y centra todo el texto interno. Combinable con `variant` y `tone`.
+   * @default false
+   */
+  centered?: boolean;
+  /**
    * Monto a mostrar.
    * - `number`: el componente formatea (entera + decimal) con `Intl.NumberFormat`.
    * - `string`: ya formateado (e.g. `"1,500.50"` o `"1500.50"`). Si contiene `.`,
@@ -99,6 +106,7 @@ export const KdsPaymentTotal = forwardRef<HTMLDivElement, KdsPaymentTotalProps>(
     {
       variant = 'default',
       tone = 'brand',
+      centered = false,
       amount,
       currency = 'S/',
       decimals = 2,
@@ -122,6 +130,7 @@ export const KdsPaymentTotal = forwardRef<HTMLDivElement, KdsPaymentTotalProps>(
           'kds-payment-total',
           isEmail && 'kds-payment-total--email',
           isInfoTone && 'kds-payment-total--tone-info',
+          centered && 'kds-payment-total--centered',
           className,
         )}
         {...props}
