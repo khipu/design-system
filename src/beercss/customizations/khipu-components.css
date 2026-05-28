@@ -5232,6 +5232,17 @@ div.kds-invoice-header,
     margin-bottom: var(--kds-spacing-2) !important;
 }
 
+/* Opt-in size modifiers (additive — do NOT change default 16/600) */
+.kds-card-title--lg {
+    font-size: var(--kds-font-size-xl);       /* 20px */
+    font-weight: var(--kds-font-weight-bold); /* 700 */
+}
+
+.kds-card-title--xl {
+    font-size: var(--kds-font-size-2xl);      /* 24px */
+    font-weight: var(--kds-font-weight-bold); /* 700 */
+}
+
 /* -- Key-Value Grid -- */
 .kds-kv {
     display: grid;
