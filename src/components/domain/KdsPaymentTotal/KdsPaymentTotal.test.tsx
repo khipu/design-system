@@ -34,6 +34,27 @@ describe('KdsPaymentTotal', () => {
     expect(screen.getByTestId('pt')).toHaveClass('kds-payment-total', 'kds-payment-total--email');
   });
 
+  it('does not apply tone modifier when tone is brand (default)', () => {
+    render(<KdsPaymentTotal amount="1500.50" data-testid="pt" />);
+    expect(screen.getByTestId('pt')).not.toHaveClass('kds-payment-total--tone-info');
+  });
+
+  it('applies the tone="info" modifier class', () => {
+    render(<KdsPaymentTotal amount="1500.50" tone="info" data-testid="pt" />);
+    expect(screen.getByTestId('pt')).toHaveClass(
+      'kds-payment-total',
+      'kds-payment-total--tone-info',
+    );
+  });
+
+  it('combines tone="info" with email variant', () => {
+    render(<KdsPaymentTotal amount="1500.50" variant="email" tone="info" data-testid="pt" />);
+    const el = screen.getByTestId('pt');
+    expect(el).toHaveClass('kds-payment-total');
+    expect(el).toHaveClass('kds-payment-total--email');
+    expect(el).toHaveClass('kds-payment-total--tone-info');
+  });
+
   it('hides title elements in email variant', () => {
     render(<KdsPaymentTotal variant="email" amount="1500.50" />);
     expect(screen.queryByText('Escanea el QR')).not.toBeInTheDocument();

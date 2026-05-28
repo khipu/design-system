@@ -35,6 +35,11 @@ const meta: Meta<typeof KdsPaymentTotal> = {
       options: ['default', 'email'],
       description: 'Variante visual.',
     },
+    tone: {
+      control: 'inline-radio',
+      options: ['brand', 'info'],
+      description: 'Tono de color del monto. `brand` (purple) o `info` (#5A5FE0).',
+    },
     amount: {
       control: 'text',
       description: 'Monto. String (e.g. `"1500.50"`) o number.',
@@ -119,6 +124,30 @@ export const NumericAmount: Story = {
   args: {
     amount: 1500.5,
     locale: 'es-PE',
+  },
+};
+
+/**
+ * Variante QR con tono `info` — monto en khipu-blue (#5A5FE0) para flujos LigoPay.
+ *
+ * Usa el modificador CSS `kds-payment-total--tone-info` que sobreescribe la variable
+ * `--kds-payment-amount-color`. Combina con `variant="default"` (purple→azul).
+ */
+export const InfoTone: Story = {
+  args: {
+    amount: '323.32',
+    tone: 'info',
+  },
+};
+
+/**
+ * Variante email con tono `info` — amount compacto en khipu-blue.
+ */
+export const EmailInfoTone: Story = {
+  args: {
+    variant: 'email',
+    tone: 'info',
+    amount: '323.32',
   },
 };
 
