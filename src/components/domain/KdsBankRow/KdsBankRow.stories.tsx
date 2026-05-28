@@ -132,3 +132,35 @@ export const AllVariants: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <button type="button" class="kds-bank-row">
+ *   <span class="kds-bank-row-logo">
+ *     <span class="initials">B</span>
+ *   </span>
+ *   <span class="kds-bank-row-name">Banco Security</span>
+ *   <i class="material-symbols-outlined">chevron_right</i>
+ * </button>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → BankRow` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <button type="button" className="kds-bank-row">
+        <span className="kds-bank-row-logo">
+          <span className="initials">B</span>
+        </span>
+        <span className="kds-bank-row-name">Banco Security</span>
+        <i className="material-symbols-outlined">chevron_right</i>
+      </button>
+    </div>
+  ),
+};

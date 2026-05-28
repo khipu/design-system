@@ -44,3 +44,29 @@ export const AllVariants: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <p class="kds-section-note kds-info">
+ *   <i class="material-symbols-outlined">info</i>
+ *   <span>El pago puede tardar hasta 24 horas en verse reflejado.</span>
+ * </p>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → SectionNote` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <p className="kds-section-note kds-info">
+        <i className="material-symbols-outlined">info</i>
+        <span>El pago puede tardar hasta 24 horas en verse reflejado.</span>
+      </p>
+    </div>
+  ),
+};

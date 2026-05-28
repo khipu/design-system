@@ -40,3 +40,23 @@ export const Animated: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <progress class="kds-progress" value="60" max="100"></progress>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → LinearProgress` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <progress className="kds-progress" value={60} max={100}></progress>
+    </div>
+  ),
+};

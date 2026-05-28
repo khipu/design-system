@@ -105,3 +105,41 @@ export const AllStatuses: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-status-block" data-status="success">
+ *   <div class="kds-status-block-icon">
+ *     <i class="material-symbols-outlined">check</i>
+ *   </div>
+ *   <div>
+ *     <h2 class="kds-status-block-title">Pago confirmado</h2>
+ *     <p class="kds-status-block-description">Recibirás el comprobante en tu correo.</p>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → StatusBlock` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-status-block" data-status="success">
+        <div className="kds-status-block-icon">
+          <i className="material-symbols-outlined">check</i>
+        </div>
+        <div>
+          <h2 className="kds-status-block-title">Pago confirmado</h2>
+          <p className="kds-status-block-description">
+            Recibirás el comprobante en tu correo.
+          </p>
+        </div>
+      </div>
+    </div>
+  ),
+};

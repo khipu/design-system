@@ -202,3 +202,47 @@ export const AllSeverities: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-alert kds-info" role="alert">
+ *   <div class="kds-alert-icon">
+ *     <i class="material-symbols-outlined">info</i>
+ *   </div>
+ *   <div class="kds-alert-content">
+ *     <p class="kds-alert-title">Verifica el monto antes de pagar</p>
+ *     <p class="kds-alert-description">Una vez confirmado, no podrás revertir la transferencia.</p>
+ *   </div>
+ *   <button type="button" class="kds-alert-close" aria-label="Cerrar">
+ *     <i class="material-symbols-outlined">close</i>
+ *   </button>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → Alert` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-alert kds-info" role="alert">
+        <div className="kds-alert-icon">
+          <i className="material-symbols-outlined">info</i>
+        </div>
+        <div className="kds-alert-content">
+          <p className="kds-alert-title">Verifica el monto antes de pagar</p>
+          <p className="kds-alert-description">
+            Una vez confirmado, no podrás revertir la transferencia.
+          </p>
+        </div>
+        <button type="button" className="kds-alert-close" aria-label="Cerrar">
+          <i className="material-symbols-outlined">close</i>
+        </button>
+      </div>
+    </div>
+  ),
+};

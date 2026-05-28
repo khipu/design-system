@@ -123,3 +123,49 @@ export const Interactive: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-stepper">
+ *   <div class="kds-step completed">
+ *     <div class="kds-step-indicator"></div>
+ *     <div class="kds-step-label">Datos</div>
+ *   </div>
+ *   <div class="kds-step current">
+ *     <div class="kds-step-indicator"></div>
+ *     <div class="kds-step-label">Banco</div>
+ *   </div>
+ *   <div class="kds-step">
+ *     <div class="kds-step-indicator"></div>
+ *     <div class="kds-step-label">Confirmar</div>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → Stepper` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-stepper">
+        <div className="kds-step completed">
+          <div className="kds-step-indicator" />
+          <div className="kds-step-label">Datos</div>
+        </div>
+        <div className="kds-step current">
+          <div className="kds-step-indicator" />
+          <div className="kds-step-label">Banco</div>
+        </div>
+        <div className="kds-step">
+          <div className="kds-step-indicator" />
+          <div className="kds-step-label">Confirmar</div>
+        </div>
+      </div>
+    </div>
+  ),
+};

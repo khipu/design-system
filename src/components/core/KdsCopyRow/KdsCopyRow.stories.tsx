@@ -91,3 +91,48 @@ export const MultipleRows: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <button type="button" class="kds-copy-row" data-copy="Banco Security">
+ *   <i class="material-symbols-outlined" aria-hidden="true">content_copy</i>
+ *   <div>
+ *     <span class="kds-copy-row-label">Banco</span>
+ *     <span class="kds-copy-row-value">Banco Security</span>
+ *   </div>
+ *   <span class="kds-copy-toast" aria-hidden="true">
+ *     <i class="material-symbols-outlined">check_circle</i> Copiado
+ *   </span>
+ * </button>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → CopyRow` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <button
+        type="button"
+        className="kds-copy-row"
+        data-copy="Banco Security"
+        aria-label="Copiar Banco: Banco Security"
+      >
+        <i className="material-symbols-outlined" aria-hidden="true">
+          content_copy
+        </i>
+        <div>
+          <span className="kds-copy-row-label">Banco</span>
+          <span className="kds-copy-row-value">Banco Security</span>
+        </div>
+        <span className="kds-copy-toast" aria-hidden="true">
+          <i className="material-symbols-outlined">check_circle</i> Copiado
+        </span>
+      </button>
+    </div>
+  ),
+};

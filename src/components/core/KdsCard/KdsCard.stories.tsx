@@ -276,3 +276,29 @@ export const Dimmed: Story = {
     </div>
   ),
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <article class="kds-card-elevated">
+ *   <h3 class="kds-card-title">Datos del pago</h3>
+ *   <p>Contenido de la card con texto descriptivo.</p>
+ * </article>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → CardElevated` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <article className="kds-card-elevated">
+        <h3 className="kds-card-title">Datos del pago</h3>
+        <p>Contenido de la card con texto descriptivo.</p>
+      </article>
+    </div>
+  ),
+};

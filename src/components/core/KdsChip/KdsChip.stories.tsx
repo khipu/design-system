@@ -73,3 +73,29 @@ export const AllColors: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <span class="kds-badge success">
+ *   <i class="material-symbols-outlined">check_circle</i>
+ *   <span>Pagado</span>
+ * </span>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → Chip` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <span className="kds-badge success">
+        <i className="material-symbols-outlined">check_circle</i>
+        <span>Pagado</span>
+      </span>
+    </div>
+  ),
+};

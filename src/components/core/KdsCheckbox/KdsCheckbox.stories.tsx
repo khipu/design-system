@@ -138,3 +138,29 @@ export const SelectAllExample: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <label class="checkbox">
+ *   <input type="checkbox" id="acepto" name="acepto" value="1" />
+ *   <span>Acepto los términos y condiciones</span>
+ * </label>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → Checkbox` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <label className="checkbox">
+        <input type="checkbox" name="acepto" value="1" defaultChecked />
+        <span>Acepto los términos y condiciones</span>
+      </label>
+    </div>
+  ),
+};
