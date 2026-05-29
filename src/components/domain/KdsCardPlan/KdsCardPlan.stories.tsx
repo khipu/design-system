@@ -204,6 +204,29 @@ export const PlanGrid: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-card-plan recommended">
+  <span class="kds-card-plan-badge">Recomendado</span>
+  <div class="kds-card-plan-header">
+    <h3>Plan Pro</h3>
+  </div>
+  <div class="kds-card-plan-price">
+    <span class="kds-price">$29.990</span>
+    <span class="kds-price-period">/mes</span>
+  </div>
+  <ul class="kds-card-plan-features">
+    <li>Hasta 1000 transacciones/mes</li>
+    <li>Soporte prioritario</li>
+    <li>Reportes avanzados</li>
+  </ul>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="kds-card-plan recommended">

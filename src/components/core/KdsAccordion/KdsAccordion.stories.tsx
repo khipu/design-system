@@ -85,6 +85,23 @@ export const Multiple: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<details class="kds-accordion" open>
+  <summary class="kds-accordion-summary">
+    ¿Cómo funciona el pago?
+    <i class="material-symbols-outlined">expand_more</i>
+  </summary>
+  <div class="kds-accordion-details">
+    <p>El pago se procesa directamente con tu banco.</p>
+  </div>
+</details>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <details className="kds-accordion" open>
