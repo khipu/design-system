@@ -12,8 +12,8 @@ import { KdsRecapList } from './KdsRecapList';
  * - `font-size: var(--kds-font-size-sm)`
  *
  * Tipografía:
- * - `.k` (key): `color: var(--kds-color-text-secondary)`, peso regular
- * - `.v` (value): `font-weight: 500`, color text-primary
+ * - `.kds-key` (key): `color: var(--kds-color-text-secondary)`, peso regular
+ * - `.kds-value` (value): `font-weight: 500`, color text-primary
  * - `.v.placeholder`: `color: var(--kds-color-text-hint)` (cuando no hay value)
  *
  * API:
@@ -124,11 +124,11 @@ export const Empty: Story = {
  * ```html
  * <ul class="kds-recap-list">
  *   <li>
- *     <span class="k">Monto</span>
- *     <span class="v">$3.300</span>
+ *     <span class="kds-key">Monto</span>
+ *     <span class="kds-value">$3.300</span>
  *   </li>
  *   <li>
- *     <span class="k">Comisión</span>
+ *     <span class="kds-key">Comisión</span>
  *     <span class="v placeholder">Sin comisión</span>
  *   </li>
  * </ul>
@@ -145,16 +145,16 @@ export const HtmlMarkup: Story = {
         type: 'code',
         code: `<ul class="kds-recap-list">
   <li>
-    <span class="k">Monto</span>
-    <span class="v">$3.300</span>
+    <span class="kds-key">Monto</span>
+    <span class="kds-value">$3.300</span>
   </li>
   <li>
-    <span class="k">Comisión</span>
+    <span class="kds-key">Comisión</span>
     <span class="v placeholder">Sin comisión</span>
   </li>
   <li>
-    <span class="k">Total</span>
-    <span class="v">$3.300</span>
+    <span class="kds-key">Total</span>
+    <span class="kds-value">$3.300</span>
   </li>
 </ul>`,
       },
@@ -164,16 +164,16 @@ export const HtmlMarkup: Story = {
     <div style={{ maxWidth: 400 }}>
       <ul className="kds-recap-list">
         <li>
-          <span className="k">Monto</span>
-          <span className="v">$3.300</span>
+          <span className="kds-key">Monto</span>
+          <span className="kds-value">$3.300</span>
         </li>
         <li>
-          <span className="k">Comisión</span>
-          <span className="v placeholder">Sin comisión</span>
+          <span className="kds-key">Comisión</span>
+          <span className="kds-value placeholder">Sin comisión</span>
         </li>
         <li>
-          <span className="k">Total</span>
-          <span className="v">$3.300</span>
+          <span className="kds-key">Total</span>
+          <span className="kds-value">$3.300</span>
         </li>
       </ul>
     </div>

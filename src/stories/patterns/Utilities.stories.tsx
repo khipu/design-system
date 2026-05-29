@@ -18,7 +18,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Utility classes del DS: `kds-text-{sm,base,lg,xl,2xl}`, `kds-fw-{regular,medium,semibold,bold}`, `kds-text-transform-none`, `kds-bg-{warning,info}-soft`. Cada clase mapea a un token de diseño — no hay valores hardcoded.',
+          'Utility classes del DS: `kds-text-{sm,base,lg,xl,2xl}`, `kds-fw-{regular,medium,semibold,bold}`, `kds-text-transform-none`, `kds-bg-{warning,info}-soft`, `kds-grid` + `kds-col-{sm,md,lg}-{1..12}`. Cada clase mapea a un token de diseño — no hay valores hardcoded.',
       },
     },
   },
@@ -159,4 +159,59 @@ export const SoftBackgrounds: Story = {
       </div>
     </div>
   ),
+};
+
+/**
+ * Responsive grid utilities — `kds-grid` + `kds-col-{sm,md,lg}-{1..12}`.
+ *
+ * Alias semánticos del grid de 12 columnas de BeerCSS (`.grid`, `.s12`, `.m4`, `.l2`…).
+ * Pensado para reemplazar nombres cortos crípticos por algo legible en GSPs / HTML.
+ *
+ * - `kds-grid` → CSS grid de 12 cols con gap 1rem (`+ kds-grid-no-space|medium-space|large-space`).
+ * - `kds-col-sm-{1..12}` → siempre aplica (mobile-first).
+ * - `kds-col-md-{1..12}` → ≥601px.
+ * - `kds-col-lg-{1..12}` → ≥993px.
+ *
+ * Las clases cortas de BeerCSS (`.s12`, `.m4`, etc.) siguen funcionando sin cambios —
+ * estas utilidades se agregan en paralelo para que nuevo markup use nombres descriptivos.
+ *
+ * @css .kds-grid, .kds-col-sm-{1..12}, .kds-col-md-{1..12}, .kds-col-lg-{1..12}
+ */
+export const ResponsiveGrid: Story = {
+  name: 'Responsive grid (.kds-grid / .kds-col-*)',
+  render: () => {
+    const cellStyle: React.CSSProperties = {
+      background: 'var(--kds-color-primary-faint)',
+      padding: 'var(--kds-spacing-1) var(--kds-spacing-1-5)',
+      borderRadius: 'var(--kds-radius-sm)',
+      fontFamily: 'var(--kds-font-family-mono)',
+      fontSize: 'var(--kds-font-size-xs)',
+      color: 'var(--kds-color-text-primary)',
+    };
+    return (
+      <div style={{ display: 'grid', gap: 'var(--kds-spacing-3)' }}>
+        <div>
+          <p style={{ ...labelStyle, marginBottom: 'var(--kds-spacing-1)' }}>
+            kds-col-sm-12 kds-col-md-4 + kds-col-sm-12 kds-col-md-8
+          </p>
+          <div className="kds-grid">
+            <div className="kds-col-sm-12 kds-col-md-4" style={cellStyle}>md-4</div>
+            <div className="kds-col-sm-12 kds-col-md-8" style={cellStyle}>md-8</div>
+          </div>
+        </div>
+        <div>
+          <p style={{ ...labelStyle, marginBottom: 'var(--kds-spacing-1)' }}>
+            kds-col-sm-12 kds-col-md-6 kds-col-lg-2 (6 cells)
+          </p>
+          <div className="kds-grid">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="kds-col-sm-12 kds-col-md-6 kds-col-lg-2" style={cellStyle}>
+                md-6 / lg-2
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  },
 };

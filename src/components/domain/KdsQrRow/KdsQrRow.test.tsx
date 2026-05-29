@@ -12,17 +12,17 @@ describe('KdsQrRow', () => {
 
   it('renders name in .title span', () => {
     render(<KdsQrRow name="Pago QR" />);
-    expect(screen.getByText('Pago QR')).toHaveClass('title');
+    expect(screen.getByText('Pago QR')).toHaveClass('kds-qr-title');
   });
 
   it('renders description in .sub span when provided', () => {
     render(<KdsQrRow name="Pago QR" description="Escanea el codigo" />);
-    expect(screen.getByText('Escanea el codigo')).toHaveClass('sub');
+    expect(screen.getByText('Escanea el codigo')).toHaveClass('kds-qr-subtitle');
   });
 
   it('does not render description when omitted', () => {
     const { container } = render(<KdsQrRow name="Pago QR" />);
-    expect(container.querySelector('.sub')).toBeNull();
+    expect(container.querySelector('.kds-qr-subtitle')).toBeNull();
   });
 
   it('renders default qr_code_2 icon in avatar', () => {

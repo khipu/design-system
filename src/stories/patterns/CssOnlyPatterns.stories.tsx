@@ -1050,8 +1050,8 @@ export const StatusBlock: Story = {
  *   `font-size: var(--kds-font-size-sm)`
  *
  * Tipografía:
- * - `.k`: `color: var(--kds-color-text-secondary)`
- * - `.v`: `color: var(--kds-color-text-primary)`, `font-weight: 500`
+ * - `.kds-key`: `color: var(--kds-color-text-secondary)`
+ * - `.kds-value`: `color: var(--kds-color-text-primary)`, `font-weight: 500`
  * - `.v.placeholder`: `color: var(--kds-color-text-hint)` (cuando el valor no está disponible)
  *
  * Header opcional asociado: `.kds-recap-header` (no parte del componente React pero relacionado).
@@ -1060,11 +1060,11 @@ export const StatusBlock: Story = {
  * ```html
  * <ul class="kds-recap-list">
  *   <li>
- *     <span class="k">Monto</span>
- *     <span class="v">$3.300</span>
+ *     <span class="kds-key">Monto</span>
+ *     <span class="kds-value">$3.300</span>
  *   </li>
  *   <li>
- *     <span class="k">Comisión</span>
+ *     <span class="kds-key">Comisión</span>
  *     <span class="v placeholder">Sin comisión</span>
  *   </li>
  * </ul>
@@ -1080,16 +1080,16 @@ export const RecapList: Story = {
     <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
       <ul className="kds-recap-list">
         <li>
-          <span className="k">Monto</span>
-          <span className="v">$3.300</span>
+          <span className="kds-key">Monto</span>
+          <span className="kds-value">$3.300</span>
         </li>
         <li>
-          <span className="k">Comisión</span>
-          <span className="v placeholder">Sin comisión</span>
+          <span className="kds-key">Comisión</span>
+          <span className="kds-value placeholder">Sin comisión</span>
         </li>
         <li>
-          <span className="k">Total</span>
-          <span className="v">$3.300</span>
+          <span className="kds-key">Total</span>
+          <span className="kds-value">$3.300</span>
         </li>
       </ul>
     </div>
@@ -1128,8 +1128,8 @@ export const RecapList: Story = {
  *     <i class="material-symbols-outlined">qr_code_2</i>
  *   </span>
  *   <span class="kds-qr-text">
- *     <span class="title">Pagar escaneando QR</span>
- *     <span class="sub">Apunta tu app bancaria al código</span>
+ *     <span class="kds-qr-title">Pagar escaneando QR</span>
+ *     <span class="kds-qr-subtitle">Apunta tu app bancaria al código</span>
  *   </span>
  *   <span class="kds-qr-badge">Rápido</span>
  *   <i class="material-symbols-outlined">chevron_right</i>
@@ -1149,8 +1149,8 @@ export const QrRow: Story = {
           <i className="material-symbols-outlined">qr_code_2</i>
         </span>
         <span className="kds-qr-text">
-          <span className="title">Pagar escaneando QR</span>
-          <span className="sub">Apunta tu app bancaria al código</span>
+          <span className="kds-qr-title">Pagar escaneando QR</span>
+          <span className="kds-qr-subtitle">Apunta tu app bancaria al código</span>
         </span>
         <span className="kds-qr-badge">Rápido</span>
         <i className="material-symbols-outlined">chevron_right</i>
@@ -1559,13 +1559,13 @@ export const CopyRow: Story = {
  *   `border-top: 1px solid var(--kds-color-divider)` (excepto el primer hijo), `font-size: var(--kds-font-size-sm)`, `cursor: pointer`
  *
  * Sub-elementos por row:
- * - `.k`: `font-size: var(--kds-font-size-caption)`, uppercase, `letter-spacing: 0.3px`, weight medium, `color: text-secondary`
- * - `.v`: monospace (`JetBrains Mono`), `text-align: right`, weight medium, `font-size: var(--kds-font-size-sm)`,
+ * - `.kds-key`: `font-size: var(--kds-font-size-caption)`, uppercase, `letter-spacing: 0.3px`, weight medium, `color: text-secondary`
+ * - `.kds-value`: monospace (`JetBrains Mono`), `text-align: right`, weight medium, `font-size: var(--kds-font-size-sm)`,
  *   `flex: 1 1 auto`. Tiene `::after` con icon `content_copy` (opacity 0, aparece en hover)
  *
  * Estados de row:
  * - `:hover`: bg `--kds-color-primary-faint`, icon `::after` visible (opacity 0.7)
- * - `.copied`: bg `--kds-color-success-soft`, `.v` color `--kds-color-success-dark`, `::after` → `check`
+ * - `.copied`: bg `--kds-color-success-soft`, `.kds-value` color `--kds-color-success-dark`, `::after` → `check`
  * - `.settling`: estado intermedio post-copied (fade out del check sin re-activar hover)
  *
  * Botón asociado `.kds-copy-all-btn` (modifier de `.kds-btn.kds-btn-outlined.kds-btn-block`):
@@ -1577,12 +1577,12 @@ export const CopyRow: Story = {
  * ```html
  * <div class="kds-copyable-table">
  *   <div class="kds-copyable-table-row" role="button" tabindex="0">
- *     <span class="k">Banco</span>
- *     <span class="v">Banco Security</span>
+ *     <span class="kds-key">Banco</span>
+ *     <span class="kds-value">Banco Security</span>
  *   </div>
  *   <div class="kds-copyable-table-row" role="button" tabindex="0">
- *     <span class="k">Cuenta</span>
- *     <span class="v">12345678</span>
+ *     <span class="kds-key">Cuenta</span>
+ *     <span class="kds-value">12345678</span>
  *   </div>
  * </div>
  * <button type="button" class="kds-btn kds-btn-outlined kds-btn-block kds-copy-all-btn">
@@ -1601,16 +1601,16 @@ export const CopyableTable: Story = {
     <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
       <div className="kds-copyable-table">
         <div className="kds-copyable-table-row" role="button" tabIndex={0}>
-          <span className="k">Banco</span>
-          <span className="v">Banco Security</span>
+          <span className="kds-key">Banco</span>
+          <span className="kds-value">Banco Security</span>
         </div>
         <div className="kds-copyable-table-row" role="button" tabIndex={0}>
-          <span className="k">Cuenta</span>
-          <span className="v">12345678</span>
+          <span className="kds-key">Cuenta</span>
+          <span className="kds-value">12345678</span>
         </div>
         <div className="kds-copyable-table-row" role="button" tabIndex={0}>
-          <span className="k">RUT</span>
-          <span className="v">76.123.456-7</span>
+          <span className="kds-key">RUT</span>
+          <span className="kds-value">76.123.456-7</span>
         </div>
       </div>
       <button

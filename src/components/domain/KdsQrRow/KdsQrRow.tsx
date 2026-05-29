@@ -19,8 +19,8 @@ export const KdsQrRow = forwardRef<HTMLButtonElement, KdsQrRowProps>(
         <i className="material-symbols-outlined">{icon}</i>
       </span>
       <span className="kds-qr-text">
-        <span className="title">{name}</span>
-        {description && <span className="sub">{description}</span>}
+        <span className="kds-qr-title">{name}</span>
+        {description && <span className="kds-qr-subtitle">{description}</span>}
       </span>
       {badge && <span className="kds-qr-badge">{badge}</span>}
       <i className="material-symbols-outlined">chevron_right</i>

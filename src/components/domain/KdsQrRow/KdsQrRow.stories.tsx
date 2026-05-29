@@ -88,7 +88,7 @@ export const CustomIcon: Story = {
  * Variante en contenedor angosto — verifica que el row aguanta containers chicos
  * (mobile viewport o decorator con maxWidth ≤ 360px) sin wrap del subtitle.
  *
- * @spec El subtitle (`.sub`) trunca con ellipsis cuando no cabe, manteniendo la
+ * @spec El subtitle (`.kds-qr-subtitle`) trunca con ellipsis cuando no cabe, manteniendo la
  * altura del row a una sola línea. Avatar, badge y chevron tienen `flex-shrink: 0`.
  */
 export const Mobile: Story = {
@@ -144,8 +144,8 @@ export const AllVariants: Story = {
  *     <i class="material-symbols-outlined">qr_code_2</i>
  *   </span>
  *   <span class="kds-qr-text">
- *     <span class="title">Pagar escaneando QR</span>
- *     <span class="sub">Apunta tu app bancaria al código</span>
+ *     <span class="kds-qr-title">Pagar escaneando QR</span>
+ *     <span class="kds-qr-subtitle">Apunta tu app bancaria al código</span>
  *   </span>
  *   <span class="kds-qr-badge">Rápido</span>
  *   <i class="material-symbols-outlined">chevron_right</i>
@@ -166,8 +166,8 @@ export const HtmlMarkup: Story = {
     <i class="material-symbols-outlined">qr_code_2</i>
   </span>
   <span class="kds-qr-text">
-    <span class="title">Pagar escaneando QR</span>
-    <span class="sub">Apunta tu app bancaria al código</span>
+    <span class="kds-qr-title">Pagar escaneando QR</span>
+    <span class="kds-qr-subtitle">Apunta tu app bancaria al código</span>
   </span>
   <span class="kds-qr-badge">Rápido</span>
   <i class="material-symbols-outlined">chevron_right</i>
@@ -182,8 +182,8 @@ export const HtmlMarkup: Story = {
           <i className="material-symbols-outlined">qr_code_2</i>
         </span>
         <span className="kds-qr-text">
-          <span className="title">Pagar escaneando QR</span>
-          <span className="sub">Apunta tu app bancaria al código</span>
+          <span className="kds-qr-title">Pagar escaneando QR</span>
+          <span className="kds-qr-subtitle">Apunta tu app bancaria al código</span>
         </span>
         <span className="kds-qr-badge">Rápido</span>
         <i className="material-symbols-outlined">chevron_right</i>

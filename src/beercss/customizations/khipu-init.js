@@ -633,7 +633,7 @@
             var rows = container.querySelectorAll('.kds-copyable-table-row[data-copy]');
             var values = [];
             rows.forEach(function(r) {
-                var key = r.querySelector('.k');
+                var key = r.querySelector('.kds-key');
                 var val = r.dataset.copy;
                 if (key) {
                     values.push(key.textContent.trim() + ': ' + val);

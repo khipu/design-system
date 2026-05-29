@@ -16,8 +16,8 @@ export const KdsRecapList = forwardRef<HTMLUListElement, KdsRecapListProps>(
     <ul ref={ref} className={clsx('kds-recap-list', className)} {...props}>
       {items.map((item, i) => (
         <li key={i}>
-          <span className="k">{item.label}</span>
-          <span className={clsx('v', !item.value && item.placeholder && 'placeholder')}>
+          <span className="kds-key">{item.label}</span>
+          <span className={clsx('kds-value', !item.value && item.placeholder && 'placeholder')}>
             {item.value || item.placeholder || '-'}
           </span>
         </li>

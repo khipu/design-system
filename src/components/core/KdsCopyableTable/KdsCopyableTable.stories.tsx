@@ -9,8 +9,8 @@ import { spacing } from '../../../tokens';
  * Layout (spec):
  * - Container: border 1px divider, radius md, padding 4px 6px, background paper
  * - Row: flex space-between, gap 12px, padding 10px 8px, border-top divider, font sm
- * - Row hover: bg `var(--kds-color-primary-faint)` + icon copy aparece (`.v::after`)
- * - Row `.copied`: bg `var(--kds-color-success-soft)`, `.v` color success-dark, icon → check
+ * - Row hover: bg `var(--kds-color-primary-faint)` + icon copy aparece (`.kds-value::after`)
+ * - Row `.copied`: bg `var(--kds-color-success-soft)`, `.kds-value` color success-dark, icon → check
  * - Copy-all button: kds-btn-outlined-block + tinta primary, `.copied` → bg success-soft
  *
  * Comportamiento:
@@ -92,12 +92,12 @@ export const InCardContext: Story = {
  * ```html
  * <div class="kds-copyable-table">
  *   <div class="kds-copyable-table-row" role="button" tabindex="0">
- *     <span class="k">Banco</span>
- *     <span class="v">Banco Security</span>
+ *     <span class="kds-key">Banco</span>
+ *     <span class="kds-value">Banco Security</span>
  *   </div>
  *   <div class="kds-copyable-table-row" role="button" tabindex="0">
- *     <span class="k">Cuenta</span>
- *     <span class="v">12345678</span>
+ *     <span class="kds-key">Cuenta</span>
+ *     <span class="kds-value">12345678</span>
  *   </div>
  * </div>
  * <button type="button" class="kds-btn kds-btn-outlined kds-btn-block kds-copy-all-btn">
@@ -117,16 +117,16 @@ export const HtmlMarkup: Story = {
         type: 'code',
         code: `<div class="kds-copyable-table">
   <div class="kds-copyable-table-row" role="button" tabindex="0">
-    <span class="k">Banco</span>
-    <span class="v">Banco Security</span>
+    <span class="kds-key">Banco</span>
+    <span class="kds-value">Banco Security</span>
   </div>
   <div class="kds-copyable-table-row" role="button" tabindex="0">
-    <span class="k">Cuenta</span>
-    <span class="v">12345678</span>
+    <span class="kds-key">Cuenta</span>
+    <span class="kds-value">12345678</span>
   </div>
   <div class="kds-copyable-table-row" role="button" tabindex="0">
-    <span class="k">RUT</span>
-    <span class="v">76.123.456-7</span>
+    <span class="kds-key">RUT</span>
+    <span class="kds-value">76.123.456-7</span>
   </div>
 </div>
 <button type="button" class="kds-btn kds-btn-outlined kds-btn-block kds-copy-all-btn">
@@ -142,16 +142,16 @@ export const HtmlMarkup: Story = {
     <div style={{ maxWidth: 400 }}>
       <div className="kds-copyable-table">
         <div className="kds-copyable-table-row" role="button" tabIndex={0}>
-          <span className="k">Banco</span>
-          <span className="v">Banco Security</span>
+          <span className="kds-key">Banco</span>
+          <span className="kds-value">Banco Security</span>
         </div>
         <div className="kds-copyable-table-row" role="button" tabIndex={0}>
-          <span className="k">Cuenta</span>
-          <span className="v">12345678</span>
+          <span className="kds-key">Cuenta</span>
+          <span className="kds-value">12345678</span>
         </div>
         <div className="kds-copyable-table-row" role="button" tabIndex={0}>
-          <span className="k">RUT</span>
-          <span className="v">76.123.456-7</span>
+          <span className="kds-key">RUT</span>
+          <span className="kds-value">76.123.456-7</span>
         </div>
       </div>
       <button
