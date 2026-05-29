@@ -65,3 +65,39 @@ export const CustomInitials: Story = {
 export const Compact: Story = {
   args: { name: 'Belén Fuentes', compact: true },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML (solo el tile — lo que renderiza este componente):
+ * ```html
+ * <div class="kds-merchant-tile" aria-label="Comercial Santiago SpA">CS</div>
+ * ```
+ *
+ * Variantes:
+ * - Con logo: `<div class="kds-merchant-tile logo"><img src="..." alt="..."/></div>`
+ * - Compacta (40×40): agregar clase `compact`.
+ *
+ * **Composición completa**: para el header de comercio ("Estás pagando a" + nombre),
+ * envolver en el patrón `.kds-merchant`. Ver `Patterns/CSS-only → MerchantHeader`.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-merchant-tile" aria-label="Comercial Santiago SpA">CS</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-merchant-tile" aria-label="Comercial Santiago SpA">
+        CS
+      </div>
+    </div>
+  ),
+};

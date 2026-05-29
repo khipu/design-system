@@ -98,6 +98,21 @@ export const InContext: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<button class="kds-expand-toggle" aria-expanded="true">
+  <span>Ver detalles</span>
+  <i class="material-symbols-outlined">expand_less</i>
+</button>
+<div class="kds-expand-panel open">
+  <p>Contenido extendido del panel cuando está abierto.</p>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <button className="kds-expand-toggle" aria-expanded="true">

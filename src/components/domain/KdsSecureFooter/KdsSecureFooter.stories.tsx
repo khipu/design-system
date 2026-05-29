@@ -134,3 +134,58 @@ export const AllVariants: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML — par responsive (renderizar ambas instancias en la página):
+ * ```html
+ * <!-- Dentro de la card (visible en mobile <768px) -->
+ * <p class="kds-secure-footer inside">
+ *   <i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+ * </p>
+ *
+ * <!-- Fuera de la card (visible en desktop ≥768px) -->
+ * <p class="kds-secure-footer">
+ *   <i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+ * </p>
+ * ```
+ *
+ * En React: `<KdsSecureFooter variant="inside"/>` dentro de la card +
+ * `<KdsSecureFooter/>` fuera. El componente React renderiza `<footer>` en vez
+ * de `<p>`, pero las clases `kds-secure-footer` / `kds-secure-footer.inside`
+ * son la fuente de verdad y funcionan sobre cualquier element.
+ *
+ * Ver `Patterns/CSS-only → SecureFooter` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<!-- Dentro de la card (visible en mobile <768px) -->
+<p class="kds-secure-footer inside">
+  <i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+</p>
+
+<!-- Fuera de la card (visible en desktop ≥768px) -->
+<p class="kds-secure-footer">
+  <i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+</p>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <p className="kds-secure-footer inside">
+        <i className="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+      </p>
+      <p className="kds-secure-footer">
+        <i className="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+      </p>
+    </div>
+  ),
+};

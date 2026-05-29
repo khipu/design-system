@@ -127,6 +127,25 @@ export const AllStatuses: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-status-block" data-status="success">
+  <div class="kds-status-block-icon">
+    <i class="material-symbols-outlined">check</i>
+  </div>
+  <div>
+    <h2 class="kds-status-block-title">Pago confirmado</h2>
+    <p class="kds-status-block-description">
+      Recibirás el comprobante en tu correo.
+    </p>
+  </div>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="kds-status-block" data-status="success">

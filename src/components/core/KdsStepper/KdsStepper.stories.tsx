@@ -150,6 +150,28 @@ export const Interactive: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-stepper">
+  <div class="kds-step completed">
+    <div class="kds-step-indicator"></div>
+    <div class="kds-step-label">Datos</div>
+  </div>
+  <div class="kds-step current">
+    <div class="kds-step-indicator"></div>
+    <div class="kds-step-label">Banco</div>
+  </div>
+  <div class="kds-step">
+    <div class="kds-step-indicator"></div>
+    <div class="kds-step-label">Confirmar</div>
+  </div>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="kds-stepper">

@@ -161,6 +161,37 @@ export const WithCustomActionRow: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-bank-list" role="list">
+  <button type="button" class="kds-bank-row">
+    <span class="kds-bank-row-logo">
+      <span class="initials">B</span>
+    </span>
+    <span class="kds-bank-row-name">Banco Security</span>
+    <i class="material-symbols-outlined">chevron_right</i>
+  </button>
+  <button type="button" class="kds-bank-row selected">
+    <span class="kds-bank-row-logo">
+      <span class="initials">B</span>
+    </span>
+    <span class="kds-bank-row-name">BancoEstado</span>
+    <i class="material-symbols-outlined">check_circle</i>
+  </button>
+  <button type="button" class="kds-bank-row">
+    <span class="kds-bank-row-logo">
+      <span class="initials">B</span>
+    </span>
+    <span class="kds-bank-row-name">BCI</span>
+    <i class="material-symbols-outlined">chevron_right</i>
+  </button>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="kds-bank-list" role="list">

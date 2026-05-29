@@ -54,6 +54,15 @@ export const Animated: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<progress class="kds-progress" value="60" max="100"></progress>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <progress className="kds-progress" value={60} max={100}></progress>

@@ -89,3 +89,58 @@ export const InsideCard: Story = {
     </div>
   ),
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-monto-row">
+ *   <div>
+ *     <div class="kds-monto-row-title">Monto a transferir</div>
+ *     <div class="kds-monto-row-deadline">
+ *       Fecha límite para transferencia<br/>01-04-2026 a las 16:33
+ *     </div>
+ *   </div>
+ *   <div class="kds-monto-row-value">$3.300</div>
+ * </div>
+ * ```
+ *
+ * Variante sin deadline: omitir el `.kds-monto-row-deadline`.
+ *
+ * Ver `Patterns/CSS-only → MontoRow` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-monto-row">
+  <div>
+    <div class="kds-monto-row-title">Monto a transferir</div>
+    <div class="kds-monto-row-deadline">
+      Fecha límite para transferencia<br/>01-04-2026 a las 16:33
+    </div>
+  </div>
+  <div class="kds-monto-row-value">$3.300</div>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-monto-row">
+        <div>
+          <div className="kds-monto-row-title">Monto a transferir</div>
+          <div className="kds-monto-row-deadline">
+            Fecha límite para transferencia<br />01-04-2026 a las 16:33
+          </div>
+        </div>
+        <div className="kds-monto-row-value">$3.300</div>
+      </div>
+    </div>
+  ),
+};

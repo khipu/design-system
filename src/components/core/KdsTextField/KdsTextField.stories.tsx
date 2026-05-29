@@ -134,6 +134,19 @@ export const FormExample: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="field label border">
+  <input type="email" id="email" name="email" placeholder=" "/>
+  <label for="email">Email</label>
+  <span class="helper">Te enviaremos la confirmación aquí</span>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="field label border">

@@ -61,6 +61,18 @@ export const AllVariants: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<p class="kds-section-note kds-info">
+  <i class="material-symbols-outlined">info</i>
+  <span>El pago puede tardar hasta 24 horas en verse reflejado.</span>
+</p>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <p className="kds-section-note kds-info">
