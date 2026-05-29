@@ -27,7 +27,7 @@ describe('KdsRecapList', () => {
       <KdsRecapList items={[{ label: 'Email', placeholder: 'Sin email' }]} />,
     );
     const placeholderEl = screen.getByText('Sin email');
-    expect(placeholderEl).toHaveClass('v', 'placeholder');
+    expect(placeholderEl).toHaveClass('kds-value', 'placeholder');
   });
 
   it('renders dash when both value and placeholder are missing', () => {
