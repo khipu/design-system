@@ -18,8 +18,8 @@ describe('KdsRecapList', () => {
 
   it('renders label with k class and value with v class', () => {
     render(<KdsRecapList items={items} />);
-    expect(screen.getByText('Monto')).toHaveClass('k');
-    expect(screen.getByText('$10.000')).toHaveClass('v');
+    expect(screen.getByText('Monto')).toHaveClass('kds-key');
+    expect(screen.getByText('$10.000')).toHaveClass('kds-value');
   });
 
   it('renders placeholder with placeholder class when value is missing', () => {
@@ -32,7 +32,7 @@ describe('KdsRecapList', () => {
 
   it('renders dash when both value and placeholder are missing', () => {
     render(<KdsRecapList items={[{ label: 'Dato' }]} />);
-    expect(screen.getByText('-')).toHaveClass('v');
+    expect(screen.getByText('-')).toHaveClass('kds-value');
   });
 
   it('does not apply placeholder class when value is present', () => {
@@ -40,7 +40,7 @@ describe('KdsRecapList', () => {
       <KdsRecapList items={[{ label: 'Dato', value: 'Algo', placeholder: 'N/A' }]} />,
     );
     const valueEl = screen.getByText('Algo');
-    expect(valueEl).toHaveClass('v');
+    expect(valueEl).toHaveClass('kds-value');
     expect(valueEl).not.toHaveClass('placeholder');
   });
 

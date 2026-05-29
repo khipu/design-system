@@ -300,8 +300,8 @@ Botón destacado para opciones de pago prioritarias con gradiente, badge y dise�
 
   <!-- Texto principal -->
   <span class="kds-qr-text">
-    <span class="title">Pagar escaneando QR</span>
-    <span class="sub">Escanea con la app de tu banco</span>
+    <span class="kds-qr-title">Pagar escaneando QR</span>
+    <span class="kds-qr-subtitle">Escanea con la app de tu banco</span>
   </span>
 
   <!-- Badge "Rápido" -->

@@ -8,8 +8,8 @@
  * ```html
  * <div class="kds-copyable-table" id="destination-copy-list">
  *   <div class="kds-copyable-table-row" data-copy="value-to-copy">
- *     <span class="k">Banco</span>
- *     <span class="v">Banco Security</span>
+ *     <span class="kds-key">Banco</span>
+ *     <span class="kds-value">Banco Security</span>
  *   </div>
  *   ...
  * </div>
@@ -22,8 +22,8 @@
  *
  * Specs:
  * - Row: flex space-between, padding 10px 8px, border-top divider, font sm, cursor pointer
- * - Row hover: bg primary-faint + icon copy aparece en `.v::after`
- * - Row `.copied`: bg success-soft, `.v` color success-dark, icon → check
+ * - Row hover: bg primary-faint + icon copy aparece en `.kds-value::after`
+ * - Row `.copied`: bg success-soft, `.kds-value` color success-dark, icon → check
  * - Copy-all-btn: kds-btn-outlined-block + bg primary-faint
  * - Copy-all-btn `.copied`: bg success-soft
  */
@@ -188,8 +188,8 @@ export const KdsCopyableTable = forwardRef<HTMLDivElement, KdsCopyableTableProps
               }}
               aria-label={`Copiar ${row.label}: ${row.value}`}
             >
-              <span className="k">{row.label}</span>
-              <span className="v">{row.value}</span>
+              <span className="kds-key">{row.label}</span>
+              <span className="kds-value">{row.value}</span>
             </div>
           ))}
         </div>
