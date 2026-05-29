@@ -156,6 +156,25 @@ export const AllVariants: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<button type="button" class="kds-qr-row">
+  <span class="kds-qr-avatar" aria-hidden="true">
+    <i class="material-symbols-outlined">qr_code_2</i>
+  </span>
+  <span class="kds-qr-text">
+    <span class="title">Pagar escaneando QR</span>
+    <span class="sub">Apunta tu app bancaria al código</span>
+  </span>
+  <span class="kds-qr-badge">Rápido</span>
+  <i class="material-symbols-outlined">chevron_right</i>
+</button>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <button type="button" className="kds-qr-row">

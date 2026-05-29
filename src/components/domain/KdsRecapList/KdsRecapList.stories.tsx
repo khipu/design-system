@@ -138,6 +138,28 @@ export const Empty: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<ul class="kds-recap-list">
+  <li>
+    <span class="k">Monto</span>
+    <span class="v">$3.300</span>
+  </li>
+  <li>
+    <span class="k">Comisión</span>
+    <span class="v placeholder">Sin comisión</span>
+  </li>
+  <li>
+    <span class="k">Total</span>
+    <span class="v">$3.300</span>
+  </li>
+</ul>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <ul className="kds-recap-list">

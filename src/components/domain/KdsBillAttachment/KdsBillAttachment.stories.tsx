@@ -126,6 +126,24 @@ export const InsideDetailGroup: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-bill-attachments">
+  <a class="kds-bill-attachment" href="/files/factura-enero.pdf" target="_blank" rel="noopener noreferrer">
+    <i class="material-symbols-outlined">attach_file</i>
+    <span>Factura Enero 2026.pdf</span>
+  </a>
+  <a class="kds-bill-attachment" href="/files/orden-compra.pdf" target="_blank" rel="noopener noreferrer">
+    <i class="material-symbols-outlined">attach_file</i>
+    <span>Orden de compra OC-001.pdf</span>
+  </a>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="kds-bill-attachments">

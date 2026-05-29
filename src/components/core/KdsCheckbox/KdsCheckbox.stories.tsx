@@ -155,6 +155,18 @@ export const SelectAllExample: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<label class="checkbox">
+  <input type="checkbox" name="acepto" value="1" checked/>
+  <span>Acepto los términos y condiciones</span>
+</label>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <label className="checkbox">

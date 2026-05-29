@@ -75,6 +75,25 @@ export const WithDisabledOption: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<fieldset class="kds-radio-group">
+  <legend>Elige tu banco</legend>
+  <label class="radio">
+    <input type="radio" name="banco" value="security" checked/>
+    <span>Banco Security</span>
+  </label>
+  <label class="radio">
+    <input type="radio" name="banco" value="estado"/>
+    <span>BancoEstado</span>
+  </label>
+</fieldset>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <fieldset className="kds-radio-group">

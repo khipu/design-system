@@ -110,6 +110,34 @@ export const InCardContext: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-copyable-table">
+  <div class="kds-copyable-table-row" role="button" tabindex="0">
+    <span class="k">Banco</span>
+    <span class="v">Banco Security</span>
+  </div>
+  <div class="kds-copyable-table-row" role="button" tabindex="0">
+    <span class="k">Cuenta</span>
+    <span class="v">12345678</span>
+  </div>
+  <div class="kds-copyable-table-row" role="button" tabindex="0">
+    <span class="k">RUT</span>
+    <span class="v">76.123.456-7</span>
+  </div>
+</div>
+<button type="button" class="kds-btn kds-btn-outlined kds-btn-block kds-copy-all-btn">
+  <span class="kds-icon">
+    <i class="material-symbols-outlined">content_copy</i>
+  </span>
+  <span>Copiar todos los datos</span>
+</button>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="kds-copyable-table">

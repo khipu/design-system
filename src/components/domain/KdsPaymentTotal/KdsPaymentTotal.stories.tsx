@@ -205,6 +205,22 @@ export const Centered: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-payment-total">
+  <h5 class="kds-payment-total-title">Escanea el QR</h5>
+  <h5 class="kds-payment-total-title-mobile">Descarga el QR</h5>
+  <h6 class="kds-payment-label">Monto a pagar</h6>
+  <h5 class="kds-payment-amount">
+    S/ 1,500<sup class="kds-payment-total-decimal-sup">50</sup>
+  </h5>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="kds-payment-total">

@@ -227,6 +227,28 @@ export const AllSeverities: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-alert kds-info" role="alert">
+  <div class="kds-alert-icon">
+    <i class="material-symbols-outlined">info</i>
+  </div>
+  <div class="kds-alert-content">
+    <p class="kds-alert-title">Verifica el monto antes de pagar</p>
+    <p class="kds-alert-description">
+      Una vez confirmado, no podrás revertir la transferencia.
+    </p>
+  </div>
+  <button type="button" class="kds-alert-close" aria-label="Cerrar">
+    <i class="material-symbols-outlined">close</i>
+  </button>
+</div>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <div className="kds-alert kds-info" role="alert">

@@ -47,6 +47,19 @@ export const AllVariants: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<p>Sección superior</p>
+<hr class="kds-hr"/>
+<p>Sección intermedia</p>
+<hr class="kds-hr-dashed"/>
+<p>Sección inferior</p>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <p>Sección superior</p>

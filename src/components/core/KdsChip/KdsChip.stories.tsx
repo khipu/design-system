@@ -90,6 +90,18 @@ export const AllColors: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<span class="kds-badge success">
+  <i class="material-symbols-outlined">check_circle</i>
+  <span>Pagado</span>
+</span>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <span className="kds-badge success">

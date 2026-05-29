@@ -293,6 +293,18 @@ export const Dimmed: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<article class="kds-card-elevated">
+  <h3 class="kds-card-title">Datos del pago</h3>
+  <p>Contenido de la card con texto descriptivo.</p>
+</article>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <article className="kds-card-elevated">

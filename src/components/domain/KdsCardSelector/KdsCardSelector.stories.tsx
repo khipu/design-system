@@ -142,6 +142,23 @@ export const PaymentMethodSelector: Story = {
  */
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<button type="button" class="kds-card-selector selected">
+  <span class="kds-card-selector-icon">
+    <i class="material-symbols-outlined">credit_card</i>
+  </span>
+  <span class="kds-card-selector-title">Tarjeta de crédito</span>
+  <span class="kds-card-selector-description">
+    Pago instantáneo, sin necesidad de cuenta bancaria.
+  </span>
+</button>`,
+      },
+    },
+  },
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <button type="button" className="kds-card-selector selected">

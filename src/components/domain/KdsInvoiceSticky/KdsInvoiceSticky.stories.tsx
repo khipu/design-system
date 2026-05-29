@@ -392,3 +392,109 @@ export const StickyAnimationExtended: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML (matchea `_payInvoiceCard.gsp` de producción payment):
+ * ```html
+ * <div class="kds-invoice-sticky-wrap">
+ *   <article class="kds-card-elevated kds-invoice-sticky">
+ *     <header class="kds-invoice-header">
+ *       <div>
+ *         <div class="kds-brand-inner"><img src="/khipu-logo.svg" alt="Khipu"/></div>
+ *         <p class="kds-invoice-amount">$3.300</p>
+ *         <p class="kds-invoice-code">
+ *           Código <span class="kds-invoice-code-value">fdap-sr2x-q3pf</span>
+ *         </p>
+ *       </div>
+ *       <div class="kds-invoice-merchant" aria-hidden="true">
+ *         <i class="material-symbols-outlined">storefront</i>
+ *       </div>
+ *     </header>
+ *     <div class="kds-invoice-collapsible">
+ *       <div class="kds-invoice-summary">
+ *         <dl class="kds-kv">
+ *           <dt>Pago a</dt><dd>Belén Fuentes Mejías</dd>
+ *           <dt>Asunto</dt><dd>Cuenta Enero 2026</dd>
+ *         </dl>
+ *       </div>
+ *     </div>
+ *   </article>
+ * </div>
+ * ```
+ *
+ * El `kds-invoice-sticky-wrap` es el contenedor sticky positioning (lo provee el
+ * consumidor — el componente React solo renderiza `kds-card-elevated kds-invoice-sticky`).
+ * Animación sticky-collapse mobile (<768px): requiere JS que setee
+ * `--collapse-progress: 0..1` en el `.kds-screen.active`. Ver `khipu-init.js → initStickyInvoice()`.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    layout: 'padded',
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-invoice-sticky-wrap">
+  <article class="kds-card-elevated kds-invoice-sticky">
+    <header class="kds-invoice-header">
+      <div>
+        <div class="kds-brand-inner"><img src="/khipu-logo.svg" alt="Khipu"/></div>
+        <p class="kds-invoice-amount">$3.300</p>
+        <p class="kds-invoice-code">
+          Código <span class="kds-invoice-code-value">fdap-sr2x-q3pf</span>
+        </p>
+      </div>
+      <div class="kds-invoice-merchant" aria-hidden="true">
+        <i class="material-symbols-outlined">storefront</i>
+      </div>
+    </header>
+    <div class="kds-invoice-collapsible">
+      <div class="kds-invoice-summary">
+        <dl class="kds-kv">
+          <dt>Pago a</dt><dd>Belén Fuentes Mejías</dd>
+          <dt>Asunto</dt><dd>Cuenta Enero 2026</dd>
+        </dl>
+      </div>
+    </div>
+  </article>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400, margin: '0 auto', background: 'var(--kds-color-background-muted)' }}>
+      <div className="kds-invoice-sticky-wrap">
+        <article className="kds-card-elevated kds-invoice-sticky">
+          <header className="kds-invoice-header">
+            <div>
+              <div className="kds-brand-inner">
+                <img src={khipuLogo} alt="Khipu" />
+              </div>
+              <p className="kds-invoice-amount">$3.300</p>
+              <p className="kds-invoice-code">
+                Código <span className="kds-invoice-code-value">fdap-sr2x-q3pf</span>
+              </p>
+            </div>
+            <div className="kds-invoice-merchant" aria-hidden="true">
+              <i className="material-symbols-outlined">storefront</i>
+            </div>
+          </header>
+          <div className="kds-invoice-collapsible">
+            <div className="kds-invoice-summary">
+              <dl className="kds-kv">
+                <dt>Pago a</dt>
+                <dd>Belén Fuentes Mejías</dd>
+                <dt>Asunto</dt>
+                <dd>Cuenta Enero 2026</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  ),
+};

@@ -90,3 +90,62 @@ export const Small: Story = {
 export const Disabled: Story = {
   args: { variant: 'primary', disabled: true, children: 'Deshabilitado' },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML — botón standalone:
+ * ```html
+ * <button class="kds-btn kds-btn-primary"><span>Pagar $3.300</span></button>
+ * ```
+ *
+ * Variantes: `kds-btn-secondary`, `kds-btn-outlined`, `kds-btn-outlined-white`,
+ * `kds-btn-text`, `kds-btn-success`. Modificadores: `kds-btn-sm` (size),
+ * `kds-btn-block` (full width).
+ *
+ * **Apilado vertical (CTA stack)** — patrón canónico para pie de card:
+ * ```html
+ * <div class="kds-btn-stack">
+ *   <button class="kds-btn kds-btn-primary kds-btn-block"><span>Pagar $3.300</span></button>
+ *   <button class="kds-btn kds-btn-outlined kds-btn-block"><span>Cancelar</span></button>
+ * </div>
+ * ```
+ *
+ * Ver `Patterns/CSS-only → ButtonStack` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  decorators: [(Story) => <div style={{ width: '100%' }}><Story /></div>],
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<!-- Botón standalone -->
+<button class="kds-btn kds-btn-primary"><span>Pagar $3.300</span></button>
+
+<!-- Apilado vertical (CTA stack) -->
+<div class="kds-btn-stack">
+  <button class="kds-btn kds-btn-primary kds-btn-block"><span>Pagar $3.300</span></button>
+  <button class="kds-btn kds-btn-outlined kds-btn-block"><span>Cancelar</span></button>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <button className="kds-btn kds-btn-primary" style={{ marginBottom: 16 }}>
+        <span>Pagar $3.300</span>
+      </button>
+      <div className="kds-btn-stack">
+        <button className="kds-btn kds-btn-primary kds-btn-block">
+          <span>Pagar $3.300</span>
+        </button>
+        <button className="kds-btn kds-btn-outlined kds-btn-block">
+          <span>Cancelar</span>
+        </button>
+      </div>
+    </div>
+  ),
+};
