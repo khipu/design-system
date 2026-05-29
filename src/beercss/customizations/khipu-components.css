@@ -5392,16 +5392,16 @@ div.kds-invoice-header,
     font-size: var(--kds-font-size-sm);
 }
 
-.kds-recap-list .k {
+.kds-recap-list .kds-key {
     color: var(--kds-color-text-secondary);
 }
 
-.kds-recap-list .v {
+.kds-recap-list .kds-value {
     color: var(--kds-color-text-primary);
     font-weight: 500;
 }
 
-.kds-recap-list .v.placeholder {
+.kds-recap-list .kds-value.placeholder {
     color: var(--kds-color-text-hint);
 }
 
@@ -6222,7 +6222,7 @@ button.kds-btn-success::after {
     min-width: 0;
 }
 
-.kds-qr-text .title {
+.kds-qr-text .kds-qr-title {
     font-family: var(--kds-font-family-primary);
     font-weight: 600;
     font-size: var(--kds-font-size-sm);
@@ -6230,7 +6230,7 @@ button.kds-btn-success::after {
     color: var(--kds-color-text-primary);
 }
 
-.kds-qr-text .sub {
+.kds-qr-text .kds-qr-subtitle {
     font-family: var(--kds-font-family-primary);
     font-size: var(--kds-font-size-caption);
     color: var(--kds-color-text-secondary);
@@ -6336,7 +6336,7 @@ button.kds-btn-success::after {
     background: var(--kds-color-primary-selected);
 }
 
-.kds-copyable-table-row .k {
+.kds-copyable-table-row .kds-key {
     color: var(--kds-color-text-secondary);
     font-size: var(--kds-font-size-caption);
     letter-spacing: 0.3px;
@@ -6345,7 +6345,7 @@ button.kds-btn-success::after {
     flex: 0 0 auto;
 }
 
-.kds-copyable-table-row .v {
+.kds-copyable-table-row .kds-value {
     color: var(--kds-color-text-primary);
     font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
     font-weight: var(--kds-font-weight-medium);
@@ -6361,7 +6361,7 @@ button.kds-btn-success::after {
     flex: 1 1 auto;
 }
 
-.kds-copyable-table-row .v::after {
+.kds-copyable-table-row .kds-value::after {
     content: 'content_copy';
     font-family: 'Material Symbols Outlined';
     font-size: var(--kds-font-size-sm);
@@ -6372,7 +6372,7 @@ button.kds-btn-success::after {
     flex: 0 0 auto;
 }
 
-.kds-copyable-table-row:not(.copied):not(.settling):hover .v::after {
+.kds-copyable-table-row:not(.copied):not(.settling):hover .kds-value::after {
     opacity: 0.7;
 }
 
@@ -6380,11 +6380,11 @@ button.kds-btn-success::after {
     background: var(--kds-color-success-soft);
 }
 
-.kds-copyable-table-row.copied .v {
+.kds-copyable-table-row.copied .kds-value {
     color: var(--kds-color-success-dark);
 }
 
-.kds-copyable-table-row.copied .v::after {
+.kds-copyable-table-row.copied .kds-value::after {
     content: 'check';
     font-family: 'Material Symbols Outlined';
     color: var(--kds-color-success-dark);
@@ -6394,7 +6394,7 @@ button.kds-btn-success::after {
 /* `.settling`: estado de "recién copiado" — la row vuelve al normal sin
    activar hover. Dura lo mismo que la transición (~300ms) y se aplica
    desde React tras quitar `.copied`. */
-.kds-copyable-table-row.settling .v::after {
+.kds-copyable-table-row.settling .kds-value::after {
     /* Mantén el check con opacity 0 mientras settling, fade out suave */
     opacity: 0;
 }
@@ -6700,4 +6700,77 @@ a.kds-copy-all-btn.copied:hover {
     .kds-payment-total--email .kds-payment-amount {
         text-align: left;
     }
+}
+
+/* ==========================================================================
+   GRID UTILITIES — semantic aliases for BeerCSS .grid / .s* / .m* / .l*
+
+   Estas utilidades son ALIAS de las clases cortas de BeerCSS para que
+   consumers (payment, LigoPay, Grails legacy) puedan escribir markup con
+   nombres descriptivos sin renunciar al grid de 12 columnas de BeerCSS.
+
+   Convención (estilo Bootstrap responsive):
+   - kds-grid              → .grid (12-col CSS grid + 1rem gap)
+   - kds-col-sm-{1..12}    → .s{1..12}  (mobile, siempre aplica)
+   - kds-col-md-{1..12}    → .m{1..12}  (>=601px)
+   - kds-col-lg-{1..12}    → .l{1..12}  (>=993px)
+
+   Las definiciones originales de BeerCSS NO se tocan; estas son aditivas.
+   ========================================================================== */
+
+.kds-grid {
+    --_gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--_gap);
+    block-size: auto;
+}
+
+.kds-grid.kds-grid-no-space { --_gap: 0rem; }
+.kds-grid.kds-grid-medium-space { --_gap: 1.5rem; }
+.kds-grid.kds-grid-large-space { --_gap: 2rem; }
+
+.kds-grid > * { margin: 0; }
+
+.kds-col-sm-1  { grid-area: auto/span 1; }
+.kds-col-sm-2  { grid-area: auto/span 2; }
+.kds-col-sm-3  { grid-area: auto/span 3; }
+.kds-col-sm-4  { grid-area: auto/span 4; }
+.kds-col-sm-5  { grid-area: auto/span 5; }
+.kds-col-sm-6  { grid-area: auto/span 6; }
+.kds-col-sm-7  { grid-area: auto/span 7; }
+.kds-col-sm-8  { grid-area: auto/span 8; }
+.kds-col-sm-9  { grid-area: auto/span 9; }
+.kds-col-sm-10 { grid-area: auto/span 10; }
+.kds-col-sm-11 { grid-area: auto/span 11; }
+.kds-col-sm-12 { grid-area: auto/span 12; }
+
+@media only screen and (min-width: 601px) {
+    .kds-col-md-1  { grid-area: auto/span 1; }
+    .kds-col-md-2  { grid-area: auto/span 2; }
+    .kds-col-md-3  { grid-area: auto/span 3; }
+    .kds-col-md-4  { grid-area: auto/span 4; }
+    .kds-col-md-5  { grid-area: auto/span 5; }
+    .kds-col-md-6  { grid-area: auto/span 6; }
+    .kds-col-md-7  { grid-area: auto/span 7; }
+    .kds-col-md-8  { grid-area: auto/span 8; }
+    .kds-col-md-9  { grid-area: auto/span 9; }
+    .kds-col-md-10 { grid-area: auto/span 10; }
+    .kds-col-md-11 { grid-area: auto/span 11; }
+    .kds-col-md-12 { grid-area: auto/span 12; }
+}
+
+@media only screen and (min-width: 993px) {
+    .kds-col-lg-1  { grid-area: auto/span 1; }
+    .kds-col-lg-2  { grid-area: auto/span 2; }
+    .kds-col-lg-3  { grid-area: auto/span 3; }
+    .kds-col-lg-4  { grid-area: auto/span 4; }
+    .kds-col-lg-5  { grid-area: auto/span 5; }
+    .kds-col-lg-6  { grid-area: auto/span 6; }
+    .kds-col-lg-7  { grid-area: auto/span 7; }
+    .kds-col-lg-8  { grid-area: auto/span 8; }
+    .kds-col-lg-9  { grid-area: auto/span 9; }
+    .kds-col-lg-10 { grid-area: auto/span 10; }
+    .kds-col-lg-11 { grid-area: auto/span 11; }
+    .kds-col-lg-12 { grid-area: auto/span 12; }
 }
