@@ -1871,3 +1871,105 @@ export const Stepper: Story = {
     </div>
   ),
 };
+
+// =============================================================================
+// SNACKBAR (.snackbar — BeerCSS base + kds-snackbar-close)
+// =============================================================================
+
+/**
+ * `snackbar active [severity]` — notificación flotante. Container es **BeerCSS
+ * nativo** (`.snackbar`); el `active` lo agrega el JS al disparar la
+ * notificación. Khipu agrega:
+ * - `.kds-snackbar-close` para el botón de cerrar (icon-only, blanco semi-transparente).
+ * - CSS var `--kds-snackbar-duration` que controla el progress bar inferior (animación).
+ *
+ * Severidades vía modificadores: `kds-info`, `kds-success`, `kds-error`, `kds-warning`.
+ *
+ * Layout (spec):
+ * - `position: fixed`, `min-width: 344px`, `max-width: var(--kds-snackbar-max-width)`.
+ * - Bottom-anchored mobile, top-right desktop (per BeerCSS responsive default).
+ * - Auto-dismiss via JS al expirar `--kds-snackbar-duration` (default 5s).
+ *
+ * Tipografía:
+ * - Texto: `font-size: var(--kds-font-size-sm)`, color contrast del severity.
+ * - Close button: `.kds-snackbar-close` (icon 24px, hover bg `rgba(255,255,255,.15)`).
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="snackbar active kds-info" style="--kds-snackbar-duration: 5000ms">
+ *   <i class="material-symbols-outlined">info</i>
+ *   <span class="max">Operación completada</span>
+ *   <button class="kds-snackbar-close" aria-label="Cerrar">
+ *     <i class="material-symbols-outlined">close</i>
+ *   </button>
+ * </div>
+ * ```
+ *
+ * El `style="--kds-snackbar-duration:..."` es la única inline aceptable
+ * (parametriza la duración per-instance). Para mostrar/ocultar, agregar/quitar
+ * la clase `active` desde JS.
+ *
+ * En React: `<KdsSnackbar type="info" message="…" duration={5000} onClose={…} />`.
+ *
+ * @css .snackbar, .snackbar.active, .kds-snackbar-close, .kds-info, .kds-success, .kds-warning, .kds-error
+ */
+export const Snackbar: Story = {
+  name: 'Snackbar (.snackbar)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div
+        className="snackbar active kds-info"
+        style={{ '--kds-snackbar-duration': '5000ms' } as Record<string, string>}
+      >
+        <i className="material-symbols-outlined">info</i>
+        <span className="max">Operación completada</span>
+        <button className="kds-snackbar-close" aria-label="Cerrar">
+          <i className="material-symbols-outlined">close</i>
+        </button>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// SPINNER (progress.circle.indeterminate)
+// =============================================================================
+
+/**
+ * `<progress class="circle indeterminate">` — spinner de loading. Container
+ * **BeerCSS nativo** (no hay `.kds-spinner` propia); Khipu compone con
+ * utilidades del DS para los layouts comunes (con label, centrado, en botón).
+ *
+ * Layout (spec):
+ * - `<progress>` con `circle indeterminate` → animación `to-rotate 1s linear infinite`.
+ * - Tamaños vía clase adicional: `small` (16px), default (24px), `large` (48px).
+ * - Color: `currentColor` (hereda del padre — útil para spinner dentro de botón).
+ *
+ * Composición con label (patrón canónico):
+ * ```html
+ * <div class="kds-flex kds-flex-col kds-items-center kds-gap-2">
+ *   <progress class="circle indeterminate"></progress>
+ *   <span class="kds-text-body-small kds-text-muted">Cargando…</span>
+ * </div>
+ * ```
+ *
+ * Standalone (ej. dentro de `<button>` con loading):
+ * ```html
+ * <progress class="circle indeterminate small"></progress>
+ * ```
+ *
+ * En React: `<KdsSpinner size="medium" label="Cargando…" />`.
+ *
+ * @css .circle, .indeterminate, .small, .large (todas BeerCSS nativas)
+ */
+export const Spinner: Story = {
+  name: 'Spinner (progress.circle.indeterminate)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="kds-flex kds-flex-col kds-items-center kds-gap-2">
+        <progress className="circle indeterminate" />
+        <span className="kds-text-body-small kds-text-muted">Cargando…</span>
+      </div>
+    </div>
+  ),
+};

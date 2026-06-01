@@ -242,3 +242,45 @@ export const Triggered: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — el container `snackbar active [severity]` es
+ * BeerCSS nativo; Khipu agrega `.kds-snackbar-close` para el botón de cerrar y
+ * la CSS var `--kds-snackbar-duration` que controla el progress bar inferior.
+ * La clase `active` la agrega el JS al disparar la notificación. El `style`
+ * con CSS var es la única forma de parametrizar la duración per-instance.
+ *
+ * Ver `Patterns/CSS-only → Snackbar` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="snackbar active kds-info" style="--kds-snackbar-duration: 5000ms">
+  <i class="material-symbols-outlined">info</i>
+  <span class="max">Operación completada</span>
+  <button class="kds-snackbar-close" aria-label="Cerrar">
+    <i class="material-symbols-outlined">close</i>
+  </button>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div
+        className="snackbar active kds-info"
+        style={{ '--kds-snackbar-duration': '5000ms' } as Record<string, string>}
+      >
+        <i className="material-symbols-outlined">info</i>
+        <span className="max">Operación completada</span>
+        <button className="kds-snackbar-close" aria-label="Cerrar">
+          <i className="material-symbols-outlined">close</i>
+        </button>
+      </div>
+    </div>
+  ),
+};
