@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 /**
@@ -1969,6 +1970,480 @@ export const Spinner: Story = {
       <div className="kds-flex kds-flex-col kds-items-center kds-gap-2">
         <progress className="circle indeterminate" />
         <span className="kds-text-body-small kds-text-muted">Cargando…</span>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// COUNTDOWN (.kds-countdown)
+// =============================================================================
+
+/**
+ * `.kds-countdown` — wrapper estático para un timer dinámico (HH:MM:SS) usado
+ * en flows con deadline (ej. "tiempo restante para transferir").
+ *
+ * Layout (spec):
+ * - `text-align: center`
+ * - `padding: var(--kds-spacing-1) 0` (8px verticales)
+ *
+ * Tipografía:
+ * - `.kds-countdown-label`: `display: block`, `font-size: var(--kds-font-size-xs)` (12px),
+ *   `color: var(--kds-color-text-secondary)`, `text-transform: uppercase`,
+ *   `letter-spacing: 0.04em`, `margin-bottom: var(--kds-spacing-1)`
+ * - `.kds-countdown-value`: `font-size: var(--kds-font-size-2xl)` (24px),
+ *   `font-weight: var(--kds-font-weight-bold)`, `font-variant-numeric: tabular-nums`,
+ *   `color: var(--kds-color-text-primary)`
+ *
+ * Variante:
+ * - `.kds-countdown.urgent`: cambia el color del value a `--kds-color-error-main`
+ *   (usado cuando quedan < 5 minutos en el wrapper React).
+ *
+ * El tick por segundo + el cambio a `.urgent` requieren JS (en React, `useCountdown`
+ * lo maneja). El markup abajo es un snapshot del estado renderizado — el valor
+ * se actualiza in-place modificando el `textContent` del `.kds-countdown-value`.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-countdown">
+ *   <span class="kds-countdown-label">Tiempo restante</span>
+ *   <span class="kds-countdown-value">00:05:00</span>
+ * </div>
+ *
+ * <!-- Urgente -->
+ * <div class="kds-countdown urgent">
+ *   <span class="kds-countdown-label">¡Apúrate!</span>
+ *   <span class="kds-countdown-value">00:00:42</span>
+ * </div>
+ * ```
+ *
+ * En React: `<KdsCountdown deadline="2026-06-01T16:33:00Z" label="Tiempo restante" />`.
+ *
+ * @css .kds-countdown, .kds-countdown-label, .kds-countdown-value, .kds-countdown.urgent
+ */
+export const Countdown: Story = {
+  name: 'Countdown (.kds-countdown)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="kds-countdown">
+        <span className="kds-countdown-label">Tiempo restante</span>
+        <span className="kds-countdown-value">00:05:00</span>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// TABS (.kds-segmented-tabs)
+// =============================================================================
+
+/**
+ * `.kds-segmented-tabs` — pill-group toggle con sliding indicator. Es la única
+ * variante de tabs del Khipu DS (no hay underline tabs estándar de Material).
+ * Tanto `KdsTabs` como `KdsSegmentedTabs` (alias) renderizan esta clase.
+ *
+ * Layout (spec):
+ * - `height: var(--kds-spacing-5)` (40px)
+ * - `background: var(--kds-color-background-muted)`
+ * - `border-radius: var(--kds-radius-lg)`, `padding: var(--kds-spacing-0-25)` (2px)
+ * - `margin-bottom: var(--kds-spacing-2)` (16px)
+ * - `display: flex; position: relative`
+ *
+ * Sliding pill indicator (`::before`):
+ * - `position: absolute`, llena `top/bottom/left` con `var(--kds-spacing-0-25)` de inset
+ * - `width: calc((100% - var(--kds-spacing-0-25) * 2) / var(--_tab-count))`
+ * - `transform: translateX(calc(var(--_active-idx) * 100%))`
+ * - `background: var(--kds-color-background-default)`, `box-shadow: var(--kds-shadow-card)`
+ * - Transición: `var(--kds-transition-standard) var(--kds-easing-standard)`
+ *
+ * **Critical:** el wrapper DEBE setear las CSS custom props inline:
+ * `style="--_tab-count: N; --_active-idx: idx"`. Sin esto, el pill no se posiciona.
+ *
+ * Botones internos (`.kds-segmented-tabs.kds-segmented-tabs button` — doble clase para
+ * subir especificidad sobre BeerCSS):
+ * - `flex: 1`, `border: 0`, `background: transparent`
+ * - `font-size: var(--kds-font-size-sm)`, `font-weight: medium`, `color: text-secondary`
+ * - Activo (`.active` o `[aria-selected="true"]`): `color: text-primary`, weight `semibold`
+ *
+ * El switching del active requiere JS (toggle `.active`, actualizar `aria-selected`,
+ * recalcular `--_active-idx`).
+ *
+ * Contrato HTML:
+ * ```html
+ * <div
+ *   class="kds-segmented-tabs"
+ *   role="tablist"
+ *   style="--_tab-count: 2; --_active-idx: 0"
+ * >
+ *   <button type="button" class="active" role="tab" aria-selected="true" tabindex="0">
+ *     Personas
+ *   </button>
+ *   <button type="button" role="tab" aria-selected="false" tabindex="-1">
+ *     Empresas
+ *   </button>
+ * </div>
+ *
+ * <!-- Paneles (uno por tab) -->
+ * <div role="tabpanel">Contenido tab 0</div>
+ * <div role="tabpanel" hidden>Contenido tab 1</div>
+ * ```
+ *
+ * En React: `<KdsTabs activeIndex={i} onChange={setI}><KdsTab>…</KdsTab></KdsTabs>`.
+ *
+ * @gsp `_choosePaymentMethodFormMaterial.gsp` (líneas 18-25)
+ * @css .kds-segmented-tabs, .kds-segmented-tabs::before, .kds-segmented-tabs button, .kds-segmented-tabs button.active, .kds-segmented-tabs button[aria-selected="true"]
+ */
+export const Tabs: Story = {
+  name: 'Tabs (.kds-segmented-tabs)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div
+        className="kds-segmented-tabs"
+        role="tablist"
+        style={{ '--_tab-count': 2, '--_active-idx': 0 } as React.CSSProperties}
+      >
+        <button type="button" className="active" role="tab" aria-selected={true} tabIndex={0}>
+          Personas
+        </button>
+        <button type="button" role="tab" aria-selected={false} tabIndex={-1}>
+          Empresas
+        </button>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// SELECT (.field.label.border + <select>)
+// =============================================================================
+
+/**
+ * `.field.label.border` + `<select>` — select nativo con floating label,
+ * idéntico al patrón TextField pero con `<select>` en lugar de `<input>`.
+ * BeerCSS dibuja automáticamente el chevron de dropdown, floating label, y focus
+ * ring. El truco floating-label depende de que la primera `<option>` tenga
+ * `value=""` (actúa como placeholder).
+ *
+ * Layout (BeerCSS extendido):
+ * - Wrapper: `.field.label.border` (mismas reglas que TextField)
+ * - El `<select>` reemplaza al `<input>`; BeerCSS detecta el `<select>` y dibuja el chevron
+ *
+ * Modificadores combinables con `.field.label.border`:
+ * - `.prefix`: cuando hay `<i>` antes del `<select>` (alinea label al icon)
+ * - `.invalid`, `.valid`, `.info`, `.warning`: border + label en colores semánticos
+ * - `.disabled`: estado disabled
+ *
+ * Helper text: `<span class="helper">…</span>` debajo del select (color/tamaño tokens).
+ *
+ * Contrato HTML (caso simple):
+ * ```html
+ * <div class="field label border">
+ *   <select id="bank" name="bank" required>
+ *     <option value="">Selecciona tu banco</option>
+ *     <option value="bci">BCI</option>
+ *     <option value="santander">Santander</option>
+ *   </select>
+ *   <label for="bank">Banco *</label>
+ *   <span class="helper">Te enviaremos la confirmación aquí</span>
+ * </div>
+ * ```
+ *
+ * Variante con prefix + invalid:
+ * ```html
+ * <div class="field label border prefix invalid">
+ *   <i class="material-symbols-outlined">account_balance</i>
+ *   <select id="bank-err"><option value="">…</option>…</select>
+ *   <label for="bank-err">Banco</label>
+ *   <span class="helper">Debes seleccionar un banco</span>
+ * </div>
+ * ```
+ *
+ * En React: `<KdsSelect label="Banco" options={[…]} placeholder="…" error helperText="…" />`.
+ *
+ * @gsp `mat:select` taglib (MaterialTagLib.groovy:260)
+ * @css .field, .field.label, .field.label.border, .field.prefix, .field.invalid, .field > select
+ */
+export const Select: Story = {
+  name: 'Select (.field.label.border + select)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="field label border">
+        <select id="bank-pattern" name="bank" required defaultValue="">
+          <option value="">Selecciona tu banco</option>
+          <option value="bci">BCI</option>
+          <option value="santander">Santander</option>
+          <option value="estado">Banco Estado</option>
+          <option value="chile">Banco de Chile</option>
+        </select>
+        <label htmlFor="bank-pattern">Banco *</label>
+        <span className="helper">Te enviaremos la confirmación aquí</span>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// TOOLTIP (.kds-tooltip + .kds-tooltip-arrow)
+// =============================================================================
+
+/**
+ * `.kds-tooltip` — popover dark (texto blanco sobre `--kds-color-text-primary`)
+ * con animación direccional según `data-side`. Diseñado para usarse con Radix
+ * Tooltip (`KdsTooltip` lo hace), pero las clases sirven para cualquier popover
+ * con look del DS — basta con renderizar el `.kds-tooltip` cerca del trigger y
+ * togglearlo con JS propio.
+ *
+ * Layout (spec):
+ * - `background: var(--kds-color-text-primary)` (oscuro)
+ * - `color: var(--kds-color-background-paper)` (blanco)
+ * - `font-size: var(--kds-font-size-xs)` (12px), `font-weight: medium`
+ * - `border-radius: var(--kds-radius-sm)`, `padding: var(--kds-spacing-0-75) var(--kds-spacing-1-5)` (6px / 12px)
+ * - `box-shadow: var(--kds-shadow-4)`, `max-width: 280px`
+ * - `z-index: var(--kds-z-index-tooltip, 1500)`
+ *
+ * Animaciones (selectores `[data-side="…"][data-state="delayed-open"]`):
+ * - `top`/`bottom`: slide vertical 8px + fade + scale 0.96 → 1
+ * - `left`/`right`: slide horizontal 8px + fade + scale 0.96 → 1
+ * - Duración: 240ms, easing `cubic-bezier(0.2, 0.8, 0.2, 1)`
+ * - Salida (`[data-state="closed"]`): 140ms, fade + scale 0.96
+ *
+ * Arrow (`.kds-tooltip-arrow`): SVG path generado por Radix, fill `--kds-color-text-primary`.
+ *
+ * El show/hide + el positioning + los `data-*` attributes son JS-driven (Radix).
+ * Para uso non-Radix, manejar el toggle con tu propio JS y setear los data attrs
+ * para activar las animaciones direccionales.
+ *
+ * Contrato HTML (estado abierto, side top):
+ * ```html
+ * <div
+ *   class="kds-tooltip"
+ *   role="tooltip"
+ *   data-side="top"
+ *   data-state="delayed-open"
+ * >
+ *   Información adicional
+ *   <svg class="kds-tooltip-arrow" width="10" height="5">
+ *     <!-- arrow path -->
+ *   </svg>
+ * </div>
+ * ```
+ *
+ * En React: `<KdsTooltip content="…" placement="top"><Button /></KdsTooltip>`.
+ *
+ * @css .kds-tooltip, .kds-tooltip-arrow, .kds-tooltip[data-side], .kds-tooltip[data-state]
+ */
+export const Tooltip: Story = {
+  name: 'Tooltip (.kds-tooltip)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 32, background: 'white' }}>
+      <div
+        className="kds-tooltip"
+        role="tooltip"
+        data-side="top"
+        data-state="delayed-open"
+      >
+        Información adicional
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// BOTTOM SHEET (.kds-bottom-sheet + .kds-bottom-sheet-scrim)
+// =============================================================================
+
+/**
+ * `.kds-bottom-sheet` — único componente de modales del DS (`KdsModal` fue
+ * unificado aquí). En mobile sube desde abajo, en desktop centra. Anclado al
+ * bottom del scrim por `align-items: flex-end` en `.kds-bottom-sheet-scrim`.
+ *
+ * Layout — scrim (`.kds-bottom-sheet-scrim`):
+ * - `position: fixed; inset: 0`, `background: var(--kds-modal-backdrop)`
+ * - `display: none` por default; `.open` lo cambia a `flex`
+ * - `align-items: flex-end; justify-content: center` (sheet pegado al bottom)
+ * - `z-index: var(--kds-z-index-modal, 50)`, anim `kds-fade 0.2s`
+ *
+ * Layout — panel (`.kds-bottom-sheet`):
+ * - `width: 100%`, `max-width: var(--kds-bottom-sheet-max-width)`
+ * - `background: var(--kds-color-background-paper)`
+ * - `border-radius: var(--kds-radius-2xl) var(--kds-radius-2xl) 0 0` (solo top)
+ * - `padding: var(--kds-spacing-3-5) var(--kds-spacing-3) var(--kds-spacing-3)` (28px / 24px / 24px)
+ * - `box-shadow: var(--kds-bottom-sheet-shadow)`
+ * - Animación: `kds-rise 0.28s cubic-bezier(0.2, 0.8, 0.2, 1)`
+ * - `text-align: center`, `position: relative`
+ *
+ * Slots:
+ * - `.kds-bottom-sheet-grabber` (opcional, default true en React): handle visual
+ *   absoluto en el top-center, 48×4px, `border-radius: full`, `background: divider`
+ * - `.kds-bottom-sheet-close` (opcional, default false): icon-only X 32×32 en
+ *   top-right, NO usa `.kds-btn`. `background: transparent`, hover `rgba(0,0,0,0.06)`
+ * - `.kds-bottom-sheet-title`: `font-size: var(--kds-font-size-xl)`, `margin: 12px 0 4px`
+ * - `.kds-bottom-sheet-description`: `font-size: sm`, `color: text-secondary`, `margin: 0`
+ * - `.kds-bottom-sheet-body`: `text-align: left`, `margin-top: var(--kds-spacing-1)`
+ * - `.kds-bottom-sheet-actions`: `margin-top: var(--kds-spacing-3)`, `flex column`,
+ *   `gap: var(--kds-spacing-1-25)`. Sus `<button>` directos heredan `padding 12px`,
+ *   `border-radius: btn`, `weight: semibold`. Modificadores `.kds-btn-danger` y
+ *   `.kds-btn-ghost` para variantes.
+ *
+ * **CRITICAL:** el scrim DEBE llevar `.open` SIEMPRE que se renderice (Radix maneja
+ * mount/unmount); sin `.open` queda `display: none`. Show/hide en contextos sin
+ * Radix se hace toggleando esa clase con JS propio (ESC, click fuera, etc).
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-bottom-sheet-scrim open">
+ *   <div class="kds-bottom-sheet" role="dialog" aria-modal="true">
+ *     <div class="kds-bottom-sheet-grabber" aria-hidden="true"></div>
+ *     <button type="button" class="kds-bottom-sheet-close" aria-label="Cerrar">
+ *       <i class="material-symbols-outlined">close</i>
+ *     </button>
+ *     <h2 class="kds-bottom-sheet-title">Confirmar acción</h2>
+ *     <p class="kds-bottom-sheet-description">Revisa los datos antes de proceder.</p>
+ *     <div class="kds-bottom-sheet-body">
+ *       <p>¿Deseas confirmar esta acción?</p>
+ *     </div>
+ *     <div class="kds-bottom-sheet-actions">
+ *       <button type="button" class="kds-btn kds-btn-primary">Confirmar</button>
+ *       <button type="button" class="kds-btn-ghost">Cancelar</button>
+ *     </div>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * En React: `<KdsBottomSheet open onClose={…} title="…" description="…" actions={…}>…</KdsBottomSheet>`.
+ *
+ * @css .kds-bottom-sheet-scrim, .kds-bottom-sheet-scrim.open, .kds-bottom-sheet, .kds-bottom-sheet-grabber, .kds-bottom-sheet-close, .kds-bottom-sheet-title, .kds-bottom-sheet-description, .kds-bottom-sheet-body, .kds-bottom-sheet-actions, .kds-bottom-sheet-actions .kds-btn-danger, .kds-bottom-sheet-actions .kds-btn-ghost
+ */
+export const BottomSheet: Story = {
+  name: 'BottomSheet (.kds-bottom-sheet)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="kds-bottom-sheet" role="dialog" aria-modal="true">
+        <div className="kds-bottom-sheet-grabber" aria-hidden="true" />
+        <button type="button" className="kds-bottom-sheet-close" aria-label="Cerrar">
+          <i className="material-symbols-outlined">close</i>
+        </button>
+        <h2 className="kds-bottom-sheet-title">Confirmar acción</h2>
+        <p className="kds-bottom-sheet-description">Revisa los datos antes de proceder.</p>
+        <div className="kds-bottom-sheet-body">
+          <p>¿Deseas confirmar esta acción? Esta operación no se puede deshacer.</p>
+        </div>
+        <div className="kds-bottom-sheet-actions">
+          <button type="button" className="kds-btn kds-btn-primary">Confirmar</button>
+          <button type="button" className="kds-btn-ghost">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// BANK MODAL (.kds-bank-modal + .kds-bank-modal-scrim)
+// =============================================================================
+
+/**
+ * `.kds-bank-modal` — modal full-height de selección de banco con header,
+ * buscador y lista scrolleable. Diferente del bottom-sheet: anclado al top
+ * (`align-items: flex-start`), `height: 85vh`, contiene una `.kds-bank-list`.
+ *
+ * Layout — scrim (`.kds-bank-modal-scrim`):
+ * - `position: fixed; inset: 0`, `background: var(--kds-modal-backdrop)`
+ * - `display: none` por default; `.open` lo cambia a `flex`
+ * - `align-items: flex-start; justify-content: center`
+ * - `padding: var(--kds-spacing-2)` (16px) — el modal centra dentro
+ * - `z-index: var(--kds-z-index-modal, 50)`, anim `kds-fade 0.2s`
+ *
+ * Layout — modal (`.kds-bank-modal`):
+ * - `width: 100%`, `max-width: var(--kds-stage-narrow-max-width, 448px)`
+ * - `height: 85vh` (fijo, no se ajusta al contenido)
+ * - `background: var(--kds-color-background-paper)`
+ * - `border-radius: var(--kds-radius-card)`, `box-shadow: var(--kds-shadow-elevated)`
+ * - `display: flex; flex-direction: column; overflow: hidden`
+ * - Animación: `kds-rise 0.28s cubic-bezier(0.2, 0.8, 0.2, 1)`
+ *
+ * Slots:
+ * - `.kds-bank-modal-header`: `flex; justify-content: space-between; align-items: center`,
+ *   `padding: var(--kds-spacing-1) var(--kds-spacing-2) var(--kds-spacing-1)` (8/16/8)
+ *   - `> h3`: `font-size: var(--kds-font-size-lg)`, `font-weight: semibold`, `margin: 0`
+ *   - `.kds-bank-modal-close`: icon-only, `background: none; border: 0`, `padding: 4px`,
+ *     `color: text-secondary`, `border-radius: full`, `display: grid; place-items: center`.
+ *     `::after { display: none }` (override de BeerCSS).
+ * - `.kds-bank-modal-search`: `padding: 0 var(--kds-spacing-2) var(--kds-spacing-1-5)` (0/16/12)
+ *   - `> input`: `width: 100%`, `padding: 10px 12px`, `border: 1px solid divider`,
+ *     `border-radius: md`, `font-size: sm`, `background: surface`
+ *   - `:focus`: `border-color: primary-main`, `box-shadow: 0 0 0 2px primary-faint`
+ * - `.kds-bank-modal-body`: `flex: 1; overflow-y: auto`,
+ *   `padding: 0 var(--kds-spacing-1) var(--kds-spacing-1)` (0/8/8).
+ *   Override interno: `.kds-bank-list { margin-top: 0; gap: 4px }`,
+ *   `.kds-bank-row { border: 0; border-radius: md; padding: 8px 10px }`
+ * - `.kds-bank-modal-empty`: `text-align: center`, `padding: 32px 16px`,
+ *   `color: text-hint`, `font-size: sm`, `display: none`.
+ *   `.visible` lo cambia a `display: block`.
+ *
+ * Show/hide es JS-driven (Radix Dialog en React); en contextos sin Radix, togglear
+ * `.open` en el scrim con JS propio. El filtrado de búsqueda lo hace el consumidor.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-bank-modal-scrim open">
+ *   <div class="kds-bank-modal" role="dialog" aria-modal="true">
+ *     <div class="kds-bank-modal-header">
+ *       <h3>Selecciona tu banco</h3>
+ *       <button type="button" class="kds-bank-modal-close" aria-label="Cerrar">
+ *         <i class="material-symbols-outlined">close</i>
+ *       </button>
+ *     </div>
+ *     <div class="kds-bank-modal-search">
+ *       <input type="text" placeholder="Buscar banco..." />
+ *     </div>
+ *     <div class="kds-bank-modal-body">
+ *       <div class="kds-bank-list" role="list">
+ *         <button type="button" class="kds-bank-row">…</button>
+ *         <button type="button" class="kds-bank-row">…</button>
+ *       </div>
+ *       <p class="kds-bank-modal-empty">No se encontraron resultados</p>
+ *     </div>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * En React: `<KdsBankModal open onClose={…} onSearch={…}><KdsBankList>…</KdsBankList></KdsBankModal>`.
+ *
+ * @gsp `_bankModalMaterial.gsp`
+ * @css .kds-bank-modal-scrim, .kds-bank-modal-scrim.open, .kds-bank-modal, .kds-bank-modal-header, .kds-bank-modal-close, .kds-bank-modal-search, .kds-bank-modal-search input, .kds-bank-modal-body, .kds-bank-modal-empty, .kds-bank-modal-empty.visible
+ */
+export const BankModal: Story = {
+  name: 'BankModal (.kds-bank-modal)',
+  render: () => (
+    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+      <div className="kds-bank-modal" role="dialog" aria-modal="true">
+        <div className="kds-bank-modal-header">
+          <h3>Selecciona tu banco</h3>
+          <button type="button" className="kds-bank-modal-close" aria-label="Cerrar">
+            <i className="material-symbols-outlined">close</i>
+          </button>
+        </div>
+        <div className="kds-bank-modal-search">
+          <input type="text" placeholder="Buscar banco..." />
+        </div>
+        <div className="kds-bank-modal-body">
+          <div className="kds-bank-list" role="list">
+            <button type="button" className="kds-bank-row">
+              <span className="kds-bank-row-logo">
+                <span className="initials">B</span>
+              </span>
+              <span className="kds-bank-row-name">Banco Estado</span>
+              <i className="material-symbols-outlined">chevron_right</i>
+            </button>
+            <button type="button" className="kds-bank-row">
+              <span className="kds-bank-row-logo">
+                <span className="initials">B</span>
+              </span>
+              <span className="kds-bank-row-name">Banco BCI</span>
+              <i className="material-symbols-outlined">chevron_right</i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   ),

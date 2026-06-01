@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsTabs, KdsTab, KdsTabPanel } from './KdsTabs';
@@ -102,4 +103,58 @@ export const WithDisabledTab: Story = {
       </div>
     );
   },
+};
+
+/**
+ * Markup HTML plano (BeerCSS) — `.kds-segmented-tabs` con `role="tablist"` y
+ * `<button>` hijos. El pill animado del active lo dibuja `::before` usando las
+ * CSS custom props `--_tab-count` y `--_active-idx` (definidas en el style del
+ * wrapper). El switching del active requiere JS (toggle de la clase `.active`
+ * + `aria-selected="true"` + recálculo de `--_active-idx`); el markup estático
+ * abajo es un snapshot del estado "primer tab activo".
+ *
+ * Ver `Patterns/CSS-only → Tabs` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div
+  class="kds-segmented-tabs"
+  role="tablist"
+  style="--_tab-count: 2; --_active-idx: 0"
+>
+  <button type="button" class="active" role="tab" aria-selected="true" tabindex="0">
+    Personas
+  </button>
+  <button type="button" role="tab" aria-selected="false" tabindex="-1">
+    Empresas
+  </button>
+</div>
+
+<!-- Paneles asociados (uno por tab; el JS togglea hidden) -->
+<div role="tabpanel">Contenido del tab activo</div>
+<div role="tabpanel" hidden>Contenido del tab inactivo</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div
+        className="kds-segmented-tabs"
+        role="tablist"
+        style={{ '--_tab-count': 2, '--_active-idx': 0 } as React.CSSProperties}
+      >
+        <button type="button" className="active" role="tab" aria-selected={true} tabIndex={0}>
+          Personas
+        </button>
+        <button type="button" role="tab" aria-selected={false} tabIndex={-1}>
+          Empresas
+        </button>
+      </div>
+    </div>
+  ),
 };

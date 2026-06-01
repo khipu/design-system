@@ -144,3 +144,52 @@ export const OnButton: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — `.kds-tooltip` es el popover (renderizado en
+ * un portal por Radix); `.kds-tooltip-arrow` es el SVG de la flecha. El
+ * show/hide + el posicionamiento + el `data-side`/`data-state` son JS-driven
+ * (Radix Tooltip Provider/Root/Trigger/Content). En contextos sin Radix,
+ * estas clases sirven para estilar cualquier popover con el look del DS:
+ * basta con renderizar el `.kds-tooltip` cerca del trigger y togglearlo con
+ * JS propio (las animaciones direccionales se activan vía `data-side` +
+ * `data-state="delayed-open"`).
+ *
+ * Ver `Patterns/CSS-only → Tooltip` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<!-- Trigger (cualquier elemento focuseable) -->
+<button type="button">Hover aquí</button>
+
+<!-- Popover renderizado por Radix Portal (o por tu propio JS) -->
+<div
+  class="kds-tooltip"
+  role="tooltip"
+  data-side="top"
+  data-state="delayed-open"
+>
+  Información adicional
+  <svg class="kds-tooltip-arrow" width="10" height="5"><!-- arrow path --></svg>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div
+        className="kds-tooltip"
+        role="tooltip"
+        data-side="top"
+        data-state="delayed-open"
+      >
+        Información adicional
+      </div>
+    </div>
+  ),
+};
