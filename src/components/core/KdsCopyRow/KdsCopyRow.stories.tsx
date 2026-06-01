@@ -18,7 +18,7 @@ import { KdsCopyRow } from './KdsCopyRow';
  * - Toast `.kds-copy-toast` (position absolute right) aparece con opacity 0 → 1
  */
 const meta: Meta<typeof KdsCopyRow> = {
-  title: 'Core/KdsCopyRow',
+  title: 'Components/Data Display/KdsCopyRow',
   component: KdsCopyRow,
   tags: ['autodocs'],
   // Default decorator: envolver en `.kds-copy-list` (flex-column) con ancho fijo.

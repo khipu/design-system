@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { KdsCountdown } from './KdsCountdown';
 
 const meta: Meta<typeof KdsCountdown> = {
-  title: 'Core/KdsCountdown',
+  title: 'Components/Feedback/KdsCountdown',
   component: KdsCountdown,
   tags: ['autodocs'],
 };

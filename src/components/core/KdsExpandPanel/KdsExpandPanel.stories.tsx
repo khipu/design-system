@@ -3,7 +3,7 @@ import { KdsExpandPanel } from './KdsExpandPanel';
 import { spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsExpandPanel> = {
-  title: 'Core/KdsExpandPanel',
+  title: 'Components/Containers/KdsExpandPanel',
   component: KdsExpandPanel,
   tags: ['autodocs'],
 };

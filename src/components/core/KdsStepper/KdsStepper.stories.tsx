@@ -20,7 +20,7 @@ import { KdsButton } from '../KdsButton';
  * @gsp `mat:stepper` taglib en payment
  */
 const meta: Meta<typeof KdsStepper> = {
-  title: 'Core/KdsStepper',
+  title: 'Components/Navigation/KdsStepper',
   component: KdsStepper,
   tags: ['autodocs'],
   // Container fluido (100%) con max-width — ocupa todo el ancho disponible

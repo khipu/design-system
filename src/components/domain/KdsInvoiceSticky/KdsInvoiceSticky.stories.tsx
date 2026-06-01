@@ -37,7 +37,7 @@ import khipuLogo from '../../../assets/images/khipu-logo.svg';
  * @gsp `_payInvoiceCard.gsp` + `paymentMaterial.gsp` layout
  */
 const meta: Meta<typeof KdsInvoiceSticky> = {
-  title: 'Domain/KdsInvoiceSticky',
+  title: 'Domain/Payment Identity/KdsInvoiceSticky',
   component: KdsInvoiceSticky,
   tags: ['autodocs'],
   parameters: {

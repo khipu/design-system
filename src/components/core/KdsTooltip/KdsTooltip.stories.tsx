@@ -3,7 +3,7 @@ import { KdsTooltip } from './KdsTooltip';
 import { KdsButton } from '../KdsButton';
 
 const meta: Meta<typeof KdsTooltip> = {
-  title: 'Core/KdsTooltip',
+  title: 'Components/Overlays/KdsTooltip',
   component: KdsTooltip,
   tags: ['autodocs'],
   parameters: {

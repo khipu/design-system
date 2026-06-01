@@ -28,7 +28,7 @@ import { KdsQrRow } from './KdsQrRow';
  * @css .kds-qr-row, .kds-qr-avatar, .kds-qr-text, .kds-qr-badge
  */
 const meta: Meta<typeof KdsQrRow> = {
-  title: 'Domain/KdsQrRow',
+  title: 'Domain/Banking/KdsQrRow',
   component: KdsQrRow,
   tags: ['autodocs'],
   parameters: {

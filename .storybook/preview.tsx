@@ -90,12 +90,14 @@ const preview: Preview = {
       storySort: {
         order: [
           'Design System',
-          ['Conventions', 'Tokens', 'Assets'],
+          ['Conventions', 'Foundations', 'Tokens', 'Assets'],
           'Brand',
           ['Integración', 'Uso de marca', 'Uso de colores', 'Uso tipográfico', 'Voz y tono'],
-          'Patterns',
-          'Core',
+          'Components',
+          ['Actions', 'Form Inputs', 'Feedback', 'Containers', 'Navigation', 'Data Display', 'Overlays'],
           'Domain',
+          ['Payment Identity', 'Amount', 'Banking', 'Selection', 'Recap & Trust'],
+          'Patterns',
           'Hooks',
           'Examples',
         ],

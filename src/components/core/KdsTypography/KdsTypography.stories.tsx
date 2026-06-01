@@ -3,7 +3,7 @@ import { KdsTypography } from './KdsTypography';
 import { colors } from '../../../tokens';
 
 const meta: Meta<typeof KdsTypography> = {
-  title: 'Core/KdsTypography',
+  title: 'Design System/Foundations/Typography',
   component: KdsTypography,
   tags: ['autodocs'],
   argTypes: {

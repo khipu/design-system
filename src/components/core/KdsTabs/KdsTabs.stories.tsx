@@ -11,7 +11,7 @@ import { KdsTabs, KdsTab, KdsTabPanel } from './KdsTabs';
  * Si necesitas un wrapper semántico explícito, usa `KdsSegmentedTabs` (alias).
  */
 const meta: Meta<typeof KdsTabs> = {
-  title: 'Core/KdsTabs',
+  title: 'Components/Navigation/KdsTabs',
   component: KdsTabs,
   tags: ['autodocs'],
   parameters: {

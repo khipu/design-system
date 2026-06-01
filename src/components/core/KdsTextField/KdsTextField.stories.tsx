@@ -3,7 +3,7 @@ import { KdsTextField } from './KdsTextField';
 import { spacing, semanticSpacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsTextField> = {
-  title: 'Core/KdsTextField',
+  title: 'Components/Form Inputs/KdsTextField',
   component: KdsTextField,
   tags: ['autodocs'],
   argTypes: {

@@ -4,7 +4,7 @@ import { KdsButton } from '../KdsButton';
 import { colors, fontFamilies, fontWeights, fontSizes, borderRadius, spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsCard> = {
-  title: 'Core/KdsCard',
+  title: 'Components/Containers/KdsCard',
   component: KdsCard,
   tags: ['autodocs'],
   argTypes: {

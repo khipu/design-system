@@ -22,7 +22,7 @@ import { KdsBillAttachment, KdsBillAttachments } from './KdsBillAttachment';
  * @gsp `mat:billAttachments` taglib en `MaterialTagLib.groovy`
  */
 const meta: Meta<typeof KdsBillAttachment> = {
-  title: 'Domain/KdsBillAttachment',
+  title: 'Domain/Recap & Trust/KdsBillAttachment',
   component: KdsBillAttachment,
   tags: ['autodocs'],
   parameters: {

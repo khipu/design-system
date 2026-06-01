@@ -29,7 +29,7 @@ import { KdsRecapList } from './KdsRecapList';
  * @css .kds-recap-list, .kds-recap-list li, .kds-recap-list .k, .kds-recap-list .v, .kds-recap-list .v.placeholder
  */
 const meta: Meta<typeof KdsRecapList> = {
-  title: 'Domain/KdsRecapList',
+  title: 'Domain/Recap & Trust/KdsRecapList',
   component: KdsRecapList,
   tags: ['autodocs'],
   parameters: {

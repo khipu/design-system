@@ -32,7 +32,7 @@ import { KdsCardSelector } from './KdsCardSelector';
  * @css .kds-card-selector, .kds-card-selector-icon, .kds-card-selector-title, .kds-card-selector-description, .kds-card-selector.selected
  */
 const meta: Meta<typeof KdsCardSelector> = {
-  title: 'Domain/KdsCardSelector',
+  title: 'Domain/Selection/KdsCardSelector',
   component: KdsCardSelector,
   tags: ['autodocs'],
   parameters: {

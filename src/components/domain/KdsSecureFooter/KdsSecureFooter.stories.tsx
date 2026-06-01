@@ -35,7 +35,7 @@ import { KdsCard, KdsCardBody } from '../../core/KdsCard';
  * @css .kds-secure-footer, .kds-secure-footer.inside, .kds-secure-footer-lock
  */
 const meta: Meta<typeof KdsSecureFooter> = {
-  title: 'Domain/KdsSecureFooter',
+  title: 'Domain/Recap & Trust/KdsSecureFooter',
   component: KdsSecureFooter,
   tags: ['autodocs'],
   parameters: {

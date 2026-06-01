@@ -28,7 +28,7 @@ import { KdsBankRow } from '../KdsBankRow';
  * @css .kds-bank-modal, .kds-bank-modal-scrim, .kds-bank-modal-header, .kds-bank-modal-search, .kds-bank-modal-body, .kds-bank-modal-empty
  */
 const meta: Meta<typeof KdsBankModal> = {
-  title: 'Domain/KdsBankModal',
+  title: 'Domain/Banking/KdsBankModal',
   component: KdsBankModal,
   tags: ['autodocs'],
   parameters: {

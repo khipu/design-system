@@ -21,7 +21,7 @@ import { spacing } from '../../../tokens';
  * @gsp `mat:copyableTable` taglib usado en `manualVerifyMaterial.gsp`
  */
 const meta: Meta<typeof KdsCopyableTable> = {
-  title: 'Core/KdsCopyableTable',
+  title: 'Components/Data Display/KdsCopyableTable',
   component: KdsCopyableTable,
   tags: ['autodocs'],
   parameters: {

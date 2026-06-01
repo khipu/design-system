@@ -9,7 +9,7 @@ const accountOptions = [
 ];
 
 const meta: Meta<typeof KdsRadioGroup> = {
-  title: 'Core/KdsRadioGroup',
+  title: 'Components/Form Inputs/KdsRadioGroup',
   component: KdsRadioGroup,
   tags: ['autodocs'],
 };
