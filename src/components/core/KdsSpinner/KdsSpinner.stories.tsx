@@ -144,3 +144,39 @@ export const AllSizesGrid: Story = {
     </div>
   ),
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — `<progress class="circle indeterminate">` es
+ * BeerCSS nativo (animación `to-rotate 1s linear infinite`). Tamaños vía
+ * clases `small` / (default) / `large`. Para layout columnar con label,
+ * envolver en utilidades del DS (`kds-flex-col`, `kds-items-center`, `kds-gap-2`).
+ *
+ * Ver `Patterns/CSS-only → Spinner` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<!-- Standalone -->
+<progress class="circle indeterminate"></progress>
+
+<!-- Con label (centrado en columna) -->
+<div class="kds-flex kds-flex-col kds-items-center kds-gap-2">
+  <progress class="circle indeterminate"></progress>
+  <span class="kds-text-body-small kds-text-muted">Cargando…</span>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-flex kds-flex-col kds-items-center kds-gap-2">
+        <progress className="circle indeterminate" />
+        <span className="kds-text-body-small kds-text-muted">Cargando…</span>
+      </div>
+    </div>
+  ),
+};
