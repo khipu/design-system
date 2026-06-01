@@ -42,7 +42,7 @@ import { spacing } from '../../../tokens';
  * @css .kds-card-plan, .kds-card-plan-badge, .kds-card-plan-header, .kds-card-plan-price, .kds-card-plan-features, .kds-card-plan.recommended
  */
 const meta: Meta<typeof KdsCardPlan> = {
-  title: 'Domain/KdsCardPlan',
+  title: 'Domain/Selection/KdsCardPlan',
   component: KdsCardPlan,
   tags: ['autodocs'],
   parameters: {

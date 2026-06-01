@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { KdsButton } from './KdsButton';
 
 const meta: Meta<typeof KdsButton> = {
-  title: 'Core/KdsButton',
+  title: 'Components/Actions/KdsButton',
   component: KdsButton,
   tags: ['autodocs'],
   decorators: [

@@ -4,7 +4,7 @@ import { KdsCheckbox } from './KdsCheckbox';
 import { borderRadius, borders, fontWeights, spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsCheckbox> = {
-  title: 'Core/KdsCheckbox',
+  title: 'Components/Form Inputs/KdsCheckbox',
   component: KdsCheckbox,
   tags: ['autodocs'],
   argTypes: {

@@ -22,7 +22,7 @@ import { KdsQrRow } from '../KdsQrRow';
  * @css .kds-bank-list
  */
 const meta: Meta<typeof KdsBankList> = {
-  title: 'Domain/KdsBankList',
+  title: 'Domain/Banking/KdsBankList',
   component: KdsBankList,
   tags: ['autodocs'],
   parameters: {

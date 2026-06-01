@@ -3,7 +3,7 @@ import { KdsChip } from './KdsChip';
 import { spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsChip> = {
-  title: 'Core/KdsChip',
+  title: 'Components/Data Display/KdsChip',
   component: KdsChip,
   tags: ['autodocs'],
   argTypes: {

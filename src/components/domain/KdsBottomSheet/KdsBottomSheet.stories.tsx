@@ -11,7 +11,7 @@ import { KdsButton } from '../../core/KdsButton';
  * close button (X), y prevención de cierre al click adentro.
  */
 const meta: Meta<typeof KdsBottomSheet> = {
-  title: 'Domain/KdsBottomSheet',
+  title: 'Components/Overlays/KdsBottomSheet',
   component: KdsBottomSheet,
   tags: ['autodocs'],
   parameters: {

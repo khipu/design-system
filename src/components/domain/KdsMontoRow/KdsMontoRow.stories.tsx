@@ -17,7 +17,7 @@ import { KdsMontoRow } from './KdsMontoRow';
  * @gsp `_manualVerifyChileMaterial.gsp`, `_manualVerifyDefaultMaterial.gsp` — Screen 4 del flow
  */
 const meta: Meta<typeof KdsMontoRow> = {
-  title: 'Domain/KdsMontoRow',
+  title: 'Domain/Amount/KdsMontoRow',
   component: KdsMontoRow,
   tags: ['autodocs'],
   parameters: {

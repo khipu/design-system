@@ -18,7 +18,7 @@ import { KdsPaymentTotal } from './KdsPaymentTotal';
  * **Decimal:** la parte tras el `.` se renderiza como `<sup>` con 0.5em.
  */
 const meta: Meta<typeof KdsPaymentTotal> = {
-  title: 'Domain/KdsPaymentTotal',
+  title: 'Domain/Amount/KdsPaymentTotal',
   component: KdsPaymentTotal,
   tags: ['autodocs'],
   parameters: {

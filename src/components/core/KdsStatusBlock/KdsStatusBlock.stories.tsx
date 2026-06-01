@@ -3,7 +3,7 @@ import { KdsStatusBlock } from './KdsStatusBlock';
 import { spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsStatusBlock> = {
-  title: 'Core/KdsStatusBlock',
+  title: 'Components/Feedback/KdsStatusBlock',
   component: KdsStatusBlock,
   tags: ['autodocs'],
   argTypes: {

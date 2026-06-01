@@ -3,7 +3,7 @@ import { KdsAccordion, KdsAccordionSummary, KdsAccordionDetails } from './KdsAcc
 import { spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsAccordion> = {
-  title: 'Core/KdsAccordion',
+  title: 'Components/Containers/KdsAccordion',
   component: KdsAccordion,
   tags: ['autodocs'],
 };
