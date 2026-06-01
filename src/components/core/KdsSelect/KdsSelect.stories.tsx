@@ -17,7 +17,7 @@ import { KdsSelect } from './KdsSelect';
  * - `required`, `disabled`, `value`, `onChange` — props nativas de `<select>`
  */
 const meta: Meta<typeof KdsSelect> = {
-  title: 'Core/KdsSelect',
+  title: 'Components/Form Inputs/KdsSelect',
   component: KdsSelect,
   tags: ['autodocs'],
   decorators: [(Story) => <div style={{ width: 320 }}><Story /></div>],

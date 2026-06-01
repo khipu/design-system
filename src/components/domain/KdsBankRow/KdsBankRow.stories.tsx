@@ -23,7 +23,7 @@ import { KdsBankRow } from './KdsBankRow';
  * @css .kds-bank-row, .kds-bank-row-logo, .kds-bank-row-name, .kds-bank-row.selected
  */
 const meta: Meta<typeof KdsBankRow> = {
-  title: 'Domain/KdsBankRow',
+  title: 'Domain/Banking/KdsBankRow',
   component: KdsBankRow,
   tags: ['autodocs'],
   parameters: {

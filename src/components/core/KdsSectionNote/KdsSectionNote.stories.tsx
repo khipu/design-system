@@ -3,7 +3,7 @@ import { KdsSectionNote } from './KdsSectionNote';
 import { spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsSectionNote> = {
-  title: 'Core/KdsSectionNote',
+  title: 'Components/Feedback/KdsSectionNote',
   component: KdsSectionNote,
   tags: ['autodocs'],
 };

@@ -4,7 +4,7 @@ import { KdsSegmentedTabs } from './KdsSegmentedTabs';
 import { KdsTab, KdsTabPanel } from '../KdsTabs';
 
 const meta: Meta<typeof KdsSegmentedTabs> = {
-  title: 'Core/KdsSegmentedTabs',
+  title: 'Components/Navigation/KdsSegmentedTabs',
   component: KdsSegmentedTabs,
   tags: ['autodocs'],
   parameters: {

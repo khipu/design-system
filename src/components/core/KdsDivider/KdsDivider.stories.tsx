@@ -3,7 +3,7 @@ import { KdsDivider } from './KdsDivider';
 import { spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsDivider> = {
-  title: 'Core/KdsDivider',
+  title: 'Components/Data Display/KdsDivider',
   component: KdsDivider,
   tags: ['autodocs'],
   argTypes: {

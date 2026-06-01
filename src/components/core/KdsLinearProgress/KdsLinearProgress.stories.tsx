@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { KdsLinearProgress } from './KdsLinearProgress';
 
 const meta: Meta<typeof KdsLinearProgress> = {
-  title: 'Core/KdsLinearProgress',
+  title: 'Components/Feedback/KdsLinearProgress',
   component: KdsLinearProgress,
   tags: ['autodocs'],
 };

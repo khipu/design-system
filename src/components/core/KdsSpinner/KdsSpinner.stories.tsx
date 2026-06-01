@@ -4,7 +4,7 @@ import { KdsButton } from '../KdsButton';
 import { colors, fontSizes, borderRadius, spacing, borders } from '../../../tokens';
 
 const meta: Meta<typeof KdsSpinner> = {
-  title: 'Core/KdsSpinner',
+  title: 'Components/Feedback/KdsSpinner',
   component: KdsSpinner,
   tags: ['autodocs'],
   argTypes: {

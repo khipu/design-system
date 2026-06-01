@@ -27,7 +27,7 @@ import { spacing } from '../../../tokens';
  * - `icon` omitido → usa el default por severity
  */
 const meta: Meta<typeof KdsAlert> = {
-  title: 'Core/KdsAlert',
+  title: 'Components/Feedback/KdsAlert',
   component: KdsAlert,
   tags: ['autodocs'],
   parameters: {

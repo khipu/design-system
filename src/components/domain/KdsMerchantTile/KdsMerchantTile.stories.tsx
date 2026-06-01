@@ -21,7 +21,7 @@ import { KdsMerchantTile } from './KdsMerchantTile';
  * Ver `Patterns/CSS-only → MerchantHeader`.
  */
 const meta: Meta<typeof KdsMerchantTile> = {
-  title: 'Domain/KdsMerchantTile',
+  title: 'Domain/Payment Identity/KdsMerchantTile',
   component: KdsMerchantTile,
   tags: ['autodocs'],
   parameters: {

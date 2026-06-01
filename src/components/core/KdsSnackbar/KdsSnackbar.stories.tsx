@@ -21,7 +21,7 @@ import { KdsButton } from '../KdsButton';
  * @gsp `_paymentFlashSnackbars.gsp` + `khipu-init.js → initFlashMessages()` (close button + auto-dismiss)
  */
 const meta: Meta<typeof KdsSnackbar> = {
-  title: 'Core/KdsSnackbar',
+  title: 'Components/Feedback/KdsSnackbar',
   component: KdsSnackbar,
   tags: ['autodocs'],
   // Override position:fixed para que se vea dentro del preview area de Storybook.
