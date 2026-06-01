@@ -177,3 +177,61 @@ export const OptionDisabled: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — `<select>` nativo dentro del patrón
+ * `field label border`. BeerCSS dibuja el chevron, floating label y focus
+ * ring automáticamente; el truco floating-label funciona porque la primera
+ * `<option value="">` actúa como placeholder. Modificadores combinables con
+ * `.field.label.border`: `.prefix` (icon antes), `.invalid`/`.valid`/`.info`/`.warning`.
+ *
+ * Ver `Patterns/CSS-only → Select` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="field label border">
+  <select id="bank" name="bank" required>
+    <option value="">Selecciona tu banco</option>
+    <option value="bci">BCI</option>
+    <option value="santander">Santander</option>
+    <option value="estado">Banco Estado</option>
+    <option value="chile">Banco de Chile</option>
+  </select>
+  <label for="bank">Banco *</label>
+  <span class="helper">Te enviaremos la confirmación aquí</span>
+</div>
+
+<!-- Variante con prefix icon + estado inválido -->
+<div class="field label border prefix invalid">
+  <i class="material-symbols-outlined">account_balance</i>
+  <select id="bank-err" name="bank">
+    <option value="">Selecciona tu banco</option>
+    <option value="bci">BCI</option>
+  </select>
+  <label for="bank-err">Banco</label>
+  <span class="helper">Debes seleccionar un banco</span>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="field label border">
+        <select id="bank-html" name="bank" required defaultValue="">
+          <option value="">Selecciona tu banco</option>
+          <option value="bci">BCI</option>
+          <option value="santander">Santander</option>
+          <option value="estado">Banco Estado</option>
+          <option value="chile">Banco de Chile</option>
+        </select>
+        <label htmlFor="bank-html">Banco *</label>
+        <span className="helper">Te enviaremos la confirmación aquí</span>
+      </div>
+    </div>
+  ),
+};

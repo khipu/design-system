@@ -235,3 +235,61 @@ export const LongContent: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — estructura del sheet (scrim + panel + slots).
+ * Show/hide es JS-driven (Radix Dialog maneja portal/focus-trap/ESC); en
+ * contextos sin Radix, togglear la clase `.open` en `.kds-bottom-sheet-scrim`
+ * la muestra/oculta. La clase `.open` SIEMPRE debe estar presente al renderizar
+ * (sin ella el scrim queda `display: none`). El grabber, close button, title,
+ * description y actions son todos slots opcionales.
+ *
+ * Ver `Patterns/CSS-only → BottomSheet` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-bottom-sheet-scrim open">
+  <div class="kds-bottom-sheet" role="dialog" aria-modal="true">
+    <div class="kds-bottom-sheet-grabber" aria-hidden="true"></div>
+    <button type="button" class="kds-bottom-sheet-close" aria-label="Cerrar">
+      <i class="material-symbols-outlined">close</i>
+    </button>
+    <h2 class="kds-bottom-sheet-title">Confirmar acción</h2>
+    <p class="kds-bottom-sheet-description">Revisa los datos antes de proceder.</p>
+    <div class="kds-bottom-sheet-body">
+      <p>¿Deseas confirmar esta acción? Esta operación no se puede deshacer.</p>
+    </div>
+    <div class="kds-bottom-sheet-actions">
+      <button type="button" class="kds-btn kds-btn-primary">Confirmar</button>
+      <button type="button" class="kds-btn-ghost">Cancelar</button>
+    </div>
+  </div>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-bottom-sheet" role="dialog" aria-modal="true">
+        <div className="kds-bottom-sheet-grabber" aria-hidden="true" />
+        <button type="button" className="kds-bottom-sheet-close" aria-label="Cerrar">
+          <i className="material-symbols-outlined">close</i>
+        </button>
+        <h2 className="kds-bottom-sheet-title">Confirmar acción</h2>
+        <p className="kds-bottom-sheet-description">Revisa los datos antes de proceder.</p>
+        <div className="kds-bottom-sheet-body">
+          <p>¿Deseas confirmar esta acción? Esta operación no se puede deshacer.</p>
+        </div>
+        <div className="kds-bottom-sheet-actions">
+          <button type="button" className="kds-btn kds-btn-primary">Confirmar</button>
+          <button type="button" className="kds-btn-ghost">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  ),
+};

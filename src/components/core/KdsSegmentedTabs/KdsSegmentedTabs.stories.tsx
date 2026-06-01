@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsSegmentedTabs } from './KdsSegmentedTabs';
@@ -96,4 +97,59 @@ export const WithPanels: Story = {
       </div>
     );
   },
+};
+
+/**
+ * Markup HTML plano (BeerCSS) — `KdsSegmentedTabs` es alias semántico de
+ * `KdsTabs`, comparte la misma clase `.kds-segmented-tabs` y el mismo markup.
+ * El pill animado lo dibuja `::before` usando `--_tab-count` y `--_active-idx`.
+ * Switching del active requiere JS (toggle de `.active` + `aria-selected` +
+ * recálculo de `--_active-idx`); abajo se muestra el primer tab activo.
+ *
+ * Ver `Patterns/CSS-only → Tabs` para spec completa (misma clase).
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div
+  class="kds-segmented-tabs"
+  role="tablist"
+  style="--_tab-count: 3; --_active-idx: 0"
+>
+  <button type="button" class="active" role="tab" aria-selected="true" tabindex="0">
+    TRANSFERENCIA
+  </button>
+  <button type="button" role="tab" aria-selected="false" tabindex="-1">
+    QR
+  </button>
+  <button type="button" role="tab" aria-selected="false" tabindex="-1">
+    TARJETA
+  </button>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div
+        className="kds-segmented-tabs"
+        role="tablist"
+        style={{ '--_tab-count': 3, '--_active-idx': 0 } as React.CSSProperties}
+      >
+        <button type="button" className="active" role="tab" aria-selected={true} tabIndex={0}>
+          TRANSFERENCIA
+        </button>
+        <button type="button" role="tab" aria-selected={false} tabIndex={-1}>
+          QR
+        </button>
+        <button type="button" role="tab" aria-selected={false} tabIndex={-1}>
+          TARJETA
+        </button>
+      </div>
+    </div>
+  ),
 };
