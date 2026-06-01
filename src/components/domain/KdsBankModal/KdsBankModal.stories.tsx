@@ -183,3 +183,87 @@ export const EmptyState: Story = {
     );
   },
 };
+
+/**
+ * Markup HTML plano (BeerCSS) — scrim + modal + header + search + body con
+ * lista de bancos. Show/hide es JS-driven (Radix Dialog maneja portal/focus-
+ * trap/ESC); en contextos sin Radix, togglear `.open` en `.kds-bank-modal-scrim`
+ * la muestra/oculta. La búsqueda es markup puro (`<input>`); el filtrado real
+ * es responsabilidad del JS del consumidor. El estado vacío usa
+ * `.kds-bank-modal-empty.visible` cuando no hay matches.
+ *
+ * Ver `Patterns/CSS-only → BankModal` para spec completa.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-bank-modal-scrim open">
+  <div class="kds-bank-modal" role="dialog" aria-modal="true">
+    <div class="kds-bank-modal-header">
+      <h3>Selecciona tu banco</h3>
+      <button type="button" class="kds-bank-modal-close" aria-label="Cerrar">
+        <i class="material-symbols-outlined">close</i>
+      </button>
+    </div>
+    <div class="kds-bank-modal-search">
+      <input type="text" placeholder="Buscar banco..." />
+    </div>
+    <div class="kds-bank-modal-body">
+      <div class="kds-bank-list" role="list">
+        <button type="button" class="kds-bank-row">
+          <span class="kds-bank-row-logo"><span class="initials">B</span></span>
+          <span class="kds-bank-row-name">Banco Estado</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+        <button type="button" class="kds-bank-row">
+          <span class="kds-bank-row-logo"><span class="initials">B</span></span>
+          <span class="kds-bank-row-name">Banco BCI</span>
+          <i class="material-symbols-outlined">chevron_right</i>
+        </button>
+      </div>
+      <!-- Estado vacío (visible cuando no hay matches) -->
+      <p class="kds-bank-modal-empty">No se encontraron resultados</p>
+    </div>
+  </div>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-bank-modal" role="dialog" aria-modal="true">
+        <div className="kds-bank-modal-header">
+          <h3>Selecciona tu banco</h3>
+          <button type="button" className="kds-bank-modal-close" aria-label="Cerrar">
+            <i className="material-symbols-outlined">close</i>
+          </button>
+        </div>
+        <div className="kds-bank-modal-search">
+          <input type="text" placeholder="Buscar banco..." />
+        </div>
+        <div className="kds-bank-modal-body">
+          <div className="kds-bank-list" role="list">
+            <button type="button" className="kds-bank-row">
+              <span className="kds-bank-row-logo">
+                <span className="initials">B</span>
+              </span>
+              <span className="kds-bank-row-name">Banco Estado</span>
+              <i className="material-symbols-outlined">chevron_right</i>
+            </button>
+            <button type="button" className="kds-bank-row">
+              <span className="kds-bank-row-logo">
+                <span className="initials">B</span>
+              </span>
+              <span className="kds-bank-row-name">Banco BCI</span>
+              <i className="material-symbols-outlined">chevron_right</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
+};
