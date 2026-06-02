@@ -154,6 +154,79 @@ export const AllVariants: Story = {
   ),
 };
 
+/**
+ * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
+ * Las clases `kds-text-*` son la fuente de verdad; el componente React solo las envuelve.
+ *
+ * Contrato HTML — cada variante mapea a su elemento semántico + clase:
+ * ```html
+ * <h1 class="kds-text-display1">Display 1</h1>
+ * <h3 class="kds-text-heading3">Heading 3</h3>
+ * <p class="kds-text-body">Body</p>
+ * <span class="kds-text-label">Label</span>
+ * <a class="kds-text-link" href="#">Link</a>
+ * ```
+ *
+ * Variantes: `kds-text-display1/2`, `kds-text-heading1/2/3`,
+ * `kds-text-body-large/body/body-small`, `kds-text-label/label-small`,
+ * `kds-text-muted`, `kds-text-link`.
+ *
+ * Color (modificador adicional): `kds-text-primary`, `kds-text-secondary`,
+ * `kds-text-muted`, `kds-text-error`, `kds-text-success`.
+ */
+export const HtmlMarkup: Story = {
+  name: 'HTML markup',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<!-- Display -->
+<h1 class="kds-text-display1">Display 1</h1>
+<h2 class="kds-text-display2">Display 2</h2>
+
+<!-- Headings -->
+<h1 class="kds-text-heading1">Heading 1</h1>
+<h2 class="kds-text-heading2">Heading 2</h2>
+<h3 class="kds-text-heading3">Heading 3</h3>
+
+<!-- Body -->
+<p class="kds-text-body-large">Body Large</p>
+<p class="kds-text-body">Body</p>
+<p class="kds-text-body-small">Body Small</p>
+
+<!-- Labels -->
+<span class="kds-text-label">Label</span>
+<span class="kds-text-label-small">Label Small</span>
+
+<!-- Semantic -->
+<p class="kds-text-muted">Muted</p>
+<a class="kds-text-link" href="#">Link</a>
+
+<!-- Color (modificador) -->
+<p class="kds-text-body kds-text-error">Body en color error</p>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: 480 }}>
+      <h1 className="kds-text-display1">Display 1</h1>
+      <h2 className="kds-text-display2">Display 2</h2>
+      <h1 className="kds-text-heading1">Heading 1</h1>
+      <h2 className="kds-text-heading2">Heading 2</h2>
+      <h3 className="kds-text-heading3">Heading 3</h3>
+      <p className="kds-text-body-large">Body Large</p>
+      <p className="kds-text-body">Body</p>
+      <p className="kds-text-body-small">Body Small</p>
+      <span className="kds-text-label">Label</span>
+      <span className="kds-text-label-small">Label Small</span>
+      <p className="kds-text-muted">Muted</p>
+      <a className="kds-text-link" href="#">Link</a>
+      <p className="kds-text-body kds-text-error">Body en color error</p>
+    </div>
+  ),
+};
+
 export const RealWorldExample: Story = {
   render: () => (
     <div style={{ maxWidth: 390, backgroundColor: colors.background.paper, padding: '24px', borderRadius: '8px' }}>
