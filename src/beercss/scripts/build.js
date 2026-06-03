@@ -62,6 +62,50 @@ function writeFile(filePath, content) {
 }
 
 /**
+ * Scope class for the coexistence build. Every BeerCSS selector is nested under
+ * this class so the global Material Design 3 reset (`*`, `body`, `button`, ...)
+ * only applies inside KDS-rendered subtrees (`<KdsThemeProvider>` renders a
+ * `<div class="kds-theme-root">`). Lets KDS coexist with a host framework
+ * (e.g. Material-UI in khenshin-web) without restyling the whole page.
+ */
+const SCOPE_CLASS = '.kds-theme-root';
+
+/**
+ * Rewrite a single CSS selector so it only matches inside SCOPE_CLASS.
+ * - `:root` / `html` / `body` (and compounds like `body.dark`) map onto the
+ *   scope root itself, so CSS variables and base styles land on the wrapper.
+ * - `*` covers the scope root and all of its descendants.
+ * - everything else becomes a descendant of the scope.
+ */
+function scopeSelector(selector, scope) {
+    const s = selector.trim();
+    if (!s) return s;
+    if (s === '*') return `${scope}, ${scope} *`;
+    const rootToken = s.match(/^(:root|html|body)\b/);
+    if (rootToken) return scope + s.slice(rootToken[0].length);
+    return `${scope} ${s}`;
+}
+
+/**
+ * PostCSS plugin: prefix every rule with SCOPE_CLASS, leaving @keyframes frame
+ * selectors (`from`, `to`, `50%`) and @font-face descriptors untouched.
+ */
+function scopePlugin(scope) {
+    return {
+        postcssPlugin: 'kds-scope-selectors',
+        Once(root) {
+            root.walkRules((rule) => {
+                for (let p = rule.parent; p; p = p.parent) {
+                    if (p.type === 'atrule' && /keyframes$/i.test(p.name)) return;
+                }
+                rule.selectors = rule.selectors.map((sel) => scopeSelector(sel, scope));
+            });
+        },
+    };
+}
+scopePlugin.postcss = true;
+
+/**
  * Build CSS bundle
  */
 async function buildCSS() {
@@ -102,6 +146,24 @@ async function buildCSS() {
     console.log(`   Original size: ${(combinedCSS.length / 1024).toFixed(2)} KB`);
     console.log(`   Minified size: ${(minifiedCSS.length / 1024).toFixed(2)} KB`);
     console.log(`   Saved: ${((1 - minifiedCSS.length / combinedCSS.length) * 100).toFixed(1)}%`);
+
+    // --- Scoped variant (additive) for coexistence with a host CSS framework ---
+    // Same bundle, every selector nested under SCOPE_CLASS. Consumers that still
+    // run another framework (e.g. MUI in khenshin-web) load THIS file so KDS
+    // styles apply only inside <div class="kds-theme-root"> and leave the rest
+    // of the page untouched. The global bundle above is unchanged.
+    console.log(`\n🔧 Building scoped variant (${SCOPE_CLASS})...`);
+    const scopedResult = await postcss([scopePlugin(SCOPE_CLASS)]).process(combinedCSS, { from: undefined });
+    const scopedCSS = `/* Khipu BeerCSS Bundle - Scoped under ${SCOPE_CLASS} (coexistence build) */\n\n` + scopedResult.css;
+    writeFile(path.join(OUTPUT_DIR, 'khipu-beercss.scoped.css'), scopedCSS);
+
+    const scopedMinResult = await postcss([cssnano({
+        preset: ['default', {
+            discardComments: { removeAll: true }
+        }]
+    })]).process(scopedCSS, { from: undefined });
+    writeFile(path.join(OUTPUT_DIR, 'khipu-beercss.scoped.min.css'), scopedMinResult.css);
+    console.log(`   Scoped minified size: ${(scopedMinResult.css.length / 1024).toFixed(2)} KB`);
 }
 
 /**
@@ -186,11 +248,15 @@ function generateMetadata() {
         files: {
             css: 'khipu-beercss.min.css',
             cssUnminified: 'khipu-beercss.css',
+            cssScoped: 'khipu-beercss.scoped.min.css',
+            cssScopedUnminified: 'khipu-beercss.scoped.css',
             js: 'khipu-beercss.min.js',
             jsUnminified: 'khipu-beercss.js'
         },
+        scopeClass: SCOPE_CLASS,
         cdn: {
             css: `https://cdn.jsdelivr.net/npm/@khipu/design-system@${packageJson.version}/dist/beercss/khipu-beercss.min.css`,
+            cssScoped: `https://cdn.jsdelivr.net/npm/@khipu/design-system@${packageJson.version}/dist/beercss/khipu-beercss.scoped.min.css`,
             js: `https://cdn.jsdelivr.net/npm/@khipu/design-system@${packageJson.version}/dist/beercss/khipu-beercss.min.js`
         }
     };
