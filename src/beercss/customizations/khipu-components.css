@@ -105,7 +105,7 @@ a.kds-btn:disabled {
 button.kds-btn-primary,
 a.kds-btn-primary {
     background: var(--kds-color-primary-main);     /* #8347AD */
-    color: white;
+    color: var(--kds-color-primary-contrast);      /* #FFF light / dark-purple on dark (lavender bg) */
     border: none;
     box-shadow: 0 1px 2px rgba(131, 71, 173, .25);
 }
@@ -467,7 +467,7 @@ a.kds-btn.kds-btn-md {
     align-self: flex-start;
     padding: var(--kds-spacing-0-5) var(--kds-spacing-1-5);
     background: var(--primary);
-    color: white;
+    color: var(--kds-color-primary-contrast);    /* contrast adapts: #FFF light / dark on dark */
     font-size: var(--kds-font-size-xs);
     font-weight: var(--kds-font-weight-semibold);
     line-height: 1;
@@ -1723,7 +1723,8 @@ footer.primary a:hover {
 /* === VARIABLES GLOBALES === */
 :root,
 body.light,
-body.dark {
+body.dark,
+[data-theme="dark"] {
   --primary: var(--kds-color-primary-main);          /* Purple Khipu - Focus */
   --outline: var(--kds-color-input-enabled-border);  /* Gris normal - Unfocused */
   --error: var(--kds-color-error-main);              /* Rojo - Invalid */

@@ -67,11 +67,33 @@ const khipuDarkTheme = create({
 
 function StoryDecorator({ Story }: { Story: React.ComponentType }) {
   const isDark = useDarkMode();
-  const modeColors = colorsByMode[isDark ? 'dark' : 'light'];
+  const mode = isDark ? 'dark' : 'light';
+
+  // Drive the [data-theme] contract on the document root + body so BeerCSS body
+  // styles and component CSS re-theme, not just the wrapper. The `dark` class is
+  // kept transitionally for any CSS still keyed on body.dark (removed once the
+  // bridge migration is complete).
+  React.useEffect(() => {
+    const targets = [document.documentElement, document.body];
+    targets.forEach((el) => {
+      el.setAttribute('data-theme', mode);
+      el.classList.toggle('dark', isDark);
+      el.classList.toggle('light', !isDark);
+    });
+    return () => {
+      targets.forEach((el) => {
+        el.removeAttribute('data-theme');
+        el.classList.remove('dark', 'light');
+      });
+    };
+  }, [mode, isDark]);
 
   return (
-    <div className={`kds-theme-root ${isDark ? 'dark' : ''}`}
-         style={{ backgroundColor: modeColors.background.default, minHeight: '100%' }}>
+    <div
+      data-theme={mode}
+      className={`kds-theme-root ${isDark ? 'dark' : 'light'}`}
+      style={{ backgroundColor: 'var(--kds-color-background-default)', minHeight: '100%' }}
+    >
       <Story />
     </div>
   );

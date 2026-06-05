@@ -521,9 +521,39 @@ function generateTransitionVariables(transitions) {
 }
 
 /**
+ * Render a list of variables into the body of a CSS rule block.
+ * Skips entries whose value is undefined/null so a color set that lacks a key
+ * (e.g. dark mode has no primary.states.outlinedBorderLight) never emits a
+ * literal `undefined`. `indent` is the leading whitespace per line.
+ */
+function renderVariableLines(variables, indent) {
+  let css = '';
+  let lastHadComment = false;
+  for (const variable of variables) {
+    // Comment-only entries (section dividers)
+    if (variable.comment && !variable.name) {
+      if (!lastHadComment) css += '\n';
+      css += `${indent}/* ${variable.comment} */\n`;
+      lastHadComment = true;
+      continue;
+    }
+    if (!variable.name) continue;
+    // Drop variables with no resolved value (e.g. keys absent in a mode)
+    if (variable.value === undefined || variable.value === null) continue;
+    if (variable.comment) {
+      if (!lastHadComment) css += '\n';
+      css += `${indent}/* ${variable.comment} */\n`;
+    }
+    css += `${indent}${variable.name}: ${variable.value};\n`;
+    lastHadComment = false;
+  }
+  return css;
+}
+
+/**
  * Format CSS variables into :root declaration
  */
-function formatCSSVariables(sections, responsiveSections = []) {
+function formatCSSVariables(sections, responsiveSections = [], darkColorVariables = []) {
   let css = `/**
  * Khipu Design System - CSS Custom Properties
  * Use these variables for runtime theming and CSS-based styling
@@ -574,6 +604,21 @@ function formatCSSVariables(sections, responsiveSections = []) {
   }
 
   css += '}\n';
+
+  // Dark mode color overrides. Additive: emitted AFTER :root so equal-specificity
+  // rules win by source order. Only colors are overridden; spacing/typography/etc.
+  // are inherited from :root. Drives the [data-theme="dark"] contract used by
+  // KdsThemeProvider and the Storybook toggle.
+  if (darkColorVariables.length > 0) {
+    css += '\n/* ============================================================================\n';
+    css += '   DARK MODE COLOR TOKENS\n';
+    css += '   Override only color variables; everything else inherits from :root.\n';
+    css += '   Activated via [data-theme="dark"] on <html>, <body>, or a wrapper.\n';
+    css += '   ============================================================================ */\n\n';
+    css += '[data-theme="dark"] {\n';
+    css += renderVariableLines(darkColorVariables, '  ');
+    css += '}\n';
+  }
 
   // Add responsive sections with media queries (Mobile-First)
   if (responsiveSections.length > 0) {
@@ -717,7 +762,14 @@ responsiveSections.push({
   variables: [...respBaseFontSizes.desktop, ...respTypography.desktop],
 });
 
-const cssContent = formatCSSVariables(sections, responsiveSections);
+// Dark mode color variables (same generator as light, dark values).
+// tokens.colorsDark is exported by export-tokens-json.js; guard for older
+// tokens.json so regeneration never crashes if dark data is absent.
+const darkColorVariables = tokens.colorsDark
+  ? generateColorVariables(tokens.colorsDark)
+  : [];
+
+const cssContent = formatCSSVariables(sections, responsiveSections, darkColorVariables);
 
 // Write to src/tokens/css-variables.css
 const outputPath = path.join(__dirname, '../src/tokens/css-variables.css');

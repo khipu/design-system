@@ -9,7 +9,8 @@
 
 :root,
 body.light,
-body.dark {
+body.dark,
+[data-theme="dark"] {
     /* ========================================
        Map core tokens to BeerCSS-specific names
        (BeerCSS may use different naming conventions)
@@ -210,23 +211,22 @@ body.dark {
 }
 
 /* ========================================
-   Force Light Mode Only
+   Color Scheme (explicit opt-in to dark)
    ======================================== */
 
-/* Force light mode - disable dark mode */
+/* Default to light regardless of OS preference. Because we use `light` (not
+   `light dark`), the system dark-mode preference never auto-applies — dark is
+   reached only by an explicit [data-theme="dark"] / body.dark opt-in. */
 :root,
 html,
 body {
-    color-scheme: light only;
+    color-scheme: light;
 }
 
-/* Override system dark mode preference */
-@media (prefers-color-scheme: dark) {
-    :root,
-    html,
-    body {
-        color-scheme: light only;
-    }
+/* Explicit dark theme: let native UI (form controls, scrollbars) render dark. */
+[data-theme="dark"],
+body.dark {
+    color-scheme: dark;
 }
 
 /* ========================================
