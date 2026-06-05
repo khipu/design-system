@@ -20,11 +20,16 @@ if (!fs.existsSync(tokensPath)) {
   process.exit(1);
 }
 
-const { tokens } = require(tokensPath);
+const { tokens, tokensByMode } = require(tokensPath);
 
 // Convert tokens to simplified JSON structure for generation
 const jsonTokens = {
   colors: tokens.colors,
+  // Dark mode color set (dark palette + shared semantic colors), mirroring the
+  // shape of `colors` above. Additive: consumed only to emit the
+  // [data-theme="dark"] block; the light `colors` set is left untouched so the
+  // generated :root output never changes.
+  colorsDark: tokensByMode.dark.colors,
   typography: {
     fontFamilies: tokens.fontFamilies,
     fontWeights: tokens.fontWeights,
