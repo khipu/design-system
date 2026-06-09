@@ -5434,6 +5434,39 @@ a.kds-btn-success:disabled {
     box-shadow: none;
 }
 
+/* -- Button Warning (amber CTA) -- */
+button.kds-btn-warning,
+a.kds-btn-warning {
+    background: var(--kds-color-warning-main);
+    color: var(--kds-color-warning-contrast);
+    border: none;
+}
+
+button.kds-btn-warning:hover:not(:disabled),
+a.kds-btn-warning:hover:not(:disabled) {
+    background: var(--kds-color-warning-dark);
+}
+
+button.kds-btn-warning:active:not(:disabled),
+button.kds-btn-warning:focus-visible:not(:disabled),
+a.kds-btn-warning:active:not(:disabled),
+a.kds-btn-warning:focus-visible:not(:disabled) {
+    background: var(--kds-color-warning-dark);
+    outline: 2px solid var(--kds-color-warning-main);
+    outline-offset: 2px;
+}
+
+button.kds-btn-warning:disabled,
+a.kds-btn-warning:disabled {
+    background-color: var(--kds-color-action-disabled-bg);
+    color: var(--kds-color-action-disabled);
+    box-shadow: none;
+}
+
+button.kds-btn-warning::after {
+    display: none;
+}
+
 /* -- Field Helper Text -- */
 .kds-field-helper {
     font-size: var(--kds-font-size-xs);
