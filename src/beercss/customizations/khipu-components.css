@@ -214,6 +214,30 @@ a.kds-btn-text:disabled {
     box-shadow: none;
 }
 
+/* Error text (destructive, ghost) — red text, no fill/border. Para acciones
+   destructivas secundarias que no deben competir con el CTA primario. */
+button.kds-btn-error-text,
+a.kds-btn-error-text {
+    background: transparent;
+    color: var(--kds-color-error-main);
+    border: none;
+    padding: 6px var(--kds-spacing-2);
+    min-height: 32px;
+    box-shadow: none;
+}
+
+button.kds-btn-error-text:hover:not(:disabled),
+a.kds-btn-error-text:hover:not(:disabled) {
+    background: var(--kds-color-action-hover);
+}
+
+button.kds-btn-error-text:disabled,
+a.kds-btn-error-text:disabled {
+    background: transparent;
+    color: var(--kds-color-action-disabled);
+    box-shadow: none;
+}
+
 /* Icon wrapper - control size via span container */
 button.kds-btn > .kds-icon,
 a.kds-btn > .kds-icon {
