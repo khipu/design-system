@@ -86,6 +86,9 @@ function generateColorVariables(colors) {
       variables.push({ name: `--kds-color-${semantic}-main`, value: colors[semantic].main, comment: commentText });
       variables.push({ name: `--kds-color-${semantic}-light`, value: colors[semantic].light });
       variables.push({ name: `--kds-color-${semantic}-dark`, value: colors[semantic].dark });
+      if (colors[semantic].contrastText) {
+        variables.push({ name: `--kds-color-${semantic}-contrast`, value: colors[semantic].contrastText });
+      }
       for (const extraKey of extraSemanticKeys) {
         if (colors[semantic][extraKey]) {
           variables.push({ name: `--kds-color-${semantic}-${extraKey}`, value: colors[semantic][extraKey] });
