@@ -72,7 +72,10 @@ a.kds-btn {
 
     /* Interaction */
     cursor: pointer;
-    transition: background .15s, box-shadow .15s, transform .05s;
+    transition: background-color var(--kds-transition-shorter) var(--kds-easing-standard),
+                color var(--kds-transition-shorter) var(--kds-easing-standard),
+                box-shadow var(--kds-transition-shorter) var(--kds-easing-standard),
+                transform var(--kds-transition-shortest) var(--kds-easing-standard);
     box-sizing: border-box;
     vertical-align: middle;
 }
@@ -228,7 +231,7 @@ a.kds-btn-error-text {
 
 button.kds-btn-error-text:hover:not(:disabled),
 a.kds-btn-error-text:hover:not(:disabled) {
-    background: var(--kds-color-action-hover);
+    color: var(--kds-color-error-dark);
 }
 
 button.kds-btn-error-text:disabled,
