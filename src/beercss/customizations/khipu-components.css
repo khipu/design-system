@@ -5467,6 +5467,39 @@ button.kds-btn-warning::after {
     display: none;
 }
 
+/* -- Button Error (red / destructive CTA) -- */
+button.kds-btn-error,
+a.kds-btn-error {
+    background: var(--kds-color-error-main);
+    color: var(--kds-color-error-contrast);
+    border: none;
+}
+
+button.kds-btn-error:hover:not(:disabled),
+a.kds-btn-error:hover:not(:disabled) {
+    background: var(--kds-color-error-dark);
+}
+
+button.kds-btn-error:active:not(:disabled),
+button.kds-btn-error:focus-visible:not(:disabled),
+a.kds-btn-error:active:not(:disabled),
+a.kds-btn-error:focus-visible:not(:disabled) {
+    background: var(--kds-color-error-dark);
+    outline: 2px solid var(--kds-color-error-main);
+    outline-offset: 2px;
+}
+
+button.kds-btn-error:disabled,
+a.kds-btn-error:disabled {
+    background-color: var(--kds-color-action-disabled-bg);
+    color: var(--kds-color-action-disabled);
+    box-shadow: none;
+}
+
+button.kds-btn-error::after {
+    display: none;
+}
+
 /* -- Field Helper Text -- */
 .kds-field-helper {
     font-size: var(--kds-font-size-xs);
