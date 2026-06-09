@@ -154,7 +154,13 @@ async function buildCSS() {
     // of the page untouched. The global bundle above is unchanged.
     console.log(`\n🔧 Building scoped variant (${SCOPE_CLASS})...`);
     const scopedResult = await postcss([scopePlugin(SCOPE_CLASS)]).process(combinedCSS, { from: undefined });
-    const scopedCSS = `/* Khipu BeerCSS Bundle - Scoped under ${SCOPE_CLASS} (coexistence build) */\n\n` + scopedResult.css;
+    // Keep the scope wrapper layout-transparent. The body→SCOPE_CLASS mapping would
+    // otherwise impose page layout (display:flex column, min-height, bg) on every
+    // per-component wrapper and break the host's layout (e.g. MUI). `display:contents`
+    // drops the wrapper box while preserving CSS-variable inheritance + selector
+    // scoping. Appended last so it wins over the body-derived `${SCOPE_CLASS}{display:flex}`.
+    const layoutNeutral = `\n/* coexistence: scope wrapper must not impose layout on the host */\n${SCOPE_CLASS}{display:contents}\n`;
+    const scopedCSS = `/* Khipu BeerCSS Bundle - Scoped under ${SCOPE_CLASS} (coexistence build) */\n\n` + scopedResult.css + layoutNeutral;
     writeFile(path.join(OUTPUT_DIR, 'khipu-beercss.scoped.css'), scopedCSS);
 
     const scopedMinResult = await postcss([cssnano({
