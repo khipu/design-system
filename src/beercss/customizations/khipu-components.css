@@ -207,7 +207,7 @@ a.kds-btn-text {
 
 button.kds-btn-text:hover:not(:disabled),
 a.kds-btn-text:hover:not(:disabled) {
-    background: var(--kds-color-primary-hover);  /* rgba(131, 71, 173, 0.04) */
+    color: var(--kds-color-primary-dark);
 }
 
 button.kds-btn-text:disabled,
