@@ -12,7 +12,7 @@ import { clsx } from '../utils';
 // TYPES
 // =============================================================================
 
-export type KdsButtonVariant = 'primary' | 'secondary' | 'outlined' | 'outlined-white' | 'text' | 'success' | 'warning' | 'error';
+export type KdsButtonVariant = 'primary' | 'secondary' | 'outlined' | 'outlined-white' | 'text' | 'success' | 'warning' | 'error' | 'error-text';
 export type KdsButtonSize = 'sm' | 'md';
 
 export interface KdsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
