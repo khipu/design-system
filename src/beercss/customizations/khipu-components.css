@@ -1331,11 +1331,11 @@ a.kds-btn-google:disabled {
 /* Animate the filled value when it changes (e.g. advancing a step). BeerCSS
    sets the value background but no transition, so the width jumps abruptly. */
 .kds-progress::-webkit-progress-value {
-    transition: width var(--kds-transition-shorter) var(--kds-easing-standard);
+    transition: width var(--kds-transition-standard) var(--kds-easing-standard);
 }
 
 .kds-progress::-moz-progress-bar {
-    transition: width var(--kds-transition-shorter) var(--kds-easing-standard);
+    transition: width var(--kds-transition-standard) var(--kds-easing-standard);
 }
 
 /* ========================================
