@@ -1339,6 +1339,84 @@ a.kds-btn-google:disabled {
 }
 
 /* ========================================
+   KDS SECURE LOADER
+   Loader de espera: anillo circular + candado centrado + frases opcionales.
+   El anillo reutiliza el spinner circular de BeerCSS, escalado.
+   ======================================== */
+
+.kds-secure-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--kds-spacing-4);
+    text-align: center;
+}
+
+.kds-secure-loader-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1);
+}
+
+.kds-secure-loader-title {
+    margin: 0;
+    font-family: var(--kds-font-family-primary);
+    font-size: var(--kds-font-size-h6);
+    font-weight: var(--kds-font-weight-semibold);
+    line-height: var(--kds-line-height-snug);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-secure-loader-message {
+    margin: 0;
+    font-family: var(--kds-font-family-secondary);
+    font-size: var(--kds-font-size-body1);
+    line-height: var(--kds-line-height-normal);
+    color: var(--kds-color-primary-main);
+}
+
+/* Caja del spinner con tamaño fijo: la animación no altera el layout */
+.kds-secure-loader-spinner {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    inline-size: var(--kds-secure-loader-size, 7rem);
+    block-size: var(--kds-secure-loader-size, 7rem);
+}
+
+/* Anillo: SVG nativo con arco vía stroke-dasharray, rotando. Replica el
+   CircularProgress original (viewBox 44u, thickness 2, arco ~63%, disableShrink). */
+.kds-secure-loader-ring {
+    inline-size: var(--kds-secure-loader-size, 6.5rem);
+    block-size: var(--kds-secure-loader-size, 6.5rem);
+    animation: kds-secure-loader-spin 1.2s linear infinite;
+}
+
+.kds-secure-loader-ring circle {
+    fill: none;
+    stroke: var(--kds-color-primary-main);
+    stroke-width: 2;
+    stroke-linecap: round;
+    /* circunferencia ≈ 2π·20.2 ≈ 127; arco visible ≈ 80 (~63%) */
+    stroke-dasharray: 80 127;
+}
+
+@keyframes kds-secure-loader-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Candado centrado sobre el anillo */
+.kds-secure-loader-lock {
+    position: absolute;
+    color: var(--kds-color-text-secondary);
+    font-size: calc(var(--kds-secure-loader-size, 7rem) * 0.4);
+    pointer-events: none;
+}
+
+/* ========================================
    Link Styles
    ======================================== */
 
