@@ -28,6 +28,9 @@ export {
 // Spinner
 export { KdsSpinner, type KdsSpinnerProps, type KdsSpinnerSize } from './KdsSpinner';
 
+// SecureLoader
+export { KdsSecureLoader, type KdsSecureLoaderProps } from './KdsSecureLoader';
+
 // LinearProgress
 export { KdsLinearProgress, type KdsLinearProgressProps } from './KdsLinearProgress';
 
