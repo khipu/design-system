@@ -1380,20 +1380,20 @@ a.kds-btn-google:disabled {
 }
 
 /* Caja del spinner con tamaño fijo: la animación no altera el layout.
-   8.5rem (136px) iguala el tamaño visual del loader original. */
+   6.25rem (100px) = tamaño del loader original (CircularProgress size=100). */
 .kds-secure-loader-spinner {
     position: relative;
     display: inline-grid;
     place-items: center;
-    inline-size: var(--kds-secure-loader-size, 8.5rem);
-    block-size: var(--kds-secure-loader-size, 8.5rem);
+    inline-size: var(--kds-secure-loader-size, 6.25rem);
+    block-size: var(--kds-secure-loader-size, 6.25rem);
 }
 
 /* Anillo: SVG nativo con arco vía stroke-dasharray, rotando. Replica el
-   CircularProgress original (viewBox 44u, thickness 2 → ~6px, arco ~63%, disableShrink). */
+   CircularProgress original (viewBox 44u, thickness 2, arco ~63%, disableShrink). */
 .kds-secure-loader-ring {
-    inline-size: var(--kds-secure-loader-size, 8.5rem);
-    block-size: var(--kds-secure-loader-size, 8.5rem);
+    inline-size: var(--kds-secure-loader-size, 6.25rem);
+    block-size: var(--kds-secure-loader-size, 6.25rem);
     animation: kds-secure-loader-spin 1.2s linear infinite;
 }
 
@@ -1412,11 +1412,11 @@ a.kds-btn-google:disabled {
     }
 }
 
-/* Candado centrado sobre el anillo (~0.3 del diámetro ≈ 40px, como el original) */
+/* Candado centrado sobre el anillo (0.4 del diámetro ≈ 40px, como el original) */
 .kds-secure-loader-lock {
     position: absolute;
     color: var(--kds-color-text-secondary);
-    font-size: calc(var(--kds-secure-loader-size, 8.5rem) * 0.3);
+    font-size: calc(var(--kds-secure-loader-size, 6.25rem) * 0.4);
     pointer-events: none;
 }
 
