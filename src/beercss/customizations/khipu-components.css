@@ -1359,7 +1359,7 @@ a.kds-btn-google:disabled {
 .kds-secure-loader-text {
     display: flex;
     flex-direction: column;
-    gap: var(--kds-spacing-1);
+    gap: var(--kds-spacing-0-25);
 }
 
 .kds-secure-loader-title {
@@ -1412,11 +1412,16 @@ a.kds-btn-google:disabled {
     }
 }
 
-/* Candado centrado sobre el anillo (0.4 del diámetro ≈ 40px, como el original) */
+/* Candado centrado sobre el anillo (~0.3 del diámetro). Centrado explícito
+   (top/left 50% + translate) para que no dependa del grid ni se recorte. */
 .kds-secure-loader-lock {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: var(--kds-color-text-secondary);
-    font-size: calc(var(--kds-secure-loader-size, 6.25rem) * 0.4);
+    font-size: calc(var(--kds-secure-loader-size, 6.25rem) * 0.3);
+    line-height: 1;
     pointer-events: none;
 }
 
