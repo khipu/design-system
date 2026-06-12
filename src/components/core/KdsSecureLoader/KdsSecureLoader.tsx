@@ -29,8 +29,17 @@ export const KdsSecureLoader = forwardRef<HTMLDivElement, KdsSecureLoaderProps>(
         </div>
       )}
       <div className="kds-secure-loader-spinner">
-        <svg className="kds-secure-loader-ring" viewBox="22 22 44 44" aria-hidden="true">
-          <circle cx="44" cy="44" r="20.2" />
+        {/* width/height/fill como fallback antes de que cargue el CSS (evita
+            que el SVG aparezca como un círculo negro grande — FOUC). */}
+        <svg
+          className="kds-secure-loader-ring"
+          viewBox="22 22 44 44"
+          width="100"
+          height="100"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle cx="44" cy="44" r="20.2" fill="none" />
         </svg>
         <i className="material-symbols-outlined kds-secure-loader-lock" aria-hidden="true">
           lock
