@@ -31,6 +31,9 @@ export { KdsSpinner, type KdsSpinnerProps, type KdsSpinnerSize } from './KdsSpin
 // SecureLoader
 export { KdsSecureLoader, type KdsSecureLoaderProps } from './KdsSecureLoader';
 
+// CopyButton
+export { KdsCopyButton, type KdsCopyButtonProps } from './KdsCopyButton';
+
 // LinearProgress
 export { KdsLinearProgress, type KdsLinearProgressProps } from './KdsLinearProgress';
 
