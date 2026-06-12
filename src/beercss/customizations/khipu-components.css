@@ -3829,6 +3829,12 @@ dialog#surveyModal button.circle {
     color: var(--kds-color-primary-dark, #5B3179);
 }
 
+/* Inline emphasis: bold weight only, inherits size/color/family from context so it
+   works as a highlighted fragment inside any other variant (body, heading, etc.). */
+.kds-text-strong {
+    font-weight: var(--kds-font-weight-bold, 700);
+}
+
 /* Display utilities */
 .kds-hidden {
     display: none;

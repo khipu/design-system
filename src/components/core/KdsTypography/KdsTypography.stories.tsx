@@ -14,7 +14,7 @@ const meta: Meta<typeof KdsTypography> = {
         'heading1', 'heading2', 'heading3',
         'body-large', 'body', 'body-small',
         'label', 'label-small',
-        'muted', 'link',
+        'muted', 'link', 'strong',
       ],
     },
     color: {
@@ -98,6 +98,35 @@ export const SemanticVariants: Story = {
   ),
 };
 
+/**
+ * `strong` is an inline-emphasis variant: bold weight only, inheriting font-size and
+ * color from its surrounding text. Use it (as a `span`) to highlight a fragment inside
+ * another variant — e.g. a value inside a body sentence or a dialog heading.
+ */
+export const Emphasis: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: 480 }}>
+      <KdsTypography variant="body">
+        Transfiere{' '}
+        <KdsTypography as="span" variant="strong">
+          $3.300
+        </KdsTypography>{' '}
+        a{' '}
+        <KdsTypography as="span" variant="strong">
+          Banco Security
+        </KdsTypography>
+        .
+      </KdsTypography>
+      <KdsTypography variant="heading3">
+        Espera{' '}
+        <KdsTypography as="span" variant="strong">
+          un momento
+        </KdsTypography>
+      </KdsTypography>
+    </div>
+  ),
+};
+
 export const Colors: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -149,6 +178,12 @@ export const AllVariants: Story = {
         <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
         <KdsTypography variant="muted">Muted</KdsTypography>
         <KdsTypography variant="link">Link</KdsTypography>
+        <KdsTypography variant="body">
+          Énfasis inline:{' '}
+          <KdsTypography as="span" variant="strong">
+            texto en negrita
+          </KdsTypography>
+        </KdsTypography>
       </div>
     </div>
   ),
@@ -203,6 +238,9 @@ export const HtmlMarkup: Story = {
 <p class="kds-text-muted">Muted</p>
 <a class="kds-text-link" href="#">Link</a>
 
+<!-- Inline emphasis (hereda tamaño/color) -->
+<p class="kds-text-body">Transfiere <span class="kds-text-strong">$3.300</span></p>
+
 <!-- Color (modificador) -->
 <p class="kds-text-body kds-text-error">Body en color error</p>`,
       },
@@ -222,6 +260,7 @@ export const HtmlMarkup: Story = {
       <span className="kds-text-label-small">Label Small</span>
       <p className="kds-text-muted">Muted</p>
       <a className="kds-text-link" href="#">Link</a>
+      <p className="kds-text-body">Transfiere <span className="kds-text-strong">$3.300</span></p>
       <p className="kds-text-body kds-text-error">Body en color error</p>
     </div>
   ),

@@ -27,6 +27,13 @@ describe('KdsTypography', () => {
     expect(screen.getByText('Label').tagName).toBe('SPAN');
   });
 
+  it('renders strong (inline emphasis) as <span>', () => {
+    render(<KdsTypography variant="strong">Bold</KdsTypography>);
+    const el = screen.getByText('Bold');
+    expect(el.tagName).toBe('SPAN');
+    expect(el).toHaveClass('kds-text-strong');
+  });
+
   it('allows overriding the HTML element via as prop', () => {
     render(<KdsTypography variant="heading1" as="div">Div</KdsTypography>);
     expect(screen.getByText('Div').tagName).toBe('DIV');
