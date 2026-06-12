@@ -1426,6 +1426,74 @@ a.kds-btn-google:disabled {
 }
 
 /* ========================================
+   KDS COPY BUTTON
+   Chip compacto que muestra un valor + icono copy y lo copia al click.
+   Acción inline (distinto de KdsCopyRow). Look del copy button de khenshin.
+   ======================================== */
+
+.kds-copy-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kds-spacing-1);
+    padding: var(--kds-spacing-0-5) var(--kds-spacing-1-5);
+    border: none;
+    border-radius: var(--kds-radius-button);
+    background: var(--kds-alert-info-bg);
+    color: var(--kds-color-info-dark);
+    font-family: var(--kds-font-family-secondary);
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-medium);
+    line-height: var(--kds-line-height-normal);
+    cursor: pointer;
+    transition: background-color var(--kds-transition-shorter) var(--kds-easing-standard),
+                color var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+.kds-copy-button .material-symbols-outlined {
+    font-size: 1rem;
+    color: var(--kds-color-info-main);
+    flex-shrink: 0;
+}
+
+.kds-copy-button.copied {
+    background: var(--kds-alert-success-bg);
+    color: var(--kds-alert-success-text);
+    animation: kds-copy-button-pulse var(--kds-transition-short) var(--kds-easing-standard);
+}
+
+.kds-copy-button.copied .material-symbols-outlined {
+    color: var(--kds-color-success-main);
+    /* el check entra con un pop al copiar */
+    animation: kds-copy-button-pop var(--kds-transition-short) var(--kds-easing-standard);
+}
+
+@keyframes kds-copy-button-pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.04);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes kds-copy-button-pop {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.25);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ========================================
    Link Styles
    ======================================== */
 
