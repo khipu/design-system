@@ -28,7 +28,9 @@ export type KdsTypographyVariant =
   | 'label-small'   // 10px Medium - Footer codes, small labels
   // Semantic colors
   | 'muted'         // 14px Regular - Muted/secondary text
-  | 'link';         // 14px Regular - Link text style
+  | 'link'          // 14px Regular - Link text style
+  // Inline emphasis
+  | 'strong';       // Bold weight, inherits size/color - emphasized fragment inside other text
 
 type ElementTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div' | 'label';
 
@@ -48,6 +50,7 @@ const variantTag: Record<KdsTypographyVariant, ElementTag> = {
   'label-small': 'span',
   muted: 'p',
   link: 'span',
+  strong: 'span',
 };
 
 export interface KdsTypographyProps extends React.HTMLAttributes<HTMLElement> {
