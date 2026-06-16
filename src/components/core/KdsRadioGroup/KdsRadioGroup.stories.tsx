@@ -53,6 +53,35 @@ export const WithDisabledOption: Story = {
 };
 
 /**
+ * El `label` de cada opción acepta `React.ReactNode`, por lo que puede mostrar
+ * contenido rico (montos destacados, texto secundario, etc.).
+ */
+export const RichLabelOptions: Story = {
+  args: {
+    name: 'plan',
+    label: 'Elige tu plan',
+    options: [
+      {
+        value: 'mensual',
+        label: (
+          <>
+            Plan mensual — <strong>$3.300</strong> / mes
+          </>
+        ),
+      },
+      {
+        value: 'anual',
+        label: (
+          <>
+            Plan anual — <strong>$33.000</strong> / año
+          </>
+        ),
+      },
+    ],
+  },
+};
+
+/**
  * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
  * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
  *

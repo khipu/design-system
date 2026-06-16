@@ -4,6 +4,11 @@
  * Tabla compacta con filas que se copian individualmente al click, y un
  * botón "Copiar todos los datos" que cambia el color de todas las filas al copy.
  *
+ * Variante `'grid'` (aditiva): grilla read-only de N celdas de texto por fila,
+ * sin copy ni botón "Copiar todo". Las celdas reparten el ancho equitativamente.
+ * Útil para mostrar datos dentro de opciones de radio. Soporta `disabled`
+ * (atenúa el color del texto).
+ *
  * Contrato HTML (matchea el CSS .kds-copyable-table del DS):
  * ```html
  * <div class="kds-copyable-table" id="destination-copy-list">
@@ -39,7 +44,27 @@ export interface KdsCopyableTableRow {
 }
 
 export interface KdsCopyableTableProps extends React.HTMLAttributes<HTMLDivElement> {
-  rows: KdsCopyableTableRow[];
+  /**
+   * Filas key/value copiables (modo `'copyable'`). Opcional: default `[]`.
+   * En modo `'grid'` no se usa; usá `gridRows` en su lugar.
+   */
+  rows?: KdsCopyableTableRow[];
+  /**
+   * Variante de la tabla.
+   * - `'copyable'` (default): filas key/value que se copian individualmente al click.
+   * - `'grid'`: grilla read-only de N celdas de texto por fila, sin copy ni botón
+   *   "Copiar todo". Útil para mostrar datos dentro de opciones de radio.
+   */
+  variant?: 'copyable' | 'grid';
+  /**
+   * Datos de la grilla en modo `'grid'`: cada fila es un array de textos de celda.
+   * Las celdas se reparten el ancho equitativamente. Ignorado en modo `'copyable'`.
+   */
+  gridRows?: string[][];
+  /**
+   * Atenúa el color del texto de la grilla (modo `'grid'`). Sin efecto en `'copyable'`.
+   */
+  disabled?: boolean;
   /** Texto del botón "Copiar todo". Default: "Copiar todos los datos". */
   copyAllLabel?: string;
   /** Texto cuando se copió todo. Default: "Datos copiados". */
@@ -78,18 +103,66 @@ async function copyToClipboard(text: string): Promise<boolean> {
 /** Duración de la transición CSS de la row (debe coincidir con khipu-components.css). */
 const TRANSITION_MS = 300;
 
-export const KdsCopyableTable = forwardRef<HTMLDivElement, KdsCopyableTableProps>(
-  (
-    {
-      rows,
-      copyAllLabel = 'Copiar todos los datos',
-      copiedAllLabel = 'Datos copiados',
-      showCopyAll = true,
-      className,
-      ...props
-    },
-    ref,
-  ) => {
+/** Props internas de la variante copyable (key/value copy-on-click). */
+type CopyableVariantProps = Pick<
+  KdsCopyableTableProps,
+  'rows' | 'copyAllLabel' | 'copiedAllLabel' | 'showCopyAll' | 'className'
+> & {
+  rows: KdsCopyableTableRow[];
+  forwardedRef: React.ForwardedRef<HTMLDivElement>;
+  rest: React.HTMLAttributes<HTMLDivElement>;
+};
+
+/** Variante grid: grilla read-only de celdas de texto, sin copy ni botón "Copiar todo". */
+function GridVariant({
+  gridRows,
+  disabled,
+  className,
+  forwardedRef,
+  rest,
+}: {
+  gridRows: string[][];
+  disabled: boolean;
+  className?: string;
+  forwardedRef: React.ForwardedRef<HTMLDivElement>;
+  rest: React.HTMLAttributes<HTMLDivElement>;
+}) {
+  return (
+    <div
+      ref={forwardedRef}
+      className={clsx('kds-copyable-table', 'kds-copyable-table--grid', className)}
+      {...rest}
+    >
+      {gridRows.map((cells, rowIndex) => (
+        <div
+          key={rowIndex}
+          className="kds-copyable-table-row kds-copyable-table-row--grid"
+          data-testid="kds-grid-row"
+        >
+          {cells.map((text, cellIndex) => (
+            <span
+              key={cellIndex}
+              className={clsx('kds-grid-cell', disabled && 'kds-grid-cell--disabled')}
+            >
+              {text}
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Variante copyable: filas key/value copiables al click + botón "Copiar todo". */
+function CopyableVariant({
+  rows,
+  copyAllLabel = 'Copiar todos los datos',
+  copiedAllLabel = 'Datos copiados',
+  showCopyAll = true,
+  className,
+  forwardedRef,
+  rest,
+}: CopyableVariantProps) {
     /** Timers de cleanup por row (para .copied y .settling). */
     const copiedTimers = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
     const settlingTimers = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
@@ -168,7 +241,7 @@ export const KdsCopyableTable = forwardRef<HTMLDivElement, KdsCopyableTableProps
 
     return (
       <>
-        <div ref={ref} className={clsx('kds-copyable-table', className)} {...props}>
+        <div ref={forwardedRef} className={clsx('kds-copyable-table', className)} {...rest}>
           {rows.map((row, i) => (
             <div
               key={`${row.label}-${i}`}
@@ -215,6 +288,45 @@ export const KdsCopyableTable = forwardRef<HTMLDivElement, KdsCopyableTableProps
           </button>
         )}
       </>
+    );
+}
+
+export const KdsCopyableTable = forwardRef<HTMLDivElement, KdsCopyableTableProps>(
+  (
+    {
+      rows = [],
+      variant = 'copyable',
+      gridRows = [],
+      disabled = false,
+      copyAllLabel,
+      copiedAllLabel,
+      showCopyAll,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
+    if (variant === 'grid') {
+      return (
+        <GridVariant
+          gridRows={gridRows}
+          disabled={disabled}
+          className={className}
+          forwardedRef={ref}
+          rest={props}
+        />
+      );
+    }
+    return (
+      <CopyableVariant
+        rows={rows}
+        copyAllLabel={copyAllLabel}
+        copiedAllLabel={copiedAllLabel}
+        showCopyAll={showCopyAll}
+        className={className}
+        forwardedRef={ref}
+        rest={props}
+      />
     );
   },
 );
