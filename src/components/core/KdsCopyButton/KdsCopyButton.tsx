@@ -31,7 +31,17 @@ export const KdsCopyButton = forwardRef<HTMLButtonElement, KdsCopyButtonProps>(
         aria-label={`Copiar: ${value}`}
         {...props}
       >
-        <span className="kds-copy-button-value">{copied ? copiedText : value}</span>
+        {/* value y copiedText se apilan en la misma celda de grid: el contenedor
+            toma el ancho del texto más largo, así el botón no cambia de tamaño
+            al alternar entre ambos estados. */}
+        <span className="kds-copy-button-label">
+          <span className="kds-copy-button-value" aria-hidden={copied || undefined}>
+            {value}
+          </span>
+          <span className="kds-copy-button-copied" aria-hidden={!copied || undefined}>
+            {copiedText}
+          </span>
+        </span>
         <i className="material-symbols-outlined" aria-hidden="true">
           {copied ? 'check' : 'content_copy'}
         </i>

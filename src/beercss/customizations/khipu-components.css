@@ -1449,6 +1449,33 @@ a.kds-btn-google:disabled {
                 color var(--kds-transition-shorter) var(--kds-easing-standard);
 }
 
+/* value y copiedText se apilan en la MISMA celda de grid: la celda toma el
+   ancho del texto más largo, por lo que el botón conserva su ancho al alternar
+   entre "valor" y "copiado" (sin reflow). */
+.kds-copy-button-label {
+    display: inline-grid;
+}
+
+.kds-copy-button-value,
+.kds-copy-button-copied {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+}
+
+/* Estado por defecto: visible el valor, oculto (pero ocupando espacio) el copiado */
+.kds-copy-button-copied {
+    visibility: hidden;
+}
+
+/* Al copiar se invierte la visibilidad; el ancho no cambia */
+.kds-copy-button.copied .kds-copy-button-value {
+    visibility: hidden;
+}
+
+.kds-copy-button.copied .kds-copy-button-copied {
+    visibility: visible;
+}
+
 .kds-copy-button .material-symbols-outlined {
     font-size: 1rem;
     color: var(--kds-color-info-main);
