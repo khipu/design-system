@@ -109,6 +109,21 @@ export const PasswordReveal: Story = {
   },
 };
 
+/**
+ * Campo requerido SIN marca visual (`requiredMark={false}`).
+ *
+ * El input mantiene el atributo `required` (validación/accesibilidad), pero la
+ * label no muestra ` *`. Útil cuando el requerimiento se comunica de otra forma.
+ */
+export const RequiredWithoutMark: Story = {
+  args: {
+    label: 'RUT',
+    required: true,
+    requiredMark: false,
+    helperText: 'Requerido, pero sin asterisco',
+  },
+};
+
 export const InputTypes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
