@@ -19,8 +19,11 @@ import React, { forwardRef } from 'react';
 import { clsx } from '../utils';
 
 export interface KdsCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
-  /** Texto del label mostrado al lado del sprite. Opcional (puede usar aria-label). */
-  label?: string;
+  /**
+   * Contenido del label mostrado al lado del sprite. Opcional (puede usar aria-label).
+   * Acepta texto o nodos (p. ej. un enlace embebido en "Acepto los términos…").
+   */
+  label?: React.ReactNode;
 }
 
 export const KdsCheckbox = forwardRef<HTMLInputElement, KdsCheckboxProps>(
