@@ -50,6 +50,23 @@ export const Disabled: Story = {
   ),
 };
 
+/**
+ * El `label` acepta `React.ReactNode`, por lo que puede embeber un enlace
+ * (p. ej. "Acepto los [términos y condiciones]") u otro contenido rico.
+ */
+export const RichLabelWithLink: Story = {
+  args: {
+    label: (
+      <>
+        Acepto los{' '}
+        <a href="https://khipu.com/terminos" target="_blank" rel="noreferrer">
+          términos y condiciones
+        </a>
+      </>
+    ),
+  },
+};
+
 export const WithoutLabel: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: spacing[1] }}>

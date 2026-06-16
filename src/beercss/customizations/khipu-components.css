@@ -6731,6 +6731,40 @@ button.kds-btn-success::after {
 }
 
 /* ========================================
+   GRID VARIANT (.kds-copyable-table--grid)
+   Read-only grid of N text cells per row. No copy,
+   no role=button, no "copy all". Cells share the row
+   width equally. Used inside radio options, etc.
+   ======================================== */
+
+.kds-copyable-table-row--grid {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-1-5);
+    padding: var(--kds-spacing-1-25) var(--kds-spacing-1);
+    border-top: 1px solid var(--kds-color-divider);
+    cursor: default;
+    user-select: text;
+}
+
+.kds-copyable-table-row--grid:first-child {
+    border-top: 0;
+}
+
+.kds-grid-cell {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-medium);
+    color: var(--kds-color-primary-main);
+    word-break: break-word;
+}
+
+.kds-grid-cell--disabled {
+    color: var(--kds-color-text-disabled);
+}
+
+/* ========================================
    COPY-ALL BUTTON (.kds-copy-all-btn)
    Modifier for kds-btn kds-btn-outlined that adds
    brand-tint background and a .copied success state.

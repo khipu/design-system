@@ -23,7 +23,8 @@ import { clsx } from '../utils';
 
 export interface KdsRadioOption {
   value: string;
-  label: string;
+  /** Texto o nodo del label de la opción (permite contenido rico: montos, enlaces, tablas). */
+  label: React.ReactNode;
   disabled?: boolean;
 }
 

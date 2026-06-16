@@ -85,6 +85,36 @@ export const InCardContext: Story = {
 };
 
 /**
+ * Variante `grid` (read-only): grilla de N celdas de texto por fila, sin copy
+ * ni botón "Copiar todo". Las celdas reparten el ancho equitativamente. Útil
+ * para mostrar datos dentro de opciones de radio.
+ */
+export const Grid: Story = {
+  args: {
+    variant: 'grid',
+    gridRows: [
+      ['Banco Security', '$3.300'],
+      ['Banco de Chile', '$5.100'],
+      ['BancoEstado', '$2.450'],
+    ],
+  },
+};
+
+/**
+ * Variante `grid` con `disabled`: el texto se atenúa (color disabled del DS).
+ */
+export const GridDisabled: Story = {
+  args: {
+    variant: 'grid',
+    disabled: true,
+    gridRows: [
+      ['Banco Security', '$3.300'],
+      ['Banco de Chile', '$5.100'],
+    ],
+  },
+};
+
+/**
  * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
  * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
  *

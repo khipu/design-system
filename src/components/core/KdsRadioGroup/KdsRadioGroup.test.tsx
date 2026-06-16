@@ -39,4 +39,24 @@ describe('KdsRadioGroup', () => {
     await user.click(screen.getByLabelText('Option A'));
     expect(handleChange).toHaveBeenCalledWith('a');
   });
+
+  it('renders a ReactNode label with rich content', () => {
+    render(
+      <KdsRadioGroup
+        name="plan"
+        options={[
+          {
+            value: 'mensual',
+            label: (
+              <>
+                Plan mensual — <strong>$3.300</strong>
+              </>
+            ),
+          },
+        ]}
+      />
+    );
+    expect(screen.getByText('$3.300')).toBeInTheDocument();
+    expect(screen.getByText('$3.300').tagName).toBe('STRONG');
+  });
 });

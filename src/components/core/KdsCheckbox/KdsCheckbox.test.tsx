@@ -18,4 +18,19 @@ describe('KdsCheckbox', () => {
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).toBeChecked();
   });
+
+  it('renders a ReactNode label with an embedded link', () => {
+    render(
+      <KdsCheckbox
+        label={
+          <>
+            Acepto los <a href="https://khipu.com/terminos">términos</a>
+          </>
+        }
+      />
+    );
+    const link = screen.getByRole('link', { name: 'términos' });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute('href', 'https://khipu.com/terminos');
+  });
 });
