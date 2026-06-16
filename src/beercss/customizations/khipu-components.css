@@ -1785,6 +1785,23 @@ body.dark {
 }
 
 /* ==========================================
+   PASSWORD REVEAL TOGGLE (KdsTextField `revealable`)
+   El <a role="button"> reusa el posicionamiento de icono de BeerCSS
+   (.field > a, pointer-events: all). Aquí solo: color del icono
+   (on-surface-variant) y un focus ring accesible para el toggle
+   navegable por teclado (BeerCSS hace `outline: inherit` en <a>).
+   ========================================== */
+.field > a.kds-field-reveal {
+  color: var(--on-surface-variant);
+}
+
+.field > a.kds-field-reveal:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+/* ==========================================
    LABEL COLOR
    Mantener sincronizado con border
    ========================================== */
