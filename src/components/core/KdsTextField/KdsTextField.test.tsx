@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { KdsTextField } from './KdsTextField';
 
 describe('KdsTextField', () => {
@@ -45,5 +45,59 @@ describe('KdsTextField', () => {
     const ref = { current: null as HTMLInputElement | null };
     render(<KdsTextField label="Test" ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
+  });
+
+  describe('revealable (password toggle)', () => {
+    it('renders an accessible toggle and starts hidden (type=password)', () => {
+      const { container } = render(<KdsTextField label="Contraseña" revealable />);
+      const input = container.querySelector('input')!;
+      const toggle = screen.getByRole('button', { name: 'Mostrar u ocultar contraseña' });
+      expect(input).toHaveAttribute('type', 'password');
+      expect(toggle).toHaveClass('kds-field-reveal');
+      expect(toggle).toHaveAttribute('aria-pressed', 'false');
+      expect(container.firstElementChild).toHaveClass('suffix');
+    });
+
+    it('toggles input visibility on click', () => {
+      const { container } = render(<KdsTextField label="Contraseña" revealable />);
+      const input = container.querySelector('input')!;
+      const toggle = screen.getByRole('button');
+      fireEvent.click(toggle);
+      expect(input).toHaveAttribute('type', 'text');
+      expect(toggle).toHaveAttribute('aria-pressed', 'true');
+      fireEvent.click(toggle);
+      expect(input).toHaveAttribute('type', 'password');
+    });
+
+    it('toggles with keyboard (Enter / Space)', () => {
+      const { container } = render(<KdsTextField label="Contraseña" revealable />);
+      const input = container.querySelector('input')!;
+      const toggle = screen.getByRole('button');
+      fireEvent.keyDown(toggle, { key: 'Enter' });
+      expect(input).toHaveAttribute('type', 'text');
+      fireEvent.keyDown(toggle, { key: ' ' });
+      expect(input).toHaveAttribute('type', 'password');
+    });
+
+    it('supports a custom revealLabel for i18n', () => {
+      render(<KdsTextField label="Clave" revealable revealLabel="Ver clave" />);
+      expect(screen.getByRole('button', { name: 'Ver clave' })).toBeInTheDocument();
+    });
+
+    it('renders no toggle when not revealable', () => {
+      render(<KdsTextField label="Email" />);
+      expect(screen.queryByRole('button')).toBeNull();
+    });
+
+    it('readOnly takes precedence: no toggle, shows lock', () => {
+      const { container } = render(<KdsTextField label="Clave" revealable readOnly value="x" />);
+      expect(screen.queryByRole('button')).toBeNull();
+      expect(container.querySelector('.material-symbols-outlined')).toHaveTextContent('lock');
+    });
+
+    it('disabled renders no interactive toggle', () => {
+      render(<KdsTextField label="Clave" revealable disabled />);
+      expect(screen.queryByRole('button')).toBeNull();
+    });
   });
 });

@@ -93,6 +93,22 @@ export const WithIcons: Story = {
   ),
 };
 
+/**
+ * Campo de contraseña con toggle de mostrar/ocultar (`revealable`).
+ *
+ * El "ojo" es un `<a role="button">` accesible (focusable, operable con Enter/Space,
+ * `aria-pressed` refleja el estado). Alterna el `type` del input entre `password` y
+ * `text`. Pensado para logins de banco donde el usuario quiere verificar lo que escribió.
+ */
+export const PasswordReveal: Story = {
+  args: {
+    label: 'Contraseña',
+    revealable: true,
+    defaultValue: 'mi-clave-secreta',
+    helperText: 'Toca el ojo para mostrar u ocultar lo que escribes',
+  },
+};
+
 export const InputTypes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
