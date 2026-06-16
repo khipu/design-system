@@ -58,6 +58,15 @@ export interface KdsTextFieldProps
    * @default 'Mostrar u ocultar contraseña'
    */
   revealLabel?: string;
+  /**
+   * Muestra la marca ` *` en la label cuando el campo es `required`.
+   *
+   * El atributo `required` del input se aplica siempre que se pase `required`;
+   * esta prop solo controla la marca visual. Ponla en `false` para campos
+   * requeridos que no deben mostrar asterisco (el requerimiento se comunica de otra forma).
+   * @default true
+   */
+  requiredMark?: boolean;
 }
 
 export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
@@ -76,6 +85,7 @@ export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
       type,
       revealable,
       revealLabel = 'Mostrar u ocultar contraseña',
+      requiredMark = true,
       ...props
     },
     ref,
@@ -126,7 +136,7 @@ export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
         />
         <label htmlFor={fieldId}>
           {label}
-          {required && ' *'}
+          {required && requiredMark && ' *'}
         </label>
         {readOnly && <i className="material-symbols-outlined">lock</i>}
         {/* Toggle interactivo de contraseña (suffix). `<a>` es el elemento que BeerCSS

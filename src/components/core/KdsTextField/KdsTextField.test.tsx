@@ -100,4 +100,18 @@ describe('KdsTextField', () => {
       expect(screen.queryByRole('button')).toBeNull();
     });
   });
+
+  describe('requiredMark', () => {
+    it('shows the " *" mark when required (default)', () => {
+      const { container } = render(<KdsTextField label="Email" required />);
+      expect(container.querySelector('label')?.textContent).toBe('Email *');
+      expect(screen.getByRole('textbox')).toBeRequired();
+    });
+
+    it('keeps the required attribute but hides the mark with requiredMark={false}', () => {
+      const { container } = render(<KdsTextField label="RUT" required requiredMark={false} />);
+      expect(screen.getByRole('textbox')).toBeRequired();
+      expect(container.querySelector('label')?.textContent).toBe('RUT');
+    });
+  });
 });
