@@ -1908,9 +1908,9 @@ body.dark,
   color: var(--kds-color-text-secondary);
 }
 
-/* Hover SIN focus: más oscuro (70% opacity) */
+/* Hover SIN focus: máxima emphasis (adapta a blanco en dark) */
 .field.label:hover:not(:focus-within) > label {
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--kds-color-text-primary);
 }
 
 /* Focus: primary purple (BeerCSS ya lo hace, pero aseguramos) */
@@ -2443,7 +2443,7 @@ dialog.modal .field.border:focus-within {
     background: var(--kds-accordion-bg-open);
     font-size: var(--kds-font-size-sm);
     line-height: 1.6;
-    color: #374151;
+    color: var(--kds-color-text-primary);
 }
 
 .kds-contract-accordion-content h4 {
@@ -4101,13 +4101,13 @@ dialog#surveyModal button.circle {
 
 /* Color utilities (solo para casos específicos de demo) */
 .kds-text-warning {
-    color: #92400E;
+    color: var(--kds-alert-warning-text);   /* #663C00 light / #FFB74D dark */
 }
 
 .kds-list-warning {
     margin: 0;
     padding-left: var(--kds-spacing-5);
-    color: #78350F;
+    color: var(--kds-alert-warning-text);    /* #663C00 light / #FFB74D dark */
 }
 
 /* ========================================
@@ -4829,7 +4829,7 @@ dialog#surveyModal button.circle {
     display: flex;
     gap: var(--kds-spacing-1-25);
     padding: var(--kds-spacing-2);
-    background: #FFFFFF;
+    background: var(--kds-color-background-default);   /* #FFF light / #181818 dark */
     border-top: 1px solid var(--kds-color-divider);
     padding-bottom: calc(var(--kds-spacing-2) + env(safe-area-inset-bottom));
     z-index: 100;
