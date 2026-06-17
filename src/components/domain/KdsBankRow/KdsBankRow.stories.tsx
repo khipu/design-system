@@ -212,6 +212,44 @@ export const AccountWithDataTable: Story = {
   ),
 };
 
+/**
+ * Variante multi-fila: a veces la info de la cuenta viene en VARIAS filas (DataTable
+ * de N filas). El item las apila (sin caja, texto neutro), manteniendo el click-select.
+ */
+export const AccountWithMultiRowDataTable: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 460 }}>
+      <KdsBankRow
+        hideLogo
+        selected
+        name={
+          <KdsCopyableTable
+            variant="grid"
+            gridRows={[
+              ['Cuenta corriente', 'Nº ***1234'],
+              ['Saldo disponible', '$1.250.000'],
+              ['Última actualización', 'Hoy 10:24'],
+            ]}
+          />
+        }
+      />
+      <KdsBankRow
+        hideLogo
+        name={
+          <KdsCopyableTable
+            variant="grid"
+            gridRows={[
+              ['Cuenta vista', 'Nº ***5678'],
+              ['Saldo disponible', '$340.000'],
+              ['Última actualización', 'Ayer 18:02'],
+            ]}
+          />
+        }
+      />
+    </div>
+  ),
+};
+
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
   parameters: {
