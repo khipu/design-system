@@ -2050,6 +2050,11 @@ body.dark {
     display: flex;
     flex-direction: column;
     gap: var(--kds-spacing-3);
+    /* Reset del fieldset nativo: sin borde/padding/margin por defecto del navegador. */
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-inline-size: 0;
 }
 
 /* Checkbox Label - BeerCSS override */
@@ -2110,20 +2115,28 @@ label.radio:has(input:disabled) {
 
 .kds-radio-group--card label.radio {
     gap: var(--kds-spacing-1-5);
-    padding: var(--kds-spacing-1-5);
+    /* Vertical con un poco más de aire; horizontal reducido para pegar el radio a la izquierda. */
+    padding: var(--kds-spacing-2) var(--kds-spacing-1-5);
+    /* Bordes con los valores del bank selector. */
     border: 1px solid var(--kds-color-border-subtle);
     border-radius: var(--kds-radius-card);
     background: var(--kds-color-surface);
     transition: border-color 0.2s, background 0.2s;
 }
 
-.kds-radio-group--card label.radio:hover {
-    border-color: var(--kds-color-border-default);
-    background: var(--kds-color-hover-bg);
+/* Leve separación extra entre el radio y el texto de la opción. */
+.kds-radio-group--card label.radio span {
+    margin-left: var(--kds-spacing-0-5);
 }
 
+.kds-radio-group--card label.radio:hover {
+    border-color: var(--kds-color-border-default);
+}
+
+/* Seleccionada: poco color primario — solo un fondo faint sutil + borde gris
+   (el punto del radio ya comunica la selección). */
 .kds-radio-group--card label.radio:has(input:checked) {
-    border-color: var(--kds-color-primary-main);
+    border-color: var(--kds-color-border-default);
     background: var(--kds-color-primary-faint);
 }
 
