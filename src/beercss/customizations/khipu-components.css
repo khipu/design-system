@@ -6794,6 +6794,8 @@ button.kds-btn-success::after {
     align-items: center;
     gap: var(--kds-spacing-1-5);
     padding: 0;
+    /* Sin el divisor border-top que trae la fila base del copyable. */
+    border-top: 0;
     cursor: default;
     user-select: text;
 }
