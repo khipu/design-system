@@ -1,6 +1,7 @@
 import React, { forwardRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { clsx } from '../../core/utils';
+import { KdsSearchField } from '../../core/KdsSearchField';
 
 export interface KdsBankModalProps {
   open: boolean;
@@ -39,8 +40,7 @@ export const KdsBankModal = forwardRef<HTMLDivElement, KdsBankModalProps>(
                 </Dialog.Close>
               </div>
               <div className="kds-bank-modal-search">
-                <input
-                  type="text"
+                <KdsSearchField
                   placeholder={searchPlaceholder}
                   value={query}
                   onChange={(e) => handleSearch(e.target.value)}
