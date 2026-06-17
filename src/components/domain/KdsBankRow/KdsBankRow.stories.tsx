@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsBankRow } from './KdsBankRow';
+import { KdsCopyableTable } from '../../core/KdsCopyableTable';
 
 /**
  * KdsBankRow — fila clickeable de selección de banco con logo + nombre + chevron.
@@ -150,6 +151,67 @@ export const AllVariants: Story = {
  *
  * Ver `Patterns/CSS-only → BankRow` para spec completa.
  */
+/**
+ * Selección de cuenta: sin logo (`hideLogo`) y con contenido en columnas en `name`
+ * (p. ej. tipo de cuenta · Nº enmascarado · saldo). El click selecciona la fila.
+ */
+export const AccountWithColumns: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 420 }}>
+      <KdsBankRow
+        hideLogo
+        selected
+        name={
+          <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: 12 }}>
+            <span>Cuenta corriente · Nº ***1234</span>
+            <span>$1.250.000</span>
+          </span>
+        }
+      />
+      <KdsBankRow
+        hideLogo
+        name={
+          <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: 12 }}>
+            <span>Cuenta vista · Nº ***5678</span>
+            <span>$340.000</span>
+          </span>
+        }
+      />
+    </div>
+  ),
+};
+
+/**
+ * Cuenta con la info en columnas tipo DataTable (como el original de khenshin):
+ * el contenido del item usa `KdsCopyableTable variant="grid"` (grilla read-only de
+ * celdas), que es la información de las cuentas del cliente. Click selecciona la fila.
+ */
+export const AccountWithDataTable: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 460 }}>
+      <KdsBankRow
+        hideLogo
+        selected
+        name={
+          <KdsCopyableTable
+            variant="grid"
+            gridRows={[['Cuenta corriente', 'Nº ***1234', '$1.250.000']]}
+          />
+        }
+      />
+      <KdsBankRow
+        hideLogo
+        name={
+          <KdsCopyableTable
+            variant="grid"
+            gridRows={[['Cuenta vista', 'Nº ***5678', '$340.000']]}
+          />
+        }
+      />
+    </div>
+  ),
+};
+
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
   parameters: {

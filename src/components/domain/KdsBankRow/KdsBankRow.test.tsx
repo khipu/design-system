@@ -56,4 +56,16 @@ describe('KdsBankRow', () => {
     render(<KdsBankRow ref={ref} name="Banco Chile" />);
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
   });
+
+  it('hides the logo slot with hideLogo', () => {
+    const { container } = render(<KdsBankRow name="123456" hideLogo />);
+    expect(container.querySelector('.kds-bank-row-logo')).toBeNull();
+  });
+
+  it('renders ReactNode content in name (columns)', () => {
+    render(
+      <KdsBankRow hideLogo name={<span data-testid="cols">Cuenta corriente · Nº ***1234</span>} />
+    );
+    expect(screen.getByTestId('cols')).toBeInTheDocument();
+  });
 });
