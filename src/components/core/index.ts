@@ -11,6 +11,9 @@ export { KdsButton, type KdsButtonProps, type KdsButtonVariant, type KdsButtonSi
 // TextField
 export { KdsTextField, type KdsTextFieldProps } from './KdsTextField';
 
+// SearchField
+export { KdsSearchField, type KdsSearchFieldProps } from './KdsSearchField';
+
 // Checkbox
 export { KdsCheckbox, type KdsCheckboxProps } from './KdsCheckbox';
 
