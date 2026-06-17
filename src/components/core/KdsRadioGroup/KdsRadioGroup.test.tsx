@@ -59,4 +59,11 @@ describe('KdsRadioGroup', () => {
     expect(screen.getByText('$3.300')).toBeInTheDocument();
     expect(screen.getByText('$3.300').tagName).toBe('STRONG');
   });
+
+  it('applies the card variant class to the fieldset', () => {
+    const { container } = render(
+      <KdsRadioGroup name="acc" variant="card" options={[{ value: 'a', label: 'Cuenta A' }]} />
+    );
+    expect(container.querySelector('fieldset')).toHaveClass('kds-radio-group', 'kds-radio-group--card');
+  });
 });
