@@ -6426,11 +6426,8 @@ button.kds-btn-success::after {
     display: none;
 }
 
-.kds-bank-modal-search {
-    padding: 0 var(--kds-spacing-2) var(--kds-spacing-1-5);
-}
-
-.kds-bank-modal-search input {
+/* Search field reutilizable (standalone o dentro del KdsBankModal). */
+.kds-search-field {
     width: 100%;
     padding: var(--kds-spacing-1-25) var(--kds-spacing-1-5);
     border: 1px solid var(--kds-color-divider);
@@ -6442,13 +6439,17 @@ button.kds-btn-success::after {
     background: var(--kds-color-surface);
 }
 
-.kds-bank-modal-search input::placeholder {
+.kds-search-field::placeholder {
     color: var(--kds-color-text-hint);
 }
 
-.kds-bank-modal-search input:focus {
+.kds-search-field:focus {
     border-color: var(--kds-color-primary-main);
     box-shadow: 0 0 0 2px var(--kds-color-primary-faint);
+}
+
+.kds-bank-modal-search {
+    padding: 0 var(--kds-spacing-2) var(--kds-spacing-1-5);
 }
 
 .kds-bank-modal-body {
