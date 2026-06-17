@@ -2100,6 +2100,34 @@ label.radio:has(input:disabled) {
 }
 
 /* ========================================
+   RADIO GROUP — variante card (.kds-radio-group--card)
+   Cada opción como fila con borde (estilo selección de banco/cuenta),
+   manteniendo el control radio. Hover + opción seleccionada resaltada.
+   ======================================== */
+.kds-radio-group--card {
+    gap: var(--kds-spacing-2);
+}
+
+.kds-radio-group--card label.radio {
+    gap: var(--kds-spacing-1-5);
+    padding: var(--kds-spacing-1-5);
+    border: 1px solid var(--kds-color-border-subtle);
+    border-radius: var(--kds-radius-card);
+    background: var(--kds-color-surface);
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.kds-radio-group--card label.radio:hover {
+    border-color: var(--kds-color-border-default);
+    background: var(--kds-color-hover-bg);
+}
+
+.kds-radio-group--card label.radio:has(input:checked) {
+    border-color: var(--kds-color-primary-main);
+    background: var(--kds-color-primary-faint);
+}
+
+/* ========================================
    ONBOARDING COMPONENTS
    Multi-stage onboarding flow with form validation
    ======================================== */

@@ -36,11 +36,23 @@ export interface KdsRadioGroupProps extends Omit<React.FieldsetHTMLAttributes<HT
   onChange?: (value: string) => void;
   /** Tamaño del sprite del radio (aplicado a cada opción). */
   size?: 'small' | 'large';
+  /**
+   * Variante de presentación.
+   * - `'default'`: filas simples (radio + texto).
+   * - `'card'`: cada opción como fila con borde (estilo selección de banco/cuenta);
+   *   hover y opción seleccionada resaltada. Mantiene el control radio.
+   * @default 'default'
+   */
+  variant?: 'default' | 'card';
 }
 
 export const KdsRadioGroup = forwardRef<HTMLFieldSetElement, KdsRadioGroupProps>(
-  ({ label, name, options, value, onChange, size, className, ...props }, ref) => (
-    <fieldset ref={ref} className={clsx('kds-radio-group', className)} {...props}>
+  ({ label, name, options, value, onChange, size, variant, className, ...props }, ref) => (
+    <fieldset
+      ref={ref}
+      className={clsx('kds-radio-group', variant === 'card' && 'kds-radio-group--card', className)}
+      {...props}
+    >
       {label && <legend>{label}</legend>}
       {options.map((opt) => (
         <label key={opt.value} className={clsx('radio', size)}>

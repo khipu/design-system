@@ -102,6 +102,19 @@ export const RichLabelOptions: Story = {
  *
  * Ver `Patterns/CSS-only → RadioGroup` para spec completa.
  */
+/**
+ * Variante `card`: cada opción como fila con borde (estilo selección de banco/cuenta),
+ * con hover y opción seleccionada resaltada. Mantiene el control radio.
+ */
+export const CardVariant: Story = {
+  args: {
+    name: 'account-card',
+    variant: 'card',
+    value: 'corriente',
+    options: accountOptions,
+  },
+};
+
 export const HtmlMarkup: Story = {
   name: 'HTML markup',
   parameters: {
