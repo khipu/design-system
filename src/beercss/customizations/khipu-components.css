@@ -6489,6 +6489,27 @@ button.kds-btn-success::after {
     box-shadow: 0 0 0 2px var(--kds-color-primary-faint);
 }
 
+/* Variante con ícono (withIcon): lupa posicionada DENTRO del input, a la derecha. */
+.kds-search-field-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.kds-search-field-icon {
+    position: absolute;
+    right: var(--kds-spacing-1-5);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: var(--kds-color-text-hint);
+    pointer-events: none;
+}
+
+/* Espacio a la derecha del texto para no solaparse con la lupa. */
+.kds-search-field-wrapper .kds-search-field {
+    padding-right: calc(var(--kds-spacing-1-5) + var(--kds-spacing-3));
+}
+
 .kds-bank-modal-search {
     padding: 0 var(--kds-spacing-2) var(--kds-spacing-1-5);
 }
