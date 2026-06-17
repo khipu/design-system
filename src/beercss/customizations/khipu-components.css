@@ -6779,18 +6779,28 @@ button.kds-btn-success::after {
    width equally. Used inside radio options, etc.
    ======================================== */
 
+/* La grilla es solo columnas de texto (como el DataTable original): sin caja,
+   borde, fondo ni sombra del contenedor copyable. */
+.kds-copyable-table--grid {
+    border: 0;
+    border-radius: 0;
+    background: none;
+    padding: 0;
+    box-shadow: none;
+}
+
 .kds-copyable-table-row--grid {
     display: flex;
     align-items: center;
     gap: var(--kds-spacing-1-5);
-    padding: var(--kds-spacing-1-25) var(--kds-spacing-1);
-    border-top: 1px solid var(--kds-color-divider);
+    padding: 0;
     cursor: default;
     user-select: text;
 }
 
-.kds-copyable-table-row--grid:first-child {
-    border-top: 0;
+/* Separación entre filas de la grilla (sin divisores). */
+.kds-copyable-table-row--grid + .kds-copyable-table-row--grid {
+    margin-top: var(--kds-spacing-0-5);
 }
 
 .kds-grid-cell {
@@ -6798,7 +6808,7 @@ button.kds-btn-success::after {
     min-width: 0;
     font-size: var(--kds-font-size-sm);
     font-weight: var(--kds-font-weight-medium);
-    color: var(--kds-color-primary-main);
+    color: var(--kds-color-text-primary);
     word-break: break-word;
 }
 
