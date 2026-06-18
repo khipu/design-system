@@ -2007,6 +2007,16 @@ body.dark {
     width: 100%;
 }
 
+/* Truncado en una línea con ellipsis. Incluye min-width:0 para que funcione
+   dentro de contenedores flex/grid (el ítem puede encogerse por debajo de su
+   contenido). Útil para nombres/asuntos largos en headers y filas. */
+.kds-truncate {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .kds-max-w-sm {
     max-width: 400px;
 }
