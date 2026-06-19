@@ -1435,7 +1435,7 @@ a.kds-btn-google:disabled {
     display: inline-flex;
     align-items: center;
     gap: var(--kds-spacing-1);
-    padding: var(--kds-spacing-0-5) var(--kds-spacing-1-5);
+    padding: var(--kds-spacing-0-25) var(--kds-spacing-1-5);
     border: none;
     border-radius: var(--kds-radius-button);
     background: var(--kds-alert-info-bg);
@@ -6526,6 +6526,11 @@ button.kds-btn-success::after {
 .field.kds-field--narrow {
     width: 6rem;
     flex: 0 0 auto;
+    /* En fila horizontal no aplica el margin vertical que BeerCSS da a fields
+       hermanos (regla de "flow" `... + :is(.field,...)`, specificity ~0,3,1);
+       sin el reset los siguientes quedan desalineados hacia abajo. `!important`
+       para ganarle a esa regla de framework. */
+    margin-block: 0 !important;
 }
 
 .field.kds-field--narrow > input {
