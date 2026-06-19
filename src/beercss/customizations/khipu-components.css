@@ -6524,7 +6524,7 @@ button.kds-btn-success::after {
    centrado, para inputs de pocos caracteres dispuestos en fila (ej. segmentos de
    coordenadas o código). No crece ni se encoge dentro de un flex row. */
 .field.kds-field--narrow {
-    width: 5rem;
+    width: 6rem;
     flex: 0 0 auto;
 }
 
