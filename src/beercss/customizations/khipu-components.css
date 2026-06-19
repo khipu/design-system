@@ -1436,6 +1436,10 @@ a.kds-btn-google:disabled {
     align-items: center;
     gap: var(--kds-spacing-1);
     padding: var(--kds-spacing-0-25) var(--kds-spacing-1-5);
+    /* No usar el alto de botón táctil de BeerCSS (~44px): es un chip compacto,
+       su alto lo define el contenido + padding. */
+    block-size: auto;
+    min-block-size: 0;
     border: none;
     border-radius: var(--kds-radius-button);
     background: var(--kds-alert-info-bg);
@@ -1447,6 +1451,13 @@ a.kds-btn-google:disabled {
     cursor: pointer;
     transition: background-color var(--kds-transition-shorter) var(--kds-easing-standard),
                 color var(--kds-transition-shorter) var(--kds-easing-standard);
+}
+
+/* active = hover: sin el aro de focus/active (outline morado de BeerCSS). */
+.kds-copy-button:focus,
+.kds-copy-button:focus-visible,
+.kds-copy-button:active {
+    outline: none;
 }
 
 /* value y copiedText se apilan en la MISMA celda de grid: la celda toma el
