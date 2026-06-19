@@ -8,6 +8,7 @@ const meta: Meta<typeof KdsTextField> = {
   tags: ['autodocs'],
   argTypes: {
     fullWidth: { control: 'boolean' },
+    narrow: { control: 'boolean' },
     disabled: { control: 'boolean' },
     error: { control: 'boolean' },
   },
@@ -122,6 +123,33 @@ export const RequiredWithoutMark: Story = {
     requiredMark: false,
     helperText: 'Requerido, pero sin asterisco',
   },
+};
+
+/**
+ * Variante angosta (`narrow`): ancho reducido y texto centrado, para inputs de pocos
+ * caracteres. Deja de ser fullWidth.
+ */
+export const Narrow: Story = {
+  args: {
+    label: 'A1',
+    narrow: true,
+    maxLength: 2,
+  },
+};
+
+/**
+ * Ejemplo de coordenadas: varios `narrow` en fila (segmentos de 2 caracteres con label
+ * por posición). Cada segmento mantiene su ancho; el valor combinado se arma en el
+ * consumidor (ej. unión con `|`).
+ */
+export const Coordinates: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: spacing[2] }}>
+      <KdsTextField label="A1" narrow maxLength={2} required requiredMark={false} />
+      <KdsTextField label="B5" narrow maxLength={2} required requiredMark={false} />
+      <KdsTextField label="F3" narrow maxLength={2} required requiredMark={false} />
+    </div>
+  ),
 };
 
 export const InputTypes: Story = {
