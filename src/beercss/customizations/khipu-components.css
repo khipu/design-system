@@ -6520,6 +6520,18 @@ button.kds-btn-success::after {
     padding-right: calc(var(--kds-spacing-1-5) + var(--kds-spacing-3));
 }
 
+/* Variante angosta del field (prop `narrow` de KdsTextField): ancho reducido y texto
+   centrado, para inputs de pocos caracteres dispuestos en fila (ej. segmentos de
+   coordenadas o código). No crece ni se encoge dentro de un flex row. */
+.field.kds-field--narrow {
+    width: 5rem;
+    flex: 0 0 auto;
+}
+
+.field.kds-field--narrow > input {
+    text-align: center;
+}
+
 .kds-bank-modal-search {
     padding: 0 var(--kds-spacing-2) var(--kds-spacing-1-5);
 }

@@ -47,6 +47,13 @@ describe('KdsTextField', () => {
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
   });
 
+  it('renders narrow variant with kds-field--narrow and drops full width', () => {
+    const { container } = render(<KdsTextField label="A1" narrow maxLength={2} />);
+    const wrapper = container.firstElementChild;
+    expect(wrapper).toHaveClass('kds-field--narrow');
+    expect(wrapper).not.toHaveClass('kds-w-full');
+  });
+
   describe('revealable (password toggle)', () => {
     it('renders an accessible toggle and starts hidden (type=password)', () => {
       const { container } = render(<KdsTextField label="Contraseña" revealable />);

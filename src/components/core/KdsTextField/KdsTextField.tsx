@@ -40,6 +40,12 @@ export interface KdsTextFieldProps
   error?: boolean;
   /** Full width (default: true). */
   fullWidth?: boolean;
+  /**
+   * Variante angosta: el field toma un ancho reducido con el texto centrado, y
+   * deja de ser fullWidth. Pensado para inputs de pocos caracteres dispuestos en
+   * fila (ej. segmentos de coordenadas, código de verificación).
+   */
+  narrow?: boolean;
   /** Material Symbol al inicio del input (aplica clase `.prefix`). */
   startIcon?: string;
   /** Material Symbol al final del input (aplica clase `.suffix`). */
@@ -76,6 +82,7 @@ export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
       helperText,
       error,
       fullWidth = true,
+      narrow = false,
       readOnly,
       startIcon,
       endIcon,
@@ -118,7 +125,8 @@ export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
           hasSuffix && 'suffix',
           error && 'invalid',
           readOnly && 'locked',
-          fullWidth && 'kds-w-full',
+          fullWidth && !narrow && 'kds-w-full',
+          narrow && 'kds-field--narrow',
           className,
         )}
       >
