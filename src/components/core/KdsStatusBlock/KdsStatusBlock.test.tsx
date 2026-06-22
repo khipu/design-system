@@ -22,6 +22,19 @@ describe('KdsStatusBlock', () => {
     expect(screen.getByText('Transaction completed')).toBeInTheDocument();
   });
 
+  it('renders a ReactNode description with inline emphasis', () => {
+    render(
+      <KdsStatusBlock
+        status="success"
+        title="Done"
+        description={<><strong>Tu pago ya está en proceso</strong> Te avisaremos por correo.</>}
+      />
+    );
+    const strong = screen.getByText('Tu pago ya está en proceso');
+    expect(strong.tagName).toBe('STRONG');
+    expect(screen.getByText(/Te avisaremos por correo\./)).toBeInTheDocument();
+  });
+
   it('renders with custom icon', () => {
     render(
       <KdsStatusBlock 
