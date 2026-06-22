@@ -1,7 +1,11 @@
 /**
  * Khipu Design System - StatusBlock Component
  *
- * Native HTML status block with BeerCSS styling.
+ * Bloque de resultado (icono + título + descripción) para pantallas de éxito/error/pendiente.
+ *
+ * Spacing: el padding vertical estándar es `--kds-spacing-2` (16px) — el mismo rhythm
+ * inter-elementos que usan `kds-btn-stack` y `kds-hr-dashed`. Usarlo standalone (sin
+ * envolverlo en wrappers con su propio padding) para no duplicar el espacio.
  */
 
 import React, { forwardRef } from 'react';
