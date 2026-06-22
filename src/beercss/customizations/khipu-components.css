@@ -4966,7 +4966,10 @@ dialog#surveyModal button.circle {
 
 .kds-status-block {
     text-align: center;
-    padding: var(--kds-spacing-6) 0;
+    /* Padding vertical estándar: spacing-2 (16px), el mismo rhythm inter-elementos
+       que usan kds-btn-stack y kds-hr-dashed. NO usar spacing-6 (48px): genera
+       demasiado espacio cuando el bloque se compone con header/divider alrededor. */
+    padding: var(--kds-spacing-2) 0;
 }
 
 .kds-status-block-icon {
