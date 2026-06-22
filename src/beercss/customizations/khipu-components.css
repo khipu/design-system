@@ -4975,7 +4975,8 @@ dialog#surveyModal button.circle {
 .kds-status-block-icon {
     width: var(--kds-status-icon-size);
     height: var(--kds-status-icon-size);
-    margin: 0 auto var(--kds-spacing-3);
+    /* spacing-2 (16px) icono→título: rhythm estándar inter-elementos. */
+    margin: 0 auto var(--kds-spacing-2);
     border-radius: var(--kds-radius-full);
     display: grid;
     place-items: center;
