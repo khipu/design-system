@@ -93,6 +93,23 @@ export const InfoCentered: Story = {
   },
 };
 
+/**
+ * Descripción con énfasis en línea: `description` acepta `ReactNode`, por lo que
+ * se puede anteponer un lead-in en `<strong>` (p.ej. el estado) al detalle.
+ */
+export const RichDescription: Story = {
+  args: {
+    status: 'success',
+    icon: 'check',
+    title: '¡Listo, transferiste!',
+    description: (
+      <>
+        <strong>Tu pago ya está en proceso</strong> Al confirmarse, te enviaremos el comprobante de pago a tu correo.
+      </>
+    ),
+  },
+};
+
 export const AllStatuses: Story = {
   render: function AllStatusesBlock() {
     return (

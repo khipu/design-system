@@ -13,7 +13,12 @@ export interface KdsStatusBlockProps extends React.HTMLAttributes<HTMLDivElement
   status: KdsStatusType;
   icon?: string;
   title: string;
-  description?: string;
+  /**
+   * Texto descriptivo bajo el título. Acepta `ReactNode` para permitir énfasis
+   * en línea (p.ej. un lead-in en `<strong>` seguido del detalle). Se renderiza
+   * dentro de un `<p>`, así que usar solo contenido válido como hijo de párrafo.
+   */
+  description?: React.ReactNode;
   inline?: boolean;
 }
 
