@@ -2696,7 +2696,9 @@ footer > .kds-container-center {
     font-size: var(--kds-font-size-sm);
     font-weight: var(--kds-font-weight-semibold);
     line-height: var(--kds-line-height-normal);
-    margin-bottom: var(--kds-spacing-0-5);
+    /* Solo margin-bottom: el padding del alert da el espaciado. Reset del resto para
+       evitar el margin-block que BeerCSS aplica a <p> dentro del scope. */
+    margin: 0 0 var(--kds-spacing-0-5);
     word-break: normal;
     overflow-wrap: break-word;
 }
@@ -2706,6 +2708,9 @@ footer > .kds-container-center {
     font-size: var(--kds-font-size-sm);
     font-weight: var(--kds-font-weight-regular);
     line-height: var(--kds-line-height-relaxed);
+    /* Sin margen propio: el padding del alert es el único espaciado (evita el
+       margin-block de <p> de BeerCSS dentro del scope). */
+    margin: 0;
     word-break: normal;
     overflow-wrap: break-word;
 }
