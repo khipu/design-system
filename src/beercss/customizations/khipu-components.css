@@ -2658,7 +2658,8 @@ footer > .kds-container-center {
     display: flex;
     align-items: center;
     gap: var(--kds-spacing-1);
-    padding: var(--kds-spacing-2);
+    /* Padding compacto: vertical spacing-1 (8px), horizontal spacing-2 (16px). */
+    padding: var(--kds-spacing-1) var(--kds-spacing-2);
     border-radius: var(--kds-radius-md);
     border: 1px solid;
     font-family: var(--kds-font-family-primary);
@@ -2668,7 +2669,7 @@ footer > .kds-container-center {
 
 @media (min-width: 768px) {
     .kds-alert {
-        padding: var(--kds-spacing-2);
+        padding: var(--kds-spacing-1) var(--kds-spacing-2);
         flex: 1 1 auto;
     }
 }
