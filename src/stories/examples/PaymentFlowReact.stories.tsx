@@ -369,6 +369,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
 
@@ -475,6 +477,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
 
@@ -550,6 +554,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
 
@@ -619,6 +625,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
 
@@ -645,6 +653,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
 
@@ -681,6 +691,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
 
@@ -717,6 +729,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
 
@@ -755,6 +769,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
 
@@ -779,6 +795,8 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
+              {/* Footer externo (desktop): la variante inside (arriba) es para mobile. */}
+              <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
             </section>
           )}
         </div>
