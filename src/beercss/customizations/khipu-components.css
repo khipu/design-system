@@ -4767,6 +4767,13 @@ dialog#surveyModal button.circle {
     margin-block-start: 0 !important;
 }
 
+/* Footer externo (desktop) adyacente a la card: cancela el gap del .kds-screen
+   para que quede pegado debajo de la card y no flotando lejos. Las dos cards
+   (header/body) sí conservan su separación. */
+.kds-screen > .kds-secure-footer {
+    margin-top: calc(-1 * var(--kds-spacing-3));
+}
+
 @media (max-width: 767px) {
     .kds-card-elevated > .kds-secure-footer {
         display: flex;
@@ -4795,6 +4802,26 @@ dialog#surveyModal button.circle {
     display: block;
     object-fit: contain;
     overflow: visible;
+}
+
+/* Divisor entre el logo de Khipu y el del PSP ("Khipu | klap") */
+.kds-secure-footer-sep {
+    width: 1px;
+    height: 0.85em;
+    background: currentColor;
+    opacity: 0.35;
+    flex: 0 0 auto;
+}
+
+/* Logo del PSP (proveedor de pagos): lo provee el consumidor, lo alineamos al mismo
+   alto que el mark de Khipu. Sirve para <img> o un elemento con .kds-psp-mark. */
+.kds-secure-footer img,
+.kds-secure-footer .kds-psp-mark {
+    height: 11px;
+    width: auto;
+    flex: 0 0 auto;
+    display: block;
+    object-fit: contain;
 }
 
 .kds-secure-footer-code {
@@ -5472,11 +5499,20 @@ div.kds-invoice-header,
     padding: 0;
     border-radius: 0;
     align-content: initial;
+    /* Override BeerCSS `header { min-height: ... }` — el header debe ajustarse a su
+       contenido (sigue el alto del merchant tile: 64px→50px al colapsar). Sin esto
+       quedaba un min-height fijo de 64px → hueco muerto debajo al colapsar en mobile. */
+    min-height: 0;
 }
 
-/* Mobile collapsed state: center-align so merchant tile aligns with the smaller amount */
+/* Mobile: center-align el header (merchant tile vs bloque monto+código) tanto
+   expandido como colapsado. Al quitar el logo del header, el bloque de texto quedaba
+   más bajo que el merchant tile y con `flex-start` dejaba hueco abajo; centrado los
+   alinea. CSS-only (no depende de la clase .is-collapsed, que el JS de collapse no setea). */
 @media (max-width: 767px) {
-    .kds-invoice-sticky.is-collapsed .kds-invoice-header {
+    header.kds-invoice-header,
+    div.kds-invoice-header,
+    .kds-invoice-header {
         align-items: center;
     }
 }
@@ -5632,9 +5668,12 @@ div.kds-invoice-header,
 .kds-detail-list {
     display: flex;
     flex-direction: column;
-    gap: var(--kds-spacing-1-5);
+    /* spacing-2 entre grupos del detalle (separación estándar entre piezas de info
+       distintas, ej. "Emisor cobro" vs "Descripción"). El padding-top da la misma
+       separación spacing-2 arriba del primer grupo (Asunto↔Emisor cobro). */
+    gap: var(--kds-spacing-2);
     margin: 0;
-    padding: 0;
+    padding: var(--kds-spacing-2) 0 0;
 }
 
 @media (max-width: 767px) {
@@ -5644,10 +5683,9 @@ div.kds-invoice-header,
 }
 
 .kds-detail-group {
-    margin-bottom: var(--kds-spacing-1-5);
-}
-
-.kds-detail-group:last-child {
+    /* El espacio entre grupos lo da el `gap` de .kds-detail-list (spacing-1-5).
+       No agregar margin-bottom acá: se sumaba al gap → doble espacio entre grupos
+       (p. ej. entre "Emisor cobro" y "Descripción"). */
     margin-bottom: 0;
 }
 
@@ -6132,12 +6170,15 @@ button.kds-btn-success::after {
     padding-bottom: 0;
 }
 
-/* Payment stage — full-viewport centered wrapper */
+/* Payment stage — full-viewport centered wrapper.
+   Fondo muted (gris) para que las cards blancas (header + body) y el gap entre
+   ellas se distingan; sin esto, card blanca sobre fondo blanco se funden. */
 .kds-payment-stage {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     padding: var(--kds-spacing-2-5) var(--kds-spacing-2) var(--kds-spacing-8);
+    background: var(--kds-color-background-muted);
 }
 
 /* Payment flow — narrow column */

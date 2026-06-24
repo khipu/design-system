@@ -29,9 +29,6 @@ import {
   KdsRecapList,
 } from '../../components/domain';
 
-// Assets
-import khipuLogo from '../../assets/images/khipu-logo.svg';
-
 // Mock data
 import {
   TOTAL_SCREENS,
@@ -49,10 +46,6 @@ import {
 // CONSTANTS
 // =============================================================================
 
-/** Khipu brand logo — imported asset from src/assets/images/ */
-const KhipuBrandImg = () => (
-  <img src={khipuLogo} alt="khipu" />
-);
 
 /** Scroll-linked collapse constants — matches khipu-init.js */
 const COLLAPSE_START = 0;
@@ -168,7 +161,6 @@ interface InvoiceContentProps {
  * Invoice card internals — matches the HTML structure in payment-flow.html exactly.
  *
  * Structure:
- *   .kds-brand-inner          (mobile-only logo, injected by JS in vanilla demo)
  *   .kds-invoice-header       (flex: amount left, merchant icon right)
  *   .kds-invoice-collapsible
  *     .kds-invoice-summary    (flex: kv left, toggle right)
@@ -183,16 +175,14 @@ const InvoiceContent: React.FC<InvoiceContentProps> = ({
 
   return (
     <>
-      {/* Brand inner — visible on mobile only (CSS hides on desktop) */}
-      <div className="kds-brand-inner">
-        <KhipuBrandImg />
-      </div>
       <header className="kds-invoice-header">
         <div>
           <p className={`kds-invoice-amount${amountSuccess ? ' success' : ''}`}>
             {invoice.amount}
           </p>
-          <p className="kds-invoice-code">Código {invoice.code}</p>
+          <p className="kds-invoice-code">
+            Código <span className="kds-invoice-code-value kds-invoice-code-value--lowercase">{invoice.code}</span>
+          </p>
         </div>
         <div className="kds-invoice-merchant" aria-hidden="true">
           <i className="material-symbols-outlined">storefront</i>
@@ -355,9 +345,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 1 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky>
@@ -379,7 +366,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   </KdsButton>
                 </div>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>
@@ -390,9 +377,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 2 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky>
@@ -488,7 +472,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   </KdsBankList>
                 </KdsTabPanel>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>
@@ -499,9 +483,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 3 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky>
@@ -566,7 +547,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   </KdsButton>
                 </div>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>
@@ -577,9 +558,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 4 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky>
@@ -638,7 +616,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   </KdsButton>
                 </div>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>
@@ -649,9 +627,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 5 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky className="kds-card-dimmed">
@@ -667,7 +642,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Confirma si ya realizaste la transferencia desde tu banco.
                 </p>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>
@@ -678,9 +653,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 6 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky>
@@ -706,7 +678,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   </KdsButton>
                 </div>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>
@@ -717,9 +689,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 7 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky>
@@ -745,7 +714,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   </KdsButton>
                 </div>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>
@@ -756,9 +725,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 8 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky>
@@ -786,7 +752,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   </KdsButton>
                 </div>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>
@@ -797,9 +763,6 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
           {/* ============================================================= */}
           {currentScreen === 9 && (
             <section className="kds-screen active" ref={screenRef}>
-              <div className="kds-brand-row">
-                <KhipuBrandImg />
-              </div>
 
               <div className="kds-invoice-sticky-wrap">
                 <KdsInvoiceSticky className="kds-card-dimmed">
@@ -813,7 +776,7 @@ function PaymentFlowStory({ initialScreen = 1 }: PaymentFlowArgs) {
                   Tu pago ha sido procesado exitosamente.
                 </p>
                 <KdsSecureFooter variant="inside">
-                  Pago seguro procesado por Khipu
+                  Pago seguro procesado por
                 </KdsSecureFooter>
               </KdsCard>
             </section>

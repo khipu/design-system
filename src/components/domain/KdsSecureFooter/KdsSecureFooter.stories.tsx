@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsSecureFooter } from './KdsSecureFooter';
 import { KdsCard, KdsCardBody } from '../../core/KdsCard';
+import khipuLogo from '../../../assets/images/khipu-logo.svg';
 
 /**
- * KdsSecureFooter — footer "Pago seguro con Khipu" con icon lock.
+ * KdsSecureFooter — footer "Pago seguro procesado por" + logo Khipu (a color) con candado.
  *
  * Layout & sizing (spec):
  * - `display: flex; align-items: center; justify-content: center`
@@ -13,9 +14,11 @@ import { KdsCard, KdsCardBody } from '../../core/KdsCard';
  * - `color: var(--kds-color-gray-400)`
  * - `letter-spacing: var(--kds-letter-spacing-wide)`
  *
- * Iconos:
- * - Lock: Material Symbols `lock`, `12px`
- * - Khipu mark: SVG inline opcional (en CSS `.kds-secure-footer-lock`), `11px`
+ * Contenido (incluido por defecto, igual que `mat:secureFooter`):
+ * - Candado: SVG inline `.kds-secure-footer-lock`, `12px` (stroke `currentColor`)
+ * - Label: "Pago seguro procesado por" (override con `children`; NO incluye "Khipu" — la marca la aporta el logo)
+ * - Logo Khipu: SVG inline `.khipu-mark` a color (morado + cyan), `11px`. Ocultable con `showLogo={false}`.
+ * - PSP (opcional): logo del proveedor de pagos vía prop `psp`, a la derecha con divisor ("Khipu | klap").
  *
  * Variantes:
  * - **`default`** (out-of-card): visible en desktop (`min-width: 768px`), oculto en mobile
@@ -42,7 +45,7 @@ const meta: Meta<typeof KdsSecureFooter> = {
     docs: {
       description: {
         component:
-          'Footer "Pago seguro con Khipu". `font xs, color gray-400, gap 4px, padding 8px 0, letter-spacing wide`. Variante `default` visible solo en desktop (≥768px); variante `inside` visible solo en mobile (dentro de cards). Combinar ambas en el mismo flow garantiza visibilidad en cualquier viewport. Compose: poné `<KdsSecureFooter variant="inside"/>` como último hijo de la `KdsCard` y `<KdsSecureFooter/>` fuera de la card. Ver `Patterns/CSS-only → SecureFooter`.',
+          'Footer "Pago seguro procesado por" + logo Khipu a color. `font xs, color gray-400, gap 4px, padding 8px 0, letter-spacing wide`. Variante `default` visible solo en desktop (≥768px); variante `inside` visible solo en mobile (dentro de cards). Combinar ambas en el mismo flow garantiza visibilidad en cualquier viewport. Compose: poné `<KdsSecureFooter variant="inside"/>` como último hijo de la `KdsCard` y `<KdsSecureFooter/>` fuera de la card. Ver `Patterns/CSS-only → SecureFooter`.',
       },
     },
   },
@@ -62,7 +65,7 @@ type Story = StoryObj<typeof KdsSecureFooter>;
 /** Default — footer externo, visible en desktop ≥768px. */
 export const Default: Story = {
   args: {
-    children: 'Pago seguro procesado por Khipu',
+    children: 'Pago seguro procesado por',
   },
 };
 
@@ -70,7 +73,7 @@ export const Default: Story = {
 export const InsideVariant: Story = {
   args: {
     variant: 'inside',
-    children: 'Pago seguro procesado por Khipu',
+    children: 'Pago seguro procesado por',
   },
   parameters: {
     docs: {
@@ -85,8 +88,23 @@ export const InsideVariant: Story = {
 /** Texto custom (raro — el texto default suele ser canónico). */
 export const CustomText: Story = {
   args: {
-    children: 'Transacción protegida por Khipu',
+    children: 'Transacción protegida por',
   },
+};
+
+/**
+ * Con PSP — un segundo logo (proveedor de pagos que contrató a Khipu) a la derecha del
+ * logo Khipu, separado por un divisor ("Khipu | klap"). El consumidor pasa el logo del
+ * PSP vía la prop `psp` (el DS no empaqueta logos de terceros). Acá se ilustra con un
+ * wordmark de texto; en producción sería un `<img className="kds-psp-mark" src=… />`.
+ */
+export const WithPsp: Story = {
+  name: 'Con PSP',
+  render: () => (
+    <KdsSecureFooter psp={<strong style={{ color: '#16a34a' }}>klap</strong>}>
+      Pago seguro procesado por
+    </KdsSecureFooter>
+  ),
 };
 
 /**
@@ -103,7 +121,7 @@ export const InsideCard: Story = {
           <h2 className="kds-card-title">Contenido de la card</h2>
           <p>El footer inside aparece al final.</p>
           <KdsSecureFooter variant="inside">
-            Pago seguro procesado por Khipu
+            Pago seguro procesado por
           </KdsSecureFooter>
         </KdsCardBody>
       </KdsCard>
@@ -120,14 +138,14 @@ export const AllVariants: Story = {
           <p style={{ margin: '0 0 8px 0', fontSize: '0.875rem', color: '#666' }}>
             Variante <code>default</code> (visible en desktop, oculto en mobile)
           </p>
-          <KdsSecureFooter>Pago seguro procesado por Khipu</KdsSecureFooter>
+          <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
         </div>
         <div>
           <p style={{ margin: '0 0 8px 0', fontSize: '0.875rem', color: '#666' }}>
             Variante <code>inside</code> (visible en mobile, oculto en desktop)
           </p>
           <KdsSecureFooter variant="inside">
-            Pago seguro procesado por Khipu
+            Pago seguro procesado por
           </KdsSecureFooter>
         </div>
       </div>
@@ -139,16 +157,25 @@ export const AllVariants: Story = {
  * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
  * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.
  *
- * Contrato HTML — par responsive (renderizar ambas instancias en la página):
+ * Contrato HTML — par responsive (renderizar ambas instancias en la página).
+ * Candado SVG + label + logo Khipu a color (`khipu-logo.svg`), igual que `mat:secureFooter`:
  * ```html
  * <!-- Dentro de la card (visible en mobile <768px) -->
  * <p class="kds-secure-footer inside">
- *   <i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+ *   <svg class="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+ *     <rect x="4.5" y="10.5" width="15" height="10" rx="2.25"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+ *   </svg>
+ *   Pago seguro procesado por
+ *   <img class="khipu-mark" src="khipu-logo.svg" alt="Khipu"/>
  * </p>
  *
  * <!-- Fuera de la card (visible en desktop ≥768px) -->
  * <p class="kds-secure-footer">
- *   <i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+ *   <svg class="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+ *     <rect x="4.5" y="10.5" width="15" height="10" rx="2.25"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+ *   </svg>
+ *   Pago seguro procesado por
+ *   <img class="khipu-mark" src="khipu-logo.svg" alt="Khipu"/>
  * </p>
  * ```
  *
@@ -168,12 +195,20 @@ export const HtmlMarkup: Story = {
         type: 'code',
         code: `<!-- Dentro de la card (visible en mobile <768px) -->
 <p class="kds-secure-footer inside">
-  <i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+  <svg class="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="4.5" y="10.5" width="15" height="10" rx="2.25"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+  </svg>
+  Pago seguro procesado por
+  <img class="khipu-mark" src="khipu-logo.svg" alt="Khipu"/>
 </p>
 
 <!-- Fuera de la card (visible en desktop ≥768px) -->
 <p class="kds-secure-footer">
-  <i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+  <svg class="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="4.5" y="10.5" width="15" height="10" rx="2.25"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+  </svg>
+  Pago seguro procesado por
+  <img class="khipu-mark" src="khipu-logo.svg" alt="Khipu"/>
 </p>`,
       },
     },
@@ -181,10 +216,20 @@ export const HtmlMarkup: Story = {
   render: () => (
     <div style={{ maxWidth: 400 }}>
       <p className="kds-secure-footer inside">
-        <i className="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+        <svg className="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4.5" y="10.5" width="15" height="10" rx="2.25" />
+          <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
+        </svg>
+        Pago seguro procesado por
+        <img className="khipu-mark" src={khipuLogo} alt="Khipu" />
       </p>
       <p className="kds-secure-footer">
-        <i className="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu
+        <svg className="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4.5" y="10.5" width="15" height="10" rx="2.25" />
+          <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
+        </svg>
+        Pago seguro procesado por
+        <img className="khipu-mark" src={khipuLogo} alt="Khipu" />
       </p>
     </div>
   ),

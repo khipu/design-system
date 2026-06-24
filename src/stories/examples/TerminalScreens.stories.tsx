@@ -7,7 +7,6 @@ import {
   KdsTextField,
 } from '../../components/core';
 import { KdsSecureFooter, KdsInvoiceSticky } from '../../components/domain';
-import khipuLogo from '../../assets/images/khipu-logo.svg';
 
 /**
  * Terminal screens — pantallas no-happy-path del payment flow Khipu.
@@ -18,7 +17,6 @@ import khipuLogo from '../../assets/images/khipu-logo.svg';
  *
  * Estructura común:
  * - `.kds-payment-stage > .kds-payment-flow > .kds-screen.active`
- * - `.kds-brand-row` (logo Khipu, oculto en mobile)
  * - Invoice sticky (placeholder en estas stories)
  * - `KdsCard` con el contenido específico
  * - `KdsSecureFooter` interno + externo
@@ -44,19 +42,15 @@ type Story = StoryObj;
 // SHARED HELPERS
 // =============================================================================
 
-const KhipuBrand = () => (
-  <div className="kds-brand-row">
-    <img src={khipuLogo} alt="khipu" />
-  </div>
-);
-
 const SimpleInvoice = () => (
   <div className="kds-invoice-sticky-wrap">
     <KdsInvoiceSticky>
       <header className="kds-invoice-header">
         <div>
           <p className="kds-invoice-amount">$3.300</p>
-          <p className="kds-invoice-code">Código fdap-sr2x-q3pf</p>
+          <p className="kds-invoice-code">
+            Código <span className="kds-invoice-code-value kds-invoice-code-value--lowercase">fdap-sr2x-q3pf</span>
+          </p>
         </div>
         <div className="kds-invoice-merchant" aria-hidden="true">
           <i className="material-symbols-outlined">storefront</i>
@@ -80,10 +74,9 @@ const Shell = ({ children }: { children: React.ReactNode }) => (
   <div className="kds-payment-stage">
     <div className="kds-payment-flow">
       <section className="kds-screen active">
-        <KhipuBrand />
         <SimpleInvoice />
         {children}
-        <KdsSecureFooter>Pago seguro procesado por Khipu</KdsSecureFooter>
+        <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
       </section>
     </div>
   </div>
@@ -116,7 +109,7 @@ export const Cancel: Story = {
           <KdsButton variant="outlined" fullWidth>Volver a Khipu</KdsButton>
         </div>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -152,7 +145,7 @@ export const EndCompleted: Story = {
           <KdsButton fullWidth>Volver al dashboard</KdsButton>
         </div>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -181,7 +174,7 @@ export const EndPending: Story = {
           algunos segundos.
         </KdsAlert>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -225,7 +218,7 @@ export const NotPaying: Story = {
           </div>
         </form>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -269,7 +262,7 @@ export const ReportPaid: Story = {
           </div>
         </form>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -313,7 +306,7 @@ export const ReportAbuse: Story = {
           </div>
         </form>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -351,7 +344,7 @@ export const InfoVerified: Story = {
           <KdsButton fullWidth>Volver al dashboard</KdsButton>
         </div>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -380,7 +373,7 @@ export const InfoReversed: Story = {
           contacta a tu banco.
         </KdsAlert>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -408,7 +401,7 @@ export const InfoVerifying: Story = {
           automáticamente cuando esté verificado.
         </KdsAlert>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -439,7 +432,7 @@ export const InfoDeleted: Story = {
           <KdsButton variant="outlined" fullWidth>Volver a Khipu</KdsButton>
         </div>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -471,7 +464,7 @@ export const InfoRejected: Story = {
           <KdsButton variant="outlined" fullWidth>Volver a Khipu</KdsButton>
         </div>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -498,7 +491,7 @@ export const InfoMarkedAbuse: Story = {
           Esta solicitud fue reportada como abuso y está bajo revisión.
         </KdsAlert>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -525,7 +518,7 @@ export const InfoMarkedPaidByMerchant: Story = {
           El comercio confirmó la recepción del pago manualmente.
         </KdsAlert>
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>
@@ -550,7 +543,7 @@ export const InfoDisabled: Story = {
           inline
         />
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>

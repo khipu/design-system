@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsInvoiceSticky } from './KdsInvoiceSticky';
-import khipuLogo from '../../../assets/images/khipu-logo.svg';
 
 /**
  * KdsInvoiceSticky — header sticky con monto + código + merchant tile + datos colapsables.
@@ -13,10 +12,9 @@ import khipuLogo from '../../../assets/images/khipu-logo.svg';
  *   <article class="kds-card-elevated kds-invoice-sticky">
  *     <header class="kds-invoice-header">
  *       <div>
- *         <div class="kds-brand-inner"><img src="logo.svg"/></div>   <!-- mobile-only logo -->
  *         <p class="kds-invoice-amount">$3.300</p>
  *         <p class="kds-invoice-code">
- *           Código <span class="kds-invoice-code-value">fdap-sr2x-q3pf</span>
+ *           Código <span class="kds-invoice-code-value kds-invoice-code-value--lowercase">fdap-sr2x-q3pf</span>
  *         </p>
  *       </div>
  *       <div class="kds-invoice-merchant"><i>storefront</i></div>
@@ -81,12 +79,9 @@ const InvoiceContent = ({
   <>
     <header className="kds-invoice-header">
       <div>
-        <div className="kds-brand-inner">
-          <img src={khipuLogo} alt="Khipu" />
-        </div>
         <p className={`kds-invoice-amount${amountClass ? ` ${amountClass}` : ''}`}>{amount}</p>
         <p className="kds-invoice-code">
-          Código <span className="kds-invoice-code-value">{code}</span>
+          Código <span className="kds-invoice-code-value kds-invoice-code-value--lowercase">{code}</span>
         </p>
       </div>
       <div className="kds-invoice-merchant" aria-hidden="true">
@@ -403,10 +398,9 @@ export const StickyAnimationExtended: Story = {
  *   <article class="kds-card-elevated kds-invoice-sticky">
  *     <header class="kds-invoice-header">
  *       <div>
- *         <div class="kds-brand-inner"><img src="/khipu-logo.svg" alt="Khipu"/></div>
  *         <p class="kds-invoice-amount">$3.300</p>
  *         <p class="kds-invoice-code">
- *           Código <span class="kds-invoice-code-value">fdap-sr2x-q3pf</span>
+ *           Código <span class="kds-invoice-code-value kds-invoice-code-value--lowercase">fdap-sr2x-q3pf</span>
  *         </p>
  *       </div>
  *       <div class="kds-invoice-merchant" aria-hidden="true">
@@ -442,10 +436,9 @@ export const HtmlMarkup: Story = {
   <article class="kds-card-elevated kds-invoice-sticky">
     <header class="kds-invoice-header">
       <div>
-        <div class="kds-brand-inner"><img src="/khipu-logo.svg" alt="Khipu"/></div>
         <p class="kds-invoice-amount">$3.300</p>
         <p class="kds-invoice-code">
-          Código <span class="kds-invoice-code-value">fdap-sr2x-q3pf</span>
+          Código <span class="kds-invoice-code-value kds-invoice-code-value--lowercase">fdap-sr2x-q3pf</span>
         </p>
       </div>
       <div class="kds-invoice-merchant" aria-hidden="true">
@@ -471,12 +464,9 @@ export const HtmlMarkup: Story = {
         <article className="kds-card-elevated kds-invoice-sticky">
           <header className="kds-invoice-header">
             <div>
-              <div className="kds-brand-inner">
-                <img src={khipuLogo} alt="Khipu" />
-              </div>
               <p className="kds-invoice-amount">$3.300</p>
               <p className="kds-invoice-code">
-                Código <span className="kds-invoice-code-value">fdap-sr2x-q3pf</span>
+                Código <span className="kds-invoice-code-value kds-invoice-code-value--lowercase">fdap-sr2x-q3pf</span>
               </p>
             </div>
             <div className="kds-invoice-merchant" aria-hidden="true">

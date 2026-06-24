@@ -3,18 +3,38 @@ import { render, screen } from '@testing-library/react';
 import { KdsSecureFooter } from './KdsSecureFooter';
 
 describe('KdsSecureFooter', () => {
-  it('renders footer with lock icon and default text', () => {
-    render(<KdsSecureFooter />);
+  it('renders footer with lock icon, lead-in text and Khipu wordmark', () => {
+    const { container } = render(<KdsSecureFooter />);
     const footer = screen.getByRole('contentinfo');
     expect(footer).toHaveClass('kds-secure-footer');
-    expect(screen.getByText('lock')).toHaveClass('material-symbols-outlined');
-    expect(screen.getByText('Pago seguro con Khipu')).toBeInTheDocument();
+    expect(container.querySelector('.kds-secure-footer-lock')).toBeInTheDocument();
+    // El texto NO incluye "Khipu": la marca la aporta el logo.
+    expect(screen.getByText('Pago seguro procesado por')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Khipu' })).toHaveClass('khipu-mark');
+  });
+
+  it('hides the Khipu wordmark when showLogo is false', () => {
+    render(<KdsSecureFooter showLogo={false} />);
+    expect(screen.queryByRole('img', { name: 'Khipu' })).toBeNull();
   });
 
   it('renders custom children instead of default text', () => {
     render(<KdsSecureFooter>Pago protegido</KdsSecureFooter>);
     expect(screen.getByText('Pago protegido')).toBeInTheDocument();
-    expect(screen.queryByText('Pago seguro con Khipu')).toBeNull();
+    expect(screen.queryByText('Pago seguro procesado por')).toBeNull();
+  });
+
+  it('renders a PSP logo with a separator when psp is provided', () => {
+    const { container } = render(
+      <KdsSecureFooter psp={<img src="data:," alt="klap" className="kds-psp-mark" />} />,
+    );
+    expect(container.querySelector('.kds-secure-footer-sep')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'klap' })).toBeInTheDocument();
+  });
+
+  it('does not render a separator when psp is absent', () => {
+    const { container } = render(<KdsSecureFooter />);
+    expect(container.querySelector('.kds-secure-footer-sep')).toBeNull();
   });
 
   it('applies inside variant class', () => {

@@ -115,16 +115,13 @@ export const PaymentScreenLayout: Story = {
           minHeight: '100vh',
         }}
       >
-        {/* Brand row — usa la clase CSS-only kds-brand-row del DS */}
-        <div className="kds-brand-row">
-          <strong style={{ color: 'var(--kds-color-primary-main)' }}>khipu</strong>
-        </div>
-
         {/* Invoice sticky */}
         <KdsInvoiceSticky>
           <div className="kds-invoice-header">
             <p className="kds-invoice-amount">$3.300</p>
-            <p className="kds-invoice-code">fdap-sr2x-q3pf</p>
+            <p className="kds-invoice-code">
+              Código <span className="kds-invoice-code-value kds-invoice-code-value--lowercase">fdap-sr2x-q3pf</span>
+            </p>
           </div>
         </KdsInvoiceSticky>
 

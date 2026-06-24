@@ -11,7 +11,6 @@ import {
   KdsRecapList,
   KdsSecureFooter,
 } from '../../components/domain';
-import khipuLogo from '../../assets/images/khipu-logo.svg';
 
 /**
  * Resumen / confirmación de pago — pantalla mobile-first del flujo Khipu.
@@ -42,19 +41,12 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-const KhipuBrand = () => (
-  <div className="kds-brand-row">
-    <img src={khipuLogo} alt="khipu" />
-  </div>
-);
-
 const Shell = ({ children }: { children: React.ReactNode }) => (
   <div className="kds-payment-stage">
     <div className="kds-payment-flow">
       <section className="kds-screen active">
-        <KhipuBrand />
         {children}
-        <KdsSecureFooter>Pago seguro procesado por Khipu</KdsSecureFooter>
+        <KdsSecureFooter>Pago seguro procesado por</KdsSecureFooter>
       </section>
     </div>
   </div>
@@ -118,7 +110,7 @@ export const ReadyToPay: Story = {
         </div>
 
         <KdsSecureFooter variant="inside">
-          Pago seguro procesado por Khipu
+          Pago seguro procesado por
         </KdsSecureFooter>
       </KdsCard>
     </Shell>

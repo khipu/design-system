@@ -1,5 +1,6 @@
 import type React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import khipuLogo from '../../assets/images/khipu-logo.svg';
 
 /**
  * CSS-only patterns — clases del Design System Khipu (BeerCSS) que se usan
@@ -173,7 +174,6 @@ export const DetailGroup: Story = {
  * <div class="kds-payment-stage">
  *   <div class="kds-payment-flow">
  *     <section class="kds-screen active">
- *       <div class="kds-brand-row">...</div>          <!-- logo Khipu -->
  *       <div class="kds-invoice-sticky-wrap">...</div>
  *       <article class="kds-card-elevated">...</article>
  *     </section>
@@ -191,10 +191,6 @@ export const PaymentStage: Story = {
     <div className="kds-payment-stage" style={{ background: '#f5f5f5' }}>
       <div className="kds-payment-flow">
         <section className="kds-screen active">
-          <div style={{ padding: 16, background: 'white', borderRadius: 8, border: '1px dashed #aaa' }}>
-            <strong>kds-brand-row</strong>
-            <p style={{ margin: 0, fontSize: 12, color: '#666' }}>logo Khipu (visible solo en desktop)</p>
-          </div>
           <div style={{ padding: 16, background: 'white', borderRadius: 8, border: '1px dashed #aaa' }}>
             <strong>kds-invoice-sticky-wrap</strong>
             <p style={{ margin: 0, fontSize: 12, color: '#666' }}>position: sticky; top: 0</p>
@@ -464,7 +460,7 @@ export const ButtonStack: Story = {
 // =============================================================================
 
 /**
- * `.kds-secure-footer` — "Pago seguro procesado por Khipu" con icon lock.
+ * `.kds-secure-footer` — "Pago seguro procesado por" con icon lock.
  *
  * Layout (spec):
  * - `display: flex; align-items: center; justify-content: center`
@@ -475,26 +471,48 @@ export const ButtonStack: Story = {
  * - **default** (fuera de la card): visible en desktop ≥768px, oculto en mobile
  * - **`.inside`** (dentro de `KdsCard`): visible en mobile <768px, oculto en desktop
  *
- * Contrato HTML:
+ * Contrato HTML (candado SVG + label + wordmark gris, igual que `mat:secureFooter`):
  * ```html
- * <!-- dentro de la card (mobile) -->
- * <p class="kds-secure-footer inside"><i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu</p>
- * <!-- fuera de la card (desktop) -->
- * <p class="kds-secure-footer"><i class="material-symbols-outlined">lock</i> Pago seguro procesado por Khipu</p>
+ * <p class="kds-secure-footer">
+ *   <svg class="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+ *     <rect x="4.5" y="10.5" width="15" height="10" rx="2.25"/>
+ *     <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+ *   </svg>
+ *   Pago seguro procesado por
+ *   <img class="khipu-mark" src="khipu-logo.svg" alt="Khipu"/>
+ * </p>
  * ```
+ * La variante mobile agrega la clase `inside` (`<p class="kds-secure-footer inside">…`).
  *
  * En React: `<KdsSecureFooter variant="inside"/>` dentro de la card +
- * `<KdsSecureFooter/>` fuera.
+ * `<KdsSecureFooter/>` fuera. El wordmark va incluido por defecto.
  *
- * @css .kds-secure-footer, .kds-secure-footer.inside
+ * @css .kds-secure-footer, .kds-secure-footer.inside, .kds-secure-footer-lock, .kds-secure-footer .khipu-mark
  */
 export const SecureFooterPair: Story = {
   name: 'SecureFooter (par responsive)',
   render: () => (
-    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+    <div style={{ maxWidth: 400, padding: 16, background: 'white', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* SIN PSP */}
       <p className="kds-secure-footer">
-        <i className="material-symbols-outlined">lock</i> Pago seguro procesado
-        por Khipu
+        <svg className="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4.5" y="10.5" width="15" height="10" rx="2.25" />
+          <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
+        </svg>
+        Pago seguro procesado por
+        <img className="khipu-mark" src={khipuLogo} alt="Khipu" />
+      </p>
+      {/* CON PSP: el logo del PSP va a la derecha, separado por .kds-secure-footer-sep.
+          Acá se ilustra con texto; en producción sería <img class="kds-psp-mark" src=… />. */}
+      <p className="kds-secure-footer">
+        <svg className="kds-secure-footer-lock" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4.5" y="10.5" width="15" height="10" rx="2.25" />
+          <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
+        </svg>
+        Pago seguro procesado por
+        <img className="khipu-mark" src={khipuLogo} alt="Khipu" />
+        <span className="kds-secure-footer-sep" aria-hidden="true" />
+        <strong style={{ color: '#16a34a' }}>klap</strong>
       </p>
     </div>
   ),
