@@ -4322,16 +4322,18 @@ dialog#surveyModal button.circle {
     flex-shrink: 0;
 }
 
-/* Merchant tile with logo variant */
+/* Merchant tile with logo variant — la imagen ocupa el 100% del tile (sin padding,
+   sin que se vea el fondo del tile como "borde"). El radius hereda el del tile para
+   que la imagen quede recortada a las esquinas redondeadas. */
 .kds-merchant-tile.logo {
-    padding: var(--kds-spacing-0-5);
+    padding: 0;
 }
 
 .kds-merchant-tile.logo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: var(--kds-radius-md);
+    border-radius: inherit;
 }
 
 .kds-merchant-meta {
