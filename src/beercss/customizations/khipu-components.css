@@ -5634,7 +5634,9 @@ div.kds-invoice-header,
     line-height: 1.5;
     letter-spacing: -0.31px;
     color: var(--kds-color-text-primary);
-    margin-bottom: var(--kds-spacing-2) !important;
+    /* sin !important: no hay regla de margin-bottom para h1 en BeerCSS que competir, y así un
+       consumidor puede anularlo (p.ej. FormTitle dentro de un Stack que ya da el espacio). */
+    margin-bottom: var(--kds-spacing-2);
 }
 
 /* Opt-in size modifiers (additive — do NOT change default 16/600) */
@@ -6205,7 +6207,7 @@ button.kds-btn-success::after {
    Flex-column para que el contenido quede arriba y el footer interno (versión / secure
    footer) pueda pinearse al fondo con `margin-top: auto` aunque el contenido sea corto. */
 .kds-screen > .kds-card-elevated {
-    min-height: 26rem;
+    min-height: 30rem;
     display: flex;
     flex-direction: column;
 }
