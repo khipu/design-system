@@ -6201,9 +6201,13 @@ button.kds-btn-success::after {
 
 /* Body card: alto mínimo estable para que NO salte entre estados de distinta altura
    (loader/progress ↔ formulario). Solo la body card = hijo directo de `.kds-screen`
-   (los headers van dentro de `.kds-invoice-sticky-wrap`, no la afecta). */
+   (los headers van dentro de `.kds-invoice-sticky-wrap`, no la afecta).
+   Flex-column para que el contenido quede arriba y el footer interno (versión / secure
+   footer) pueda pinearse al fondo con `margin-top: auto` aunque el contenido sea corto. */
 .kds-screen > .kds-card-elevated {
     min-height: 26rem;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Payment stage — full-viewport centered wrapper.
