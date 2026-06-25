@@ -4342,9 +4342,26 @@ dialog#surveyModal button.circle {
     display: block;
 }
 
+/* Variante para logos que traen su propio marco/forma (logos de comercio/servicio,
+   no fotos): `contain` + padding para que el logo entre completo sin recortar sus
+   esquinas. Opt-in: pasar className="kds-merchant-tile--contain". */
+.kds-merchant-tile.logo.kds-merchant-tile--contain {
+    padding: var(--kds-spacing-1);
+}
+.kds-merchant-tile.logo.kds-merchant-tile--contain img {
+    object-fit: contain;
+}
+
 .kds-merchant-meta {
     display: flex;
     flex-direction: column;
+    gap: var(--kds-spacing-0-5);
+}
+
+/* El meta controla su propio espaciado: anula el margin sibling de BeerCSS
+   (`… + :is(p,h*,…) { margin-block-start: 1rem }`) que separaba de más las líneas. */
+.kds-merchant-meta > * {
+    margin-block: 0 !important;
 }
 
 .kds-merchant-label {
