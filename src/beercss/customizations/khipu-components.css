@@ -6207,9 +6207,12 @@ button.kds-btn-success::after {
    Flex-column para que el contenido quede arriba y el footer interno (versión / secure
    footer) pueda pinearse al fondo con `margin-top: auto` aunque el contenido sea corto. */
 .kds-screen > .kds-card-elevated {
-    min-height: 30rem;
+    min-height: 36rem;
     display: flex;
     flex-direction: column;
+    /* mismo radio que el header (invoice-sticky usa radius-card); el base card-elevated
+       es radius-md (8px) y quedaba distinto al header en desktop. */
+    border-radius: var(--kds-radius-card);
 }
 
 /* Payment stage — full-viewport centered wrapper.
