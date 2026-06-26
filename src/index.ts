@@ -71,7 +71,9 @@ export {
   useAutoHide,
   useCountdown,
   useTabsKeyboard,
+  useStickyInvoiceCollapse,
 } from './components/core/hooks';
+export type { UseStickyInvoiceCollapseOptions } from './components/core/hooks';
 
 // =============================================================================
 // UTILITIES

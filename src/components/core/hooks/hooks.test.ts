@@ -1,8 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useCopyToClipboard } from './useCopyToClipboard';
 import { useAutoHide } from './useAutoHide';
 import { useCountdown } from './useCountdown';
+import { useStickyInvoiceCollapse } from './useStickyInvoiceCollapse';
 
 describe('useCopyToClipboard', () => {
   beforeEach(() => {
@@ -88,5 +89,83 @@ describe('useCountdown', () => {
     expect(result.current.hours).toBe(0);
     expect(result.current.minutes).toBe(0);
     expect(result.current.seconds).toBe(0);
+  });
+});
+
+describe('useStickyInvoiceCollapse', () => {
+  const setWidth = (w: number) =>
+    Object.defineProperty(window, 'innerWidth', { value: w, configurable: true, writable: true });
+
+  beforeEach(() => {
+    // rAF síncrono para testear el efecto del scroll sin esperar frames
+    vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+      cb(0);
+      return 0;
+    });
+    document.body.innerHTML = `
+      <section class="kds-screen active">
+        <div class="kds-invoice-sticky-wrap">
+          <article class="kds-card-elevated kds-invoice-sticky">
+            <div class="kds-invoice-collapsible">
+              <button class="kds-expand-toggle" aria-expanded="true" aria-controls="p1"><span>Ver detalle</span></button>
+              <div id="p1" class="kds-expand-panel open"></div>
+            </div>
+          </article>
+        </div>
+      </section>`;
+    Object.defineProperty(window, 'scrollY', { value: 0, configurable: true, writable: true });
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    document.body.innerHTML = '';
+  });
+
+  it('maps scroll to --collapse-progress and closes open panels on mobile', () => {
+    setWidth(390);
+    const onCollapseStart = vi.fn();
+    renderHook(() => useStickyInvoiceCollapse({ onCollapseStart, collapseEnd: 20 }));
+
+    act(() => {
+      Object.defineProperty(window, 'scrollY', { value: 20, configurable: true });
+      window.dispatchEvent(new Event('scroll'));
+    });
+
+    const screen = document.querySelector('.kds-screen.active') as HTMLElement;
+    const toggle = document.querySelector('.kds-expand-toggle') as HTMLElement;
+    expect(screen.style.getPropertyValue('--collapse-progress')).toBe('1');
+    expect(document.querySelector('.kds-invoice-sticky')!.classList.contains('is-collapsed')).toBe(true);
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(document.getElementById('p1')!.classList.contains('open')).toBe(false);
+    expect(onCollapseStart).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not collapse on desktop', () => {
+    setWidth(1024);
+    const onCollapseStart = vi.fn();
+    renderHook(() => useStickyInvoiceCollapse({ onCollapseStart }));
+
+    act(() => {
+      Object.defineProperty(window, 'scrollY', { value: 50, configurable: true });
+      window.dispatchEvent(new Event('scroll'));
+    });
+
+    const screen = document.querySelector('.kds-screen.active') as HTMLElement;
+    expect(screen.style.getPropertyValue('--collapse-progress')).toBe('');
+    expect(onCollapseStart).not.toHaveBeenCalled();
+  });
+
+  it('collapses from iframe VIEWPORT_OFFSET messages', () => {
+    setWidth(390);
+    const onCollapseStart = vi.fn();
+    renderHook(() => useStickyInvoiceCollapse({ onCollapseStart, collapseEnd: 20 }));
+
+    act(() => {
+      window.dispatchEvent(new MessageEvent('message', { data: { type: 'VIEWPORT_OFFSET', offsetTop: 20 } }));
+    });
+
+    const screen = document.querySelector('.kds-screen.active') as HTMLElement;
+    expect(screen.style.getPropertyValue('--collapse-progress')).toBe('1');
+    expect(onCollapseStart).toHaveBeenCalledTimes(1);
   });
 });

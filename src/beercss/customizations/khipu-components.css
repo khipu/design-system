@@ -65,6 +65,10 @@ a.kds-btn {
     /* Spacing - Using design tokens */
     padding: var(--kds-spacing-button-padding);      /* 0 16px */
     height: var(--kds-spacing-button-min-height);    /* 44px */
+    /* min-height además de height: en contenedores flex-column (p.ej. pantallas de
+       resultado/timeout) el botón es flex-item y, con solo `height`, flex-shrink lo
+       colapsaba a la altura del texto (~21px). min-height impide que se encoja. */
+    min-height: var(--kds-spacing-button-min-height);    /* 44px */
 
     /* Border - Using design token */
     border-radius: var(--kds-radius-button);  /* 10px */
@@ -4866,6 +4870,11 @@ dialog#surveyModal button.circle {
     background: none;
     border: 0;
     padding: 0;
+    /* Reset del bare `button { height: 2.5rem }` de BeerCSS (scoped en .kds-theme-root):
+       sin esto el toggle quedaba en una caja de 40px con el texto centrado → espacio
+       irregular arriba (pegado al resumen) y abajo (~26px hasta el panel). Con height
+       auto el botón ajusta a su contenido y el ritmo lo gobiernan los márgenes. */
+    height: auto;
     color: var(--kds-color-primary-main);
     font-weight: var(--kds-font-weight-medium);
     font-size: var(--kds-font-size-sm);
@@ -5505,6 +5514,14 @@ dialog#surveyModal button.circle {
     margin-top: var(--kds-spacing-1);
 }
 
+/* Ritmo uniforme alrededor del toggle: spacing-2 arriba (resumen↔"Ver detalle")
+   iguala el padding-top spacing-2 que la .kds-detail-list da debajo
+   ("Ver detalle"↔primer label del panel). Antes el alto fijo del bare button
+   (40px) hacía que el espacio de arriba y de abajo fueran distintos. */
+.kds-invoice-collapsible > .kds-expand-toggle {
+    margin-top: var(--kds-spacing-2);
+}
+
 /* -- Invoice Summary -- */
 .kds-invoice-summary {
     display: flex;
@@ -5714,9 +5731,13 @@ div.kds-invoice-header,
 }
 
 .kds-detail-group {
-    /* El espacio entre grupos lo da el `gap` de .kds-detail-list (spacing-1-5).
-       No agregar margin-bottom acá: se sumaba al gap → doble espacio entre grupos
-       (p. ej. entre "Emisor cobro" y "Descripción"). */
+    /* El espacio ENTRE grupos lo da el `gap` de .kds-detail-list (spacing-2).
+       Dentro del grupo, label↔value llevan un gap chico (spacing-0-5) para un
+       ritmo parejo: antes el dt iba pegado al dd (0px) y se veía desigual frente
+       a los 16px entre los demás elementos del panel. */
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-0-5);
     margin-bottom: 0;
 }
 
@@ -5725,6 +5746,7 @@ div.kds-invoice-header,
     letter-spacing: var(--kds-letter-spacing-wide);
     color: var(--kds-color-text-hint);
     text-transform: uppercase;
+    margin: 0;
 }
 
 .kds-detail-group dd {
@@ -5732,6 +5754,19 @@ div.kds-invoice-header,
     font-size: var(--kds-font-size-sm);
     line-height: var(--kds-line-height-normal);
     color: var(--kds-color-text-primary);
+}
+
+/* Imagen adjunta del cobro dentro del panel de detalle (ej. comprobante/producto).
+   Reemplaza los inline styles del antiguo modal MerchantInfo: ancho contenido, borde
+   y radio del DS. Va como un grupo más de la .kds-detail-list (hereda su gap). */
+.kds-detail-image {
+    display: block;
+    max-width: 100%;
+    width: 160px;
+    height: auto;
+    object-fit: contain;
+    border-radius: var(--kds-radius-md);
+    border: 1px solid var(--kds-color-border);
 }
 
 /* -- Amount Summary Row -- */
