@@ -4900,6 +4900,15 @@ dialog#surveyModal button.circle {
 
 .kds-expand-toggle i {
     font-size: var(--kds-font-size-base);
+    /* BeerCSS estiliza el `i` bare como caja flex de 30px (height/width/min: 30px), que
+       inflaba el toggle y dejaba aire vertical de más alrededor del label. La achicamos a
+       1.25em MANTENIENDO el centrado flex de BeerCSS (display:flex/align/justify) — así el
+       caret queda compacto Y ópticamente centrado con el texto (no usar height:auto ni
+       line-height:1: descentran el glifo). */
+    width: 1.25em;
+    height: 1.25em;
+    min-width: 0;
+    min-height: 0;
     transition: transform var(--kds-transition-shorter, 0.2s);
 }
 
@@ -6307,15 +6316,14 @@ button.kds-btn-success::after {
     }
 
     /* Invoice sticky card padding (mobile).
-       Top: estático 12px. Bottom: progresivo 20px (expandido) → 8px (colapsado).
-       El padding-bottom animado da breathing room natural cuando expandido y se
-       reduce convencionalmente al colapsar — sin depender de que el clip-path
+       Top: estático 12px. Bottom: progresivo 16px (expandido, = desktop) → 8px (colapsado).
+       El padding-bottom animado se reduce al colapsar — sin depender de que el clip-path
        corte el padding abruptamente. */
     .kds-payment-flow .kds-card-elevated.kds-invoice-sticky {
         padding-top: var(--kds-spacing-1-5);
         padding-bottom: calc(
-            var(--kds-spacing-2-5)
-            - var(--kds-spacing-1-5) * var(--collapse-progress, 0)
+            var(--kds-spacing-2)
+            - var(--kds-spacing-1) * var(--collapse-progress, 0)
         );
     }
 
