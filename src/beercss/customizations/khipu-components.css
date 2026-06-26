@@ -6250,6 +6250,15 @@ button.kds-btn-success::after {
     border-radius: var(--kds-radius-card);
 }
 
+/* Variante sin radio superior: pantallas de resultado (éxito/fallo/timeout) que van
+   SIN header arriba — la body card va sola y su tope queda plano (flush) en vez de
+   con esquinas redondeadas sueltas. El padding del card sigue manejando el inset. */
+.kds-screen > .kds-card-elevated.kds-card-elevated--flush-top,
+.kds-card-elevated.kds-card-elevated--flush-top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 /* Payment stage — full-viewport centered wrapper.
    Fondo muted (gris) para que las cards blancas (header + body) y el gap entre
    ellas se distingan; sin esto, card blanca sobre fondo blanco se funden. */
