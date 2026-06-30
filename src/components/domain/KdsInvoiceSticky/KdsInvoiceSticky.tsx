@@ -1,13 +1,17 @@
 import React, { forwardRef } from 'react';
 import { clsx } from '../../core/utils';
 
-export interface KdsInvoiceStickyProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface KdsInvoiceStickyProps extends React.HTMLAttributes<HTMLElement> {}
 
-export const KdsInvoiceSticky = forwardRef<HTMLDivElement, KdsInvoiceStickyProps>(
+export const KdsInvoiceSticky = forwardRef<HTMLElement, KdsInvoiceStickyProps>(
   ({ children, className, ...props }, ref) => (
-    <div ref={ref} className={clsx('kds-card-elevated', 'kds-invoice-sticky', className)} {...props}>
+    <article
+      ref={ref}
+      className={clsx('kds-card-elevated', 'kds-invoice-sticky', className)}
+      {...props}
+    >
       {children}
-    </div>
+    </article>
   ),
 );
 KdsInvoiceSticky.displayName = 'KdsInvoiceSticky';

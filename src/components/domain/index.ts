@@ -10,6 +10,7 @@ export { KdsSecureFooter, type KdsSecureFooterProps } from './KdsSecureFooter';
 export { KdsRecapList, type KdsRecapListProps, type KdsRecapItem } from './KdsRecapList';
 export { KdsMontoRow, type KdsMontoRowProps } from './KdsMontoRow';
 export { KdsMerchantTile, type KdsMerchantTileProps } from './KdsMerchantTile';
+export { KdsInvoiceMerchant, type KdsInvoiceMerchantProps } from './KdsInvoiceMerchant';
 export {
   KdsPaymentTotal,
   type KdsPaymentTotalProps,

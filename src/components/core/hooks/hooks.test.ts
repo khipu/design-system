@@ -4,6 +4,7 @@ import { useCopyToClipboard } from './useCopyToClipboard';
 import { useAutoHide } from './useAutoHide';
 import { useCountdown } from './useCountdown';
 import { useStickyInvoiceCollapse } from './useStickyInvoiceCollapse';
+import { useExpandToggle } from './useExpandToggle';
 
 describe('useCopyToClipboard', () => {
   beforeEach(() => {
@@ -167,5 +168,46 @@ describe('useStickyInvoiceCollapse', () => {
     const screen = document.querySelector('.kds-screen.active') as HTMLElement;
     expect(screen.style.getPropertyValue('--collapse-progress')).toBe('1');
     expect(onCollapseStart).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('useExpandToggle', () => {
+  it('starts closed and links toggle/panel via aria-controls/id', () => {
+    const { result } = renderHook(() => useExpandToggle());
+    const toggle = result.current.getToggleProps();
+    const panel = result.current.getPanelProps();
+
+    expect(result.current.open).toBe(false);
+    expect(toggle.type).toBe('button');
+    expect(toggle['aria-expanded']).toBe(false);
+    expect(toggle['aria-controls']).toBe(panel.id);
+    expect(panel.className).toBe('kds-expand-panel');
+    expect(panel.hidden).toBe(true);
+  });
+
+  it('toggles open state and reflects it in the prop-getters', () => {
+    const { result } = renderHook(() => useExpandToggle());
+
+    act(() => result.current.toggle());
+
+    expect(result.current.open).toBe(true);
+    expect(result.current.getToggleProps()['aria-expanded']).toBe(true);
+    expect(result.current.getPanelProps().className).toBe('kds-expand-panel open');
+    expect(result.current.getPanelProps().hidden).toBe(false);
+  });
+
+  it('respects a custom base className and defaultOpen', () => {
+    const { result } = renderHook(() => useExpandToggle({ defaultOpen: true }));
+    expect(result.current.getPanelProps('my-panel').className).toBe('my-panel open');
+  });
+
+  it('is controlled when open is provided', () => {
+    const onOpenChange = vi.fn();
+    const { result } = renderHook(() => useExpandToggle({ open: false, onOpenChange }));
+
+    act(() => result.current.toggle());
+
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+    expect(result.current.open).toBe(false);
   });
 });

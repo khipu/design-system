@@ -72,8 +72,15 @@ export {
   useCountdown,
   useTabsKeyboard,
   useStickyInvoiceCollapse,
+  useExpandToggle,
 } from './components/core/hooks';
 export type { UseStickyInvoiceCollapseOptions } from './components/core/hooks';
+export type {
+  UseExpandToggleOptions,
+  UseExpandToggleResult,
+  ExpandToggleProps,
+  ExpandPanelProps,
+} from './components/core/hooks';
 
 // =============================================================================
 // UTILITIES
