@@ -25,10 +25,11 @@ describe('KdsInvoiceSticky', () => {
     expect(el).toHaveClass('kds-card-elevated', 'kds-invoice-sticky', 'custom');
   });
 
-  it('forwards ref', () => {
-    const ref = { current: null as HTMLDivElement | null };
+  it('forwards ref to the article element', () => {
+    const ref = { current: null as HTMLElement | null };
     render(<KdsInvoiceSticky ref={ref} />);
-    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    expect(ref.current).toBeInstanceOf(HTMLElement);
+    expect(ref.current?.tagName).toBe('ARTICLE');
   });
 
   it('renders multiple children', () => {
