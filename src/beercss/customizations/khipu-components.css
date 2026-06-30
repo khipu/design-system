@@ -1688,12 +1688,12 @@ body.dark {
   padding-block-start: 1.5rem;
 }
 
-/* Field con .suffix (endIcon): el label en reposo no debe deslizarse bajo el ícono de la
-   derecha. BeerCSS reserva el lado izquierdo para .prefix (--_start:3rem) pero NO el derecho
-   para .suffix, así que un label largo se superponía con el ícono. Reservamos el ancho del
-   ícono en el inset-inline-end (mismo valor que el padding que .prefix da al input). */
-.field.label.suffix > label {
-  inset-inline-end: 2.9375rem;
+/* Label en reposo (estado "abajo", como placeholder): font-size menor al 1rem de BeerCSS
+   para que un label largo no estorbe con un ícono (prefix/suffix) del input. Token sm
+   (13–14px, siempre < 1rem del input incluso en desktop). Al flotar, BeerCSS lo reduce a
+   .75rem con mayor especificidad, así que esto solo afecta el reposo. */
+.field.label > label {
+  font-size: var(--kds-font-size-sm);
 }
 
 /* ==========================================
@@ -6280,10 +6280,15 @@ button.kds-btn-success::after {
 /* Variante sin radio superior: pantallas de resultado (éxito/fallo/timeout) que van
    SIN header arriba — la body card va sola y su tope queda plano (flush) en vez de
    con esquinas redondeadas sueltas. El padding del card sigue manejando el inset. */
-.kds-screen > .kds-card-elevated.kds-card-elevated--flush-top,
-.kds-card-elevated.kds-card-elevated--flush-top {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+/* Tope plano SOLO en mobile (< 768px): la body card se pega al borde superior del widget
+   (igual que el header sticky, que también aplana el tope solo en mobile). En desktop la card
+   va centrada y separada, así que conserva el border-radius superior redondeado. */
+@media (max-width: 767px) {
+    .kds-screen > .kds-card-elevated.kds-card-elevated--flush-top,
+    .kds-card-elevated.kds-card-elevated--flush-top {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
 }
 
 /* Payment stage — full-viewport centered wrapper.
