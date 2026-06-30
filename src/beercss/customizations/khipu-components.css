@@ -1636,6 +1636,16 @@ footer.primary a:hover {
     margin-right: var(--kds-spacing-2);
 }
 
+/* Ícono(s) en color primary. Para íconos MUI/SVG dentro del scope que, por el reset
+   `.kds-theme-root svg { fill: currentColor }`, terminan heredando el color de texto
+   (#333) en vez de su color propio — el `color="primary"` de MUI no le gana al contexto.
+   Aplica al contenedor y a sus i/svg hijos. */
+.kds-icon-primary,
+.kds-icon-primary i,
+.kds-icon-primary svg {
+    color: var(--kds-color-primary-main);
+}
+
 /* Section title icon */
 .kds-stage-section-title i {
     vertical-align: middle;
@@ -1676,6 +1686,14 @@ body.dark {
 
 .field.label > textarea {
   padding-block-start: 1.5rem;
+}
+
+/* Field con .suffix (endIcon): el label en reposo no debe deslizarse bajo el ícono de la
+   derecha. BeerCSS reserva el lado izquierdo para .prefix (--_start:3rem) pero NO el derecho
+   para .suffix, así que un label largo se superponía con el ícono. Reservamos el ancho del
+   ícono en el inset-inline-end (mismo valor que el padding que .prefix da al input). */
+.field.label.suffix > label {
+  inset-inline-end: 2.9375rem;
 }
 
 /* ==========================================
