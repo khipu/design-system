@@ -6,6 +6,7 @@ import { useAutoHide } from './useAutoHide';
 import { useCountdown } from './useCountdown';
 import { useStickyInvoiceCollapse } from './useStickyInvoiceCollapse';
 import { useExpandToggle } from './useExpandToggle';
+import { useHideOnScroll } from './useHideOnScroll';
 
 describe('useCopyToClipboard', () => {
   beforeEach(() => {
@@ -234,5 +235,59 @@ describe('useExpandToggle', () => {
     fireEvent.click(getByTestId('tgl'));
     // Closed again: inline cleared so the collapse animates via CSS.
     expect(panel.style.maxHeight).toBe('');
+  });
+});
+
+describe('useHideOnScroll', () => {
+  beforeEach(() => {
+    // Run the rAF callback synchronously so scroll handling is deterministic.
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      cb(0);
+      return 0;
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  // Drive scroll via the iframe VIEWPORT_OFFSET message (deterministic; window.scrollY stays 0).
+  const scrollTo = (offsetTop: number) =>
+    act(() => {
+      window.dispatchEvent(
+        new MessageEvent('message', { data: { type: 'VIEWPORT_OFFSET', offsetTop } })
+      );
+    });
+
+  it('starts visible', () => {
+    const { result } = renderHook(() => useHideOnScroll());
+    expect(result.current.hidden).toBe(false);
+  });
+
+  it('hides on scroll down past the threshold and shows again on scroll up', () => {
+    const { result } = renderHook(() => useHideOnScroll({ threshold: 10 }));
+
+    scrollTo(100); // down
+    expect(result.current.hidden).toBe(true);
+
+    scrollTo(50); // up
+    expect(result.current.hidden).toBe(false);
+  });
+
+  it('ignores sub-threshold jitter', () => {
+    const { result } = renderHook(() => useHideOnScroll({ threshold: 40 }));
+
+    scrollTo(20); // delta 20 < 40 → no change
+    expect(result.current.hidden).toBe(false);
+  });
+
+  it('is always visible within topOffset of the top', () => {
+    const { result } = renderHook(() => useHideOnScroll({ threshold: 10, topOffset: 30 }));
+
+    scrollTo(100); // down → hidden
+    expect(result.current.hidden).toBe(true);
+
+    scrollTo(20); // within topOffset → forced visible
+    expect(result.current.hidden).toBe(false);
   });
 });

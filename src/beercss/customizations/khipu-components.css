@@ -4727,6 +4727,90 @@ dialog#surveyModal button.circle {
 }
 
 /* ========================================
+   08b - FAB (.kds-fab)
+   Circular, icon-only floating action button with an animated hide state.
+   Presentational: drive `.kds-fab--hidden` from useHideOnScroll for scroll-away.
+   ======================================== */
+
+.kds-fab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    border-radius: var(--kds-radius-full);
+    background: #FFFFFF;
+    color: var(--kds-color-text-primary);
+    box-shadow: var(--kds-shadow-elevated);
+    cursor: pointer;
+    z-index: 100;
+    transition: opacity var(--kds-transition-short) ease, transform var(--kds-transition-short) ease;
+}
+
+.kds-fab:hover {
+    background: var(--kds-color-neutral-50, #F5F5F5);
+}
+
+.kds-fab:focus-visible {
+    outline: 2px solid var(--kds-color-primary-main);
+    outline-offset: 2px;
+}
+
+.kds-fab > i.material-symbols-outlined {
+    font-size: 24px;
+    line-height: 1;
+}
+
+/* Pinned corners (fixed to the viewport / iframe content) */
+.kds-fab--top-right {
+    position: fixed;
+    top: var(--kds-spacing-2);
+    right: var(--kds-spacing-2);
+}
+
+.kds-fab--top-left {
+    position: fixed;
+    top: var(--kds-spacing-2);
+    left: var(--kds-spacing-2);
+}
+
+.kds-fab--bottom-right {
+    position: fixed;
+    bottom: var(--kds-spacing-2);
+    right: var(--kds-spacing-2);
+}
+
+.kds-fab--bottom-left {
+    position: fixed;
+    bottom: var(--kds-spacing-2);
+    left: var(--kds-spacing-2);
+}
+
+/* Hidden (scroll-away) state — fade + slide toward the nearest edge */
+.kds-fab--hidden {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.9);
+    pointer-events: none;
+}
+
+.kds-fab--bottom-right.kds-fab--hidden,
+.kds-fab--bottom-left.kds-fab--hidden {
+    transform: translateY(8px) scale(0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kds-fab {
+        transition: opacity var(--kds-transition-short) ease;
+    }
+
+    .kds-fab--hidden {
+        transform: none;
+    }
+}
+
+/* ========================================
    09 - SUCCESS MARK (.kds-success-mark)
    Large success icon for completion screens
    ======================================== */
