@@ -343,6 +343,7 @@ export const fontWeights = {
 } as const;
 
 export const fontSizes = {
+  '2xs': '0.625rem', // 10px — tiny captions (version footer, fine print)
   xs: '0.75rem',    // 12px
   sm: '0.875rem',   // 14px
   base: '1rem',     // 16px
@@ -725,6 +726,7 @@ export const responsiveTypography = {
  * Tablet/Desktop get slightly larger sizes.
  */
 export const responsiveBaseFontSizes = {
+  '2xs':{ mobile: '0.5625rem', tablet: '0.625rem', desktop: '0.625rem' }, // 9px → 10px
   xs:  { mobile: '0.6875rem', tablet: '0.75rem',  desktop: '0.75rem'  }, // 11px → 12px
   sm:  { mobile: '0.8125rem', tablet: '0.875rem', desktop: '0.875rem' }, // 13px → 14px
   base:{ mobile: '0.875rem',  tablet: '1rem',     desktop: '1rem'     }, // 14px → 16px

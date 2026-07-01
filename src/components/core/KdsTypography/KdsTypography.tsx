@@ -26,6 +26,9 @@ export type KdsTypographyVariant =
   // Labels & UI elements
   | 'label'         // 12px SemiBold UPPERCASE - Section labels, overlines
   | 'label-small'   // 10px Medium - Footer codes, small labels
+  | 'value'         // 14px SemiBold gray-800 - highlighted data value (e.g. merchant name)
+  | 'code'          // mono xs UPPERCASE gray-400 - reference/code text (e.g. operation code)
+  | 'caption'       // 2xs Regular gray-400 - tiny footer captions (e.g. version)
   // Semantic colors
   | 'muted'         // 14px Regular - Muted/secondary text
   | 'link'          // 14px Regular - Link text style
@@ -48,6 +51,9 @@ const variantTag: Record<KdsTypographyVariant, ElementTag> = {
   'body-small': 'p',
   label: 'span',
   'label-small': 'span',
+  value: 'span',
+  code: 'span',
+  caption: 'span',
   muted: 'p',
   link: 'span',
   strong: 'span',

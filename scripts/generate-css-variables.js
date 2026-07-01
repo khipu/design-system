@@ -368,7 +368,7 @@ function generateResponsiveBaseFontSizeVariables(responsiveBaseFontSizes) {
   const tablet = [];
   const desktop = [];
 
-  const sizes = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl'];
+  const sizes = ['2xs', 'xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl'];
 
   for (const size of sizes) {
     const entry = responsiveBaseFontSizes[size];

@@ -2109,7 +2109,7 @@ label.radio {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s;
-    font-size: 16px;
+    font-size: var(--kds-font-size-sm);
     line-height: 1.5;
     color: var(--kds-color-text-primary);
 }
@@ -3948,6 +3948,35 @@ dialog#surveyModal button.circle {
     line-height: var(--kds-line-height-normal, 1.5);
     letter-spacing: var(--kds-letter-spacing-widest, 1px);
     text-transform: uppercase;
+}
+
+/* Value — dato/valor destacado (ej. nombre del comercio en el header del cobro). */
+.kds-text-value {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-semibold);
+    line-height: var(--kds-line-height-relaxed);
+    color: var(--kds-color-gray-800);
+}
+
+/* Code — texto tipo código/referencia (mono, uppercase, gris), como el "CÓDIGO" del header. */
+.kds-text-code {
+    font-family: var(--kds-font-family-mono);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-regular);
+    letter-spacing: var(--kds-letter-spacing-wider);
+    font-variant-numeric: tabular-nums;
+    color: var(--kds-color-gray-400);
+    text-transform: uppercase;
+}
+
+/* Caption — texto muy chico y liviano para pie de página (ej. número de versión). */
+.kds-text-caption {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-2xs);
+    font-weight: var(--kds-font-weight-regular);
+    line-height: var(--kds-line-height-normal);
+    color: var(--kds-color-gray-400);
 }
 
 .kds-text-link {
