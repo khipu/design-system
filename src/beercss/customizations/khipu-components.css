@@ -4736,68 +4736,103 @@ dialog#surveyModal button.circle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: var(--kds-spacing-5);
+    height: var(--kds-spacing-5);
     padding: 0;
     border: none;
     border-radius: var(--kds-radius-full);
-    background: #FFFFFF;
+    background: var(--kds-color-background-paper);
     color: var(--kds-color-text-primary);
     box-shadow: var(--kds-shadow-elevated);
     cursor: pointer;
     z-index: 100;
-    transition: opacity var(--kds-transition-short) ease, transform var(--kds-transition-short) ease;
+    /* Neutralize native button rendering so the pressed state doesn't flash a square. */
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity var(--kds-transition-short) ease, transform var(--kds-transition-short) ease,
+                background-color var(--kds-transition-shorter) ease;
 }
 
-.kds-fab:hover {
-    background: var(--kds-color-neutral-50, #F5F5F5);
+/* Keep the circle in EVERY interaction state. Uses `button.kds-fab` (element + class) to
+   out-specify BeerCSS's base `button`/`button:active` rules — same trick as `.kds-btn`. */
+button.kds-fab,
+button.kds-fab:hover,
+button.kds-fab:active,
+button.kds-fab:focus,
+button.kds-fab:focus-visible {
+    border-radius: var(--kds-radius-full);
+    background: var(--kds-color-background-paper);
 }
 
-.kds-fab:focus-visible {
-    outline: 2px solid var(--kds-color-primary-main);
-    outline-offset: 2px;
+button.kds-fab:hover:not(:disabled) {
+    background: var(--kds-color-background-muted);
+}
+
+/* Subtle press feedback that preserves the round shape. */
+button.kds-fab:active:not(:disabled) {
+    transform: translateY(var(--kds-spacing-0-25));
+}
+
+button.kds-fab:focus-visible {
+    outline: var(--kds-spacing-0-25) solid var(--kds-color-primary-main);
+    outline-offset: var(--kds-spacing-0-25);
 }
 
 .kds-fab > i.material-symbols-outlined {
-    font-size: 24px;
+    font-size: var(--kds-spacing-button-icon-size);
     line-height: 1;
 }
 
-/* Pinned corners (fixed to the viewport / iframe content) */
-.kds-fab--top-right {
+/* Pinned corners — fixed to the viewport (stays visible on scroll-up, iframe-friendly).
+   Horizontally the top-right FAB hugs the right edge of the centered content column set via
+   `--kds-fab-column-width` (default 100% → viewport edge). The consumer sets that var to its
+   widget width so on desktop the FAB overlaps the header's top-right corner instead of drifting
+   to the far viewport edge. `max(...)` keeps at least a token inset on narrow (mobile) viewports. */
+.kds-fab--top-right,
+.kds-fab--top-left,
+.kds-fab--bottom-right,
+.kds-fab--bottom-left {
     position: fixed;
+}
+
+.kds-fab--top-right {
     top: var(--kds-spacing-2);
-    right: var(--kds-spacing-2);
+    right: max(var(--kds-spacing-2), calc((100% - var(--kds-fab-column-width, 100%)) / 2 + var(--kds-spacing-2)));
 }
 
 .kds-fab--top-left {
-    position: fixed;
     top: var(--kds-spacing-2);
-    left: var(--kds-spacing-2);
+    left: max(var(--kds-spacing-2), calc((100% - var(--kds-fab-column-width, 100%)) / 2 + var(--kds-spacing-2)));
 }
 
 .kds-fab--bottom-right {
-    position: fixed;
     bottom: var(--kds-spacing-2);
-    right: var(--kds-spacing-2);
+    right: max(var(--kds-spacing-2), calc((100% - var(--kds-fab-column-width, 100%)) / 2 + var(--kds-spacing-2)));
 }
 
 .kds-fab--bottom-left {
-    position: fixed;
     bottom: var(--kds-spacing-2);
-    left: var(--kds-spacing-2);
+    left: max(var(--kds-spacing-2), calc((100% - var(--kds-fab-column-width, 100%)) / 2 + var(--kds-spacing-2)));
+}
+
+/* Desktop: nudge the top-right FAB up so it sits partially over the header's top edge. */
+@media (min-width: 768px) {
+    .kds-fab--top-right {
+        top: var(--kds-spacing-1);
+    }
 }
 
 /* Hidden (scroll-away) state — fade + slide toward the nearest edge */
 .kds-fab--hidden {
     opacity: 0;
-    transform: translateY(-8px) scale(0.9);
+    transform: translateY(calc(-1 * var(--kds-spacing-1))) scale(0.9);
     pointer-events: none;
 }
 
 .kds-fab--bottom-right.kds-fab--hidden,
 .kds-fab--bottom-left.kds-fab--hidden {
-    transform: translateY(8px) scale(0.9);
+    transform: translateY(var(--kds-spacing-1)) scale(0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {
