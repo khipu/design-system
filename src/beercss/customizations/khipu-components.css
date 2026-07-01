@@ -4997,8 +4997,12 @@ button.kds-fab:focus-visible {
     display: block;
     object-fit: contain;
     overflow: visible;
-    /* La tinta del wordmark ocupa casi todo su viewBox (45x15), así que el centro de caja
-       coincide con el óptico: se alinea por `align-items: center` del footer, sin nudge. */
+    /* Corrección óptica: la masa visible del wordmark (el cuerpo de "Khipu") queda sobre el
+       centro geométrico de su viewBox (45x15) porque el descendente de la "p" ocupa la parte
+       baja. Al centrar por caja (align-items:center) el logo se ve ~1px alto respecto al texto,
+       así que se baja 0.75px para alinear el centro óptico. Alto fijo (11px) → nudge consistente. */
+    position: relative;
+    top: 0.75px;
 }
 
 /* Divisor entre el logo de Khipu y el del PSP ("Khipu | klap") */
