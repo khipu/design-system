@@ -1,4 +1,4 @@
-import { useCallback, useId, useState } from 'react';
+import { useCallback, useId, useLayoutEffect, useRef, useState } from 'react';
 
 /**
  * Options for {@link useExpandToggle}.
@@ -27,6 +27,11 @@ export interface ExpandPanelProps {
   id: string;
   className: string;
   hidden: boolean;
+  /**
+   * Ref the hook uses to drive the panel's `max-height` off its own `scrollHeight`, so the
+   * expand animation fits any content length instead of clipping against a fixed CSS cap.
+   */
+  ref: (node: HTMLDivElement | null) => void;
 }
 
 /**
@@ -55,9 +60,9 @@ export interface UseExpandToggleResult {
  *
  * It links button and panel via a stable `aria-controls`/`id` pair (`useId`), reflects the
  * open state through `aria-expanded` (which drives the caret rotation in CSS) and toggles the
- * `open` class on the panel (whose `max-height` animation the DS CSS owns). The `hidden`
- * attribute is also set when closed — the DS provides a `.kds-expand-panel[hidden]` rule that
- * keeps the panel `display:block` so the collapse still animates.
+ * `open` class on the panel, sizing its `max-height` to the content's `scrollHeight` so the
+ * animation never clips. The `hidden` attribute is also set when closed — the DS provides a
+ * `.kds-expand-panel[hidden]` rule that keeps the panel `display:block` so the collapse still animates.
  *
  * Supports controlled (`open` + `onOpenChange`) and uncontrolled (`defaultOpen`) usage. Combine
  * with `useStickyInvoiceCollapse({ onCollapseStart: () => setOpen(false) })` to close on scroll.
@@ -75,6 +80,21 @@ export function useExpandToggle(options: UseExpandToggleOptions = {}): UseExpand
   const isControlled = controlledOpen !== undefined;
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const open = isControlled ? controlledOpen : uncontrolledOpen;
+
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const setPanelRef = useCallback((node: HTMLDivElement | null) => {
+    panelRef.current = node;
+  }, []);
+
+  // Size the panel to its own content: a fixed CSS `max-height` cap truncates the last rows
+  // when the content grows (long descriptions, extra detail rows). Reading `scrollHeight` on
+  // open keeps the `max-height` transition exact and clip-free; clearing it lets the CSS
+  // collapse rule (`max-height: 0`) drive the close animation.
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+    panel.style.maxHeight = open ? `${panel.scrollHeight}px` : '';
+  }, [open]);
 
   const setOpen = useCallback(
     (next: boolean) => {
@@ -103,8 +123,9 @@ export function useExpandToggle(options: UseExpandToggleOptions = {}): UseExpand
       id: panelId,
       className: open ? `${baseClassName} open` : baseClassName,
       hidden: !open,
+      ref: setPanelRef,
     }),
-    [open, panelId],
+    [open, panelId, setPanelRef],
   );
 
   return { open, setOpen, toggle, getToggleProps, getPanelProps };

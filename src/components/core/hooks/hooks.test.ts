@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { createElement as h } from 'react';
+import { renderHook, act, render, fireEvent } from '@testing-library/react';
 import { useCopyToClipboard } from './useCopyToClipboard';
 import { useAutoHide } from './useAutoHide';
 import { useCountdown } from './useCountdown';
@@ -209,5 +210,29 @@ describe('useExpandToggle', () => {
 
     expect(onOpenChange).toHaveBeenCalledWith(true);
     expect(result.current.open).toBe(false);
+  });
+
+  it('sizes the panel max-height from scrollHeight on open and clears it on close', () => {
+    const Probe = () => {
+      const detail = useExpandToggle();
+      return h('div', null, [
+        h('button', { key: 'b', 'data-testid': 'tgl', ...detail.getToggleProps() }, 'toggle'),
+        h('div', { key: 'p', 'data-testid': 'pnl', ...detail.getPanelProps() }, 'content'),
+      ]);
+    };
+
+    const { getByTestId } = render(h(Probe));
+    const panel = getByTestId('pnl');
+
+    // Closed: no inline cap — the CSS `max-height: 0` rule owns the state.
+    expect(panel.style.maxHeight).toBe('');
+
+    fireEvent.click(getByTestId('tgl'));
+    // Open: inline max-height set from the panel's own scrollHeight (never a fixed cap).
+    expect(panel.style.maxHeight).not.toBe('');
+
+    fireEvent.click(getByTestId('tgl'));
+    // Closed again: inline cleared so the collapse animates via CSS.
+    expect(panel.style.maxHeight).toBe('');
   });
 });

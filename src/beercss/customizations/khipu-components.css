@@ -4946,7 +4946,10 @@ dialog#surveyModal button.circle {
 }
 
 .kds-expand-panel.open {
-    max-height: 800px;
+    /* Fallback cap for no-JS consumers. With JS (React useExpandToggle / vanilla
+       initExpandToggle) the panel's inline max-height is set to its exact scrollHeight,
+       which overrides this and prevents clipping regardless of content length. */
+    max-height: 2000px;
     margin-top: 0;
 }
 
