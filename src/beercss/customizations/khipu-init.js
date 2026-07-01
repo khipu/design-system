@@ -217,8 +217,12 @@
             if (panel) {
                 if (expanded) {
                     panel.classList.remove('open');
+                    // Clear the inline cap so the CSS collapse rule (max-height: 0) animates the close.
+                    panel.style.maxHeight = '';
                 } else {
                     panel.classList.add('open');
+                    // Size to the content so the expand fits any length instead of clipping a fixed cap.
+                    panel.style.maxHeight = panel.scrollHeight + 'px';
                 }
             }
         });

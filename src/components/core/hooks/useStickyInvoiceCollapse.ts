@@ -65,6 +65,8 @@ export function useStickyInvoiceCollapse(options: UseStickyInvoiceCollapseOption
           ? document.getElementById(panelId)
           : toggle.parentElement?.querySelector<HTMLElement>('[data-expand-panel], .kds-expand-panel');
         panel?.classList.remove('open');
+        // Also clear any inline max-height set on open, or the panel would stay stuck expanded.
+        if (panel) panel.style.maxHeight = '';
       });
     };
 
