@@ -58,6 +58,7 @@
         initCountdown();
         initSegmentedTabs();
         initStickyInvoice();
+        initHideOnScroll();
         initBankModal();
 
         console.log('Material Design initialization complete!');
@@ -596,6 +597,67 @@
     }
 
     /**
+     * Initialize hide-on-scroll for floating elements (vanilla equivalent of the React
+     * `useHideOnScroll` hook). Any element with `[data-hide-on-scroll]` gets its hide class
+     * (default `kds-fab--hidden`, override with `data-hide-class`) toggled: hidden when
+     * scrolling down past the threshold, shown when scrolling up, always shown within
+     * `data-hide-top-offset` px of the top. Tune with `data-hide-threshold` (default 8).
+     *
+     * Works standalone (`window.scrollY`) and embedded in an iframe, where the parent posts
+     * `postMessage({ type: 'VIEWPORT_OFFSET', offsetTop })`.
+     * @param {Element} root - Root element to scope the query (default: document)
+     */
+    function initHideOnScroll(root) {
+        root = root || document;
+        var els = root.querySelectorAll('[data-hide-on-scroll]');
+        if (!els.length) return;
+
+        var viewportOffset = 0;
+        var ticking = false;
+        var lastYs = new Map();
+
+        function currentY() {
+            return Math.max(window.scrollY || window.pageYOffset || 0, viewportOffset);
+        }
+
+        function apply() {
+            ticking = false;
+            var y = currentY();
+            els.forEach(function(el) {
+                var threshold = parseInt(el.getAttribute('data-hide-threshold'), 10) || 8;
+                var topOffset = parseInt(el.getAttribute('data-hide-top-offset'), 10) || 0;
+                var hideClass = el.getAttribute('data-hide-class') || 'kds-fab--hidden';
+                var lastY = lastYs.has(el) ? lastYs.get(el) : y;
+                if (y <= topOffset) {
+                    el.classList.remove(hideClass);
+                    lastYs.set(el, y);
+                    return;
+                }
+                var delta = y - lastY;
+                if (Math.abs(delta) < threshold) return;
+                el.classList.toggle(hideClass, delta > 0);
+                lastYs.set(el, y);
+            });
+        }
+
+        function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(apply);
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'VIEWPORT_OFFSET') {
+                viewportOffset = Math.max(0, event.data.offsetTop || 0);
+                onScroll();
+            }
+        });
+        apply();
+    }
+
+    /**
      * Initialize copyable table rows
      * Delegated click on .kds-copyable-table-row[data-copy] copies value and shows feedback
      * @param {Element} root - Root element to scope listeners (default: document)
@@ -765,6 +827,7 @@
     window.Khipu.initInfoTip = initInfoTip;
     window.Khipu.initBankModal = initBankModal;
     window.Khipu.initStickyInvoice = initStickyInvoice;
+    window.Khipu.initHideOnScroll = initHideOnScroll;
 
     // Also export showSnackbar to global scope for backward compatibility
     window.showSnackbar = showSnackbar;
