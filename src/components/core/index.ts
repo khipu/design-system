@@ -127,3 +127,6 @@ export { KdsCountdown, type KdsCountdownProps } from './KdsCountdown';
 
 // SegmentedTabs
 export { KdsSegmentedTabs, type KdsSegmentedTabsProps } from './KdsSegmentedTabs';
+
+// Fab (floating action button)
+export { KdsFab, type KdsFabProps, type KdsFabPosition } from './KdsFab';

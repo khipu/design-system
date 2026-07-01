@@ -73,8 +73,10 @@ export {
   useTabsKeyboard,
   useStickyInvoiceCollapse,
   useExpandToggle,
+  useHideOnScroll,
 } from './components/core/hooks';
 export type { UseStickyInvoiceCollapseOptions } from './components/core/hooks';
+export type { UseHideOnScrollOptions, UseHideOnScrollResult } from './components/core/hooks';
 export type {
   UseExpandToggleOptions,
   UseExpandToggleResult,

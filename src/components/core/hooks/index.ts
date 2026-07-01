@@ -12,3 +12,5 @@ export type {
   ExpandToggleProps,
   ExpandPanelProps,
 } from './useExpandToggle';
+export { useHideOnScroll } from './useHideOnScroll';
+export type { UseHideOnScrollOptions, UseHideOnScrollResult } from './useHideOnScroll';
