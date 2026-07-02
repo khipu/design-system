@@ -13,14 +13,18 @@ import { clsx } from '../utils';
 // TYPES
 // =============================================================================
 
-export type KdsFabPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'none';
+export type KdsFabPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'corner' | 'none';
 
 export interface KdsFabProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Material Symbols icon name, e.g. "close". */
   icon: string;
   /** Accessible label — required, since the button is icon-only. */
   'aria-label': string;
-  /** Corner to pin to (fixed). Use `none` to leave positioning to the consumer. Default `top-right`. */
+  /**
+   * Corner to pin to (fixed). `corner` mounts it centered OVER the top-right corner of the
+   * content column (`--kds-fab-column-width`), overlapping outward; `top-right` insets inside it.
+   * Use `none` to leave positioning to the consumer. Default `top-right`.
+   */
   position?: KdsFabPosition;
   /** When true, animates the button out (fade + slight move) and disables interaction. */
   hidden?: boolean;
