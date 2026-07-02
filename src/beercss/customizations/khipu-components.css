@@ -2686,14 +2686,9 @@ footer > .kds-container-center {
     border: 1px solid;
     font-family: var(--kds-font-family-primary);
     min-width: 0;
-    flex: 1 1 100%;
-}
-
-@media (min-width: 768px) {
-    .kds-alert {
-        padding: var(--kds-spacing-1) var(--kds-spacing-2);
-        flex: 1 1 auto;
-    }
+    /* Bloque full-width (display:flex ya llena el ancho); sin flex-grow para no estirarse
+       verticalmente cuando es hijo de un contenedor flex-column. */
+    flex: 0 1 auto;
 }
 
 .kds-alert:last-child {
