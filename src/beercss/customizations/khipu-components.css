@@ -4953,7 +4953,9 @@ button.kds-fab:focus-visible {
     padding: var(--kds-spacing-1) 0;
 }
 
-/* Desktop: footer inside card hidden; Mobile: footer outside card hidden */
+/* Footer SIEMPRE fuera del card body (desktop y mobile): el footer interno
+   (variant="inside") queda oculto en todos los breakpoints; se muestra el
+   externo, hermano directo del card bajo `.kds-screen`. */
 .kds-card-elevated > .kds-secure-footer {
     display: none;
 }
@@ -4962,20 +4964,11 @@ button.kds-fab:focus-visible {
     margin-block-start: 0 !important;
 }
 
-/* Footer externo (desktop) adyacente a la card: cancela el gap del .kds-screen
-   para que quede pegado debajo de la card y no flotando lejos. Las dos cards
+/* Footer externo adyacente a la card: cancela el gap del .kds-screen para que
+   quede pegado debajo de la card y no flotando lejos. Las dos cards
    (header/body) sí conservan su separación. */
 .kds-screen > .kds-secure-footer {
     margin-top: calc(-1 * var(--kds-spacing-3));
-}
-
-@media (max-width: 767px) {
-    .kds-card-elevated > .kds-secure-footer {
-        display: flex;
-    }
-    .kds-screen > .kds-secure-footer {
-        display: none;
-    }
 }
 
 .kds-secure-footer-lock {
