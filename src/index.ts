@@ -88,4 +88,4 @@ export type {
 // UTILITIES
 // =============================================================================
 
-export { clsx, getContrastColor, lighten } from './components/core/utils';
+export { clsx, getContrastColor, lighten, formatDateTime } from './components/core/utils';
