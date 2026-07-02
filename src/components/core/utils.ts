@@ -63,3 +63,23 @@ export function lighten(hex: string, amount: number): string {
     b + (255 - b) * amount,
   );
 }
+
+/**
+ * Format an ISO 8601 string as "DD-MM-YYYY HH:mm" (24h) in the browser's local timezone.
+ * Returns "" for empty or invalid input. Numeric (not `Intl` locale-aware) so the 24h + numeric
+ * output matches server-side (ICU/Java) formatting regardless of locale.
+ * @param iso - ISO 8601 date-time, e.g. "2026-08-26T03:59:00.000Z"
+ */
+export function formatDateTime(iso?: string): string {
+  if (!iso) {
+    return '';
+  }
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) {
+    return '';
+  }
+  const pad = (n: number): string => n.toString().padStart(2, '0');
+  const datePart = `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()}`;
+  const timePart = `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return `${datePart} ${timePart}`;
+}
