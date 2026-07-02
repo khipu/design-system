@@ -5623,6 +5623,30 @@ button.kds-fab:focus-visible {
     /* No max-height — clip-path on parent handles visual collapse without layout changes */
     .kds-invoice-sticky .kds-invoice-collapsible {
         opacity: calc(1 - var(--collapse-progress) * 1.5);
+
+        /* Scroll interno discreto (mobile): cuando el detalle abierto excede el viewport, el
+           collapsible scrollea internamente (monto/merchant quedan fijos arriba) para poder leer
+           todo el detalle. Al tocar el fondo, `overscroll-behavior: auto` ENCADENA el gesto al
+           scroll del body → dispara useStickyInvoiceCollapse → colapsa el header y aparece el form
+           (flujo natural). Se auto-desactiva con el detalle cerrado (contenido más corto que el
+           max-height → sin scroll ni efecto visual). */
+        max-height: calc(100vh - var(--kds-spacing-12) - var(--kds-spacing-4));
+        max-height: calc(100dvh - var(--kds-spacing-12) - var(--kds-spacing-4));
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--kds-color-gray-300) transparent;
+    }
+    .kds-invoice-sticky .kds-invoice-collapsible::-webkit-scrollbar {
+        width: 4px;
+    }
+    .kds-invoice-sticky .kds-invoice-collapsible::-webkit-scrollbar-thumb {
+        background: var(--kds-color-gray-300);
+        border-radius: var(--kds-radius-full);
+    }
+    .kds-invoice-sticky .kds-invoice-collapsible::-webkit-scrollbar-track {
+        background: transparent;
     }
 
     /* Amount: 30px → 24px (progressive) */
