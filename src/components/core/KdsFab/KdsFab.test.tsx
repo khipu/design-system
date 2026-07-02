@@ -27,6 +27,11 @@ describe('KdsFab', () => {
     expect(btn.className).not.toMatch(/kds-fab--/);
   });
 
+  it('applies the corner position class', () => {
+    render(<KdsFab icon="close" aria-label="Cancelar pago" position="corner" />);
+    expect(screen.getByRole('button', { name: 'Cancelar pago' })).toHaveClass('kds-fab', 'kds-fab--corner');
+  });
+
   it('fires onClick', () => {
     const onClick = vi.fn();
     render(<KdsFab icon="close" aria-label="Cancelar pago" onClick={onClick} />);

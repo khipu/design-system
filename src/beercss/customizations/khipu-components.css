@@ -4852,6 +4852,25 @@ button.kds-fab:focus-visible {
     }
 }
 
+/* Corner-overlap: mount the FAB centered OVER the top-right corner of the content column
+   (`--kds-fab-column-width`), overlapping outward — vs `--top-right` which insets inside the
+   column. Mobile keeps a small inset from the viewport via the `--kds-fab-inset` token. */
+.kds-fab--corner {
+    --kds-fab-inset: 5px;
+    position: fixed;
+    top: var(--kds-fab-inset);
+    right: var(--kds-fab-inset);
+}
+
+@media (min-width: 768px) {
+    .kds-fab--corner {
+        right: max(
+            var(--kds-fab-inset),
+            calc((100% - var(--kds-fab-column-width, 100%)) / 2 - var(--kds-spacing-5) / 2)
+        );
+    }
+}
+
 /* Hidden (scroll-away) state — fade + slide toward the nearest edge */
 .kds-fab--hidden {
     opacity: 0;
