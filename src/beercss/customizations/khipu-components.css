@@ -5258,6 +5258,12 @@ button.kds-fab:focus-visible {
     margin: 0;
 }
 
+/* Los hijos llevan kds-margin-0 (escape del auto-espaciado de BeerCSS); estas
+   reglas compuestas (mayor especificidad) restauran el rhythm de diseño. */
+.kds-status-block .kds-status-block-title {
+    margin: 0 0 var(--kds-spacing-1);
+}
+
 /* Variant: success */
 .kds-status-block[data-status="success"] .kds-status-block-icon {
     background: var(--kds-color-success-soft);
@@ -7602,4 +7608,22 @@ a.kds-copy-all-btn.copied:hover {
     .kds-col-lg-10 { grid-area: auto/span 10; }
     .kds-col-lg-11 { grid-area: auto/span 11; }
     .kds-col-lg-12 { grid-area: auto/span 12; }
+}
+
+/* ========================================
+   Resets de composición (layouts con gap)
+   ======================================== */
+
+/* Anulan el espaciado propio del elemento cuando el layout lo gestiona el
+   contenedor (flex + gap). "margin" en el nombre es deliberado: BeerCSS exime
+   a [class*='margin'] de su regla de auto-espaciado entre hermanos
+   (margin-block-start: 1rem), que de otro modo gana por especificidad.
+   Van al final del archivo para ganar los empates de especificidad. */
+.kds-margin-0 {
+    margin: 0;
+}
+
+.kds-py-0 {
+    padding-top: 0;
+    padding-bottom: 0;
 }
