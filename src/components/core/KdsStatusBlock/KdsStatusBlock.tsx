@@ -33,8 +33,8 @@ export const KdsStatusBlock = forwardRef<HTMLDivElement, KdsStatusBlockProps>(
         {icon && <i className="material-symbols-outlined">{icon}</i>}
       </div>
       <div>
-        <h2 className="kds-status-block-title kds-margin-0">{title}</h2>
-        {description && <p className="kds-status-block-description kds-margin-0">{description}</p>}
+        <h2 className="kds-status-block-title">{title}</h2>
+        {description && <p className="kds-status-block-description">{description}</p>}
       </div>
     </div>
   ),
