@@ -5250,6 +5250,8 @@ button.kds-fab:focus-visible {
     font-weight: var(--kds-font-weight-bold);
     color: var(--kds-color-text-primary);
     margin: 0 0 var(--kds-spacing-1);
+    /* El reset global :where(h2) usa estas vars con !important; así se overridea. */
+    --kds-typography-h2-margin-block-end: var(--kds-spacing-1);
 }
 
 .kds-status-block-description {
