@@ -106,9 +106,6 @@ export const KdsTypography = forwardRef<HTMLElement, KdsTypographyProps>(
         ref={ref as any}
         className={clsx(
           `kds-text-${variant}`,
-          // margin propio en 0 (como MUI Typography): el espaciado lo pone el layout.
-          // El nombre con "margin" exime del auto-espaciado de BeerCSS ([class*='margin']).
-          'kds-margin-0',
           color && color !== 'inherit' && `kds-text-${color}`,
           className,
         )}
