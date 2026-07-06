@@ -32,15 +32,20 @@ export function KdsTooltip({
           {children}
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <Tooltip.Content
-            className={clsx('kds-tooltip', className)}
-            side={placement}
-            sideOffset={6}
-            collisionPadding={8}
-          >
-            {content}
-            <Tooltip.Arrow className="kds-tooltip-arrow" width={10} height={5} />
-          </Tooltip.Content>
+          {/* El portal monta el tooltip en <body>, fuera del árbol de .kds-theme-root;
+              este wrapper (display: contents, sin caja propia) restaura el scope para
+              consumidores del bundle CSS scoped. */}
+          <div className="kds-theme-root" style={{ display: 'contents' }}>
+            <Tooltip.Content
+              className={clsx('kds-tooltip', className)}
+              side={placement}
+              sideOffset={6}
+              collisionPadding={8}
+            >
+              {content}
+              <Tooltip.Arrow className="kds-tooltip-arrow" width={10} height={5} />
+            </Tooltip.Content>
+          </div>
         </Tooltip.Portal>
       </Tooltip.Root>
     </Tooltip.Provider>
