@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { clsx, getContrastColor, lighten, formatDateTime } from './utils';
+import { clsx, getContrastColor, lighten, formatDateTime, formatDate, formatTime } from './utils';
 
 describe('clsx', () => {
   it('re-exports clsx from package', () => {
@@ -55,5 +55,31 @@ describe('formatDateTime', () => {
 
   it('returns "" for an invalid date string', () => {
     expect(formatDateTime('not-a-date')).toBe('');
+  });
+});
+
+describe('formatDate', () => {
+  it('formats an ISO date-time as D-M-YYYY without leading zeros', () => {
+    expect(formatDate('2026-08-30T23:59:00')).toBe('30-8-2026');
+    expect(formatDate('2026-01-05T07:08:00')).toBe('5-1-2026');
+  });
+
+  it('returns "" for empty, undefined or invalid input', () => {
+    expect(formatDate('')).toBe('');
+    expect(formatDate(undefined)).toBe('');
+    expect(formatDate('not-a-date')).toBe('');
+  });
+});
+
+describe('formatTime', () => {
+  it('formats an ISO date-time as zero-padded HH:mm', () => {
+    expect(formatTime('2026-08-30T23:59:00')).toBe('23:59');
+    expect(formatTime('2026-01-05T07:08:00')).toBe('07:08');
+  });
+
+  it('returns "" for empty, undefined or invalid input', () => {
+    expect(formatTime('')).toBe('');
+    expect(formatTime(undefined)).toBe('');
+    expect(formatTime('not-a-date')).toBe('');
   });
 });
