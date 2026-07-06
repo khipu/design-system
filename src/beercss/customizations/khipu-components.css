@@ -759,6 +759,10 @@ a.kds-btn.kds-btn-md {
     align-items: flex-end;
 }
 
+.kds-self-center {
+    align-self: center;
+}
+
 /* Gap utilities */
 .kds-gap-1 { gap: var(--kds-spacing-1); }
 .kds-gap-2 { gap: var(--kds-spacing-2); }
@@ -795,6 +799,7 @@ a.kds-btn.kds-btn-md {
 /* Spacing utilities - Margin */
 .kds-m-0 { margin: 0; }
 .kds-m-2 { margin: var(--kds-spacing-2); }
+.kds-m-2-5 { margin: var(--kds-spacing-2-5); }
 .kds-m-4 { margin: var(--kds-spacing-4); }
 .kds-m-6 { margin: var(--kds-spacing-6); }
 .kds-m-8 { margin: var(--kds-spacing-8); }
@@ -808,6 +813,7 @@ a.kds-btn.kds-btn-md {
 .kds-mt-8 { margin-top: var(--kds-spacing-8); }
 
 .kds-mb-0 { margin-bottom: 0; }
+.kds-mb-0-5 { margin-bottom: var(--kds-spacing-0-5); }
 .kds-mb-1 { margin-bottom: var(--kds-spacing-1); }
 .kds-mb-2 { margin-bottom: var(--kds-spacing-2); }
 .kds-mb-3 { margin-bottom: var(--kds-spacing-3); }
