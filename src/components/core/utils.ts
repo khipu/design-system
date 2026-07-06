@@ -83,3 +83,36 @@ export function formatDateTime(iso?: string): string {
   const timePart = `${pad(date.getHours())}:${pad(date.getMinutes())}`;
   return `${datePart} ${timePart}`;
 }
+
+/**
+ * Format an ISO 8601 string as "D-M-YYYY" (day/month without leading zeros, e.g. "30-8-2026")
+ * in the browser's local timezone. Returns "" for empty or invalid input.
+ * Compose with {@link formatTime} when the copy needs a localized connector
+ * (e.g. "{date} a las {time}") — the connector belongs to i18n, not to this util.
+ */
+export function formatDate(iso?: string): string {
+  if (!iso) {
+    return '';
+  }
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) {
+    return '';
+  }
+  return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+}
+
+/**
+ * Format an ISO 8601 string as "HH:mm" (24h, zero-padded) in the browser's local timezone.
+ * Returns "" for empty or invalid input.
+ */
+export function formatTime(iso?: string): string {
+  if (!iso) {
+    return '';
+  }
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) {
+    return '';
+  }
+  const pad = (n: number): string => n.toString().padStart(2, '0');
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
