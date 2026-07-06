@@ -3824,6 +3824,10 @@ dialog#surveyModal button.circle {
     color: var(--on-surface-variant);
 }
 
+.kds-text-primary {
+    color: var(--kds-color-primary-main);
+}
+
 .kds-text-sm {
     font-size: var(--kds-font-size-sm);
 }
@@ -5357,6 +5361,9 @@ button.kds-fab:focus-visible {
 .kds-bottom-sheet {
     width: 100%;
     max-width: var(--kds-bottom-sheet-max-width);
+    max-height: 90dvh;
+    display: flex;
+    flex-direction: column;
     background: var(--kds-color-background-paper);
     border-radius: var(--kds-radius-2xl) var(--kds-radius-2xl) 0 0;
     padding: var(--kds-spacing-3-5) var(--kds-spacing-3) var(--kds-spacing-3);
@@ -5409,6 +5416,8 @@ button.kds-fab:focus-visible {
 .kds-bottom-sheet-body {
     text-align: left;
     margin-top: var(--kds-spacing-1);
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .kds-bottom-sheet-icon {
@@ -5455,6 +5464,19 @@ button.kds-fab:focus-visible {
 @keyframes kds-fade {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* Botón con llenado progresivo (feedback visual de auto-cierre).
+   Duración parametrizable con --kds-fill-duration (default 12s). */
+.kds-btn-fill-progress {
+    background-image: linear-gradient(to right, var(--kds-color-primary-dark), var(--kds-color-primary-dark));
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    animation: kds-btn-fill var(--kds-fill-duration, 12s) linear forwards;
+}
+
+@keyframes kds-btn-fill {
+    to { background-size: 100% 100%; }
 }
 
 @keyframes kds-rise {
