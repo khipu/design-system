@@ -2686,8 +2686,10 @@ footer > .kds-container-center {
     border: 1px solid;
     font-family: var(--kds-font-family-primary);
     min-width: 0;
-    /* Bloque full-width (display:flex ya llena el ancho); sin flex-grow para no estirarse
-       verticalmente cuando es hijo de un contenedor flex-column. */
+    /* Banner: ocupa siempre el ancho del contenedor. width explícito porque como
+       flex item de una columna con align-items:center el cross-axis no se estira.
+       Sin flex-grow para no estirarse verticalmente en contenedores flex-column. */
+    width: 100%;
     flex: 0 1 auto;
 }
 
