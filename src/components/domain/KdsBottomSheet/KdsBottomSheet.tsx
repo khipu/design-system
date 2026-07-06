@@ -25,7 +25,7 @@ import React, { forwardRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { clsx } from '../../core/utils';
 
-export interface KdsBottomSheetProps {
+export interface KdsBottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Controla la visibilidad. */
   open: boolean;
   /** Callback cuando se debe cerrar (close button / ESC / click fuera). */
@@ -61,6 +61,7 @@ export const KdsBottomSheet = forwardRef<HTMLDivElement, KdsBottomSheetProps>(
       showCloseButton = false,
       container,
       className,
+      ...props
     },
     ref,
   ) => (
@@ -71,16 +72,20 @@ export const KdsBottomSheet = forwardRef<HTMLDivElement, KdsBottomSheetProps>(
       }}
     >
       <Dialog.Portal container={container}>
-        <Dialog.Overlay className="kds-bottom-sheet-scrim open">
-          <Dialog.Content
-            ref={ref}
-            className={clsx('kds-bottom-sheet', className)}
-            onPointerDownOutside={(e) => {
-              // No cerrar cuando el click viene desde adentro del sheet
-              const target = e.target as HTMLElement;
-              if (target.closest('.kds-bottom-sheet')) e.preventDefault();
-            }}
-          >
+        {/* El portal monta fuera del árbol de .kds-theme-root; este wrapper
+            (display: contents) restaura el scope para el bundle CSS scoped. */}
+        <div className="kds-theme-root" style={{ display: 'contents' }}>
+          <Dialog.Overlay className="kds-bottom-sheet-scrim open">
+            <Dialog.Content
+              ref={ref}
+              className={clsx('kds-bottom-sheet', className)}
+              onPointerDownOutside={(e) => {
+                // No cerrar cuando el click viene desde adentro del sheet
+                const target = e.target as HTMLElement;
+                if (target.closest('.kds-bottom-sheet')) e.preventDefault();
+              }}
+              {...props}
+            >
             {showGrabber && <div className="kds-bottom-sheet-grabber" aria-hidden="true" />}
             {showCloseButton && (
               <Dialog.Close asChild>
@@ -103,8 +108,9 @@ export const KdsBottomSheet = forwardRef<HTMLDivElement, KdsBottomSheetProps>(
             )}
             <div className="kds-bottom-sheet-body">{children}</div>
             {actions && <div className="kds-bottom-sheet-actions">{actions}</div>}
-          </Dialog.Content>
-        </Dialog.Overlay>
+            </Dialog.Content>
+          </Dialog.Overlay>
+        </div>
       </Dialog.Portal>
     </Dialog.Root>
   ),
