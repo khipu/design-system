@@ -6328,6 +6328,13 @@ button.kds-btn-success::after {
     fill: none;
 }
 
+/* BeerCSS fuerza fill:currentcolor en todo svg, pisando el atributo de
+   presentación; un SVG que declara fill="none" (ilustraciones de trazo)
+   debe conservarlo. */
+svg[fill='none'] {
+    fill: none;
+}
+
 /* -- Bottom sheet description (subtle / smaller) -- */
 .kds-bottom-sheet-description-subtle {
     color: var(--kds-color-text-secondary);
