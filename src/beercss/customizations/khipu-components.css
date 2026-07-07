@@ -1383,6 +1383,9 @@ a.kds-btn-google:disabled {
 
 .kds-secure-loader-message {
     margin: 0;
+    /* !important: anula el auto-espaciado de hermanos de BeerCSS (0,5,1);
+       la separación con el título la da el gap del contenedor (spacing-0-25). */
+    margin-top: 0 !important;
     font-family: var(--kds-font-family-secondary);
     font-size: var(--kds-font-size-body1);
     line-height: var(--kds-line-height-normal);
@@ -1399,12 +1402,13 @@ a.kds-btn-google:disabled {
     block-size: var(--kds-secure-loader-size, 6.25rem);
 }
 
-/* Anillo: SVG nativo con arco vía stroke-dasharray, rotando. Replica el
-   CircularProgress original (viewBox 44u, thickness 2, arco ~63%, disableShrink). */
+/* Anillo: SVG nativo con arco vía stroke-dasharray. Replica el CircularProgress
+   original (viewBox 44u, thickness 2, arco ~63%, disableShrink). El giro se anima
+   con stroke-dashoffset (el círculo queda estático y nítido); rotar el SVG con
+   transform rasteriza el anillo y se ve irregular durante el giro. */
 .kds-secure-loader-ring {
     inline-size: var(--kds-secure-loader-size, 6.25rem);
     block-size: var(--kds-secure-loader-size, 6.25rem);
-    animation: kds-secure-loader-spin 1.2s linear infinite;
 }
 
 .kds-secure-loader-ring circle {
@@ -1412,13 +1416,14 @@ a.kds-btn-google:disabled {
     stroke: var(--kds-color-primary-main);
     stroke-width: 2;
     stroke-linecap: round;
-    /* circunferencia ≈ 2π·20.2 ≈ 127; arco visible ≈ 80 (~63%) */
-    stroke-dasharray: 80 127;
+    /* circunferencia = 2π·20.2 ≈ 126.92; arco visible 80 (~63%) + hueco 46.92 */
+    stroke-dasharray: 80 46.92;
+    animation: kds-secure-loader-dash 1.2s linear infinite;
 }
 
-@keyframes kds-secure-loader-spin {
+@keyframes kds-secure-loader-dash {
     to {
-        transform: rotate(360deg);
+        stroke-dashoffset: -126.92;
     }
 }
 
