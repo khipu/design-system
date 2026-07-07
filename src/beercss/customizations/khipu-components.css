@@ -763,6 +763,31 @@ a.kds-btn.kds-btn-md {
     align-self: center;
 }
 
+/* Botón "pelado": neutraliza el chrome de button de BeerCSS (pill 2.5rem,
+   radius, fondo y hover) para botones de terceros con su propio look,
+   p.ej. los share buttons de react-share (ícono circular). */
+.kds-btn-bare,
+.kds-btn-bare:hover,
+.kds-btn-bare:focus,
+.kds-btn-bare:active {
+    background: none !important;
+    block-size: auto !important;
+    inline-size: auto !important;
+    min-inline-size: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: var(--kds-radius-full) !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.kds-btn-bare::before,
+.kds-btn-bare::after {
+    display: none !important;
+}
+
 /* Gap utilities */
 .kds-gap-1 { gap: var(--kds-spacing-1); }
 .kds-gap-2 { gap: var(--kds-spacing-2); }
