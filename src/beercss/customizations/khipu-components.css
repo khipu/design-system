@@ -6555,11 +6555,6 @@ button.kds-btn-success::after {
         width: 100%;
     }
 
-    .kds-payment-flow .kds-card-elevated {
-        padding-top: var(--kds-spacing-2);
-        padding-bottom: var(--kds-spacing-2);
-    }
-
     /* Invoice sticky card padding (mobile).
        Top: estático 12px. Bottom: progresivo 16px (expandido, = desktop) → 8px (colapsado).
        El padding-bottom animado se reduce al colapsar — sin depender de que el clip-path
@@ -6575,9 +6570,8 @@ button.kds-btn-success::after {
 
 }
 
-/* Desktop: restore card padding and full border-radius on invoice sticky */
+/* Desktop: restore sticky header padding and full border-radius on invoice sticky */
 @media (min-width: 768px) {
-    .kds-payment-flow .kds-card-elevated,
     .kds-payment-flow .kds-card-elevated.kds-invoice-sticky {
         padding-top: var(--kds-spacing-2);
         padding-bottom: var(--kds-spacing-2);
