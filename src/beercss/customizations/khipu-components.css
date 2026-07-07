@@ -6467,8 +6467,10 @@ button.kds-btn-success::after {
    Desktop (min-width: 768px) restores padding + full border-radius. */
 .kds-payment-flow .kds-card-elevated {
     margin-top: 0;
-    padding-top: 0;
-    padding-bottom: 0;
+    /* Vertical > lateral: la card del flujo respira arriba/abajo (spacing-3)
+       manteniendo el padding lateral del base (spacing-2 / spacing-3 mobile). */
+    padding-top: var(--kds-spacing-3);
+    padding-bottom: var(--kds-spacing-3);
 }
 
 /* Reset BeerCSS sibling margin on form/section inside payment cards.
