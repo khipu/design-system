@@ -788,6 +788,15 @@ a.kds-btn.kds-btn-md {
     display: none !important;
 }
 
+/* BeerCSS también encoge los íconos hijos de button a 1.5rem (min/max);
+   un botón pelado respeta el tamaño propio del ícono. */
+.kds-btn-bare > :is(img, svg) {
+    max-block-size: none !important;
+    max-inline-size: none !important;
+    min-block-size: 0 !important;
+    min-inline-size: 0 !important;
+}
+
 /* Gap utilities */
 .kds-gap-1 { gap: var(--kds-spacing-1); }
 .kds-gap-2 { gap: var(--kds-spacing-2); }
