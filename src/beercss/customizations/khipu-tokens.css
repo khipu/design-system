@@ -187,7 +187,8 @@ body.dark {
     --kds-color-danger-soft: var(--kds-alert-error-bg);      /* #FEF2F2 */
 
     /* Bottom Sheet */
-    --kds-bottom-sheet-max-width: 480px;
+    /* Mismo ancho que la card principal del flujo (stage narrow). */
+    --kds-bottom-sheet-max-width: var(--kds-stage-narrow-max-width);
     --kds-bottom-sheet-shadow: 0 -8px var(--kds-spacing-3-5) rgba(0, 0, 0, 0.18);
 
     /* Status Block */
