@@ -3997,23 +3997,25 @@ dialog#surveyModal button.circle {
     text-transform: uppercase;
 }
 
-/* KV label — label del par clave↔valor (letra del dt de .kds-kv: "PAGO A" / "ASUNTO"). */
+/* KV label — label del par clave↔valor (letra del dt de .kds-kv: "PAGO A" / "ASUNTO").
+   line-height tight: en pares apilados el relaxed infla la separación de tinta. */
 .kds-text-kv-label {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
     font-size: var(--kds-font-size-xs);
     font-weight: var(--kds-font-weight-regular);
-    line-height: var(--kds-line-height-relaxed);
+    line-height: var(--kds-line-height-tight);
     letter-spacing: normal;
     text-transform: uppercase;
     color: var(--kds-color-text-secondary);
 }
 
-/* Value — dato/valor destacado (ej. nombre del comercio en el header del cobro). */
+/* Value — dato/valor destacado (ej. nombre del comercio en el header del cobro).
+   line-height tight: se usa en pares apilados y el relaxed infla la separación. */
 .kds-text-value {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
     font-size: var(--kds-font-size-sm);
     font-weight: var(--kds-font-weight-semibold);
-    line-height: var(--kds-line-height-relaxed);
+    line-height: var(--kds-line-height-tight);
     color: var(--kds-color-gray-800);
 }
 
