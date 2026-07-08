@@ -6335,6 +6335,18 @@ svg[fill='none'] {
     fill: none;
 }
 
+/* -- Bottom sheet centered content --
+   Contenido escueto centrado verticalmente con altura mínima estable, para que
+   el sheet no encoja cuando la vista tiene pocos elementos (p.ej. drawer de
+   autorización: título + ilustración + timer). */
+.kds-bottom-sheet-centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--kds-bottom-sheet-content-min-height, 21rem);
+}
+
 /* -- Bottom sheet description (subtle / smaller) -- */
 .kds-bottom-sheet-description-subtle {
     color: var(--kds-color-text-secondary);
