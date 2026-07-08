@@ -6003,7 +6003,7 @@ div.kds-invoice-header,
     gap: var(--kds-spacing-2);
     width: 100%;
     padding: var(--kds-spacing-2);
-    border: var(--kds-border-width-sm) solid var(--kds-color-border);
+    border: var(--kds-border-width-sm) solid var(--kds-color-border-default);
     border-radius: var(--kds-radius-card);
     text-align: left;
 }
