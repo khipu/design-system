@@ -798,6 +798,7 @@ a.kds-btn.kds-btn-md {
 }
 
 /* Gap utilities */
+.kds-gap-0-25 { gap: var(--kds-spacing-0-25); }
 .kds-gap-1 { gap: var(--kds-spacing-1); }
 .kds-gap-2 { gap: var(--kds-spacing-2); }
 .kds-gap-3 { gap: var(--kds-spacing-3); }
@@ -4145,6 +4146,7 @@ dialog#surveyModal button.circle {
 }
 
 /* Gap utilities */
+.kds-gap-0-25 { gap: var(--kds-spacing-0-25); }
 .kds-gap-1 { gap: var(--kds-spacing-1); }
 .kds-gap-2 { gap: var(--kds-spacing-2); }
 .kds-gap-3 { gap: var(--kds-spacing-3); }
