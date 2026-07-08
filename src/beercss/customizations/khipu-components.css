@@ -3996,6 +3996,17 @@ dialog#surveyModal button.circle {
     text-transform: uppercase;
 }
 
+/* KV label — label del par clave↔valor (letra del dt de .kds-kv: "PAGO A" / "ASUNTO"). */
+.kds-text-kv-label {
+    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-regular);
+    line-height: var(--kds-line-height-relaxed);
+    letter-spacing: normal;
+    text-transform: uppercase;
+    color: var(--kds-color-text-secondary);
+}
+
 /* Value — dato/valor destacado (ej. nombre del comercio en el header del cobro). */
 .kds-text-value {
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
