@@ -5983,6 +5983,20 @@ div.kds-invoice-header,
     text-overflow: ellipsis;
 }
 
+/* -- Summary panel --
+   Recuadro de datos del pago en pantallas de resultado: contenido en columna
+   (gap spacing-2, típicamente pares kv) dentro de un borde sutil. */
+.kds-summary-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-2);
+    width: 100%;
+    padding: var(--kds-spacing-2);
+    border: var(--kds-border-width-sm) solid var(--kds-color-border);
+    border-radius: var(--kds-radius-card);
+    text-align: left;
+}
+
 /* -- Dividers -- */
 .kds-hr {
     height: 1px;
