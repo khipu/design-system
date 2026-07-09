@@ -797,6 +797,14 @@ a.kds-btn.kds-btn-md {
     min-inline-size: 0 !important;
 }
 
+/* Separador vertical (entre chips/logos hermanos en una fila). */
+.kds-vr {
+    width: 1px;
+    height: var(--kds-spacing-3);
+    background: var(--kds-color-divider);
+    flex: 0 0 auto;
+}
+
 /* Gap utilities */
 .kds-gap-0-25 { gap: var(--kds-spacing-0-25); }
 .kds-gap-1 { gap: var(--kds-spacing-1); }
@@ -4145,6 +4153,14 @@ dialog#surveyModal button.circle {
 
 .kds-flex-shrink-0 {
     flex-shrink: 0;
+}
+
+/* Separador vertical (entre chips/logos hermanos en una fila). */
+.kds-vr {
+    width: 1px;
+    height: var(--kds-spacing-3);
+    background: var(--kds-color-divider);
+    flex: 0 0 auto;
 }
 
 /* Gap utilities */
