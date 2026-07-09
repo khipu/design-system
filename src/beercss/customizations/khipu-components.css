@@ -5348,7 +5348,8 @@ button.kds-fab:focus-visible {
 .kds-status-block-title {
     font-size: var(--kds-font-size-xl);
     font-weight: var(--kds-font-weight-semibold);
-    color: var(--kds-color-text-primary);
+    /* Mismo color que la descripción: título y subtítulo parejos en resultados. */
+    color: var(--kds-color-text-secondary);
     margin: 0 0 var(--kds-spacing-1);
     /* El reset global :where(h2) usa estas vars con !important; así se overridea. */
     --kds-typography-h2-margin-block-end: var(--kds-spacing-1);
