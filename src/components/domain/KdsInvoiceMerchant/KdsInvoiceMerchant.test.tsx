@@ -32,4 +32,19 @@ describe('KdsInvoiceMerchant', () => {
     render(<KdsInvoiceMerchant data-testid="m" brandColor="#3f2971" />);
     expect(screen.getByTestId('m')).toHaveStyle({ background: '#3f2971' });
   });
+
+  it('renders the logo on the neutral background, ignoring the brand color', () => {
+    render(<KdsInvoiceMerchant data-testid="m" logoUrl="https://x/logo.png" brandColor="#e2001a" />);
+    const el = screen.getByTestId('m');
+    expect(el).toHaveClass('kds-invoice-merchant-neutral');
+    expect(el).not.toHaveStyle({ background: '#e2001a' });
+  });
+
+  it('applies the brand color to the fallback tile after the logo fails to load', () => {
+    render(<KdsInvoiceMerchant data-testid="m" logoUrl="https://x/broken.png" brandColor="#e2001a" />);
+    const el = screen.getByTestId('m');
+    fireEvent.error(el.querySelector('img')!);
+    expect(el).not.toHaveClass('kds-invoice-merchant-neutral');
+    expect(el).toHaveStyle({ background: '#e2001a' });
+  });
 });

@@ -5949,8 +5949,6 @@ div.kds-invoice-header,
     place-items: center;
     color: #fff;
     flex-shrink: 0;
-    /* Clip the slightly-oversized logo (see `.kds-invoice-merchant img`) to the
-       rounded square so it can fully cover the deep-purple background. */
     overflow: hidden;
 }
 
@@ -5971,13 +5969,12 @@ div.kds-invoice-header,
 }
 
 .kds-invoice-merchant img {
-    /* Slightly larger than the container (+2px, centered by the grid) so the
-       logo overflows under the parent's rounded clip and the deep-purple
-       background never peeks through at the corners when the logo shrinks. */
-    width: calc(100% + 2px);
-    height: calc(100% + 2px);
-    object-fit: cover;
-    border-radius: var(--kds-radius-md);
+    /* `contain` sobre el fondo neutro: el logo se muestra completo y las
+       transparencias no quedan sobre el color de marca (KTUF-204). */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: var(--kds-spacing-0-5);
 }
 
 /* -- Card Title -- */
