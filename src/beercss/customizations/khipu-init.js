@@ -60,8 +60,83 @@
         initStickyInvoice();
         initHideOnScroll();
         initBankModal();
+        initMerchantLogoBackdrop();
 
         console.log('Material Design initialization complete!');
+    }
+
+    /**
+     * Initialize merchant logo backdrop (KTUF-204)
+     * Los logos de comercio van sobre el fondo neutro, no sobre el color de marca (los PNG
+     * con transparencia se ahogan contra su propio color). La luminancia decide entre los
+     * dos neutros: paper para logos oscuros, gray-800 para logos claros. Espejo vanilla de
+     * KdsInvoiceMerchant/logoLuminance.ts para las vistas server-side (payment).
+     * @param {Element} root - Root element to scope the query (default: document)
+     */
+    function initMerchantLogoBackdrop(root) {
+        root = root || document;
+        var LIGHT_LOGO_LUMINANCE_THRESHOLD = 0.72;
+        var SAMPLE_SIZE = 16;
+        var ALPHA_THRESHOLD = 128;
+        var MIN_OPAQUE_RATIO = 0.02;
+
+        root.querySelectorAll('.kds-invoice-merchant').forEach(function(tile) {
+            var img = tile.querySelector('img');
+            if (!img) return;
+
+            /* Con logo: fondo neutro; el color de marca queda solo para el fallback. */
+            var brandBackground = tile.style.background;
+            tile.style.background = '';
+            tile.classList.add('kds-invoice-merchant-neutral');
+
+            /* Si el logo falla (el onerror server-side lo reemplaza por el ícono),
+               restaurar el tile de color de marca. */
+            img.addEventListener('error', function() {
+                tile.classList.remove('kds-invoice-merchant-neutral', 'dark');
+                tile.style.background = brandBackground;
+            });
+
+            measureLogoLuminance(img.getAttribute('src'), function(luminance) {
+                if (luminance != null && luminance > LIGHT_LOGO_LUMINANCE_THRESHOLD &&
+                        tile.classList.contains('kds-invoice-merchant-neutral')) {
+                    tile.classList.add('dark');
+                }
+            });
+        });
+
+        function measureLogoLuminance(url, callback) {
+            if (!url) { callback(null); return; }
+            var probe = new Image();
+            probe.crossOrigin = 'anonymous';
+            probe.onload = function() {
+                try {
+                    var canvas = document.createElement('canvas');
+                    canvas.width = SAMPLE_SIZE;
+                    canvas.height = SAMPLE_SIZE;
+                    var context = canvas.getContext('2d');
+                    if (!context) { callback(null); return; }
+                    context.drawImage(probe, 0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
+                    var data = context.getImageData(0, 0, SAMPLE_SIZE, SAMPLE_SIZE).data;
+                    var sum = 0;
+                    var opaquePixels = 0;
+                    for (var i = 0; i < data.length; i += 4) {
+                        if (data[i + 3] < ALPHA_THRESHOLD) continue;
+                        sum += (0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]) / 255;
+                        opaquePixels++;
+                    }
+                    if (opaquePixels < SAMPLE_SIZE * SAMPLE_SIZE * MIN_OPAQUE_RATIO) {
+                        callback(null);
+                        return;
+                    }
+                    callback(sum / opaquePixels);
+                } catch (e) {
+                    /* canvas tainted: el origen no permite CORS — no medible */
+                    callback(null);
+                }
+            };
+            probe.onerror = function() { callback(null); };
+            probe.src = url;
+        }
     }
 
     /**
