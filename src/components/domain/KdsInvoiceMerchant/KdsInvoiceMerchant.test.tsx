@@ -1,6 +1,12 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { KdsInvoiceMerchant } from './KdsInvoiceMerchant';
+import { measureLogoLuminance } from './logoLuminance';
+
+vi.mock('./logoLuminance', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('./logoLuminance')>();
+  return { ...actual, measureLogoLuminance: vi.fn(() => Promise.resolve(null)) };
+});
 
 describe('KdsInvoiceMerchant', () => {
   it('renders the merchant logo when logoUrl is provided', () => {
@@ -46,5 +52,20 @@ describe('KdsInvoiceMerchant', () => {
     fireEvent.error(el.querySelector('img')!);
     expect(el).not.toHaveClass('kds-invoice-merchant-neutral');
     expect(el).toHaveStyle({ background: '#e2001a' });
+  });
+
+  it('uses the dark neutral backdrop when the logo is light', async () => {
+    vi.mocked(measureLogoLuminance).mockResolvedValueOnce(0.95);
+    render(<KdsInvoiceMerchant data-testid="m" logoUrl="https://x/light-logo.png" />);
+    await waitFor(() => expect(screen.getByTestId('m')).toHaveClass('dark'));
+    expect(screen.getByTestId('m')).toHaveClass('kds-invoice-merchant-neutral');
+  });
+
+  it('keeps the paper backdrop when the logo luminance is not measurable', async () => {
+    vi.mocked(measureLogoLuminance).mockResolvedValueOnce(null);
+    render(<KdsInvoiceMerchant data-testid="m" logoUrl="https://x/no-cors.png" />);
+    await waitFor(() => expect(vi.mocked(measureLogoLuminance)).toHaveBeenCalled());
+    expect(screen.getByTestId('m')).not.toHaveClass('dark');
+    expect(screen.getByTestId('m')).toHaveClass('kds-invoice-merchant-neutral');
   });
 });
