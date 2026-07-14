@@ -5962,6 +5962,12 @@ div.kds-invoice-header,
     color: var(--kds-color-text-primary);
 }
 
+/* Neutro oscuro para logos claros (detección de luminancia — KTUF-204). */
+.kds-invoice-merchant-neutral.dark {
+    background: var(--kds-color-gray-800);
+    border-color: var(--kds-color-gray-700);
+}
+
 .kds-invoice-merchant.initials {
     font-weight: 700;
     font-size: 11px;

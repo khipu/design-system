@@ -1,5 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 import { clsx } from '../../core/utils';
+import { useLogoBackdrop } from './useLogoBackdrop';
 
 export interface KdsInvoiceMerchantProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
@@ -30,11 +31,17 @@ export const KdsInvoiceMerchant = forwardRef<HTMLDivElement, KdsInvoiceMerchantP
   ({ logoUrl, brandColor, className, style, ...props }, ref) => {
     const [failed, setFailed] = useState(false);
     const showLogo = !!logoUrl && !failed;
+    const backdrop = useLogoBackdrop(showLogo ? logoUrl : undefined);
 
     return (
       <div
         ref={ref}
-        className={clsx('kds-invoice-merchant', showLogo && 'kds-invoice-merchant-neutral', className)}
+        className={clsx(
+          'kds-invoice-merchant',
+          showLogo && 'kds-invoice-merchant-neutral',
+          showLogo && backdrop === 'dark' && 'dark',
+          className,
+        )}
         aria-hidden="true"
         style={!showLogo && brandColor ? { background: brandColor, ...style } : style}
         {...props}
