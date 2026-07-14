@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { clsx } from '../../core/utils';
+import { useLogoBackdrop } from '../KdsInvoiceMerchant';
 
 export interface KdsMerchantTileProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Nombre del merchant (usado para alt del logo o initials fallback). */
@@ -46,10 +47,17 @@ export interface KdsMerchantTileProps extends Omit<React.HTMLAttributes<HTMLDivE
 export const KdsMerchantTile = forwardRef<HTMLDivElement, KdsMerchantTileProps>(
   ({ name, logoUrl, initials, compact, className, ...props }, ref) => {
     const displayInitials = (initials ?? name.slice(0, 2)).toUpperCase();
+    const backdrop = useLogoBackdrop(logoUrl);
     return (
       <div
         ref={ref}
-        className={clsx('kds-merchant-tile', logoUrl && 'logo', compact && 'compact', className)}
+        className={clsx(
+          'kds-merchant-tile',
+          logoUrl && 'logo',
+          logoUrl && backdrop === 'dark' && 'dark',
+          compact && 'compact',
+          className,
+        )}
         aria-label={name}
         {...props}
       >
