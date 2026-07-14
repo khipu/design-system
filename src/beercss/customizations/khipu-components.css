@@ -4488,6 +4488,12 @@ dialog#surveyModal button.circle {
     display: block;
 }
 
+/* Neutro oscuro para logos claros que se perderían sobre la card blanca
+   (detección de luminancia — KTUF-204). */
+.kds-merchant-tile.logo.dark {
+    background: var(--kds-color-gray-800);
+}
+
 /* Variante para logos que traen su propio marco/forma (logos de comercio/servicio,
    no fotos): `contain` + padding para que el logo entre completo sin recortar sus
    esquinas. Opt-in: pasar className="kds-merchant-tile--contain". */
