@@ -7845,7 +7845,7 @@ a.kds-copy-all-btn.copied:hover {
     font-weight: var(--kds-font-weight-semibold);
     justify-content: space-between;
     list-style: none;
-    padding: var(--kds-spacing-2);
+    padding: var(--kds-spacing-1) var(--kds-spacing-2);
     transition: background 0.2s ease;
 }
 
@@ -7875,5 +7875,5 @@ a.kds-copy-all-btn.copied:hover {
     color: var(--kds-color-text-secondary);
     font-size: var(--kds-font-size-sm);
     line-height: var(--kds-line-height-relaxed);
-    padding: var(--kds-spacing-2);
+    padding: var(--kds-spacing-1) var(--kds-spacing-2);
 }
