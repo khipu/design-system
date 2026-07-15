@@ -113,6 +113,9 @@ function generateColorVariables(colors) {
     variables.push({ name: '--kds-color-background-paper', value: colors.background.paper });
     variables.push({ name: '--kds-color-background-elevated', value: colors.background.elevated });
     variables.push({ name: '--kds-color-background-muted', value: colors.background.muted });
+    if (colors.background.brandSubtle) {
+      variables.push({ name: '--kds-color-background-brand-subtle', value: colors.background.brandSubtle });
+    }
   }
 
   // Action colors
