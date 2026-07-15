@@ -7821,3 +7821,59 @@ a.kds-copy-all-btn.copied:hover {
         width: 32px;
     }
 }
+
+/* === Accordion (componente KdsAccordion) ============================= */
+/* El bundle solo estilaba .kds-contract-accordion; estas son las clases
+   que emite el componente React (details/summary con chevron propio). */
+
+.kds-accordion {
+    border: 1px solid var(--kds-accordion-border);
+    border-radius: var(--kds-radius-md);
+    overflow: hidden;
+}
+
+.kds-accordion + .kds-accordion {
+    margin-top: var(--kds-spacing-1);
+}
+
+.kds-accordion-summary {
+    align-items: center;
+    background: var(--kds-accordion-header-bg);
+    color: var(--kds-color-text-primary);
+    cursor: pointer;
+    display: flex;
+    font-weight: var(--kds-font-weight-semibold);
+    justify-content: space-between;
+    list-style: none;
+    padding: var(--kds-spacing-2);
+    transition: background 0.2s ease;
+}
+
+.kds-accordion-summary::-webkit-details-marker {
+    display: none;
+}
+
+.kds-accordion-summary:hover {
+    background: var(--kds-color-background-elevated);
+}
+
+.kds-accordion-summary > .material-symbols-outlined {
+    transition: transform 0.3s ease;
+}
+
+.kds-accordion[open] > .kds-accordion-summary > .material-symbols-outlined {
+    transform: rotate(180deg);
+}
+
+.kds-accordion[open] > .kds-accordion-summary {
+    background: var(--kds-accordion-bg-open);
+    border-bottom: 1px solid var(--kds-accordion-border);
+}
+
+.kds-accordion-details {
+    background: var(--kds-accordion-bg-open);
+    color: var(--kds-color-text-secondary);
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-relaxed);
+    padding: var(--kds-spacing-2);
+}
