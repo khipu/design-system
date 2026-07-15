@@ -7769,19 +7769,19 @@ a.kds-copy-all-btn.copied:hover {
     align-self: stretch;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--kds-spacing-1);
     justify-content: center;
-    padding: 0 var(--kds-spacing-2-5);
+    padding: 0 var(--kds-spacing-2);
 }
 
 .kds-form-icon-box {
     align-items: center;
     background: var(--kds-color-background-brand-subtle, #f0f0fa);
-    border-radius: 10px;
+    border-radius: var(--kds-radius-md);
     display: flex;
     height: 52px;
     justify-content: center;
-    padding: 10px;
+    padding: var(--kds-spacing-1);
     width: 52px;
 }
 
