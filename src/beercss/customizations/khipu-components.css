@@ -7877,3 +7877,9 @@ a.kds-copy-all-btn.copied:hover {
     line-height: var(--kds-line-height-relaxed);
     padding: var(--kds-spacing-1) var(--kds-spacing-2);
 }
+
+.kds-accordion-details ul,
+.kds-accordion-details ol {
+    margin: 0;
+    padding-inline-start: var(--kds-spacing-2);
+}
