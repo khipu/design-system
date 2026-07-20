@@ -217,7 +217,11 @@ body.dark,
    values so selected states / rows / hovers adapt. Additive: the light
    :root / body.light values above are unchanged. Tokens already defined as
    var() refs (warning-soft, danger-soft) adapt on their own and are omitted.
+   body.dark is included on purpose: the light group above also matches
+   body.dark (specificity 0,1,1), so a bare [data-theme] override (0,1,0)
+   would lose on a body that carries the transitional dark class.
    ======================================== */
+body.dark,
 [data-theme="dark"] {
     --kds-color-primary-faint: #1E1030;                     /* dark brand-tinted subtle surface (selected rows/cards) */
     --kds-color-info-soft: var(--kds-alert-info-bg);        /* dark translucent blue */
