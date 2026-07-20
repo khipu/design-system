@@ -1580,6 +1580,17 @@ a.kds-btn-google:disabled {
     flex-shrink: 0;
 }
 
+/* Dark mode: info-dark text is near-invisible on the dark translucent chip.
+   Use the alert info text token (light blue in dark), same pattern as KdsAlert;
+   the copied state already uses alert-success-text and adapts on its own. */
+[data-theme="dark"] .kds-copy-button {
+    color: var(--kds-alert-info-text);
+}
+
+[data-theme="dark"] .kds-copy-button .material-symbols-outlined {
+    color: var(--kds-alert-info-text);
+}
+
 .kds-copy-button.copied {
     background: var(--kds-alert-success-bg);
     color: var(--kds-alert-success-text);
