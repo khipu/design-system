@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { colors, colorsByMode, spacing, fontSizes, fontWeights, borderRadius, borders } from '../../tokens';
+import { colorsByMode, spacing, fontSizes, fontWeights, borderRadius, borders } from '../../tokens';
 
 // Logos Horizontales
 import Logo200x75Purple from './assets/logos/khipu-200x75-purple.svg';
@@ -35,7 +35,7 @@ export const Uso_de_marca: StoryObj = {
 
       <div style={{
         padding: spacing[6],
-        background: colors.background.paper,
+        background: 'var(--kds-color-background-paper)',
         borderRadius: borderRadius.md,
         border: borders.divider,
         textAlign: 'center',
@@ -73,8 +73,8 @@ export const Uso_de_marca: StoryObj = {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: spacing[3], marginBottom: spacing[4] }}>
         {/* Columna Izquierda - Usos Correctos */}
-        <div style={{ padding: spacing[2.5], background: colors.success.container, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colors.success.light}` }}>
-          <h3 style={{ fontSize: fontSizes.lg, color: colors.success.main, marginTop: 0 }}>Usos correctos</h3>
+        <div style={{ padding: spacing[2.5], background: 'var(--kds-alert-success-bg)', borderRadius: borderRadius.md, border: `${borders.widthSm} solid var(--kds-alert-success-border)` }}>
+          <h3 style={{ fontSize: fontSizes.lg, color: 'var(--kds-alert-success-text)', marginTop: 0 }}>Usos correctos</h3>
 
           <p><strong>Fondos apropiados</strong></p>
           <ul>
@@ -99,8 +99,8 @@ export const Uso_de_marca: StoryObj = {
         </div>
 
         {/* Columna Derecha - Usos Incorrectos */}
-        <div style={{ padding: spacing[2.5], background: colors.error.container, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colors.error.light}` }}>
-          <h3 style={{ fontSize: fontSizes.lg, color: colors.error.dark, marginTop: 0 }}>Usos incorrectos</h3>
+        <div style={{ padding: spacing[2.5], background: 'var(--kds-alert-error-bg)', borderRadius: borderRadius.md, border: `${borders.widthSm} solid var(--kds-alert-error-border)` }}>
+          <h3 style={{ fontSize: fontSizes.lg, color: 'var(--kds-alert-error-text)', marginTop: 0 }}>Usos incorrectos</h3>
 
           <p><strong>No hacer</strong></p>
           <ul>
@@ -120,11 +120,11 @@ export const Uso_de_marca: StoryObj = {
       <h3>Logos horizontales</h3>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: spacing[2], marginBottom: spacing[4] }}>
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ fontSize: fontSizes.base, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: colors.success.light }}>
+        <div style={{ padding: spacing[2.5], background: 'var(--kds-color-background-paper)', borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ fontSize: fontSizes.base, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: 'var(--kds-alert-success-text)' }}>
             Color
           </div>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
             <img
               src={Logo200x75Color}
               alt="Logo Khipu Color"
@@ -136,11 +136,11 @@ export const Uso_de_marca: StoryObj = {
           </div>
         </div>
 
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ fontSize: fontSizes.base, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: colors.primary.main }}>
+        <div style={{ padding: spacing[2.5], background: 'var(--kds-color-background-paper)', borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ fontSize: fontSizes.base, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: 'var(--kds-color-primary-main)' }}>
             Púrpura completo
           </div>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
             <img
               src={Logo200x75Purple}
               alt="Logo Khipu Púrpura"
@@ -152,11 +152,11 @@ export const Uso_de_marca: StoryObj = {
           </div>
         </div>
 
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
+        <div style={{ padding: spacing[2.5], background: 'var(--kds-color-background-paper)', borderRadius: borderRadius.md, border: borders.divider }}>
           <div style={{ fontSize: fontSizes.base, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5] }}>
             Negro
           </div>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
             <img
               src={Logo200x75Black}
               alt="Logo Khipu Negro"
@@ -172,8 +172,8 @@ export const Uso_de_marca: StoryObj = {
       <h3>Logos cuadrados</h3>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: spacing[2], marginBottom: spacing[4] }}>
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+        <div style={{ padding: spacing[2.5], background: 'var(--kds-color-background-paper)', borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
             <img
               src={Logo140Simple}
               alt="K Color"
@@ -182,12 +182,12 @@ export const Uso_de_marca: StoryObj = {
           </div>
           <div style={{ fontSize: fontSizes.sm }}>
             <strong>K Color</strong><br/>
-            <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>UI minimalista</span>
+            <span style={{ fontSize: fontSizes.xs, color: 'var(--kds-color-text-secondary)' }}>UI minimalista</span>
           </div>
         </div>
 
-        <div style={{ padding: spacing[2.5], background: colors.background.paper, borderRadius: borderRadius.md, border: borders.divider }}>
-          <div style={{ textAlign: 'center', padding: spacing[2.5], background: colors.background.elevated, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
+        <div style={{ padding: spacing[2.5], background: 'var(--kds-color-background-paper)', borderRadius: borderRadius.md, border: borders.divider }}>
+          <div style={{ textAlign: 'center', padding: spacing[2.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
             <img
               src={Logo140Purple}
               alt="K Púrpura"
@@ -196,11 +196,11 @@ export const Uso_de_marca: StoryObj = {
           </div>
           <div style={{ fontSize: fontSizes.sm }}>
             <strong>K Púrpura</strong><br/>
-            <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>Íconos de app, favicons</span>
+            <span style={{ fontSize: fontSizes.xs, color: 'var(--kds-color-text-secondary)' }}>Íconos de app, favicons</span>
           </div>
         </div>
 
-        <div style={{ padding: spacing[2.5], background: colorsByMode.dark.background.elevated, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colorsByMode.dark.divider}`, color: colors.primary.contrastText }}>
+        <div style={{ padding: spacing[2.5], background: colorsByMode.dark.background.elevated, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colorsByMode.dark.divider}`, color: '#FFFFFF' /* fixed white on the dark demo surface */ }}>
           <div style={{ textAlign: 'center', padding: spacing[2.5], background: colorsByMode.dark.action.hover, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
             <img
               src={Logo140White}
@@ -214,7 +214,7 @@ export const Uso_de_marca: StoryObj = {
           </div>
         </div>
 
-        <div style={{ padding: spacing[2.5], background: colorsByMode.dark.background.elevated, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colorsByMode.dark.divider}`, color: colors.primary.contrastText }}>
+        <div style={{ padding: spacing[2.5], background: colorsByMode.dark.background.elevated, borderRadius: borderRadius.md, border: `${borders.widthSm} solid ${colorsByMode.dark.divider}`, color: '#FFFFFF' /* fixed white on the dark demo surface */ }}>
           <div style={{ textAlign: 'center', padding: spacing[2.5], background: colorsByMode.dark.action.hover, borderRadius: borderRadius.sm, marginBottom: spacing[1.5] }}>
             <img
               src={Logo140WhiteNeg}
@@ -234,8 +234,8 @@ export const Uso_de_marca: StoryObj = {
       <p>La identidad de marca de Khipu se fundamenta en tres valores esenciales que guían todas nuestras acciones y comunicaciones:</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: spacing[2.5], marginBottom: spacing[4] }}>
-        <div style={{ padding: spacing[3], background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: colors.primary.main }}>
+        <div style={{ padding: spacing[3], background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
+          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: 'var(--kds-color-primary-main)' }}>
             Buenos Competidores
           </div>
           <p style={{ fontSize: fontSizes.sm, lineHeight: '1.6', marginBottom: spacing[1.5] }}>
@@ -249,8 +249,8 @@ export const Uso_de_marca: StoryObj = {
           </ul>
         </div>
 
-        <div style={{ padding: spacing[3], background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: colors.primary.main }}>
+        <div style={{ padding: spacing[3], background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
+          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: 'var(--kds-color-primary-main)' }}>
             Honestos
           </div>
           <p style={{ fontSize: fontSizes.sm, lineHeight: '1.6', marginBottom: spacing[1.5] }}>
@@ -264,8 +264,8 @@ export const Uso_de_marca: StoryObj = {
           </ul>
         </div>
 
-        <div style={{ padding: spacing[3], background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: colors.primary.main }}>
+        <div style={{ padding: spacing[3], background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
+          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1.5], color: 'var(--kds-color-primary-main)' }}>
             Colaborativos
           </div>
           <p style={{ fontSize: fontSizes.sm, lineHeight: '1.6', marginBottom: spacing[1.5] }}>
@@ -285,8 +285,8 @@ export const Uso_de_marca: StoryObj = {
       <p>Nuestra marca se caracteriza por tres pilares de comunicación que reflejan nuestros valores:</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: spacing[2.5], marginBottom: spacing[4] }}>
-        <div style={{ padding: spacing[3], background: colors.success.container, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.success.light}` }}>
-          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1], color: colors.success.main }}>
+        <div style={{ padding: spacing[3], background: 'var(--kds-alert-success-bg)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-alert-success-border)` }}>
+          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1], color: 'var(--kds-alert-success-text)' }}>
             Eficiente
           </div>
           <p style={{ fontSize: fontSizes.sm, fontStyle: 'italic', marginTop: 0, marginBottom: spacing[2] }}>
@@ -299,8 +299,8 @@ export const Uso_de_marca: StoryObj = {
           </ul>
         </div>
 
-        <div style={{ padding: spacing[3], background: colors.info.container, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.info.light}` }}>
-          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1], color: colors.info.dark }}>
+        <div style={{ padding: spacing[3], background: 'var(--kds-alert-info-bg)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-alert-info-border)` }}>
+          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1], color: 'var(--kds-alert-info-text)' }}>
             Transparente
           </div>
           <p style={{ fontSize: fontSizes.sm, fontStyle: 'italic', marginTop: 0, marginBottom: spacing[2] }}>
@@ -313,8 +313,8 @@ export const Uso_de_marca: StoryObj = {
           </ul>
         </div>
 
-        <div style={{ padding: spacing[3], background: colors.warning.container, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.warning.light}` }}>
-          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1], color: colors.warning.dark }}>
+        <div style={{ padding: spacing[3], background: 'var(--kds-alert-warning-bg)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-alert-warning-border)` }}>
+          <div style={{ fontSize: fontSizes.xl, fontWeight: fontWeights.semiBold, marginBottom: spacing[1], color: 'var(--kds-alert-warning-text)' }}>
             Cercana
           </div>
           <p style={{ fontSize: fontSizes.sm, fontStyle: 'italic', marginTop: 0, marginBottom: spacing[2] }}>
