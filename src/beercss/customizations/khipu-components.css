@@ -4870,6 +4870,26 @@ dialog#surveyModal button.circle {
     background: var(--kds-color-hover-bg);
 }
 
+/* BeerCSS forces `border-radius: .5rem !important` on button:active
+   (:is(.button,button):not(.chip):active — specificity 0,3,0). Keep each
+   row-button's own radius in the active state: doubled class matches that
+   specificity and this file loads after beer.css, so these win. */
+.kds-bank-row.kds-bank-row:active {
+    border-radius: var(--kds-radius-card) !important;
+}
+.kds-qr-row.kds-qr-row:active {
+    border-radius: var(--kds-radius-card) !important;
+}
+.kds-copy-row.kds-copy-row:active {
+    border-radius: var(--kds-radius-row) !important;
+}
+.kds-copyable-table-row.kds-copyable-table-row:active {
+    border-radius: var(--kds-spacing-0-75) !important;
+}
+.kds-bank-item.kds-bank-item:active {
+    border-radius: var(--kds-radius-lg) !important;
+}
+
 .kds-bank-row-logo {
     width: 40px;
     height: 40px;
@@ -6908,6 +6928,28 @@ svg[fill='none'] {
 .kds-proto-nav-arrow:hover {
     color: var(--kds-color-background-paper);
     background: rgba(255, 255, 255, .08);
+}
+
+/* Icon-only arrows: kill the BeerCSS button active/focus ring (stray halo). */
+.kds-proto-nav-arrow:active,
+.kds-proto-nav-arrow:focus,
+.kds-proto-nav-arrow:focus-visible {
+    outline: none;
+    border: 0;
+    box-shadow: none;
+}
+
+/* Dark: the pill inverts to a LIGHT surface (bg = text-primary = white), so
+   its contents need dark ink — the white-alpha tokens above become invisible. */
+[data-theme="dark"] .kds-proto-nav-label {
+    color: var(--kds-color-gray-500);
+}
+[data-theme="dark"] .kds-proto-nav-arrow {
+    color: var(--kds-color-gray-600);
+}
+[data-theme="dark"] .kds-proto-nav-arrow:hover {
+    color: var(--kds-color-gray-900);
+    background: rgba(0, 0, 0, .08);
 }
 
 /* Tweaks panel — floating config panel */
