@@ -7110,6 +7110,19 @@ svg[fill='none'] {
     display: none;
 }
 
+/* Icon-only close: kill the BeerCSS button active/focus ring (stray border). */
+.kds-bank-modal-close:active,
+.kds-bank-modal-close:focus,
+.kds-bank-modal-close:focus-visible {
+    outline: none;
+    border: 0;
+    box-shadow: none;
+}
+
+.kds-bank-modal-close:hover {
+    background: var(--kds-color-action-hover);
+}
+
 /* Search field reutilizable (standalone o dentro del KdsBankModal). */
 .kds-search-field {
     width: 100%;
