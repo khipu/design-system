@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsTypography } from './KdsTypography';
-import { colors } from '../../../tokens';
 
 const meta: Meta<typeof KdsTypography> = {
   title: 'Design System/Foundations/Typography',
@@ -81,7 +80,7 @@ export const LabelVariants: Story = {
 
 export const CardVariants: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px', backgroundColor: colors.background.elevated, borderRadius: '4px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px', backgroundColor: 'var(--kds-color-background-elevated)', borderRadius: '4px' }}>
       <KdsTypography variant="heading3">Card Title - 20px SemiBold</KdsTypography>
       <KdsTypography variant="body" color="muted">Card Subtitle - 14px Regular</KdsTypography>
       <KdsTypography variant="body">Product Name - 14px Regular</KdsTypography>
@@ -145,14 +144,14 @@ export const AllVariants: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Display</KdsTypography>
-        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--kds-color-divider)', marginBottom: '16px' }} />
         <KdsTypography variant="display1">Display 1</KdsTypography>
         <KdsTypography variant="display2">Display 2</KdsTypography>
       </div>
 
       <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Headings</KdsTypography>
-        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--kds-color-divider)', marginBottom: '16px' }} />
         <KdsTypography variant="heading1">Heading 1</KdsTypography>
         <KdsTypography variant="heading2">Heading 2</KdsTypography>
         <KdsTypography variant="heading3">Heading 3</KdsTypography>
@@ -160,7 +159,7 @@ export const AllVariants: Story = {
 
       <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Body</KdsTypography>
-        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--kds-color-divider)', marginBottom: '16px' }} />
         <KdsTypography variant="body-large">Body Large</KdsTypography>
         <KdsTypography variant="body">Body</KdsTypography>
         <KdsTypography variant="body-small">Body Small</KdsTypography>
@@ -168,14 +167,14 @@ export const AllVariants: Story = {
 
       <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Labels</KdsTypography>
-        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--kds-color-divider)', marginBottom: '16px' }} />
         <KdsTypography variant="label">Label</KdsTypography>
         <KdsTypography variant="label-small">Label Small</KdsTypography>
       </div>
 
       <div>
         <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Semantic</KdsTypography>
-        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', marginBottom: '16px' }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--kds-color-divider)', marginBottom: '16px' }} />
         <KdsTypography variant="muted">Muted</KdsTypography>
         <KdsTypography variant="link">Link</KdsTypography>
         <KdsTypography variant="body">
@@ -268,7 +267,7 @@ export const HtmlMarkup: Story = {
 
 export const RealWorldExample: Story = {
   render: () => (
-    <div style={{ maxWidth: 390, backgroundColor: colors.background.paper, padding: '24px', borderRadius: '8px' }}>
+    <div style={{ maxWidth: 390, backgroundColor: 'var(--kds-color-background-paper)', padding: '24px', borderRadius: '8px' }}>
       <KdsTypography variant="heading3" style={{ marginBottom: '1rem', display: 'block' }}>
         Detalle de suscripcion
       </KdsTypography>
@@ -279,14 +278,14 @@ export const RealWorldExample: Story = {
           <KdsTypography variant="body">Monto variable</KdsTypography>
         </div>
 
-        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', margin: 0 }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--kds-color-divider)', margin: 0 }} />
 
         <div>
           <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block' }}>Tope por cargo</KdsTypography>
           <KdsTypography variant="body">$50.000</KdsTypography>
         </div>
 
-        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', margin: 0 }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--kds-color-divider)', margin: 0 }} />
 
         <div>
           <KdsTypography as="span" variant="label" color="muted" style={{ display: 'block' }}>Tope mensual</KdsTypography>
@@ -294,7 +293,7 @@ export const RealWorldExample: Story = {
         </div>
       </div>
 
-      <div style={{ marginTop: '24px', padding: '16px', backgroundColor: colors.info[50], borderRadius: '4px' }}>
+      <div style={{ marginTop: '24px', padding: '16px', backgroundColor: 'var(--kds-alert-info-bg)', borderRadius: '4px' }}>
         <KdsTypography variant="body-small" color="muted">
           El tope mensual corresponde al monto maximo posible a cobrar mensualmente.
         </KdsTypography>

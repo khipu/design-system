@@ -37,7 +37,7 @@ const ColorSwatch = ({
       <Typography
         variant="body-small"
         style={{
-          color: colors.text.secondary,
+          color: 'var(--kds-color-text-secondary)',
           fontFamily: 'monospace',
           fontSize: '11px',
         }}
@@ -123,7 +123,7 @@ function ColorsStory() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      <Typography variant="body-small" style={{ color: colors.text.secondary, fontFamily: 'monospace' }}>
+      <Typography variant="body-small" style={{ color: 'var(--kds-color-text-secondary)', fontFamily: 'monospace' }}>
         Showing: {mode} mode tokens
       </Typography>
 
