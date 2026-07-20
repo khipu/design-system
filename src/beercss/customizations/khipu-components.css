@@ -4357,6 +4357,30 @@ dialog#surveyModal button.circle {
     color: var(--kds-color-primary-dark);
 }
 
+/* Dark: semantic *-dark text is near-invisible on dark surfaces (and the
+   *-container background tokens are not generated). Use the alert bg/text
+   pairs, which are dark-aware; primary uses selected/light. */
+[data-theme="dark"] .kds-badge.success {
+    background-color: var(--kds-alert-success-bg);
+    color: var(--kds-alert-success-text);
+}
+[data-theme="dark"] .kds-badge.error {
+    background-color: var(--kds-alert-error-bg);
+    color: var(--kds-alert-error-text);
+}
+[data-theme="dark"] .kds-badge.warning {
+    background-color: var(--kds-alert-warning-bg);
+    color: var(--kds-alert-warning-text);
+}
+[data-theme="dark"] .kds-badge.info {
+    background-color: var(--kds-alert-info-bg);
+    color: var(--kds-alert-info-text);
+}
+[data-theme="dark"] .kds-badge.primary {
+    background-color: var(--kds-color-primary-selected);
+    color: var(--kds-color-primary-light);
+}
+
 /* ========================================
    DIVIDER WITH TEXT
    Separator with optional text
@@ -7405,6 +7429,13 @@ svg[fill='none'] {
     opacity: 1;
 }
 
+/* Dark: success-dark text is near-invisible on the dark translucent success
+   surface — use the alert success text token (light green in dark). */
+[data-theme="dark"] .kds-copyable-table-row.copied .kds-value,
+[data-theme="dark"] .kds-copyable-table-row.copied .kds-value::after {
+    color: var(--kds-alert-success-text);
+}
+
 /* `.settling`: estado de "recién copiado" — la row vuelve al normal sin
    activar hover. Dura lo mismo que la transición (~300ms) y se aplica
    desde React tras quitar `.copied`. */
@@ -7495,6 +7526,15 @@ a.kds-copy-all-btn.copied:hover {
     border-color: var(--kds-color-success-border-light);
 }
 
+/* Dark: lighten the "Datos copiados" text/border on the dark success surface. */
+[data-theme="dark"] button.kds-copy-all-btn.copied,
+[data-theme="dark"] button.kds-copy-all-btn.copied:hover,
+[data-theme="dark"] a.kds-copy-all-btn.copied,
+[data-theme="dark"] a.kds-copy-all-btn.copied:hover {
+    color: var(--kds-alert-success-text);
+    border-color: var(--kds-alert-success-border);
+}
+
 /* ========================================
    SECTION NOTE (.kds-section-note)
    Lightweight inline note for contextual caveats.
@@ -7528,6 +7568,17 @@ a.kds-copy-all-btn.copied:hover {
 .kds-section-note.kds-success > i   { color: var(--kds-color-success-dark); }
 .kds-section-note.kds-error         { color: var(--kds-color-error-dark); }
 .kds-section-note.kds-error > i     { color: var(--kds-color-error-dark); }
+
+/* Dark: the semantic *-dark shades are near-invisible on the dark page bg —
+   use the alert *-text tokens (light shades in dark). Base note is warning. */
+[data-theme="dark"] .kds-section-note,
+[data-theme="dark"] .kds-section-note > i                    { color: var(--kds-alert-warning-text); }
+[data-theme="dark"] .kds-section-note.kds-info,
+[data-theme="dark"] .kds-section-note.kds-info > i          { color: var(--kds-alert-info-text); }
+[data-theme="dark"] .kds-section-note.kds-success,
+[data-theme="dark"] .kds-section-note.kds-success > i       { color: var(--kds-alert-success-text); }
+[data-theme="dark"] .kds-section-note.kds-error,
+[data-theme="dark"] .kds-section-note.kds-error > i         { color: var(--kds-alert-error-text); }
 
 /* ========================================
    INFO TOOLTIP (.kds-info-tip)
