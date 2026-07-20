@@ -211,6 +211,24 @@ body.dark,
 }
 
 /* ========================================
+   Dark mode overrides — extended payment-flow tokens
+   These were authored as light-only literals in the group above (subtle
+   surfaces, soft backgrounds, borders, hovers, shell). Give them dark-aware
+   values so selected states / rows / hovers adapt. Additive: the light
+   :root / body.light values above are unchanged. Tokens already defined as
+   var() refs (warning-soft, danger-soft) adapt on their own and are omitted.
+   ======================================== */
+[data-theme="dark"] {
+    --kds-color-primary-faint: #1E1030;                     /* dark brand-tinted subtle surface (selected rows/cards) */
+    --kds-color-info-soft: var(--kds-alert-info-bg);        /* dark translucent blue */
+    --kds-color-success-soft: var(--kds-alert-success-bg);  /* dark translucent green */
+    --kds-color-border-subtle: rgba(255, 255, 255, 0.08);   /* subtle divider on dark */
+    --kds-color-border-default: rgba(255, 255, 255, 0.16);  /* standard border on dark */
+    --kds-color-hover-bg: rgba(255, 255, 255, 0.04);        /* subtle row hover on dark */
+    --kds-color-shell: var(--kds-color-background-default);  /* neutral page background */
+}
+
+/* ========================================
    Color Scheme (explicit opt-in to dark)
    ======================================== */
 
