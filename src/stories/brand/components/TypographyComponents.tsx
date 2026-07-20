@@ -1,4 +1,4 @@
-import { colors, fontFamilies, fontWeights, fontSizes, spacing, borderRadius } from '../../../tokens';
+import { fontFamilies, fontWeights, fontSizes, spacing, borderRadius } from '../../../tokens';
 
 export function PublicSansReasons() {
   return (
@@ -37,19 +37,19 @@ export function PublicSansReasons() {
 export function FontWeightSamples() {
   return (
     <div style={{ marginBottom: '32px' }}>
-      <div style={{ fontFamily: fontFamilies.primary, fontSize: fontSizes['2xl'], fontWeight: fontWeights.regular, marginBottom: '12px', padding: spacing[1.5], background: colors.background.elevated, borderRadius: borderRadius.md }}>
+      <div style={{ fontFamily: fontFamilies.primary, fontSize: fontSizes['2xl'], fontWeight: fontWeights.regular, marginBottom: '12px', padding: spacing[1.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.md }}>
         <strong>Regular (400)</strong> — Contenido general y lectura
       </div>
 
-      <div style={{ fontFamily: fontFamilies.primary, fontSize: fontSizes['2xl'], fontWeight: fontWeights.medium, marginBottom: '12px', padding: spacing[1.5], background: colors.background.elevated, borderRadius: borderRadius.md }}>
+      <div style={{ fontFamily: fontFamilies.primary, fontSize: fontSizes['2xl'], fontWeight: fontWeights.medium, marginBottom: '12px', padding: spacing[1.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.md }}>
         <strong>Medium (500)</strong> — Labels, botones y énfasis sutil
       </div>
 
-      <div style={{ fontFamily: fontFamilies.primary, fontSize: fontSizes['2xl'], fontWeight: fontWeights.semiBold, marginBottom: '12px', padding: spacing[1.5], background: colors.background.elevated, borderRadius: borderRadius.md }}>
+      <div style={{ fontFamily: fontFamilies.primary, fontSize: fontSizes['2xl'], fontWeight: fontWeights.semiBold, marginBottom: '12px', padding: spacing[1.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.md }}>
         <strong>SemiBold (600)</strong> — Encabezados y títulos importantes
       </div>
 
-      <div style={{ fontFamily: fontFamilies.primary, fontSize: fontSizes['2xl'], fontWeight: fontWeights.bold, padding: spacing[1.5], background: colors.background.elevated, borderRadius: borderRadius.md }}>
+      <div style={{ fontFamily: fontFamilies.primary, fontSize: fontSizes['2xl'], fontWeight: fontWeights.bold, padding: spacing[1.5], background: 'var(--kds-color-background-elevated)', borderRadius: borderRadius.md }}>
         <strong>Bold (700)</strong> — Máximo impacto y títulos display
       </div>
     </div>
