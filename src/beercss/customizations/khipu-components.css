@@ -226,6 +226,12 @@ a.kds-btn-text:hover:not(:disabled) {
     color: var(--kds-color-primary-dark);
 }
 
+/* Dark: hover must lighten — primary-dark text is near-invisible on dark bg. */
+[data-theme="dark"] button.kds-btn-text:hover:not(:disabled),
+[data-theme="dark"] a.kds-btn-text:hover:not(:disabled) {
+    color: var(--kds-color-primary-light);
+}
+
 button.kds-btn-text:disabled,
 a.kds-btn-text:disabled {
     background: transparent;
@@ -1627,6 +1633,11 @@ a.kds-btn-google:disabled {
 .kds-link:hover {
     color: var(--kds-color-primary-dark);
     text-decoration: underline;
+}
+
+/* Dark: hover lightens (primary-dark is near-invisible on dark surfaces). */
+[data-theme="dark"] .kds-link:hover {
+    color: var(--kds-color-primary-light);
 }
 
 /* Contextual links inside cards and stage forms */
@@ -3513,6 +3524,11 @@ footer > .kds-container-center {
 
 .page-card-link:hover {
     color: var(--kds-color-primary-dark);
+}
+
+/* Dark: hover lightens (primary-dark is near-invisible on dark surfaces). */
+[data-theme="dark"] .page-card-link:hover {
+    color: var(--kds-color-primary-light);
 }
 
 .page-card-link i {
