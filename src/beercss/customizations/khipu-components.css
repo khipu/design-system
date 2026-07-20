@@ -4997,14 +4997,17 @@ dialog#surveyModal button.circle {
                 background-color var(--kds-transition-shorter) ease;
 }
 
-/* Keep the circle in EVERY interaction state. Uses `button.kds-fab` (element + class) to
-   out-specify BeerCSS's base `button`/`button:active` rules — same trick as `.kds-btn`. */
-button.kds-fab,
-button.kds-fab:hover,
-button.kds-fab:active,
-button.kds-fab:focus,
-button.kds-fab:focus-visible {
-    border-radius: var(--kds-radius-full);
+/* Keep the circle in EVERY interaction state. BeerCSS forces
+   `border-radius: .5rem !important` on button:active (specificity 0,3,0), so
+   plain specificity is not enough — match it with a doubled class AND
+   !important; this file loads after beer.css, so these win. */
+button.kds-fab.kds-fab,
+button.kds-fab.kds-fab:hover,
+button.kds-fab.kds-fab:active,
+button.kds-fab.kds-fab.active,
+button.kds-fab.kds-fab:focus,
+button.kds-fab.kds-fab:focus-visible {
+    border-radius: var(--kds-radius-full) !important;
     background: var(--kds-color-background-paper);
 }
 
