@@ -226,6 +226,15 @@ body.dark,
     --kds-color-border-default: rgba(255, 255, 255, 0.16);  /* standard border on dark */
     --kds-color-hover-bg: rgba(255, 255, 255, 0.04);        /* subtle row hover on dark */
     --kds-color-shell: var(--kds-color-background-default);  /* neutral page background */
+
+    /* QR featured row — dark mirror of the light purple→blue gradient (the
+       light literals painted a light surface under adaptive white text). */
+    --kds-qr-bg-gradient: linear-gradient(135deg, #1E1030 0%, #101C2C 100%);
+    --kds-qr-border: rgba(227, 181, 255, 0.28);              /* dark primary @ same alpha as light */
+    --kds-qr-focus-ring: rgba(227, 181, 255, 0.35);
+    --kds-qr-avatar-bg: var(--kds-color-background-elevated);
+    --kds-qr-avatar-border: rgba(227, 181, 255, 0.3);
+    --kds-qr-badge-text: var(--kds-color-primary-contrast);  /* dark text on the lavender badge */
 }
 
 /* ========================================
