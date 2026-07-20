@@ -44,7 +44,8 @@
       "types": "./dist/components/domain/index.d.ts",
       "import": "./dist/components/domain/index.esm.js",
       "require": "./dist/components/domain/index.js"
-    }
+    },
+    "./beercss/scoped-css": "./dist/beercss/khipu-beercss.scoped.min.css"
   },
   "scripts": {
     "build": "npm run build:web && npm run tokens:export && node scripts/generate-css-variables.js && npm run beercss:build",
