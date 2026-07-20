@@ -81,7 +81,7 @@ export const Info: Story = {
   args: {
     message: 'Verificando transferencia...',
     type: 'info',
-    duration: 99999,
+    duration: 0,
     style: inlineStyle,
   },
 };
@@ -91,7 +91,7 @@ export const Success: Story = {
   args: {
     message: 'Datos copiados al portapapeles',
     type: 'success',
-    duration: 99999,
+    duration: 0,
     style: inlineStyle,
   },
 };
@@ -101,7 +101,7 @@ export const Error: Story = {
   args: {
     message: 'Error al procesar el pago',
     type: 'error',
-    duration: 99999,
+    duration: 0,
     style: inlineStyle,
   },
 };
@@ -114,7 +114,7 @@ export const CustomIcon: Story = {
     message: 'Recuerda guardar tus cambios antes de continuar',
     type: 'info',
     icon: 'lightbulb',
-    duration: 99999,
+    duration: 0,
     style: inlineStyle,
   },
 };
@@ -127,7 +127,7 @@ export const NoIcon: Story = {
     message: 'Sin icon prefix',
     type: 'info',
     icon: false,
-    duration: 99999,
+    duration: 0,
     style: inlineStyle,
   },
 };
@@ -152,7 +152,7 @@ export const WithClose: Story = {
       <KdsSnackbar
         message="Pago realizado con éxito"
         type="success"
-        duration={99999}
+        duration={0}
         open={open}
         onClose={() => setOpen(false)}
         style={inlineStyle}
