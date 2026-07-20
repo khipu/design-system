@@ -1114,33 +1114,35 @@ a.kds-btn.kds-btn-md {
     opacity: 1 !important;
 }
 
-/* Snackbar semantic variants
-   All use white text (--kds-color-primary-contrast) on solid semantic backgrounds */
+/* Snackbar semantic variants — white text on solid semantic backgrounds.
+   Use each semantic's own *-contrast token (always #FFFFFF, both modes) rather
+   than --kds-color-primary-contrast, which flips to dark purple in dark mode
+   and made the text illegible on the colored surface. */
 .snackbar.error {
     background-color: var(--kds-color-error-main) !important;
-    color: var(--kds-color-primary-contrast) !important;
+    color: var(--kds-color-error-contrast) !important;
 }
 
 .snackbar.error i {
-    color: var(--kds-color-primary-contrast) !important;
+    color: var(--kds-color-error-contrast) !important;
 }
 
 .snackbar.info {
     background-color: var(--kds-color-info-main) !important;
-    color: var(--kds-color-primary-contrast) !important;
+    color: var(--kds-color-info-contrast) !important;
 }
 
 .snackbar.info i {
-    color: var(--kds-color-primary-contrast) !important;
+    color: var(--kds-color-info-contrast) !important;
 }
 
 .snackbar.success {
     background-color: var(--kds-color-success-main) !important;
-    color: var(--kds-color-primary-contrast) !important;
+    color: var(--kds-color-success-contrast) !important;
 }
 
 .snackbar.success i {
-    color: var(--kds-color-primary-contrast) !important;
+    color: var(--kds-color-success-contrast) !important;
 }
 
 /* Snackbar progress bar — animated timer for auto-dismiss */
