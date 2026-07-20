@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsCard, KdsCardHeader, KdsCardBody, KdsCardFooter } from './KdsCard';
 import { KdsButton } from '../KdsButton';
-import { colors, fontFamilies, fontWeights, fontSizes, borderRadius, spacing } from '../../../tokens';
+import { fontFamilies, fontWeights, fontSizes, borderRadius, spacing } from '../../../tokens';
 
 const meta: Meta<typeof KdsCard> = {
   title: 'Components/Containers/KdsCard',
@@ -34,7 +34,7 @@ export const WithHeader: Story = {
     <KdsCard style={{ maxWidth: '400px' }}>
       <KdsCardHeader>
         <h3 style={{ margin: 0 }}>Resumen de pago</h3>
-        <p style={{ margin: '4px 0 0 0', fontSize: fontSizes.sm, color: colors.text.secondary }}>
+        <p style={{ margin: '4px 0 0 0', fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)' }}>
           Transferencia bancaria
         </p>
       </KdsCardHeader>
@@ -70,7 +70,7 @@ export const Variants: Story = {
       <KdsCard variant="elevated" style={{ width: '250px' }}>
         <KdsCardBody>
           <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Elevated</h4>
-          <p style={{ margin: 0, color: colors.text.secondary }}>
+          <p style={{ margin: 0, color: 'var(--kds-color-text-secondary)' }}>
             Tarjeta con sombra
           </p>
         </KdsCardBody>
@@ -78,7 +78,7 @@ export const Variants: Story = {
       <KdsCard variant="outlined" style={{ width: '250px' }}>
         <KdsCardBody>
           <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Outlined</h4>
-          <p style={{ margin: 0, color: colors.text.secondary }}>
+          <p style={{ margin: 0, color: 'var(--kds-color-text-secondary)' }}>
             Tarjeta con borde
           </p>
         </KdsCardBody>
@@ -112,7 +112,7 @@ export const Clickable: Story = {
     >
       <KdsCardBody>
         <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Tarjeta clickeable</h4>
-        <p style={{ margin: 0, color: colors.text.secondary }}>
+        <p style={{ margin: 0, color: 'var(--kds-color-text-secondary)' }}>
           Haz clic en esta tarjeta para ver el efecto.
         </p>
       </KdsCardBody>
@@ -137,11 +137,11 @@ export const WithAvatar: Story = {
               width: '40px',
               height: '40px',
               borderRadius: borderRadius.full,
-              backgroundColor: colors.primary.main,
+              backgroundColor: 'var(--kds-color-primary-main)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: colors.primary.contrastText,
+              color: 'var(--kds-color-primary-contrast)',
               fontWeight: fontWeights.medium,
               flexShrink: 0,
             }}
@@ -150,7 +150,7 @@ export const WithAvatar: Story = {
           </div>
           <div>
             <p style={{ margin: 0, fontWeight: fontWeights.medium }}>Juan Pérez</p>
-            <p style={{ margin: '4px 0 0 0', fontSize: fontSizes.sm, color: colors.text.secondary }}>
+            <p style={{ margin: '4px 0 0 0', fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)' }}>
               hace 2 horas
             </p>
           </div>
@@ -163,7 +163,7 @@ export const WithAvatar: Story = {
             padding: spacing[1],
           }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill={colors.action.active}>
+          <svg width="24" height="24" viewBox="0 0 24 24" style={{ fill: 'var(--kds-color-action-active)' }}>
             <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
           </svg>
         </button>
@@ -192,35 +192,35 @@ export const PaymentCard: Story = {
             width: '48px',
             height: '48px',
             borderRadius: borderRadius.lg,
-            backgroundColor: colors.success.container,
+            backgroundColor: 'var(--kds-color-success-soft)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
           }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill={colors.success.main}>
+          <svg width="24" height="24" viewBox="0 0 24 24" style={{ fill: 'var(--kds-color-success-main)' }}>
             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
           </svg>
         </div>
         <div>
           <p style={{ margin: 0, fontWeight: fontWeights.medium }}>Pago recibido</p>
-          <p style={{ margin: '4px 0 0 0', fontSize: fontSizes.sm, color: colors.text.secondary }}>
+          <p style={{ margin: '4px 0 0 0', fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)' }}>
             12 de diciembre, 2024
           </p>
         </div>
       </KdsCardHeader>
       <KdsCardBody>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: spacing[1] }}>
-          <span style={{ color: colors.text.secondary }}>Monto</span>
+          <span style={{ color: 'var(--kds-color-text-secondary)' }}>Monto</span>
           <span style={{ fontWeight: fontWeights.medium }}>$150.000</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: spacing[1] }}>
-          <span style={{ color: colors.text.secondary }}>Origen</span>
+          <span style={{ color: 'var(--kds-color-text-secondary)' }}>Origen</span>
           <span>Banco Estado</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: colors.text.secondary }}>Referencia</span>
+          <span style={{ color: 'var(--kds-color-text-secondary)' }}>Referencia</span>
           <span style={{ fontFamily: fontFamilies.mono }}>KHP-2024-001234</span>
         </div>
       </KdsCardBody>
@@ -239,7 +239,7 @@ export const CardGrid: Story = {
         <KdsCard key={i} variant="elevated">
           <KdsCardBody>
             <h4 style={{ margin: `0 0 ${spacing[1]} 0` }}>Tarjeta {i}</h4>
-            <p style={{ margin: 0, color: colors.text.secondary, fontSize: fontSizes.sm }}>
+            <p style={{ margin: 0, color: 'var(--kds-color-text-secondary)', fontSize: fontSizes.sm }}>
               Descripción breve del contenido de esta tarjeta.
             </p>
           </KdsCardBody>
@@ -252,7 +252,7 @@ export const CardGrid: Story = {
 export const Dimmed: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
-      <p style={{ margin: 0, color: colors.text.footer, fontSize: fontSizes.sm }}>
+      <p style={{ margin: 0, color: 'var(--kds-color-text-secondary)', fontSize: fontSizes.sm }}>
         Dimmed variant example:
       </p>
       <div style={{ display: 'flex', gap: spacing[2], flexWrap: 'wrap', alignItems: 'flex-start' }}>
@@ -262,7 +262,7 @@ export const Dimmed: Story = {
               <p style={{ margin: 0 }}>Normal</p>
             </KdsCardBody>
           </KdsCard>
-          <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>Normal</span>
+          <span style={{ fontSize: fontSizes.xs, color: 'var(--kds-color-text-secondary)' }}>Normal</span>
         </div>
         <div style={{ textAlign: 'center' }}>
           <KdsCard variant="outlined" dimmed style={{ width: '150px', marginBottom: spacing[1] }}>
@@ -270,7 +270,7 @@ export const Dimmed: Story = {
               <p style={{ margin: 0 }}>Dimmed</p>
             </KdsCardBody>
           </KdsCard>
-          <span style={{ fontSize: fontSizes.xs, color: colors.text.footer }}>Dimmed</span>
+          <span style={{ fontSize: fontSizes.xs, color: 'var(--kds-color-text-secondary)' }}>Dimmed</span>
         </div>
       </div>
     </div>
