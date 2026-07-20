@@ -1629,16 +1629,28 @@ a.kds-btn-google:disabled {
 
 /* Contextual links inside cards and stage forms */
 .kds-card-body a:not(.kds-btn):not([class*="kds-btn"]),
-.kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]) {
+.kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]),
+label.checkbox a:not(.kds-btn):not([class*="kds-btn"]),
+label.radio a:not(.kds-btn):not([class*="kds-btn"]) {
     color: var(--kds-color-primary-main);
     text-decoration: none;
     transition: color var(--kds-transition-shorter) var(--kds-easing-standard);
 }
 
 .kds-card-body a:not(.kds-btn):not([class*="kds-btn"]):hover,
-.kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]):hover {
+.kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]):hover,
+label.checkbox a:not(.kds-btn):not([class*="kds-btn"]):hover,
+label.radio a:not(.kds-btn):not([class*="kds-btn"]):hover {
     color: var(--kds-color-primary-dark);
     text-decoration: underline;
+}
+
+/* Dark: hover must lighten (primary-dark is near-invisible on a dark surface). */
+[data-theme="dark"] .kds-card-body a:not(.kds-btn):not([class*="kds-btn"]):hover,
+[data-theme="dark"] .kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]):hover,
+[data-theme="dark"] label.checkbox a:not(.kds-btn):not([class*="kds-btn"]):hover,
+[data-theme="dark"] label.radio a:not(.kds-btn):not([class*="kds-btn"]):hover {
+    color: var(--kds-color-primary-light);
 }
 
 /* ========================================
