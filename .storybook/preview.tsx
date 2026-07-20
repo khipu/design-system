@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react';
 import React from 'react';
 import { create } from 'storybook/theming';
+import { DocsContainer } from '@storybook/addon-docs/blocks';
 import { useDarkMode } from '@vueless/storybook-dark-mode';
 import { colorsByMode, fontFamilies } from '../src/tokens';
 import '../src/tokens/css-variables.css';
@@ -99,6 +100,18 @@ function StoryDecorator({ Story }: { Story: React.ComponentType }) {
   );
 }
 
+// Docs pages: theme the docs chrome (prose, prop tables) with the toggle and set
+// the [data-theme] contract on the page so embedded canvases + tokens adapt too.
+// Without this the manager/toolbar goes dark but docs stay light → looks uneven.
+function KhipuDocsContainer(props: React.ComponentProps<typeof DocsContainer>) {
+  const isDark = useDarkMode();
+  React.useEffect(() => {
+    const mode = isDark ? 'dark' : 'light';
+    [document.documentElement, document.body].forEach((el) => el.setAttribute('data-theme', mode));
+  }, [isDark]);
+  return <DocsContainer {...props} theme={isDark ? khipuDarkTheme : khipuLightTheme} />;
+}
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -127,6 +140,7 @@ const preview: Preview = {
     },
     docs: {
       theme: khipuLightTheme,
+      container: KhipuDocsContainer,
     },
     darkMode: {
       dark: khipuDarkTheme,

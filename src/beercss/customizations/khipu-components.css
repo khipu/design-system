@@ -126,6 +126,18 @@ a.kds-btn-primary:focus-visible:not(:disabled) {
     outline-offset: 2px;
 }
 
+/* Dark mode: the button is a light lavender with dark text, so hover/active must
+   LIGHTEN (not darken) — else primary-dark bg + dark contrast text = invisible.
+   Additive override; the light-mode rules above stay unchanged. */
+[data-theme="dark"] button.kds-btn-primary:hover:not(:disabled),
+[data-theme="dark"] a.kds-btn-primary:hover:not(:disabled),
+[data-theme="dark"] button.kds-btn-primary:active:not(:disabled),
+[data-theme="dark"] button.kds-btn-primary:focus-visible:not(:disabled),
+[data-theme="dark"] a.kds-btn-primary:active:not(:disabled),
+[data-theme="dark"] a.kds-btn-primary:focus-visible:not(:disabled) {
+    background: var(--kds-color-primary-light);
+}
+
 /* Override disabled para primary */
 button.kds-btn-primary:disabled,
 a.kds-btn-primary:disabled {
