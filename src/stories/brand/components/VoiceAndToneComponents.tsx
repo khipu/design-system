@@ -1,11 +1,11 @@
 import { KdsTypography as Typography } from '../../../components/core';
-import { colors, spacing, fontSizes, fontWeights, borderRadius, borders } from '../../../tokens';
+import { spacing, fontSizes, fontWeights, borderRadius, borders } from '../../../tokens';
 
 export function BrandVoiceCards() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }}>
-      <div style={{ padding: '24px', background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-        <Typography variant="heading3" style={{ marginBottom: '12px', color: colors.primary.main }}>
+      <div style={{ padding: '24px', background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
+        <Typography variant="heading3" style={{ marginBottom: '12px', color: 'var(--kds-color-primary-main)' }}>
           Cercana
         </Typography>
         <Typography variant="body">
@@ -13,8 +13,8 @@ export function BrandVoiceCards() {
         </Typography>
       </div>
 
-      <div style={{ padding: '24px', background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-        <Typography variant="heading3" style={{ marginBottom: '12px', color: colors.primary.main }}>
+      <div style={{ padding: '24px', background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
+        <Typography variant="heading3" style={{ marginBottom: '12px', color: 'var(--kds-color-primary-main)' }}>
           Clara
         </Typography>
         <Typography variant="body">
@@ -22,8 +22,8 @@ export function BrandVoiceCards() {
         </Typography>
       </div>
 
-      <div style={{ padding: '24px', background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-        <Typography variant="heading3" style={{ marginBottom: '12px', color: colors.primary.main }}>
+      <div style={{ padding: '24px', background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
+        <Typography variant="heading3" style={{ marginBottom: '12px', color: 'var(--kds-color-primary-main)' }}>
           Confiable
         </Typography>
         <Typography variant="body">
@@ -31,8 +31,8 @@ export function BrandVoiceCards() {
         </Typography>
       </div>
 
-      <div style={{ padding: '24px', background: colors.background.brandSubtle, borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid ${colors.primary.main}` }}>
-        <Typography variant="heading3" style={{ marginBottom: '12px', color: colors.primary.main }}>
+      <div style={{ padding: '24px', background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
+        <Typography variant="heading3" style={{ marginBottom: '12px', color: 'var(--kds-color-primary-main)' }}>
           Directa
         </Typography>
         <Typography variant="body">
@@ -47,9 +47,9 @@ export function WritingPrincipleCallout() {
   return (
     <div style={{
       padding: '20px 24px',
-      background: `linear-gradient(135deg, ${colors.primary.container} 0%, #E8F5E9 100%)`,
+      background: `linear-gradient(135deg, var(--kds-color-primary-faint) 0%, var(--kds-alert-success-bg) 100%)`,
       borderRadius: borderRadius.lg,
-      borderLeft: `${borders.widthLg} solid ${colors.primary.main}`,
+      borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)`,
       marginBottom: '32px'
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
@@ -71,9 +71,9 @@ export function PunctuationContextCallout() {
   return (
     <div style={{
       padding: '20px 24px',
-      background: colors.warning.container,
+      background: 'var(--kds-alert-warning-bg)',
       borderRadius: borderRadius.lg,
-      borderLeft: `${borders.widthLg} solid ${colors.warning.light}`,
+      borderLeft: `${borders.widthLg} solid var(--kds-alert-warning-border)`,
       marginBottom: '24px'
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
@@ -128,13 +128,13 @@ export function WritingGuidelinesTable() {
         <tr>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
             Mayúscula inicial: Es la norma ortográfica estándar. La primera letra de cada oración siempre debe ir en mayúscula.<br/>
-            <span style={{ fontSize: fontSizes.xs, color: colors.text.footer, fontStyle: 'italic' }}>
+            <span style={{ fontSize: fontSizes.xs, color: 'var(--kds-color-text-secondary)', fontStyle: 'italic' }}>
               (CamelCase solo en código/nombres propios)
             </span>
           </td>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
             CamelCase en contexto de usuarios<br/>
-            <span style={{ fontSize: fontSizes.xs, color: colors.text.footer, fontStyle: 'italic' }}>
+            <span style={{ fontSize: fontSizes.xs, color: 'var(--kds-color-text-secondary)', fontStyle: 'italic' }}>
               (ej: &quot;Ver Factura&quot;, &quot;Mi Cuenta&quot;)
             </span>
           </td>

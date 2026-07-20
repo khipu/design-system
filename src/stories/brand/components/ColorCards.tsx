@@ -16,7 +16,7 @@ export function BrandColorCards() {
         <div style={{
           fontFamily: fontFamilies.mono,
           fontSize: fontSizes.sm,
-          color: colors.text.footer,
+          color: 'var(--kds-color-text-secondary)',
           marginBottom: '24px',
           textAlign: 'center'
         }}>
@@ -55,7 +55,7 @@ export function BrandColorCards() {
         <div style={{
           fontFamily: fontFamilies.mono,
           fontSize: fontSizes.sm,
-          color: colors.text.footer,
+          color: 'var(--kds-color-text-secondary)',
           marginBottom: '24px',
           textAlign: 'center'
         }}>
@@ -93,14 +93,14 @@ export function SemanticColorCards() {
         <div style={{
           fontFamily: fontFamilies.mono,
           fontSize: '13px',
-          color: colors.text.footer,
+          color: 'var(--kds-color-text-secondary)',
           marginBottom: '12px',
           textAlign: 'center'
         }}>
           #0288D1
         </div>
         <div style={{ fontWeight: '700', fontSize: '18px', marginBottom: '12px' }}>Info</div>
-        <div style={{ fontSize: fontSizes.sm, color: colors.text.footer, marginBottom: '12px', lineHeight: '1.5' }}>
+        <div style={{ fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)', marginBottom: '12px', lineHeight: '1.5' }}>
           Información neutral, ayuda contextual, tooltips
         </div>
         <div style={{ fontSize: '13px', lineHeight: '1.6' }}>
@@ -123,14 +123,14 @@ export function SemanticColorCards() {
         <div style={{
           fontFamily: fontFamilies.mono,
           fontSize: '13px',
-          color: colors.text.footer,
+          color: 'var(--kds-color-text-secondary)',
           marginBottom: '12px',
           textAlign: 'center'
         }}>
           #2E7D32
         </div>
         <div style={{ fontWeight: '700', fontSize: '18px', marginBottom: '12px' }}>Success</div>
-        <div style={{ fontSize: fontSizes.sm, color: colors.text.footer, marginBottom: '12px', lineHeight: '1.5' }}>
+        <div style={{ fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)', marginBottom: '12px', lineHeight: '1.5' }}>
           Operación exitosa, confirmación positiva
         </div>
         <div style={{ fontSize: '13px', lineHeight: '1.6' }}>
@@ -153,14 +153,14 @@ export function SemanticColorCards() {
         <div style={{
           fontFamily: fontFamilies.mono,
           fontSize: '13px',
-          color: colors.text.footer,
+          color: 'var(--kds-color-text-secondary)',
           marginBottom: '12px',
           textAlign: 'center'
         }}>
           #ED6C02
         </div>
         <div style={{ fontWeight: '700', fontSize: '18px', marginBottom: '12px' }}>Warning</div>
-        <div style={{ fontSize: fontSizes.sm, color: colors.text.footer, marginBottom: '12px', lineHeight: '1.5' }}>
+        <div style={{ fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)', marginBottom: '12px', lineHeight: '1.5' }}>
           Advertencia, precaución, acción requerida
         </div>
         <div style={{ fontSize: '13px', lineHeight: '1.6' }}>
@@ -183,14 +183,14 @@ export function SemanticColorCards() {
         <div style={{
           fontFamily: fontFamilies.mono,
           fontSize: '13px',
-          color: colors.text.footer,
+          color: 'var(--kds-color-text-secondary)',
           marginBottom: '12px',
           textAlign: 'center'
         }}>
           #D32F2F
         </div>
         <div style={{ fontWeight: '700', fontSize: '18px', marginBottom: '12px' }}>Error</div>
-        <div style={{ fontSize: fontSizes.sm, color: colors.text.footer, marginBottom: '12px', lineHeight: '1.5' }}>
+        <div style={{ fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)', marginBottom: '12px', lineHeight: '1.5' }}>
           Error, fallo, acción destructiva
         </div>
         <div style={{ fontSize: '13px', lineHeight: '1.6' }}>
