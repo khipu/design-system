@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { BrandColorCards, SemanticColorCards } from './components/ColorCards';
-import { colors, spacing, borders } from '../../tokens';
+import { spacing, borders } from '../../tokens';
 
 const meta: Meta = {
   title: 'Brand',
@@ -24,10 +24,10 @@ export const Uso_de_colores: StoryObj = {
       <p>Los colores son uno de los elementos más reconocibles de la identidad Khipu. Nuestra paleta está diseñada para transmitir <strong>confianza, modernidad y profesionalismo</strong>, creando una experiencia visual consistente que refuerza nuestra marca en cada interacción.</p>
 
       <blockquote style={{
-        borderLeft: `${borders.widthLg} solid ${colors.primary.main}`,
+        borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)`,
         paddingLeft: spacing[2],
         margin: `${spacing[3]} 0`,
-        color: colors.text.footer,
+        color: 'var(--kds-color-text-secondary)',
         fontStyle: 'italic'
       }}>
         💡 <strong>Nota:</strong> Para valores específicos, tokens y especificaciones técnicas, consulta la sección <strong>Design Tokens</strong>.

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { PublicSansReasons, FontWeightSamples } from './components/TypographyComponents';
-import { colors, spacing, borders } from '../../tokens';
+import { spacing, borders } from '../../tokens';
 
 const meta: Meta = {
   title: 'Brand',
@@ -24,10 +24,10 @@ export const Uso_tipográfico: StoryObj = {
       <p>La tipografía es la voz visual de Khipu. Nuestra tipografía comunica <strong>profesionalismo, claridad y modernidad</strong> en cada interacción con nuestros usuarios.</p>
 
       <blockquote style={{
-        borderLeft: `${borders.widthLg} solid ${colors.primary.main}`,
+        borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)`,
         paddingLeft: spacing[2],
         margin: `${spacing[3]} 0`,
-        color: colors.text.footer,
+        color: 'var(--kds-color-text-secondary)',
         fontStyle: 'italic'
       }}>
         💡 <strong>Nota:</strong> Para escalas completas, tamaños específicos y tokens técnicos, consulta la sección <strong>Design Tokens</strong>.
