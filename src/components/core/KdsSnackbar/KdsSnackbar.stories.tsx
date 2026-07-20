@@ -270,10 +270,13 @@ export const HtmlMarkup: Story = {
     },
   },
   render: () => (
-    <div style={{ maxWidth: 400 }}>
+    // Center the preview: the .snackbar is position:fixed (pins to the top of
+    // the iframe), so override to static and center it in the canvas. The
+    // copyable HTML in `docs.source` keeps the real (fixed) markup.
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '70vh', padding: 'var(--kds-spacing-4)' }}>
       <div
         className="snackbar active kds-info"
-        style={{ '--kds-snackbar-duration': '5000ms' } as Record<string, string>}
+        style={{ '--kds-snackbar-duration': '5000ms', position: 'static' } as Record<string, string>}
       >
         <i className="material-symbols-outlined">info</i>
         <span className="max">Operación completada</span>
