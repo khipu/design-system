@@ -63,7 +63,7 @@ export const ImageAttachment: Story = {
 /** Múltiples adjuntos dentro de `KdsBillAttachments`. */
 export const Multiple: Story = {
   render: () => (
-    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+    <div style={{ maxWidth: 400, padding: 16, background: 'var(--kds-color-background-paper)' }}>
       <KdsBillAttachments>
         <KdsBillAttachment
           filename="cuenta-enero-2026.pdf"
@@ -86,7 +86,7 @@ export const Multiple: Story = {
 /** Patrón de producción: dentro de `kds-detail-group`. */
 export const InsideDetailGroup: Story = {
   render: () => (
-    <div style={{ maxWidth: 400, padding: 16, background: 'white' }}>
+    <div style={{ maxWidth: 400, padding: 16, background: 'var(--kds-color-background-paper)' }}>
       <dl className="kds-detail-list">
         <div className="kds-detail-group">
           <dt>Adjuntos</dt>
