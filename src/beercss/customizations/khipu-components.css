@@ -2864,6 +2864,27 @@ footer > .kds-container-center {
     color: var(--kds-color-error-dark);
 }
 
+/* Dark mode: the semantic *-dark shades used for text/icons above are too dark
+   on the dark translucent alert surfaces (poor visibility). Use the alert
+   *-text tokens (light shades in dark) so title, description and icon stay
+   legible. Title/description inherit this color. Additive — light unchanged. */
+[data-theme="dark"] .kds-alert.kds-info,
+[data-theme="dark"] .kds-alert.kds-info .kds-alert-icon {
+    color: var(--kds-alert-info-text);
+}
+[data-theme="dark"] .kds-alert.kds-success,
+[data-theme="dark"] .kds-alert.kds-success .kds-alert-icon {
+    color: var(--kds-alert-success-text);
+}
+[data-theme="dark"] .kds-alert.kds-warning,
+[data-theme="dark"] .kds-alert.kds-warning .kds-alert-icon {
+    color: var(--kds-alert-warning-text);
+}
+[data-theme="dark"] .kds-alert.kds-error,
+[data-theme="dark"] .kds-alert.kds-error .kds-alert-icon {
+    color: var(--kds-alert-error-text);
+}
+
 /* Close button — icon-only, discreto, no usa kds-btn para no romper el flex layout del alert */
 .kds-alert-close {
     flex-shrink: 0;
