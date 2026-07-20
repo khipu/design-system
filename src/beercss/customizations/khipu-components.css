@@ -4132,6 +4132,7 @@ dialog#surveyModal button.circle {
 }
 
 .kds-text-link {
+    cursor: pointer;
     font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
     font-size: inherit;
     font-weight: var(--kds-font-weight-medium, 500);
@@ -8077,4 +8078,22 @@ a.kds-copy-all-btn.copied:hover {
 .kds-accordion-details ol {
     margin: 0;
     padding-inline-start: var(--kds-spacing-2);
+}
+
+/* === Display utilities ================================================ */
+
+.kds-block {
+    display: block;
+}
+
+.kds-inline {
+    display: inline;
+}
+
+.kds-inline-block {
+    display: inline-block;
+}
+
+.kds-pre-wrap {
+    white-space: pre-wrap;
 }
