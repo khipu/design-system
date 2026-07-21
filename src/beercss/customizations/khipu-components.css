@@ -5458,6 +5458,16 @@ button.kds-fab:focus-visible {
     padding: var(--kds-spacing-2) 0;
 }
 
+/* En el borde compartido con el card el rhythm lo aporta el padding del propio card:
+   como primer/último hijo directo el padding del bloque no debe sumarse al del padre. */
+.kds-card-elevated > .kds-status-block:first-child {
+    padding-top: 0;
+}
+
+.kds-card-elevated > .kds-status-block:last-child {
+    padding-bottom: 0;
+}
+
 .kds-status-block-icon {
     width: var(--kds-status-icon-size);
     height: var(--kds-status-icon-size);
