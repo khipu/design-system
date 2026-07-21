@@ -2128,8 +2128,13 @@ body.dark,
         'wght' 400,
         'GRAD' 0,
         'opsz' 24;
-    min-width: 30px;
-    min-height: 30px;
+    /* La caja debe seguir al font-size (1em): una caja fija (30px, o el --_size de Beer via
+       overflow:hidden en `i`) recorta los glifos mayores y descentra los menores junto a texto. */
+    width: 1em;
+    height: 1em;
+    min-width: 1em;
+    min-height: 1em;
+    line-height: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
