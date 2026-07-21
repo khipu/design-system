@@ -212,14 +212,13 @@ a.kds-btn-outlined-white:hover:not(:disabled) {
     opacity: 0.9;
 }
 
-/* Text button */
+/* Text button — mismo tamaño que el resto de variantes (hereda min-height/padding
+   del base): solo cambia la superficie, no la caja. */
 button.kds-btn-text,
 a.kds-btn-text {
     background: transparent;
     color: var(--kds-color-primary-main);
     border: none;
-    padding: 6px var(--kds-spacing-2);  /* Menor padding para text variant */
-    min-height: 32px;   /* Menor altura para text variant */
     box-shadow: none;
 }
 
@@ -248,8 +247,6 @@ a.kds-btn-error-text {
     background: transparent;
     color: var(--kds-color-error-main);
     border: none;
-    padding: 6px var(--kds-spacing-2);
-    min-height: 32px;
     box-shadow: none;
 }
 
