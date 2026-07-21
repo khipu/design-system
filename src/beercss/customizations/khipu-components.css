@@ -86,6 +86,17 @@ a.kds-btn {
     vertical-align: middle;
 }
 
+/* Sin anillo de focus en botones: decision de diseno (KTUF-210) — el estado de
+   focus/active se comunica solo con el cambio de fondo de cada variante. */
+button.kds-btn:focus,
+button.kds-btn:focus-visible,
+a.kds-btn:focus,
+a.kds-btn:focus-visible,
+button.kds-fab:focus,
+button.kds-fab:focus-visible {
+    outline: none;
+}
+
 /* Active state - add subtle press effect */
 button.kds-btn:active:not(:disabled),
 a.kds-btn:active:not(:disabled) {
@@ -124,8 +135,6 @@ button.kds-btn-primary:focus-visible:not(:disabled),
 a.kds-btn-primary:active:not(:disabled),
 a.kds-btn-primary:focus-visible:not(:disabled) {
     background: var(--kds-color-primary-dark);
-    outline: 2px solid var(--kds-color-primary-main);
-    outline-offset: 2px;
 }
 
 /* Dark mode: the button is a light lavender with dark text, so hover/active must
@@ -5044,10 +5053,7 @@ button.kds-fab:active:not(:disabled) {
     transform: translateY(var(--kds-spacing-0-25));
 }
 
-button.kds-fab:focus-visible {
-    outline: var(--kds-spacing-0-25) solid var(--kds-color-primary-main);
-    outline-offset: var(--kds-spacing-0-25);
-}
+
 
 .kds-fab > i.material-symbols-outlined {
     font-size: var(--kds-spacing-button-icon-size);
@@ -6407,8 +6413,6 @@ button.kds-btn-warning:focus-visible:not(:disabled),
 a.kds-btn-warning:active:not(:disabled),
 a.kds-btn-warning:focus-visible:not(:disabled) {
     background: var(--kds-color-warning-dark);
-    outline: 2px solid var(--kds-color-warning-main);
-    outline-offset: 2px;
 }
 
 button.kds-btn-warning:disabled,
@@ -6440,8 +6444,6 @@ button.kds-btn-error:focus-visible:not(:disabled),
 a.kds-btn-error:active:not(:disabled),
 a.kds-btn-error:focus-visible:not(:disabled) {
     background: var(--kds-color-error-dark);
-    outline: 2px solid var(--kds-color-error-main);
-    outline-offset: 2px;
 }
 
 button.kds-btn-error:disabled,
