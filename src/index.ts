@@ -70,6 +70,7 @@ export {
   useCopyToClipboard,
   useAutoHide,
   useCountdown,
+  useMediaQuery,
   useTabsKeyboard,
   useStickyInvoiceCollapse,
   useExpandToggle,
