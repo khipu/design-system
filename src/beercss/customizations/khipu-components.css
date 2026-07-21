@@ -5312,6 +5312,11 @@ button.kds-fab:focus-visible {
     height: 1.25em;
     min-width: 0;
     min-height: 0;
+    /* Correccion optica: la tinta de expand_more vive en la zona alta del em, asi que
+       centrado geometrico contra el label (con ascendentes) se percibe montado; este
+       nudge lo baja al centro de las minusculas. No usar transform: lo pisa el rotate. */
+    position: relative;
+    top: 0.09em;
     transition: transform var(--kds-transition-shorter, 0.2s);
 }
 
