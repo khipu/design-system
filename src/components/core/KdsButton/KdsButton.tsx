@@ -95,22 +95,26 @@ export const KdsButton = forwardRef<HTMLButtonElement, KdsButtonProps>(
       aria-busy={loading || undefined}
       {...props}
     >
-      {!loading && startIcon && (
-        <span className="kds-icon">
-          <i className="material-symbols-outlined">{startIcon}</i>
-        </span>
-      )}
       {loading ? (
         <>
           <progress className="circle indeterminate small" />
           <span>{children}</span>
         </>
       ) : (
-        <span>{children}</span>
-      )}
-      {!loading && endIcon && (
-        <span className="kds-icon">
-          <i className="material-symbols-outlined">{endIcon}</i>
+        /* Iconos DENTRO del label (inline): si el texto envuelve en pantallas angostas,
+           el icono fluye con la primera linea en vez de quedar anclado al borde del boton. */
+        <span className="kds-btn-label">
+          {startIcon && (
+            <span className="kds-icon kds-icon-start">
+              <i className="material-symbols-outlined">{startIcon}</i>
+            </span>
+          )}
+          {children}
+          {endIcon && (
+            <span className="kds-icon kds-icon-end">
+              <i className="material-symbols-outlined">{endIcon}</i>
+            </span>
+          )}
         </span>
       )}
     </button>

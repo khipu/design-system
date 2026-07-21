@@ -64,10 +64,12 @@ a.kds-btn {
 
     /* Spacing - Using design tokens */
     padding: var(--kds-spacing-button-padding);      /* 0 16px */
-    height: var(--kds-spacing-button-min-height);    /* 44px */
-    /* min-height además de height: en contenedores flex-column (p.ej. pantallas de
-       resultado/timeout) el botón es flex-item y, con solo `height`, flex-shrink lo
-       colapsaba a la altura del texto (~21px). min-height impide que se encoja. */
+    /* Respiro vertical solo relevante con label multilinea; en una linea manda min-height. */
+    padding-block: var(--kds-spacing-1);
+    /* height:auto + min-height (no height fija): si el label envuelve en pantallas
+       angostas el botón crece en vez de recortar el texto; min-height ademas impide
+       que flex-shrink lo colapse como flex-item en contenedores flex-column. */
+    height: auto;
     min-height: var(--kds-spacing-button-min-height);    /* 44px */
 
     /* Border - Using design token */
@@ -263,9 +265,16 @@ a.kds-btn-error-text:disabled {
     box-shadow: none;
 }
 
+/* Label: al envolver en pantallas angostas las lineas quedan parejas y el icono
+   (inline, dentro del label) fluye con el texto en vez de anclarse al borde. */
+button.kds-btn .kds-btn-label,
+a.kds-btn .kds-btn-label {
+    text-wrap: balance;
+}
+
 /* Icon wrapper - control size via span container */
-button.kds-btn > .kds-icon,
-a.kds-btn > .kds-icon {
+button.kds-btn .kds-icon,
+a.kds-btn .kds-icon {
     min-width: var(--kds-spacing-button-icon-size);
     min-height: var(--kds-spacing-button-icon-size);
     width: var(--kds-spacing-button-icon-size);
@@ -276,10 +285,22 @@ a.kds-btn > .kds-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    vertical-align: middle;
 }
 
-button.kds-btn > .kds-icon > i,
-a.kds-btn > .kds-icon > i {
+/* El gap del boton no aplica al icono inline: el respiro icono-texto sale del margen. */
+button.kds-btn .kds-icon-start,
+a.kds-btn .kds-icon-start {
+    margin-inline-end: var(--kds-spacing-1);
+}
+
+button.kds-btn .kds-icon-end,
+a.kds-btn .kds-icon-end {
+    margin-inline-start: var(--kds-spacing-1);
+}
+
+button.kds-btn .kds-icon > i,
+a.kds-btn .kds-icon > i {
     font-size: var(--kds-spacing-button-icon-size);
     min-width: var(--kds-spacing-button-icon-size);
     min-height: var(--kds-spacing-button-icon-size);
