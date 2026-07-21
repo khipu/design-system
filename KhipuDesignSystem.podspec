@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'KhipuDesignSystem'
-  s.version          = '0.2.0-alpha.128'
+  s.version          = '0.2.0-alpha.129'
   s.summary          = 'Khipu Design System for iOS - SwiftUI components and design tokens'
 
   s.description      = <<-DESC
