@@ -14,3 +14,4 @@ export type {
 } from './useExpandToggle';
 export { useHideOnScroll } from './useHideOnScroll';
 export type { UseHideOnScrollOptions, UseHideOnScrollResult } from './useHideOnScroll';
+export { useMediaQuery } from './useMediaQuery';
