@@ -120,10 +120,21 @@ async function buildCSS() {
     // Remove @import from khipuTokens (we include css-variables.css directly)
     const khipuTokensCleaned = khipuTokens.replace(/@import\s+url\([^)]+\);?\s*/g, '');
 
-    // Combine CSS in order: BeerCSS base → Core tokens → Khipu BeerCSS mappings → Khipu components
+    // Hoist remote @import rules (Google Fonts, emitted into the generated
+    // css-variables.css) to the top of the bundle: CSS requires @import before
+    // any other rule, so a mid-bundle @import is dropped by browsers on raw
+    // loads and rejected by strict parsers (lightningcss/Turbopack in Next.js).
+    const hoistedImports = [];
+    const cssVariablesCleaned = cssVariables.replace(/@import\s+url\([^)]+\);?\s*/g, (rule) => {
+        hoistedImports.push(rule.trim().replace(/;*$/, ';'));
+        return '';
+    });
+
+    // Combine CSS in order: @imports → BeerCSS base → Core tokens → Khipu BeerCSS mappings → Khipu components
     const combinedCSS = `/* Khipu BeerCSS Bundle - Combined CSS */\n\n` +
+        (hoistedImports.length ? `${hoistedImports.join('\n')}\n\n` : '') +
         `/* BeerCSS v4.0.1 */\n${beerCSS}\n\n` +
-        `/* Core Design System Tokens (auto-generated from src/tokens/index.ts) */\n${cssVariables}\n\n` +
+        `/* Core Design System Tokens (auto-generated from src/tokens/index.ts) */\n${cssVariablesCleaned}\n\n` +
         `/* Khipu BeerCSS Variable Mappings */\n${khipuTokensCleaned}\n\n` +
         `/* Khipu Custom Components */\n${khipuComponents}\n`;
 
@@ -170,6 +181,37 @@ async function buildCSS() {
     })]).process(scopedCSS, { from: undefined });
     writeFile(path.join(OUTPUT_DIR, 'khipu-beercss.scoped.min.css'), scopedMinResult.css);
     console.log(`   Scoped minified size: ${(scopedMinResult.css.length / 1024).toFixed(2)} KB`);
+}
+
+/**
+ * Copy the assets the CSS references with relative url()s (BeerCSS shape masks
+ * and Material Symbols fonts) next to the bundles. Without them the npm package
+ * has dangling references: strict bundlers (Turbopack) fail the build trying to
+ * resolve them, and raw/CDN consumers 404 on fonts and shapes.
+ */
+function copyReferencedAssets() {
+    console.log('\n📦 Copying referenced assets...');
+
+    const css = readFile(path.join(OUTPUT_DIR, 'khipu-beercss.css'));
+    const refs = new Set();
+    for (const match of css.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)) {
+        const ref = match[1];
+        if (!/^(data:|https?:|\/)/.test(ref)) {
+            refs.add(ref.split(/[?#]/)[0]);
+        }
+    }
+
+    let copied = 0;
+    for (const ref of refs) {
+        const source = path.join(BEERCSS_DIR, ref);
+        if (!fs.existsSync(source)) {
+            console.error(`❌ Referenced asset not found in BeerCSS dist: ${ref}`);
+            process.exit(1);
+        }
+        fs.copyFileSync(source, path.join(OUTPUT_DIR, ref));
+        copied++;
+    }
+    console.log(`✅ Copied ${copied} assets (fonts + shape masks)`);
 }
 
 /**
@@ -291,6 +333,7 @@ async function build() {
     try {
         // Build CSS and JS bundles
         await buildCSS();
+        copyReferencedAssets();
         await buildJS();
         generateMetadata();
 
