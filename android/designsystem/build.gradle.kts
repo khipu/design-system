@@ -5,7 +5,7 @@ plugins {
     `maven-publish`
 }
 
-val libraryVersion = "0.2.0-alpha.135"
+val libraryVersion = "0.2.0-alpha.136"
 
 android {
     namespace = "com.khipu.designsystem"
