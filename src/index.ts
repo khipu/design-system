@@ -63,6 +63,17 @@ export * from './components/core';
 export * from './components/domain';
 
 // =============================================================================
+// UTILS (DOM)
+// =============================================================================
+
+export {
+  runAfterPointerGesture,
+  centerFieldInViewport,
+  focusFirstInvalidField,
+  guideToFirstInvalidFieldOnBlur,
+} from './utils';
+
+// =============================================================================
 // HOOKS
 // =============================================================================
 
