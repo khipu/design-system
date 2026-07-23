@@ -130,3 +130,6 @@ export { KdsSegmentedTabs, type KdsSegmentedTabsProps } from './KdsSegmentedTabs
 
 // Fab (floating action button)
 export { KdsFab, type KdsFabProps, type KdsFabPosition } from './KdsFab';
+
+// EmptyState (sin resultados en búsquedas/listas filtradas)
+export { KdsEmptyState, type KdsEmptyStateProps } from './KdsEmptyState';
