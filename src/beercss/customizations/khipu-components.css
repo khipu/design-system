@@ -6087,7 +6087,7 @@ div.kds-invoice-header,
 
 /* Sufijo inline del monto, ej. "$25.000 por cargo" */
 .kds-invoice-amount small {
-    font-size: var(--kds-font-size-base);
+    font-size: var(--kds-font-size-sm);
     font-weight: var(--kds-font-weight-regular);
     letter-spacing: normal;
     color: var(--kds-color-text-secondary);
