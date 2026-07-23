@@ -67,11 +67,13 @@ const DEFAULT_KV: KvItem[] = [
 /** Contenido interno del invoice — matchea `mat:paymentAmount` + `mat:merchantTile`. */
 const InvoiceContent = ({
   amount = '$3.300',
+  amountSuffix,
   code = 'fdap-sr2x-q3pf',
   amountClass,
   kv = DEFAULT_KV,
 }: {
   amount?: string;
+  amountSuffix?: string;
   code?: string;
   amountClass?: string;
   kv?: KvItem[];
@@ -79,7 +81,10 @@ const InvoiceContent = ({
   <>
     <header className="kds-invoice-header">
       <div>
-        <p className={`kds-invoice-amount${amountClass ? ` ${amountClass}` : ''}`}>{amount}</p>
+        <p className={`kds-invoice-amount${amountClass ? ` ${amountClass}` : ''}`}>
+          {amount}
+          {amountSuffix && <> <small>{amountSuffix}</small></>}
+        </p>
         <p className="kds-invoice-code">
           Código <span className="kds-invoice-code-value kds-invoice-code-value--lowercase">{code}</span>
         </p>
@@ -166,6 +171,27 @@ export const WithDetails: Story = {
               { label: 'Asunto', value: 'Orden #20260512-001' },
               { label: 'Vencimiento', value: '15 de mayo de 2026' },
               { label: 'Notificar a', value: 'pagos@comercialsantiago.cl' },
+            ]}
+          />
+        </KdsInvoiceSticky>
+      </div>
+    </MobileShell>
+  ),
+};
+
+/** Mandato de pago automático — monto con sufijo "por cargo" + kv Mandato / Tipo pago. */
+export const MandateSuffix: Story = {
+  render: () => (
+    <MobileShell>
+      <div className="kds-invoice-sticky-wrap">
+        <KdsInvoiceSticky>
+          <InvoiceContent
+            amount="$25.000"
+            amountSuffix="por cargo"
+            code="fdqu-xr2a-q3pf"
+            kv={[
+              { label: 'Mandato', value: 'Cava de vinos SPA' },
+              { label: 'Tipo pago', value: 'Pago automático' },
             ]}
           />
         </KdsInvoiceSticky>
