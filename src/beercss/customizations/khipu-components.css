@@ -8166,7 +8166,15 @@ a.kds-copy-all-btn.copied:hover {
     color: var(--kds-color-text-secondary);
 }
 
-.kds-empty-state p {
+/* Textos agrupados con el mismo ritmo compacto que kds-secure-loader-text. */
+.kds-empty-state-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-0-25);
+}
+
+.kds-empty-state-text p {
     /* BeerCSS aplica margin-block-start !important a los <p>; hay que igualarlo. */
     margin: 0 !important;
+    line-height: var(--kds-line-height-snug);
 }
