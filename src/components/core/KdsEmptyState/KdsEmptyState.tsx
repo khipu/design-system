@@ -42,14 +42,16 @@ export const KdsEmptyState = forwardRef<HTMLDivElement, KdsEmptyStateProps>(
       <i className="material-symbols-outlined" aria-hidden="true">
         {icon}
       </i>
-      <KdsTypography variant="body" color="primary">
-        {title}
-      </KdsTypography>
-      {description && (
-        <KdsTypography variant="body" color="secondary">
-          {description}
+      <div className="kds-empty-state-text">
+        <KdsTypography variant="body" color="primary">
+          {title}
         </KdsTypography>
-      )}
+        {description && (
+          <KdsTypography variant="body" color="secondary">
+            {description}
+          </KdsTypography>
+        )}
+      </div>
     </div>
   ),
 );
