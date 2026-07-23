@@ -8146,3 +8146,22 @@ a.kds-copy-all-btn.copied:hover {
 .kds-pre-wrap {
     white-space: pre-wrap;
 }
+
+/* -- Empty State (sin resultados en búsquedas/listas filtradas) -- */
+.kds-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--kds-spacing-2);
+}
+
+.kds-empty-state > i {
+    /* La caja del material-symbol sigue al font-size (1em). */
+    font-size: var(--kds-font-size-2xl);
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-empty-state p {
+    margin: 0;
+}
