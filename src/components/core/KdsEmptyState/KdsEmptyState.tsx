@@ -34,7 +34,7 @@ export const KdsEmptyState = forwardRef<HTMLDivElement, KdsEmptyStateProps>(
     <div
       ref={ref}
       role="status"
-      className={clsx('kds-flex-col', 'kds-text-center', 'kds-gap-2', className)}
+      className={clsx('kds-flex', 'kds-flex-col', 'kds-items-center', 'kds-text-center', 'kds-gap-2', className)}
       {...props}
     >
       <i className="material-symbols-outlined kds-text-secondary" aria-hidden="true">
