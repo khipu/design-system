@@ -8167,5 +8167,6 @@ a.kds-copy-all-btn.copied:hover {
 }
 
 .kds-empty-state p {
-    margin: 0;
+    /* BeerCSS aplica margin-block-start !important a los <p>; hay que igualarlo. */
+    margin: 0 !important;
 }
