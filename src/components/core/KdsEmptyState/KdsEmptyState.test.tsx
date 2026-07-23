@@ -28,6 +28,13 @@ describe('KdsEmptyState', () => {
 
   it('applies custom className over the utility classes', () => {
     const { container } = render(<KdsEmptyState title="T" className="extra" />);
-    expect(container.firstChild).toHaveClass('kds-flex-col', 'kds-text-center', 'kds-gap-2', 'extra');
+    expect(container.firstChild).toHaveClass(
+      'kds-flex',
+      'kds-flex-col',
+      'kds-items-center',
+      'kds-text-center',
+      'kds-gap-2',
+      'extra',
+    );
   });
 });
