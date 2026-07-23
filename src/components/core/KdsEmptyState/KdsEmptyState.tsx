@@ -23,21 +23,23 @@ export interface KdsEmptyStateProps extends React.HTMLAttributes<HTMLDivElement>
  * (p.ej. `KdsSearchField` + `KdsBankList`).
  *
  * Canoniza el patrón que khenshin-web renderizaba a mano en la búsqueda de
- * bancos. Composición de utilidades `kds-*` existentes: no agrega CSS nuevo.
+ * bancos (cuyo markup de utilidades quedaba en block: kds-flex-col no define
+ * display, y los párrafos heredaban márgenes de BeerCSS). La clase propia
+ * resetea márgenes, centra y dimensiona el ícono.
  * `role="status"` para que los lectores de pantalla anuncien el cambio cuando
  * el filtro se queda sin resultados.
  *
- * @css .kds-flex-col, .kds-text-center, .kds-gap-2, .kds-text-secondary
+ * @css .kds-empty-state
  */
 export const KdsEmptyState = forwardRef<HTMLDivElement, KdsEmptyStateProps>(
   ({ icon = 'hide_source', title, description, className, ...props }, ref) => (
     <div
       ref={ref}
       role="status"
-      className={clsx('kds-flex', 'kds-flex-col', 'kds-items-center', 'kds-text-center', 'kds-gap-2', className)}
+      className={clsx('kds-empty-state', className)}
       {...props}
     >
-      <i className="material-symbols-outlined kds-text-secondary" aria-hidden="true">
+      <i className="material-symbols-outlined" aria-hidden="true">
         {icon}
       </i>
       <KdsTypography variant="body" color="primary">
