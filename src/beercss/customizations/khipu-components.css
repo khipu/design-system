@@ -6091,9 +6091,10 @@ div.kds-invoice-header,
 
 /* Sufijo inline del monto, ej. "$25.000 por cargo" */
 .kds-invoice-amount small {
-    font-size: var(--kds-font-size-base);
-    font-weight: var(--kds-font-weight-regular);
-    letter-spacing: normal;
+    /* Spec kw-2: 14px / 700 / ls 0.4 — la altura de linea la da el propio monto (inline). */
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-bold);
+    letter-spacing: var(--kds-letter-spacing-wide);
     color: var(--kds-color-text-secondary);
     margin-left: var(--kds-spacing-0-5);
 }
