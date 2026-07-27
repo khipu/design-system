@@ -3,9 +3,10 @@ import {
   centerFieldInViewport,
   focusFirstInvalidField,
   guideToFirstInvalidFieldOnBlur,
-} from './focusFirstInvalidField';
+  scrollToFirstInvalidField,
+} from './scrollToFirstInvalidField';
 
-describe('focusFirstInvalidField', () => {
+describe('scrollToFirstInvalidField', () => {
     let form: HTMLFormElement
     let scrollToSpy: ReturnType<typeof vi.fn>
 
@@ -40,15 +41,21 @@ describe('focusFirstInvalidField', () => {
         vi.useRealTimers()
     })
 
-    it('focuses and scrolls to the FIRST invalid field', () => {
-        const {invalid1} = buildForm()
+    it('scrolls to the FIRST invalid field and NO toma el foco', () => {
+        const {valid, invalid1, invalid2} = buildForm()
         const focusSpy = vi.spyOn(invalid1, 'focus')
+        vi.spyOn(invalid1, 'getBoundingClientRect').mockReturnValue({top: 500, height: 40} as DOMRect)
+        vi.spyOn(invalid2, 'getBoundingClientRect').mockReturnValue({top: 900, height: 40} as DOMRect)
+        Object.defineProperty(window, 'scrollY', {value: 0, configurable: true})
+        Object.defineProperty(window, 'innerHeight', {value: 800, configurable: true})
+        valid.focus()
 
-        focusFirstInvalidField(form)
+        scrollToFirstInvalidField(form)
 
-        expect(focusSpy).toHaveBeenCalledWith({preventScroll: true})
-        expect(document.activeElement).toBe(invalid1)
-        expect(scrollToSpy).toHaveBeenCalledWith(expect.objectContaining({behavior: 'smooth'}))
+        // top del PRIMER inválido = 0 + 500 - (800 - 40) / 2 = 120 (el segundo daría 520)
+        expect(scrollToSpy).toHaveBeenCalledWith({top: 120, behavior: 'smooth'})
+        expect(focusSpy).not.toHaveBeenCalled()
+        expect(document.activeElement).toBe(valid)
     })
 
     it('does nothing when every field is valid', () => {
@@ -56,10 +63,22 @@ describe('focusFirstInvalidField', () => {
         invalid1.value = 'filled'
         invalid2.value = 'filled'
 
-        focusFirstInvalidField(form)
+        scrollToFirstInvalidField(form)
 
         expect(document.activeElement).not.toBe(invalid1)
         expect(scrollToSpy).not.toHaveBeenCalled()
+    })
+
+    it('mantiene focusFirstInvalidField como alias deprecado del scroll sin foco', () => {
+        const {valid, invalid1} = buildForm()
+        const focusSpy = vi.spyOn(invalid1, 'focus')
+        valid.focus()
+
+        focusFirstInvalidField(form)
+
+        expect(scrollToSpy).toHaveBeenCalledWith(expect.objectContaining({behavior: 'smooth'}))
+        expect(focusSpy).not.toHaveBeenCalled()
+        expect(document.activeElement).toBe(valid)
     })
 
     it('centers against visualViewport height/offset when available (virtual keyboard)', () => {
@@ -83,9 +102,9 @@ describe('focusFirstInvalidField', () => {
         expect(scrollToSpy).toHaveBeenCalledWith({top: 470, behavior: 'smooth'})
     })
 
-    it('re-centers once when visualViewport resizes after focus (keyboard opening)', () => {
+    it('re-centers once when visualViewport resizes (el teclado cerrándose)', () => {
         vi.useFakeTimers()
-        const {invalid1} = buildForm()
+        buildForm()
         const addListener = vi.fn()
         const removeListener = vi.fn()
         ;(window as any).visualViewport = {
@@ -95,12 +114,14 @@ describe('focusFirstInvalidField', () => {
             removeEventListener: removeListener,
         }
 
-        focusFirstInvalidField(form)
+        scrollToFirstInvalidField(form)
 
         expect(addListener).toHaveBeenCalledWith('resize', expect.any(Function), {once: true})
+        expect(scrollToSpy).toHaveBeenCalledTimes(1)
+        addListener.mock.calls[0][1]() // el viewport cambia de tamaño
+        expect(scrollToSpy).toHaveBeenCalledTimes(2)
         vi.runAllTimers()
         expect(removeListener).toHaveBeenCalled()
-        expect(document.activeElement).toBe(invalid1)
     })
 
     it('scrolls the nearest scrollable ancestor instead of the window (body 100vh de la app)', () => {
@@ -168,7 +189,7 @@ describe('focusFirstInvalidField', () => {
         expect(scrollToSpy).toHaveBeenCalledWith({top: 120, behavior: 'smooth'})
     })
 
-    it('guides to the first invalid field on blur (e.g. focus moved to the terms checkbox)', () => {
+    it('guides to the first invalid field on blur sin sacar el foco del checkbox de términos', () => {
         vi.useFakeTimers()
         const {invalid1} = buildForm()
         const checkbox = document.createElement('input')
@@ -179,7 +200,25 @@ describe('focusFirstInvalidField', () => {
         guideToFirstInvalidFieldOnBlur(form)
         vi.runAllTimers()
 
-        expect(document.activeElement).toBe(invalid1)
+        expect(scrollToSpy).toHaveBeenCalledWith(expect.objectContaining({behavior: 'smooth'}))
+        expect(document.activeElement).toBe(checkbox)
+        expect(document.activeElement).not.toBe(invalid1)
+    })
+
+    it('deja usable un control que no es campo de texto: el foco se queda donde lo puso el usuario', () => {
+        vi.useFakeTimers()
+        const {invalid1} = buildForm()
+        const select = document.createElement('select')
+        select.appendChild(document.createElement('option'))
+        form.appendChild(select)
+        select.focus()
+
+        guideToFirstInvalidFieldOnBlur(form)
+        vi.runAllTimers()
+
+        expect(scrollToSpy).toHaveBeenCalled()
+        expect(document.activeElement).toBe(select)
+        expect(document.activeElement).not.toBe(invalid1)
     })
 
     it('waits for the click to finish before guiding: el checkbox queda marcado (gesto largo)', () => {
@@ -191,8 +230,9 @@ describe('focusFirstInvalidField', () => {
         checkbox.focus()
 
         guideToFirstInvalidFieldOnBlur(form)
-        // gesto de click más largo que cualquier timer corto: sin robo de foco aún
+        // gesto de click más largo que cualquier timer corto: el scroll no se adelanta
         vi.advanceTimersByTime(200)
+        expect(scrollToSpy).not.toHaveBeenCalled()
         expect(document.activeElement).toBe(checkbox)
 
         checkbox.click() // fin del gesto: el toggle ocurre ANTES de la guía
@@ -200,10 +240,12 @@ describe('focusFirstInvalidField', () => {
 
         vi.runAllTimers() // tick post-click → recién ahora corre la guía
         expect(checkbox.checked).toBe(true)
-        expect(document.activeElement).toBe(invalid1)
+        expect(scrollToSpy).toHaveBeenCalled()
+        expect(document.activeElement).toBe(checkbox)
+        expect(document.activeElement).not.toBe(invalid1)
     })
 
-    it('does NOT steal focus when the user moved into another text field', () => {
+    it('no scrollea cuando el usuario pasó a otro campo de texto', () => {
         vi.useFakeTimers()
         const {invalid1, invalid2} = buildForm()
         invalid2.focus()
