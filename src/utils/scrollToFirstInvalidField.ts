@@ -1,12 +1,17 @@
 /**
- * Scroll + focus al primer campo inválido de un formulario.
+ * Scroll al primer campo inválido de un formulario. NUNCA toma el foco.
+ *
+ * El foco se quitó a propósito: la guía corre en cada blur del formulario, así que
+ * tomarlo devolvía al usuario al campo con error cada vez que salía de un campo y
+ * dejaba inutilizables los demás controles (select, checkbox, campos ya válidos).
+ * El scroll solo, sin robar el foco, mantiene el formulario fluido.
  *
  * El scroll se aplica sobre el ancestro scrolleable real del campo (en la app el
  * scroller es el body con height:100vh, no el window). El centrado usa la porción
  * visible: con el teclado virtual abierto visualViewport se achica (el layout
  * viewport no), así que centrar contra él deja el campo visible sobre el teclado.
- * Además se re-centra una vez cuando el viewport cambia (apertura del teclado
- * gatillada por el propio focus).
+ * Además se re-centra una vez si el viewport cambia justo después (el teclado
+ * cerrándose al salir del campo anterior desplaza el centro recién calculado).
  */
 
 import { runAfterPointerGesture } from './runAfterPointerGesture';
@@ -59,12 +64,11 @@ const isInvalidField = (element: Element): element is HTMLElement & {validity: V
     return typeof field.willValidate === 'boolean' && field.willValidate && !field.validity.valid
 }
 
-export const focusFirstInvalidField = (form: HTMLFormElement): void => {
+export const scrollToFirstInvalidField = (form: HTMLFormElement): void => {
     const firstInvalid = Array.from(form.elements).find(isInvalidField)
     if (!firstInvalid) {
         return
     }
-    firstInvalid.focus({preventScroll: true})
     centerFieldInViewport(firstInvalid)
 
     const viewport = window.visualViewport
@@ -74,6 +78,9 @@ export const focusFirstInvalidField = (form: HTMLFormElement): void => {
         window.setTimeout(() => viewport.removeEventListener('resize', recenter), RECENTER_WINDOW_MS)
     }
 }
+
+/** @deprecated Ya no toma el foco: usa scrollToFirstInvalidField. */
+export const focusFirstInvalidField = scrollToFirstInvalidField
 
 const isTextEntryElement = (element: Element | null): boolean => {
     if (!element) {
@@ -92,13 +99,14 @@ const isTextEntryElement = (element: Element | null): boolean => {
  * (p.ej. al marcar el checkbox de términos con un campo vacío).
  *
  * La guía NO puede correr con un timer fijo: el blur llega en el mousedown y el
- * toggle del checkbox recién en el click (mouseup) — si el gesto dura más que el
- * timer, robar el foco a mitad de gesto deja el checkbox sin marcar. Por eso se
- * ancla al fin del click que causó el blur (más un tick para que corran onChange
- * y el re-render), con fallback por timer para blur de teclado (Tab).
+ * toggle del checkbox recién en el click (mouseup) EN LAS MISMAS COORDENADAS — si
+ * el gesto dura más que el timer, scrollear a mitad de gesto mueve el destino y el
+ * checkbox queda sin marcar. Por eso se ancla al fin del click que causó el blur
+ * (más un tick para que corran onChange y el re-render), con fallback por timer
+ * para blur de teclado (Tab).
  *
- * Guard anti-trampa: si el foco pasó a OTRO campo de texto del form (el usuario va
- * a escribir ahí), no se le roba el foco.
+ * Guard: si el foco pasó a OTRO campo de texto del form (el usuario va a escribir
+ * ahí), no se scrollea — mover el viewport lejos del caret es igual de molesto.
  */
 export const guideToFirstInvalidFieldOnBlur = (form: HTMLFormElement): void => {
     runAfterPointerGesture(() => {
@@ -110,7 +118,7 @@ export const guideToFirstInvalidFieldOnBlur = (form: HTMLFormElement): void => {
             return
         }
         if (!form.checkValidity()) {
-            focusFirstInvalidField(form)
+            scrollToFirstInvalidField(form)
         }
     })
 }
