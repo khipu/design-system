@@ -69,6 +69,7 @@ export * from './components/domain';
 export {
   runAfterPointerGesture,
   centerFieldInViewport,
+  scrollToFirstInvalidField,
   focusFirstInvalidField,
   guideToFirstInvalidFieldOnBlur,
 } from './utils';
