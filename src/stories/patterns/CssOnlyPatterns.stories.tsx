@@ -2476,11 +2476,9 @@ export const BankModal: Story = {
  * dentro de un formulario (ej. "Alias o CBU de la cuenta que transfiere" en el
  * flujo de transferencia manual de Argentina).
  *
- * Envuelve un `.field` sin modificarlo: BeerCSS dibuja el notch de la etiqueta
- * flotante con `clip-path` sobre el input más un segmento de borde en
- * `label::after`, así que un modificador sobre `.field` tendría que pelear con
- * esa maquinaria. El markup del `.field` es exactamente el que ya emite
- * `<mat:textField>`.
+ * Envuelve un `.field` sin modificarlo. El markup del `.field` es exactamente
+ * el que ya emite `<mat:textField>`: en el GSP alcanza con envolver el tag, no
+ * hay que tocar el taglib.
  *
  * Layout (spec):
  * - wrapper: `padding: var(--kds-spacing-1-5)` (12px), `border: 1px dashed`, `border-radius: var(--kds-radius-card)` (14px)
@@ -2493,13 +2491,17 @@ export const BankModal: Story = {
  * - `--kds-field-highlight-label` — color del eyebrow
  * - `--kds-field-highlight-surface` — superficie opaca del input sobre el tinte
  *
- * El input recibe `z-index: 0` — el mismo contrato que BeerCSS usa en
- * `.field.fill`. Sin eso, el input opaco (`z-index: 1` por defecto) taparía la
- * etiqueta en reposo, que está posicionada de forma absoluta.
+ * **La etiqueta nunca toca el tinte.** Fuera del highlight, BeerCSS flota la
+ * etiqueta *sobre* el borde del campo: recorta el input con `clip-path` y
+ * redibuja el tramo de borde en `label::after`. Con una caja de color detrás,
+ * esa muesca deja ver el tinte justo debajo de la etiqueta. Dentro del
+ * highlight la etiqueta flota *dentro* de la superficie del campo — el mismo
+ * comportamiento que `.field.fill` — así que no hay muesca y la interferencia
+ * es imposible, no evitada por orden de capas.
  *
  * Piezas opcionales: el header entero, y el badge dentro del header. Hover,
- * foco, `.invalid`, `select`, `textarea` y los íconos prefix/suffix siguen
- * funcionando igual que en cualquier `.field`.
+ * foco (borde y etiqueta en primary), `.invalid`, `select`, `textarea` y los
+ * íconos prefix/suffix siguen funcionando igual que en cualquier `.field`.
  *
  * Accesibilidad: el eyebrow es informativo, no solo decorativo — enlazalo con
  * `aria-describedby` en el input, junto al helper.
