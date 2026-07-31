@@ -208,6 +208,14 @@ body.dark,
     --kds-qr-avatar-radius: 10px;                         /* Avatar border radius */
     --kds-qr-badge-bg: var(--kds-color-primary-main);     /* Badge background */
     --kds-qr-badge-text: #FFFFFF;                         /* Badge text color */
+
+    /* Highlighted Field */
+    --kds-field-highlight-bg: var(--kds-color-info-soft); /* Soft info surface behind the field */
+    --kds-field-highlight-border: rgba(2, 136, 209, 0.5); /* Dashed accent border (info @ 50%) */
+    --kds-field-highlight-label: var(--kds-color-info-dark);  /* Eyebrow label */
+    --kds-field-highlight-surface: var(--kds-color-background-paper);  /* Input surface over the tint */
+    --kds-field-highlight-padding: var(--kds-spacing-1-5);
+    --kds-field-highlight-radius: var(--kds-radius-card);
 }
 
 /* ========================================
@@ -239,6 +247,15 @@ body.dark,
     --kds-qr-avatar-bg: var(--kds-color-background-elevated);
     --kds-qr-avatar-border: rgba(227, 181, 255, 0.3);
     --kds-qr-badge-text: var(--kds-color-primary-contrast);  /* dark text on the lavender badge */
+
+    /* Highlighted field — info-soft still resolves to a near-white surface on
+       dark, so mirror the box as translucent info over the dark background. */
+    --kds-field-highlight-bg: rgba(2, 136, 209, 0.12);
+    --kds-field-highlight-border: rgba(125, 211, 252, 0.45);
+    --kds-field-highlight-label: #7DD3FC;                    /* light info, readable on dark */
+    /* Translucent lift instead of a literal: the base surface tokens are not
+       dark-aware yet, so a fixed color would guess the page background wrong. */
+    --kds-field-highlight-surface: rgba(255, 255, 255, 0.05);
 }
 
 /* ========================================
