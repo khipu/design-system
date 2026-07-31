@@ -2466,3 +2466,95 @@ export const BankModal: Story = {
     </div>
   ),
 };
+
+// =============================================================================
+// FIELD HIGHLIGHT (.kds-field-highlight)
+// =============================================================================
+
+/**
+ * `.kds-field-highlight` — caja que destaca un campo opcional o condicional
+ * dentro de un formulario (ej. "Alias o CBU de la cuenta que transfiere" en el
+ * flujo de transferencia manual de Argentina).
+ *
+ * Envuelve un `.field` sin modificarlo: BeerCSS dibuja el notch de la etiqueta
+ * flotante con `clip-path` sobre el input más un segmento de borde en
+ * `label::after`, así que un modificador sobre `.field` tendría que pelear con
+ * esa maquinaria. El markup del `.field` es exactamente el que ya emite
+ * `<mat:textField>`.
+ *
+ * Layout (spec):
+ * - wrapper: `padding: var(--kds-spacing-1-5)` (12px), `border: 1px dashed`, `border-radius: var(--kds-radius-card)` (14px)
+ * - header: `display: flex`, `justify-content: space-between`, `gap: var(--kds-spacing-1)` (8px), `margin-block-end: var(--kds-spacing-1)` (8px)
+ * - eyebrow: `font-size: xs`, `font-weight: semibold` (600), `letter-spacing: widest` (1px), `text-transform: uppercase`
+ *
+ * Color (tokens, dark-aware):
+ * - `--kds-field-highlight-bg` — fondo tenue de la caja
+ * - `--kds-field-highlight-border` — borde punteado
+ * - `--kds-field-highlight-label` — color del eyebrow
+ * - `--kds-field-highlight-surface` — superficie opaca del input sobre el tinte
+ *
+ * El input recibe `z-index: 0` — el mismo contrato que BeerCSS usa en
+ * `.field.fill`. Sin eso, el input opaco (`z-index: 1` por defecto) taparía la
+ * etiqueta en reposo, que está posicionada de forma absoluta.
+ *
+ * Piezas opcionales: el header entero, y el badge dentro del header. Hover,
+ * foco, `.invalid`, `select`, `textarea` y los íconos prefix/suffix siguen
+ * funcionando igual que en cualquier `.field`.
+ *
+ * Accesibilidad: el eyebrow es informativo, no solo decorativo — enlazalo con
+ * `aria-describedby` en el input, junto al helper.
+ *
+ * Contrato HTML:
+ * ```html
+ * <div class="kds-field-highlight">
+ *   <div class="kds-field-highlight-header">
+ *     <span class="kds-field-highlight-eyebrow" id="alias-eyebrow">Opcional — según cliente</span>
+ *     <span class="kds-badge info">VA</span>
+ *   </div>
+ *   <div class="field label border">
+ *     <input type="text" id="alias" name="alias" placeholder=" "
+ *            aria-describedby="alias-eyebrow alias-helper">
+ *     <label for="alias">Alias o CBU de la cuenta que transfiere</label>
+ *     <span class="helper" id="alias-helper">Lo usamos solo para eventuales devoluciones.</span>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * @gsp `_manualFormArgentinaMaterial.gsp` — envolver el `<mat:textField>` en el wrapper
+ * @css .kds-field-highlight, .kds-field-highlight-header, .kds-field-highlight-eyebrow
+ */
+export const FieldHighlight: Story = {
+  name: 'FieldHighlight (.kds-field-highlight)',
+  render: () => (
+    <div style={{ maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div className="kds-field-highlight">
+        <div className="kds-field-highlight-header">
+          <span className="kds-field-highlight-eyebrow" id="alias-eyebrow">
+            Opcional — según cliente
+          </span>
+          <span className="kds-badge info">VA</span>
+        </div>
+        <div className="field label border">
+          <input
+            type="text"
+            id="alias"
+            name="alias"
+            placeholder=" "
+            aria-describedby="alias-eyebrow alias-helper"
+          />
+          <label htmlFor="alias">Alias o CBU de la cuenta que transfiere</label>
+          <span className="helper" id="alias-helper">
+            Lo usamos solo para eventuales devoluciones.
+          </span>
+        </div>
+      </div>
+
+      <div className="kds-field-highlight">
+        <div className="field label border">
+          <input type="text" id="alias-filled" name="alias" placeholder=" " defaultValue="mi.alias.banco" />
+          <label htmlFor="alias-filled">Alias o CBU de la cuenta que transfiere</label>
+        </div>
+      </div>
+    </div>
+  ),
+};

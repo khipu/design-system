@@ -5841,6 +5841,58 @@ button.kds-fab:active:not(:disabled) {
 
 
 /* ========================================
+   17 - HIGHLIGHTED FIELD (.kds-field-highlight)
+   Calls out an optional or conditional input
+   inside a form. Wraps a .field instead of
+   modifying it: BeerCSS draws the floating-label
+   notch with clip-path on the input plus a
+   label::after border segment, so a modifier on
+   .field would have to fight that machinery.
+   ======================================== */
+
+.kds-field-highlight {
+    padding: var(--kds-field-highlight-padding);
+    border: var(--kds-border-width-sm) dashed var(--kds-field-highlight-border);
+    border-radius: var(--kds-field-highlight-radius);
+    background: var(--kds-field-highlight-bg);
+}
+
+/* Header row is optional — omit it and the field sits alone in the box */
+.kds-field-highlight-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kds-spacing-1);
+    margin-block-end: var(--kds-spacing-1);
+    padding-inline: var(--kds-spacing-0-5);
+}
+
+.kds-field-highlight-eyebrow {
+    font-family: var(--kds-font-family-primary);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-semibold);
+    letter-spacing: var(--kds-letter-spacing-widest);
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--kds-field-highlight-label);
+}
+
+/* The input is transparent in BeerCSS and sits at z-index 1, above the
+   absolutely-positioned label. Giving it a surface without lowering it would
+   hide the resting label. z-index 0 is the same contract BeerCSS itself uses
+   for .field.fill, so hover/focus/invalid and the notch keep working. */
+.kds-field-highlight .field > :is(input, textarea, select) {
+    background: var(--kds-field-highlight-surface);
+    z-index: 0;
+}
+
+/* Helper text aligns with the eyebrow instead of the input's inner padding */
+.kds-field-highlight .field > :is(output, .helper, span.helper) {
+    padding-inline: var(--kds-spacing-0-5);
+}
+
+
+/* ========================================
    PAYMENT FLOW — DOMAIN COMPONENTS
    Invoice header, KV grid, dividers,
    amount summary, recap, success button

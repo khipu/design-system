@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Highlighted Field — .kds-field-highlight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
+<style>
+  body { font-family: 'Public Sans', sans-serif; background: #f5f5f5; margin: 0; padding: 32px; }
+  .demo { max-width: 440px; margin: 0 auto 48px; display: flex; flex-direction: column; gap: 24px; }
+  h2 { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px; }
+  .note { font-size: 12px; color: #777; margin: 8px 0 0; line-height: 1.5; }
+  .note code { background: #eaeaea; padding: 1px 4px; border-radius: 3px; }
+  .panel-dark { background: #101014; padding: 32px; border-radius: 16px; }
+  .panel-dark h2 { color: #9aa0a6; }
+  .panel-dark .note { color: #9aa0a6; }
+  .panel-dark .note code { background: #2a2a30; }
+</style>
+</head>
+<body>
+
+<div class="demo">
+
+  <div>
+    <h2>Completo — eyebrow + badge</h2>
+    <div class="kds-field-highlight">
+      <div class="kds-field-highlight-header">
+        <span class="kds-field-highlight-eyebrow" id="alias-1-eyebrow">Opcional — según cliente</span>
+        <span class="kds-badge info">VA</span>
+      </div>
+      <div class="field label border">
+        <input type="text" id="alias-1" name="alias" placeholder=" "
+               aria-describedby="alias-1-eyebrow alias-1-helper">
+        <label for="alias-1">Alias o CBU de la cuenta que transfiere</label>
+        <span class="helper" id="alias-1-helper">Lo usamos solo para eventuales devoluciones.</span>
+      </div>
+    </div>
+    <p class="note">El eyebrow es decorativo para el ojo, pero informativo para el lector de
+      pantalla: enlazalo con <code>aria-describedby</code> junto al helper.</p>
+  </div>
+
+  <div>
+    <h2>Solo eyebrow — sin badge</h2>
+    <div class="kds-field-highlight">
+      <div class="kds-field-highlight-header">
+        <span class="kds-field-highlight-eyebrow">Opcional</span>
+      </div>
+      <div class="field label border">
+        <input type="text" id="alias-2" name="alias" placeholder=" ">
+        <label for="alias-2">Alias o CBU de la cuenta que transfiere</label>
+        <span class="helper">Lo usamos solo para eventuales devoluciones.</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Sin header — solo el campo destacado</h2>
+    <div class="kds-field-highlight">
+      <div class="field label border">
+        <input type="text" id="alias-3" name="alias" placeholder=" ">
+        <label for="alias-3">Alias o CBU de la cuenta que transfiere</label>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Con valor — la etiqueta flota y el borde se recorta</h2>
+    <div class="kds-field-highlight">
+      <div class="kds-field-highlight-header">
+        <span class="kds-field-highlight-eyebrow">Opcional — según cliente</span>
+        <span class="kds-badge info">VA</span>
+      </div>
+      <div class="field label border">
+        <input type="text" id="alias-4" name="alias" placeholder=" " value="mi.alias.banco">
+        <label for="alias-4">Alias o CBU de la cuenta que transfiere</label>
+        <span class="helper">Lo usamos solo para eventuales devoluciones.</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Error — el estado del campo manda</h2>
+    <div class="kds-field-highlight">
+      <div class="kds-field-highlight-header">
+        <span class="kds-field-highlight-eyebrow">Opcional — según cliente</span>
+      </div>
+      <div class="field label border invalid">
+        <input type="text" id="alias-5" name="alias" placeholder=" " value="123">
+        <label for="alias-5">Alias o CBU de la cuenta que transfiere</label>
+        <span class="helper">El CBU debe tener 22 dígitos.</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Select</h2>
+    <div class="kds-field-highlight">
+      <div class="kds-field-highlight-header">
+        <span class="kds-field-highlight-eyebrow">Opcional</span>
+      </div>
+      <div class="field label border">
+        <select id="banco-1" name="banco">
+          <option value=""></option>
+          <option value="galicia">Banco Galicia</option>
+          <option value="santander">Santander</option>
+        </select>
+        <label for="banco-1">Banco de origen</label>
+        <span class="helper">Nos ayuda a identificar tu transferencia.</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Textarea</h2>
+    <div class="kds-field-highlight">
+      <div class="kds-field-highlight-header">
+        <span class="kds-field-highlight-eyebrow">Opcional</span>
+      </div>
+      <div class="field label border">
+        <textarea id="nota-1" name="nota" placeholder=" " rows="3"></textarea>
+        <label for="nota-1">Nota para el comercio</label>
+        <span class="helper">Máximo 200 caracteres.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="demo panel-dark" data-theme="dark">
+  <div>
+    <h2>Dark theme</h2>
+    <div class="kds-field-highlight">
+      <div class="kds-field-highlight-header">
+        <span class="kds-field-highlight-eyebrow">Opcional — según cliente</span>
+        <span class="kds-badge info">VA</span>
+      </div>
+      <div class="field label border">
+        <input type="text" id="alias-dark" name="alias" placeholder=" ">
+        <label for="alias-dark">Alias o CBU de la cuenta que transfiere</label>
+        <span class="helper">Lo usamos solo para eventuales devoluciones.</span>
+      </div>
+    </div>
+    <p class="note">Los tokens del highlight (fondo, borde, eyebrow, superficie del input) sí
+      adaptan a dark. El label y el helper se ven oscuros porque los tokens base de texto y
+      superficie del DS todavía no son dark-aware — le pasa igual a cualquier
+      <code>.field</code>, no es propio de esta variante.</p>
+  </div>
+</div>
+
+</body>
+</html>
