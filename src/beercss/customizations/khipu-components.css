@@ -5843,11 +5843,9 @@ button.kds-fab:active:not(:disabled) {
 /* ========================================
    17 - HIGHLIGHTED FIELD (.kds-field-highlight)
    Calls out an optional or conditional input
-   inside a form. Wraps a .field instead of
-   modifying it: BeerCSS draws the floating-label
-   notch with clip-path on the input plus a
-   label::after border segment, so a modifier on
-   .field would have to fight that machinery.
+   inside a form. Wraps a .field rather than
+   modifying it, so the field markup stays exactly
+   what the consumer already renders.
    ======================================== */
 
 .kds-field-highlight {
@@ -5877,13 +5875,45 @@ button.kds-fab:active:not(:disabled) {
     color: var(--kds-field-highlight-label);
 }
 
-/* The input is transparent in BeerCSS and sits at z-index 1, above the
-   absolutely-positioned label. Giving it a surface without lowering it would
-   hide the resting label. z-index 0 is the same contract BeerCSS itself uses
-   for .field.fill, so hover/focus/invalid and the notch keep working. */
+/* The input carries its own surface so it reads as a field on the tint.
+   z-index 0 is BeerCSS's own contract for a filled input: at the default
+   z-index 1 the opaque input would paint over the absolutely-positioned
+   label and hide it at rest. */
 .kds-field-highlight .field > :is(input, textarea, select) {
     background: var(--kds-field-highlight-surface);
     z-index: 0;
+}
+
+/* Keep the floating label off the tint.
+   By default BeerCSS floats the label ONTO the field outline: it cuts the input
+   with clip-path and redraws that stretch of border in label::after. With a
+   colored box behind the field, the cut exposes the tint right under the label.
+   Inside the highlight the label floats INSIDE the field surface instead — the
+   same behaviour as .field.fill — so there is no notch and no interference to
+   avoid. The four rules below undo BeerCSS's :not(.fill) overrides, mirroring
+   its selector shape plus the wrapper so they win on specificity. */
+.kds-field-highlight .field.label.border:not(.fill)
+    > :is(input, textarea):is(:focus, [placeholder]:not(:placeholder-shown), .active),
+.kds-field-highlight .field.label.border:not(.fill) > select {
+    clip-path: none;
+}
+
+.kds-field-highlight .field.label.border:not(.fill) > :is(input, select) {
+    padding-block-start: var(--kds-spacing-2);
+}
+
+.kds-field-highlight .field.label.border:not(.fill) > :is(
+    label.active,
+    :focus + label,
+    [placeholder]:not(:placeholder-shown) + label,
+    select + label
+) {
+    block-size: var(--kds-spacing-5);
+    line-height: var(--kds-spacing-5);
+}
+
+.kds-field-highlight .field.label.border:not(.fill) > label::after {
+    display: none;
 }
 
 /* Helper text aligns with the eyebrow instead of the input's inner padding */
