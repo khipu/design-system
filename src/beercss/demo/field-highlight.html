@@ -10,14 +10,18 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 <link rel="stylesheet" href="/dist/beercss/khipu-beercss.min.css">
 <style>
-  body { font-family: 'Public Sans', sans-serif; background: #f5f5f5; margin: 0; padding: 32px; }
-  .demo { max-width: 440px; margin: 0 auto 48px; display: flex; flex-direction: column; gap: 24px; }
-  h2 { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px; }
-  .note { font-size: 12px; color: #777; margin: 8px 0 0; line-height: 1.5; }
-  .note code { background: #eaeaea; padding: 1px 4px; border-radius: 3px; }
-  .panel-dark { background: #101014; padding: 32px; border-radius: 16px; }
-  .panel-dark h2 { color: #9aa0a6; }
-  .panel-dark .note { color: #9aa0a6; }
+  body { font-family: 'Public Sans', sans-serif; background: #F4F4F7; margin: 0; padding: 32px 16px 64px; }
+  .demo { max-width: 420px; margin: 0 auto 40px; display: flex; flex-direction: column; gap: 28px; }
+  h2 { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px; }
+  .note { font-size: 12px; color: #777; margin: 10px 0 0; line-height: 1.55; }
+  .note code { background: #e6e6ea; padding: 1px 4px; border-radius: 3px; }
+  .card {
+    background: #fff; border-radius: 14px; padding: 20px;
+    box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+  }
+  .card h1 { font-size: 17px; font-weight: 600; margin: 0 0 16px; color: #1f2430; }
+  .panel-dark { background: #101014; padding: 28px; border-radius: 16px; }
+  .panel-dark h2, .panel-dark .note { color: #9aa0a6; }
   .panel-dark .note code { background: #2a2a30; }
 </style>
 </head>
@@ -26,106 +30,128 @@
 <div class="demo">
 
   <div>
-    <h2>Completo — eyebrow + badge</h2>
-    <div class="kds-field-highlight">
-      <div class="kds-field-highlight-header">
-        <span class="kds-field-highlight-eyebrow" id="alias-1-eyebrow">Opcional — según cliente</span>
-        <span class="kds-badge info">VA</span>
+    <h2>En contexto — formulario de transferencia manual (AR)</h2>
+    <div class="card">
+      <h1>Confirmá tu transferencia</h1>
+
+      <div class="field label border kds-field-group">
+        <select id="docType" name="docType">
+          <option value="DNI" selected>DNI</option>
+          <option value="CUIT">CUIT</option>
+        </select>
+        <label for="docType">Tipo de documento</label>
       </div>
-      <div class="field label border">
-        <input type="text" id="alias-1" name="alias" placeholder=" "
-               aria-describedby="alias-1-eyebrow alias-1-helper">
-        <label for="alias-1">Alias o CBU de la cuenta que transfiere</label>
-        <span class="helper" id="alias-1-helper">Lo usamos solo para eventuales devoluciones.</span>
+
+      <div class="field label border kds-field-group">
+        <input type="text" id="docNumber" name="docNumber" required placeholder=" ">
+        <label for="docNumber">Número de documento</label>
+      </div>
+
+      <!-- Bloque condicional destacado -->
+      <div class="kds-field-highlight kds-field-group">
+        <div class="kds-field-highlight-header">
+          <span class="kds-field-highlight-eyebrow" id="refund-eyebrow">Opcional — según cliente</span>
+          <span class="kds-badge info">VA</span>
+        </div>
+
+        <div class="field label border">
+          <select id="accountType" name="accountType">
+            <option value="CBU" selected>CBU</option>
+            <option value="ALIAS">Alias</option>
+          </select>
+          <label for="accountType">Tipo de cuenta</label>
+        </div>
+
+        <div class="field label border kds-field-group">
+          <input type="text" id="accountNumber" name="accountNumber" placeholder=" "
+                 aria-describedby="refund-eyebrow refund-helper">
+          <label for="accountNumber">Alias o CBU de la cuenta que transfiere</label>
+          <span class="helper" id="refund-helper">Lo usamos solo para eventuales devoluciones.</span>
+        </div>
+      </div>
+
+      <div style="margin-top:24px">
+        <button type="button" class="kds-btn kds-btn-primary" style="width:100%">Continuar</button>
       </div>
     </div>
-    <p class="note">El eyebrow es decorativo para el ojo, pero informativo para el lector de
-      pantalla: enlazalo con <code>aria-describedby</code> junto al helper.</p>
+    <p class="note">Los campos de adentro renderizan <b>exactamente</b> igual que los de afuera:
+      mismo notch, mismo fondo, mismo <code>z-index</code>. El color vive solo en la banda, que
+      nunca toca la zona del campo.</p>
   </div>
 
   <div>
-    <h2>Solo eyebrow — sin badge</h2>
-    <div class="kds-field-highlight">
-      <div class="kds-field-highlight-header">
-        <span class="kds-field-highlight-eyebrow">Opcional</span>
-      </div>
-      <div class="field label border">
-        <input type="text" id="alias-2" name="alias" placeholder=" ">
-        <label for="alias-2">Alias o CBU de la cuenta que transfiere</label>
-        <span class="helper">Lo usamos solo para eventuales devoluciones.</span>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <h2>Sin header — solo el campo destacado</h2>
-    <div class="kds-field-highlight">
-      <div class="field label border">
-        <input type="text" id="alias-3" name="alias" placeholder=" ">
-        <label for="alias-3">Alias o CBU de la cuenta que transfiere</label>
+    <h2>Un solo campo</h2>
+    <div class="card">
+      <div class="kds-field-highlight">
+        <div class="kds-field-highlight-header">
+          <span class="kds-field-highlight-eyebrow">Opcional — según cliente</span>
+          <span class="kds-badge info">VA</span>
+        </div>
+        <div class="field label border">
+          <input type="text" id="alias-1" name="alias" placeholder=" ">
+          <label for="alias-1">Alias o CBU de la cuenta que transfiere</label>
+          <span class="helper">Lo usamos solo para eventuales devoluciones.</span>
+        </div>
       </div>
     </div>
   </div>
 
   <div>
-    <h2>Con valor — la etiqueta flota dentro del campo</h2>
-    <div class="kds-field-highlight">
-      <div class="kds-field-highlight-header">
-        <span class="kds-field-highlight-eyebrow">Opcional — según cliente</span>
-        <span class="kds-badge info">VA</span>
-      </div>
-      <div class="field label border">
-        <input type="text" id="alias-4" name="alias" placeholder=" " value="mi.alias.banco">
-        <label for="alias-4">Alias o CBU de la cuenta que transfiere</label>
-        <span class="helper">Lo usamos solo para eventuales devoluciones.</span>
+    <h2>Sin badge</h2>
+    <div class="card">
+      <div class="kds-field-highlight">
+        <div class="kds-field-highlight-header">
+          <span class="kds-field-highlight-eyebrow">Opcional</span>
+        </div>
+        <div class="field label border">
+          <input type="text" id="alias-2" name="alias" placeholder=" " value="mi.alias.banco">
+          <label for="alias-2">Alias o CBU de la cuenta que transfiere</label>
+          <span class="helper">Lo usamos solo para eventuales devoluciones.</span>
+        </div>
       </div>
     </div>
-    <p class="note">Dentro del highlight la etiqueta flota <b>dentro</b> del campo, no sobre su
-      borde. Así nunca cae encima del tinte de la caja.</p>
+  </div>
+
+  <div>
+    <h2>Sin header — solo la caja</h2>
+    <div class="card">
+      <div class="kds-field-highlight">
+        <div class="field label border">
+          <input type="text" id="alias-3" name="alias" placeholder=" ">
+          <label for="alias-3">Alias o CBU de la cuenta que transfiere</label>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div>
     <h2>Error — el estado del campo manda</h2>
-    <div class="kds-field-highlight">
-      <div class="kds-field-highlight-header">
-        <span class="kds-field-highlight-eyebrow">Opcional — según cliente</span>
-      </div>
-      <div class="field label border invalid">
-        <input type="text" id="alias-5" name="alias" placeholder=" " value="123">
-        <label for="alias-5">Alias o CBU de la cuenta que transfiere</label>
-        <span class="helper">El CBU debe tener 22 dígitos.</span>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <h2>Select</h2>
-    <div class="kds-field-highlight">
-      <div class="kds-field-highlight-header">
-        <span class="kds-field-highlight-eyebrow">Opcional</span>
-      </div>
-      <div class="field label border">
-        <select id="banco-1" name="banco">
-          <option value=""></option>
-          <option value="galicia">Banco Galicia</option>
-          <option value="santander">Santander</option>
-        </select>
-        <label for="banco-1">Banco de origen</label>
-        <span class="helper">Nos ayuda a identificar tu transferencia.</span>
+    <div class="card">
+      <div class="kds-field-highlight">
+        <div class="kds-field-highlight-header">
+          <span class="kds-field-highlight-eyebrow">Opcional — según cliente</span>
+        </div>
+        <div class="field label border invalid">
+          <input type="text" id="alias-4" name="alias" placeholder=" " value="123">
+          <label for="alias-4">Alias o CBU de la cuenta que transfiere</label>
+          <span class="helper">El CBU debe tener 22 dígitos.</span>
+        </div>
       </div>
     </div>
   </div>
 
   <div>
     <h2>Textarea</h2>
-    <div class="kds-field-highlight">
-      <div class="kds-field-highlight-header">
-        <span class="kds-field-highlight-eyebrow">Opcional</span>
-      </div>
-      <div class="field label border">
-        <textarea id="nota-1" name="nota" placeholder=" " rows="3"></textarea>
-        <label for="nota-1">Nota para el comercio</label>
-        <span class="helper">Máximo 200 caracteres.</span>
+    <div class="card">
+      <div class="kds-field-highlight">
+        <div class="kds-field-highlight-header">
+          <span class="kds-field-highlight-eyebrow">Opcional</span>
+        </div>
+        <div class="field label border">
+          <textarea id="nota-1" name="nota" placeholder=" " rows="3"></textarea>
+          <label for="nota-1">Nota para el comercio</label>
+          <span class="helper">Máximo 200 caracteres.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -146,10 +172,9 @@
         <span class="helper">Lo usamos solo para eventuales devoluciones.</span>
       </div>
     </div>
-    <p class="note">Los tokens del highlight (fondo, borde, eyebrow, superficie del input) sí
-      adaptan a dark. El label y el helper se ven oscuros porque los tokens base de texto y
-      superficie del DS todavía no son dark-aware — le pasa igual a cualquier
-      <code>.field</code>, no es propio de esta variante.</p>
+    <p class="note">La banda y el borde adaptan a dark. El label y el helper se ven oscuros
+      porque los tokens base de texto y superficie del DS todavía no son dark-aware — le pasa
+      igual a cualquier <code>.field</code>, no es propio de esta variante.</p>
   </div>
 </div>
 
