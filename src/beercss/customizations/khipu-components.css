@@ -5842,27 +5842,45 @@ button.kds-fab:active:not(:disabled) {
 
 /* ========================================
    17 - HIGHLIGHTED FIELD (.kds-field-highlight)
-   Calls out an optional or conditional input
-   inside a form. Wraps a .field rather than
-   modifying it, so the field markup stays exactly
-   what the consumer already renders.
+   Calls out an optional or conditional block of
+   fields inside a form. The colour lives in a
+   header band, never behind the fields: BeerCSS
+   floats the label ONTO the field outline (it cuts
+   the input with clip-path and redraws that
+   stretch of border in label::after), so anything
+   painted behind a field shows through the notch,
+   right under the label. Keeping the fields on the
+   page surface means they render exactly as they
+   do anywhere else in the form, with no override.
    ======================================== */
 
 .kds-field-highlight {
-    padding: var(--kds-field-highlight-padding);
+    padding-inline: var(--kds-field-highlight-padding);
+    padding-block-end: var(--kds-field-highlight-padding);
     border: var(--kds-border-width-sm) dashed var(--kds-field-highlight-border);
     border-radius: var(--kds-field-highlight-radius);
-    background: var(--kds-field-highlight-bg);
 }
 
-/* Header row is optional — omit it and the field sits alone in the box */
+/* Optional — omit it and the fields sit alone in the box. Breaks out to the box
+   edges so it reads as a header band, then takes the box's own inset back as
+   padding: the eyebrow ends up flush with the fields below, and the band's
+   horizontal padding matches the fields' own. */
 .kds-field-highlight-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--kds-spacing-1);
-    margin-block-end: var(--kds-spacing-1);
-    padding-inline: var(--kds-spacing-0-5);
+    margin-inline: calc(-1 * var(--kds-field-highlight-padding));
+    margin-block-end: var(--kds-field-highlight-padding);
+    padding-block: var(--kds-spacing-1-25);
+    padding-inline: var(--kds-field-highlight-padding);
+    background: var(--kds-field-highlight-bg);
+    border-start-start-radius: calc(
+        var(--kds-field-highlight-radius) - var(--kds-border-width-sm)
+    );
+    border-start-end-radius: calc(
+        var(--kds-field-highlight-radius) - var(--kds-border-width-sm)
+    );
 }
 
 .kds-field-highlight-eyebrow {
@@ -5875,50 +5893,10 @@ button.kds-fab:active:not(:disabled) {
     color: var(--kds-field-highlight-label);
 }
 
-/* The input carries its own surface so it reads as a field on the tint.
-   z-index 0 is BeerCSS's own contract for a filled input: at the default
-   z-index 1 the opaque input would paint over the absolutely-positioned
-   label and hide it at rest. */
-.kds-field-highlight .field > :is(input, textarea, select) {
-    background: var(--kds-field-highlight-surface);
-    z-index: 0;
-}
-
-/* Keep the floating label off the tint.
-   By default BeerCSS floats the label ONTO the field outline: it cuts the input
-   with clip-path and redraws that stretch of border in label::after. With a
-   colored box behind the field, the cut exposes the tint right under the label.
-   Inside the highlight the label floats INSIDE the field surface instead — the
-   same behaviour as .field.fill — so there is no notch and no interference to
-   avoid. The four rules below undo BeerCSS's :not(.fill) overrides, mirroring
-   its selector shape plus the wrapper so they win on specificity. */
-.kds-field-highlight .field.label.border:not(.fill)
-    > :is(input, textarea):is(:focus, [placeholder]:not(:placeholder-shown), .active),
-.kds-field-highlight .field.label.border:not(.fill) > select {
-    clip-path: none;
-}
-
-.kds-field-highlight .field.label.border:not(.fill) > :is(input, select) {
-    padding-block-start: var(--kds-spacing-2);
-}
-
-.kds-field-highlight .field.label.border:not(.fill) > :is(
-    label.active,
-    :focus + label,
-    [placeholder]:not(:placeholder-shown) + label,
-    select + label
-) {
-    block-size: var(--kds-spacing-5);
-    line-height: var(--kds-spacing-5);
-}
-
-.kds-field-highlight .field.label.border:not(.fill) > label::after {
-    display: none;
-}
-
-/* Helper text aligns with the eyebrow instead of the input's inner padding */
-.kds-field-highlight .field > :is(output, .helper, span.helper) {
-    padding-inline: var(--kds-spacing-0-5);
+/* The header already supplies the gap — the first field must not add its own */
+.kds-field-highlight > .kds-field-highlight-header + .kds-field-group,
+.kds-field-highlight > .kds-field-group:first-child {
+    margin-block-start: 0;
 }
 
 

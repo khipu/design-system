@@ -2472,89 +2472,110 @@ export const BankModal: Story = {
 // =============================================================================
 
 /**
- * `.kds-field-highlight` — caja que destaca un campo opcional o condicional
- * dentro de un formulario (ej. "Alias o CBU de la cuenta que transfiere" en el
- * flujo de transferencia manual de Argentina).
+ * `.kds-field-highlight` — caja que destaca un bloque de campos opcional o
+ * condicional dentro de un formulario (ej. los datos de devolución en el flujo
+ * de transferencia manual de Argentina, que solo aparecen para ciertos
+ * comercios).
  *
- * Envuelve un `.field` sin modificarlo. El markup del `.field` es exactamente
- * el que ya emite `<mat:textField>`: en el GSP alcanza con envolver el tag, no
- * hay que tocar el taglib.
+ * Envuelve uno o varios `.field` sin modificarlos. El markup del `.field` es
+ * exactamente el que ya emite `<mat:textField>`: en el GSP alcanza con envolver
+ * el bloque, no hay que tocar el taglib.
+ *
+ * **El color va en la banda del header, nunca detrás de los campos.** BeerCSS
+ * flota la etiqueta *sobre* el borde del campo: recorta el input con
+ * `clip-path` y redibuja ese tramo en `label::after`. Cualquier cosa pintada
+ * detrás de un campo se asoma por esa muesca, justo debajo de la etiqueta.
+ * Dejando los campos sobre la superficie de la página, renderizan idénticos a
+ * los del resto del formulario — mismo notch, mismo fondo, mismo `z-index` — y
+ * la variante no necesita **ningún** override sobre `.field`.
  *
  * Layout (spec):
- * - wrapper: `padding: var(--kds-spacing-1-5)` (12px), `border: 1px dashed`, `border-radius: var(--kds-radius-card)` (14px)
- * - header: `display: flex`, `justify-content: space-between`, `gap: var(--kds-spacing-1)` (8px), `margin-block-end: var(--kds-spacing-1)` (8px)
- * - eyebrow: `font-size: xs`, `font-weight: semibold` (600), `letter-spacing: widest` (1px), `text-transform: uppercase`
+ * - caja: `padding: 0 16px 16px`, `border: 1px dashed`, `border-radius: var(--kds-radius-card)` (14px)
+ * - banda: sale a los bordes con `margin-inline: -16px` y recupera el inset como `padding-inline: 16px`,
+ *   así el eyebrow queda a ras de los campos de abajo
+ * - eyebrow: `font-size: xs`, `font-weight: semibold` (600), `letter-spacing: widest` (1px), `uppercase`
  *
  * Color (tokens, dark-aware):
- * - `--kds-field-highlight-bg` — fondo tenue de la caja
+ * - `--kds-field-highlight-bg` — superficie de la banda
  * - `--kds-field-highlight-border` — borde punteado
  * - `--kds-field-highlight-label` — color del eyebrow
- * - `--kds-field-highlight-surface` — superficie opaca del input sobre el tinte
- *
- * **La etiqueta nunca toca el tinte.** Fuera del highlight, BeerCSS flota la
- * etiqueta *sobre* el borde del campo: recorta el input con `clip-path` y
- * redibuja el tramo de borde en `label::after`. Con una caja de color detrás,
- * esa muesca deja ver el tinte justo debajo de la etiqueta. Dentro del
- * highlight la etiqueta flota *dentro* de la superficie del campo — el mismo
- * comportamiento que `.field.fill` — así que no hay muesca y la interferencia
- * es imposible, no evitada por orden de capas.
+ * - `--kds-field-highlight-padding` — inset de la caja, que la banda reusa como padding
  *
  * Piezas opcionales: el header entero, y el badge dentro del header. Hover,
- * foco (borde y etiqueta en primary), `.invalid`, `select`, `textarea` y los
- * íconos prefix/suffix siguen funcionando igual que en cualquier `.field`.
+ * foco, `.invalid`, `select`, `textarea` e íconos prefix/suffix funcionan sin
+ * más, porque el campo no está tocado.
  *
  * Accesibilidad: el eyebrow es informativo, no solo decorativo — enlazalo con
  * `aria-describedby` en el input, junto al helper.
  *
  * Contrato HTML:
  * ```html
- * <div class="kds-field-highlight">
+ * <div class="kds-field-highlight kds-field-group">
  *   <div class="kds-field-highlight-header">
- *     <span class="kds-field-highlight-eyebrow" id="alias-eyebrow">Opcional — según cliente</span>
+ *     <span class="kds-field-highlight-eyebrow" id="refund-eyebrow">Opcional — según cliente</span>
  *     <span class="kds-badge info">VA</span>
  *   </div>
  *   <div class="field label border">
- *     <input type="text" id="alias" name="alias" placeholder=" "
- *            aria-describedby="alias-eyebrow alias-helper">
- *     <label for="alias">Alias o CBU de la cuenta que transfiere</label>
- *     <span class="helper" id="alias-helper">Lo usamos solo para eventuales devoluciones.</span>
+ *     <select id="accountType" name="accountType">…</select>
+ *     <label for="accountType">Tipo de cuenta</label>
+ *   </div>
+ *   <div class="field label border kds-field-group">
+ *     <input type="text" id="accountNumber" name="accountNumber" placeholder=" "
+ *            aria-describedby="refund-eyebrow refund-helper">
+ *     <label for="accountNumber">Alias o CBU de la cuenta que transfiere</label>
+ *     <span class="helper" id="refund-helper">Lo usamos solo para eventuales devoluciones.</span>
  *   </div>
  * </div>
  * ```
  *
- * @gsp `_manualFormArgentinaMaterial.gsp` — envolver el `<mat:textField>` en el wrapper
+ * @gsp `_manualFormArgentinaMaterial.gsp` — envolver el bloque `requiresPayerBankAccountForRefund`
  * @css .kds-field-highlight, .kds-field-highlight-header, .kds-field-highlight-eyebrow
  */
 export const FieldHighlight: Story = {
   name: 'FieldHighlight (.kds-field-highlight)',
   render: () => (
-    <div style={{ maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <div className="kds-field-highlight">
+    <div style={{ maxWidth: 400, background: '#fff', borderRadius: 14, padding: 20 }}>
+      <div className="field label border kds-field-group">
+        <select id="docType" name="docType" defaultValue="DNI">
+          <option value="DNI">DNI</option>
+          <option value="CUIT">CUIT</option>
+        </select>
+        <label htmlFor="docType">Tipo de documento</label>
+      </div>
+
+      <div className="field label border kds-field-group">
+        <input type="text" id="docNumber" name="docNumber" placeholder=" " />
+        <label htmlFor="docNumber">Número de documento</label>
+      </div>
+
+      <div className="kds-field-highlight kds-field-group">
         <div className="kds-field-highlight-header">
-          <span className="kds-field-highlight-eyebrow" id="alias-eyebrow">
+          <span className="kds-field-highlight-eyebrow" id="refund-eyebrow">
             Opcional — según cliente
           </span>
           <span className="kds-badge info">VA</span>
         </div>
+
         <div className="field label border">
+          <select id="accountType" name="accountType" defaultValue="CBU">
+            <option value="CBU">CBU</option>
+            <option value="ALIAS">Alias</option>
+          </select>
+          <label htmlFor="accountType">Tipo de cuenta</label>
+        </div>
+
+        <div className="field label border kds-field-group">
           <input
             type="text"
-            id="alias"
-            name="alias"
+            id="accountNumber"
+            name="accountNumber"
             placeholder=" "
-            aria-describedby="alias-eyebrow alias-helper"
+            aria-describedby="refund-eyebrow refund-helper"
           />
-          <label htmlFor="alias">Alias o CBU de la cuenta que transfiere</label>
-          <span className="helper" id="alias-helper">
+          <label htmlFor="accountNumber">Alias o CBU de la cuenta que transfiere</label>
+          <span className="helper" id="refund-helper">
             Lo usamos solo para eventuales devoluciones.
           </span>
-        </div>
-      </div>
-
-      <div className="kds-field-highlight">
-        <div className="field label border">
-          <input type="text" id="alias-filled" name="alias" placeholder=" " defaultValue="mi.alias.banco" />
-          <label htmlFor="alias-filled">Alias o CBU de la cuenta que transfiere</label>
         </div>
       </div>
     </div>
