@@ -2472,6 +2472,49 @@ export const BankModal: Story = {
 // =============================================================================
 
 /**
+ * Markup del bloque destacado. Es la fuente de verdad de la story: se renderiza
+ * tal cual y es lo que Storybook muestra en el panel de código, porque el
+ * consumidor real es una GSP, no React.
+ */
+const FIELD_HIGHLIGHT_HTML = `<div class="kds-field-highlight kds-field-group">
+  <div class="kds-field-highlight-header">
+    <span class="kds-field-highlight-eyebrow" id="refund-eyebrow">Opcional — según cliente</span>
+    <span class="kds-badge info">VA</span>
+  </div>
+
+  <div class="field label border">
+    <select id="accountType" name="accountType">
+      <option value="CBU" selected>CBU</option>
+      <option value="ALIAS">Alias</option>
+    </select>
+    <label for="accountType">Tipo de cuenta</label>
+  </div>
+
+  <div class="field label border kds-field-group">
+    <input type="text" id="accountNumber" name="accountNumber" placeholder=" "
+           aria-describedby="refund-eyebrow refund-helper">
+    <label for="accountNumber">Alias o CBU de la cuenta que transfiere</label>
+    <span class="helper" id="refund-helper">Lo usamos solo para eventuales devoluciones.</span>
+  </div>
+</div>`;
+
+/** El bloque destacado dentro de un formulario, que es donde se juzga si funciona. */
+const FIELD_HIGHLIGHT_IN_FORM_HTML = `<div class="field label border kds-field-group">
+  <select id="docType" name="docType">
+    <option value="DNI" selected>DNI</option>
+    <option value="CUIT">CUIT</option>
+  </select>
+  <label for="docType">Tipo de documento</label>
+</div>
+
+<div class="field label border kds-field-group">
+  <input type="text" id="docNumber" name="docNumber" placeholder=" ">
+  <label for="docNumber">Número de documento</label>
+</div>
+
+${FIELD_HIGHLIGHT_HTML}`;
+
+/**
  * `.kds-field-highlight` — caja que destaca un bloque de campos opcional o
  * condicional dentro de un formulario (ej. los datos de devolución en el flujo
  * de transferencia manual de Argentina, que solo aparecen para ciertos
@@ -2508,76 +2551,38 @@ export const BankModal: Story = {
  * Accesibilidad: el eyebrow es informativo, no solo decorativo — enlazalo con
  * `aria-describedby` en el input, junto al helper.
  *
- * Contrato HTML:
- * ```html
- * <div class="kds-field-highlight kds-field-group">
- *   <div class="kds-field-highlight-header">
- *     <span class="kds-field-highlight-eyebrow" id="refund-eyebrow">Opcional — según cliente</span>
- *     <span class="kds-badge info">VA</span>
- *   </div>
- *   <div class="field label border">
- *     <select id="accountType" name="accountType">…</select>
- *     <label for="accountType">Tipo de cuenta</label>
- *   </div>
- *   <div class="field label border kds-field-group">
- *     <input type="text" id="accountNumber" name="accountNumber" placeholder=" "
- *            aria-describedby="refund-eyebrow refund-helper">
- *     <label for="accountNumber">Alias o CBU de la cuenta que transfiere</label>
- *     <span class="helper" id="refund-helper">Lo usamos solo para eventuales devoluciones.</span>
- *   </div>
- * </div>
- * ```
+ * El markup completo está en el panel de código de cada story.
  *
  * @gsp `_manualFormArgentinaMaterial.gsp` — envolver el bloque `requiresPayerBankAccountForRefund`
  * @css .kds-field-highlight, .kds-field-highlight-header, .kds-field-highlight-eyebrow
  */
 export const FieldHighlight: Story = {
   name: 'FieldHighlight (.kds-field-highlight)',
+  parameters: {
+    docs: { source: { code: FIELD_HIGHLIGHT_HTML, language: 'html' } },
+  },
   render: () => (
     <div style={{ maxWidth: 400, background: '#fff', borderRadius: 14, padding: 20 }}>
-      <div className="field label border kds-field-group">
-        <select id="docType" name="docType" defaultValue="DNI">
-          <option value="DNI">DNI</option>
-          <option value="CUIT">CUIT</option>
-        </select>
-        <label htmlFor="docType">Tipo de documento</label>
-      </div>
+      <div dangerouslySetInnerHTML={{ __html: FIELD_HIGHLIGHT_HTML }} />
+    </div>
+  ),
+};
 
-      <div className="field label border kds-field-group">
-        <input type="text" id="docNumber" name="docNumber" placeholder=" " />
-        <label htmlFor="docNumber">Número de documento</label>
-      </div>
-
-      <div className="kds-field-highlight kds-field-group">
-        <div className="kds-field-highlight-header">
-          <span className="kds-field-highlight-eyebrow" id="refund-eyebrow">
-            Opcional — según cliente
-          </span>
-          <span className="kds-badge info">VA</span>
-        </div>
-
-        <div className="field label border">
-          <select id="accountType" name="accountType" defaultValue="CBU">
-            <option value="CBU">CBU</option>
-            <option value="ALIAS">Alias</option>
-          </select>
-          <label htmlFor="accountType">Tipo de cuenta</label>
-        </div>
-
-        <div className="field label border kds-field-group">
-          <input
-            type="text"
-            id="accountNumber"
-            name="accountNumber"
-            placeholder=" "
-            aria-describedby="refund-eyebrow refund-helper"
-          />
-          <label htmlFor="accountNumber">Alias o CBU de la cuenta que transfiere</label>
-          <span className="helper" id="refund-helper">
-            Lo usamos solo para eventuales devoluciones.
-          </span>
-        </div>
-      </div>
+/**
+ * El mismo bloque dentro de un formulario. Es la vista que importa: el
+ * desplegable *Tipo de cuenta* de adentro del bloque tiene que comportarse
+ * igual que el *Tipo de documento* de arriba — misma muesca al flotar la
+ * etiqueta, mismo fondo. Si se separan, el bloque destacado dejó de ser el
+ * mismo componente que el resto del formulario.
+ */
+export const FieldHighlightInForm: Story = {
+  name: 'FieldHighlight en un formulario',
+  parameters: {
+    docs: { source: { code: FIELD_HIGHLIGHT_IN_FORM_HTML, language: 'html' } },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400, background: '#fff', borderRadius: 14, padding: 20 }}>
+      <div dangerouslySetInnerHTML={{ __html: FIELD_HIGHLIGHT_IN_FORM_HTML }} />
     </div>
   ),
 };
