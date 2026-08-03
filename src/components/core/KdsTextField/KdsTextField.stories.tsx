@@ -216,3 +216,71 @@ export const HtmlMarkup: Story = {
     </div>
   ),
 };
+
+/**
+ * Variante destacada — el campo dentro de `.kds-field-highlight`, la caja que
+ * señala un bloque opcional o condicional dentro de un formulario (ej. los datos
+ * de devolución del flujo de transferencia manual de Argentina, que solo
+ * aparecen para ciertos comercios).
+ *
+ * El campo **no se modifica**: el color vive en la banda del header, nunca
+ * detrás del campo. BeerCSS flota la etiqueta *sobre* el borde (recorta el input
+ * con `clip-path` y redibuja ese tramo en `label::after`), así que cualquier
+ * superficie pintada detrás se asomaría por esa muesca, justo debajo de la
+ * etiqueta. Dejando el campo sobre la superficie de la página, renderiza
+ * idéntico a los demás del formulario.
+ *
+ * El header es opcional, y el badge dentro del header también. Envuelve uno o
+ * varios campos.
+ *
+ * Accesibilidad: el eyebrow es informativo, no decorativo — enlazalo con
+ * `aria-describedby` en el input. En HTML plano podés enlazar también el helper
+ * (el markup de abajo lo muestra); el componente React todavía no expone un
+ * `id` para el helper, así que ahí solo se enlaza el eyebrow.
+ *
+ * Ver `Patterns/CSS-only → FieldHighlight` para la spec completa.
+ */
+export const Highlighted: Story = {
+  name: 'Destacado (.kds-field-highlight)',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-field-highlight">
+  <div class="kds-field-highlight-header">
+    <span class="kds-field-highlight-eyebrow" id="alias-eyebrow">Opcional — según cliente</span>
+    <span class="kds-badge info">VA</span>
+  </div>
+
+  <div class="field label border">
+    <input type="text" id="alias" name="alias" placeholder=" "
+           aria-describedby="alias-eyebrow alias-helper"/>
+    <label for="alias">Alias o CBU de la cuenta que transfiere</label>
+    <span class="helper" id="alias-helper">Lo usamos solo para eventuales devoluciones.</span>
+  </div>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 400 }}>
+      <div className="kds-field-highlight">
+        <div className="kds-field-highlight-header">
+          <span className="kds-field-highlight-eyebrow" id="alias-eyebrow">
+            Opcional — según cliente
+          </span>
+          <span className="kds-badge info">VA</span>
+        </div>
+
+        <KdsTextField
+          id="alias"
+          name="alias"
+          label="Alias o CBU de la cuenta que transfiere"
+          helperText="Lo usamos solo para eventuales devoluciones."
+          aria-describedby="alias-eyebrow"
+        />
+      </div>
+    </div>
+  ),
+};
