@@ -2479,7 +2479,6 @@ export const BankModal: Story = {
 const FIELD_HIGHLIGHT_HTML = `<div class="kds-field-highlight kds-field-group">
   <div class="kds-field-highlight-header">
     <span class="kds-field-highlight-eyebrow" id="refund-eyebrow">Opcional — según cliente</span>
-    <span class="kds-badge info">VA</span>
   </div>
 
   <div class="field label border">
@@ -2544,7 +2543,7 @@ ${FIELD_HIGHLIGHT_HTML}`;
  * - `--kds-field-highlight-label` — color del eyebrow
  * - `--kds-field-highlight-padding` — inset de la caja, que la banda reusa como padding
  *
- * Piezas opcionales: el header entero, y el badge dentro del header. Hover,
+ * El header es opcional: sin el, los campos van solos en la caja. Hover,
  * foco, `.invalid`, `select`, `textarea` e íconos prefix/suffix funcionan sin
  * más, porque el campo no está tocado.
  *

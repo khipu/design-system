@@ -230,7 +230,7 @@ export const HtmlMarkup: Story = {
  * etiqueta. Dejando el campo sobre la superficie de la página, renderiza
  * idéntico a los demás del formulario.
  *
- * El header es opcional, y el badge dentro del header también. Envuelve uno o
+ * El header es opcional: sin el, el campo va solo en la caja. Envuelve uno o
  * varios campos.
  *
  * Accesibilidad: el eyebrow es informativo, no decorativo — enlazalo con
@@ -250,7 +250,6 @@ export const Highlighted: Story = {
         code: `<div class="kds-field-highlight">
   <div class="kds-field-highlight-header">
     <span class="kds-field-highlight-eyebrow" id="alias-eyebrow">Opcional — según cliente</span>
-    <span class="kds-badge info">VA</span>
   </div>
 
   <div class="field label border">
@@ -270,7 +269,6 @@ export const Highlighted: Story = {
           <span className="kds-field-highlight-eyebrow" id="alias-eyebrow">
             Opcional — según cliente
           </span>
-          <span className="kds-badge info">VA</span>
         </div>
 
         <KdsTextField

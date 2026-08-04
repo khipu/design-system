@@ -5868,7 +5868,6 @@ button.kds-fab:active:not(:disabled) {
 .kds-field-highlight-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--kds-spacing-1);
     margin-inline: calc(-1 * var(--kds-field-highlight-padding));
     margin-block-end: var(--kds-field-highlight-padding);
