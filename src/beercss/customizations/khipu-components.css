@@ -6875,13 +6875,16 @@ svg[fill='none'] {
     padding-bottom: 0;
 }
 
-/* Body card: alto mínimo estable para que NO salte entre estados de distinta altura
-   (loader/progress ↔ formulario). Solo la body card = hijo directo de `.kds-screen`
+/* Body card: crece con su contenido. Solo la body card = hijo directo de `.kds-screen`
    (los headers van dentro de `.kds-invoice-sticky-wrap`, no la afecta).
-   Flex-column para que el contenido quede arriba y el footer interno (versión / secure
-   footer) pueda pinearse al fondo con `margin-top: auto` aunque el contenido sea corto. */
+   NO lleva alto mínimo: un valor fijo deja espacio muerto en las apps cuyo contenido es
+   más bajo, y el DS lo sirve a todas por igual. Cuando el contenido es corto el footer
+   interno (versión / secure footer) queda pegado a él en vez de al fondo: su padding
+   da el respiro. Las apps que embeben el flujo en un iframe reciben la altura real por
+   el mensaje RESIZE (KTUF-239), asi que tampoco dependen de un mínimo aca.
+   Flex-column se mantiene: ordena el contenido y sostiene el `margin-top: auto` del
+   footer cuando la card sí tiene alto de sobra. */
 .kds-screen > .kds-card-elevated {
-    min-height: 36rem;
     display: flex;
     flex-direction: column;
     /* mismo radio que el header (invoice-sticky usa radius-card); el base card-elevated
