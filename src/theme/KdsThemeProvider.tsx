@@ -13,9 +13,15 @@ export interface KdsThemeProviderProps {
  * Lightweight theme provider using CSS custom properties.
  * Replaces MUI's KhipuThemeProvider.
  *
+ * Theme contract: sets `data-theme="light" | "dark"` on the wrapper — the same
+ * selector the generated CSS variables and component overrides key on
+ * (`[data-theme="dark"]`), so `mode="dark"` re-themes every `--kds-*` token in
+ * the subtree. The mode class is kept alongside for backward compatibility
+ * with CSS still keyed on `.light`/`.dark`.
+ *
  * @example
  * ```tsx
- * <KdsThemeProvider primaryColor="#FF0000">
+ * <KdsThemeProvider mode="dark" primaryColor="#FF0000">
  *   <App />
  * </KdsThemeProvider>
  * ```
@@ -31,7 +37,7 @@ export function KdsThemeProvider({ primaryColor, mode = 'light', children }: Kds
     : undefined;
 
   return (
-    <div className={`kds-theme-root ${mode}`} style={style}>
+    <div className={`kds-theme-root ${mode}`} data-theme={mode} style={style}>
       {children}
     </div>
   );
