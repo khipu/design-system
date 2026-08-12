@@ -613,9 +613,12 @@ function formatCSSVariables(sections, responsiveSections = [], darkColorVariable
     css += '\n/* ============================================================================\n';
     css += '   DARK MODE COLOR TOKENS\n';
     css += '   Override only color variables; everything else inherits from :root.\n';
-    css += '   Activated via [data-theme="dark"] on <html>, <body>, or a wrapper.\n';
+    css += '   Activated via [data-theme="dark"] on <html>, <body>, or a wrapper —\n';
+    css += '   or via the BeerCSS-style body.dark class. Both selectors are emitted so\n';
+    css += '   a body.dark app gets the FULL dark theme (core + extended tokens); a\n';
+    css += '   single source flipping only partially is how mixed light/dark bugs arise.\n';
     css += '   ============================================================================ */\n\n';
-    css += '[data-theme="dark"] {\n';
+    css += 'body.dark,\n[data-theme="dark"] {\n';
     css += renderVariableLines(darkColorVariables, '  ');
     css += '}\n';
   }
