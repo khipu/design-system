@@ -259,13 +259,26 @@ body.dark,
    Color Scheme (explicit opt-in to dark)
    ======================================== */
 
-/* Default to light regardless of OS preference. Because we use `light` (not
-   `light dark`), the system dark-mode preference never auto-applies — dark is
-   reached only by an explicit [data-theme="dark"] / body.dark opt-in. */
+/* Default to light regardless of OS preference. The `only` keyword is the
+   opt-out for Chrome/WebView "Auto Dark Theme" on Android: without it, an
+   OS-dark device heuristically darkens SOME elements of a light page (mixed
+   light/dark rendering in production apps). Dark is reached only by an
+   explicit [data-theme="dark"] / body.dark opt-in. */
 :root,
 html,
 body {
-    color-scheme: light;
+    color-scheme: light only;
+}
+
+/* Defensive: re-assert the opt-out under an OS-dark preference (the auto-dark
+   heuristics probe this media query; the explicit dark rule below still wins
+   on themed pages because it comes later with matching specificity). */
+@media (prefers-color-scheme: dark) {
+    :root,
+    html,
+    body {
+        color-scheme: light only;
+    }
 }
 
 /* Explicit dark theme: let native UI (form controls, scrollbars) render dark. */
