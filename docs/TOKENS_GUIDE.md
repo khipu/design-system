@@ -135,6 +135,48 @@ Cuando ejecutas `npm run tokens:generate`, se generan automáticamente:
 
 ---
 
+## 🌙 Dark mode — contrato de tema
+
+El dark mode es **opt-in explícito** vía el atributo `data-theme`; nunca se activa solo con la preferencia del sistema operativo (el CSS fija `color-scheme: light` por defecto).
+
+### El contrato
+
+```html
+<!-- En <html>, <body>, o cualquier wrapper: todo el subtree se re-tematiza -->
+<body data-theme="dark">...</body>
+```
+
+- Los valores light viven en `:root {}` y los dark en un bloque `[data-theme="dark"] {}` de `css-variables.css` (auto-generado desde `darkModeColors` en `src/tokens/index.ts`). Solo se overridean **colores**; spacing/tipografía/radii se heredan.
+- `color-scheme` pasa a `dark` bajo el atributo (los form controls y scrollbars nativos se oscurecen).
+- Los overrides de tokens extendidos (payment-flow) y de componentes en los CSS de BeerCSS usan el selector `body.dark, [data-theme="dark"]`.
+
+### Cómo activarlo
+
+**React** — `KdsThemeProvider` emite el contrato:
+
+```tsx
+<KdsThemeProvider mode="dark">
+  <App />
+</KdsThemeProvider>
+```
+
+**HTML plano (BeerCSS/Grails)** — setear el atributo directamente:
+
+```js
+document.documentElement.setAttribute('data-theme', 'dark');  // o 'light'
+```
+
+**Storybook** — el toggle sol/luna de la toolbar (addon `@vueless/storybook-dark-mode`); el decorator y el `DocsContainer` de `.storybook/preview.tsx` propagan `data-theme` a html/body.
+
+### Reglas al escribir CSS de componentes
+
+1. **Siempre `var(--kds-*)`** — un color hardcodeado no se re-tematiza. Las familias que rompen dark: tonos semánticos `*-dark` como texto (usar `--kds-alert-{tipo}-text`), `--kds-color-primary-contrast` asumido blanco (se invierte en dark; para fondos semánticos sólidos usar `--kds-color-{tipo}-contrast`), y grises absolutos (`gray-800/900`) como texto principal (usar `--kds-color-text-primary`).
+2. **Overrides dark aditivos** — nunca cambiar el valor light; agregar el override bajo `[data-theme="dark"]` (o `body.dark, [data-theme="dark"]` si compite con el grupo de mapeos BeerCSS, que matchea `body.dark` con especificidad 0,1,1).
+3. **Hovers que oscurecen** — en dark deben **aclarar** (`primary-dark` sobre superficie oscura es ilegible; usar `primary-light`).
+4. Valores dark nuevos se agregan en `darkModeColors` (`src/tokens/index.ts`) y se regenera con `npm run tokens:generate`.
+
+---
+
 ## 📝 Conversiones Automáticas
 
 El script realiza conversiones de formato automáticas:
