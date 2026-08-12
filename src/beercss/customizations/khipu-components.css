@@ -1467,6 +1467,12 @@ a.kds-btn-google:disabled {
     /* Llena y centra dentro de contenedores flex (pantalla de carga); en flujo
        normal (contenedor no-flex) se reduce a su contenido. */
     flex: 1 1 auto;
+    /* Alto propio: el loader es contenido minimo por definicion, asi que sin esto la
+       card queda del alto del spinner y se lee como un recorte. Ocupa el body completo
+       de un telefono para que la pantalla de carga se lea como una pantalla y no como
+       una franja. Va aca y no en la card para que el minimo aplique solo a la carga:
+       el resto de las pantallas crece con su contenido. */
+    min-height: 36rem;
 }
 
 .kds-secure-loader-text {
@@ -6221,6 +6227,19 @@ div.kds-invoice-header,
     height: 100%;
     object-fit: contain;
     padding: var(--kds-spacing-0-5);
+}
+
+/* Titulo del body de la card: alineado a la izquierda, sin importar que el consumidor
+   traiga .kds-text-center. Va con especificidad de contexto (screen + card) a proposito:
+   el centrado se venia pidiendo app por app y el resultado era inconsistente entre
+   pantallas. Si alguna necesita centrarlo, el modificador explicito es
+   .kds-card-title--centered. */
+.kds-screen > .kds-card-elevated :is(h1, .kds-card-title) {
+    text-align: left;
+}
+
+.kds-screen > .kds-card-elevated :is(h1, .kds-card-title).kds-card-title--centered {
+    text-align: center;
 }
 
 /* -- Card Title -- */
