@@ -63,6 +63,37 @@ body.dark,
     --outline-variant: var(--kds-border-light);
 
     /* ========================================
+       EXTENDED BRAND ROLES
+
+       Several roles used to resolve straight to --kds-color-primary-main, which
+       meant a brand could not have (say) a green link next to a navy button.
+       They are split into their own tokens:
+
+           --kds-color-accent              form icon, expand toggle, checkbox/radio
+           --kds-color-accent-soft         form icon backdrop
+           --kds-font-family-heading       display/heading tier
+           --kds-invoice-amount-font-family
+           --kds-invoice-amount-color
+           --kds-button-font-family
+           --kds-button-text-transform
+           --kds-button-primary-bg
+           --kds-button-primary-bg-hover
+
+       These are deliberately NOT declared here. Each one is consumed as
+       var(--new-token, <the expression it used to be>), so the default is
+       supplied at the point of use.
+
+       Declaring them as :root aliases looks equivalent but is not. A custom
+       property is substituted on the element that DECLARES it, so
+       `--kds-color-accent: var(--kds-color-primary-main)` on :root freezes to
+       whatever the primary is at :root. A brand that sets its primary further
+       down the tree (which is how khenshin-web applies merchant styles) would
+       inherit the already-resolved Khipu purple and lose its own colour. Using
+       them as fallbacks resolves against the primary in effect at the consuming
+       element, so unbranded output and existing brands are both unchanged.
+       ======================================== */
+
+    /* ========================================
        ONBOARDING COMPONENTS TOKENS
        ======================================== */
 

@@ -55,12 +55,12 @@ a.kds-btn {
     width: 100%;
 
     /* Typography - Using design tokens */
-    font-family: var(--kds-font-family-secondary);
+    font-family: var(--kds-button-font-family, var(--kds-font-family-secondary));
     font-weight: var(--kds-font-weight-medium);      /* 500 */
     font-size: var(--kds-typography-button-font-size);          /* 0.875rem = 14px */
     line-height: var(--kds-typography-button-line-height);      /* 1.5 */
     letter-spacing: var(--kds-typography-button-letter-spacing); /* 0.46px */
-    text-transform: uppercase;
+    text-transform: var(--kds-button-text-transform, uppercase);
 
     /* Spacing - Using design tokens */
     padding: var(--kds-spacing-button-padding);      /* 0 16px */
@@ -117,16 +117,19 @@ a.kds-btn:disabled {
 /* Primary button - Khipu purple */
 button.kds-btn-primary,
 a.kds-btn-primary {
-    background: var(--kds-color-primary-main);     /* #8347AD */
+    background: var(--kds-button-primary-bg, var(--kds-color-primary-main));  /* #8347AD */
     color: var(--kds-color-primary-contrast);      /* #FFF light / dark-purple on dark (lavender bg) */
     border: none;
     box-shadow: 0 1px 2px rgba(131, 71, 173, .25);
 }
 
-/* Hover State - background más oscuro */
+/* Hover State - background más oscuro.
+   Its own token, not primary-dark: once a brand sets the button background
+   independently of the primary, deriving hover from the primary would snap it
+   back to the brand's other colour on the first pointer-over. */
 button.kds-btn-primary:hover:not(:disabled),
 a.kds-btn-primary:hover:not(:disabled) {
-    background: var(--kds-color-primary-dark);     /* #5B3179 */
+    background: var(--kds-button-primary-bg-hover, var(--kds-color-primary-dark));  /* #5B3179 */
 }
 
 /* Active/Focus State */
@@ -134,7 +137,7 @@ button.kds-btn-primary:active:not(:disabled),
 button.kds-btn-primary:focus-visible:not(:disabled),
 a.kds-btn-primary:active:not(:disabled),
 a.kds-btn-primary:focus-visible:not(:disabled) {
-    background: var(--kds-color-primary-dark);
+    background: var(--kds-button-primary-bg-hover, var(--kds-color-primary-dark));
 }
 
 /* Dark mode: the button is a light lavender with dark text, so hover/active must
@@ -2279,7 +2282,7 @@ label.radio span {
 /* Checked state */
 label.checkbox input[type="checkbox"]:checked,
 label.radio input[type="radio"]:checked {
-    accent-color: var(--primary);
+    accent-color: var(--kds-color-accent, var(--primary));
 }
 
 /* Disabled state */
@@ -4048,9 +4051,12 @@ dialog#surveyModal button.circle {
     background-color: var(--kds-color-info-soft);
 }
 
-/* ── Typography variants ── */
+/* ── Typography variants ──
+   The display/heading tier resolves through --kds-font-family-heading so a
+   brand can pair a display face with a different body face. Unset by default,
+   so it falls through to the primary family and output is unchanged. */
 .kds-text-display1 {
-    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-family: var(--kds-font-family-heading, var(--kds-font-family-primary, 'Public Sans', sans-serif));
     font-size: var(--kds-font-size-4xl, 36px);
     font-weight: var(--kds-font-weight-bold, 700);
     line-height: var(--kds-line-height-tight, 1.2);
@@ -4058,7 +4064,7 @@ dialog#surveyModal button.circle {
 }
 
 .kds-text-display2 {
-    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-family: var(--kds-font-family-heading, var(--kds-font-family-primary, 'Public Sans', sans-serif));
     font-size: var(--kds-font-size-3xl, 30px);
     font-weight: var(--kds-font-weight-bold, 700);
     line-height: var(--kds-line-height-tight, 1.2);
@@ -4066,21 +4072,21 @@ dialog#surveyModal button.circle {
 }
 
 .kds-text-heading1 {
-    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-family: var(--kds-font-family-heading, var(--kds-font-family-primary, 'Public Sans', sans-serif));
     font-size: var(--kds-font-size-2xl, 24px);
     font-weight: var(--kds-font-weight-semibold, 600);
     line-height: var(--kds-line-height-snug, 1.375);
 }
 
 .kds-text-heading2 {
-    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-family: var(--kds-font-family-heading, var(--kds-font-family-primary, 'Public Sans', sans-serif));
     font-size: var(--kds-font-size-xl, 20px);
     font-weight: var(--kds-font-weight-semibold, 600);
     line-height: var(--kds-line-height-snug, 1.375);
 }
 
 .kds-text-heading3 {
-    font-family: var(--kds-font-family-primary, 'Public Sans', sans-serif);
+    font-family: var(--kds-font-family-heading, var(--kds-font-family-primary, 'Public Sans', sans-serif));
     font-size: var(--kds-font-size-lg, 18px);
     font-weight: var(--kds-font-weight-semibold, 600);
     line-height: var(--kds-line-height-normal, 1.5);
@@ -5306,7 +5312,7 @@ button.kds-fab:active:not(:disabled) {
        irregular arriba (pegado al resumen) y abajo (~26px hasta el panel). Con height
        auto el botón ajusta a su contenido y el ritmo lo gobiernan los márgenes. */
     height: auto;
-    color: var(--kds-color-primary-main);
+    color: var(--kds-color-accent, var(--kds-color-primary-main));
     font-weight: var(--kds-font-weight-medium);
     font-size: var(--kds-font-size-sm);
     cursor: pointer;
@@ -6136,11 +6142,13 @@ div.kds-invoice-header,
 }
 
 .kds-invoice-amount {
+    /* inherit: the amount had no family of its own before, it took the body's. */
+    font-family: var(--kds-invoice-amount-font-family, inherit);
     font-weight: var(--kds-font-weight-semibold);
     font-size: var(--kds-font-size-3xl);
     line-height: var(--kds-line-height-tight);
     letter-spacing: var(--kds-letter-spacing-wide);
-    color: var(--kds-color-gray-900);
+    color: var(--kds-invoice-amount-color, var(--kds-color-gray-900));
     margin: 0;
 }
 
@@ -6225,6 +6233,8 @@ div.kds-invoice-header,
 
 /* -- Card Title -- */
 .kds-card-title {
+    /* inherit: the card title had no family of its own before. */
+    font-family: var(--kds-font-family-heading, inherit);
     font-weight: var(--kds-font-weight-semibold);
     font-size: var(--kds-font-size-base);
     line-height: 1.5;
@@ -8103,7 +8113,11 @@ a.kds-copy-all-btn.copied:hover {
 
 .kds-form-icon-box {
     align-items: center;
-    background: var(--kds-color-background-brand-subtle, #f0f0fa);
+    background: var(--kds-color-accent-soft, var(--kds-color-background-brand-subtle, #f0f0fa));
+    /* The glyph inherits this, so the icon tracks the accent role without the
+       markup having to name a colour utility. Falls back to the primary, which
+       is what the .kds-text-primary utility on the glyph resolved to. */
+    color: var(--kds-color-accent, var(--kds-color-primary-main));
     border-radius: var(--kds-radius-md);
     display: flex;
     height: 52px;
