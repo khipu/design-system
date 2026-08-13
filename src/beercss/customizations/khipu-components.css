@@ -7003,6 +7003,24 @@ svg[fill='none'] {
     }
 }
 
+/* Widget embebido: dentro de un iframe los media queries de ancho evalúan el viewport
+   DEL IFRAME (~420px), no la pantalla, así que el flujo se ve siempre como mobile
+   aunque el usuario esté en desktop — y el tope plano, pensado para cuando la card se
+   pega al borde del teléfono, queda cortando una card que en realidad flota centrada.
+   `hover`/`pointer` describen el dispositivo de entrada y no el viewport, así que
+   sobreviven al iframe: con mouse las cards conservan las esquinas superiores. */
+@media (hover: hover) and (pointer: fine) {
+    .kds-card-elevated.kds-invoice-sticky {
+        border-radius: var(--kds-radius-card);
+    }
+
+    .kds-screen > .kds-card-elevated.kds-card-elevated--flush-top,
+    .kds-card-elevated.kds-card-elevated--flush-top {
+        border-top-left-radius: var(--kds-radius-card);
+        border-top-right-radius: var(--kds-radius-card);
+    }
+}
+
 /* Brand logo row (external, outside cards) */
 .kds-brand-row {
     padding: 0 var(--kds-spacing-0-5);
