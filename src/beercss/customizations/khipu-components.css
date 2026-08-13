@@ -7012,6 +7012,18 @@ svg[fill='none'] {
 @media (hover: hover) and (pointer: fine) {
     .kds-card-elevated.kds-invoice-sticky {
         border-radius: var(--kds-radius-card);
+        /* El clip-path del colapso recorta con `round 0 0 R R` y eso PISA al
+           border-radius: aunque la card declare las cuatro esquinas, el recorte las
+           deja rectas arriba. Hay que redondearlas también acá o el fix no se ve. */
+        clip-path: inset(
+            0 0
+            calc(
+                var(--collapse-collapsible-h) * var(--collapse-progress)
+                + var(--kds-spacing-1) * var(--collapse-progress)
+            )
+            0
+            round var(--kds-radius-card)
+        );
     }
 
     .kds-screen > .kds-card-elevated.kds-card-elevated--flush-top,
