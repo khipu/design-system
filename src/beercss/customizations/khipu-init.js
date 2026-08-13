@@ -61,8 +61,69 @@
         initHideOnScroll();
         initBankModal();
         initMerchantLogoBackdrop();
+        initCardHeightTransition();
 
         console.log('Material Design initialization complete!');
+    }
+
+    /**
+     * Initialize body card height transition (KTUF-239)
+     * La body card cambia de alto al pasar de una pantalla a otra (loader ↔ formulario)
+     * y el salto se nota, sobre todo desde que la card ya no lleva un alto mínimo fijo.
+     * No se puede resolver con CSS: un cambio de altura provocado por contenido no
+     * dispara transiciones, porque el valor declarado sigue siendo `auto` antes y
+     * después (ni `interpolate-size` lo cubre — ese habilita animar hacia `auto` cuando
+     * el valor declarado cambia, que no es el caso). Por eso se mide y se anima acá.
+     * @param {Element} root - Root element to scope the query (default: document)
+     */
+    function initCardHeightTransition(root) {
+        root = root || document;
+        var MIN_DELTA_PX = 8;
+        var DURATION_MS = 280;
+
+        if (typeof ResizeObserver === 'undefined' || typeof Element.prototype.animate !== 'function') {
+            return;
+        }
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
+        var cards = root.querySelectorAll('.kds-screen > .kds-card-elevated');
+        Array.prototype.forEach.call(cards, function(card) {
+            if (card.getAttribute('data-kds-height-transition') === 'on') {
+                return;
+            }
+            card.setAttribute('data-kds-height-transition', 'on');
+
+            var previous = card.offsetHeight;
+            var animating = false;
+
+            var observer = new ResizeObserver(function() {
+                // La animación cambia el alto y volveria a disparar el observer.
+                if (animating) {
+                    return;
+                }
+                var next = card.offsetHeight;
+                // Umbral: ignora reflows menores (fuentes que cargan, scrollbars).
+                if (Math.abs(next - previous) < MIN_DELTA_PX) {
+                    previous = next;
+                    return;
+                }
+                animating = true;
+                var animation = card.animate(
+                    [{ height: previous + 'px' }, { height: next + 'px' }],
+                    { duration: DURATION_MS, easing: 'ease-out' }
+                );
+                previous = next;
+                animation.finished.then(function() {
+                    animating = false;
+                    previous = card.offsetHeight;
+                }).catch(function() {
+                    animating = false;
+                });
+            });
+            observer.observe(card);
+        });
     }
 
     /**
@@ -903,6 +964,7 @@
     window.Khipu.initBankModal = initBankModal;
     window.Khipu.initStickyInvoice = initStickyInvoice;
     window.Khipu.initHideOnScroll = initHideOnScroll;
+    window.Khipu.initCardHeightTransition = initCardHeightTransition;
 
     // Also export showSnackbar to global scope for backward compatibility
     window.showSnackbar = showSnackbar;
