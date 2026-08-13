@@ -5,6 +5,7 @@ const CARD_MIN_DELTA_PX = 8;
 const CARD_TRANSITION_MS = 280;
 const BODY_CARD_SELECTOR = '.kds-screen > .kds-card-elevated';
 const CARD_MARK_ATTRIBUTE = 'data-kds-height-transition';
+const SCREEN_LAST_HEIGHT_ATTRIBUTE = 'data-kds-last-card-height';
 
 /**
  * Anima el cambio de alto de la body card al pasar de una pantalla a otra
@@ -33,14 +34,41 @@ export function useCardHeightTransition(): void {
 
     const observers: ResizeObserver[] = [];
 
+    const animate = (card: HTMLElement, from: number, to: number) =>
+      card.animate(
+        [{ height: `${from}px` }, { height: `${to}px` }],
+        { duration: CARD_TRANSITION_MS, easing: 'ease-out' },
+      );
+
     const observe = (card: HTMLElement) => {
       if (card.getAttribute(CARD_MARK_ATTRIBUTE) === 'on') {
         return;
       }
       card.setAttribute(CARD_MARK_ATTRIBUTE, 'on');
 
+      // La memoria de altura va en el screen y no en la card: hay pantallas que
+      // reemplazan la card en vez de reusarla (khenshin-web monta un <article> distinto
+      // para el loader y otro para el contenido), y una card recién montada no tiene
+      // altura previa desde la cual animar. El screen sí persiste entre pantallas.
+      const screen = card.parentElement;
       let previous = card.offsetHeight;
       let animating = false;
+
+      const remembered = screen?.getAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE);
+      if (remembered) {
+        const from = Number(remembered);
+        if (Number.isFinite(from) && from > 0 && Math.abs(from - previous) >= CARD_MIN_DELTA_PX) {
+          animating = true;
+          animate(card, from, previous)
+            .finished.then(() => {
+              animating = false;
+            })
+            .catch(() => {
+              animating = false;
+            });
+        }
+      }
+      screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(previous));
 
       const observer = new ResizeObserver(() => {
         // La animación cambia el alto y volvería a disparar el observer.
@@ -51,18 +79,18 @@ export function useCardHeightTransition(): void {
         // Umbral: ignora reflows menores (fuentes que cargan, scrollbars).
         if (Math.abs(next - previous) < CARD_MIN_DELTA_PX) {
           previous = next;
+          screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(next));
           return;
         }
         animating = true;
-        const animation = card.animate(
-          [{ height: `${previous}px` }, { height: `${next}px` }],
-          { duration: CARD_TRANSITION_MS, easing: 'ease-out' },
-        );
+        const animation = animate(card, previous, next);
         previous = next;
+        screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(next));
         animation.finished
           .then(() => {
             animating = false;
             previous = card.offsetHeight;
+            screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(previous));
           })
           .catch(() => {
             animating = false;
