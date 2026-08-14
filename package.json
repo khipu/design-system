@@ -49,7 +49,7 @@
   },
   "scripts": {
     "build": "npm run build:web && npm run tokens:export && node scripts/generate-css-variables.js && npm run beercss:build",
-    "build:web": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build:web": "node scripts/generate-version.js && tsup src/index.ts --format cjs,esm --dts --clean",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "demo": "vite --config demo/vite.config.ts",
     "typecheck": "tsc --noEmit",
