@@ -34,11 +34,24 @@ export function useCardHeightTransition(): void {
 
     const observers: ResizeObserver[] = [];
 
-    const animate = (card: HTMLElement, from: number, to: number) =>
-      card.animate(
+    // El alto de partida se fija de forma sincrona, antes de animar. WAAPI recien lo
+    // aplica en el frame siguiente, y en esa ventana la card mide su alto natural nuevo:
+    // cualquiera que la observe en ese instante —el host que replica la altura del
+    // widget embebido, sin ir mas lejos— lee el valor final, lo aplica, y al frame
+    // siguiente ve el inicio de la animacion y salta hacia atras. Se ve como si la
+    // pantalla encogiera y volviera a crecer antes de acomodarse.
+    const animate = (card: HTMLElement, from: number, to: number) => {
+      card.style.height = `${from}px`;
+      const animation = card.animate(
         [{ height: `${from}px` }, { height: `${to}px` }],
         { duration: CARD_TRANSITION_MS, easing: 'ease-out' },
       );
+      const release = () => {
+        card.style.height = '';
+      };
+      animation.finished.then(release).catch(release);
+      return animation;
+    };
 
     const observe = (card: HTMLElement) => {
       if (card.getAttribute(CARD_MARK_ATTRIBUTE) === 'on') {
