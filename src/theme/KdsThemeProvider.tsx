@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { getContrastColor, lighten } from '../components/core/utils';
+import { KDS_VERSION } from '../version';
 
 const CARD_MIN_DELTA_PX = 8;
 const CARD_TRANSITION_MS = 280;
@@ -182,7 +183,14 @@ export function KdsThemeProvider({ primaryColor, mode = 'light', children }: Kds
     : undefined;
 
   return (
-    <div className={`kds-theme-root ${mode}`} data-theme={mode} style={style}>
+    <div
+      className={`kds-theme-root ${mode}`}
+      data-theme={mode}
+      // Los bundles de las apps no cambian de nombre entre builds, así que desde afuera
+      // no hay cómo saber qué versión del DS quedó desplegada. Acá queda a la vista.
+      data-kds-version={KDS_VERSION}
+      style={style}
+    >
       {children}
     </div>
   );

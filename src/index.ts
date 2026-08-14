@@ -15,6 +15,7 @@
 // =============================================================================
 
 export { KdsThemeProvider, type KdsThemeProviderProps } from './theme/KdsThemeProvider';
+export { KDS_VERSION } from './version';
 
 // =============================================================================
 // DESIGN TOKENS
