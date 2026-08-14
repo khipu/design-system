@@ -1,147 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { getContrastColor, lighten } from '../components/core/utils';
 import { KDS_VERSION } from '../version';
 
-const CARD_MIN_DELTA_PX = 8;
-const CARD_TRANSITION_MS = 280;
-const BODY_CARD_SELECTOR = '.kds-screen > .kds-card-elevated';
-const CARD_MARK_ATTRIBUTE = 'data-kds-height-transition';
-const SCREEN_LAST_HEIGHT_ATTRIBUTE = 'data-kds-last-card-height';
-
-/**
- * Anima el cambio de alto de la body card al pasar de una pantalla a otra
- * (loader ↔ formulario ↔ resultado).
- *
- * No se puede resolver con CSS: un cambio de altura provocado por contenido no dispara
- * transiciones, porque el valor declarado sigue siendo `auto` antes y después. Tampoco
- * lo cubre `interpolate-size: allow-keywords`, que habilita animar hacia `auto` cuando
- * el valor declarado cambia — acá nunca cambia. Por eso se mide el alto previo y se
- * anima explícitamente entre los dos valores.
- *
- * Se apaga solo con `prefers-reduced-motion` y en navegadores sin ResizeObserver o Web
- * Animations API: sin animación el layout queda igual, sólo cambia de golpe.
- */
-export function useCardHeightTransition(): void {
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof ResizeObserver === 'undefined') {
-      return;
-    }
-    if (typeof Element.prototype.animate !== 'function') {
-      return;
-    }
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
-
-    const observers: ResizeObserver[] = [];
-
-    // El alto de partida se fija de forma sincrona, antes de animar. WAAPI recien lo
-    // aplica en el frame siguiente, y en esa ventana la card mide su alto natural nuevo:
-    // cualquiera que la observe en ese instante —el host que replica la altura del
-    // widget embebido, sin ir mas lejos— lee el valor final, lo aplica, y al frame
-    // siguiente ve el inicio de la animacion y salta hacia atras. Se ve como si la
-    // pantalla encogiera y volviera a crecer antes de acomodarse.
-    // Devuelve una promesa que resuelve cuando la card quedó quieta, encadenamientos
-    // incluidos, para que quien la llame pueda mantener su guard durante toda la
-    // secuencia y no sólo durante el primer tramo.
-    const animate = (card: HTMLElement, from: number, to: number): Promise<void> => {
-      card.style.height = `${from}px`;
-      const animation = card.animate(
-        [{ height: `${from}px` }, { height: `${to}px` }],
-        { duration: CARD_TRANSITION_MS, easing: 'ease-out' },
-      );
-      // Al terminar no se suelta el alto sin mirar: si el contenido cambió mientras
-      // animaba, el observer lo ignoró (estaba en guard) y soltar el estilo haría que la
-      // card salte de golpe a su alto natural. Ese salto es visible, y para quien
-      // replica la altura del widget desde afuera aparece como un valor contradictorio
-      // en medio de la secuencia. Se compara contra scrollHeight —que mide el contenido
-      // y no el alto fijado— y si difiere se encadena en vez de soltar.
-      return animation.finished
-        .catch(() => undefined)
-        .then(() => {
-          const current = parseFloat(card.style.height) || card.offsetHeight;
-          const natural = card.scrollHeight;
-          if (Math.abs(natural - current) >= CARD_MIN_DELTA_PX) {
-            return animate(card, current, natural);
-          }
-          card.style.height = '';
-          return undefined;
-        });
-    };
-
-    const observe = (card: HTMLElement) => {
-      if (card.getAttribute(CARD_MARK_ATTRIBUTE) === 'on') {
-        return;
-      }
-      card.setAttribute(CARD_MARK_ATTRIBUTE, 'on');
-
-      // La memoria de altura va en el screen y no en la card: hay pantallas que
-      // reemplazan la card en vez de reusarla (khenshin-web monta un <article> distinto
-      // para el loader y otro para el contenido), y una card recién montada no tiene
-      // altura previa desde la cual animar. El screen sí persiste entre pantallas.
-      const screen = card.parentElement;
-      let previous = card.offsetHeight;
-      let animating = false;
-
-      const remembered = screen?.getAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE);
-      if (remembered) {
-        const from = Number(remembered);
-        if (Number.isFinite(from) && from > 0 && Math.abs(from - previous) >= CARD_MIN_DELTA_PX) {
-          animating = true;
-          animate(card, from, previous).then(() => {
-            animating = false;
-            previous = card.offsetHeight;
-          });
-        }
-      }
-      screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(previous));
-
-      const observer = new ResizeObserver(() => {
-        // La animación cambia el alto y volvería a disparar el observer.
-        if (animating) {
-          return;
-        }
-        const next = card.offsetHeight;
-        // Umbral: ignora reflows menores (fuentes que cargan, scrollbars).
-        if (Math.abs(next - previous) < CARD_MIN_DELTA_PX) {
-          previous = next;
-          screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(next));
-          return;
-        }
-        animating = true;
-        const from = previous;
-        previous = next;
-        screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(next));
-        animate(card, from, next).then(() => {
-          animating = false;
-          // Puede diferir de `next` si el contenido cambió durante la animación y hubo
-          // encadenamiento: vale el alto con el que la card quedó, no el que se pidió.
-          previous = card.offsetHeight;
-          screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(previous));
-        });
-      });
-      observer.observe(card);
-      observers.push(observer);
-    };
-
-    document.querySelectorAll<HTMLElement>(BODY_CARD_SELECTOR).forEach(observe);
-
-    // Las pantallas se montan y desmontan durante el flujo, asi que la card puede
-    // aparecer despues del primer render.
-    const tree = new MutationObserver(() => {
-      document.querySelectorAll<HTMLElement>(BODY_CARD_SELECTOR).forEach(observe);
-    });
-    tree.observe(document.body, { childList: true, subtree: true });
-
-    return () => {
-      tree.disconnect();
-      observers.forEach((observer) => observer.disconnect());
-      document.querySelectorAll<HTMLElement>(BODY_CARD_SELECTOR).forEach((card) => {
-        card.removeAttribute(CARD_MARK_ATTRIBUTE);
-      });
-    };
-  }, []);
-}
+// El alto de la body card cambia de golpe al pasar de una pantalla a otra, sin animar.
+// Hubo una transición (KTUF-239) y se quitó en KTUF-314: animar el alto obliga a fijar
+// `height` en píxeles sobre la card, y para saber cuándo soltarlo hay que comparar contra
+// el alto natural del contenido — que un elemento con `height` fijado no expone.
+// `scrollHeight` devuelve `max(contenido, clientHeight)`, así que cuando el contenido
+// encoge por debajo del alto fijado la comparación da cero y el estilo queda puesto para
+// siempre: espacio muerto dentro de la card, y el ResizeObserver tampoco vuelve a
+// dispararse porque la card ya no cambia de tamaño. No es un umbral mal elegido, es que
+// la medición necesaria no existe mientras el alto está fijado.
 
 export interface KdsThemeProviderProps {
   /** Override primary color for merchant branding */
@@ -169,10 +38,6 @@ export interface KdsThemeProviderProps {
  * ```
  */
 export function KdsThemeProvider({ primaryColor, mode = 'light', children }: KdsThemeProviderProps) {
-  // Se engancha acá porque es la raíz del DS que todas las apps React ya montan; el
-  // JS vanilla (khipu-init.js) sólo lo cargan las vistas server-side.
-  useCardHeightTransition();
-
   const style: React.CSSProperties | undefined = primaryColor
     ? ({
         '--primary': primaryColor,
