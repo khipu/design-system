@@ -1470,12 +1470,21 @@ a.kds-btn-google:disabled {
     /* Llena y centra dentro de contenedores flex (pantalla de carga); en flujo
        normal (contenedor no-flex) se reduce a su contenido. */
     flex: 1 1 auto;
-    /* Alto propio: el loader es contenido minimo por definicion, asi que sin esto la
-       card queda del alto del spinner y se lee como un recorte. Ocupa el body completo
-       de un telefono para que la pantalla de carga se lea como una pantalla y no como
-       una franja. Va aca y no en la card para que el minimo aplique solo a la carga:
-       el resto de las pantallas crece con su contenido. */
-    min-height: 36rem;
+    /* Alto propio: el loader es contenido minimo por definicion, asi que sin esto la card
+       queda del alto del spinner y se lee como un recorte. Va aca y no en la card para que
+       el minimo aplique solo a la carga: el resto de las pantallas crece con su contenido.
+       El valor de escritorio es moderado a proposito: el minimo de telefono (36rem) dejaba
+       la card de la carga mucho mas alta que cualquier otra pantalla, y al entrar y salir
+       del loader el widget crecia y volvia a encoger. */
+    min-height: 18rem;
+}
+
+/* En telefono la carga si ocupa el alto util de la pantalla: ahi la card va a ancho
+   completo y un loader corto se lee como una franja perdida en el medio. */
+@media (max-width: 767px) {
+    .kds-secure-loader {
+        min-height: 36rem;
+    }
 }
 
 .kds-secure-loader-text {
