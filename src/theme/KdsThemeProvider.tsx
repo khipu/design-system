@@ -40,17 +40,32 @@ export function useCardHeightTransition(): void {
     // widget embebido, sin ir mas lejos— lee el valor final, lo aplica, y al frame
     // siguiente ve el inicio de la animacion y salta hacia atras. Se ve como si la
     // pantalla encogiera y volviera a crecer antes de acomodarse.
-    const animate = (card: HTMLElement, from: number, to: number) => {
+    // Devuelve una promesa que resuelve cuando la card quedó quieta, encadenamientos
+    // incluidos, para que quien la llame pueda mantener su guard durante toda la
+    // secuencia y no sólo durante el primer tramo.
+    const animate = (card: HTMLElement, from: number, to: number): Promise<void> => {
       card.style.height = `${from}px`;
       const animation = card.animate(
         [{ height: `${from}px` }, { height: `${to}px` }],
         { duration: CARD_TRANSITION_MS, easing: 'ease-out' },
       );
-      const release = () => {
-        card.style.height = '';
-      };
-      animation.finished.then(release).catch(release);
-      return animation;
+      // Al terminar no se suelta el alto sin mirar: si el contenido cambió mientras
+      // animaba, el observer lo ignoró (estaba en guard) y soltar el estilo haría que la
+      // card salte de golpe a su alto natural. Ese salto es visible, y para quien
+      // replica la altura del widget desde afuera aparece como un valor contradictorio
+      // en medio de la secuencia. Se compara contra scrollHeight —que mide el contenido
+      // y no el alto fijado— y si difiere se encadena en vez de soltar.
+      return animation.finished
+        .catch(() => undefined)
+        .then(() => {
+          const current = parseFloat(card.style.height) || card.offsetHeight;
+          const natural = card.scrollHeight;
+          if (Math.abs(natural - current) >= CARD_MIN_DELTA_PX) {
+            return animate(card, current, natural);
+          }
+          card.style.height = '';
+          return undefined;
+        });
     };
 
     const observe = (card: HTMLElement) => {
@@ -72,13 +87,10 @@ export function useCardHeightTransition(): void {
         const from = Number(remembered);
         if (Number.isFinite(from) && from > 0 && Math.abs(from - previous) >= CARD_MIN_DELTA_PX) {
           animating = true;
-          animate(card, from, previous)
-            .finished.then(() => {
-              animating = false;
-            })
-            .catch(() => {
-              animating = false;
-            });
+          animate(card, from, previous).then(() => {
+            animating = false;
+            previous = card.offsetHeight;
+          });
         }
       }
       screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(previous));
@@ -96,18 +108,16 @@ export function useCardHeightTransition(): void {
           return;
         }
         animating = true;
-        const animation = animate(card, previous, next);
+        const from = previous;
         previous = next;
         screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(next));
-        animation.finished
-          .then(() => {
-            animating = false;
-            previous = card.offsetHeight;
-            screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(previous));
-          })
-          .catch(() => {
-            animating = false;
-          });
+        animate(card, from, next).then(() => {
+          animating = false;
+          // Puede diferir de `next` si el contenido cambió durante la animación y hubo
+          // encadenamiento: vale el alto con el que la card quedó, no el que se pidió.
+          previous = card.offsetHeight;
+          screen?.setAttribute(SCREEN_LAST_HEIGHT_ATTRIBUTE, String(previous));
+        });
       });
       observer.observe(card);
       observers.push(observer);
