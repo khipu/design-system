@@ -2294,10 +2294,31 @@ label.radio span {
     cursor: pointer;
 }
 
-/* Checked state */
+/* Checked state.
+   accent-color aplica al input nativo, que BeerCSS deja con opacity 0: no se ve.
+   Se mantiene igual por si algun consumidor no usa el markup de BeerCSS. */
 label.checkbox input[type="checkbox"]:checked,
 label.radio input[type="radio"]:checked {
     accent-color: var(--kds-color-accent, var(--primary));
+}
+
+/* El control que SI se ve lo dibuja BeerCSS como una ligadura de Material Symbols en
+   `> span::before`, coloreada con var(--primary). Estas dos reglas reproducen sus
+   selectores para que ese pseudo-elemento siga al rol accent.
+
+   Misma especificidad que el original y sin !important: este archivo va ultimo en el
+   bundle, asi que gana por orden. El fallback deja el valor anterior intacto cuando la
+   marca no define accent, que es el caso de todo consumidor actual.
+
+   No se toca `.switch`: es un control de encendido/apagado, no de seleccion, y el
+   contrato de marca no lo incluye. */
+:is(.checkbox, .radio) > span::before {
+    color: var(--kds-color-accent, var(--primary));
+}
+
+:is(.checkbox, .radio) > input:checked + span::before,
+:is(.checkbox, .radio).icon > input:checked + span > i {
+    color: var(--kds-color-accent, var(--primary));
 }
 
 /* Disabled state */
