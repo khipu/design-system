@@ -13,6 +13,20 @@
     background-color: transparent !important;
 }
 
+/* Familia base del arbol del DS.
+   BeerCSS la pone en `body { font-family: var(--font) }`, y `--font` es un alias
+   declarado en :root. Una custom property se sustituye en el elemento que la declara,
+   asi que ese alias se congela con la familia de :root: una marca que define
+   --kds-font-family-primary mas abajo en el arbol no lo mueve, y el texto que solo
+   hereda de body se queda con la familia por defecto.
+
+   Resolviendo el token aca, en la raiz del arbol del DS, hereda todo lo de adentro con
+   la familia vigente en ese punto. Sin marca definida el valor es el mismo de siempre,
+   asi que no cambia nada para quien no la configura. */
+.kds-theme-root {
+    font-family: var(--kds-font-family-primary);
+}
+
 /* ========================================
    TEXT UTILITIES OVERRIDE
    Fix BeerCSS classes that use wrong color tokens
