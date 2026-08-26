@@ -613,12 +613,13 @@ function formatCSSVariables(sections, responsiveSections = [], darkColorVariable
     css += '\n/* ============================================================================\n';
     css += '   DARK MODE COLOR TOKENS\n';
     css += '   Override only color variables; everything else inherits from :root.\n';
-    css += '   Activated via [data-theme="dark"] on <html>, <body>, or a wrapper —\n';
-    css += '   or via the BeerCSS-style body.dark class. Both selectors are emitted so\n';
-    css += '   a body.dark app gets the FULL dark theme (core + extended tokens); a\n';
-    css += '   single source flipping only partially is how mixed light/dark bugs arise.\n';
+    css += '   Activated ONLY via [data-theme="dark"] on <html>, <body>, or a wrapper.\n';
+    css += '   body.dark is deliberately NOT a trigger: BeerCSS adds that class on its\n';
+    css += '   own when the OS reports a dark preference, so honouring it turns dark on\n';
+    css += '   for consumers that never opted in. Dark stays opt-in until an app sets\n';
+    css += '   data-theme explicitly.\n';
     css += '   ============================================================================ */\n\n';
-    css += 'body.dark,\n[data-theme="dark"] {\n';
+    css += '[data-theme="dark"] {\n';
     css += renderVariableLines(darkColorVariables, '  ');
     css += '}\n';
   }

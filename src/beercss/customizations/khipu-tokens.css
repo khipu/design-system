@@ -256,11 +256,10 @@ body.dark,
    values so selected states / rows / hovers adapt. Additive: the light
    :root / body.light values above are unchanged. Tokens already defined as
    var() refs (warning-soft, danger-soft) adapt on their own and are omitted.
-   body.dark is included on purpose: the light group above also matches
-   body.dark (specificity 0,1,1), so a bare [data-theme] override (0,1,0)
-   would lose on a body that carries the transitional dark class.
+   body.dark is deliberately NOT a trigger: BeerCSS adds that class on its own
+   when the OS reports a dark preference, so honouring it turns dark on for
+   consumers that never opted in. Dark stays opt-in via data-theme.
    ======================================== */
-body.dark,
 [data-theme="dark"] {
     --kds-color-primary-faint: #1E1030;                     /* dark brand-tinted subtle surface (selected rows/cards) */
     --kds-color-info-soft: var(--kds-alert-info-bg);        /* dark translucent blue */
@@ -294,7 +293,7 @@ body.dark,
    opt-out for Chrome/WebView "Auto Dark Theme" on Android: without it, an
    OS-dark device heuristically darkens SOME elements of a light page (mixed
    light/dark rendering in production apps). Dark is reached only by an
-   explicit [data-theme="dark"] / body.dark opt-in. */
+   explicit [data-theme="dark"] opt-in. */
 :root,
 html,
 body {
@@ -313,8 +312,7 @@ body {
 }
 
 /* Explicit dark theme: let native UI (form controls, scrollbars) render dark. */
-[data-theme="dark"],
-body.dark {
+[data-theme="dark"] {
     color-scheme: dark;
 }
 
