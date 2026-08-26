@@ -158,11 +158,17 @@ a.kds-btn-primary:focus-visible:not(:disabled) {
    LIGHTEN (not darken) — else primary-dark bg + dark contrast text = invisible.
    Additive override; the light-mode rules above stay unchanged. */
 [data-theme="dark"] button.kds-btn-primary:hover:not(:disabled),
+body.dark button.kds-btn-primary:hover:not(:disabled),
 [data-theme="dark"] a.kds-btn-primary:hover:not(:disabled),
+body.dark a.kds-btn-primary:hover:not(:disabled),
 [data-theme="dark"] button.kds-btn-primary:active:not(:disabled),
+body.dark button.kds-btn-primary:active:not(:disabled),
 [data-theme="dark"] button.kds-btn-primary:focus-visible:not(:disabled),
+body.dark button.kds-btn-primary:focus-visible:not(:disabled),
 [data-theme="dark"] a.kds-btn-primary:active:not(:disabled),
-[data-theme="dark"] a.kds-btn-primary:focus-visible:not(:disabled) {
+body.dark a.kds-btn-primary:active:not(:disabled),
+[data-theme="dark"] a.kds-btn-primary:focus-visible:not(:disabled),
+body.dark a.kds-btn-primary:focus-visible:not(:disabled) {
     background: var(--kds-color-primary-light);
 }
 
@@ -255,7 +261,9 @@ a.kds-btn-text:hover:not(:disabled) {
 
 /* Dark: hover must lighten — primary-dark text is near-invisible on dark bg. */
 [data-theme="dark"] button.kds-btn-text:hover:not(:disabled),
-[data-theme="dark"] a.kds-btn-text:hover:not(:disabled) {
+body.dark button.kds-btn-text:hover:not(:disabled),
+[data-theme="dark"] a.kds-btn-text:hover:not(:disabled),
+body.dark a.kds-btn-text:hover:not(:disabled) {
     color: var(--kds-color-primary-light);
 }
 
@@ -1646,11 +1654,13 @@ a.kds-btn-google:disabled {
 /* Dark mode: info-dark text is near-invisible on the dark translucent chip.
    Use the alert info text token (light blue in dark), same pattern as KdsAlert;
    the copied state already uses alert-success-text and adapts on its own. */
-[data-theme="dark"] .kds-copy-button {
+[data-theme="dark"] .kds-copy-button,
+body.dark .kds-copy-button {
     color: var(--kds-alert-info-text);
 }
 
-[data-theme="dark"] .kds-copy-button .material-symbols-outlined {
+[data-theme="dark"] .kds-copy-button .material-symbols-outlined,
+body.dark .kds-copy-button .material-symbols-outlined {
     color: var(--kds-alert-info-text);
 }
 
@@ -1710,7 +1720,8 @@ a.kds-btn-google:disabled {
 }
 
 /* Dark: hover lightens (primary-dark is near-invisible on dark surfaces). */
-[data-theme="dark"] .kds-link:hover {
+[data-theme="dark"] .kds-link:hover,
+body.dark .kds-link:hover {
     color: var(--kds-color-primary-light);
 }
 
@@ -1734,9 +1745,13 @@ label.radio a:not(.kds-btn):not([class*="kds-btn"]):hover {
 
 /* Dark: hover must lighten (primary-dark is near-invisible on a dark surface). */
 [data-theme="dark"] .kds-card-body a:not(.kds-btn):not([class*="kds-btn"]):hover,
+body.dark .kds-card-body a:not(.kds-btn):not([class*="kds-btn"]):hover,
 [data-theme="dark"] .kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]):hover,
+body.dark .kds-stage-content a:not(.kds-btn):not([class*="kds-btn"]):hover,
 [data-theme="dark"] label.checkbox a:not(.kds-btn):not([class*="kds-btn"]):hover,
-[data-theme="dark"] label.radio a:not(.kds-btn):not([class*="kds-btn"]):hover {
+body.dark label.checkbox a:not(.kds-btn):not([class*="kds-btn"]):hover,
+[data-theme="dark"] label.radio a:not(.kds-btn):not([class*="kds-btn"]):hover,
+body.dark label.radio a:not(.kds-btn):not([class*="kds-btn"]):hover {
     color: var(--kds-color-primary-light);
 }
 
@@ -2982,19 +2997,27 @@ footer > .kds-container-center {
    *-text tokens (light shades in dark) so title, description and icon stay
    legible. Title/description inherit this color. Additive — light unchanged. */
 [data-theme="dark"] .kds-alert.kds-info,
-[data-theme="dark"] .kds-alert.kds-info .kds-alert-icon {
+body.dark .kds-alert.kds-info,
+[data-theme="dark"] .kds-alert.kds-info .kds-alert-icon,
+body.dark .kds-alert.kds-info .kds-alert-icon {
     color: var(--kds-alert-info-text);
 }
 [data-theme="dark"] .kds-alert.kds-success,
-[data-theme="dark"] .kds-alert.kds-success .kds-alert-icon {
+body.dark .kds-alert.kds-success,
+[data-theme="dark"] .kds-alert.kds-success .kds-alert-icon,
+body.dark .kds-alert.kds-success .kds-alert-icon {
     color: var(--kds-alert-success-text);
 }
 [data-theme="dark"] .kds-alert.kds-warning,
-[data-theme="dark"] .kds-alert.kds-warning .kds-alert-icon {
+body.dark .kds-alert.kds-warning,
+[data-theme="dark"] .kds-alert.kds-warning .kds-alert-icon,
+body.dark .kds-alert.kds-warning .kds-alert-icon {
     color: var(--kds-alert-warning-text);
 }
 [data-theme="dark"] .kds-alert.kds-error,
-[data-theme="dark"] .kds-alert.kds-error .kds-alert-icon {
+body.dark .kds-alert.kds-error,
+[data-theme="dark"] .kds-alert.kds-error .kds-alert-icon,
+body.dark .kds-alert.kds-error .kds-alert-icon {
     color: var(--kds-alert-error-text);
 }
 
@@ -3627,7 +3650,8 @@ footer > .kds-container-center {
 }
 
 /* Dark: hover lightens (primary-dark is near-invisible on dark surfaces). */
-[data-theme="dark"] .page-card-link:hover {
+[data-theme="dark"] .page-card-link:hover,
+body.dark .page-card-link:hover {
     color: var(--kds-color-primary-light);
 }
 
@@ -4453,23 +4477,28 @@ dialog#surveyModal button.circle {
 /* Dark: semantic *-dark text is near-invisible on dark surfaces (and the
    *-container background tokens are not generated). Use the alert bg/text
    pairs, which are dark-aware; primary uses selected/light. */
-[data-theme="dark"] .kds-badge.success {
+[data-theme="dark"] .kds-badge.success,
+body.dark .kds-badge.success {
     background-color: var(--kds-alert-success-bg);
     color: var(--kds-alert-success-text);
 }
-[data-theme="dark"] .kds-badge.error {
+[data-theme="dark"] .kds-badge.error,
+body.dark .kds-badge.error {
     background-color: var(--kds-alert-error-bg);
     color: var(--kds-alert-error-text);
 }
-[data-theme="dark"] .kds-badge.warning {
+[data-theme="dark"] .kds-badge.warning,
+body.dark .kds-badge.warning {
     background-color: var(--kds-alert-warning-bg);
     color: var(--kds-alert-warning-text);
 }
-[data-theme="dark"] .kds-badge.info {
+[data-theme="dark"] .kds-badge.info,
+body.dark .kds-badge.info {
     background-color: var(--kds-alert-info-bg);
     color: var(--kds-alert-info-text);
 }
-[data-theme="dark"] .kds-badge.primary {
+[data-theme="dark"] .kds-badge.primary,
+body.dark .kds-badge.primary {
     background-color: var(--kds-color-primary-selected);
     color: var(--kds-color-primary-light);
 }
@@ -6372,9 +6401,13 @@ div.kds-invoice-header,
    Covers the invoice amount ($X.XXX), kv values (PAGO A / ASUNTO) and the
    other gray-800 body texts. */
 [data-theme="dark"] .kds-invoice-amount,
+body.dark .kds-invoice-amount,
 [data-theme="dark"] .kds-kv dd,
+body.dark .kds-kv dd,
 [data-theme="dark"] .kds-text-value,
-[data-theme="dark"] .kds-share-copy {
+body.dark .kds-text-value,
+[data-theme="dark"] .kds-share-copy,
+body.dark .kds-share-copy {
     color: var(--kds-color-text-primary);
 }
 
@@ -7182,13 +7215,16 @@ svg[fill='none'] {
 
 /* Dark: the pill inverts to a LIGHT surface (bg = text-primary = white), so
    its contents need dark ink — the white-alpha tokens above become invisible. */
-[data-theme="dark"] .kds-proto-nav-label {
+[data-theme="dark"] .kds-proto-nav-label,
+body.dark .kds-proto-nav-label {
     color: var(--kds-color-gray-500);
 }
-[data-theme="dark"] .kds-proto-nav-arrow {
+[data-theme="dark"] .kds-proto-nav-arrow,
+body.dark .kds-proto-nav-arrow {
     color: var(--kds-color-gray-600);
 }
-[data-theme="dark"] .kds-proto-nav-arrow:hover {
+[data-theme="dark"] .kds-proto-nav-arrow:hover,
+body.dark .kds-proto-nav-arrow:hover {
     color: var(--kds-color-gray-900);
     background: rgba(0, 0, 0, .08);
 }
@@ -7739,7 +7775,9 @@ svg[fill='none'] {
 /* Dark: success-dark text is near-invisible on the dark translucent success
    surface — use the alert success text token (light green in dark). */
 [data-theme="dark"] .kds-copyable-table-row.copied .kds-value,
-[data-theme="dark"] .kds-copyable-table-row.copied .kds-value::after {
+body.dark .kds-copyable-table-row.copied .kds-value,
+[data-theme="dark"] .kds-copyable-table-row.copied .kds-value::after,
+body.dark .kds-copyable-table-row.copied .kds-value::after {
     color: var(--kds-alert-success-text);
 }
 
@@ -7835,9 +7873,13 @@ a.kds-copy-all-btn.copied:hover {
 
 /* Dark: lighten the "Datos copiados" text/border on the dark success surface. */
 [data-theme="dark"] button.kds-copy-all-btn.copied,
+body.dark button.kds-copy-all-btn.copied,
 [data-theme="dark"] button.kds-copy-all-btn.copied:hover,
+body.dark button.kds-copy-all-btn.copied:hover,
 [data-theme="dark"] a.kds-copy-all-btn.copied,
-[data-theme="dark"] a.kds-copy-all-btn.copied:hover {
+body.dark a.kds-copy-all-btn.copied,
+[data-theme="dark"] a.kds-copy-all-btn.copied:hover,
+body.dark a.kds-copy-all-btn.copied:hover {
     color: var(--kds-alert-success-text);
     border-color: var(--kds-alert-success-border);
 }
@@ -7879,13 +7921,21 @@ a.kds-copy-all-btn.copied:hover {
 /* Dark: the semantic *-dark shades are near-invisible on the dark page bg —
    use the alert *-text tokens (light shades in dark). Base note is warning. */
 [data-theme="dark"] .kds-section-note,
-[data-theme="dark"] .kds-section-note > i                    { color: var(--kds-alert-warning-text); }
+body.dark .kds-section-note,
+[data-theme="dark"] .kds-section-note > i,
+body.dark .kds-section-note > i { color: var(--kds-alert-warning-text); }
 [data-theme="dark"] .kds-section-note.kds-info,
-[data-theme="dark"] .kds-section-note.kds-info > i          { color: var(--kds-alert-info-text); }
+body.dark .kds-section-note.kds-info,
+[data-theme="dark"] .kds-section-note.kds-info > i,
+body.dark .kds-section-note.kds-info > i { color: var(--kds-alert-info-text); }
 [data-theme="dark"] .kds-section-note.kds-success,
-[data-theme="dark"] .kds-section-note.kds-success > i       { color: var(--kds-alert-success-text); }
+body.dark .kds-section-note.kds-success,
+[data-theme="dark"] .kds-section-note.kds-success > i,
+body.dark .kds-section-note.kds-success > i { color: var(--kds-alert-success-text); }
 [data-theme="dark"] .kds-section-note.kds-error,
-[data-theme="dark"] .kds-section-note.kds-error > i         { color: var(--kds-alert-error-text); }
+body.dark .kds-section-note.kds-error,
+[data-theme="dark"] .kds-section-note.kds-error > i,
+body.dark .kds-section-note.kds-error > i { color: var(--kds-alert-error-text); }
 
 /* ========================================
    INFO TOOLTIP (.kds-info-tip)
