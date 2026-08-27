@@ -5599,12 +5599,35 @@ button.kds-fab:active:not(:disabled) {
     color: var(--kds-color-success-main);
 }
 
-/* Variant: pending (animated blue spinner, sin icono interno) */
+/* Variant: pending (animated spinner, sin icono interno).
+   El acento sale de --kds-status-pending-accent, con el azul de info como
+   fallback: el valor por defecto no cambia, y una pantalla puede pedir otro
+   acento sin redefinir la regla ni recurrir a estilos inline. */
 .kds-status-block[data-status="pending"] .kds-status-block-icon {
     background: transparent;
     border: 3px solid var(--kds-color-divider);
-    border-top-color: var(--kds-color-info-main);
+    border-top-color: var(--kds-status-pending-accent, var(--kds-color-info-main));
     animation: kds-spin 1s linear infinite;
+}
+
+/* Spinner neutro, para esperas que acompañan al contenido sin reclamar
+   atención: el azul de info lee como un aviso y compite con la información
+   de la pantalla. */
+.kds-status-block.kds-accent-neutral {
+    --kds-status-pending-accent: var(--kds-color-text-primary);
+}
+
+/* Spinner fino, para bandas de una línea donde el trazo de 3px pesa demasiado.
+   El tamaño se pide por token y no por regla sobre el icono: así no compite en
+   especificidad con `.kds-status-block.inline .kds-status-block-icon`, que
+   marca igual y viene después. */
+.kds-status-block.kds-spinner-sm {
+    --kds-status-icon-size: var(--kds-spacing-3);
+    --kds-status-icon-size-sm: var(--kds-spacing-3);
+}
+
+.kds-status-block.kds-spinner-sm .kds-status-block-icon {
+    border-width: 2px;
 }
 
 /* Variant: warn */
@@ -5648,6 +5671,15 @@ button.kds-fab:active:not(:disabled) {
 
 .kds-status-block.inline .kds-status-block-icon i {
     font-size: var(--kds-font-size-xl);
+}
+
+/* Banda: el bloque de estado sobre una superficie sutil, para cuando acompaña
+   al contenido en lugar de encabezar la pantalla. Va después de `.inline`
+   porque marca igual en especificidad y necesita ganarle el padding. */
+.kds-status-block.kds-banded {
+    background: var(--kds-color-background-muted);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-spacing-1-5) var(--kds-spacing-2);
 }
 
 @keyframes kds-spin {
