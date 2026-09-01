@@ -5682,6 +5682,17 @@ button.kds-fab:active:not(:disabled) {
     padding: var(--kds-spacing-1-5) var(--kds-spacing-2);
 }
 
+/* La banda de espera lleva su propia tipografia, por spec de Figma: 11px en bold.
+   Va scopeada a la variante y no a .kds-status-block-description, que la comparten
+   los bloques de resultado, donde 11px seria ilegible. El color se deja en el token
+   heredado: un #000 fijo se volveria invisible bajo modo oscuro, donde text-primary
+   pasa a blanco. */
+.kds-status-block.kds-banded .kds-status-block-description {
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-bold);
+    line-height: normal;
+}
+
 @keyframes kds-spin {
     to { transform: rotate(360deg); }
 }
