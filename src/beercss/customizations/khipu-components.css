@@ -5677,6 +5677,11 @@ button.kds-fab:active:not(:disabled) {
    al contenido en lugar de encabezar la pantalla. Va después de `.inline`
    porque marca igual en especificidad y necesita ganarle el padding. */
 .kds-status-block.kds-banded {
+    /* 0.75rem = 12px, el valor que --kds-font-size-xs toma desde tablet. Va plano y no
+       sigue la escala responsiva a proposito: a 11px el mensaje de espera se parte en dos
+       lineas y el diseno lo quiere en una. Como custom property de la variante, siguiendo
+       el patron de kds-spinner-sm con --kds-status-icon-size. */
+    --kds-status-band-font-size: 0.75rem;
     background: var(--kds-color-background-muted);
     border-radius: var(--kds-radius-md);
     padding: var(--kds-spacing-1-5) var(--kds-spacing-2);
@@ -5688,7 +5693,7 @@ button.kds-fab:active:not(:disabled) {
    heredado: un #000 fijo se volveria invisible bajo modo oscuro, donde text-primary
    pasa a blanco. */
 .kds-status-block.kds-banded .kds-status-block-description {
-    font-size: var(--kds-font-size-xs);
+    font-size: var(--kds-status-band-font-size);
     font-weight: var(--kds-font-weight-bold);
     line-height: normal;
 }
