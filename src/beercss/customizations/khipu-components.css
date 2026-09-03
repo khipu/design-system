@@ -5344,6 +5344,41 @@ button.kds-fab:active:not(:disabled) {
     object-fit: contain;
 }
 
+/* El alto del logo del PSP es ajustable, con el mismo valor que el mark de Khipu por
+   defecto: un asset bien preparado no necesita nada mas.
+
+   Por que existe la perilla: el ojo lee la altura de x, no la caja. Dos wordmarks a
+   igual alto de caja se ven de tamanos distintos si su anatomia difiere, porque unos
+   ascendentes largos y un descendente grande dejan menos espacio para el cuerpo de
+   las minusculas. Medido: un klap.png exportado sin recorte daba una altura de x del
+   85% de la de Khipu y se veia mas chico; el mismo logo exportado a 33x15 -la misma
+   altura de caja que Khipu- con el aire recortado calza a 11px sin tocar nada.
+
+   Asi que la calibracion correcta vive en el asset. Esta propiedad es la salida para
+   un PSP que entregue un logo con aire interno y no pueda re-exportarlo, y
+   --kds-psp-mark-shift corrige la linea de base si al cambiar el alto se desalinea. */
+.kds-secure-footer {
+    --kds-psp-mark-height: 11.5px;
+    --kds-psp-mark-shift: 0px;
+}
+
+.kds-secure-footer .kds-psp-mark {
+    height: var(--kds-psp-mark-height);
+    /* Dos correcciones, ambas para que el logo del PSP quede al ras abajo con el de Khipu:
+
+       1. Los 0.75px son la misma correccion optica que lleva .khipu-mark, y por el mismo
+          motivo: el logo del PSP tambien tiene descendente, asi que su masa visible queda
+          sobre el centro geometrico de su caja. Sin esto queda 0.75px mas alto que Khipu,
+          que si la trae.
+       2. El footer centra por caja, asi que un alto distinto al de Khipu corre el borde
+          inferior la mitad de la diferencia. Restarla mantiene los bordes al ras para
+          cualquier valor de --kds-psp-mark-height.
+
+       --kds-psp-mark-shift queda para el aire interno que traiga el asset. */
+    position: relative;
+    top: calc(0.75px + (11px - var(--kds-psp-mark-height)) / 2 + var(--kds-psp-mark-shift));
+}
+
 .kds-secure-footer-code {
     color: var(--kds-color-text-hint);
 }
