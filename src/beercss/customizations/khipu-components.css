@@ -5343,36 +5343,31 @@ button.kds-fab:active:not(:disabled) {
     object-fit: contain;
 }
 
-/* Los dos wordmarks se nivelan por LINEA DE BASE, no por caja ni por borde inferior de
-   la tinta. Importa porque los dos tienen descendente: la "p" de Khipu baja un 20% de
-   su caja y la de klap un 19%, asi que igualar los bordes de abajo deja al logo del PSP
-   flotando sobre la linea de Khipu.
+/* Logo del PSP: dos perillas, las dos calibradas contra el asset real que sube un PSP
+   hoy (klap.png, 60x30, con 2px de aire transparente arriba y abajo).
 
-   Medido sobre los assets reales: la linea de base de Khipu cae al 79.75% de su caja y
-   la de klap.png (60x30, con 2px de aire arriba y abajo) al 73.75% de la suya.
+   Se nivela por LINEA DE BASE, no por caja ni por borde inferior de la tinta: los dos
+   wordmarks tienen descendente -la "p" de Khipu baja un 20% de su caja- asi que igualar
+   los bordes de abajo deja al logo del PSP flotando sobre la linea de Khipu.
 
-   Dos perillas para el asset que entregue cada PSP:
    - --kds-psp-mark-height: el alto de la caja. El ojo lee la tinta, no la caja, y el
      aire del PNG se come parte del alto: a 11px la tinta de klap medía 9.5px contra los
      11px de Khipu y se veia mas chico. A 15px la tinta llega a 13px y se leen iguales.
-   - --kds-psp-mark-baseline: donde cae su linea de base dentro de esa caja. Un logo
-     recortado al ras, sin descendente, va cerca de 1. */
+   - --kds-psp-mark-top: cuanto baja para que su linea de base calce con la de Khipu.
+     Va como valor y no como formula a proposito: depende del aire y de la anatomia del
+     asset de cada PSP, y se termina de ajustar mirando la pantalla. */
 .kds-secure-footer {
     --kds-psp-mark-height: 15px;
-    --kds-psp-mark-baseline: 0.7375;
+    --kds-psp-mark-top: 1px;
 }
 
 .kds-secure-footer img,
 .kds-secure-footer .kds-psp-mark {
     height: var(--kds-psp-mark-height);
-    /* 4.02px es donde cae la linea de base de Khipu respecto al centro del footer: caja
-       de 11px centrada, baseline al 79.75% y el nudge optico de 0.75px que ya lleva
-       .khipu-mark. Restarle la posicion de la baseline del PSP dentro de su propia caja
-       deja las dos lineas a la misma altura para cualquier alto.
-       --kds-psp-mark-shift queda como salida manual y no se necesita por defecto. */
     position: relative;
-    top: calc(4.02px + var(--kds-psp-mark-height) * (0.5 - var(--kds-psp-mark-baseline)) + var(--kds-psp-mark-shift, 0px));
+    top: var(--kds-psp-mark-top);
 }
+
 
 
 .kds-secure-footer-code {
