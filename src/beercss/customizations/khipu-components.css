@@ -238,6 +238,29 @@ a.kds-btn-outlined-white:hover:not(:disabled) {
     opacity: 0.9;
 }
 
+/* Outlined success — compone con .kds-btn-outlined, igual que .kds-btn-outlined-white:
+   solo cambia superficie y color, la caja la aporta la variante base. */
+button.kds-btn-outlined-success,
+a.kds-btn-outlined-success {
+    background: transparent;
+    color: var(--kds-color-success-main);
+    border-color: var(--kds-color-success-main);
+}
+
+button.kds-btn-outlined-success:hover:not(:disabled),
+a.kds-btn-outlined-success:hover:not(:disabled) {
+    background: var(--kds-color-success-soft);
+    border-color: var(--kds-color-success-dark);
+    color: var(--kds-color-success-dark);
+}
+
+button.kds-btn-outlined-success:disabled,
+a.kds-btn-outlined-success:disabled {
+    background: transparent;
+    color: var(--kds-color-action-disabled);
+    border-color: var(--kds-color-action-disabled);
+}
+
 /* Text button — mismo tamaño que el resto de variantes (hereda min-height/padding
    del base): solo cambia la superficie, no la caja. */
 button.kds-btn-text,
