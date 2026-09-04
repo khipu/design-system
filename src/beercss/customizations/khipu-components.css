@@ -7505,8 +7505,11 @@ svg[fill='none'] {
     background: var(--kds-color-action-hover);
 }
 
-/* Search field reutilizable (standalone o dentro del KdsBankModal). */
-.kds-search-field {
+/* Search field reutilizable (standalone o dentro del KdsBankModal).
+   El selector de descendiente se mantiene por compatibilidad con los consumidores
+   que renderizan el input sin clase (payment lo arma a mano en GSP). */
+.kds-search-field,
+.kds-bank-modal-search input {
     width: 100%;
     padding: var(--kds-spacing-1-25) var(--kds-spacing-1-5);
     border: 1px solid var(--kds-color-divider);
@@ -7518,11 +7521,13 @@ svg[fill='none'] {
     background: var(--kds-color-surface);
 }
 
-.kds-search-field::placeholder {
+.kds-search-field::placeholder,
+.kds-bank-modal-search input::placeholder {
     color: var(--kds-color-text-hint);
 }
 
-.kds-search-field:focus {
+.kds-search-field:focus,
+.kds-bank-modal-search input:focus {
     border-color: var(--kds-color-primary-main);
     box-shadow: 0 0 0 2px var(--kds-color-primary-faint);
 }
