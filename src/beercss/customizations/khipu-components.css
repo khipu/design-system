@@ -3388,14 +3388,16 @@ footer > .kds-container-center {
 
 /* Code block for displaying code snippets */
 .kds-code-block {
-    background: var(--kds-color-background-elevated);
-    padding: var(--kds-spacing-4);
+    background: var(--kds-color-background-muted);
+    border: 1px solid var(--kds-color-divider);
+    padding: var(--kds-spacing-2);
     border-radius: var(--kds-radius-md);
     overflow-x: auto;
-    font-family: 'Courier New', monospace;
+    font-family: var(--kds-font-family-mono);
     font-size: var(--kds-font-size-sm);
     line-height: var(--kds-line-height-relaxed);
     color: var(--kds-color-text-primary);
+    tab-size: 4;
 }
 
 /* ============================================
