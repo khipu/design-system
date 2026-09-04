@@ -5337,47 +5337,43 @@ button.kds-fab:active:not(:disabled) {
    alto que el mark de Khipu. Sirve para <img> o un elemento con .kds-psp-mark. */
 .kds-secure-footer img,
 .kds-secure-footer .kds-psp-mark {
-    height: 11px;
     width: auto;
     flex: 0 0 auto;
     display: block;
     object-fit: contain;
 }
 
-/* El alto del logo del PSP es ajustable, con el mismo valor que el mark de Khipu por
-   defecto: un asset bien preparado no necesita nada mas.
+/* Los dos wordmarks se nivelan por LINEA DE BASE, no por caja ni por borde inferior de
+   la tinta. Importa porque los dos tienen descendente: la "p" de Khipu baja un 20% de
+   su caja y la de klap un 19%, asi que igualar los bordes de abajo deja al logo del PSP
+   flotando sobre la linea de Khipu.
 
-   Por que existe la perilla: el ojo lee la altura de x, no la caja. Dos wordmarks a
-   igual alto de caja se ven de tamanos distintos si su anatomia difiere, porque unos
-   ascendentes largos y un descendente grande dejan menos espacio para el cuerpo de
-   las minusculas. Medido: un klap.png exportado sin recorte daba una altura de x del
-   85% de la de Khipu y se veia mas chico; el mismo logo exportado a 33x15 -la misma
-   altura de caja que Khipu- con el aire recortado calza a 11px sin tocar nada.
+   Medido sobre los assets reales: la linea de base de Khipu cae al 79.75% de su caja y
+   la de klap.png (60x30, con 2px de aire arriba y abajo) al 73.75% de la suya.
 
-   Asi que la calibracion correcta vive en el asset. Esta propiedad es la salida para
-   un PSP que entregue un logo con aire interno y no pueda re-exportarlo, y
-   --kds-psp-mark-shift corrige la linea de base si al cambiar el alto se desalinea. */
+   Dos perillas para el asset que entregue cada PSP:
+   - --kds-psp-mark-height: el alto de la caja. El ojo lee la tinta, no la caja, y el
+     aire del PNG se come parte del alto: a 11px la tinta de klap medía 9.5px contra los
+     11px de Khipu y se veia mas chico. A 15px la tinta llega a 13px y se leen iguales.
+   - --kds-psp-mark-baseline: donde cae su linea de base dentro de esa caja. Un logo
+     recortado al ras, sin descendente, va cerca de 1. */
 .kds-secure-footer {
-    --kds-psp-mark-height: 11.5px;
-    --kds-psp-mark-shift: 0px;
+    --kds-psp-mark-height: 15px;
+    --kds-psp-mark-baseline: 0.7375;
 }
 
+.kds-secure-footer img,
 .kds-secure-footer .kds-psp-mark {
     height: var(--kds-psp-mark-height);
-    /* Dos correcciones, ambas para que el logo del PSP quede al ras abajo con el de Khipu:
-
-       1. Los 0.75px son la misma correccion optica que lleva .khipu-mark, y por el mismo
-          motivo: el logo del PSP tambien tiene descendente, asi que su masa visible queda
-          sobre el centro geometrico de su caja. Sin esto queda 0.75px mas alto que Khipu,
-          que si la trae.
-       2. El footer centra por caja, asi que un alto distinto al de Khipu corre el borde
-          inferior la mitad de la diferencia. Restarla mantiene los bordes al ras para
-          cualquier valor de --kds-psp-mark-height.
-
-       --kds-psp-mark-shift queda para el aire interno que traiga el asset. */
+    /* 4.02px es donde cae la linea de base de Khipu respecto al centro del footer: caja
+       de 11px centrada, baseline al 79.75% y el nudge optico de 0.75px que ya lleva
+       .khipu-mark. Restarle la posicion de la baseline del PSP dentro de su propia caja
+       deja las dos lineas a la misma altura para cualquier alto.
+       --kds-psp-mark-shift queda como salida manual y no se necesita por defecto. */
     position: relative;
-    top: calc(0.75px + (11px - var(--kds-psp-mark-height)) / 2 + var(--kds-psp-mark-shift));
+    top: calc(4.02px + var(--kds-psp-mark-height) * (0.5 - var(--kds-psp-mark-baseline)) + var(--kds-psp-mark-shift, 0px));
 }
+
 
 .kds-secure-footer-code {
     color: var(--kds-color-text-hint);
