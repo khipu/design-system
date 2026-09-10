@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { spacing, fontFamilies, fontSizes, fontWeights, borderRadius, borders } from '../../tokens';
+import { spacing, fontSizes, fontWeights, borderRadius, borders } from '../../tokens';
 
 const meta: Meta = {
   title: 'Brand',
@@ -20,13 +20,13 @@ export const Integración: StoryObj = {
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: `${spacing[5]} ${spacing[2.5]}` }}>
       <h1>Integración</h1>
 
-      <p>Aprende a integrar el Design System de Khipu con agentes de IA para generar contenido consistente con la marca.</p>
+      <p>Aprende a integrar la marca Khipu con agentes de IA para generar contenido consistente con nuestra identidad, voz y tono.</p>
 
       <h2>Skills de diseño</h2>
 
-      <p>Descarga archivos especializados para integrar con tu agente de IA (Claude, ChatGPT, Cursor, etc.) según la tarea que necesites realizar.</p>
+      <p>Descarga archivos especializados para integrar con tu agente de IA (Claude, ChatGPT, Cursor, etc.) según el tipo de contenido de marca que necesites generar.</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: spacing[3], marginBottom: spacing[4] }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: spacing[3], marginBottom: spacing[4] }}>
         {/* Skill 1: Identidad Visual */}
         <div style={{ padding: spacing[3], background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
           <h3 style={{ fontSize: fontSizes.lg, marginTop: 0, color: 'var(--kds-color-primary-main)' }}>🎨 Identidad visual</h3>
@@ -158,50 +158,6 @@ export const Integración: StoryObj = {
             ↓ Descargar skill
           </a>
         </div>
-
-        {/* Skill 4: Código & Componentes */}
-        <div style={{ padding: spacing[3], background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)` }}>
-          <h3 style={{ fontSize: fontSizes.lg, marginTop: 0, color: 'var(--kds-color-primary-main)' }}>💻 Código & Componentes</h3>
-
-          <p style={{ fontSize: fontSizes.sm, lineHeight: '1.6', marginBottom: spacing[2] }}>
-            Generar código usando correctamente los componentes y tokens del Design System, evitando valores hardcodeados.
-          </p>
-
-          <p style={{ fontSize: fontSizes.sm, fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>Incluye:</p>
-          <ul style={{ fontSize: fontSizes.sm, lineHeight: '1.6', paddingLeft: spacing[2.5], marginBottom: spacing[2] }}>
-            <li>17 componentes Kds disponibles</li>
-            <li>Tokens (colores, espaciado, tipografía)</li>
-            <li>Ejemplos de uso correcto</li>
-            <li>Errores comunes en código</li>
-          </ul>
-
-          <a
-            href="/skills/component-tokens.md"
-            download="khipu-skill-componentes-tokens.md"
-            style={{
-              display: 'inline-block',
-              marginTop: spacing[1],
-              padding: `${spacing[0.5]} 0`,
-              fontSize: fontSizes.sm,
-              fontWeight: fontWeights.medium,
-              color: 'var(--kds-color-primary-main)',
-              textDecoration: 'none',
-              transition: 'opacity 0.2s ease',
-              cursor: 'pointer',
-              opacity: 0.9,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '1';
-              e.currentTarget.style.textDecoration = 'underline';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '0.9';
-              e.currentTarget.style.textDecoration = 'none';
-            }}
-          >
-            ↓ Descargar skill
-          </a>
-        </div>
       </div>
 
       <h3 style={{ fontSize: fontSizes.base, marginBottom: spacing[1] }}>Cómo usar los skills</h3>
@@ -216,37 +172,6 @@ export const Integración: StoryObj = {
         </li>
         <li>Haz tu solicitud directamente. El agente usará las guías del skill automáticamente</li>
       </ol>
-
-      <div style={{ borderTop: `${borders.widthMd} solid var(--kds-color-divider)`, marginTop: spacing[5], marginBottom: spacing[4] }}></div>
-
-      <h2>Integración avanzada con MCP</h2>
-
-      <p>Para desarrolladores que usan Claude Code, Cursor u otros agentes compatibles con MCP (Model Context Protocol).</p>
-
-      <div style={{ padding: spacing[3], background: 'var(--kds-color-primary-faint)', borderRadius: borderRadius.lg, borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)`, marginBottom: spacing[4] }}>
-        <h3 style={{ fontSize: fontSizes.lg, marginTop: 0, color: 'var(--kds-color-primary-main)' }}>Conectar el Design System en tiempo real</h3>
-
-        <p style={{ fontSize: fontSizes.sm, lineHeight: '1.6', marginBottom: spacing[2] }}>
-          Accede directamente a componentes y documentación del Design System mientras desarrollas.
-        </p>
-
-        <p style={{ fontSize: fontSizes.sm, fontWeight: fontWeights.semiBold, marginBottom: spacing[1] }}>Instalación:</p>
-        <div style={{ marginBottom: spacing[2], padding: spacing[1.5], background: 'var(--kds-color-background-paper)', borderRadius: borderRadius.md, border: `${borders.widthMd} solid var(--kds-color-primary-main)` }}>
-          <code style={{
-            display: 'block',
-            fontSize: fontSizes.xs,
-            fontFamily: fontFamilies.mono,
-            wordBreak: 'break-all',
-            lineHeight: '1.5'
-          }}>
-            claude mcp add storybook-mcp -e STORYBOOK_URL=https://design.khipu.com/index.json --scope user -- npx -y storybook-mcp@latest
-          </code>
-        </div>
-
-        <p style={{ fontSize: '13px', lineHeight: '1.6', color: 'var(--kds-color-text-secondary)', marginTop: spacing[1.5] }}>
-          Más información: <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--kds-color-primary-main)', textDecoration: 'underline' }}>modelcontextprotocol.io</a>
-        </p>
-      </div>
     </div>
   ),
 };

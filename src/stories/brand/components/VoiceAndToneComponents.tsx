@@ -114,8 +114,18 @@ export function WritingGuidelinesTable() {
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>Párrafos largos</td>
         </tr>
         <tr style={{ borderBottom: borders.tableRow }}>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>Lenguaje inclusivo</td>
-          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>Lenguaje excluyente</td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
+            Género neutro cuando el idioma lo permite<br/>
+            <span style={{ fontSize: fontSizes.xs, color: 'var(--kds-color-text-secondary)', fontStyle: 'italic' }}>
+              (ej: &quot;Te damos la bienvenida&quot;)
+            </span>
+          </td>
+          <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>
+            Marcar género sin necesidad<br/>
+            <span style={{ fontSize: fontSizes.xs, color: 'var(--kds-color-text-secondary)', fontStyle: 'italic' }}>
+              (ej: &quot;Bienvenido&quot;, &quot;Bienvenido/a&quot;, &quot;Bienvenid@&quot;)
+            </span>
+          </td>
         </tr>
         <tr style={{ borderBottom: borders.tableRow }}>
           <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top' }}>Números en lugar de palabras</td>
@@ -225,6 +235,107 @@ export function MicrocopyTable() {
             Error de validación
           </td>
         </tr>
+      </tbody>
+    </table>
+  );
+}
+
+const VERB_PAIRS: {
+  action: string;
+  opposite: string;
+  note?: React.ReactNode;
+}[] = [
+  { action: 'Ingresar', opposite: 'Salir' },
+  {
+    action: 'Iniciar […]',
+    opposite: 'Cerrar […]',
+    note: (
+      <>
+        Deben explicitar la acción.<br/>
+        <em>Ej: Iniciar sesión / Cerrar sesión</em>
+      </>
+    ),
+  },
+  {
+    action: 'Continuar',
+    opposite: 'Volver […]',
+    note: (
+      <>
+        <strong>Continuar</strong> no debe ser la última acción de un flujo.<br/>
+        <strong>Volver</strong> debe incluir el destino.<br/>
+        <em>Ej: Volver al sitio de origen</em>
+      </>
+    ),
+  },
+  {
+    action: 'Autorizar […]',
+    opposite: 'Rechazar […]',
+    note: (
+      <>
+        Deben explicitar la operación referida.<br/>
+        <em>Ej: Autorizar pago / Rechazar pago</em>
+      </>
+    ),
+  },
+  {
+    action: 'Comenzar […]',
+    opposite: 'Cancelar […]',
+    note: (
+      <>
+        Deben explicitar la operación referida.<br/>
+        <em>Ej: Comenzar suscripción / Cancelar suscripción</em>
+      </>
+    ),
+  },
+];
+
+export function VerbsCallout() {
+  return (
+    <div style={{
+      padding: '20px 24px',
+      background: 'var(--kds-color-primary-faint)',
+      borderRadius: borderRadius.lg,
+      borderLeft: `${borders.widthLg} solid var(--kds-color-primary-main)`,
+      marginBottom: '24px'
+    }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+        <span style={{ fontSize: '24px', lineHeight: '1' }}>🔁</span>
+        <div>
+          <Typography variant="body" style={{ fontWeight: 600, marginBottom: '8px', display: 'block' }}>
+            Verbos en pares
+          </Typography>
+          <Typography variant="body" style={{ lineHeight: '1.6' }}>
+            Cada acción tiene su opuesto. Usa siempre el par completo para que el usuario
+            reconozca la vuelta atrás de lo que acaba de hacer. El corchete{' '}
+            <code>[…]</code> indica que el verbo <strong>no va solo</strong>: debe nombrar la
+            operación.
+          </Typography>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function VerbsTable() {
+  return (
+    <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '32px' }}>
+      <thead>
+        <tr style={{ borderBottom: borders.tableHeader }}>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '20%' }}>Acción</th>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '20%' }}>Opuesto</th>
+          <th style={{ padding: spacing[1.5], textAlign: 'left', fontWeight: fontWeights.semiBold, fontSize: fontSizes.sm, width: '60%' }}>Observaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {VERB_PAIRS.map(({ action, opposite, note }, i) => (
+          <tr key={action} style={i < VERB_PAIRS.length - 1 ? { borderBottom: borders.tableRow } : undefined}>
+            <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, fontWeight: fontWeights.semiBold, verticalAlign: 'top' }}>{action}</td>
+            <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, fontWeight: fontWeights.semiBold, verticalAlign: 'top' }}>{opposite}</td>
+            <td style={{ padding: spacing[1.5], fontSize: fontSizes.sm, verticalAlign: 'top', lineHeight: '1.6' }}>
+              {note ?? <span style={{ color: 'var(--kds-color-text-secondary)' }}>—</span>}
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
