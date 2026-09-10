@@ -5870,6 +5870,14 @@ button.kds-fab:active:not(:disabled) {
     color: var(--kds-color-primary-contrast);
 }
 
+/* El reset `.kds-bottom-sheet-actions button { border: 0 }` borra la caja de las
+   variantes outlined. Se restituye solo grosor y estilo: el color queda en
+   currentColor, que ya es el de cada variante (primary, success, etc.). */
+.kds-bottom-sheet-actions button.kds-btn-outlined {
+    border-style: solid;
+    border-width: var(--kds-border-width-sm, 1px);
+}
+
 .kds-bottom-sheet-actions .kds-btn-ghost {
     background: transparent;
     color: var(--kds-color-text-secondary);
