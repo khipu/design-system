@@ -5998,6 +5998,15 @@ button.kds-fab:active:not(:disabled) {
 }
 
 /* Auto-managed tab panels: hidden attribute must win over any display rule */
+/* `hidden` es semantica de plataforma: si el atributo esta, el elemento no se
+   renderiza. El UA lo aplica con display:none, pero cualquier regla de autor con
+   display lo pisa — .kds-btn y .kds-btn-stack son flex, asi que un boton con
+   hidden seguia ocupando lugar. El !important es deliberado: ninguna regla de
+   componente deberia poder anular el atributo. */
+[hidden] {
+    display: none !important;
+}
+
 [data-kds-tab-panel][hidden] {
     display: none;
 }
