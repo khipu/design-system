@@ -17,20 +17,32 @@ Este skill te ayuda a crear presentaciones corporativas (Keynote, PowerPoint, Go
   - Evitar: Fondos completos en todas las diapositivas (puede saturar)
 
 **Variantes del púrpura:**
-- **Dark:** `#6B3A8F` - Para textos sobre fondos claros, énfasis
-- **Light:** `#9B69BD` - Para fondos sutiles, degradados
-- **Container:** `#F5F0FA` - Para fondos de secciones, cajas de contenido
+- **Dark:** `#5B3179` - Para textos sobre fondos claros, énfasis, segunda serie en gráficos
+- **Light:** `#9B6BBD` - Para fondos sutiles, degradados
+- **Container:** `#F3E5FF` - Para fondos de secciones, cajas de contenido
+
+**Color secundario:**
+- **Cian:** `#3CB4E5` - Series secundarias en gráficos, acentos de apoyo
+- **Cian dark:** `#198EBE` - Cuando el cian deba usarse como texto
 
 **Colores complementarios:**
 - **Blanco:** `#FFFFFF` - Fondos principales, espacios en blanco
-- **Gris oscuro:** `#1A1A1A` - Textos principales
+- **Gris oscuro:** `#333333` - Textos principales
 - **Gris medio:** `#666666` - Textos secundarios, notas
 
 **Colores semánticos (usar con moderación):**
-- **Success:** `#4CAF50` - Resultados positivos, crecimiento
-- **Error:** `#F44336` - Alertas, riesgos
-- **Warning:** `#FF9800` - Advertencias, puntos de atención
-- **Info:** `#2196F3` - Datos informativos
+
+| Estado | Main | Dark | Uso |
+|--------|------|------|-----|
+| **Info** | `#0288D1` | `#01579B` | Datos informativos |
+| **Success** | `#2E7D32` | `#1B5E20` | Resultados positivos, crecimiento |
+| **Warning** | `#EF6C00` | `#E65100` | Advertencias, puntos de atención |
+| **Error** | `#D32F2F` | `#C62828` | Alertas, riesgos |
+
+Usa `main` para barras, puntos e iconos; `dark` cuando el color deba leerse como
+texto sobre fondo claro. Los semánticos van **solo cuando el dato tiene carga de
+estado** — un resultado positivo, una alerta, un riesgo — nunca como colores
+decorativos para diferenciar series.
 
 ### Formato de slides
 
@@ -79,21 +91,21 @@ Este skill te ayuda a crear presentaciones corporativas (Keynote, PowerPoint, Go
 ## Estructura de presentación recomendada
 
 ### 1. Portada
-- Fondo: Púrpura Khipu (#8347AD)
+- Fondo: Púrpura Khipu `#8347AD`
 - Logo: Versión blanca, centrado o superior izquierda
 - Título: Bold, blanco, 48-60pt
 - Subtítulo/Fecha: Regular, blanco con 80% opacidad, 20-24pt
 - Opcional: Imagen/ilustración sutil con overlay púrpura
 
 ### 2. Diapositiva de contenido estándar
-- Fondo: Blanco (#FFFFFF)
-- Título: Semibold, gris oscuro (#1A1A1A), 28-32pt
+- Fondo: Blanco `#FFFFFF`
+- Título: Semibold, gris oscuro `#333333`, 28-32pt
 - Cuerpo: Regular, gris oscuro, 16-20pt
 - Acentos: Púrpura Khipu para elementos destacados
 - Logo: Esquina superior izquierda, versión color
 
 ### 3. Divisor de sección
-- Fondo: Púrpura Light (#F5F0FA) o Púrpura Khipu
+- Fondo: Púrpura container `#F3E5FF` o Púrpura Khipu `#8347AD`
 - Título de sección: Semibold, 36-44pt
 - Subtítulo opcional: Regular, 20-24pt
 - Elemento visual: Línea decorativa o icono en púrpura
@@ -311,6 +323,6 @@ Antes de finalizar tu presentación, verifica:
 
 ---
 
-**Versión:** 1.0.0
-**Última actualización:** 2026-05-05
+**Versión:** 1.1.0
+**Última actualización:** 2026-09-10
 **Más información:** https://design.khipu.com

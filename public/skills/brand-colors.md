@@ -34,29 +34,45 @@ El púrpura es nuestro color de marca distintivo. Comunica innovación, confianz
 | Variante | HEX | Uso |
 |----------|-----|-----|
 | **Main** | `#8347AD` | Acciones primarias, marca principal |
-| **Dark** | `#6B3A8F` | Hover states, énfasis adicional |
-| **Light** | `#9B69BD` | Fondos sutiles, estados deshabilitados |
-| **Container** | `#F5F0FA` | Fondos de contenedores con marca |
+| **Dark** | `#5B3179` | Hover, énfasis, texto sobre fondos claros |
+| **Light** | `#9B6BBD` | Fondos sutiles, estados deshabilitados |
+| **Container** | `#F3E5FF` | Fondos de contenedores con marca |
+
+### Color secundario: Cian
+
+Complementa al púrpura. Aporta energía, accesibilidad y balance visual sin competir
+con el primario. Úsalo en acciones secundarias, iconos, badges y acentos.
+
+| Variante | HEX | Uso |
+|----------|-----|-----|
+| **Main** | `#3CB4E5` | Acciones secundarias, acentos |
+| **Dark** | `#198EBE` | Hover, texto sobre fondos claros |
+| **Light** | `#6AC6EB` | Fondos sutiles |
 
 ## Colores semánticos
 
 Los colores semánticos comunican el estado del sistema de forma universal. **Son iguales en modo claro y oscuro** para mantener consistencia.
 
-### Success (Éxito)
-- **HEX:** `#4CAF50`
-- **Uso:** Confirmaciones, pagos exitosos, validaciones correctas
+| Estado | Main | Dark | Uso |
+|--------|------|------|-----|
+| **Info** | `#0288D1` | `#01579B` | Mensajes informativos, tooltips, ayuda contextual |
+| **Success** | `#2E7D32` | `#1B5E20` | Confirmaciones, pagos exitosos, validaciones correctas |
+| **Warning** | `#EF6C00` | `#E65100` | Alertas, acciones que requieren atención, estados pendientes |
+| **Error** | `#D32F2F` | `#C62828` | Errores, validaciones fallidas, acciones destructivas |
 
-### Error
-- **HEX:** `#F44336`
-- **Uso:** Errores, validaciones fallidas, acciones destructivas
+**Cuándo usar cada variante:** `main` es el color base — iconos, bordes, fondos de
+badge y el color con que se identifica el estado. `dark` se reserva para el texto
+del mensaje sobre fondos claros y para estados hover, donde el `main` no siempre
+alcanza el contraste necesario.
 
-### Warning (Advertencia)
-- **HEX:** `#FF9800`
-- **Uso:** Alertas, acciones que requieren atención, estados pendientes
+Variantes claras, para fondos de alertas y badges:
 
-### Info (Información)
-- **HEX:** `#2196F3`
-- **Uso:** Mensajes informativos, tooltips, ayuda contextual
+| Estado | Light | Container |
+|--------|-------|-----------|
+| Info | `#03A9F4` | `#EFF6FF` |
+| Success | `#4CAF50` | `#ECFDF5` |
+| Warning | `#FF9800` | `#FFFBEB` |
+| Error | `#EF5350` | `#FEF2F2` |
 
 ## Tipografía
 
@@ -90,11 +106,28 @@ Tipografía geométrica y humanista que comunica profesionalismo, claridad y mod
 
 | Fondo | Texto | Ratio | Estado |
 |-------|-------|-------|--------|
-| Blanco (#FFFFFF) | Púrpura Khipu (#8347AD) | 5.1:1 | ✅ AA aprobado |
-| Púrpura Khipu (#8347AD) | Blanco (#FFFFFF) | 5.1:1 | ✅ AA aprobado |
-| Blanco (#FFFFFF) | Púrpura Dark (#6B3A8F) | 7.8:1 | ✅ AAA aprobado |
-| Púrpura Light (#9B69BD) | Blanco (#FFFFFF) | 3.2:1 | ⚠️ Solo texto grande |
-| Púrpura Container (#F5F0FA) | Púrpura Khipu (#8347AD) | 9.2:1 | ✅ AAA aprobado |
+| Blanco `#FFFFFF` | Púrpura main `#8347AD` | 6.1:1 | ✅ AA |
+| Púrpura main `#8347AD` | Blanco `#FFFFFF` | 6.1:1 | ✅ AA |
+| Blanco `#FFFFFF` | Púrpura dark `#5B3179` | 9.7:1 | ✅ AAA |
+| Púrpura container `#F3E5FF` | Púrpura main `#8347AD` | 5.0:1 | ✅ AA |
+| Púrpura container `#F3E5FF` | Púrpura dark `#5B3179` | 8.1:1 | ✅ AAA |
+| Blanco `#FFFFFF` | Púrpura light `#9B6BBD` | 4.0:1 | ⚠️ Solo texto grande |
+| Blanco `#FFFFFF` | Gris de texto `#333333` | 12.6:1 | ✅ AAA |
+
+**Colores que NO alcanzan AA como texto normal sobre blanco.** Sirven para iconos,
+bordes y fondos, pero para texto usa su variante `dark`:
+
+| Fondo | Texto | Ratio | Estado |
+|-------|-------|-------|--------|
+| Blanco `#FFFFFF` | Success main `#2E7D32` | 5.1:1 | ✅ AA |
+| Blanco `#FFFFFF` | Error main `#D32F2F` | 5.0:1 | ✅ AA |
+| Blanco `#FFFFFF` | Info main `#0288D1` | 3.9:1 | ⚠️ Solo texto grande → usa `#01579B` |
+| Blanco `#FFFFFF` | Warning main `#EF6C00` | 3.1:1 | ⚠️ Solo texto grande → usa `#E65100` |
+| Blanco `#FFFFFF` | Cian main `#3CB4E5` | 2.4:1 | ❌ Nunca como texto → usa `#198EBE` |
+
+> El cian es un color de acento, no de texto. Sobre blanco no alcanza contraste ni
+> para texto grande: úsalo en iconos, bordes y fondos, y para texto recurre al
+> cian dark.
 
 **Herramientas recomendadas:**
 - WebAIM Contrast Checker: https://webaim.org/resources/contrastchecker/
@@ -186,6 +219,6 @@ Para valores técnicos completos y tokens de diseño:
 
 ---
 
-**Versión:** 1.0.0
-**Última actualización:** 2026-05-05
+**Versión:** 1.1.0
+**Última actualización:** 2026-09-10
 **Más información:** https://design.khipu.com
