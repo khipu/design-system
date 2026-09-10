@@ -6,6 +6,8 @@ import {
   WritingGuidelinesTable,
   SpecificExamplesTable,
   MicrocopyTable,
+  VerbsCallout,
+  VerbsTable,
   PunctuationRulesTable
 } from './components/VoiceAndToneComponents';
 import { spacing } from '../../tokens';
@@ -52,6 +54,14 @@ export const Voz_y_tono: StoryObj = {
       <h2>📝 Microcopy: elementos de UI</h2>
 
       <MicrocopyTable />
+
+      <h2>🔤 Uso de verbos</h2>
+
+      <p>Los verbos nombran lo que el usuario está a punto de hacer. Ser consistente con ellos evita que dos pantallas llamen distinto a la misma acción.</p>
+
+      <VerbsCallout />
+
+      <VerbsTable />
 
       <h2>📌 Uso de puntuación</h2>
 

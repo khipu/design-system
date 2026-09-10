@@ -30,7 +30,7 @@ export const Uso_de_colores: StoryObj = {
         color: 'var(--kds-color-text-secondary)',
         fontStyle: 'italic'
       }}>
-        💡 <strong>Nota:</strong> Para valores específicos, tokens y especificaciones técnicas, consulta la sección <strong>Design Tokens</strong>.
+        💡 <strong>Nota:</strong> Esta página define <strong>qué significa cada color y cuándo usarlo</strong>. Los valores exactos y su implementación viven fuera de esta sección.
       </blockquote>
 
       <h2>Colores de marca</h2>
@@ -42,15 +42,6 @@ export const Uso_de_colores: StoryObj = {
       <p>Los colores semánticos comunican el estado del sistema de forma universal y consistente. <strong>Son iguales en modo claro y oscuro</strong> para mantener una comunicación visual consistente.</p>
 
       <SemanticColorCards />
-
-      <h2>📖 Recursos adicionales</h2>
-
-      <p>Para implementar estos colores en tu código:</p>
-      <ul>
-        <li>Consulta la sección <strong>Design Tokens</strong> para valores específicos y tokens</li>
-        <li>Revisa la documentación de componentes para ver ejemplos de uso</li>
-        <li>Usa el theme provider de MUI para acceso automático a todos los colores</li>
-      </ul>
     </div>
   ),
 };

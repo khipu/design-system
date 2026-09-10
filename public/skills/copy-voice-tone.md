@@ -29,7 +29,7 @@ Nuestra identidad se fundamenta en tres valores esenciales:
 - Tú / Tu (tutear al usuario)
 - Verbos activos y directos
 - Frases cortas y concisas
-- Lenguaje neutro
+- Género neutro cuando el idioma lo permite (ej: "Te damos la bienvenida")
 - Números en lugar de palabras
 - Bullet points para listas
 - Mayúscula inicial (norma ortográfica estándar)
@@ -38,7 +38,7 @@ Nuestra identidad se fundamenta en tres valores esenciales:
 - Usted (demasiado formal)
 - Voz pasiva
 - Párrafos largos
-- Lenguaje excluyente
+- Marcar género sin necesidad (ej: "Bienvenido", "Bienvenido/a", "Bienvenid@")
 - Jerga técnica innecesaria
 - Bloques de texto denso
 - CamelCase en contexto de usuarios (ej: "Ver Factura", "Mi Cuenta")

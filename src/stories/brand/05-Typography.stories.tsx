@@ -30,12 +30,12 @@ export const Uso_tipográfico: StoryObj = {
         color: 'var(--kds-color-text-secondary)',
         fontStyle: 'italic'
       }}>
-        💡 <strong>Nota:</strong> Para escalas completas, tamaños específicos y tokens técnicos, consulta la sección <strong>Design Tokens</strong>.
+        💡 <strong>Nota:</strong> Esta página define <strong>nuestra tipografía y por qué la elegimos</strong>. Las escalas y tamaños exactos viven fuera de esta sección.
       </blockquote>
 
       <h2>🔤 Public Sans — Nuestra voz tipográfica</h2>
 
-      <p>Public Sans es una tipografía geométrica y humanista creada por el equipo de diseño de USWDS (U.S. Web Design System). Es la <strong>única fuente</strong> que usamos en todo el sistema de diseño Khipu.</p>
+      <p>Public Sans es una tipografía geométrica y humanista creada por el equipo de diseño de USWDS (U.S. Web Design System). Es la <strong>única fuente</strong> que usamos en toda la marca Khipu.</p>
 
       <h3>¿Por qué Public Sans?</h3>
 
@@ -48,15 +48,6 @@ export const Uso_tipográfico: StoryObj = {
       <FontWeightSamples />
 
       <p><strong>Principio de uso:</strong> Limita a 3 pesos diferentes en una misma vista para mantener coherencia visual.</p>
-
-      <h2>📖 Recursos adicionales</h2>
-
-      <p>Para implementar tipografía en tu código:</p>
-      <ul>
-        <li><strong>Design Tokens / Typography</strong>: Escalas completas, tamaños, pesos y tokens</li>
-        <li><strong>Core / Typography</strong>: Componente interactivo con todas las variantes</li>
-        <li><strong>Ejemplos</strong>: Ver implementaciones reales en las páginas de ejemplo</li>
-      </ul>
     </div>
   ),
 };

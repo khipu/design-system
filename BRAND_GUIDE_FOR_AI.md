@@ -29,11 +29,11 @@ Generar contenido (copy, código, diseños) que refleje la voz de Khipu: cercana
 
 | Tarea | Recurso Principal | Recurso Secundario |
 |-------|-------------------|-------------------|
-| ✍️ Escribir copy/textos | Este archivo | `src/stories/brand/05-VoiceAndTone.stories.mdx` |
+| ✍️ Escribir copy/textos | Este archivo | `src/stories/brand/06-VoiceAndTone.stories.tsx` |
 | 🎨 Definir colores/estilos | Este archivo + [CLAUDE.md](./CLAUDE.md) → Tokens | Storybook → Brand/Uso de colores |
 | 💻 Generar código React/Android | [CLAUDE.md](./CLAUDE.md) | Este archivo (para textos en UI) |
-| 🔍 Ver ejemplos completos | `src/examples/` | Storybook → Examples |
-| 📐 Usar componentes | [CLAUDE.md](./CLAUDE.md) → Components | Storybook → Core |
+| 🔍 Ver ejemplos completos | `src/stories/examples/` | Storybook → Examples |
+| 📐 Usar componentes | [CLAUDE.md](./CLAUDE.md) → Components | Storybook → Components |
 
 ---
 
@@ -123,7 +123,7 @@ Vamos al grano. Respetamos el tiempo del usuario
 | Tú / Tu (tutear al usuario) | Usted (demasiado formal) |
 | Verbos activos y directos | Voz pasiva |
 | Frases cortas y concisas | Párrafos largos |
-| Lenguaje neutro | Lenguaje excluyente |
+| Género neutro cuando el idioma lo permite (ej: "Te damos la bienvenida") | Marcar género sin necesidad (ej: "Bienvenido", "Bienvenido/a", "Bienvenid@") |
 | Números en lugar de palabras | Jerga técnica innecesaria |
 | Bullet points para listas | Bloques de texto denso |
 | Mayúscula inicial: Es la norma ortográfica estándar. La primera letra de cada oración siempre debe ir en mayúscula. (CamelCase solo en código/nombres propios) | CamelCase en contexto de usuarios (ej: "Ver Factura", "Mi Cuenta") |
@@ -310,7 +310,7 @@ Usa este checklist para validar tu output:
 ### Fuentes de Información
 
 Este archivo está alineado con:
-- **Storybook**: `src/stories/brand/*.stories.mdx` (documentación visual detallada)
+- **Storybook**: `src/stories/brand/*.stories.tsx` (documentación visual detallada)
 - **CLAUDE.md**: Sección "Android" y "Patrones de Desarrollo"
 - **Tokens visuales**: `src/tokens/index.ts` (colores, tipografía)
 
@@ -332,15 +332,18 @@ Implementaciones (React, Android, Grails, etc.)
 
 ### 📝 Proceso de Sincronización
 
-> ⚠️ **IMPORTANTE:** Cuando se realizan cambios en los archivos de Brand (`src/stories/brand/*.stories.mdx`), estos cambios **DEBEN** reflejarse manualmente en `BRAND_GUIDE_FOR_AI.md`.
+> ⚠️ **IMPORTANTE:** Cuando se realizan cambios en los archivos de Brand (`src/stories/brand/*.stories.tsx` y sus componentes en `src/stories/brand/components/`), estos cambios **DEBEN** reflejarse manualmente en `BRAND_GUIDE_FOR_AI.md`.
 
 **Archivos que requieren sincronización:**
 
-| Archivo Storybook | Sección en BRAND_GUIDE_FOR_AI.md | ¿Cuándo sincronizar? |
-|-------------------|-----------------------------------|---------------------|
-| `02-Logo.stories.mdx` | Personalidad de marca, Valores de marca | Al actualizar frases descriptivas o valores |
-| `03-Colors.stories.mdx` | Identidad visual clave (colores HEX) | Al cambiar colores primarios/secundarios |
-| `05-VoiceAndTone.stories.mdx` | Voz de marca, Guías de redacción, Microcopy, Uso de puntuación | Al agregar/modificar reglas de escritura |
+| Archivo Storybook | Página en Storybook | Sección en BRAND_GUIDE_FOR_AI.md | ¿Cuándo sincronizar? |
+|-------------------|---------------------|-----------------------------------|---------------------|
+| `03-Logo.stories.tsx` | Uso de marca | Valores de marca, Personalidad de marca | Al actualizar frases descriptivas o valores |
+| `04-Colors.stories.tsx` | Uso de colores | Identidad visual clave (colores HEX) | Al cambiar colores primarios/secundarios |
+| `05-Typography.stories.tsx` | Uso tipográfico | Identidad visual clave (tipografía) | Al cambiar la familia o los pesos tipográficos |
+| `06-VoiceAndTone.stories.tsx` | Voz y tono | Voz de marca, Guías de redacción, Microcopy, Uso de verbos, Uso de puntuación | Al agregar/modificar reglas de escritura |
+
+> El contenido de estas páginas vive en `src/stories/brand/components/` (`ColorCards.tsx`, `TypographyComponents.tsx`, `VoiceAndToneComponents.tsx`); las stories solo lo componen.
 
 **Checklist de sincronización:**
 1. [ ] ¿Se actualizaron frases de personalidad de marca?
