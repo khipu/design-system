@@ -20,7 +20,7 @@ export function BrandColorCards() {
           marginBottom: '24px',
           textAlign: 'center'
         }}>
-          #8347AD
+          {colors.primary.main}
         </div>
 
         <h4 style={{ fontSize: '16px', fontWeight: fontWeights.semiBold, marginBottom: '12px' }}>Propósito</h4>
@@ -59,7 +59,7 @@ export function BrandColorCards() {
           marginBottom: '24px',
           textAlign: 'center'
         }}>
-          #3CB4E5
+          {colors.secondary.main}
         </div>
 
         <h4 style={{ fontSize: '16px', fontWeight: fontWeights.semiBold, marginBottom: '12px' }}>Propósito</h4>
@@ -97,7 +97,7 @@ export function SemanticColorCards() {
           marginBottom: '12px',
           textAlign: 'center'
         }}>
-          #0288D1
+          {colors.info.main}
         </div>
         <div style={{ fontWeight: '700', fontSize: '18px', marginBottom: '12px' }}>Info</div>
         <div style={{ fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)', marginBottom: '12px', lineHeight: '1.5' }}>
@@ -127,7 +127,7 @@ export function SemanticColorCards() {
           marginBottom: '12px',
           textAlign: 'center'
         }}>
-          #2E7D32
+          {colors.success.main}
         </div>
         <div style={{ fontWeight: '700', fontSize: '18px', marginBottom: '12px' }}>Success</div>
         <div style={{ fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)', marginBottom: '12px', lineHeight: '1.5' }}>
@@ -157,7 +157,7 @@ export function SemanticColorCards() {
           marginBottom: '12px',
           textAlign: 'center'
         }}>
-          #ED6C02
+          {colors.warning.main}
         </div>
         <div style={{ fontWeight: '700', fontSize: '18px', marginBottom: '12px' }}>Warning</div>
         <div style={{ fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)', marginBottom: '12px', lineHeight: '1.5' }}>
@@ -187,7 +187,7 @@ export function SemanticColorCards() {
           marginBottom: '12px',
           textAlign: 'center'
         }}>
-          #D32F2F
+          {colors.error.main}
         </div>
         <div style={{ fontWeight: '700', fontSize: '18px', marginBottom: '12px' }}>Error</div>
         <div style={{ fontSize: fontSizes.sm, color: 'var(--kds-color-text-secondary)', marginBottom: '12px', lineHeight: '1.5' }}>
