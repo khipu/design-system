@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plantilla de presentación — Marca Khipu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   PLANTILLA DE PRESENTACIÓN — MARCA KHIPU
+   Valores tomados de docs/brand/COMUNICACION_Y_PRESENTACIONES.md
+   Los HEX provienen de src/tokens/index.ts (fuente de verdad)
+   ========================================================================== */
+
+:root {
+  /* --- Marca --- */
+  --purpura:            #8347AD;
+  --purpura-dark:       #5B3179;
+  --purpura-light:      #9B6BBD;
+  --purpura-container:  #F3E5FF;
+  --cian:               #3CB4E5;
+  --cian-dark:          #198EBE;
+  /* Superficie de sección: variante tenue del marcador del índice
+     (--purpura-container #F3E5FF): mismo matiz y saturación, apenas más
+     clara, para cubrir una slide entera sin competir con el texto. */
+  --superficie-seccion: #F7EDFF;
+
+  /* --- Neutros --- */
+  --blanco:             #FFFFFF;
+  --gris-oscuro:        #333333;
+  --gris-medio:         #666666;
+  --gris-linea:         #E5E7EB;
+  --fondo-app:          #F4F4F7;
+
+  /* --- Semánticos (main / dark) --- */
+  --info:               #0288D1;
+  --info-dark:          #01579B;
+  --success:            #2E7D32;
+  --success-dark:       #1B5E20;
+  --warning:            #EF6C00;
+  --warning-dark:       #E65100;
+  --error:              #D32F2F;
+  --error-dark:         #C62828;
+
+  /* --- Tipografía: escala en pt sobre lienzo de 1920×1080 --- */
+  --f-portada:    62pt;
+  --f-seccion:    40pt;
+  --f-titulo:     38pt;
+  --f-subtitulo:  24pt;
+  --f-cuerpo:     21pt;
+  --f-nota:       14pt;
+
+  --w-regular:  400;
+  --w-medium:   500;
+  --w-semibold: 600;
+  --w-bold:     700;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 40px 20px 80px;
+  background: var(--fondo-app);
+  font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--gris-oscuro);
+}
+
+/* --------------------------------------------------------------------------
+   LIENZO 16:9 — 1920×1080 escalado con transform para que el interior
+   pueda medirse en px reales de slide (así los pt equivalen a los de Slides)
+   -------------------------------------------------------------------------- */
+.deck { max-width: 1280px; margin: 0 auto; }
+
+.slide-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto 28px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.10), 0 8px 24px rgba(0,0,0,.08);
+  background: var(--blanco);
+}
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: top left;
+  display: flex;
+  flex-direction: column;
+  padding: 90px 110px 90px 128px;
+  background: var(--blanco);
+}
+
+/* Cuerpo de una slide de contenido: arranca bajo el logo, termina sobre el
+   pie, y reparte su contenido en el alto disponible. */
+.cuerpo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+/* Índice y divisor conservan el logo arriba: su cuerpo sí lo libra. */
+.slide:has(> .logo) .cuerpo { margin-top: 100px; }
+.cuerpo > .cols { flex: 0 0 auto; align-content: start; }
+.cuerpo > .relleno { flex: 1; }
+
+/* Etiqueta descriptiva sobre cada slide */
+.rotulo {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 10px 4px;
+  font-size: 13px;
+}
+.rotulo b { color: var(--purpura-dark); font-weight: var(--w-semibold); }
+.rotulo span { color: var(--gris-medio); }
+
+/* --------------------------------------------------------------------------
+   LOGO
+   -------------------------------------------------------------------------- */
+.logo {
+  position: absolute;
+  top: 60px;
+  /* El SVG trae 16.4% de aire interno a la izquierda (el trazo arranca en
+     x=32.72 de un viewBox de 200). Se compensa el 60% de ese aire: alinear el
+     trazo al 100% deja el logo visualmente volado hacia afuera, porque el
+     costado recto de la "K" pesa más que el borde de una letra con curva. */
+  left: calc(128px - 230px * 0.1636 * 0.6);
+  width: 230px;
+}
+.logo img  { width: 100%; display: block; }
+
+/* --------------------------------------------------------------------------
+   TIPOGRAFÍA DE SLIDE
+   -------------------------------------------------------------------------- */
+.t-portada   {
+  font-size: var(--f-portada);
+  font-weight: var(--w-bold);
+  line-height: 1.08;
+  letter-spacing: -.015em;
+  margin: 0;
+}
+.t-seccion   { font-size: var(--f-seccion);   font-weight: var(--w-semibold); line-height: 1.15; margin: 0; }
+.t-titulo    {
+  font-size: var(--f-titulo);
+  font-weight: var(--w-semibold);
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  color: var(--gris-oscuro);
+  margin: 0 0 52px;
+  max-width: 1500px;
+  text-wrap: balance;
+}
+.t-subtitulo { font-size: var(--f-subtitulo); font-weight: var(--w-medium);   line-height: 1.35; margin: 0; }
+.t-cuerpo    { font-size: var(--f-cuerpo);    font-weight: var(--w-regular);  line-height: 1.55; }
+.t-nota      { font-size: var(--f-nota);      font-weight: var(--w-regular);  color: var(--gris-medio); }
+/* Fecha de portada: un escalón sobre la nota al pie, para que se lea a
+   distancia sin competir con el subtítulo. */
+.t-fecha     { font-size: 17pt; font-weight: var(--w-medium); letter-spacing: .02em; }
+
+.lista { margin: 0; padding-left: 30px; }
+.lista li { font-size: var(--f-cuerpo); line-height: 1.55; margin-bottom: 18px; }
+.lista li::marker { color: var(--purpura); }
+
+/* --------------------------------------------------------------------------
+   VARIANTES DE FONDO
+   -------------------------------------------------------------------------- */
+.bg-purpura   { background: var(--purpura); color: var(--blanco); }
+
+/* --------------------------------------------------------------------------
+   REJILLAS DE COLUMNAS
+   -------------------------------------------------------------------------- */
+.cols        { display: grid; gap: 70px; flex: 1; align-content: start; }
+.cols-2      { grid-template-columns: 1fr 1fr; }
+.cols-3      { grid-template-columns: repeat(3, 1fr); gap: 55px; }
+.cols-4      { grid-template-columns: repeat(4, 1fr); gap: 40px; }
+.cols-texto-imagen { grid-template-columns: 1fr 1fr; align-items: center; }
+
+.marco-imagen {
+  background: var(--fondo-app);
+  border: 2px dashed var(--gris-linea);
+  border-radius: 10px;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gris-medio);
+  font-size: var(--f-nota);
+}
+
+/* Tarjeta de columna */
+.tarjeta {
+  border-top: 5px solid var(--purpura);
+  padding-top: 26px;
+}
+.tarjeta h3 {
+  font-size: var(--f-subtitulo);
+  font-weight: var(--w-semibold);
+  margin: 0 0 14px;
+  color: var(--purpura-dark);
+}
+.tarjeta p { font-size: var(--f-cuerpo); line-height: 1.5; margin: 0; }
+
+/* Cifra destacada */
+.cifra {
+  font-size: 54pt;
+  font-weight: var(--w-bold);
+  color: var(--purpura);
+  line-height: 1;
+  margin: 0 0 12px;
+}
+
+/* --------------------------------------------------------------------------
+   TABLA
+   -------------------------------------------------------------------------- */
+.tabla { width: 100%; border-collapse: collapse; }
+.tabla th {
+  text-align: left;
+  font-size: var(--f-cuerpo);
+  font-weight: var(--w-semibold);
+  color: var(--blanco);
+  background: var(--purpura);
+  padding: 20px 24px;
+}
+.tabla th:first-child { border-radius: 8px 0 0 0; }
+.tabla th:last-child  { border-radius: 0 8px 0 0; }
+.tabla td {
+  font-size: var(--f-cuerpo);
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--gris-linea);
+}
+.tabla tbody tr:nth-child(even) { background: #FAFAFC; }
+
+/* --------------------------------------------------------------------------
+   GRÁFICO DE BARRAS (CSS puro)
+   -------------------------------------------------------------------------- */
+.grafico {
+  display: flex;
+  align-items: flex-end;
+  gap: 46px;
+  flex: 1;
+  min-height: 340px;
+  padding: 0 20px;
+  border-bottom: 2px solid var(--gris-linea);
+}
+.barra-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+.barra {
+  border-radius: 6px 6px 0 0;
+  background: var(--purpura);
+  position: relative;
+}
+.barra.serie-2 { background: var(--purpura-dark); }
+.barra.serie-3 { background: var(--cian); }
+.barra .valor {
+  position: absolute;
+  top: -46px; left: 0; right: 0;
+  text-align: center;
+  font-size: var(--f-subtitulo);
+  font-weight: var(--w-semibold);
+  color: var(--gris-oscuro);
+}
+.barra-label {
+  text-align: center;
+  font-size: var(--f-cuerpo);
+  margin-top: 18px;
+  color: var(--gris-medio);
+}
+.leyenda { display: flex; gap: 40px; margin-top: 34px; }
+.leyenda span { display: flex; align-items: center; gap: 12px; font-size: var(--f-nota); color: var(--gris-medio); }
+.punto { width: 16px; height: 16px; border-radius: 4px; display: inline-block; }
+
+/* --------------------------------------------------------------------------
+   ESTADOS (semánticos)
+   -------------------------------------------------------------------------- */
+.estado { display: flex; gap: 18px; align-items: flex-start; }
+.estado .barra-estado { width: 6px; align-self: stretch; border-radius: 3px; }
+.estado h4 { margin: 0 0 8px; font-size: var(--f-subtitulo); font-weight: var(--w-semibold); }
+.estado p  { margin: 0; font-size: var(--f-nota); line-height: 1.5; color: var(--gris-medio); }
+
+/* --------------------------------------------------------------------------
+   FONDOS RADIALES — portada y cierre
+   Base de púrpura de marca con dos halos radiales: uno cian tenue naciendo
+   fuera del borde inferior derecho, otro púrpura claro arriba a la izquierda.
+   La superficie se lee como púrpura corporativo con profundidad, no como un
+   barrido de dos colores.
+   -------------------------------------------------------------------------- */
+.bg-degradado {
+  color: var(--blanco);
+  background:
+    /* halo cian, entra desde fuera del borde inferior izquierdo */
+    radial-gradient(105% 125% at 0% 108%,
+      rgba(60,180,229,.60)  0%,
+      rgba(60,180,229,.26) 34%,
+      rgba(60,180,229,0)   62%),
+    /* luz suave en el ángulo opuesto */
+    radial-gradient(80% 95% at 92% -10%,
+      rgba(155,107,189,.42) 0%,
+      rgba(155,107,189,0)  58%),
+    /* base corporativa */
+    var(--purpura);
+}
+
+/* Cierre: el mismo concepto radial con el halo espejado — nace fuera del
+   borde superior izquierdo, cerrando el arco visual que abre la portada. */
+.bg-degradado.invertido {
+  background:
+    radial-gradient(105% 125% at 100% 108%,
+      rgba(60,180,229,.60)  0%,
+      rgba(60,180,229,.26) 34%,
+      rgba(60,180,229,0)   62%),
+    radial-gradient(80% 95% at 8% -10%,
+      rgba(155,107,189,.42) 0%,
+      rgba(155,107,189,0)  58%),
+    var(--purpura);
+}
+.bg-degradado.invertido::before {
+  mask-image: radial-gradient(90% 110% at 100% 105%, #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(90% 110% at 100% 105%, #000 0%, transparent 70%);
+}
+
+/* --------------------------------------------------------------------------
+   PORTADA CON FOTOGRAFÍA
+   El lienzo se parte en diagonal: bloque de marca a la izquierda con el
+   texto, fotografía a la derecha. La foto entra enmascarada, con un velo
+   púrpura que la integra a la paleta y sostiene el contraste del texto.
+   -------------------------------------------------------------------------- */
+.slide-foto { padding: 0; overflow: hidden; }
+
+/* Capa de la fotografía, ocupa todo el lienzo */
+.foto {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  /* Corte diagonal en sección áurea: la diagonal cruza el eje en 61.8%
+     (1/φ), con 12 puntos de inclinación. El bloque de marca ocupa 61.8%
+     del ancho y la foto 38.2% — relación 1:φ. */
+  clip-path: polygon(67.8% 0, 100% 0, 100% 100%, 55.8% 100%);
+}
+/* Velo de marca sobre la foto: la integra a la paleta sin apagarla */
+.foto::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg,
+    rgba(131,71,173,.82) 0%,
+    rgba(131,71,173,.34) 45%,
+    rgba(60,180,229,.28) 100%);
+}
+
+/* Marcador de imagen: sustituir por la fotografía real.
+   background-image: url('ruta/a/la-foto.jpg'); */
+.foto.marcador {
+  background-color: #6E7480;
+  background-image:
+    repeating-linear-gradient(45deg,
+      rgba(255,255,255,.06) 0 22px,
+      rgba(0,0,0,.06)      22px 44px);
+}
+.foto.marcador .rotulo-foto {
+  position: absolute;
+  right: 70px;
+  bottom: 70px;
+  z-index: 2;
+  font-size: var(--f-nota);
+  color: rgba(255,255,255,.9);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 4px;
+  padding: 10px 16px;
+}
+
+/* Bloque de marca: el mismo radial de la portada, recortado en espejo */
+.bloque-marca {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 67.8% 0, 55.8% 100%, 0 100%);
+  background:
+    radial-gradient(95% 115% at 10% 105%,
+      rgba(60,180,229,.42) 0%,
+      rgba(60,180,229,0)  60%),
+    var(--purpura);
+}
+
+/* Contenido sobre las dos capas */
+.slide-foto .contenido-portada {
+  position: absolute;
+  inset: 0;
+  padding: 90px 110px 90px 128px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1020px;
+  color: var(--blanco);
+}
+
+/* Trama de puntos: textura muy tenue que evita el banding en proyección,
+   concentrada donde nace el halo cian. */
+.bg-degradado::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.10) 1.4px, transparent 1.5px);
+  background-size: 38px 38px;
+  mask-image: radial-gradient(90% 110% at 0% 105%, #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(90% 110% at 0% 105%, #000 0%, transparent 70%);
+  pointer-events: none;
+}
+.bg-degradado > *:not(.logo):not(.t-nota) { position: relative; }
+.bg-degradado > .logo, .bg-degradado > .t-nota { z-index: 1; }
+
+/* Filete de acento bajo el título */
+.filete {
+  width: 96px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--blanco);
+  opacity: .9;
+  margin: 0 0 40px;
+}
+
+/* --------------------------------------------------------------------------
+   SLIDE A SANGRE — imagen o gráfico a pantalla completa
+   Sin logo, huincha ni pie: nada compite con lo que se muestra. El pie de
+   foto flota sobre un velo inferior sólo cuando hace falta atribuir la fuente.
+   -------------------------------------------------------------------------- */
+.slide-sangre { padding: 0; overflow: hidden; }
+
+.sangre-medio {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Marcador: sustituir por la imagen real.
+   background-image: url('ruta/a/la-imagen.jpg'); */
+.sangre-medio.marcador {
+  background-color: #6E7480;
+  background-image:
+    repeating-linear-gradient(45deg,
+      rgba(255,255,255,.06) 0 22px,
+      rgba(0,0,0,.06)      22px 44px);
+}
+
+/* Pie de imagen: velo sólo en la franja inferior, para no velar la imagen */
+.sangre-pie {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 130px 110px 56px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 60px;
+  color: var(--blanco);
+  background: linear-gradient(to top,
+    rgba(20,10,30,.72) 0%,
+    rgba(20,10,30,.34) 55%,
+    rgba(20,10,30,0)  100%);
+}
+.sangre-pie .titulo-sangre {
+  font-size: var(--f-subtitulo);
+  font-weight: var(--w-semibold);
+  margin: 0 0 8px;
+}
+.sangre-pie .fuente-sangre {
+  font-size: var(--f-nota);
+  color: rgba(255,255,255,.8);
+  margin: 0;
+}
+.sangre-pie .folio .n     { color: var(--blanco); }
+.sangre-pie .folio .regla { background: rgba(255,255,255,.45); }
+.sangre-pie .folio .total { color: rgba(255,255,255,.8); }
+
+/* Variante sobre fondo claro: el gráfico ocupa el lienzo sin velo */
+.slide-sangre.clara .sangre-medio { background: var(--blanco); }
+
+/* --------------------------------------------------------------------------
+   DIVISOR DE SECCIÓN — sólo texto, a gran escala
+   El nombre de la sección ocupa el lienzo y funciona como respiro entre
+   bloques. Sin logo ni pie; el eyebrow numerado hace de ancla y la palabra
+   clave se destaca en púrpura.
+   -------------------------------------------------------------------------- */
+.slide-divisor-tipo {
+  justify-content: center;
+  padding: 90px 140px 90px 128px;
+  background: var(--superficie-seccion);
+}
+.divisor-num {
+  font-size: 20pt;
+  font-weight: var(--w-semibold);
+  letter-spacing: .18em;
+  color: var(--purpura);
+  margin: 0 0 40px;
+}
+.divisor-titulo {
+  font-size: 96pt;
+  font-weight: var(--w-bold);
+  line-height: .98;
+  letter-spacing: -.025em;
+  color: var(--gris-oscuro);
+  margin: 0;
+  max-width: 1500px;
+  text-wrap: balance;
+}
+/* La palabra clave se destaca en púrpura, no todo el título */
+.divisor-titulo em {
+  font-style: normal;
+  color: var(--purpura);
+}
+.divisor-pie {
+  margin-top: 52px;
+  font-size: var(--f-subtitulo);
+  font-weight: var(--w-regular);
+  color: var(--gris-medio);
+  max-width: 1100px;
+}
+
+/* --------------------------------------------------------------------------
+   HUINCHA — banda vertical en el borde izquierdo.
+   Ancla el contenido y equilibra el peso del texto, que carga hacia la
+   izquierda. Va en degradado continuo púrpura → cian: el color de marca domina
+   la banda y el cian entra sólo en el tramo final, a la altura del pie.
+   -------------------------------------------------------------------------- */
+.huincha {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 21px;
+  background: linear-gradient(
+    to bottom,
+    var(--purpura)  0%,
+    var(--purpura) 65%,
+    var(--cian)   100%);
+}
+
+/* --------------------------------------------------------------------------
+   PIE DE SLIDE + NUMERACIÓN
+   El número es un elemento gráfico, no una nota al pie: cifra grande en
+   púrpura, precedida de una regla fina que lo ancla al borde.
+   -------------------------------------------------------------------------- */
+.pie {
+  position: absolute;
+  bottom: 52px; left: 128px; right: 110px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  font-size: var(--f-nota);
+  color: var(--gris-medio);
+}
+.pie .titulo-corrido {
+  letter-spacing: .04em;
+}
+/* Logotipo reducido en el pie de las slides interiores: acompaña al nombre
+   de la presentación, en el mismo gris, sin competir con el contenido. */
+.pie .marca-pie {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.pie .marca-pie img { width: 96px; display: block; opacity: .75; margin-left: calc(96px * -0.1636 * 0.6); }
+.pie .marca-pie .separador {
+  width: 1px;
+  height: 22px;
+  background: var(--gris-linea);
+}
+.folio {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.folio .n + .total { margin-left: -12px; }
+.folio .regla {
+  width: 64px;
+  height: 2px;
+  background: var(--gris-linea);
+}
+.folio .n {
+  font-size: 26pt;
+  font-weight: var(--w-bold);
+  line-height: 1;
+  color: var(--purpura);
+  font-variant-numeric: tabular-nums;
+}
+.folio .total {
+  font-size: 18pt;
+  font-weight: var(--w-medium);
+  line-height: 1;
+  /* Mismo gris con que se ve el logotipo del pie: #666666 al 75% sobre
+     blanco. Así el total y la marca pesan igual dentro del pie. */
+  color: #8C8C8C;
+  font-variant-numeric: tabular-nums;
+  align-self: flex-end;
+  margin-bottom: 1px;
+}
+/* Sobre fondo púrpura */
+.bg-purpura .folio .n     { color: var(--blanco); }
+.bg-purpura .folio .regla { background: rgba(255,255,255,.4); }
+.bg-purpura .folio .total,
+.bg-purpura .pie          { color: rgba(255,255,255,.75); }
+
+/* --------------------------------------------------------------------------
+   ÍNDICE
+   -------------------------------------------------------------------------- */
+.indice { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+.indice-fila {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  align-items: baseline;
+  gap: 34px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--gris-linea);
+}
+.indice-fila:first-child { border-top: 1px solid var(--gris-linea); }
+.indice-fila .num {
+  font-size: 24pt;
+  font-weight: var(--w-bold);
+  color: var(--purpura);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.indice-fila .tema {
+  font-size: var(--f-subtitulo);
+  font-weight: var(--w-semibold);
+  color: var(--gris-oscuro);
+}
+.indice-fila .detalle {
+  display: block;
+  font-size: var(--f-nota);
+  font-weight: var(--w-regular);
+  color: var(--gris-medio);
+  margin-top: 6px;
+}
+.indice-fila .pag {
+  font-size: var(--f-cuerpo);
+  color: var(--gris-medio);
+  font-variant-numeric: tabular-nums;
+}
+/* Sección en curso */
+.indice-fila.activa .num  { color: var(--purpura); }
+.indice-fila.activa .tema { color: var(--purpura-dark); }
+.indice-fila.activa {
+  background: var(--purpura-container);
+  margin: 0 -28px;
+  padding-left: 28px;
+  padding-right: 28px;
+  border-radius: 6px;
+  border-bottom-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   NOTAS DE DISEÑO (no forman parte de la presentación)
+   -------------------------------------------------------------------------- */
+.nota-diseno {
+  max-width: 1280px;
+  margin: 0 auto 40px;
+  padding: 22px 26px;
+  background: var(--blanco);
+  border-left: 5px solid var(--cian);
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--gris-oscuro);
+}
+.nota-diseno strong { color: var(--cian-dark); }
+.nota-diseno code {
+  background: var(--fondo-app);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.cabecera-doc {
+  max-width: 1280px;
+  margin: 0 auto 36px;
+}
+.cabecera-doc h1 { font-size: 30px; font-weight: var(--w-bold); margin: 0 0 8px; }
+.cabecera-doc p  { font-size: 15px; color: var(--gris-medio); line-height: 1.6; margin: 0 0 6px; }
+
+@media print {
+  body { background: none; padding: 0; }
+  .rotulo, .nota-diseno, .cabecera-doc { display: none; }
+  .slide-wrap { margin: 0; border-radius: 0; box-shadow: none; page-break-after: always; }
+}
+</style>
+</head>
+<body>
+
+<div class="cabecera-doc">
+  <h1>Plantilla de presentación — Marca Khipu</h1>
+  <p>Doce slides tipo con la identidad aplicada, con dos portadas elegibles, para tomar decisiones de diseño antes de llevarlas a Google Slides, Keynote o PowerPoint. Formato 16:9 (1920×1080).</p>
+  <p>Los valores provienen de <code>docs/brand/COMUNICACION_Y_PRESENTACIONES.md</code>. Para exportar a PDF: imprime desde el navegador con fondos gráficos activados y orientación horizontal.</p>
+</div>
+
+<div class="deck">
+
+<!-- ══════════════════ 1. PORTADA ══════════════════ -->
+<p class="rotulo"><b>1 · Portada</b> <span>Radial sutil sobre púrpura · halo cian desde abajo a la izquierda</span></p>
+<div class="slide-wrap">
+  <div class="slide bg-degradado" style="justify-content: center;">
+    <div class="logo"><img src="khipu-logotipo-blanco.svg" alt="Khipu"></div>
+    <div class="filete"></div>
+    <h1 class="t-portada" style="max-width: 1250px;">Título de la presentación<br>en una o dos líneas</h1>
+    <p class="t-subtitulo" style="margin-top: 34px; opacity: .85;">Subtítulo descriptivo o nombre del cliente</p>
+    <p class="t-fecha" style="position: absolute; bottom: 90px; left: 128px; color: rgba(255,255,255,.85);">Septiembre 2026</p>
+  </div>
+</div>
+
+<!-- ══════════════════ 1b. PORTADA CON FOTOGRAFÍA ══════════════════ -->
+<p class="rotulo"><b>1 · Portada alternativa</b> <span>Corte diagonal · fotografía enmascarada con velo de marca</span></p>
+<div class="slide-wrap">
+  <div class="slide slide-foto">
+    <div class="foto marcador"><span class="rotulo-foto">Fotografía · reemplazar por imagen real</span></div>
+    <div class="bloque-marca"></div>
+    <div class="contenido-portada">
+      <div class="logo" style="position: static; margin-bottom: auto; margin-left: calc(230px * -0.1636 * 0.6);"><img src="khipu-logotipo-blanco.svg" alt="Khipu"></div>
+      <div class="filete"></div>
+      <h1 class="t-portada" style="max-width: 830px; font-size: 56pt;">Título de la presentación<br>en una o dos líneas</h1>
+      <p class="t-subtitulo" style="margin-top: 34px; opacity: .85;">Subtítulo descriptivo o nombre del cliente</p>
+      <p class="t-fecha" style="margin-top: auto; color: rgba(255,255,255,.85);">Septiembre 2026</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 2. ÍNDICE ══════════════════ -->
+<p class="rotulo"><b>2 · Índice</b> <span>Numeración como elemento gráfico · sección en curso destacada</span></p>
+<div class="slide-wrap">
+  <div class="slide">
+    <div class="huincha"></div>
+    <div class="logo"><img src="khipu-logotipo-gris.svg" alt="Khipu"></div>
+    <div class="cuerpo">
+      <h2 class="t-titulo">Contenido</h2>
+      <div class="indice">
+        <div class="indice-fila activa">
+          <span class="num">01</span>
+          <span class="tema">Contexto y punto de partida
+            <span class="detalle">De dónde venimos y qué problema resolvemos</span>
+          </span>
+          <span class="pag">03</span>
+        </div>
+        <div class="indice-fila">
+          <span class="num">02</span>
+          <span class="tema">Propuesta
+            <span class="detalle">Qué proponemos y cómo funciona</span>
+          </span>
+          <span class="pag">05</span>
+        </div>
+        <div class="indice-fila">
+          <span class="num">03</span>
+          <span class="tema">Resultados
+            <span class="detalle">Cifras y evidencia que respaldan el mensaje</span>
+          </span>
+          <span class="pag">07</span>
+        </div>
+        <div class="indice-fila">
+          <span class="num">04</span>
+          <span class="tema">Próximos pasos
+            <span class="detalle">Qué sigue y quién hace qué</span>
+          </span>
+          <span class="pag">09</span>
+        </div>
+      </div>
+    </div>
+    <div class="pie">
+      <span class="titulo-corrido">Nombre de la presentación</span>
+      <span class="folio"><i class="regla"></i><b class="n">02</b><span class="total">/11</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 3. DIVISOR DE SECCIÓN ══════════════════ -->
+<p class="rotulo"><b>3 · Divisor de sección</b> <span>Sólo tipografía a gran escala · la palabra clave en púrpura</span></p>
+<div class="slide-wrap">
+  <div class="slide slide-divisor-tipo">
+    <div class="huincha"></div>
+    <p class="divisor-num">SECCIÓN 01</p>
+    <h2 class="divisor-titulo">Cómo funcionan los <em>pagos automáticos</em></h2>
+    <p class="divisor-pie">Una línea opcional que anticipa el contenido de la sección</p>
+  </div>
+</div>
+
+<!-- ══════════════════ 4. CONTENIDO + BULLETS ══════════════════ -->
+<p class="rotulo"><b>4 · Contenido estándar</b> <span>Fondo blanco · máximo 5-6 bullets de 1 línea</span></p>
+<div class="slide-wrap">
+  <div class="slide">
+    <div class="huincha"></div>
+    <div class="cuerpo">
+      <h2 class="t-titulo">Título accionable, no genérico</h2>
+      <ul class="lista" style="max-width: 1350px;">
+        <li>Cada bullet ocupa una sola línea</li>
+        <li>Entre cinco y seis por slide como máximo</li>
+        <li>Una idea principal por diapositiva</li>
+        <li>Números concretos en vez de adjetivos vagos</li>
+        <li>Sin punto final en listas ni títulos</li>
+      </ul>
+    </div>
+    <div class="pie">
+      <span class="marca-pie"><img src="khipu-logotipo-gris.svg" alt="Khipu"><i class="separador"></i><span class="titulo-corrido">Nombre de la presentación</span></span>
+      <span class="folio"><i class="regla"></i><b class="n">03</b><span class="total">/11</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 4. TEXTO + IMAGEN ══════════════════ -->
+<p class="rotulo"><b>5 · Texto + imagen (50/50)</b> <span>Dos columnas · imagen a la derecha</span></p>
+<div class="slide-wrap">
+  <div class="slide">
+    <div class="huincha"></div>
+    <div class="cuerpo">
+      <h2 class="t-titulo">Título de la diapositiva</h2>
+      <div class="cols cols-texto-imagen">
+        <div>
+          <p class="t-cuerpo" style="margin: 0 0 28px;">Texto de apoyo que acompaña a la imagen. Frases cortas: la presentación no es un documento, lo demás se dice hablando.</p>
+          <ul class="lista">
+            <li>Punto de apoyo uno</li>
+            <li>Punto de apoyo dos</li>
+            <li>Punto de apoyo tres</li>
+          </ul>
+        </div>
+        <div class="marco-imagen">Imagen o captura · 4:3</div>
+      </div>
+    </div>
+    <div class="pie">
+      <span class="marca-pie"><img src="khipu-logotipo-gris.svg" alt="Khipu"><i class="separador"></i><span class="titulo-corrido">Nombre de la presentación</span></span>
+      <span class="folio"><i class="regla"></i><b class="n">04</b><span class="total">/11</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 5. TRES COLUMNAS ══════════════════ -->
+<p class="rotulo"><b>6 · Tres columnas</b> <span>Tarjetas con filete superior en púrpura</span></p>
+<div class="slide-wrap">
+  <div class="slide">
+    <div class="huincha"></div>
+    <div class="cuerpo">
+      <h2 class="t-titulo">Tres ideas en paralelo</h2>
+      <div class="cols cols-3">
+        <div class="tarjeta">
+          <h3>Primera idea</h3>
+          <p>Descripción breve de dos o tres líneas como máximo, sin sobrecargar la columna.</p>
+        </div>
+        <div class="tarjeta">
+          <h3>Segunda idea</h3>
+          <p>Mantén las tres columnas con un largo de texto parecido para que la fila se lea pareja.</p>
+        </div>
+        <div class="tarjeta">
+          <h3>Tercera idea</h3>
+          <p>Si una columna necesita mucho más texto, probablemente merece su propia diapositiva.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pie">
+      <span class="marca-pie"><img src="khipu-logotipo-gris.svg" alt="Khipu"><i class="separador"></i><span class="titulo-corrido">Nombre de la presentación</span></span>
+      <span class="folio"><i class="regla"></i><b class="n">05</b><span class="total">/11</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 6. CUATRO COLUMNAS / CIFRAS ══════════════════ -->
+<p class="rotulo"><b>7 · Cuatro columnas con cifras</b> <span>Dato grande en púrpura + descripción</span></p>
+<div class="slide-wrap">
+  <div class="slide">
+    <div class="huincha"></div>
+    <div class="cuerpo">
+      <h2 class="t-titulo">Cifras que respaldan el mensaje</h2>
+      <div class="cols cols-4">
+        <div>
+          <p class="cifra">50%</p>
+          <p class="t-cuerpo" style="margin:0;">Descripción breve de la cifra</p>
+        </div>
+        <div>
+          <p class="cifra">2 min</p>
+          <p class="t-cuerpo" style="margin:0;">Descripción breve de la cifra</p>
+        </div>
+        <div>
+          <p class="cifra">+120</p>
+          <p class="t-cuerpo" style="margin:0;">Descripción breve de la cifra</p>
+        </div>
+        <div>
+          <p class="cifra">24/7</p>
+          <p class="t-cuerpo" style="margin:0;">Descripción breve de la cifra</p>
+        </div>
+      </div>
+      <p class="t-nota" style="margin-top: 56px;">Fuente: origen del dato, año</p>
+    </div>
+    <div class="pie">
+      <span class="marca-pie"><img src="khipu-logotipo-gris.svg" alt="Khipu"><i class="separador"></i><span class="titulo-corrido">Nombre de la presentación</span></span>
+      <span class="folio"><i class="regla"></i><b class="n">06</b><span class="total">/11</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 7. GRÁFICO ══════════════════ -->
+<p class="rotulo"><b>8 · Datos y gráficos</b> <span>Púrpura, púrpura dark y cian como series · nunca semánticos decorativos</span></p>
+<div class="slide-wrap">
+  <div class="slide">
+    <div class="huincha"></div>
+    <div class="cuerpo">
+      <h2 class="t-titulo">Título que dice la conclusión del gráfico</h2>
+      <div class="grafico">
+        <div class="barra-col"><div class="barra" style="height: 45%;"><span class="valor">45</span></div></div>
+        <div class="barra-col"><div class="barra" style="height: 62%;"><span class="valor">62</span></div></div>
+        <div class="barra-col"><div class="barra serie-2" style="height: 78%;"><span class="valor">78</span></div></div>
+        <div class="barra-col"><div class="barra serie-2" style="height: 88%;"><span class="valor">88</span></div></div>
+        <div class="barra-col"><div class="barra serie-3" style="height: 96%;"><span class="valor">96</span></div></div>
+      </div>
+      <div style="display:flex; gap:46px; padding: 0 20px;">
+        <div style="flex:1;" class="barra-label">Ene</div>
+        <div style="flex:1;" class="barra-label">Feb</div>
+        <div style="flex:1;" class="barra-label">Mar</div>
+        <div style="flex:1;" class="barra-label">Abr</div>
+        <div style="flex:1;" class="barra-label">May</div>
+      </div>
+      <div class="leyenda">
+        <span><i class="punto" style="background: var(--purpura);"></i> Serie principal</span>
+        <span><i class="punto" style="background: var(--purpura-dark);"></i> Serie secundaria</span>
+        <span><i class="punto" style="background: var(--cian);"></i> Serie de apoyo</span>
+      </div>
+      <p class="t-nota" style="margin-top: 24px;">Fuente: origen del dato, año</p>
+    </div>
+    <div class="pie">
+      <span class="marca-pie"><img src="khipu-logotipo-gris.svg" alt="Khipu"><i class="separador"></i><span class="titulo-corrido">Nombre de la presentación</span></span>
+      <span class="folio"><i class="regla"></i><b class="n">07</b><span class="total">/11</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 8. TABLA + ESTADOS ══════════════════ -->
+<p class="rotulo"><b>9 · Tabla y estados</b> <span>Semánticos solo cuando el dato tiene carga de estado</span></p>
+<div class="slide-wrap">
+  <div class="slide">
+    <div class="huincha"></div>
+    <div class="cuerpo">
+      <h2 class="t-titulo">Comparación en tabla</h2>
+      <div class="cols cols-2" style="gap: 60px;">
+        <table class="tabla">
+          <thead>
+            <tr><th>Concepto</th><th>Antes</th><th>Ahora</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Primera fila</td><td>Valor</td><td>Valor</td></tr>
+            <tr><td>Segunda fila</td><td>Valor</td><td>Valor</td></tr>
+            <tr><td>Tercera fila</td><td>Valor</td><td>Valor</td></tr>
+            <tr><td>Cuarta fila</td><td>Valor</td><td>Valor</td></tr>
+          </tbody>
+        </table>
+        <div style="display: flex; flex-direction: column; gap: 34px; justify-content: center;">
+          <div class="estado">
+            <div class="barra-estado" style="background: var(--success);"></div>
+            <div><h4 style="color: var(--success-dark);">Resultado positivo</h4><p>Usa success solo cuando el dato realmente comunica un logro.</p></div>
+          </div>
+          <div class="estado">
+            <div class="barra-estado" style="background: var(--warning);"></div>
+            <div><h4 style="color: var(--warning-dark);">Punto de atención</h4><p>Warning para lo que requiere seguimiento, no para destacar.</p></div>
+          </div>
+          <div class="estado">
+            <div class="barra-estado" style="background: var(--error);"></div>
+            <div><h4 style="color: var(--error-dark);">Riesgo</h4><p>Error para riesgos y caídas, nunca como color decorativo.</p></div>
+          </div>
+          <div class="estado">
+            <div class="barra-estado" style="background: var(--info);"></div>
+            <div><h4 style="color: var(--info-dark);">Contexto</h4><p>Info para datos neutros y aclaraciones.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pie">
+      <span class="marca-pie"><img src="khipu-logotipo-gris.svg" alt="Khipu"><i class="separador"></i><span class="titulo-corrido">Nombre de la presentación</span></span>
+      <span class="folio"><i class="regla"></i><b class="n">08</b><span class="total">/11</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 10. IMAGEN A SANGRE ══════════════════ -->
+<p class="rotulo"><b>10 · Imagen a pantalla completa</b> <span>Sin logo, huincha ni pie fijo · el velo inferior sólo aparece si hay que atribuir</span></p>
+<div class="slide-wrap">
+  <div class="slide slide-sangre">
+    <div class="sangre-medio marcador"></div>
+    <div class="sangre-pie">
+      <div>
+        <p class="titulo-sangre">Pie de imagen, si la imagen lo necesita</p>
+        <p class="fuente-sangre">Fuente: origen del dato o crédito de la fotografía</p>
+      </div>
+      <span class="folio"><i class="regla"></i><b class="n">09</b><span class="total">/11</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 11. CIERRE ══════════════════ -->
+<p class="rotulo"><b>11 · Cierre</b> <span>Radial espejado: halo cian desde abajo a la derecha</span></p>
+<div class="slide-wrap">
+  <div class="slide bg-degradado invertido" style="justify-content: center;">
+    <div class="logo"><img src="khipu-logotipo-blanco.svg" alt="Khipu"></div>
+    <div class="filete"></div>
+    <h2 class="t-portada" style="max-width: 1200px;">Mensaje de cierre o llamado a la acción</h2>
+    <p class="t-subtitulo" style="margin-top: 30px; opacity: .85;">contacto@khipu.com · khipu.com</p>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nota-diseno">
+  <p style="margin:0 0 10px;"><strong>Decisiones de diseño abiertas</strong></p>
+  <p style="margin:0 0 8px;"><strong>1. Portada con fotografía.</strong> Alternativa a la portada de color: el lienzo se parte en diagonal, con el bloque de marca a la izquierda y la foto a la derecha bajo un velo púrpura que la integra a la paleta. Para usarla, reemplaza el marcador rayado por <code>background-image: url(...)</code> en <code>.foto</code>. Sirve para presentaciones institucionales o de producto; la de color pura funciona mejor cuando no hay una imagen que aporte.</p>
+  <p style="margin:0 0 8px;"><strong>2. Radial en portada y cierre.</strong> Ambas comparten el mismo fondo, con el halo cian espejado: abajo a la izquierda en la portada, abajo a la derecha en el cierre. El mazo abre y cierra con la misma pieza, girada.</p>
+  <p style="margin:0 0 8px;"><strong>3. Imagen a sangre.</strong> Para gráficos, capturas o fotografías que necesiten todo el lienzo. No lleva logo, huincha ni pie fijo: el velo inferior aparece sólo si hay que titular o atribuir. Si la imagen se explica sola, se puede borrar ese bloque completo y dejarla limpia.</p>
+  <p style="margin:0 0 8px;"><strong>4. Densidad del púrpura.</strong> Aquí el púrpura pleno aparece solo en portada y cierre, y el divisor usa <code>container</code>. La alternativa es que el divisor también vaya en púrpura pleno: más presencia de marca, pero más saturación en mazos largos.</p>
+  <p style="margin:0 0 8px;"><strong>5. Tercera serie de gráfico.</strong> Se usa cian como serie de apoyo. Conviene decidir si el cian entra en gráficos o se reserva para acentos de interfaz, dado su bajo contraste (2.4:1 sobre blanco).</p>
+  <p style="margin:0 0 8px;"><strong>6. Logo por tipo de slide.</strong> Arriba a la izquierda, a tamaño pleno, sólo en portada, índice, divisores y cierre. En las slides interiores baja al pie, reducido y en gris junto al nombre de la presentación: la marca sigue presente sin competir con el contenido. La slide a sangre no lo lleva.</p>
+  <p style="margin:0 0 8px;"><strong>7. Huincha lateral.</strong> Banda de 18px en degradado púrpura → cian, igual en todas las slides de contenido. Portada y cierre no la llevan: su fondo radial ya recorre el lienzo. Puede eliminarse si se prefiere un lienzo limpio.</p>
+  <p style="margin:0;"><strong>8. Pie de página.</strong> Incluye nombre y número de slide. Si las presentaciones se proyectan y no se imparten impresas, puede eliminarse.</p>
+</div>
+
+<script>
+/* Escala el lienzo de 1920×1080 al ancho real del contenedor.
+   Así el contenido puede escribirse en medidas de slide (pt reales). */
+function escalar() {
+  document.querySelectorAll('.slide-wrap').forEach(function (wrap) {
+    var slide = wrap.querySelector('.slide');
+    if (slide) slide.style.transform = 'scale(' + (wrap.clientWidth / 1920) + ')';
+  });
+}
+escalar();
+window.addEventListener('resize', escalar);
+window.addEventListener('beforeprint', escalar);
+document.fonts && document.fonts.ready.then(escalar);
+</script>
+
+</body>
+</html>
