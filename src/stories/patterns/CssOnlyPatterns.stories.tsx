@@ -159,6 +159,11 @@ export const DetailGroup: Story = {
  * - `display: flex; justify-content: center`
  * - `padding: 20px 16px 64px` desktop
  * - Mobile: `padding: 16px 12px 80px` (≤ 768px)
+ * - `background: var(--kds-color-background-body, var(--kds-color-background-muted))`.
+ *   `--kds-color-background-body` es el fondo de la pantalla: sin definirlo queda el gris
+ *   muted de siempre, y el widget lo setea con el `backgroundColor` del comercio. Va como
+ *   fallback en el punto de uso y no como alias en `:root`, para que alcance el valor
+ *   que se define en `body`.
  *
  * `.kds-payment-flow`:
  * - Hijo directo del stage. `max-width: 440px; width: 100%`

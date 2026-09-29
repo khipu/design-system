@@ -7097,13 +7097,20 @@ svg[fill='none'] {
 
 /* Payment stage — full-viewport centered wrapper.
    Fondo muted (gris) para que las cards blancas (header + body) y el gap entre
-   ellas se distingan; sin esto, card blanca sobre fondo blanco se funden. */
+   ellas se distingan; sin esto, card blanca sobre fondo blanco se funden.
+
+   --kds-color-background-body es el fondo de la pantalla, y es lo que un comercio
+   cambia con su backgroundColor. Se resuelve aca, con muted como fallback, y no
+   como alias en :root: un alias se evalua en :root y queda con el valor de :root,
+   asi que la variable que el widget setea en body nunca llegaria a la etapa. Los
+   otros usos de muted (tabs, bloque de codigo, hover del FAB) no se tocan: son
+   superficies de componentes, no el fondo de la pantalla. */
 .kds-payment-stage {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     padding: var(--kds-spacing-2-5) var(--kds-spacing-2) var(--kds-spacing-8);
-    background: var(--kds-color-background-muted);
+    background: var(--kds-color-background-body, var(--kds-color-background-muted));
 }
 
 /* Payment flow — narrow column */
