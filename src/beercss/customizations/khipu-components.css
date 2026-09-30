@@ -1405,28 +1405,35 @@ button.kds-locale-switcher-toggle:hover,
 }
 
 /* ========================================
-   Google Sign-In Button
-   Per Google Identity branding guidelines:
+   SSO Button (federated sign-in: Google, Microsoft, ...)
+   Neutral white button shared by every identity provider, styled per
+   Google Identity branding guidelines, which Microsoft's also satisfy:
    https://developers.google.com/identity/branding-guidelines
+   `.kds-btn-google` / `.kds-google-icon` are kept as aliases for
+   consumers pinned to earlier versions.
+   Colors go through --kds-btn-sso-* so the dark theme swaps all of them
+   together (background alone flipping left the label unreadable).
    ======================================== */
 
+button.kds-btn-sso,
+a.kds-btn-sso,
 button.kds-btn-google,
 a.kds-btn-google {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--kds-spacing-1-5);
+    gap: var(--kds-spacing-1-25);
     width: 100%;
-    background: var(--kds-color-background-paper);
-    color: #1F1F1F;
-    border: 1px solid #747775;
+    background: var(--kds-btn-sso-bg, #FFFFFF);
+    color: var(--kds-btn-sso-color, #1F1F1F);
+    border: 1px solid var(--kds-btn-sso-border, #747775);
     border-radius: var(--kds-radius-button);
     padding: var(--kds-spacing-1) var(--kds-spacing-1-5);
     min-height: var(--kds-spacing-button-min-height);
-    font-family: "Roboto", var(--kds-font-family-secondary);
+    font-family: var(--kds-font-family-secondary);
     font-weight: var(--kds-font-weight-medium);
     font-size: var(--kds-font-size-sm);
-    line-height: var(--kds-line-height-normal);
+    line-height: 20px; /* Google 14/20; no line-height token matches */
     letter-spacing: var(--kds-letter-spacing-normal);
     text-transform: none;
     cursor: pointer;
@@ -1436,17 +1443,34 @@ a.kds-btn-google {
     box-shadow: none;
 }
 
+button.kds-btn-sso:hover,
+a.kds-btn-sso:hover,
 button.kds-btn-google:hover,
 a.kds-btn-google:hover {
-    background: #F2F2F2;
+    background: var(--kds-btn-sso-bg-hover, #F2F2F2);
     box-shadow: var(--kds-shadow-1);
 }
 
+button.kds-btn-sso:active,
+a.kds-btn-sso:active,
 button.kds-btn-google:active,
 a.kds-btn-google:active {
-    background: #E8E8E8;
+    background: var(--kds-btn-sso-bg-active, #E8E8E8);
 }
 
+/* Dark theme per Google Identity guidelines; hover/active are 8% / 12%
+   state layers of the label color over the fill. */
+[data-theme="dark"] .kds-btn-sso,
+[data-theme="dark"] .kds-btn-google {
+    --kds-btn-sso-bg: #131314;
+    --kds-btn-sso-color: #E3E3E3;
+    --kds-btn-sso-border: #8E918F;
+    --kds-btn-sso-bg-hover: #242425;
+    --kds-btn-sso-bg-active: #2C2C2D;
+}
+
+button.kds-btn-sso:disabled,
+a.kds-btn-sso:disabled,
 button.kds-btn-google:disabled,
 a.kds-btn-google:disabled {
     background: var(--kds-color-action-disabled-bg);
@@ -1456,7 +1480,8 @@ a.kds-btn-google:disabled {
     box-shadow: none;
 }
 
-/* Google G icon container - white background per guidelines */
+/* Provider logo container */
+.kds-btn-sso .kds-sso-icon,
 .kds-btn-google .kds-google-icon {
     display: flex;
     align-items: center;
@@ -1464,6 +1489,7 @@ a.kds-btn-google:disabled {
     flex-shrink: 0;
 }
 
+.kds-btn-sso .kds-sso-icon svg,
 .kds-btn-google .kds-google-icon svg {
     width: var(--kds-spacing-button-icon-size);
     height: var(--kds-spacing-button-icon-size);
