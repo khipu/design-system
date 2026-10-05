@@ -3,6 +3,7 @@ import {
   KdsAlert,
   KdsButton,
   KdsCopyButton,
+  KdsCopyRow,
   KdsStatusBlock,
   KdsTypography,
 } from '../../components/core';
@@ -23,8 +24,8 @@ import { KdsInvoiceMerchant, KdsInvoiceSticky, KdsSecureFooter } from '../../com
  *
  * Spacing rules worth knowing when composing these screens:
  * - The status block must be the card's first child; any wrapper keeps its top padding.
- * - The DS zeroes the description's margins, so an alert that follows a description carries
- *   `kds-mt-2` (16px).
+ * - The description goes through `KdsStatusBlock inline description`: the block renders it below
+ *   the icon+title row and owns the spacing to what follows, so no margin utilities are needed.
  */
 const meta: Meta = {
   title: 'Examples/Khenshin Result Screens',
@@ -103,7 +104,7 @@ const ResultShell = ({
   </div>
 );
 
-/** Status row + optional description as its own paragraph (khenshin's TransactionResultHead). */
+/** Status row + optional description below it (khenshin's TransactionResultHead). */
 const ResultHead = ({
   status,
   icon,
@@ -115,11 +116,11 @@ const ResultHead = ({
   title: string;
   description?: string;
 }) => (
-  <>
-    <KdsStatusBlock status={status} icon={icon} title={title} inline />
-    {description && <p className="kds-status-block-description">{description}</p>}
-  </>
+  <KdsStatusBlock status={status} icon={icon} title={title} description={description} inline />
 );
+
+/** Operation code with the failure-reason initials (khenshin's referenceCode row). */
+const CodeRow = ({ value }: { value: string }) => <KdsCopyRow label="Cód. operación" value={value} />;
 
 // =============================================================================
 // SUCCESS
@@ -142,7 +143,7 @@ export const Success: Story = {
         title="Pago verificado"
         description="Confirmamos que el pago se recibió correctamente. Enviaremos el comprobante a tu email."
       />
-      <KdsAlert severity="info" inline className="kds-mt-2">
+      <KdsAlert severity="info" inline>
         Te redireccionaremos en 25 segundos
       </KdsAlert>
       <div className="kds-btn-stack">
@@ -167,7 +168,7 @@ export const SuccessAlreadyPaid: Story = {
         title="Este cobro ya fue pagado"
         description="Revisa tu email, ya deberías tener un comprobante de pago asociado"
       />
-      <KdsAlert severity="info" inline className="kds-mt-2">
+      <KdsAlert severity="info" inline>
         Te redireccionaremos en 25 segundos
       </KdsAlert>
       <div className="kds-btn-stack">
@@ -197,9 +198,10 @@ export const Verifying: Story = {
         title="Pago en verificación"
         description="Tu transferencia aún no está acreditada"
       />
-      <KdsAlert severity="info" inline icon={false} className="kds-mt-2">
+      <KdsAlert severity="info" inline icon={false}>
         Tu banco informa que faltan pasos para que la transferencia se complete. Si tu cuenta requiere más de un firmante, es necesario que se conecte a la página del banco para autorizar el proceso. En cuanto el banco verifique la transferencia, khipu te enviará un comprobante de pago
       </KdsAlert>
+      <CodeRow value="aaaa-bbbb-cccc" />
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Volver al comercio</KdsButton>
       </div>
@@ -229,6 +231,9 @@ export const MustContinue: Story = {
         title="Pago pendiente de firmantes"
         description="Tienes un pago por autorizar. Revisa los detalles para autorizar el cobro o autoriza desde tu banco."
       />
+      <KdsAlert severity="warning" inline icon={false}>
+        Tu banco informa que faltan pasos para que la transferencia se complete. Si tu cuenta requiere más de un firmante, es necesario que se conecte a la página del banco para autorizar el proceso. En cuanto el banco verifique la transferencia, khipu te enviará un comprobante de pago
+      </KdsAlert>
       <section className="kds-share-card">
         <p className="kds-share-copy">Compartir el enlace para continuar</p>
         <KdsCopyButton value="https://khipu.com/info/aaaabbbbcccc" />
@@ -251,6 +256,7 @@ export const MustContinue: Story = {
           ))}
         </div>
       </section>
+      <CodeRow value="aaaa-bbbb-cccc" />
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Volver al comercio</KdsButton>
       </div>
@@ -277,9 +283,10 @@ export const FailureRetry: Story = {
         title="Pago no realizado"
         description="No se pudo completar la transferencia"
       />
-      <KdsAlert severity="warning" inline icon={false} className="kds-mt-2">
+      <KdsAlert severity="warning" inline icon={false}>
         Por favor, inténtalo más tarde
       </KdsAlert>
+      <CodeRow value="aaaa-bbbb-cccc tf" />
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Reintentar pago</KdsButton>
         <KdsButton variant="outlined" fullWidth>
@@ -305,9 +312,10 @@ export const FailureManualTransfer: Story = {
         title="Servicio no disponible"
         description="No se pudo completar la transferencia"
       />
-      <KdsAlert severity="warning" inline icon={false} className="kds-mt-2">
+      <KdsAlert severity="warning" inline icon={false}>
         Por favor, inténtalo más tarde
       </KdsAlert>
+      <CodeRow value="aaaa-bbbb-cccc tee" />
       <div className="kds-btn-stack">
         <KdsButton fullWidth startIcon="content_copy">
           Pagar con transferencia manual
@@ -336,9 +344,10 @@ export const FailureGeneric: Story = {
         title="Servicio no disponible"
         description="No se pudo completar la transferencia"
       />
-      <KdsAlert severity="warning" inline icon={false} className="kds-mt-2">
+      <KdsAlert severity="warning" inline icon={false}>
         Por favor, inténtalo más tarde
       </KdsAlert>
+      <CodeRow value="aaaa-bbbb-cccc ape" />
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Volver al comercio</KdsButton>
         <KdsButton variant="outlined" fullWidth>
@@ -365,9 +374,10 @@ export const FailureWithoutInvoice: Story = {
         title="Servicio no disponible"
         description="Solicitud de cobro eliminada"
       />
-      <KdsAlert severity="warning" inline icon={false} className="kds-mt-2">
+      <KdsAlert severity="warning" inline icon={false}>
         La solicitud asociada a este enlace fue eliminada por el cobrador.
       </KdsAlert>
+      <CodeRow value="aaaa-bbbb-cccc ioi" />
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Volver al comercio</KdsButton>
       </div>
@@ -388,6 +398,7 @@ export const Timeout: Story = {
       <KdsAlert severity="warning" inline icon={false}>
         El tiempo para completar la operación se acabó
       </KdsAlert>
+      <CodeRow value="aaaa-bbbb-cccc ft" />
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Reintentar pago</KdsButton>
       </div>
@@ -410,7 +421,7 @@ export const RedirectToManual: Story = {
         title="Redireccionando pago"
         description="El banco seleccionado sólo acepta pagos con transferencia manual"
       />
-      <KdsAlert severity="warning" inline icon={false} className="kds-mt-2">
+      <KdsAlert severity="warning" inline icon={false}>
         <strong>Pagar con transferencia manual,</strong>&nbsp;o intenta pagar con otro banco
       </KdsAlert>
       <div className="kds-btn-stack">

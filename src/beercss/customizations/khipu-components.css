@@ -5759,6 +5759,26 @@ button.kds-fab:active:not(:disabled) {
     --kds-typography-h2-margin-block-end: 0;
 }
 
+/* Inline with description (KdsStatusBlock inline + description): the description is a
+   full-width paragraph below the icon+title row, spacing-1 under it. The block drops its
+   bottom padding and owns the gap to what follows (spacing-2), so consumers never add
+   margins around the description. kds-btn-stack and kds-share-card already carry that
+   top margin themselves. */
+.kds-status-block.inline.kds-status-block--described {
+    flex-wrap: wrap;
+    row-gap: var(--kds-spacing-1);
+    padding-bottom: 0;
+}
+
+.kds-status-block--described > .kds-status-block-description {
+    flex-basis: 100%;
+}
+
+.kds-status-block--described + .kds-alert,
+.kds-status-block--described + .kds-copy-row {
+    margin-top: var(--kds-spacing-2);
+}
+
 /* Banda: el bloque de estado sobre una superficie sutil, para cuando acompaña
    al contenido en lugar de encabezar la pantalla. Va después de `.inline`
    porque marca igual en especificidad y necesita ganarle el padding. */
