@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { KdsBottomSheet } from './KdsBottomSheet';
 import { KdsButton } from '../../core/KdsButton';
+import { KdsDocumentFrame } from '../../core/KdsDocumentFrame';
 
 /**
  * KdsBottomSheet — único componente de modales del DS (KdsModal fue unificado aquí).
@@ -25,6 +26,7 @@ const meta: Meta<typeof KdsBottomSheet> = {
   argTypes: {
     showGrabber: { control: 'boolean' },
     showCloseButton: { control: 'boolean' },
+    size: { control: 'inline-radio', options: ['auto', 'full'] },
     title: { control: 'text' },
     description: { control: 'text' },
   },
@@ -230,6 +232,35 @@ export const LongContent: Story = {
               implica la aceptación de las condiciones actualizadas.
             </p>
           </div>
+        </KdsBottomSheet>
+      </>
+    );
+  },
+};
+
+const DESKTOP_DOCUMENT = `data:text/html;charset=utf-8,${encodeURIComponent(
+  '<style>body{margin:20px;font-family:Verdana,Arial;color:#333}h3{font-size:40px;margin:0 0 10px}p{font-size:25px;line-height:1.56;margin:20px;text-align:justify}</style><h3>Mandato para pago</h3><p>Cláusula 1. Documento de ejemplo con estilos de escritorio: letra de 25px, títulos de 40px y márgenes amplios, como la página de términos de payment.</p><p>Cláusula 2. Documento de ejemplo con estilos de escritorio: letra de 25px, títulos de 40px y márgenes amplios, como la página de términos de payment.</p><p>Cláusula 3. Documento de ejemplo con estilos de escritorio: letra de 25px, títulos de 40px y márgenes amplios, como la página de términos de payment.</p><p>Cláusula 4. Documento de ejemplo con estilos de escritorio: letra de 25px, títulos de 40px y márgenes amplios, como la página de términos de payment.</p><p>Cláusula 5. Documento de ejemplo con estilos de escritorio: letra de 25px, títulos de 40px y márgenes amplios, como la página de términos de payment.</p><p>Cláusula 6. Documento de ejemplo con estilos de escritorio: letra de 25px, títulos de 40px y márgenes amplios, como la página de términos de payment.</p><p>Cláusula 7. Documento de ejemplo con estilos de escritorio: letra de 25px, títulos de 40px y márgenes amplios, como la página de términos de payment.</p><p>Cláusula 8. Documento de ejemplo con estilos de escritorio: letra de 25px, títulos de 40px y márgenes amplios, como la página de términos de payment.</p>',
+)}`;
+
+/**
+ * `size="full"` + `KdsDocumentFrame`: documento largo de terceros (términos, mandatos).
+ * El sheet usa todo su alto máximo y el frame lo llena; `scale={0.6}` achica un documento
+ * pensado para escritorio que no se puede reestilar.
+ */
+export const FullDocument: Story = {
+  render: function FullDocumentBottomSheet() {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <KdsButton onClick={() => setOpen(true)}>Ver términos</KdsButton>
+        <KdsBottomSheet
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Términos y condiciones de uso"
+          showCloseButton
+          size="full"
+        >
+          <KdsDocumentFrame src={DESKTOP_DOCUMENT} title="Términos y condiciones de uso" scale={0.6} />
         </KdsBottomSheet>
       </>
     );

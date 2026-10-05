@@ -5870,6 +5870,48 @@ button.kds-fab:active:not(:disabled) {
     min-height: 0;
 }
 
+/* Variante alta (size="full"): contenido largo (documentos, textos legales) usa todo el alto
+   máximo del sheet y el body se estira para que un hijo lo llene. Los .kds-theme-root son
+   envoltorios transparentes que el consumidor puede meter entre el body y el contenido (p. ej.
+   un KdsRoot dentro de un div display:contents), así que se estiran a cualquier profundidad. */
+.kds-bottom-sheet-full {
+    height: 90vh;
+    height: 90dvh;
+}
+
+.kds-bottom-sheet-full .kds-bottom-sheet-body,
+.kds-bottom-sheet-full .kds-bottom-sheet-body .kds-theme-root {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+/* ========================================
+   DOCUMENT FRAME (.kds-document-frame)
+   Documento embebido (iframe) que llena su contenedor. --kds-document-frame-scale achica
+   documentos pensados para un viewport de escritorio: el iframe se arma más ancho y se
+   escala, así letra, títulos y márgenes bajan juntos.
+   ======================================== */
+
+.kds-document-frame {
+    --kds-document-frame-scale: 1;
+    position: relative;
+    flex: 1;
+    min-height: var(--kds-document-frame-min-height, 12rem);
+    overflow: hidden;
+}
+
+.kds-document-frame > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% / var(--kds-document-frame-scale));
+    height: calc(100% / var(--kds-document-frame-scale));
+    border: 0;
+    transform: scale(var(--kds-document-frame-scale));
+    transform-origin: 0 0;
+}
+
 .kds-bottom-sheet-icon {
     font-size: var(--kds-font-size-4xl);
 }

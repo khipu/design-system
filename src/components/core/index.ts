@@ -104,6 +104,9 @@ export {
 // Divider
 export { KdsDivider, type KdsDividerProps } from './KdsDivider';
 
+// DocumentFrame
+export { KdsDocumentFrame, type KdsDocumentFrameProps } from './KdsDocumentFrame';
+
 // SectionNote
 export { KdsSectionNote, type KdsSectionNoteProps } from './KdsSectionNote';
 
