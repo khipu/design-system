@@ -17,8 +17,9 @@ import { KdsInvoiceMerchant, KdsInvoiceSticky, KdsSecureFooter } from '../../com
  * alert and the `kds-btn-stack`. Amount, merchant and code are never repeated in the body:
  * the invoice card already shows them.
  *
- * Titles and bodies are the texts browser2app sends in production (locales/payment/es.json):
- * the payload title is the description under the status row and the body is the compact alert.
+ * Titles and bodies are the texts browser2app sends in production (locales/payment/es.json,
+ * `page.result.*` keys use payment's copy — KTUF-386): the payload title is the description
+ * under the status row and the body is the compact alert.
  *
  * Spacing rules worth knowing when composing these screens:
  * - The status block must be the card's first child; any wrapper keeps its top padding.
@@ -138,8 +139,8 @@ export const Success: Story = {
       <ResultHead
         status="success"
         icon="check"
-        title="¡Listo, transferiste!"
-        description="Tu pago ya está en proceso. Al confirmarse, enviaremos el comprobante a tu email"
+        title="Pago verificado"
+        description="Confirmamos que el pago se recibió correctamente. Enviaremos el comprobante a tu email."
       />
       <KdsAlert severity="info" inline className="kds-mt-2">
         Te redireccionaremos en 25 segundos
@@ -164,7 +165,7 @@ export const SuccessAlreadyPaid: Story = {
         status="success"
         icon="check"
         title="Este cobro ya fue pagado"
-        description="Tu pago ya está en proceso. Revisa tu email, ya deberías tener un comprobante de pago asociado"
+        description="Revisa tu email, ya deberías tener un comprobante de pago asociado"
       />
       <KdsAlert severity="info" inline className="kds-mt-2">
         Te redireccionaremos en 25 segundos
@@ -225,12 +226,9 @@ export const MustContinue: Story = {
       <ResultHead
         status="warn"
         icon="priority_high"
-        title="El pago debe continuar"
-        description="Este pago requiere autorización de terceros"
+        title="Pago pendiente de firmantes"
+        description="Tienes un pago por autorizar. Revisa los detalles para autorizar el cobro o autoriza desde tu banco."
       />
-      <KdsAlert severity="warning" inline icon={false} className="kds-mt-2">
-        Tu banco informa que faltan pasos para que la transferencia se complete. Si tu cuenta requiere más de un firmante, es necesario que se conecte a la página del banco para autorizar el proceso. En cuanto el banco verifique la transferencia, khipu te enviará un comprobante de pago
-      </KdsAlert>
       <section className="kds-share-card">
         <p className="kds-share-copy">Compartir el enlace para continuar</p>
         <KdsCopyButton value="https://khipu.com/info/aaaabbbbcccc" />
@@ -285,7 +283,7 @@ export const FailureRetry: Story = {
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Reintentar pago</KdsButton>
         <KdsButton variant="outlined" fullWidth>
-          Pagar con otro banco
+          Todos los bancos y billeteras
         </KdsButton>
       </div>
     </ResultShell>
@@ -315,7 +313,7 @@ export const FailureManualTransfer: Story = {
           Pagar con transferencia manual
         </KdsButton>
         <KdsButton variant="outlined" fullWidth>
-          Pagar con otro banco
+          Todos los bancos y billeteras
         </KdsButton>
       </div>
     </ResultShell>
@@ -344,7 +342,7 @@ export const FailureGeneric: Story = {
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Volver al comercio</KdsButton>
         <KdsButton variant="outlined" fullWidth>
-          Pagar con otro banco
+          Todos los bancos y billeteras
         </KdsButton>
       </div>
     </ResultShell>
@@ -365,10 +363,10 @@ export const FailureWithoutInvoice: Story = {
         status="warn"
         icon="priority_high"
         title="Servicio no disponible"
-        description="Cobro eliminado"
+        description="Solicitud de cobro eliminada"
       />
       <KdsAlert severity="warning" inline icon={false} className="kds-mt-2">
-        El cobro ha sido eliminado por el comercio
+        La solicitud asociada a este enlace fue eliminada por el cobrador.
       </KdsAlert>
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Volver al comercio</KdsButton>
@@ -418,7 +416,7 @@ export const RedirectToManual: Story = {
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Pagar con transferencia manual</KdsButton>
         <KdsButton variant="outlined" fullWidth>
-          Pagar con otro banco
+          Todos los bancos y billeteras
         </KdsButton>
       </div>
     </ResultShell>
