@@ -46,6 +46,11 @@ export interface KdsBottomSheetProps extends React.HTMLAttributes<HTMLDivElement
   container?: HTMLElement | null;
   /** Clase adicional al sheet. */
   className?: string;
+  /**
+   * Alto del sheet. `auto` (default) se ajusta al contenido; `full` usa todo el alto máximo
+   * (90dvh) y estira el body para contenido largo como documentos o textos legales.
+   */
+  size?: 'auto' | 'full';
 }
 
 export const KdsBottomSheet = forwardRef<HTMLDivElement, KdsBottomSheetProps>(
@@ -61,6 +66,7 @@ export const KdsBottomSheet = forwardRef<HTMLDivElement, KdsBottomSheetProps>(
       showCloseButton = false,
       container,
       className,
+      size = 'auto',
       ...props
     },
     ref,
@@ -78,7 +84,7 @@ export const KdsBottomSheet = forwardRef<HTMLDivElement, KdsBottomSheetProps>(
           <Dialog.Overlay className="kds-bottom-sheet-scrim open">
             <Dialog.Content
               ref={ref}
-              className={clsx('kds-bottom-sheet', className)}
+              className={clsx('kds-bottom-sheet', size === 'full' && 'kds-bottom-sheet-full', className)}
               onPointerDownOutside={(e) => {
                 // No cerrar cuando el click viene desde adentro del sheet
                 const target = e.target as HTMLElement;

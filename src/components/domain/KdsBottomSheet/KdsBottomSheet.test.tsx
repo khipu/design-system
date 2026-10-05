@@ -89,6 +89,24 @@ describe('KdsBottomSheet', () => {
     expect(screen.getByRole('dialog')).toHaveClass('kds-bottom-sheet', 'custom');
   });
 
+  it('keeps the auto height by default', () => {
+    render(
+      <KdsBottomSheet open onClose={vi.fn()}>
+        Content
+      </KdsBottomSheet>,
+    );
+    expect(screen.getByRole('dialog')).not.toHaveClass('kds-bottom-sheet-full');
+  });
+
+  it('applies the full height variant with size="full"', () => {
+    render(
+      <KdsBottomSheet open onClose={vi.fn()} size="full" className="custom">
+        Content
+      </KdsBottomSheet>,
+    );
+    expect(screen.getByRole('dialog')).toHaveClass('kds-bottom-sheet', 'kds-bottom-sheet-full', 'custom');
+  });
+
   it('forwards ref', () => {
     const ref = { current: null as HTMLDivElement | null };
     render(
