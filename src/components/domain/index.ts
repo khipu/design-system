@@ -5,6 +5,7 @@ export { KdsQrRow, type KdsQrRowProps } from './KdsQrRow';
 export { KdsCardSelector, type KdsCardSelectorProps } from './KdsCardSelector';
 export { KdsCardPlan, type KdsCardPlanProps } from './KdsCardPlan';
 export { KdsInvoiceSticky, type KdsInvoiceStickyProps } from './KdsInvoiceSticky';
+export { KdsInvoiceHeaderSkeleton, type KdsInvoiceHeaderSkeletonProps } from './KdsInvoiceHeaderSkeleton';
 export { KdsBottomSheet, type KdsBottomSheetProps } from './KdsBottomSheet';
 export { KdsSecureFooter, type KdsSecureFooterProps } from './KdsSecureFooter';
 export { KdsRecapList, type KdsRecapListProps, type KdsRecapItem } from './KdsRecapList';
