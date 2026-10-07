@@ -20,6 +20,7 @@ describe('KdsInvoiceHeaderSkeleton', () => {
     expect(el.querySelector('.kds-invoice-header .kds-invoice-code .kds-skeleton--text')).not.toBeNull();
     expect(el.querySelector('.kds-invoice-header .kds-invoice-merchant.kds-skeleton')).not.toBeNull();
     expect(el.querySelectorAll('.kds-invoice-summary .kds-kv dd .kds-skeleton--text')).toHaveLength(2);
+    expect(el.querySelector('.kds-invoice-collapsible > .kds-expand-toggle .kds-skeleton--text')).not.toBeNull();
   });
 
   it('merges custom className and forwards ref', () => {

@@ -7,16 +7,20 @@ import { KdsSecureLoader } from '../../core/KdsSecureLoader';
 /**
  * KdsInvoiceHeaderSkeleton — placeholder del header de la factura mientras carga (KTUF-388).
  *
- * Mismo markup que `KdsInvoiceSticky` con bloques `.kds-skeleton` dentro de los elementos
- * reales, así mide igual que el header y el reemplazo no desplaza el body card.
+ * Mismo markup que `KdsInvoiceSticky` con texto de relleno transparente (`.kds-skeleton--text`)
+ * dentro de los elementos reales, así mide igual que el header y el reemplazo no desplaza el
+ * body card.
  *
  * ```html
  * <div class="kds-invoice-sticky-wrap">
  *   <article class="kds-card-elevated kds-invoice-sticky kds-invoice-skeleton" aria-hidden="true">
  *     <header class="kds-invoice-header">
  *       <div>
- *         <p class="kds-invoice-amount"><span class="kds-skeleton kds-skeleton--text"></span></p>
- *         <p class="kds-invoice-code"><span class="kds-skeleton kds-skeleton--text"></span></p>
+ *         <p class="kds-invoice-amount"><span class="kds-skeleton kds-skeleton--text">$00.000</span></p>
+ *         <p class="kds-invoice-code">
+ *           <span class="kds-skeleton kds-skeleton--text">Código</span>
+ *           <span class="kds-invoice-code-value"><span class="kds-skeleton kds-skeleton--text">xxxx-xxxx-xxxx</span></span>
+ *         </p>
  *       </div>
  *       <div class="kds-invoice-merchant kds-skeleton"></div>
  *     </header>
@@ -65,6 +69,10 @@ const RealHeader = () => (
           <dd>Orden #20260512-001</dd>
         </dl>
       </div>
+      <button type="button" className="kds-expand-toggle">
+        <span>Detalle del cobro</span>
+        <i className="material-symbols-outlined">expand_more</i>
+      </button>
     </div>
   </KdsInvoiceSticky>
 );
