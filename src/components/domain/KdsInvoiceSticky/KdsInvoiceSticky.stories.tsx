@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { KdsInvoiceSticky } from './KdsInvoiceSticky';
+import { useExpandToggle } from '../../core/hooks/useExpandToggle';
 
 /**
  * KdsInvoiceSticky — header sticky con monto + código + merchant tile + datos colapsables.
@@ -213,10 +214,13 @@ export const SuccessState: Story = {
   ),
 };
 
-/** Con expand panel (acordeón "Detalles del cobro"). */
+/**
+ * Con expand panel (acordeón "Detalles del cobro"), cableado con `useExpandToggle` como en
+ * khenshin-web: anima al abrir y al cerrar (`max-height` 0.28s al `scrollHeight` del contenido).
+ */
 export const WithExpandPanel: Story = {
   render: function WithExpand() {
-    const [open, setOpen] = useState(false);
+    const detail = useExpandToggle();
     return (
       <MobileShell>
         <div className="kds-invoice-sticky-wrap">
@@ -230,16 +234,11 @@ export const WithExpandPanel: Story = {
               ]}
             />
             <div className="kds-invoice-collapsible">
-              <button
-                type="button"
-                className="kds-expand-toggle"
-                aria-expanded={open}
-                onClick={() => setOpen((v) => !v)}
-              >
+              <button className="kds-expand-toggle" {...detail.getToggleProps()}>
                 <span>Detalles del cobro</span>
                 <i className="material-symbols-outlined">expand_more</i>
               </button>
-              <div className={`kds-expand-panel${open ? ' open' : ''}`} hidden={!open}>
+              <div {...detail.getPanelProps('kds-expand-panel')}>
                 <dl className="kds-detail-list">
                   <div className="kds-detail-group">
                     <dt>Vencimiento</dt>

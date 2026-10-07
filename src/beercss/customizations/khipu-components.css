@@ -5494,13 +5494,13 @@ button.kds-fab:active:not(:disabled) {
 
 .kds-expand-panel {
     overflow: hidden;
-    transition: max-height 0.28s ease, margin-top 0.28s ease;
     max-height: 0;
-}
-
-.kds-expand-panel[hidden] {
-    display: block;
-    max-height: 0;
+    /* Collapsed content is out of the accessibility tree and the tab order without the
+       `hidden` attribute: the global `[hidden]` rule (forced, !important) would cut the
+       max-height transition. visibility flips at the end of the close, so the collapse
+       still animates. */
+    visibility: hidden;
+    transition: max-height 0.28s ease, margin-top 0.28s ease, visibility 0s linear 0.28s;
 }
 
 .kds-expand-panel.open {
@@ -5509,6 +5509,8 @@ button.kds-fab:active:not(:disabled) {
        which overrides this and prevents clipping regardless of content length. */
     max-height: 2000px;
     margin-top: 0;
+    visibility: visible;
+    transition-delay: 0s;
 }
 
 /* ========================================
