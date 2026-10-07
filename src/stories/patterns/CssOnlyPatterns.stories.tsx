@@ -1663,7 +1663,8 @@ export const CopyableTable: Story = {
  *   `display: inline-flex; align-items: center; gap: 0`, `cursor: pointer`
  *   - `hover/focus span`: `text-decoration: underline`
  *   - Icon (`> i`): `font-size: var(--kds-font-size-base)`, rota 180° con `[aria-expanded="true"]`
- * - `.kds-expand-panel`: `overflow: hidden`, `max-height: 0`, transición de 0.28s
+ * - `.kds-expand-panel`: `overflow: hidden`, `max-height: 0`, `visibility: hidden` (retardada al cierre), transición de 0.28s
+ *   - No usar el atributo `hidden`: el global `[hidden] { display: none !important }` corta la animación
  *   - `.open`: `max-height: 800px`, `margin-top: 0`
  *
  * Contrato HTML:
@@ -1673,7 +1674,7 @@ export const CopyableTable: Story = {
  *     <span>Ver detalles</span>
  *     <i class="material-symbols-outlined">expand_more</i>
  *   </button>
- *   <div class="kds-expand-panel" hidden>
+ *   <div class="kds-expand-panel">
  *     <p>Contenido oculto que se muestra al expandir.</p>
  *   </div>
  * </div>

@@ -26,7 +26,6 @@ export interface ExpandToggleProps {
 export interface ExpandPanelProps {
   id: string;
   className: string;
-  hidden: boolean;
   /**
    * Ref the hook uses to drive the panel's `max-height` off its own `scrollHeight`, so the
    * expand animation fits any content length instead of clipping against a fixed CSS cap.
@@ -48,7 +47,7 @@ export interface UseExpandToggleResult {
   getToggleProps: () => ExpandToggleProps;
   /**
    * Prop-getter for the `.kds-expand-panel` div — wires `id`, the `open` class and the
-   * `hidden` attribute. Pass the base class (defaults to `kds-expand-panel`).
+   * content-sizing ref. Pass the base class (defaults to `kds-expand-panel`).
    */
   getPanelProps: (baseClassName?: string) => ExpandPanelProps;
 }
@@ -61,8 +60,10 @@ export interface UseExpandToggleResult {
  * It links button and panel via a stable `aria-controls`/`id` pair (`useId`), reflects the
  * open state through `aria-expanded` (which drives the caret rotation in CSS) and toggles the
  * `open` class on the panel, sizing its `max-height` to the content's `scrollHeight` so the
- * animation never clips. The `hidden` attribute is also set when closed — the DS provides a
- * `.kds-expand-panel[hidden]` rule that keeps the panel `display:block` so the collapse still animates.
+ * animation never clips. The closed panel is NOT marked `hidden`: the global
+ * `[hidden] { display: none !important }` would kill the transition. Instead the DS CSS hides
+ * the collapsed panel with a delayed `visibility: hidden`, which also keeps its content out of
+ * the accessibility tree and the tab order.
  *
  * Supports controlled (`open` + `onOpenChange`) and uncontrolled (`defaultOpen`) usage. Combine
  * with `useStickyInvoiceCollapse({ onCollapseStart: () => setOpen(false) })` to close on scroll.
@@ -122,7 +123,6 @@ export function useExpandToggle(options: UseExpandToggleOptions = {}): UseExpand
     (baseClassName = 'kds-expand-panel'): ExpandPanelProps => ({
       id: panelId,
       className: open ? `${baseClassName} open` : baseClassName,
-      hidden: !open,
       ref: setPanelRef,
     }),
     [open, panelId, setPanelRef],

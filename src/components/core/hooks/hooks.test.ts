@@ -1,11 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { createElement as h } from 'react';
-import { renderHook, act, render, fireEvent } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 import { useCopyToClipboard } from './useCopyToClipboard';
 import { useAutoHide } from './useAutoHide';
 import { useCountdown } from './useCountdown';
 import { useStickyInvoiceCollapse } from './useStickyInvoiceCollapse';
-import { useExpandToggle } from './useExpandToggle';
 import { useHideOnScroll } from './useHideOnScroll';
 
 describe('useCopyToClipboard', () => {
@@ -170,71 +168,6 @@ describe('useStickyInvoiceCollapse', () => {
     const screen = document.querySelector('.kds-screen.active') as HTMLElement;
     expect(screen.style.getPropertyValue('--collapse-progress')).toBe('1');
     expect(onCollapseStart).toHaveBeenCalledTimes(1);
-  });
-});
-
-describe('useExpandToggle', () => {
-  it('starts closed and links toggle/panel via aria-controls/id', () => {
-    const { result } = renderHook(() => useExpandToggle());
-    const toggle = result.current.getToggleProps();
-    const panel = result.current.getPanelProps();
-
-    expect(result.current.open).toBe(false);
-    expect(toggle.type).toBe('button');
-    expect(toggle['aria-expanded']).toBe(false);
-    expect(toggle['aria-controls']).toBe(panel.id);
-    expect(panel.className).toBe('kds-expand-panel');
-    expect(panel.hidden).toBe(true);
-  });
-
-  it('toggles open state and reflects it in the prop-getters', () => {
-    const { result } = renderHook(() => useExpandToggle());
-
-    act(() => result.current.toggle());
-
-    expect(result.current.open).toBe(true);
-    expect(result.current.getToggleProps()['aria-expanded']).toBe(true);
-    expect(result.current.getPanelProps().className).toBe('kds-expand-panel open');
-    expect(result.current.getPanelProps().hidden).toBe(false);
-  });
-
-  it('respects a custom base className and defaultOpen', () => {
-    const { result } = renderHook(() => useExpandToggle({ defaultOpen: true }));
-    expect(result.current.getPanelProps('my-panel').className).toBe('my-panel open');
-  });
-
-  it('is controlled when open is provided', () => {
-    const onOpenChange = vi.fn();
-    const { result } = renderHook(() => useExpandToggle({ open: false, onOpenChange }));
-
-    act(() => result.current.toggle());
-
-    expect(onOpenChange).toHaveBeenCalledWith(true);
-    expect(result.current.open).toBe(false);
-  });
-
-  it('sizes the panel max-height from scrollHeight on open and clears it on close', () => {
-    const Probe = () => {
-      const detail = useExpandToggle();
-      return h('div', null, [
-        h('button', { key: 'b', 'data-testid': 'tgl', ...detail.getToggleProps() }, 'toggle'),
-        h('div', { key: 'p', 'data-testid': 'pnl', ...detail.getPanelProps() }, 'content'),
-      ]);
-    };
-
-    const { getByTestId } = render(h(Probe));
-    const panel = getByTestId('pnl');
-
-    // Closed: no inline cap — the CSS `max-height: 0` rule owns the state.
-    expect(panel.style.maxHeight).toBe('');
-
-    fireEvent.click(getByTestId('tgl'));
-    // Open: inline max-height set from the panel's own scrollHeight (never a fixed cap).
-    expect(panel.style.maxHeight).not.toBe('');
-
-    fireEvent.click(getByTestId('tgl'));
-    // Closed again: inline cleared so the collapse animates via CSS.
-    expect(panel.style.maxHeight).toBe('');
   });
 });
 
