@@ -7253,6 +7253,20 @@ svg[fill='none'] {
     flex-direction: column;
 }
 
+/* Pantallas cuyas acciones van en un .kds-btn-stack hijo directo del card (resultados:
+   éxito, fallo, timeout, pago manual): el stack se ancla al fondo como el submit de un form.
+   Su margen de siempre (spacing-2) pasa a padding para conservar el respiro mínimo, y la
+   versión que le sigue deja de absorber espacio; si no, el libre se repartía entre los dos
+   márgenes automáticos y el botón quedaba a media altura. */
+.kds-card-elevated--action > .kds-btn-stack {
+    margin-top: auto;
+    padding-top: var(--kds-spacing-2);
+}
+
+.kds-card-elevated--action > .kds-btn-stack ~ .kds-card-version {
+    margin-top: 0;
+}
+
 /* Un loader dentro del card (pasos de progreso) no suma su propio mínimo: ya lo da el card.
    Si no, el card crecía el alto de la línea de versión en cada paso de carga y volvía a
    encoger al llegar el formulario. El loader se centra en el alto que el card le deja. */
