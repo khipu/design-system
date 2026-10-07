@@ -31,7 +31,10 @@ export const KdsInvoiceHeaderSkeleton = forwardRef<HTMLElement, KdsInvoiceHeader
             <Text>$00.000</Text>
           </p>
           <p className="kds-invoice-code">
-            <Text>Código</Text>
+            {/* Wrapped so the filler stays inline (a bare flex item would be a full-height block). */}
+            <span>
+              <Text>Código</Text>
+            </span>
             <span className="kds-invoice-code-value kds-invoice-code-value--lowercase">
               <Text>xxxx-xxxx-xxxx</Text>
             </span>
@@ -57,7 +60,9 @@ export const KdsInvoiceHeaderSkeleton = forwardRef<HTMLElement, KdsInvoiceHeader
           </dl>
         </div>
         <div className="kds-expand-toggle">
-          <Text>Detalle del cobro</Text>
+          <span>
+            <Text>Detalle del cobro</Text>
+          </span>
         </div>
       </div>
     </KdsInvoiceSticky>

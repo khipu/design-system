@@ -6517,6 +6517,12 @@ div.kds-invoice-header,
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     user-select: none;
+    /* Inline, el gris cubre la altura de la letra; se recorta arriba y abajo para que las
+       barras de líneas vecinas no se toquen. Solo visual: el layout no cambia. Va inline
+       también dentro de un flex (envuelto en un span): como item de flex cubriría todo el
+       alto de línea y quedaría más grueso que el resto. */
+    -webkit-clip-path: inset(0.2em 0 round var(--kds-radius-sm));
+    clip-path: inset(0.2em 0 round var(--kds-radius-sm));
 }
 
 [data-theme="dark"] .kds-skeleton {
