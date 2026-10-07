@@ -1542,17 +1542,15 @@ a.kds-btn-google:disabled {
        El valor de escritorio es moderado a proposito: el minimo de telefono (36rem) dejaba
        la card de la carga mucho mas alta que cualquier otra pantalla, y al entrar y salir
        del loader el widget crecia y volvia a encoger.
-       .kds-card-elevated--action espeja este valor (y el de telefono): cambiarlos juntos. */
+       Dentro de .kds-card-elevated--action el loader no usa este minimo: lo da el card. */
     min-height: 18rem;
 }
 
-/* En telefono la carga es mas alta: ahi la card va a ancho completo y un loader corto se
-   lee como una franja perdida en el medio. 22rem (card de 400px con su padding) en vez de
-   los 36rem de antes (624px): con el header arriba, la pantalla entera cabe en el alto util
-   de la mayoria de los telefonos (KTUF-388). */
+/* En telefono la carga si ocupa el alto util de la pantalla: ahi la card va a ancho
+   completo y un loader corto se lee como una franja perdida en el medio. */
 @media (max-width: 767px) {
     .kds-secure-loader {
-        min-height: 22rem;
+        min-height: 36rem;
     }
 }
 
@@ -7239,24 +7237,18 @@ svg[fill='none'] {
     border-radius: var(--kds-radius-card);
 }
 
-/* Body card con acción (opt-in, KTUF-388): mismo alto mínimo que el card de carga, para que
-   el card no salte de alto entre el loader, los pasos de progreso y los formularios, y la
-   acción (submit) quede anclada al fondo con `.kds-mt-auto`. No cambia el default de arriba:
-   solo lo toma quien pone el modificador (khenshin-web).
-   - Espeja el min-height de .kds-secure-loader (18rem / 22rem en teléfono) más el padding
-     vertical del card en el flujo (spacing-3 x2). Si cambia el del loader, cambia acá.
-   - Valores fijos, sin vh/dvh: en un iframe (KTUF-239) el viewport es el propio iframe, cuyo
+/* Body card con acción (opt-in, KTUF-388): un mismo alto mínimo para el loader, los pasos de
+   progreso, los formularios y los resultados, así el card no salta de alto entre pasos, y la
+   acción (submit) queda anclada al fondo con `.kds-mt-auto`. No cambia el default de arriba:
+   solo lo toma quien pone el modificador (khenshin-web, también en su card de carga).
+   - 36rem + el padding del card (624px): el alto del formulario de login de un banco, la
+     pantalla más alta del flujo, en teléfono y en desktop.
+   - Valor fijo, sin vh/dvh: en un iframe (KTUF-239) el viewport es el propio iframe, cuyo
      alto lo da el RESIZE del contenido; un mínimo relativo al viewport se realimenta.
    - El contenido directo (form) crece para que la acción baje dentro de él y no compita
      con el `margin-top: auto` de .kds-card-version. */
 .kds-screen > .kds-card-elevated.kds-card-elevated--action {
-    min-height: calc(18rem + 2 * var(--kds-spacing-3));
-}
-
-@media (max-width: 767px) {
-    .kds-screen > .kds-card-elevated.kds-card-elevated--action {
-        min-height: calc(22rem + 2 * var(--kds-spacing-3));
-    }
+    min-height: calc(36rem + 2 * var(--kds-spacing-3));
 }
 
 .kds-card-elevated--action > form {
