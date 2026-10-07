@@ -6270,6 +6270,10 @@ button.kds-fab:active:not(:disabled) {
         max-height: calc(100vh - var(--kds-spacing-12) - var(--kds-spacing-4));
         max-height: calc(100dvh - var(--kds-spacing-12) - var(--kds-spacing-4));
         overflow-y: auto;
+        /* El caret de "Detalle del cobro" baja 0.09em (corrección óptica de .kds-expand-toggle i)
+           y asomaba ~1.3px bajo el borde: con overflow auto eso bastaba para mostrar una barra
+           de scroll con el detalle cerrado. 2px de aire lo dejan dentro (KTUF-388). */
+        padding-bottom: 2px;
         overflow-x: hidden;
         overscroll-behavior-y: auto;
         scrollbar-width: thin;
