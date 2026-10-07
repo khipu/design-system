@@ -5489,7 +5489,10 @@ button.kds-fab:active:not(:disabled) {
 }
 
 .kds-expand-toggle[aria-expanded="true"] i {
-    transform: rotate(180deg);
+    /* The `top` nudge is tuned for the closed chevron (expand_more). Rotated, the up-chevron
+       reads low with the same nudge, so the open state takes it back. It lives in the transform
+       (not `top`) so it animates together with the rotation instead of jumping. */
+    transform: translateY(-0.09em) rotate(180deg);
 }
 
 .kds-expand-panel {
