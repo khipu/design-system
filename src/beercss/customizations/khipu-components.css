@@ -1541,7 +1541,8 @@ a.kds-btn-google:disabled {
        el minimo aplique solo a la carga: el resto de las pantallas crece con su contenido.
        El valor de escritorio es moderado a proposito: el minimo de telefono (36rem) dejaba
        la card de la carga mucho mas alta que cualquier otra pantalla, y al entrar y salir
-       del loader el widget crecia y volvia a encoger. */
+       del loader el widget crecia y volvia a encoger.
+       .kds-card-elevated--action espeja este valor (y el de telefono): cambiarlos juntos. */
     min-height: 18rem;
 }
 
@@ -6506,15 +6507,16 @@ div.kds-invoice-header,
     animation: kds-skeleton-pulse 1.4s ease-in-out infinite;
 }
 
-/* Línea de texto: inline-block de 1em puesto DENTRO del elemento real (p.kds-invoice-amount,
-   dd, ...), hereda su font-size y line-height, así la caja mide lo mismo que con texto y el
-   reemplazo no desplaza el layout. */
+/* Texto: un texto de relleno con la tinta transparente, puesto DENTRO del elemento real
+   (p.kds-invoice-amount, dd, ...). Usa la fuente, el tamaño y el alto de línea del slot, así
+   que ancho y alto calzan con el contenido que reemplaza (también dentro de contenedores
+   flex, donde una caja de alto fijo perdía el alto de línea) y el cambio no desplaza nada. */
 .kds-skeleton--text {
-    display: inline-block;
-    width: 100%;
-    height: 1em;
-    vertical-align: middle;
+    color: transparent;
     border-radius: var(--kds-radius-sm);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    user-select: none;
 }
 
 [data-theme="dark"] .kds-skeleton {
@@ -6533,11 +6535,13 @@ div.kds-invoice-header,
 }
 
 /* Header de la factura mientras carga (KdsInvoiceHeaderSkeleton): mismo markup que el
-   header real, con anchos fijos por slot. */
-.kds-invoice-skeleton .kds-invoice-amount .kds-skeleton--text { width: 7.5em; }
-.kds-invoice-skeleton .kds-invoice-code .kds-skeleton--text { width: 13em; }
-.kds-invoice-skeleton .kds-kv dt .kds-skeleton--text { width: 4.5em; }
-.kds-invoice-skeleton .kds-kv dd .kds-skeleton--text { width: 65%; }
+   header real. El "Detalle del cobro" es decorativo, no un botón: replica lo que da el alto
+   al toggle real (line-height normal de button + caret de 1.25em de font-size-base). */
+.kds-invoice-skeleton .kds-expand-toggle {
+    cursor: default;
+    line-height: normal;
+    min-height: calc(var(--kds-font-size-base) * 1.25);
+}
 
 /* Titulo del body de la card: alineado a la izquierda, sin importar que el consumidor
    traiga .kds-text-center. Va con especificidad de contexto (screen + card) a proposito:
@@ -7223,23 +7227,37 @@ svg[fill='none'] {
     border-radius: var(--kds-radius-card);
 }
 
-/* Body card con acción (opt-in, KTUF-388): alto mínimo acotado para que el card no salte de
-   alto entre pasos y la acción (submit) quede anclada al fondo con `.kds-mt-auto`. No cambia
-   el default de arriba: lo pide cada app.
-   - Valor fijo, sin vh/dvh: en un iframe (KTUF-239) el viewport es el propio iframe, cuyo
+/* Body card con acción (opt-in, KTUF-388): mismo alto mínimo que el card de carga, para que
+   el card no salte de alto entre el loader, los pasos de progreso y los formularios, y la
+   acción (submit) quede anclada al fondo con `.kds-mt-auto`. No cambia el default de arriba:
+   solo lo toma quien pone el modificador (khenshin-web).
+   - Espeja el min-height de .kds-secure-loader (18rem / 36rem en teléfono) más el padding
+     vertical del card en el flujo (spacing-3 x2). Si cambia el del loader, cambia acá.
+   - Valores fijos, sin vh/dvh: en un iframe (KTUF-239) el viewport es el propio iframe, cuyo
      alto lo da el RESIZE del contenido; un mínimo relativo al viewport se realimenta.
-   - 21rem = alto del card de carga en desktop (loader 18rem + padding spacing-3 x2), así el
-     paso loader -> formulario no cambia de alto. Ajustable con el token.
    - El contenido directo (form) crece para que la acción baje dentro de él y no compita
      con el `margin-top: auto` de .kds-card-version. */
 .kds-screen > .kds-card-elevated.kds-card-elevated--action {
-    min-height: var(--kds-card-action-min-height, 21rem);
+    min-height: calc(18rem + 2 * var(--kds-spacing-3));
+}
+
+@media (max-width: 767px) {
+    .kds-screen > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(36rem + 2 * var(--kds-spacing-3));
+    }
 }
 
 .kds-card-elevated--action > form {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+}
+
+/* Un loader dentro del card (pasos de progreso) no suma su propio mínimo: ya lo da el card.
+   Si no, el card crecía el alto de la línea de versión en cada paso de carga y volvía a
+   encoger al llegar el formulario. El loader se centra en el alto que el card le deja. */
+.kds-card-elevated--action .kds-secure-loader {
+    min-height: 0;
 }
 
 /* Variante sin radio superior: pantallas de resultado (éxito/fallo/timeout) que van
