@@ -20,7 +20,7 @@ export const KdsExpandPanel = forwardRef<HTMLDivElement, KdsExpandPanelProps>(
           <span>{label}</span>
           <i className="material-symbols-outlined">{expanded ? 'expand_less' : 'expand_more'}</i>
         </button>
-        <div className={clsx('kds-expand-panel', expanded && 'open')} hidden={!expanded}>
+        <div className={clsx('kds-expand-panel', expanded && 'open')}>
           {children}
         </div>
       </div>
