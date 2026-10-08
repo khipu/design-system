@@ -1665,7 +1665,7 @@ export const CopyableTable: Story = {
  *   - Icon (`> i`): `font-size: var(--kds-font-size-base)`, rota 180° con `[aria-expanded="true"]`
  * - `.kds-expand-panel`: `overflow: hidden`, `max-height: 0`, `visibility: hidden` (retardada al cierre), transición de 0.28s
  *   - No usar el atributo `hidden`: el global `[hidden] { display: none !important }` corta la animación
- *   - `.open`: `max-height: 800px`, `margin-top: 0`
+ *   - `.open`: `max-height: 2000px` (tope sin JS; con JS el alto inline es el `scrollHeight`), `margin-top: 0`, `visibility: visible`
  *
  * Contrato HTML:
  * ```html
