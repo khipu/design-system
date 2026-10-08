@@ -4143,7 +4143,10 @@ dialog#surveyModal button.circle {
 }
 
 /* ── Text-transform utilities ── */
+/* Also declares --kds-button-text-transform: .kds-btn reads that variable, so the
+   utility wins on buttons without a specificity fight (button.kds-btn is 0-1-1). */
 .kds-text-transform-none {
+    --kds-button-text-transform: none;
     text-transform: none;
 }
 
@@ -5810,6 +5813,43 @@ button.kds-fab:active:not(:disabled) {
 
 @keyframes kds-spin {
     to { transform: rotate(360deg); }
+}
+
+/* Dots loader: three dots pulsing in sequence, for an in-progress status inline with
+   text. Color follows currentColor so the consumer sets it with a color utility. */
+.kds-dots-loader {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--kds-spacing-0-5);
+    vertical-align: middle;
+}
+
+.kds-dots-loader > span {
+    animation: kds-dots-pulse 1.2s ease-in-out infinite;
+    background: currentColor;
+    border-radius: var(--kds-radius-full);
+    height: var(--kds-spacing-0-75);
+    width: var(--kds-spacing-0-75);
+}
+
+.kds-dots-loader > span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.kds-dots-loader > span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes kds-dots-pulse {
+    0%, 80%, 100% { opacity: 0.25; }
+    40% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kds-dots-loader > span {
+        animation: none;
+        opacity: 0.6;
+    }
 }
 
 /* ========================================
