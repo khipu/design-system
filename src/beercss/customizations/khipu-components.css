@@ -7301,37 +7301,39 @@ svg[fill='none'] {
 /* Mínimo del card en pantallas bajas. Algunos comercios embeben el flujo en iframes de alto
    fijo y reducido: un mínimo de 624px obligaba a scrollear aunque el contenido del paso
    cupiera. Regla: un escalón aplica solo si la pantalla completa (header + card con ese
-   mínimo + márgenes del stage) cabe en el alto; si no cabe, baja al siguiente.
-   - 624px (36rem + padding): pantalla de ~891px en teléfono y ~918px en desktop.
-   - 400px (22rem + padding): pantalla de ~667px en teléfono y ~694px en desktop.
+   mínimo + footer seguro + márgenes del stage) cabe en el alto; si no, baja al siguiente.
+   Medido en khenshin-web con su .kds-secure-footer (80px), el caso más alto:
+   - 624px (36rem + padding): pantalla de ~971px en teléfono y ~999px en desktop.
+   - 400px (22rem + padding): pantalla de ~747px en teléfono y ~775px en desktop.
    - Debajo de eso, sin mínimo: el card mide lo que su contenido.
    Los umbrales son esos altos medidos (como los mide el HeightReporter de khenshin-web:
    contenido del flow + padding del stage) menos 24px de holgura, y eso es lo que evita la
    realimentación del iframe con alto automático (KTUF-239, `autoHeight`): el alto que
    resulta de un escalón siempre cae dentro del mismo escalón, así que el reporte de alto
    no lo hace saltar al de abajo ni oscilar. La holgura cubre headers algo más bajos (sin
-   fila de detalle); el costo es hasta 24px de scroll en un iframe fijo justo en esa franja. Sin header (--flush-top) la pantalla es más
-   baja y con alto automático puede terminar sin mínimo: nunca scrollea, solo vuelve a
-   crecer por paso. */
-@media (max-width: 767px) and (max-height: 866.98px) {
+   fila de detalle); el costo es hasta 24px de scroll en un iframe fijo justo en esa franja.
+   Sin footer seguro (`showSecureFooter: false`) o sin header (--flush-top) la pantalla es
+   más baja: el mínimo nunca obliga a scrollear, y con alto automático puede terminar sin
+   mínimo (el card vuelve a crecer por paso, sin scroll). */
+@media (max-width: 767px) and (max-height: 946.98px) {
     .kds-screen > .kds-card-elevated.kds-card-elevated--action {
         min-height: calc(22rem + 2 * var(--kds-spacing-3));
     }
 }
 
-@media (max-width: 767px) and (max-height: 642.98px) {
+@media (max-width: 767px) and (max-height: 722.98px) {
     .kds-screen > .kds-card-elevated.kds-card-elevated--action {
         min-height: 0;
     }
 }
 
-@media (min-width: 768px) and (max-height: 893.98px) {
+@media (min-width: 768px) and (max-height: 974.98px) {
     .kds-screen > .kds-card-elevated.kds-card-elevated--action {
         min-height: calc(22rem + 2 * var(--kds-spacing-3));
     }
 }
 
-@media (min-width: 768px) and (max-height: 669.98px) {
+@media (min-width: 768px) and (max-height: 750.98px) {
     .kds-screen > .kds-card-elevated.kds-card-elevated--action {
         min-height: 0;
     }
