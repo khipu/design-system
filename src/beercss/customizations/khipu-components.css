@@ -5786,6 +5786,15 @@ button.kds-fab:active:not(:disabled) {
     flex-basis: 100%;
 }
 
+/* The title column (KdsStatusBlock wraps the title in a div; HTML markup puts the h2 directly)
+   takes the width the icon leaves and wraps its text there. Without it, flex-wrap moved a title
+   that did not fit on one line below the icon (KTUF-394: "Pendiente de autorización de
+   firmantes"). */
+.kds-status-block.inline.kds-status-block--described > :not(.kds-status-block-icon):not(.kds-status-block-description) {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
 .kds-status-block--described + .kds-alert,
 .kds-status-block--described + .kds-copy-row {
     margin-top: var(--kds-spacing-2);
@@ -7145,6 +7154,12 @@ svg[fill='none'] {
     border: var(--kds-border-width-sm) solid var(--kds-color-gray-200);
     border-radius: var(--kds-radius-lg);
     background: var(--kds-color-background-paper);
+}
+
+/* The operation code row that follows the share card (khenshin's pending signers screen) gets
+   the same gap it has after the alert on the other result screens. */
+.kds-share-card + .kds-copy-row {
+    margin-top: var(--kds-spacing-1-5);
 }
 
 .kds-share-eyebrow {
