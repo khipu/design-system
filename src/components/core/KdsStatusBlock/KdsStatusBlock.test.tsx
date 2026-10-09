@@ -3,6 +3,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import css from '../../../beercss/customizations/khipu-components.css?raw';
 import { KdsStatusBlock } from './KdsStatusBlock';
 
 describe('KdsStatusBlock', () => {
@@ -69,5 +70,25 @@ describe('KdsStatusBlock', () => {
       />
     );
     expect(screen.getByText('check_circle')).toBeInTheDocument();
+  });
+});
+
+describe('KdsStatusBlock CSS contract (KTUF-394)', () => {
+  const rule = (selector: string) => {
+    const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const match = css.match(new RegExp(`(?:^|\\n)${escaped}\\s*\\{([^}]*)\\}`));
+    return match?.[1] ?? '';
+  };
+
+  it('lets the inline title shrink next to the icon instead of wrapping below it', () => {
+    const titleColumn = rule(
+      '.kds-status-block.inline.kds-status-block--described > :not(.kds-status-block-icon):not(.kds-status-block-description)',
+    );
+    expect(titleColumn).toMatch(/flex:\s*1 1 0/);
+    expect(titleColumn).toMatch(/min-width:\s*0/);
+  });
+
+  it('separates the operation code row from the share card above it', () => {
+    expect(rule('.kds-share-card + .kds-copy-row')).toMatch(/margin-top:\s*var\(--kds-spacing-1-5\)/);
   });
 });
