@@ -1,1 +1,6 @@
-export { KdsCardSelector, type KdsCardSelectorProps } from './KdsCardSelector';
+export {
+  KdsCardSelector,
+  KdsCardSelectorGroup,
+  type KdsCardSelectorProps,
+  type KdsCardSelectorGroupProps,
+} from './KdsCardSelector';

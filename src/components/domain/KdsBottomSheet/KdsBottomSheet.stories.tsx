@@ -1,8 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { KdsBottomSheet } from './KdsBottomSheet';
 import { KdsButton } from '../../core/KdsButton';
 import { KdsDocumentFrame } from '../../core/KdsDocumentFrame';
+import { KdsProgressChecklist } from '../../core/KdsProgressChecklist';
+import { KdsSectionNote } from '../../core/KdsSectionNote';
+import { KdsSpinner } from '../../core/KdsSpinner';
 
 /**
  * KdsBottomSheet — único componente de modales del DS (KdsModal fue unificado aquí).
@@ -323,4 +326,244 @@ export const HtmlMarkup: Story = {
       </div>
     </div>
   ),
+};
+
+/**
+ * Onboarding — aviso antes de redirigir a la banca en línea, como modal corriente
+ * (`variant="dialog"`): en escritorio centrado, texto a la izquierda y acciones lado a lado
+ * (Volver | Continuar); en mobile, bottom sheet con las acciones apiladas. Volver cierra el
+ * modal; Continuar lleva al banco.
+ */
+export const OnboardingBankRedirect: Story = {
+  name: 'Onboarding: redirección al banco',
+  render: function OnboardingRedirectSheet() {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <KdsButton onClick={() => setOpen(true)}>Continuar</KdsButton>
+        <KdsBottomSheet
+          variant="dialog"
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Continúa en la banca en línea de Banco Santander"
+          description="Allí podrás revisar qué datos se consultan y para qué, antes de autorizar la verificación de tu cuenta."
+          actions={
+            <>
+              <KdsButton fullWidth onClick={() => setOpen(false)}>
+                Continuar
+              </KdsButton>
+              <KdsButton variant="outlined" fullWidth onClick={() => setOpen(false)}>
+                Volver
+              </KdsButton>
+            </>
+          }
+        >
+          <KdsSectionNote className="kds-neutral" icon="lock">
+            Tus credenciales están encriptadas de extremo a extremo. Khipu no almacena tus
+            contraseñas bancarias.
+          </KdsSectionNote>
+        </KdsBottomSheet>
+      </>
+    );
+  },
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<!-- Primary action first: on desktop it is shown on the right, on mobile on top -->
+<div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="bank-redirect-sheet" hidden>
+  <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="bank-redirect-title">
+    <div class="kds-bottom-sheet-grabber" aria-hidden="true"></div>
+    <h2 class="kds-bottom-sheet-title" id="bank-redirect-title">Continúa en la banca en línea de Banco Santander</h2>
+    <p class="kds-bottom-sheet-description">Allí podrás revisar qué datos se consultan y para qué, antes de autorizar la verificación de tu cuenta.</p>
+    <div class="kds-bottom-sheet-body">
+      <p class="kds-section-note kds-neutral">
+        <i class="material-symbols-outlined" aria-hidden="true">lock</i>
+        <span>Tus credenciales están encriptadas de extremo a extremo. Khipu no almacena tus contraseñas bancarias.</span>
+      </p>
+    </div>
+    <div class="kds-bottom-sheet-actions">
+      <a href="/onboarding/bank-login" class="kds-btn kds-btn-primary kds-btn-block"><span class="kds-btn-label">Continuar</span></a>
+      <button type="button" class="kds-btn kds-btn-outlined kds-btn-block" data-close-sheet><span class="kds-btn-label">Volver</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- GSP: el sheet se renderiza oculto y se abre con el botón del paso "Selección de banco" -->
+<div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="bank-redirect-sheet" hidden>
+  <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="bank-redirect-title">
+    <h2 class="kds-bottom-sheet-title" id="bank-redirect-title">
+      <g:message code="onboarding.bankRedirect.title" args="\${[bank.name]}"/>
+    </h2>
+    <div class="kds-bottom-sheet-actions">
+      <mat:button type="primary" href="\${createLink(action: 'bankLogin')}" textCode="default.continue" cssClass="kds-btn-block"/>
+      <mat:button type="outlined" textCode="default.back" cssClass="kds-btn-block" onclick="this.closest('.kds-bottom-sheet-scrim').hidden = true"/>
+    </div>
+  </div>
+</div>`,
+      },
+    },
+  },
+};
+
+/**
+ * Onboarding — validación automática de la información comercial (unos segundos), como
+ * modal de estado (`variant="dialog"` + `align="center"`): en escritorio centrado en pantalla,
+ * en mobile bottom sheet.
+ *
+ * - Mientras valida: `dismissible={false}` (no se cierra con Escape, click fuera ni grabber;
+ *   no hay grabber ni X), un `KdsSpinner` arriba (`icon`), el progreso en
+ *   `KdsProgressChecklist`, la nota "No cierres esta ventana." (`hint`) y la acción
+ *   deshabilitada "Validando…".
+ * - Al terminar: el modal **no se cierra solo**. El spinner pasa a un check, el título a
+ *   "Validamos tu información", el botón se habilita como "Continuar a la firma" y recibe el
+ *   foco; **solo ese botón** cierra el modal y avanza el flujo.
+ */
+export const OnboardingValidating: Story = {
+  name: 'Onboarding: validando información (no se puede cerrar)',
+  render: function OnboardingValidatingSheet() {
+    const labels = ['Datos de la empresa', 'Representante legal', 'Evaluación de riesgo'];
+    const [open, setOpen] = useState(false);
+    const [step, setStep] = useState(0);
+    const done = step >= labels.length;
+    const finishRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+      if (!open || done) return undefined;
+      const t = setTimeout(() => setStep((s) => s + 1), 1300);
+      return () => clearTimeout(t);
+    }, [open, done, step]);
+
+    // Keyboard and screen-reader users land on the control that ends the flow.
+    useEffect(() => {
+      if (open && done) finishRef.current?.focus();
+    }, [open, done]);
+
+    return (
+      <>
+        <KdsButton
+          onClick={() => {
+            setStep(0);
+            setOpen(true);
+          }}
+        >
+          Validar información
+        </KdsButton>
+        <KdsBottomSheet
+          variant="dialog"
+          align="center"
+          open={open}
+          onClose={() => undefined}
+          dismissible={false}
+          icon={
+            done ? (
+              <i className="material-symbols-outlined kds-color-success" aria-hidden="true">
+                check_circle
+              </i>
+            ) : (
+              <KdsSpinner />
+            )
+          }
+          title={done ? 'Validamos tu información' : 'Validando información comercial'}
+          description={
+            done
+              ? 'Todo está en orden. Continúa para revisar y firmar tu contrato.'
+              : 'Revisamos la información de Comercial Ficticia SpA y de su representante legal, y evaluamos el riesgo de tu empresa. Esto toma unos segundos.'
+          }
+          hint={done ? undefined : 'No cierres esta ventana.'}
+          actions={
+            <KdsButton ref={finishRef} fullWidth disabled={!done} onClick={() => setOpen(false)}>
+              {done ? 'Continuar a la firma' : 'Validando…'}
+            </KdsButton>
+          }
+        >
+          <KdsProgressChecklist
+            items={labels.map((label, i) => ({
+              label,
+              status: i < step ? 'done' : i === step ? 'active' : 'pending',
+            }))}
+          />
+        </KdsBottomSheet>
+      </>
+    );
+  },
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<!-- Mientras valida: sin grabber, sin X y sin listeners de cierre. La acción es el
+     control que finaliza: deshabilitada hasta que termina. -->
+<div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open">
+  <div class="kds-bottom-sheet kds-bottom-sheet--dialog kds-bottom-sheet--center" role="dialog" aria-modal="true" aria-labelledby="validating-title">
+    <div class="kds-bottom-sheet-icon" id="validating-icon">
+      <progress class="circle indeterminate"></progress>
+    </div>
+    <h2 class="kds-bottom-sheet-title" id="validating-title">Validando información comercial</h2>
+    <p class="kds-bottom-sheet-description" id="validating-desc">Revisamos la información de Comercial Ficticia SpA y de su representante legal, y evaluamos el riesgo de tu empresa. Esto toma unos segundos.</p>
+    <div class="kds-bottom-sheet-body">
+      <ul class="kds-progress-checklist" aria-live="polite">…ver KdsProgressChecklist…</ul>
+    </div>
+    <p class="kds-bottom-sheet-hint" id="validating-hint">No cierres esta ventana.</p>
+    <div class="kds-bottom-sheet-actions">
+      <button type="button" class="kds-btn kds-btn-primary kds-btn-block" id="validating-finish" disabled>
+        <span class="kds-btn-label">Validando…</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Al terminar: el modal NO se cierra solo; solo este botón finaliza y cierra -->
+<script>
+  function onValidationDone() {
+    document.getElementById('validating-icon').innerHTML =
+      '<i class="material-symbols-outlined kds-color-success" aria-hidden="true">check_circle</i>';
+    document.getElementById('validating-title').textContent = 'Validamos tu información';
+    document.getElementById('validating-desc').textContent =
+      'Todo está en orden. Continúa para revisar y firmar tu contrato.';
+    document.getElementById('validating-hint').remove();
+    var finish = document.getElementById('validating-finish');
+    finish.disabled = false;
+    finish.innerHTML = '<span class="kds-btn-label">Continuar a la firma</span>';
+    finish.focus();
+    finish.addEventListener('click', function () {
+      window.location.href = '/onboarding/firma'; // avanza y cierra el modal
+    });
+  }
+</script>
+
+<!-- GSP: el servidor pinta el estado según el resultado; terminado, el botón lleva a la firma -->
+<div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open">
+  <div class="kds-bottom-sheet kds-bottom-sheet--dialog kds-bottom-sheet--center" role="dialog" aria-modal="true" aria-labelledby="validating-title">
+    <div class="kds-bottom-sheet-icon">
+      <g:if test="\${validationDone}">
+        <i class="material-symbols-outlined kds-color-success" aria-hidden="true">check_circle</i>
+      </g:if>
+      <g:else>
+        <progress class="circle indeterminate"></progress>
+      </g:else>
+    </div>
+    <h2 class="kds-bottom-sheet-title" id="validating-title">
+      <g:message code="\${validationDone ? 'onboarding.validated.title' : 'onboarding.validating.title'}"/>
+    </h2>
+    <div class="kds-bottom-sheet-body">
+      <g:render template="/onboarding/validationChecklist" model="[steps: validationSteps]"/>
+    </div>
+    <g:unless test="\${validationDone}">
+      <p class="kds-bottom-sheet-hint"><g:message code="onboarding.validating.doNotClose"/></p>
+    </g:unless>
+    <div class="kds-bottom-sheet-actions">
+      <g:if test="\${validationDone}">
+        <mat:button type="primary" href="\${createLink(action: 'contract')}" textCode="onboarding.validated.continue" cssClass="kds-btn-block"/>
+      </g:if>
+      <g:else>
+        <mat:button type="primary" textCode="onboarding.validating.wait" cssClass="kds-btn-block" disabled="true"/>
+      </g:else>
+    </div>
+  </div>
+</div>`,
+      },
+    },
+  },
 };

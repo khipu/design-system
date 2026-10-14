@@ -146,7 +146,11 @@ export const KdsTextField = forwardRef<HTMLInputElement, KdsTextFieldProps>(
           {label}
           {required && requiredMark && ' *'}
         </label>
-        {readOnly && <i className="material-symbols-outlined">lock</i>}
+        {readOnly && (
+          <i className="material-symbols-outlined" aria-hidden="true">
+            lock
+          </i>
+        )}
         {/* Toggle interactivo de contraseña (suffix). `<a>` es el elemento que BeerCSS
             posiciona como icono del field y al que da `pointer-events: all`. */}
         {isRevealable && (
