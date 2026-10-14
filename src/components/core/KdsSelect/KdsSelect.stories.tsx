@@ -125,6 +125,50 @@ export const Disabled: Story = {
   },
 };
 
+/**
+ * Solo lectura — valor fijo que el usuario ve pero no cambia (ej. la banca, que en Chile
+ * queda fija según el tipo de contribuyente). `<select>` no soporta `readonly` y `disabled`
+ * no envía el valor en el form, así que se renderiza un field `.locked` (igual a
+ * `KdsTextField readOnly`) con el texto de la opción y un `<input type="hidden">` con el value.
+ *
+ * En GSP: `mat:fieldLocked` sin `name` (muestra el texto) + `g:hiddenField` (envía el value).
+ * La taglib hoy agrega `tabindex="-1"` (en GSP no se alcanza con Tab; en React sí) y usa
+ * `<label class="active">`: ver la story `KdsTextField → ReadOnly` para el detalle.
+ */
+export const ReadOnly: Story = {
+  name: 'Solo lectura',
+  render: () => (
+    <KdsSelect
+      label="Banca"
+      name="banca"
+      options={[
+        { value: 'personas', label: 'Personas' },
+        { value: 'empresas', label: 'Empresas' },
+      ]}
+      value="empresas"
+      readOnly
+    />
+  ),
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="field label border suffix locked">
+  <input type="text" id="banca" value="Empresas" placeholder=" " readonly/>
+  <label for="banca">Banca</label>
+  <i class="material-symbols-outlined" aria-hidden="true">lock</i>
+  <input type="hidden" name="banca" value="empresas"/>
+</div>
+
+<!-- GSP (payment): el texto va en mat:fieldLocked (sin name), el value en g:hiddenField -->
+<mat:fieldLocked id="banca" label="Banca" value="\${message(code: 'banca.empresas')}" group="false"/>
+<g:hiddenField name="banca" value="empresas"/>`,
+      },
+    },
+  },
+};
+
 /** Con prefix icon — agrega `.prefix` al wrapper y renderiza `<i>` antes del select. */
 export const WithPrefixIcon: Story = {
   render: function SelectWithPrefixIcon() {

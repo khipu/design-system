@@ -55,12 +55,64 @@ export const Disabled: Story = {
   },
 };
 
+/**
+ * Solo lectura (`.field.locked`) — valor precargado que el usuario ve pero no edita
+ * (ej. razón social y RUT que vienen del acceso bancario). Se distingue de `disabled`
+ * por el candado y porque el valor se lee en `text-secondary` (contraste AA), no apagado.
+ *
+ * El campo se alcanza con Tab (para que un lector de pantalla lo recorra en el form) y al
+ * enfocarlo muestra un borde neutro, nunca el `--primary` de un campo editable.
+ *
+ * Contrato HTML y equivalente GSP (`mat:fieldLocked` de payment) en el panel de código.
+ * Lo que hoy genera la taglib difiere en tres puntos del contrato del DS:
+ * - agrega `tabindex="-1"`: en GSP el campo **no** se alcanza con Tab;
+ * - agrega `kds-field-group` salvo que se pase `group="false"`;
+ * - usa `<label class="active">` en vez de `placeholder=" "` para dejar la label arriba.
+ * Visualmente coinciden. Alinear el foco requiere cambiar la taglib en payment.
+ */
 export const ReadOnly: Story = {
   args: {
-    label: 'Monto',
-    value: '$1.000',
+    label: 'Nombre de la empresa',
+    value: 'Comercial Ficticia SpA',
     readOnly: true,
   },
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="field label border suffix locked">
+  <input type="text" id="company" name="company" value="Comercial Ficticia SpA"
+         placeholder=" " readonly/>
+  <label for="company">Nombre de la empresa</label>
+  <i class="material-symbols-outlined" aria-hidden="true">lock</i>
+</div>
+
+<!-- GSP (payment) -->
+<mat:fieldLocked name="company" label="Nombre de la empresa" value="\${company.name}" group="false"/>
+
+<!-- …que hoy renderiza (tabindex="-1": no se alcanza con Tab, a diferencia de React) -->
+<div class="field label border locked">
+  <input type="text" id="company" name="company" value="Comercial Ficticia SpA"
+         readonly aria-readonly="true" tabindex="-1"/>
+  <label for="company" class="active">Nombre de la empresa</label>
+  <i class="material-symbols-outlined" aria-hidden="true">lock</i>
+</div>`,
+      },
+    },
+  },
+};
+
+/** Lado a lado: editable, solo lectura y deshabilitado, para comparar los tres estados. */
+export const ReadOnlyVsDisabled: Story = {
+  name: 'Solo lectura vs deshabilitado',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: semanticSpacing.formGap, maxWidth: 360 }}>
+      <KdsTextField label="Editable" defaultValue="Comercial Ficticia SpA" />
+      <KdsTextField label="Solo lectura" value="Comercial Ficticia SpA" readOnly />
+      <KdsTextField label="Deshabilitado" defaultValue="Comercial Ficticia SpA" disabled />
+    </div>
+  ),
 };
 
 export const FullWidth: Story = {

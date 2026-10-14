@@ -124,6 +124,96 @@ export const Interactive: Story = {
   },
 };
 
+const ONBOARDING_STEPS = [
+  'Selección de banco',
+  'Selección de cuenta',
+  'Selección de plan',
+  'Información comercial',
+  'Firma de contrato',
+];
+
+/**
+ * Onboarding de cuenta de cobro — los tres modificadores juntos (todos opcionales y
+ * combinables; sin ellos el stepper se ve igual que antes):
+ *
+ * - `numbered` (`.kds-stepper--numbered`): número de paso dentro del círculo; los pasos
+ *   completados mantienen el check. El número va en negrita de 20px ("texto grande"), así
+ *   el blanco sobre el azul info (3,8:1) también cumple AA.
+ * - `color="primary"` (`.kds-stepper--primary`): paso actual en el color de marca.
+ * - `currentLabelOnly` (`.kds-stepper--current-label`): con el stepper angosto (≤ 560px de
+ *   su propio ancho, container query — p. ej. una card junto a la sidebar) solo se ve la
+ *   etiqueta del paso actual; las demás quedan ocultas a la vista pero el lector de
+ *   pantalla las sigue leyendo. Achicá el viewport para verlo.
+ *
+ * El paso actual lleva `aria-current="step"`. En GSP la taglib `mat:stepper` de payment hoy
+ * no genera los modificadores, el número ni `aria-current`: el ejemplo usa el markup a mano.
+ */
+export const Onboarding: Story = {
+  name: 'Onboarding (numerado, marca, label actual)',
+  args: {
+    steps: ONBOARDING_STEPS,
+    current: 2,
+    numbered: true,
+    color: 'primary',
+    currentLabelOnly: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-stepper kds-stepper--numbered kds-stepper--primary kds-stepper--current-label">
+  <div class="kds-step completed">
+    <div class="kds-step-indicator">1</div>
+    <div class="kds-step-label">Selección de banco</div>
+  </div>
+  <div class="kds-step completed">
+    <div class="kds-step-indicator">2</div>
+    <div class="kds-step-label">Selección de cuenta</div>
+  </div>
+  <div class="kds-step current" aria-current="step">
+    <div class="kds-step-indicator">3</div>
+    <div class="kds-step-label">Selección de plan</div>
+  </div>
+  <div class="kds-step">
+    <div class="kds-step-indicator">4</div>
+    <div class="kds-step-label">Información comercial</div>
+  </div>
+  <div class="kds-step">
+    <div class="kds-step-indicator">5</div>
+    <div class="kds-step-label">Firma de contrato</div>
+  </div>
+</div>
+
+<!-- GSP: mismo markup con g:each (mat:stepper no genera modificadores ni aria-current) -->
+<div class="kds-stepper kds-stepper--numbered kds-stepper--primary kds-stepper--current-label">
+  <g:each in="\${steps}" var="step" status="i">
+    <div class="kds-step\${i < currentStep ? ' completed' : (i == currentStep ? ' current' : '')}"
+         \${i == currentStep ? 'aria-current="step"' : ''}>
+      <div class="kds-step-indicator">\${i + 1}</div>
+      <div class="kds-step-label"><g:message code="\${step}"/></div>
+    </div>
+  </g:each>
+</div>`,
+      },
+    },
+  },
+};
+
+/** El mismo stepper a ancho de teléfono: solo se ve la etiqueta del paso actual. */
+export const OnboardingMobile: Story = {
+  name: 'Onboarding en mobile',
+  args: { ...Onboarding.args },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 360, margin: '0 auto' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+};
+
 /**
  * Markup HTML plano (BeerCSS) — para consumidores GSP/legacy que no usan React.
  * Las clases `kds-*` son la fuente de verdad; el componente React solo las envuelve.

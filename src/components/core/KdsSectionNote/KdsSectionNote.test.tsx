@@ -16,6 +16,18 @@ describe('KdsSectionNote', () => {
     expect(screen.getByText('info')).toBeInTheDocument();
   });
 
+  it('accepts the neutral tone class', () => {
+    render(
+      <KdsSectionNote className="kds-neutral" icon="lock">
+        Datos obtenidos de tu cuenta en Banco Santander.
+      </KdsSectionNote>,
+    );
+    expect(screen.getByText('Datos obtenidos de tu cuenta en Banco Santander.').parentElement).toHaveClass(
+      'kds-section-note',
+      'kds-neutral',
+    );
+  });
+
   it('renders with custom icon', () => {
     render(<KdsSectionNote icon="warning">Warning note</KdsSectionNote>);
     expect(screen.getByText('warning')).toBeInTheDocument();

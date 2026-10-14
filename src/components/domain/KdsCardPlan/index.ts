@@ -1,1 +1,6 @@
-export { KdsCardPlan, type KdsCardPlanProps } from './KdsCardPlan';
+export {
+  KdsCardPlan,
+  KdsCardPlanGroup,
+  type KdsCardPlanProps,
+  type KdsCardPlanGroupProps,
+} from './KdsCardPlan';

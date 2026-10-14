@@ -15,6 +15,7 @@
  * - Sticky invoice card (collapse on scroll)
  * - Brand inner (logo inside sticky card on mobile)
  * - Secure footer (moved inside last card per screen)
+ * - Read-to-accept contracts (checkbox enabled after scrolling to the end)
  */
 
 (function() {
@@ -61,8 +62,69 @@
         initHideOnScroll();
         initBankModal();
         initMerchantLogoBackdrop();
+        initContract();
 
         console.log('Material Design initialization complete!');
+    }
+
+    /**
+     * Initialize read-to-accept contracts (KTUF-398)
+     * In each [data-kds-contract] the acceptance checkbox (.kds-contract-accept) stays
+     * disabled until .kds-contract-content is scrolled to the end, or right away if the
+     * content fits without scrolling. Then the hint (.kds-contract-hint) is hidden, the
+     * container gets .kds-contract--read and fires `kds:contract-read` once.
+     * Vanilla mirror of KdsContract for server-side views (payment).
+     * @param {Element} root - Root element to scope the query (default: document)
+     */
+    function initContract(root) {
+        root = root || document;
+        root.querySelectorAll('[data-kds-contract]').forEach(function(contract) {
+            if (contract.hasAttribute('data-kds-contract-ready')) return;
+            contract.setAttribute('data-kds-contract-ready', '');
+
+            var content = contract.querySelector('.kds-contract-content');
+            var checkbox = contract.querySelector('.kds-contract-accept input[type="checkbox"]');
+            var hint = contract.querySelector('.kds-contract-hint');
+            if (!content || !checkbox) return;
+
+            // The markup ships the checkbox enabled so the page still works without this
+            // script; here it is locked until the content has been read.
+            checkbox.disabled = true;
+
+            function markRead() {
+                if (contract.classList.contains('kds-contract--read')) return;
+                contract.classList.add('kds-contract--read');
+                checkbox.disabled = false;
+                if (hint) {
+                    hint.hidden = true;
+                    // The hidden hint no longer describes the checkbox (as in KdsContract).
+                    if (hint.id) {
+                        var describedBy = (checkbox.getAttribute('aria-describedby') || '')
+                            .split(/\s+/)
+                            .filter(function(id) { return id && id !== hint.id; });
+                        if (describedBy.length) checkbox.setAttribute('aria-describedby', describedBy.join(' '));
+                        else checkbox.removeAttribute('aria-describedby');
+                    }
+                }
+                contract.dispatchEvent(new CustomEvent('kds:contract-read', { bubbles: true }));
+            }
+
+            // A few px of tolerance: zoom and sub-pixel rounding rarely land exactly on 0.
+            // clientHeight 0 means not laid out yet (hidden step or tab): wait for the
+            // ResizeObserver instead of reading 0 >= -8 as "reached the end".
+            function check() {
+                if (content.clientHeight === 0) return;
+                if (content.scrollTop + content.clientHeight >= content.scrollHeight - 8) {
+                    markRead();
+                }
+            }
+
+            content.addEventListener('scroll', check, { passive: true });
+            if (typeof ResizeObserver !== 'undefined') {
+                new ResizeObserver(check).observe(content);
+            }
+            check();
+        });
     }
 
     // El alto de la body card cambia de golpe entre pantallas, sin animar. Hubo una
@@ -909,6 +971,7 @@
     window.Khipu.initBankModal = initBankModal;
     window.Khipu.initStickyInvoice = initStickyInvoice;
     window.Khipu.initHideOnScroll = initHideOnScroll;
+    window.Khipu.initContract = initContract;
 
     // Also export showSnackbar to global scope for backward compatibility
     window.showSnackbar = showSnackbar;
