@@ -34,6 +34,14 @@ export { KdsSpinner, type KdsSpinnerProps, type KdsSpinnerSize } from './KdsSpin
 // SecureLoader
 export { KdsSecureLoader, type KdsSecureLoaderProps } from './KdsSecureLoader';
 
+// ProgressChecklist
+export {
+  KdsProgressChecklist,
+  type KdsProgressChecklistProps,
+  type KdsProgressChecklistItem,
+  type KdsProgressChecklistStatus,
+} from './KdsProgressChecklist';
+
 // CopyButton
 export { KdsCopyButton, type KdsCopyButtonProps } from './KdsCopyButton';
 

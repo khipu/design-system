@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { KdsCardSelector } from './KdsCardSelector';
+import { KdsCardSelector, KdsCardSelectorGroup } from './KdsCardSelector';
 
 /**
  * KdsCardSelector — card grande clickeable con icon + título + descripción para selección de método.
@@ -172,4 +172,118 @@ export const HtmlMarkup: Story = {
       </button>
     </div>
   ),
+};
+
+/**
+ * Opción de radio con contenido enriquecido — con `radio` + `name` + `value` la card deja de ser un
+ * `<button>` y pasa a ser una opción de radio nativa (`.kds-card-selector--radio`):
+ * `<input type="radio" class="kds-card-selector-radio">` arriba a la derecha y el título como
+ * su `<label>`, estirado sobre toda la card. Hace falta para contenido de bloque como la lista
+ * "Necesitarás" (`children`), que un `<button>` no admite.
+ *
+ * - Las cards con el mismo `name` forman un grupo nativo: flechas, un solo elegido y envío en
+ *   el form, sin JS. El grupo va en `KdsCardSelectorGroup` (`role="radiogroup"`).
+ * - El radio se describe con la descripción (`aria-describedby`).
+ * - Estado elegido y foco salen de CSS con `:has` (en `@supports`): sin soporte, el radio
+ *   nativo muestra la elección y su propio anillo de foco.
+ * - Mismo indicador que `KdsCardPlan` seleccionable.
+ *
+ * En payment reemplaza el patrón de `merchant/selectFlowType.gsp` (cards `<div>` +
+ * `khipu-onboarding.js` + hidden input), que hoy no se puede usar con teclado.
+ */
+export const RadioOption: Story = {
+  name: 'Opción de radio (tipo de contribuyente)',
+  parameters: {
+    layout: 'padded',
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-card-selector-group" role="radiogroup" aria-label="Tipo de contribuyente">
+  <div class="kds-card-selector kds-card-selector--radio">
+    <input type="radio" class="kds-card-selector-radio" id="tipo-juridica" name="tipo"
+           value="juridica" aria-describedby="tipo-juridica-desc"/>
+    <span class="kds-card-selector-icon" aria-hidden="true"><i class="material-symbols-outlined">business</i></span>
+    <label for="tipo-juridica" class="kds-card-selector-title">Persona jurídica</label>
+    <span class="kds-card-selector-description" id="tipo-juridica-desc">
+      Empresas u organizaciones constituidas legalmente, con personalidad jurídica propia.
+    </span>
+    <div class="kds-card-selector-details">
+      <span class="kds-card-selector-eyebrow">Necesitarás</span>
+      <ul>
+        <li>Acceso a la banca en línea empresas.</li>
+        <li>Poder para firmar el contrato en línea.</li>
+        <li>Datos del representante legal.</li>
+      </ul>
+    </div>
+  </div>
+  <!-- …misma estructura para "natural" -->
+</div>
+
+<!-- GSP (payment, merchant/selectFlowType.gsp): sin JS ni hidden input, el radio viaja en el form -->
+<div class="kds-card-selector-group" role="radiogroup" aria-label="\${message(code: 'merchant.onboarding.selectFlow.title')}">
+  <g:each in="\${[[type: OnboardingType.LEGAL_ENTITY, key: 'legal', icon: 'business'],
+                 [type: OnboardingType.NATURAL, key: 'natural', icon: 'person']]}" var="opt">
+    <div class="kds-card-selector kds-card-selector--radio">
+      <input type="radio" class="kds-card-selector-radio" id="flow-\${opt.key}" name="flowType"
+             value="\${opt.type.name()}" aria-describedby="flow-\${opt.key}-desc"/>
+      <span class="kds-card-selector-icon" aria-hidden="true"><i class="material-symbols-outlined">\${opt.icon}</i></span>
+      <label for="flow-\${opt.key}" class="kds-card-selector-title">
+        <g:message code="merchant.onboarding.selectFlow.\${opt.key}.title"/>
+      </label>
+      <span class="kds-card-selector-description" id="flow-\${opt.key}-desc">
+        <g:message code="merchant.onboarding.selectFlow.\${opt.key}.description"/>
+      </span>
+      <div class="kds-card-selector-details">
+        <span class="kds-card-selector-eyebrow"><g:message code="merchant.onboarding.selectFlow.\${opt.key}.requirements.title"/></span>
+        <ul>…</ul>
+      </div>
+    </div>
+  </g:each>
+</div>`,
+      },
+    },
+  },
+  render: function RadioOptionStory() {
+    const [tipo, setTipo] = useState('juridica');
+    // Unique per instance: the docs page renders this story twice in one document.
+    const groupName = useId();
+    return (
+      <KdsCardSelectorGroup label="Tipo de contribuyente" style={{ maxWidth: 720 }}>
+        <KdsCardSelector
+          radio
+          name={groupName}
+          value="juridica"
+          checked={tipo === 'juridica'}
+          onCheckedChange={setTipo}
+          icon="business"
+          title="Persona jurídica"
+          description="Empresas u organizaciones constituidas legalmente, con personalidad jurídica propia."
+        >
+          <span className="kds-card-selector-eyebrow">Necesitarás</span>
+          <ul>
+            <li>Acceso a la banca en línea empresas.</li>
+            <li>Poder para firmar el contrato en línea.</li>
+            <li>Datos del representante legal.</li>
+          </ul>
+        </KdsCardSelector>
+        <KdsCardSelector
+          radio
+          name={groupName}
+          value="natural"
+          checked={tipo === 'natural'}
+          onCheckedChange={setTipo}
+          icon="person"
+          title="Persona natural"
+          description="Trabajadores independientes o emprendedores que operan su negocio sin constituir una empresa."
+        >
+          <span className="kds-card-selector-eyebrow">Necesitarás</span>
+          <ul>
+            <li>Acceso a la banca en línea personas.</li>
+            <li>Poder para firmar el contrato en línea.</li>
+          </ul>
+        </KdsCardSelector>
+      </KdsCardSelectorGroup>
+    );
+  },
 };

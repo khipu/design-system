@@ -501,6 +501,118 @@ a.kds-btn.kds-btn-md {
     line-height: var(--kds-line-height-normal);
 }
 
+/* Extra content under the description (e.g. a "Necesitarás" list). */
+.kds-card-selector-details {
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-primary);
+    line-height: var(--kds-line-height-normal);
+}
+
+/* !important on the top margin: BeerCSS adds 1rem to a list after a sibling with a higher
+   specificity (same approach as .kds-card-plan ul). */
+.kds-card-selector-details :is(ul, ol) {
+    margin: 0;
+    margin-block-start: var(--kds-spacing-1) !important;
+    padding-inline-start: var(--kds-spacing-2-5);
+}
+
+/* Small section label inside the details, e.g. "Necesitarás". */
+.kds-card-selector-eyebrow {
+    display: block;
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-bold);
+    letter-spacing: var(--kds-letter-spacing-wide);
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+/* Radio option (.kds-card-selector--radio): a <div> card with a native radio top-right
+   and the title <label> stretched over the card, so any click selects it and cards
+   sharing a `name` behave as one radio group (arrow keys, form submit) without JS.
+   Same pattern as .kds-card-plan--selectable. */
+.kds-card-selector--radio {
+    position: relative;
+    padding: var(--kds-spacing-2-5);
+    gap: var(--kds-spacing-1);
+}
+
+/* Icon tile tinted from --primary (follows the merchant's brand; the base tile uses the
+   fixed --kds-color-primary-focus). Base button-mode cards keep their tile. */
+.kds-card-selector--radio .kds-card-selector-icon {
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    border-radius: var(--kds-radius-md);
+}
+
+/* Selector group (KdsCardSelectorGroup): columns by the group's own width, like
+   .kds-card-plan-group. */
+.kds-card-selector-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: var(--kds-spacing-2);
+    align-items: stretch;
+}
+
+.kds-card-selector-radio {
+    position: absolute;
+    top: var(--kds-spacing-2);
+    right: var(--kds-spacing-2);
+    z-index: 2;
+    width: var(--kds-spacing-2-5);
+    height: var(--kds-spacing-2-5);
+    margin: 0;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+/* BeerCSS positions and sizes bare <label>s; the title keeps its own type styles and
+   must stay static so its ::after resolves against the card. */
+.kds-card-selector--radio label.kds-card-selector-title {
+    position: static;
+    padding-inline-end: var(--kds-spacing-4);
+    cursor: pointer;
+}
+
+.kds-card-selector--radio label.kds-card-selector-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--kds-radius-md);
+}
+
+/* Interactive content inside the card stays above the stretched label. */
+.kds-card-selector--radio :is(a, button, input:not(.kds-card-selector-radio), select, textarea, summary, [tabindex]) {
+    position: relative;
+    z-index: 2;
+}
+
+/* Hover must not look like the checked state: neutral, darker border. Same specificity as
+   the base `.kds-card-selector:hover:not(.selected)` (primary tint) and later, so it wins. */
+.kds-card-selector.kds-card-selector--radio:hover:not(.selected) {
+    border-color: var(--kds-border-dark);
+    background: var(--kds-color-background-paper);
+}
+
+/* Checked and focus need :has. Without it the radio keeps its native look and focus
+   ring, so the choice and the focus stay visible in older browsers. */
+@supports selector(:has(*)) {
+    /* Same brand tint as the selected plan card (follows the merchant's --primary).
+       Doubled class so it outranks the neutral hover above and stays selected on hover. */
+    .kds-card-selector.kds-card-selector--radio:has(.kds-card-selector-radio:checked) {
+        border-color: var(--primary);
+        background: color-mix(in srgb, var(--primary) 5%, var(--kds-surface-base));
+    }
+
+    .kds-card-selector--radio:has(.kds-card-selector-radio:focus-visible) {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    .kds-card-selector-radio:focus-visible {
+        outline: none;
+    }
+}
+
 /* Selected state - visual feedback via border only */
 
 /* Pricing/Plan card */
@@ -545,9 +657,190 @@ a.kds-btn.kds-btn-md {
     box-shadow: var(--kds-shadow-elevation-4);
 }
 
-/* Recommended Badge — inline dentro del card (no flotante).
-   Es el primer hijo del .kds-card-plan, así que aparece arriba de todo
-   el contenido, alineado a la izquierda. */
+/* Selectable plan (.kds-card-plan--selectable): a native radio sits top-right and the
+   title <label> is stretched over the whole card, so any click selects it and cards
+   sharing a `name` behave as one radio group (arrow keys, form submit) without JS. */
+.kds-card-plan-radio {
+    position: absolute;
+    top: var(--kds-spacing-2);
+    right: var(--kds-spacing-2);
+    z-index: 2;
+    width: var(--kds-spacing-2-5);
+    height: var(--kds-spacing-2-5);
+    margin: 0;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.kds-card-plan--selectable .kds-card-plan-header {
+    padding-inline-end: var(--kds-spacing-4);
+}
+
+/* BeerCSS makes header, h3 and label `position: relative`; they must stay static so the
+   label's ::after resolves against the card, not against the label itself. */
+.kds-card-plan--selectable :is(.kds-card-plan-header, .kds-card-plan-header h3, .kds-card-plan-header label) {
+    position: static;
+}
+
+/* BeerCSS sizes bare <label>s; the title label must look like the h3 it lives in. */
+.kds-card-plan--selectable .kds-card-plan-header label {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* Above the (BeerCSS-positioned) feature items, below the radio and actions. */
+.kds-card-plan--selectable .kds-card-plan-header label::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--kds-radius-lg);
+}
+
+/* Interactive content inside the card stays above the stretched label, so it remains
+   clickable (features may come as raw HTML from the consumer). */
+.kds-card-plan--selectable :is(a, button, input:not(.kds-card-plan-radio), select, textarea, summary, [tabindex]) {
+    position: relative;
+    z-index: 2;
+}
+
+/* Optional plan description (KdsCardPlan `description`) — a <div>, so BeerCSS's sibling
+   margin on <p> does not apply. */
+.kds-card-plan-description {
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-normal);
+    color: var(--kds-color-text-secondary);
+}
+
+/* Optional check per feature (KdsCardPlan `checkFeatures`), in the brand color. */
+.kds-card-plan-features--check li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kds-spacing-1);
+}
+
+.kds-card-plan-features--check li > i {
+    flex: none;
+    margin-top: 2px;
+    font-size: var(--kds-font-size-base);
+    color: var(--primary);
+}
+
+/* Selectable plan cards (new, onboarding): compact like the plan screen — badge on top,
+   smaller title and price, and the divider above the feature list instead of under a big
+   price. Plain .kds-card-plan (marketing/billing) keeps its larger layout. */
+.kds-card-plan--selectable {
+    gap: var(--kds-spacing-1);
+}
+
+/* Badge as a soft tag (not the solid pill of marketing plan cards), so it doesn't compete
+   with the selected border. */
+.kds-card-plan--selectable .kds-card-plan-badge {
+    order: -1;
+    padding: var(--kds-spacing-0-25) var(--kds-spacing-1);
+    background: color-mix(in srgb, var(--primary) 12%, var(--kds-surface-base));
+    color: var(--primary);
+    font-weight: var(--kds-font-weight-medium);
+    line-height: var(--kds-line-height-normal);
+    border-radius: var(--kds-radius-sm);
+}
+
+.kds-card-plan--selectable .kds-card-plan-header h3 {
+    font-size: var(--kds-font-size-lg);
+}
+
+.kds-card-plan--selectable .kds-card-plan-price {
+    gap: var(--kds-spacing-0-5);
+    border-bottom: 0;
+}
+
+.kds-card-plan--selectable .kds-price {
+    font-size: var(--kds-font-size-sm);
+    font-weight: var(--kds-font-weight-medium);
+    line-height: var(--kds-line-height-normal);
+}
+
+.kds-card-plan--selectable .kds-price-period {
+    font-size: var(--kds-font-size-sm);
+}
+
+.kds-card-plan--selectable .kds-card-plan-features {
+    gap: var(--kds-spacing-0-75);
+    margin-top: var(--kds-spacing-0-5);
+    padding-top: var(--kds-spacing-1-5);
+    border-top: 1px solid var(--kds-border-light);
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-snug);
+}
+
+.kds-card-plan--selectable .kds-card-plan-features--check li > i {
+    font-size: var(--kds-font-size-sm);
+    margin-top: 3px;
+}
+
+/* Plan group (KdsCardPlanGroup): as many columns as fit in the group's own width, so it
+   also works in a narrow card next to the panel sidebar (a viewport breakpoint would put
+   two 260px cards in a 300px card and overflow). Inside the group the cards fill their
+   column; min(…, 100%) keeps a single column from overflowing very narrow containers. */
+.kds-card-plan-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: var(--kds-spacing-2);
+    align-items: stretch;
+}
+
+.kds-card-plan-group > .kds-card-plan {
+    min-width: 0;
+    max-width: none;
+}
+
+/* In a selection the border signals the choice, so `recommended` keeps only its badge. */
+.kds-card-plan--selectable.recommended {
+    background: var(--kds-surface-base);
+    box-shadow: none;
+}
+
+/* Unselected border matches the sibling selector cards (border-light), lighter than the
+   plain plan card's border-medium. Before the hover rule so hover still wins. */
+.kds-card-plan--selectable,
+.kds-card-plan--selectable.recommended {
+    border-color: var(--kds-border-light);
+}
+
+/* Hover must not look like the selected state (primary border): neutral, darker border.
+   The selected card keeps its primary border on hover (the :checked rule outranks this). */
+.kds-card-plan--selectable:hover,
+.kds-card-plan--selectable.recommended:hover {
+    border-color: var(--kds-border-dark);
+}
+
+.kds-card-plan--selectable.recommended:hover {
+    box-shadow: var(--kds-shadow-2);
+}
+
+/* Selected and focus states need :has. Without it the radio keeps its native look and
+   focus ring, so the choice and the focus stay visible in older browsers. */
+@supports selector(:has(*)) {
+    .kds-card-plan--selectable:has(.kds-card-plan-radio:checked) {
+        border-color: var(--primary);
+        background: color-mix(in srgb, var(--primary) 5%, var(--kds-surface-base));
+    }
+
+    /* Focus is shown on the whole card; the radio's own ring would draw a second one. */
+    .kds-card-plan--selectable:has(.kds-card-plan-radio:focus-visible) {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    .kds-card-plan-radio:focus-visible {
+        outline: none;
+    }
+}
+
+/* Recommended Badge — inline dentro del card (no flotante), alineado a la izquierda.
+   KdsCardPlan lo renderiza después del precio; en las cards seleccionables
+   (.kds-card-plan--selectable) `order: -1` lo sube arriba del título. */
 .kds-card-plan-badge {
     align-self: flex-start;
     padding: var(--kds-spacing-0-5) var(--kds-spacing-1-5);
@@ -1165,6 +1458,154 @@ a.kds-btn.kds-btn-md {
     .kds-step.completed .kds-step-indicator::after {
         font-size: 16px;
     }
+}
+
+/* Stepper modifiers (additive: the base markup above, e.g. payment's mat:stepper,
+   renders exactly as before without them). */
+
+/* --numbered: step number inside the indicator. Bold 20px is "large text", so the
+   white number on the info indicator (3.8:1) still meets AA. Completed steps hide the
+   number and keep the ::after check. */
+.kds-stepper--numbered .kds-step-indicator {
+    font-size: var(--kds-font-size-2xl);
+    font-weight: var(--kds-font-weight-bold);
+    line-height: 1;
+}
+
+.kds-stepper--numbered .kds-step.current .kds-step-indicator {
+    color: var(--kds-color-info-contrast);
+}
+
+/* --on-primary follows the merchant's brand (KdsThemeProvider computes it from --primary). */
+.kds-stepper--numbered.kds-stepper--primary .kds-step.current .kds-step-indicator {
+    color: var(--on-primary);
+}
+
+.kds-stepper--numbered .kds-step.completed .kds-step-indicator {
+    font-size: 0;
+}
+
+/* --primary: current step in the brand color instead of info. */
+.kds-stepper--primary .kds-step.current .kds-step-indicator {
+    background: var(--primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+/* --numbered: pending steps and the connector must be visible on a white card (the base
+   background-elevated #fafafa is ~1.04:1 against white). */
+.kds-stepper--numbered::before {
+    background: var(--kds-color-gray-300);
+}
+
+.kds-stepper--numbered .kds-step:not(.completed):not(.current) .kds-step-indicator {
+    background: var(--kds-color-gray-200);
+    box-shadow: none;
+}
+
+/* --numbered + --primary (onboarding): compact 28px dots, small bold number (white on the
+   brand color is 6:1, so it does not need large text), small labels, and a progress line
+   per segment: green up to the current step, grey after it. */
+.kds-stepper--numbered.kds-stepper--primary::before {
+    display: none;
+}
+
+.kds-stepper--numbered.kds-stepper--primary .kds-step-indicator {
+    width: var(--kds-spacing-3-5);
+    height: var(--kds-spacing-3-5);
+    font-size: var(--kds-font-size-sm);
+}
+
+.kds-stepper--numbered.kds-stepper--primary .kds-step.completed .kds-step-indicator {
+    font-size: 0;
+}
+
+.kds-stepper--numbered.kds-stepper--primary .kds-step.completed .kds-step-indicator::after {
+    font-size: var(--kds-font-size-lg);
+}
+
+.kds-stepper--numbered.kds-stepper--primary .kds-step:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    top: calc(var(--kds-spacing-3-5) / 2 - 1px);
+    left: -50%;
+    right: 50%;
+    height: 2px;
+    background: var(--kds-color-gray-300);
+    z-index: 0;
+}
+
+.kds-stepper--numbered.kds-stepper--primary .kds-step:is(.completed, .current)::before {
+    background: var(--kds-color-success-main);
+}
+
+.kds-stepper--numbered.kds-stepper--primary .kds-step-label {
+    margin-top: var(--kds-spacing-0-75);
+    font-size: var(--kds-font-size-xs);
+}
+
+.kds-stepper--numbered.kds-stepper--primary .kds-step.current .kds-step-label {
+    font-weight: var(--kds-font-weight-bold);
+}
+
+/* --current-label: when the stepper itself is narrow (≤ 560px of available width, e.g. a
+   card next to the panel sidebar, or a phone) only the current step keeps a visible label;
+   the others are visually hidden but still read by screen readers. The first/last current
+   label hugs its edge so it is not cut. It is a container query so it reacts to the space
+   the stepper gets, not to the viewport; browsers without container queries fall back to
+   the viewport width. */
+/* Size containment drops the intrinsic width: without an explicit width the stepper would
+   collapse to 0px inside content-sized parents (centered flex columns, inline-block). */
+.kds-stepper--current-label {
+    container-type: inline-size;
+    inline-size: 100%;
+}
+
+@container (max-width: 560px) {
+    .kds-stepper--current-label .kds-step:not(.current) .kds-step-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .kds-stepper--current-label .kds-step.current .kds-step-label {
+        white-space: nowrap;
+    }
+
+    .kds-stepper--current-label .kds-step.current:first-child .kds-step-label {
+        align-self: flex-start;
+        text-align: start;
+    }
+
+    .kds-stepper--current-label .kds-step.current:last-child .kds-step-label {
+        align-self: flex-end;
+        text-align: end;
+    }
+}
+
+@supports not (container-type: inline-size) {
+    @media (max-width: 560px) {
+        .kds-stepper--current-label .kds-step:not(.current) .kds-step-label {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        .kds-stepper--current-label .kds-step.current .kds-step-label {
+            white-space: nowrap;
+        }
+    }
+}
+
+/* Safety net for any stepper in a narrow box: a long word breaks inside its column
+   instead of overlapping the next label. No effect where the words already fit. */
+.kds-step-label {
+    overflow-wrap: break-word;
 }
 
 /* ========================================
@@ -2361,6 +2802,14 @@ label.radio span {
     cursor: pointer;
 }
 
+/* BeerCSS sets white-space: nowrap on the label, so a label longer than its container ran
+   past it (e.g. on phones). Let the text wrap; labels that fit render as before. */
+label.checkbox > span,
+label.radio > span {
+    white-space: normal;
+    min-width: 0;
+}
+
 /* Checked state.
    accent-color aplica al input nativo, que BeerCSS deja con opacity 0: no se ve.
    Se mantiene igual por si algun consumidor no usa el markup de BeerCSS. */
@@ -3223,6 +3672,47 @@ footer > .kds-container-center {
     transform: translateY(0);
 }
 
+/* Menu toggle (KdsSidebar with a menu): a real <button> holding avatar, text and arrow,
+   with the dropdown as its sibling — never links inside a button. It looks like the plain
+   header content, so BeerCSS's button styles (fill, size, radius, ripple) are reset. The
+   vanilla markup (sidebar.js) keeps the click handler on the header itself. */
+.kds-sidebar-header > .kds-sidebar-header-toggle {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--kds-spacing-3);
+    block-size: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: start;
+    text-transform: none;
+    cursor: pointer;
+}
+
+/* Outranks BeerCSS's `:is(…, button):not([class*=ripple])::after` ripple (0,2,1), which
+   would otherwise cover the whole header (the button is not positioned). */
+.kds-sidebar .kds-sidebar-header > .kds-sidebar-header-toggle::after {
+    content: none;
+}
+
+.kds-sidebar-header > .kds-sidebar-header-toggle:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.kds-sidebar-header-toggle[aria-expanded="true"] .kds-sidebar-dropdown-icon {
+    transform: rotate(180deg);
+}
+
 /* Navigation */
 .kds-sidebar-nav {
     padding: var(--kds-spacing-2) 0;
@@ -3386,6 +3876,10 @@ footer > .kds-container-center {
         transition: transform var(--kds-transition-standard) var(--kds-easing-ease-out);
         z-index: var(--kds-z-index-drawer);
         border-radius: 0;
+        /* Full-height fixed drawer: scroll instead of cutting off items below the fold
+           (long menus, short screens in landscape). */
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
 
     /* Barra superior mobile visible */
@@ -3978,6 +4472,46 @@ dialog#surveyModal button.circle {
     padding: var(--kds-spacing-6);
     max-height: 400px;
     overflow-y: auto;
+}
+
+/* Read-to-accept contract (.kds-contract): content + acceptance checkbox + hint. The
+   checkbox stays disabled until the content is scrolled to the end (KdsContract, or
+   [data-kds-contract] with Khipu.initContract in the BeerCSS bundle). */
+.kds-contract {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-2);
+}
+
+/* Inside the read-to-accept block the box is denser and shorter than the standalone
+   contract page (.kds-contract-content alone keeps its 48px padding / 400px height). */
+.kds-contract > .kds-contract-content {
+    padding: var(--kds-spacing-2);
+    max-height: 240px;
+}
+
+/* Denser paragraphs in the read-to-accept box (BeerCSS gives <p> 0.5rem + 1rem siblings). */
+.kds-contract > .kds-contract-content p {
+    margin: 0 0 var(--kds-spacing-1) !important;
+}
+
+/* The content is focusable so it can be scrolled with the keyboard. */
+.kds-contract-content:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* BeerCSS pads label.checkbox; the gap of .kds-contract spaces the parts and the hint
+   (a <div>: BeerCSS adds a 1rem top margin to a <p> after a sibling) sits close to the
+   checkbox it explains. */
+.kds-contract > .kds-contract-accept {
+    padding-block: 0;
+}
+
+.kds-contract > .kds-contract-hint {
+    margin: calc(var(--kds-spacing-1) * -1) 0 0;
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-secondary);
 }
 
 .kds-contract-content details {
@@ -4903,7 +5437,9 @@ dialog#surveyModal button.circle {
 
 /* ========================================
    05 - LOCKED FIELD (.field.locked)
-   Read-only field with lock icon
+   Read-only field with lock icon.
+   Value and label use text-secondary (not text-disabled): unlike a disabled
+   field, the user still has to read a locked value, so it must meet AA contrast.
    ======================================== */
 
 .field.locked {
@@ -4912,40 +5448,57 @@ dialog#surveyModal button.circle {
 
 .field.locked > input,
 .field.locked > textarea {
-    color: var(--kds-color-text-disabled);
+    color: var(--kds-color-text-secondary);
     cursor: default;
     pointer-events: none;
 }
 
 .field.locked > label {
-    color: var(--kds-color-text-disabled);
+    color: var(--kds-color-text-secondary);
 }
 
-/* Locked: suppress all hover/focus visual changes */
-.field.label.border:not(.fill).locked:hover:not(:focus-within) > label::after,
-.field.label.border:not(.fill).locked:focus-within > label::after {
+/* Locked: no editable hover. */
+.field.label.border:not(.fill).locked:hover:not(:focus-within) > label::after {
     border-block-start-color: var(--outline);
 }
-.field.label.border:not(.fill).locked:hover:not(:focus-within) > :is(input, textarea, select),
-.field.label.border:not(.fill).locked:focus-within > :is(input, textarea, select) {
+.field.label.border:not(.fill).locked:hover:not(:focus-within) > :is(input, textarea, select) {
     border-color: var(--outline);
 }
 .field.label.locked:hover:not(:focus-within) > label {
-    color: var(--kds-color-text-disabled);
+    color: var(--kds-color-text-secondary);
 }
 
-.field.locked > i {
+/* Locked focus: a locked field stays reachable with Tab, so it needs a visible focus
+   indicator (WCAG 2.4.7), but not the primary-colored one of an editable field.
+   BeerCSS's 2px focus border is kept (its padding already compensates it) in the
+   neutral text-secondary color, and the label does not turn primary. */
+.field.label.border:not(.fill).locked:focus-within > label::after {
+    border-block-start-color: var(--kds-color-text-secondary);
+}
+.field.label.border:not(.fill).locked:focus-within > :is(input, textarea, select) {
+    border-color: var(--kds-color-text-secondary);
+}
+.field.label.locked > :focus + label {
+    color: var(--kds-color-text-secondary);
+}
+
+/* Lock icon only: a leading .prefix icon is the first child and keeps its place.
+   text-secondary, not text-disabled: the lock is what tells locked from disabled,
+   so as a meaningful graphic it needs 3:1 (WCAG 1.4.11). */
+.field.locked > i:not(:first-child) {
     position: absolute;
     right: var(--kds-spacing-1-5);
-    top: 50%;
+    /* Center of the input (BeerCSS --_middle), not of the field: with helper text the
+       field is taller than the input. Without it both are the same. */
+    top: var(--_middle, 50%);
     transform: translateY(-50%);
-    color: var(--kds-color-text-disabled);
+    color: var(--kds-color-text-secondary);
     pointer-events: none;
     font-size: 18px;
 }
 
 /* Verified variant (green check) */
-.field.locked.verified > i {
+.field.locked.verified > i:not(:first-child) {
     color: var(--kds-color-success-main);
 }
 
@@ -5867,6 +6420,260 @@ button.kds-fab:active:not(:disabled) {
 }
 
 /* ========================================
+   PROGRESS CHECKLIST (.kds-progress-checklist)
+   Steps that advance pending → active → done (or error), e.g. an automatic
+   validation. The list is aria-live; each item carries its status as visually
+   hidden text (.kds-progress-checklist-status). Status modifiers are BEM
+   (--pending/--active/--done/--error): BeerCSS already has global .error/.active.
+   ======================================== */
+
+.kds-progress-checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-0-75);
+    text-align: start;
+}
+
+.kds-progress-checklist-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--kds-spacing-1-25);
+    margin: 0;
+    font-size: var(--kds-font-size-base);
+    color: var(--kds-color-text-primary);
+    transition: color 0.25s ease;
+}
+
+/* Inside a bottom sheet the list is a centered block, under the centered title. */
+.kds-bottom-sheet-body > .kds-progress-checklist {
+    width: fit-content;
+    margin-inline: auto;
+}
+
+.kds-progress-checklist-item--pending {
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-progress-checklist-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: var(--kds-spacing-2-5);
+    height: var(--kds-spacing-2-5);
+}
+
+.kds-progress-checklist-mark > i {
+    font-size: var(--kds-spacing-2-5);
+}
+
+/* Smaller dots so the loader fits the 20px mark like the icons do. */
+.kds-progress-checklist-mark .kds-dots-loader > span {
+    width: var(--kds-spacing-0-5);
+    height: var(--kds-spacing-0-5);
+}
+
+.kds-progress-checklist-item--done .kds-progress-checklist-mark {
+    color: var(--kds-color-success-main);
+}
+
+.kds-progress-checklist-item--error .kds-progress-checklist-mark {
+    color: var(--kds-color-error-main);
+}
+
+.kds-progress-checklist-item--active .kds-progress-checklist-mark {
+    color: var(--kds-color-text-secondary);
+}
+
+/* The pending dot is decorative (the status is in the hidden text), so it can be faint;
+   the label keeps text-secondary for contrast. */
+.kds-progress-checklist-item--pending .kds-progress-checklist-mark {
+    color: var(--kds-color-text-disabled);
+}
+
+.kds-progress-checklist-dot {
+    width: var(--kds-spacing-0-75);
+    height: var(--kds-spacing-0-75);
+    border-radius: var(--kds-radius-full);
+    background: currentColor;
+}
+
+.kds-progress-checklist-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ========================================
+   FEEDBACK CARD (.kds-feedback-card)
+   Optional question (e.g. "¿Cómo nos conociste?") with an answer control and a
+   submit button; turns into a thank-you note (--submitted) in the same aria-live
+   region. Text blocks are <div>s: BeerCSS adds margins to a <p> after a sibling.
+   ======================================== */
+
+.kds-feedback-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kds-spacing-2);
+    padding: var(--kds-spacing-2);
+    border: 1px solid var(--kds-border-light);
+    border-radius: var(--kds-radius-lg);
+    background: var(--kds-color-background-elevated);
+}
+
+.kds-feedback-card-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: var(--kds-spacing-5);
+    height: var(--kds-spacing-5);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-color-primary-focus);
+    color: var(--kds-color-primary-main);
+}
+
+.kds-feedback-card-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-2);
+}
+
+.kds-feedback-card-title {
+    font-size: var(--kds-font-size-base);
+    font-weight: var(--kds-font-weight-bold);
+    color: var(--kds-color-text-primary);
+}
+
+/* BeerCSS adds 1rem above a .field after a sibling; the body gap already spaces it. */
+.kds-feedback-card-body > .field {
+    margin-block-start: 0 !important;
+}
+
+.kds-feedback-card-description {
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-normal);
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-feedback-card--submitted {
+    align-items: center;
+    border-color: var(--kds-color-success-border-light);
+    background: var(--kds-color-success-soft);
+}
+
+.kds-feedback-card--submitted .kds-feedback-card-icon {
+    background: var(--kds-color-background-paper);
+    color: var(--kds-color-success-main);
+}
+
+/* ========================================
+   CONSENT CARD (.kds-consent-card)
+   Access consent on a .kds-card-elevated: "<requester> solicita acceso a
+   <resource>", sections (data requested, validity, purpose) and
+   Authorize / Reject. Headings are div[role=heading] so BeerCSS heading
+   margins do not apply. The secure footer goes outside the card.
+   ======================================== */
+
+.kds-consent-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-3);
+    padding: var(--kds-spacing-3);
+}
+
+.kds-consent-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--kds-spacing-1);
+    text-align: center;
+}
+
+.kds-consent-card-title {
+    font-size: var(--kds-font-size-xl);
+    line-height: var(--kds-line-height-tight);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-consent-card-title strong {
+    color: var(--primary);
+    font-weight: var(--kds-font-weight-semibold);
+}
+
+.kds-consent-card-subtitle {
+    font-size: var(--kds-font-size-sm);
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-consent-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-2);
+}
+
+.kds-consent-card-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1);
+}
+
+/* Dividers only between sections, not before the actions. */
+.kds-consent-card-section + .kds-consent-card-section {
+    padding-block-start: var(--kds-spacing-2);
+    border-block-start: 1px solid var(--kds-color-divider);
+}
+
+.kds-consent-card-section-title {
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-semibold);
+    letter-spacing: var(--kds-letter-spacing-wide);
+    text-transform: uppercase;
+    color: var(--kds-color-text-secondary);
+}
+
+/* !important on the top margin: BeerCSS adds 1rem to a <ul> after a sibling with a
+   higher specificity (same approach as .kds-card-elevated). */
+.kds-consent-card-items {
+    list-style: none;
+    margin: 0;
+    margin-block-start: 0 !important;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-0-75);
+}
+
+.kds-consent-card-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--kds-spacing-1-25);
+    margin: 0;
+    font-size: var(--kds-font-size-base);
+    color: var(--kds-color-text-primary);
+}
+
+.kds-consent-card-item > i {
+    flex: none;
+    font-size: var(--kds-spacing-2-5);
+    color: var(--kds-color-text-secondary);
+}
+
+.kds-consent-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-spacing-1);
+}
+
+/* ========================================
    14 - BOTTOM SHEET (.kds-bottom-sheet)
    Modal bottom sheet for mobile confirmations
    ======================================== */
@@ -5895,10 +6702,31 @@ button.kds-fab:active:not(:disabled) {
     background: var(--kds-color-background-paper);
     border-radius: var(--kds-radius-2xl) var(--kds-radius-2xl) 0 0;
     padding: var(--kds-spacing-3-5) var(--kds-spacing-3) var(--kds-spacing-3);
+    /* iPhone home indicator: keep the actions clear of it on viewport-fit=cover pages. */
+    padding-bottom: calc(var(--kds-spacing-3) + env(safe-area-inset-bottom, 0px));
     box-shadow: var(--kds-bottom-sheet-shadow);
     animation: kds-rise 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
     text-align: center;
     position: relative;
+}
+
+/* The dialog container receives focus programmatically when it opens (Radix, tabindex=-1);
+   the browser ring around the whole sheet is noise. Controls inside keep their own ring. */
+.kds-bottom-sheet:focus-visible {
+    outline: none;
+}
+
+/* As soon as the viewport is wider than the sheet (--kds-bottom-sheet-max-width = 420px;
+   media queries cannot read tokens) the sheet no longer spans the screen, and glued to the
+   bottom edge with square bottom corners it looks cut off. It stays anchored at the bottom
+   (still a drawer) but floats: all corners rounded and a gap to the edge. The max-height
+   also caps the full-height variant. */
+@media (min-width: 421px) {
+    .kds-bottom-sheet {
+        margin-bottom: var(--kds-spacing-3);
+        border-radius: var(--kds-radius-2xl);
+        max-height: calc(90dvh - var(--kds-spacing-3));
+    }
 }
 
 .kds-bottom-sheet-grabber {
@@ -5962,6 +6790,92 @@ button.kds-fab:active:not(:disabled) {
     display: flex;
     flex: 1;
     flex-direction: column;
+}
+
+/* Dialog variant (KdsBottomSheet variant="dialog"): a regular modal for desktop flows, with
+   left-aligned text. On phones it stays a bottom sheet (stacked actions, primary first, as
+   the DOM order); from 521px it is centered on the screen with the actions side by side and
+   the primary on the right (row-reverse keeps the primary first in the tab order). 520px is
+   where two buttons stop fitting side by side. The scrim modifier centers it vertically. */
+.kds-bottom-sheet--dialog {
+    text-align: left;
+}
+
+.kds-bottom-sheet--dialog .kds-bottom-sheet-title {
+    font-weight: var(--kds-font-weight-bold);
+}
+
+.kds-bottom-sheet--dialog .kds-bottom-sheet-description {
+    font-size: var(--kds-font-size-sm);
+    line-height: var(--kds-line-height-normal);
+    color: var(--kds-color-text-primary);
+}
+
+/* Status dialog (align="center"), e.g. a validation in progress with a loader on top. */
+.kds-bottom-sheet--dialog.kds-bottom-sheet--center {
+    text-align: center;
+}
+
+/* Icon / loader slot above the title (KdsBottomSheet `icon`): a flex row so a block child
+   (a spinner) follows the text alignment too. */
+div.kds-bottom-sheet-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--kds-spacing-1);
+}
+
+.kds-bottom-sheet--dialog:not(.kds-bottom-sheet--center) div.kds-bottom-sheet-icon {
+    justify-content: flex-start;
+}
+
+/* An icon in the slot matches the default KdsSpinner (BeerCSS circle, 2.5rem), so swapping
+   the loader for a result icon does not shift the content. */
+div.kds-bottom-sheet-icon > i {
+    font-size: 2.5rem;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    min-inline-size: unset;
+    min-block-size: unset;
+}
+
+/* Short note above the actions (KdsBottomSheet `hint`), e.g. "No cierres esta ventana." */
+.kds-bottom-sheet-hint {
+    margin: var(--kds-spacing-2) 0 0;
+    font-size: var(--kds-font-size-xs);
+    line-height: var(--kds-line-height-normal);
+    color: var(--kds-color-text-secondary);
+}
+
+@media (min-width: 521px) {
+    .kds-bottom-sheet-scrim--dialog {
+        align-items: center;
+        padding: var(--kds-spacing-2);
+    }
+
+    .kds-bottom-sheet--dialog {
+        margin: 0;
+        padding: var(--kds-spacing-3);
+        border-radius: var(--kds-radius-lg);
+        max-height: 90dvh;
+    }
+
+    .kds-bottom-sheet--dialog .kds-bottom-sheet-grabber {
+        display: none;
+    }
+
+    .kds-bottom-sheet--dialog .kds-bottom-sheet-title {
+        margin-top: 0;
+    }
+
+    .kds-bottom-sheet--dialog .kds-bottom-sheet-actions {
+        flex-direction: row-reverse;
+        margin-top: var(--kds-spacing-2);
+    }
+
+    .kds-bottom-sheet--dialog .kds-bottom-sheet-actions > * {
+        flex: 1;
+        min-width: 0;
+    }
 }
 
 /* ========================================
@@ -8302,6 +9216,22 @@ a.kds-copy-all-btn.copied:hover {
 .kds-section-note.kds-error         { color: var(--kds-color-error-dark); }
 .kds-section-note.kds-error > i     { color: var(--kds-color-error-dark); }
 
+/* Neutral tone: calm, non-alarming context (e.g. "Datos obtenidos de tu cuenta en…",
+   "Khipu no almacena tus contraseñas"). Secondary text with the icon in the brand color. */
+.kds-section-note.kds-neutral       { color: var(--kds-color-text-secondary); }
+.kds-section-note.kds-neutral > i   { color: var(--primary); }
+
+/* Neutral notes often wrap to two lines: icon pinned to the first line, with a gap. */
+.kds-section-note.kds-neutral {
+    align-items: flex-start;
+    gap: var(--kds-spacing-1);
+    line-height: var(--kds-line-height-normal);
+}
+
+.kds-section-note.kds-neutral > i {
+    margin-top: 0.125em;
+}
+
 /* Dark: the semantic *-dark shades are near-invisible on the dark page bg —
    use the alert *-text tokens (light shades in dark). Base note is warning. */
 [data-theme="dark"] .kds-section-note,
@@ -8312,6 +9242,8 @@ a.kds-copy-all-btn.copied:hover {
 [data-theme="dark"] .kds-section-note.kds-success > i       { color: var(--kds-alert-success-text); }
 [data-theme="dark"] .kds-section-note.kds-error,
 [data-theme="dark"] .kds-section-note.kds-error > i         { color: var(--kds-alert-error-text); }
+[data-theme="dark"] .kds-section-note.kds-neutral           { color: var(--kds-color-text-secondary); }
+[data-theme="dark"] .kds-section-note.kds-neutral > i       { color: var(--primary); }
 
 /* ========================================
    INFO TOOLTIP (.kds-info-tip)

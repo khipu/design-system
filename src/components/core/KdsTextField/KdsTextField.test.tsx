@@ -36,6 +36,26 @@ describe('KdsTextField', () => {
     expect(container.querySelector('.material-symbols-outlined')).toHaveTextContent('lock');
   });
 
+  it('hides the lock icon from assistive tech and keeps the value readable', () => {
+    const { container } = render(<KdsTextField label="Empresa" readOnly value="Comercial SpA" />);
+    expect(container.querySelector('.material-symbols-outlined')).toHaveAttribute('aria-hidden', 'true');
+    const input = screen.getByLabelText('Empresa') as HTMLInputElement;
+    expect(input).toHaveAttribute('readonly');
+    expect(input.value).toBe('Comercial SpA');
+    expect(input.tabIndex).toBe(0);
+  });
+
+  it('readOnly with a start icon keeps the prefix icon first and the lock last', () => {
+    const { container } = render(
+      <KdsTextField label="RUT" startIcon="badge" readOnly value="76.543.210-3" />,
+    );
+    const field = container.firstElementChild!;
+    expect(field).toHaveClass('locked', 'prefix', 'suffix');
+    expect(field.firstElementChild).toHaveTextContent('badge');
+    const icons = field.querySelectorAll(':scope > i');
+    expect(icons[icons.length - 1]).toHaveTextContent('lock');
+  });
+
   it('renders start icon', () => {
     render(<KdsTextField label="Search" startIcon="search" />);
     expect(screen.getByText('search')).toHaveClass('material-symbols-outlined');

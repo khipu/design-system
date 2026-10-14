@@ -132,6 +132,8 @@ const preview: Preview = {
           ['Actions', 'Form Inputs', 'Feedback', 'Containers', 'Navigation', 'Data Display', 'Overlays'],
           'Domain',
           ['Payment Identity', 'Amount', 'Banking', 'Selection', 'Recap & Trust'],
+          'On boarding',
+          ['Flujo completo', 'Componentes'],
           'Patterns',
           'Hooks',
           'Examples',

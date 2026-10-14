@@ -38,4 +38,37 @@ describe('KdsStepper', () => {
     const indicators = container.querySelectorAll('.kds-step-indicator');
     indicators.forEach((ind) => expect(ind.textContent).toBe(''));
   });
+
+  it('keeps today markup without the new props (no modifier classes)', () => {
+    const { container } = render(<KdsStepper steps={STEPS} current={1} />);
+    expect(container.firstElementChild?.className).toBe('kds-stepper');
+  });
+
+  it('marks the current step with aria-current="step"', () => {
+    const { container } = render(<KdsStepper steps={STEPS} current={1} />);
+    const steps = container.querySelectorAll('.kds-step');
+    expect(steps[1]).toHaveAttribute('aria-current', 'step');
+    expect(steps[0]).not.toHaveAttribute('aria-current');
+    expect(steps[2]).not.toHaveAttribute('aria-current');
+  });
+
+  it('numbered: shows the 1-based number inside each indicator', () => {
+    const { container } = render(<KdsStepper steps={STEPS} current={1} numbered />);
+    expect(container.firstElementChild).toHaveClass('kds-stepper', 'kds-stepper--numbered');
+    const numbers = [...container.querySelectorAll('.kds-step-indicator')].map((i) => i.textContent);
+    expect(numbers).toEqual(['1', '2', '3']);
+  });
+
+  it('color="primary" adds the primary modifier', () => {
+    const { container } = render(<KdsStepper steps={STEPS} current={1} color="primary" />);
+    expect(container.firstElementChild).toHaveClass('kds-stepper--primary');
+  });
+
+  it('currentLabelOnly adds the modifier and keeps every label in the DOM', () => {
+    const { container, getByText } = render(
+      <KdsStepper steps={STEPS} current={1} currentLabelOnly />,
+    );
+    expect(container.firstElementChild).toHaveClass('kds-stepper--current-label');
+    STEPS.forEach((s) => expect(getByText(s)).toBeInTheDocument());
+  });
 });
