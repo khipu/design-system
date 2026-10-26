@@ -11,6 +11,7 @@ const config: StorybookConfig = {
     '@storybook/addon-mcp',
     '@storybook/addon-vitest',
     '@vueless/storybook-dark-mode',
+    '@storybook/addon-a11y'
   ],
   framework: {
     name: '@storybook/react-vite',
