@@ -57,7 +57,7 @@ publishing {
         mavenLocal()
         maven {
             name = 'khipuNexus'
-            url = 'https://dev.khipu.com/nexus/content/repositories/releases'
+            url = 'https://dev.khipu.com/nexus/content/repositories/design-system'
             credentials {
                 username = project.findProperty('khipuRepoUsername') ?: ''
                 password = project.findProperty('khipuRepoPassword') ?: ''
