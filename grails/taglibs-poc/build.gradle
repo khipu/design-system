@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://repo.grails.org/grails/core' }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
+    }
+}
+
+apply plugin: 'org.grails.grails-plugin'
+apply plugin: 'org.grails.grails-gsp'
+apply plugin: 'maven-publish'
+
+group = 'com.khipu'
+version = project.property('version')
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://repo.grails.org/grails/core' }
+}
+
+configurations.configureEach {
+    exclude group: 'commons-logging', module: 'commons-logging'
+}
+
+dependencies {
+    profile 'org.grails.profiles:web-plugin'
+
+    implementation "org.grails:grails-core:$grailsVersion"
+    implementation "org.grails:grails-web-boot:$grailsVersion"
+    implementation "org.grails:grails-plugin-url-mappings:$grailsVersion"
+    implementation "org.grails:grails-plugin-interceptors:$grailsVersion"
+    implementation "org.grails:grails-logging:$grailsVersion"
+
+    testImplementation "org.grails:grails-gorm-testing-support:$grailsVersion"
+    testImplementation "org.grails:grails-web-testing-support:$grailsVersion"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.khipu'
+            artifactId = 'design-system-grails-poc'
+            version = project.version
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
