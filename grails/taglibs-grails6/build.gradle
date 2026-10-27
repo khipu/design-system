@@ -48,12 +48,20 @@ publishing {
     publications {
         maven(MavenPublication) {
             groupId = 'com.khipu'
-            artifactId = 'design-system-grails-poc'
+            artifactId = 'design-system-grails-taglibs'
             version = project.version
             from components.java
         }
     }
     repositories {
         mavenLocal()
+        maven {
+            name = 'khipuNexus'
+            url = 'https://dev.khipu.com/nexus/content/repositories/releases'
+            credentials {
+                username = project.findProperty('khipuRepoUsername') ?: ''
+                password = project.findProperty('khipuRepoPassword') ?: ''
+            }
+        }
     }
 }
