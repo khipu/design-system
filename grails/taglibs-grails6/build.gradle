@@ -40,8 +40,12 @@ dependencies {
     implementation "org.grails:grails-plugin-interceptors:$grailsVersion"
     implementation "org.grails:grails-logging:$grailsVersion"
 
-    testImplementation "org.grails:grails-gorm-testing-support:$grailsVersion"
-    testImplementation "org.grails:grails-web-testing-support:$grailsVersion"
+    testImplementation 'org.grails:grails-gorm-testing-support:3.2.2'
+    testImplementation 'org.grails:grails-web-testing-support:3.2.2'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 publishing {
