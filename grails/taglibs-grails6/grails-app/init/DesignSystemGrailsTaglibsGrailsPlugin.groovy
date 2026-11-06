@@ -1,5 +1,5 @@
 class DesignSystemGrailsTaglibsGrailsPlugin {
-    def version = '0.1.3'
+    def version = '0.1.4'
     def grailsVersion = '6.2.3 > *'
     def title = 'Khipu Design System Taglibs'
     def author = 'Khipu'
