@@ -31,6 +31,44 @@ configurations.configureEach {
     exclude group: 'commons-logging', module: 'commons-logging'
 }
 
+// asset-pipeline (payment's build) scans every jar on the runtime classpath for a
+// META-INF/assets/ folder and serves whatever it finds, no extra config on the
+// producer side. Bundling the already-built BeerCSS output here means the Gradle
+// dependency is the only thing a consuming app needs to add for both the taglibs
+// and their CSS/JS to show up — no separate CDN link, no separate version to track.
+def beercssDist = file("${projectDir}/../../dist/beercss")
+
+task copyDesignSystemAssets(type: Copy) {
+    description = 'Copies the built BeerCSS bundle into META-INF/assets for asset-pipeline consumers'
+    onlyIf {
+        if (!beercssDist.exists()) {
+            throw new GradleException("${beercssDist} is missing — run 'npm run build' at the repo root first")
+        }
+        true
+    }
+    from(beercssDist) {
+        include 'khipu-beercss.min.css'
+        rename { 'khipu-beercss.css' }
+        into 'META-INF/assets/stylesheets'
+    }
+    from(beercssDist) {
+        include 'khipu-beercss.min.js'
+        rename { 'khipu-beercss.js' }
+        into 'META-INF/assets/javascripts'
+    }
+    into "${buildDir}/generated-resources"
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir "${buildDir}/generated-resources"
+        }
+    }
+}
+
+processResources.dependsOn(copyDesignSystemAssets)
+
 dependencies {
     profile 'org.grails.profiles:web-plugin'
 
