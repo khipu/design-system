@@ -46,15 +46,18 @@ task copyDesignSystemAssets(type: Copy) {
         }
         true
     }
+    // Flat, no subfolders: a subfolder here ends up part of the manifest key
+    // (stylesheets/khipu-beercss.css), which <asset:stylesheet href="khipu-beercss.css"/>
+    // never matches.
     from(beercssDist) {
         include 'khipu-beercss.min.css'
         rename { 'khipu-beercss.css' }
-        into 'META-INF/assets/stylesheets'
+        into 'META-INF/assets'
     }
     from(beercssDist) {
         include 'khipu-beercss.min.js'
         rename { 'khipu-beercss.js' }
-        into 'META-INF/assets/javascripts'
+        into 'META-INF/assets'
     }
     into "${buildDir}/generated-resources"
 }
