@@ -8227,41 +8227,213 @@ svg[fill='none'] {
     min-height: calc(36rem + 2 * var(--kds-spacing-3));
 }
 
-/* Mínimo del card en pantallas bajas. Algunos comercios embeben el flujo en iframes de alto
-   fijo y reducido: un mínimo de 624px obligaba a scrollear aunque el contenido del paso
-   cupiera. Regla: un escalón aplica solo si la pantalla completa (header + card con ese
-   mínimo + footer seguro + márgenes del stage) cabe en el alto; si no, baja al siguiente.
-   Medido en khenshin-web con su .kds-secure-footer (80px), el caso más alto:
-   - 624px (36rem + padding): pantalla de ~971px en teléfono y ~999px en desktop.
-   - 400px (22rem + padding): pantalla de ~747px en teléfono y ~775px en desktop.
-   - Debajo de eso, sin mínimo: el card mide lo que su contenido.
-   Los umbrales son exactamente esos altos (como los mide el HeightReporter de khenshin-web:
-   contenido del flow + padding del stage), sin holgura: el mínimo nunca agrega scroll en
-   una pantalla o iframe fijo. Con alto automático (KTUF-239, `autoHeight`) el alto que
-   resulta de un escalón cae justo en su umbral, así que se queda ahí y no oscila. Con un
-   header más bajo (sin fila de detalle), sin footer seguro (`showSecureFooter: false`) o
-   sin header (--flush-top) la pantalla mide menos que su umbral: con alto automático el card
-   termina sin mínimo (vuelve a crecer por paso, sin scroll). */
+/* Mínimo del card en pantallas bajas (KTUF-476, recalibra KTUF-389/390). Algunos comercios
+   embeben el flujo en iframes de alto fijo y reducido: un mínimo de 624px obligaba a
+   scrollear aunque el contenido del paso cupiera. Regla: un escalón aplica solo si la
+   pantalla completa (header + card con ese mínimo + footer seguro + márgenes del stage)
+   cabe en el alto; si no, baja al siguiente. Igual que antes, son valores fijos sin vh/dvh
+   (ver comentario de arriba: con `autoHeight` un mínimo relativo al viewport se realimenta),
+   y los umbrales son exactamente esos altos, sin holgura.
+
+   Dos cambios sobre KTUF-389/390:
+
+   1. Escalón intermedio (528px = 30rem + padding) entre 624 y 400: el salto de un escalón al
+      otro bajaba 224px de una vez; con el intermedio baja en dos pasos de ~96-128px.
+
+   2. Umbral por configuración real de chrome, no un solo valor asumiendo siempre header +
+      footer seguro. Medido en khenshin-web (storybook, KTUF-476): el header con el detalle
+      del cobro mide ~177px (añade ~201px contando el gap que introduce), el
+      `.kds-secure-footer` mide 80px (su margen negativo cancela el gap, así que suma
+      exactamente eso). `.kds-screen:has(...)` detecta en qué pantallas aplica cada caso:
+      pasos de formulario (header + footer), resultados (`--flush-top`, sin header, con
+      footer) y el loader inicial (sin header ni footer). La tabla de umbrales (px de alto
+      total de pantalla, redondeados a .98 para el corte exacto):
+
+      Config                     | overhead | 624→528 | 528→400 | 400→0
+      ----------------------------|----------|---------|---------|------
+      header + footer (teléfono)  |      347 |     971 |     875 |  747
+      header + footer (desktop)   |      375 |     999 |     903 |  775
+      sin header, con footer (tel)|      146 |     770 |     674 |  546
+      sin header, con footer (esc)|      174 |     798 |     702 |  574
+      con header, sin footer (tel)|      267 |     891 |     795 |  667
+      con header, sin footer (esc)|      295 |     919 |     823 |  695
+      sin header, sin footer (tel)|       66 |     690 |     594 |  466
+      sin header, sin footer (esc)|       94 |     718 |     622 |  494
+
+      Con alto automático (`autoHeight`) el alto que resulta de un escalón cae justo en su
+      umbral, así que se queda ahí y no oscila, igual que antes. */
+
+/* --- Config base: header + footer (igual que KTUF-389/390, con el escalón nuevo). Gateada
+   igual que las otras tres: si no, al no matchear por alto una config más específica (B/C/D),
+   esta regla —al ser menos específica pero igual de genérica en el selector— se aplicaría
+   de todos modos a sus pantallas, pisando el umbral que les corresponde. */
 @media (max-width: 767px) and (max-height: 970.98px) {
-    .kds-screen > .kds-card-elevated.kds-card-elevated--action {
+    .kds-screen:has(.kds-invoice-sticky-wrap):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(30rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (max-width: 767px) and (max-height: 874.98px) {
+    .kds-screen:has(.kds-invoice-sticky-wrap):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
         min-height: calc(22rem + 2 * var(--kds-spacing-3));
     }
 }
 
 @media (max-width: 767px) and (max-height: 746.98px) {
-    .kds-screen > .kds-card-elevated.kds-card-elevated--action {
+    .kds-screen:has(.kds-invoice-sticky-wrap):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
         min-height: 0;
     }
 }
 
 @media (min-width: 768px) and (max-height: 998.98px) {
-    .kds-screen > .kds-card-elevated.kds-card-elevated--action {
+    .kds-screen:has(.kds-invoice-sticky-wrap):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(30rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (min-width: 768px) and (max-height: 902.98px) {
+    .kds-screen:has(.kds-invoice-sticky-wrap):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
         min-height: calc(22rem + 2 * var(--kds-spacing-3));
     }
 }
 
 @media (min-width: 768px) and (max-height: 774.98px) {
-    .kds-screen > .kds-card-elevated.kds-card-elevated--action {
+    .kds-screen:has(.kds-invoice-sticky-wrap):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: 0;
+    }
+}
+
+/* --- Config: sin header (--flush-top), con footer — resultados (éxito, falla, timeout) --- */
+@media (max-width: 767px) and (max-height: 769.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(30rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (max-width: 767px) and (max-height: 673.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(22rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (max-width: 767px) and (max-height: 545.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: 0;
+    }
+}
+
+@media (min-width: 768px) and (max-height: 797.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(30rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (min-width: 768px) and (max-height: 701.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(22rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (min-width: 768px) and (max-height: 573.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):has(> .kds-secure-footer)
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: 0;
+    }
+}
+
+/* --- Config: con header, sin footer (`showSecureFooter: false`) --- */
+@media (max-width: 767px) and (max-height: 890.98px) {
+    .kds-screen:has(.kds-invoice-sticky-wrap):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(30rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (max-width: 767px) and (max-height: 794.98px) {
+    .kds-screen:has(.kds-invoice-sticky-wrap):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(22rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (max-width: 767px) and (max-height: 666.98px) {
+    .kds-screen:has(.kds-invoice-sticky-wrap):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: 0;
+    }
+}
+
+@media (min-width: 768px) and (max-height: 918.98px) {
+    .kds-screen:has(.kds-invoice-sticky-wrap):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(30rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (min-width: 768px) and (max-height: 822.98px) {
+    .kds-screen:has(.kds-invoice-sticky-wrap):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(22rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (min-width: 768px) and (max-height: 694.98px) {
+    .kds-screen:has(.kds-invoice-sticky-wrap):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: 0;
+    }
+}
+
+/* --- Config: sin header ni footer — loader inicial (--flush-top, showPoweredBy: false) --- */
+@media (max-width: 767px) and (max-height: 689.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(30rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (max-width: 767px) and (max-height: 593.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(22rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (max-width: 767px) and (max-height: 465.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: 0;
+    }
+}
+
+@media (min-width: 768px) and (max-height: 717.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(30rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (min-width: 768px) and (max-height: 621.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
+        min-height: calc(22rem + 2 * var(--kds-spacing-3));
+    }
+}
+
+@media (min-width: 768px) and (max-height: 493.98px) {
+    .kds-screen:not(:has(.kds-invoice-sticky-wrap)):not(:has(> .kds-secure-footer))
+        > .kds-card-elevated.kds-card-elevated--action {
         min-height: 0;
     }
 }
