@@ -70,7 +70,7 @@ publishing {
             url = 'https://dev.khipu.com/nexus/content/repositories/releases/'
             credentials {
                 username = 'deployment'
-                password = 'REDACTED_NEXUS_PASSWORD'
+                password = System.getenv('NEXUS_PASSWORD') ?: ''
             }
         }
     }

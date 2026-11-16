@@ -18,7 +18,7 @@ Create or edit `~/.gradle/gradle.properties`:
 ```properties
 # Nexus Khipu Credentials
 khipuRepoUsername=deployment
-khipuRepoPassword=REDACTED_NEXUS_PASSWORD
+khipuRepoPassword=<tu-password-de-nexus>
 
 # Android SDK path (adjust to your system)
 sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk
@@ -293,7 +293,7 @@ cat ~/.gradle/gradle.properties | grep khipuRepo
 
 # Expected output:
 # khipuRepoUsername=deployment
-# khipuRepoPassword=REDACTED_NEXUS_PASSWORD
+# khipuRepoPassword=<tu-password-de-nexus>
 
 # Clean and rebuild
 ./gradlew clean build --refresh-dependencies
@@ -335,7 +335,7 @@ curl -I "https://dev.khipu.com/nexus/content/repositories/design-system/"
 cat ~/.gradle/gradle.properties | grep khipuRepo
 
 # Try manual download to test credentials
-curl -u deployment:REDACTED_NEXUS_PASSWORD \
+curl -u deployment:$NEXUS_PASSWORD \
   "https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/maven-metadata.xml"
 
 # Clean and rebuild
@@ -406,7 +406,7 @@ Check the design system repository for:
 ### 4. Verify Nexus has the new version
 
 ```bash
-curl -u deployment:REDACTED_NEXUS_PASSWORD \
+curl -u deployment:$NEXUS_PASSWORD \
   "https://dev.khipu.com/nexus/content/repositories/design-system/com/khipu/design-system/maven-metadata.xml"
 ```
 

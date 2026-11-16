@@ -12,7 +12,7 @@ NEXUS_ID="khipu-nexus-thirdparty"
 GROUP_ID="org.grails.plugins"
 ARTIFACT_ID="design-system-taglibs"
 USERNAME="deployment"
-PASSWORD="REDACTED_NEXUS_PASSWORD"
+PASSWORD="${NEXUS_PASSWORD:?Falta la variable de entorno NEXUS_PASSWORD}"
 
 echo "📦 Publicando Design System Taglibs v${PLUGIN_VERSION} a Nexus usando Maven..."
 

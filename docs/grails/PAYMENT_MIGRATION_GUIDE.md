@@ -47,7 +47,7 @@ mvn -version  # Verificar
 2. **Acceso a Nexus** (ya configurado en BuildConfig.groovy):
 ```groovy
 grails.project.repos.release.username = "deployment"
-grails.project.repos.release.password = "REDACTED_NEXUS_PASSWORD"
+grails.project.repos.release.password = System.getenv("NEXUS_PASSWORD")
 ```
 
 3. **Java 7 compatible** (payment ya usa Java 7, el plugin es compatible)

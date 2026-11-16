@@ -6,12 +6,12 @@
         <server>
             <id>khipu-nexus-releases</id>
             <username>deployment</username>
-            <password>REDACTED_NEXUS_PASSWORD</password>
+            <password>${env.NEXUS_PASSWORD}</password>
         </server>
         <server>
             <id>khipu-nexus-thirdparty</id>
             <username>deployment</username>
-            <password>REDACTED_NEXUS_PASSWORD</password>
+            <password>${env.NEXUS_PASSWORD}</password>
         </server>
     </servers>
 </settings>

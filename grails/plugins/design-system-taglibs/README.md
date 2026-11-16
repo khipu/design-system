@@ -241,7 +241,7 @@ rm -rf ~/.m2/repository/org/grails/plugins/design-system-taglibs
 rm -rf target/work/plugins/design-system-taglibs-*
 
 # 3. Verificar archivo en Nexus es completo (debe ser ~11 KB)
-curl -I -u deployment:REDACTED_NEXUS_PASSWORD \
+curl -I -u deployment:$NEXUS_PASSWORD \
   "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/0.1.0/design-system-taglibs-0.1.0.zip"
 
 # 4. Refrescar

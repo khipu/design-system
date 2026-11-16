@@ -43,7 +43,7 @@ grails.project.dependency.resolution = {
         mavenRepo('https://dev.khipu.com/nexus/content/repositories/thirdparty') {
             auth([
                 username: "deployment",
-                password: "REDACTED_NEXUS_PASSWORD"
+                password: System.getenv("NEXUS_PASSWORD")
             ])
             grailsPlugins()
         }
@@ -51,7 +51,7 @@ grails.project.dependency.resolution = {
         mavenRepo('https://dev.khipu.com/nexus/content/repositories/releases') {
             auth([
                 username: "deployment",
-                password: "REDACTED_NEXUS_PASSWORD"
+                password: System.getenv("NEXUS_PASSWORD")
             ])
             grailsPlugins()
             grailsHome()
@@ -411,7 +411,7 @@ curl -I "https://dev.khipu.com/nexus/content/repositories/thirdparty/"
 # Debe retornar HTTP 200
 
 # Probar con credenciales
-curl -u deployment:REDACTED_NEXUS_PASSWORD \
+curl -u deployment:$NEXUS_PASSWORD \
   "https://dev.khipu.com/nexus/content/repositories/thirdparty/org/grails/plugins/design-system-taglibs/maven-metadata.xml"
 ```
 
