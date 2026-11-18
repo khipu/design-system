@@ -281,3 +281,113 @@ export const HtmlMarkup: Story = {
     </div>
   ),
 };
+
+/**
+ * Flujo configurable: los pasos llegan como objetos (`KdsStepperStep`) desde la definición
+ * del flujo, cada uno con su estado. Permite:
+ *
+ * - **Volver a un paso cumplido**: `href` (enlace) u `onClick` (botón) sobre los pasos
+ *   completados u omitidos. El enlace cubre todo el paso, así que funciona también cuando
+ *   el stepper angosto oculta las etiquetas.
+ * - **Pasos omitidos** (`status: 'skipped'`) y **opcionales** (`optional`).
+ * - **Avance no lineal**: un paso cumplido después del actual (p. ej. cuando el flujo
+ *   cambió y hay que completar un paso nuevo antes).
+ *
+ * El estado se lee también con lector de pantalla ("completado", "omitido"; textos en
+ * `statusLabels`). Con strings en `steps` el stepper es el clásico.
+ */
+export const ConfigurableFlow: Story = {
+  name: 'Flujo configurable (pasos con estado y enlace)',
+  parameters: {
+    layout: 'padded',
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-stepper kds-stepper--numbered kds-stepper--primary kds-stepper--current-label">
+  <!-- Cumplido y con enlace: la etiqueta visible se oculta al lector; el enlace lleva el nombre -->
+  <div class="kds-step completed kds-step--interactive">
+    <div class="kds-step-indicator">1</div>
+    <div class="kds-step-label" aria-hidden="true">Perfil del comercio</div>
+    <a class="kds-step-link" href="/onboarding/perfil">Perfil del comercio<span class="kds-step-status">, completado</span></a>
+  </div>
+  <div class="kds-step current" aria-current="step">
+    <div class="kds-step-indicator">2</div>
+    <div class="kds-step-label">Verificación de identidad</div>
+  </div>
+  <!-- Opcional -->
+  <div class="kds-step">
+    <div class="kds-step-indicator">3</div>
+    <div class="kds-step-label">Información comercial<span class="kds-step-optional">Opcional</span></div>
+  </div>
+  <!-- Omitido -->
+  <div class="kds-step skipped">
+    <div class="kds-step-indicator">4</div>
+    <div class="kds-step-label">Selección de plan<span class="kds-step-status">, omitido</span></div>
+  </div>
+</div>
+
+<!-- GSP: los pasos vienen del flujo (lista de mapas con labelCode, status, optional, url).
+     mat:stepper no genera estos modificadores: markup del DS con g:each. -->
+<div class="kds-stepper kds-stepper--numbered kds-stepper--primary kds-stepper--current-label">
+  <g:each in="\${flowSteps}" var="step" status="i">
+    <g:set var="done" value="\${step.status in ['completed', 'skipped']}"/>
+    <g:set var="linked" value="\${done && step.url}"/>
+    <g:if test="\${step.status == 'current'}">
+      <div class="kds-step current" aria-current="step">
+    </g:if>
+    <g:else>
+      <div class="kds-step\${step.status == 'pending' ? '' : ' ' + step.status}\${linked ? ' kds-step--interactive' : ''}">
+    </g:else>
+      <div class="kds-step-indicator">\${i + 1}</div>
+      <g:if test="\${linked}">
+        <div class="kds-step-label" aria-hidden="true"><g:message code="\${step.labelCode}"/></div>
+        <a class="kds-step-link" href="\${step.url}">
+          <g:message code="\${step.labelCode}"/><span class="kds-step-status">, <g:message code="onboarding.step.\${step.status}"/></span>
+        </a>
+      </g:if>
+      <g:else>
+        <div class="kds-step-label">
+          <g:message code="\${step.labelCode}"/>
+          <g:if test="\${step.optional}"><span class="kds-step-optional"><g:message code="onboarding.step.optional"/></span></g:if>
+          <g:if test="\${done}"><span class="kds-step-status">, <g:message code="onboarding.step.\${step.status}"/></span></g:if>
+        </div>
+      </g:else>
+    </div>
+  </g:each>
+</div>`,
+      },
+    },
+  },
+  render: function ConfigurableFlowStory() {
+    const [current, setCurrent] = useState(1);
+    const labels = ['Perfil del comercio', 'Verificación de identidad', 'Información comercial', 'Selección de plan', 'Firma de contrato'];
+    return (
+      <div className="kds-flex kds-flex-col kds-gap-2">
+        <KdsStepper
+          numbered
+          color="primary"
+          currentLabelOnly
+          current={current}
+          steps={labels.map((label, i) => ({
+            label,
+            optional: i === 2,
+            status: i === 3 && current < 3 ? 'skipped' : undefined,
+            onClick: () => setCurrent(i),
+          }))}
+        />
+        <p className="kds-text-body-small kds-text-secondary-color kds-text-center kds-m-0">
+          Haz clic en un paso cumplido para volver a él. "Selección de plan" está omitido hasta llegar a él.
+        </p>
+        <div className="kds-flex kds-justify-center kds-gap-1">
+          <KdsButton variant="outlined" disabled={current === 0} onClick={() => setCurrent((c) => c - 1)}>
+            Anterior
+          </KdsButton>
+          <KdsButton disabled={current === labels.length - 1} onClick={() => setCurrent((c) => c + 1)}>
+            Siguiente
+          </KdsButton>
+        </div>
+      </div>
+    );
+  },
+};

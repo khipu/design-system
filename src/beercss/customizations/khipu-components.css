@@ -1624,6 +1624,13 @@ a.kds-btn.kds-btn-md {
     box-shadow: none;
 }
 
+/* Dark: gray-200 stays light, so the light secondary text of the number vanished on it.
+   A fill mixed from the text color keeps the dot visible and the number readable; mixed
+   with the paper background (not transparent) so the connector does not show through. */
+[data-theme="dark"] .kds-stepper--numbered .kds-step:not(.completed):not(.current):not(.skipped) .kds-step-indicator {
+    background: color-mix(in srgb, var(--kds-color-text-primary) 16%, var(--kds-color-background-paper));
+}
+
 /* --numbered + --primary (onboarding): compact 28px dots, small bold number (white on the
    brand color is 6:1, so it does not need large text), small labels, and a progress line
    per segment: green up to the current step, grey after it. */
@@ -1728,6 +1735,77 @@ a.kds-btn.kds-btn-md {
    instead of overlapping the next label. No effect where the words already fit. */
 .kds-step-label {
     overflow-wrap: break-word;
+}
+
+/* Step objects (KdsStepper steps as KdsStepperStep, configurable flows). */
+
+/* Status read by screen readers only ("completado", "omitido"). */
+.kds-step-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* "Opcional" mark under the label. */
+.kds-step-optional {
+    display: block;
+    margin-top: var(--kds-spacing-0-25);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-regular);
+    color: var(--kds-color-text-secondary);
+}
+
+/* Skipped step: hollow dashed indicator with a dash, muted label. The :not()s match the
+   specificity of the --numbered pending rule (gray-200 fill), which would win otherwise. */
+.kds-stepper .kds-step.skipped:not(.completed):not(.current) .kds-step-indicator {
+    /* Same as the stepper background, so the connector line does not cross the circle. */
+    background: var(--kds-color-background-paper);
+    border: 2px dashed var(--kds-color-gray-300);
+    box-shadow: none;
+    font-size: 0;
+}
+
+.kds-step.skipped .kds-step-indicator::after {
+    content: "remove";
+    font-family: 'Material Symbols Outlined';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--kds-font-size-lg);
+    line-height: 1;
+    color: var(--kds-color-text-secondary);
+}
+
+/* Clickable completed/skipped step: the link (or button) covers the whole step, so the
+   indicator works as the target even when a narrow stepper hides the label. Its text is
+   visually hidden; the visible label is the one in .kds-step-label. */
+.kds-step--interactive .kds-step-link {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--kds-radius-md);
+    background: transparent;
+    color: transparent;
+    font-size: 0;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.kds-step--interactive .kds-step-link:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.kds-step--interactive:hover .kds-step-label {
+    color: var(--primary);
+    text-decoration: underline;
 }
 
 /* ========================================
