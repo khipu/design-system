@@ -552,6 +552,12 @@ a.kds-btn.kds-btn-md {
     align-items: stretch;
 }
 
+/* One option per row (KdsCardSelectorGroup layout="list"), for row/compact cards. */
+.kds-card-selector-group--list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--kds-spacing-1-5);
+}
+
 .kds-card-selector-radio {
     position: absolute;
     top: var(--kds-spacing-2);
@@ -611,6 +617,122 @@ a.kds-btn.kds-btn-md {
     .kds-card-selector-radio:focus-visible {
         outline: none;
     }
+
+    /* Disabled option (e.g. a product marked "Pronto"): dimmed, no hover, not clickable. */
+    .kds-card-selector--radio:has(.kds-card-selector-radio:disabled) {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    .kds-card-selector--radio:has(.kds-card-selector-radio:disabled) :is(label.kds-card-selector-title, .kds-card-selector-radio) {
+        cursor: not-allowed;
+    }
+
+    .kds-card-selector.kds-card-selector--radio:has(.kds-card-selector-radio:disabled):hover {
+        border-color: var(--kds-border-light);
+    }
+}
+
+/* Row layout (KdsCardSelector layout="row"): radio on the left, optional icon tile, then the
+   text. Fixed rows (badge, title, description, details) so the radio and the icon center on
+   the header without spanning the details. Gaps are margins on the radio and the icon, so a
+   card without an icon has no empty column. */
+.kds-card-selector--row {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    column-gap: 0;
+    row-gap: 0;
+    align-items: center;
+    padding: var(--kds-spacing-2);
+}
+
+.kds-card-selector--row > * {
+    grid-column: 3;
+}
+
+.kds-card-selector--row > .kds-card-selector-radio {
+    position: static;
+    grid-column: 1;
+    grid-row: 1 / 4;
+    margin-inline-end: var(--kds-spacing-1-75);
+}
+
+.kds-card-selector--row > .kds-card-selector-icon {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    width: var(--kds-spacing-6);
+    height: var(--kds-spacing-6);
+    margin-inline-end: var(--kds-spacing-1-75);
+    border-radius: var(--kds-radius-lg);
+}
+
+.kds-card-selector--row > .kds-card-selector-badge { grid-row: 1; }
+.kds-card-selector--row > .kds-card-selector-title { grid-row: 2; }
+.kds-card-selector--row > .kds-card-selector-description { grid-row: 3; }
+.kds-card-selector--row > .kds-card-selector-details { grid-row: 4; }
+
+/* The radio is in the flow, so the title no longer reserves room for it on the right. */
+.kds-card-selector--row label.kds-card-selector-title {
+    padding-inline-end: 0;
+    line-height: var(--kds-line-height-snug);
+}
+
+/* Requirements under the header, set apart by a line; the eyebrow is a neutral label. */
+.kds-card-selector--row > .kds-card-selector-details {
+    margin-top: var(--kds-spacing-1-25);
+    padding-top: var(--kds-spacing-1-25);
+    border-top: 1px solid var(--kds-border-light);
+}
+
+.kds-card-selector--row .kds-card-selector-eyebrow {
+    font-weight: var(--kds-font-weight-medium);
+    color: var(--kds-color-text-secondary);
+}
+
+/* Compact (layout="compact"): short options such as a bank account (title + number). */
+.kds-card-selector--compact {
+    padding: var(--kds-spacing-1-75) var(--kds-spacing-2);
+}
+
+.kds-card-selector--compact label.kds-card-selector-title {
+    font-size: var(--kds-font-size-base);
+}
+
+.kds-card-selector--compact .kds-card-selector-description {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Badge above the title (KdsCardSelector `badge`): a product line or "Pronto". */
+.kds-card-selector-badge {
+    align-self: flex-start;
+    justify-self: start;
+    margin-bottom: var(--kds-spacing-0-5);
+    padding: var(--kds-spacing-0-25) var(--kds-spacing-1-25);
+    border-radius: var(--kds-radius-full);
+    font-size: var(--kds-font-size-xs);
+    font-weight: var(--kds-font-weight-bold);
+    line-height: var(--kds-line-height-normal);
+    letter-spacing: var(--kds-letter-spacing-wide);
+    text-transform: uppercase;
+}
+
+.kds-card-selector-badge--info {
+    color: var(--kds-color-info-dark);
+    background: color-mix(in srgb, var(--kds-color-info-main) 14%, transparent);
+}
+
+.kds-card-selector-badge--primary {
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.kds-card-selector-badge--neutral {
+    color: var(--kds-color-text-secondary);
+    background: color-mix(in srgb, var(--kds-color-text-primary) 8%, transparent);
+}
+
+[data-theme="dark"] .kds-card-selector-badge--info {
+    color: var(--kds-color-info-light);
 }
 
 /* Selected state - visual feedback via border only */

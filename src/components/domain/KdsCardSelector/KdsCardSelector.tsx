@@ -1,6 +1,9 @@
 import React, { forwardRef, useId } from 'react';
 import { clsx } from '../../core/utils';
 
+export type KdsCardSelectorLayout = 'stacked' | 'row' | 'compact';
+export type KdsCardSelectorBadgeColor = 'info' | 'primary' | 'neutral';
+
 export interface KdsCardSelectorProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'> {
   icon?: string;
@@ -26,6 +29,17 @@ export interface KdsCardSelectorProps
   /** Radio mode: called with `value` when the user picks this card. */
   onCheckedChange?: (value: string) => void;
   /**
+   * Radio mode layout. `stacked` (default): radio top-right, icon over the title.
+   * `row`: radio on the left, then the icon tile and the text (option lists such as
+   * "¿Qué quieres hacer?"). `compact`: `row` with less padding and no icon, for short
+   * options like a bank account (title + number).
+   */
+  layout?: KdsCardSelectorLayout;
+  /** Radio mode: small pill above the title (e.g. a product line or "Pronto"). */
+  badge?: string;
+  /** Radio mode: badge color. Default `info`; `neutral` for "Pronto"/internal. */
+  badgeColor?: KdsCardSelectorBadgeColor;
+  /**
    * Extra content under the description (`.kds-card-selector-details`). In button mode it
    * must be inline content (it renders in a `<span>`); use radio mode for lists or blocks.
    */
@@ -47,6 +61,9 @@ export const KdsCardSelector = forwardRef<HTMLElement, KdsCardSelectorProps>(
       value,
       checked,
       onCheckedChange,
+      layout = 'stacked',
+      badge,
+      badgeColor = 'info',
       children,
       className,
       disabled,
@@ -57,6 +74,7 @@ export const KdsCardSelector = forwardRef<HTMLElement, KdsCardSelectorProps>(
   ) => {
     const radioId = useId();
     const descriptionId = `${radioId}-description`;
+    const badgeId = `${radioId}-badge`;
 
     const iconNode = icon && (
       <span className="kds-card-selector-icon" aria-hidden="true">
@@ -65,10 +83,18 @@ export const KdsCardSelector = forwardRef<HTMLElement, KdsCardSelectorProps>(
     );
 
     if (radio && name !== undefined && value !== undefined) {
+      // Badge and description are announced with the option, after its title.
+      const describedBy = [badge && badgeId, description && descriptionId].filter(Boolean).join(' ');
       return (
         <div
           ref={ref as React.Ref<HTMLDivElement>}
-          className={clsx('kds-card-selector', 'kds-card-selector--radio', className)}
+          className={clsx(
+            'kds-card-selector',
+            'kds-card-selector--radio',
+            layout !== 'stacked' && 'kds-card-selector--row',
+            layout === 'compact' && 'kds-card-selector--compact',
+            className,
+          )}
           {...(props as React.HTMLAttributes<HTMLDivElement>)}
         >
           <input
@@ -80,9 +106,17 @@ export const KdsCardSelector = forwardRef<HTMLElement, KdsCardSelectorProps>(
             checked={checked}
             disabled={disabled}
             onChange={() => onCheckedChange?.(value)}
-            aria-describedby={description ? descriptionId : undefined}
+            aria-describedby={describedBy || undefined}
           />
           {iconNode}
+          {badge && (
+            <span
+              className={clsx('kds-card-selector-badge', `kds-card-selector-badge--${badgeColor}`)}
+              id={badgeId}
+            >
+              {badge}
+            </span>
+          )}
           <label htmlFor={radioId} className="kds-card-selector-title">
             {title}
           </label>
@@ -119,6 +153,11 @@ KdsCardSelector.displayName = 'KdsCardSelector';
 export interface KdsCardSelectorGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Accessible name of the group (e.g. "Tipo de contribuyente"). */
   label: string;
+  /**
+   * `grid` (default): as many columns as fit. `list`: one card per row, for `row`/`compact`
+   * options read top to bottom.
+   */
+  layout?: 'grid' | 'list';
 }
 
 /**
@@ -126,12 +165,12 @@ export interface KdsCardSelectorGroupProps extends React.HTMLAttributes<HTMLDivE
  * the `.kds-card-selector-group` grid: as many columns as fit in the group's own width.
  */
 export const KdsCardSelectorGroup = forwardRef<HTMLDivElement, KdsCardSelectorGroupProps>(
-  ({ label, className, children, ...props }, ref) => (
+  ({ label, layout = 'grid', className, children, ...props }, ref) => (
     <div
       ref={ref}
       role="radiogroup"
       aria-label={label}
-      className={clsx('kds-card-selector-group', className)}
+      className={clsx('kds-card-selector-group', layout === 'list' && 'kds-card-selector-group--list', className)}
       {...props}
     >
       {children}
