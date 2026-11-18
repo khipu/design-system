@@ -122,7 +122,13 @@ export { KdsSectionNote, type KdsSectionNoteProps } from './KdsSectionNote';
 export { KdsStatusBlock, type KdsStatusBlockProps, type KdsStatusType } from './KdsStatusBlock';
 
 // Stepper
-export { KdsStepper, type KdsStepperProps } from './KdsStepper';
+export {
+  KdsStepper,
+  type KdsStepperProps,
+  type KdsStepperStep,
+  type KdsStepStatus,
+  type KdsStepperStatusLabels,
+} from './KdsStepper';
 
 // CopyRow
 export { KdsCopyRow, type KdsCopyRowProps } from './KdsCopyRow';
