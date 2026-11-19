@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { KdsStepper } from './KdsStepper';
+import { KdsStepper, type KdsStepperStep } from './KdsStepper';
 import { KdsButton } from '../KdsButton';
 
 /**
@@ -309,7 +309,7 @@ export const ConfigurableFlow: Story = {
   <div class="kds-step completed kds-step--interactive">
     <div class="kds-step-indicator">1</div>
     <div class="kds-step-label" aria-hidden="true">Perfil del comercio</div>
-    <a class="kds-step-link" href="/onboarding/perfil">Perfil del comercio<span class="kds-step-status">, completado</span></a>
+    <a class="kds-step-link" href="/onboarding/perfil"><span class="kds-sr-only">Perfil del comercio, completado</span></a>
   </div>
   <div class="kds-step current" aria-current="step">
     <div class="kds-step-indicator">2</div>
@@ -327,32 +327,29 @@ export const ConfigurableFlow: Story = {
   </div>
 </div>
 
-<!-- GSP: los pasos vienen del flujo (lista de mapas con labelCode, status, optional, url).
+<!-- GSP: los pasos vienen del flujo (lista de mapas con key, labelCode, status, optional).
+     - El estado se traduce a un conjunto cerrado de clases: un valor inesperado no llega al class.
+     - El enlace se arma con createLink a partir de la clave del paso, nunca con una URL de datos.
+     - aria-current / aria-hidden llevan un valor fijo dentro del atributo ("step"/"false",
+       "true"/"false"): el codec html de payment escaparía un atributo armado con \${}.
      mat:stepper no genera estos modificadores: markup del DS con g:each. -->
+<g:set var="stepClass" value="\${[completed: ' completed', current: ' current', skipped: ' skipped']}"/>
 <div class="kds-stepper kds-stepper--numbered kds-stepper--primary kds-stepper--current-label">
   <g:each in="\${flowSteps}" var="step" status="i">
     <g:set var="done" value="\${step.status in ['completed', 'skipped']}"/>
-    <g:set var="linked" value="\${done && step.url}"/>
-    <g:if test="\${step.status == 'current'}">
-      <div class="kds-step current" aria-current="step">
-    </g:if>
-    <g:else>
-      <div class="kds-step\${step.status == 'pending' ? '' : ' ' + step.status}\${linked ? ' kds-step--interactive' : ''}">
-    </g:else>
+    <g:set var="stepName" value="\${message(code: step.labelCode)}"/>
+    <div class="kds-step\${stepClass[step.status] ?: ''}\${done ? ' kds-step--interactive' : ''}"
+         aria-current="\${step.status == 'current' ? 'step' : 'false'}">
       <div class="kds-step-indicator">\${i + 1}</div>
-      <g:if test="\${linked}">
-        <div class="kds-step-label" aria-hidden="true"><g:message code="\${step.labelCode}"/></div>
-        <a class="kds-step-link" href="\${step.url}">
-          <g:message code="\${step.labelCode}"/><span class="kds-step-status">, <g:message code="onboarding.step.\${step.status}"/></span>
+      <div class="kds-step-label" aria-hidden="\${done ? 'true' : 'false'}">
+        \${stepName}
+        <g:if test="\${step.optional}"><span class="kds-step-optional"><g:message code="onboarding.step.optional"/></span></g:if>
+      </div>
+      <g:if test="\${done}">
+        <a class="kds-step-link" href="\${createLink(action: step.key)}">
+          <span class="kds-sr-only">\${stepName}<g:if test="\${step.optional}">, <g:message code="onboarding.step.optional"/></g:if>, <g:message code="onboarding.step.\${step.status}"/></span>
         </a>
       </g:if>
-      <g:else>
-        <div class="kds-step-label">
-          <g:message code="\${step.labelCode}"/>
-          <g:if test="\${step.optional}"><span class="kds-step-optional"><g:message code="onboarding.step.optional"/></span></g:if>
-          <g:if test="\${done}"><span class="kds-step-status">, <g:message code="onboarding.step.\${step.status}"/></span></g:if>
-        </div>
-      </g:else>
     </div>
   </g:each>
 </div>`,
@@ -369,7 +366,7 @@ export const ConfigurableFlow: Story = {
           color="primary"
           currentLabelOnly
           current={current}
-          steps={labels.map((label, i) => ({
+          steps={labels.map((label, i): KdsStepperStep => ({
             label,
             optional: i === 2,
             status: i === 3 && current < 3 ? 'skipped' : undefined,

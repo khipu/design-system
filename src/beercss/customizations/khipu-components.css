@@ -1619,7 +1619,7 @@ a.kds-btn.kds-btn-md {
     background: var(--kds-color-gray-300);
 }
 
-.kds-stepper--numbered .kds-step:not(.completed):not(.current) .kds-step-indicator {
+.kds-stepper--numbered .kds-step:not(.completed):not(.current):not(.skipped) .kds-step-indicator {
     background: var(--kds-color-gray-200);
     box-shadow: none;
 }
@@ -1739,8 +1739,12 @@ a.kds-btn.kds-btn-md {
 
 /* Step objects (KdsStepper steps as KdsStepperStep, configurable flows). */
 
-/* Status read by screen readers only ("completado", "omitido"). */
-.kds-step-status {
+/* Visually hidden text, read by screen readers only. .kds-sr-only is the general utility;
+   .kds-step-status ("completado", "omitido") and .kds-progress-checklist-status keep their
+   names in existing markup and share this one rule. */
+.kds-sr-only,
+.kds-step-status,
+.kds-progress-checklist-status {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -1758,9 +1762,8 @@ a.kds-btn.kds-btn-md {
     color: var(--kds-color-text-secondary);
 }
 
-/* Skipped step: hollow dashed indicator with a dash, muted label. The :not()s match the
-   specificity of the --numbered pending rule (gray-200 fill), which would win otherwise. */
-.kds-stepper .kds-step.skipped:not(.completed):not(.current) .kds-step-indicator {
+/* Skipped step: hollow dashed indicator with a dash, muted label. */
+.kds-step.skipped .kds-step-indicator {
     /* Same as the stepper background, so the connector line does not cross the circle. */
     background: var(--kds-color-background-paper);
     border: 2px dashed var(--kds-color-gray-300);
@@ -1781,21 +1784,34 @@ a.kds-btn.kds-btn-md {
 }
 
 /* Clickable completed/skipped step: the link (or button) covers the whole step, so the
-   indicator works as the target even when a narrow stepper hides the label. Its text is
-   visually hidden; the visible label is the one in .kds-step-label. */
+   indicator works as the target even when a narrow stepper hides the label. Its name is in
+   a .kds-sr-only span; the visible label is the one in .kds-step-label.
+   BeerCSS sizes every <button> (block-size 2.5rem, content-box, padding), which would stop
+   `inset: 0` from stretching it over the step: reset the box so both <a> and <button>
+   cover the whole column. */
 .kds-step--interactive .kds-step-link {
     position: absolute;
     inset: 0;
     z-index: 3;
+    display: block;
+    box-sizing: border-box;
+    block-size: auto;
+    inline-size: auto;
+    min-inline-size: 0;
     margin: 0;
     padding: 0;
     border: 0;
     border-radius: var(--kds-radius-md);
     background: transparent;
-    color: transparent;
-    font-size: 0;
     cursor: pointer;
-    overflow: hidden;
+}
+
+/* The current step's label can be wider than its column (a long single-line label in a
+   narrow stepper) and run over a neighbour's link: keep it above, so tapping it does not
+   navigate back by mistake. */
+.kds-stepper:has(.kds-step--interactive) .kds-step.current .kds-step-label {
+    position: relative;
+    z-index: 4;
 }
 
 .kds-step--interactive .kds-step-link:focus-visible {
@@ -6700,15 +6716,6 @@ button.kds-fab:active:not(:disabled) {
     height: var(--kds-spacing-0-75);
     border-radius: var(--kds-radius-full);
     background: currentColor;
-}
-
-.kds-progress-checklist-status {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
 }
 
 /* ========================================
