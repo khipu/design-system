@@ -151,5 +151,79 @@ describe('KdsCardSelector', () => {
       const group = screen.getByRole('radiogroup', { name: 'Tipo de contribuyente' });
       expect(group).toHaveClass('kds-card-selector-group');
     });
+
+    it('layout="list" stacks the group in one column', () => {
+      render(
+        <KdsCardSelectorGroup label="Cuenta de recaudación" layout="list">
+          <KdsCardSelector radio layout="compact" name="cuenta" value="cc1" title="Cuenta Corriente" />
+        </KdsCardSelectorGroup>,
+      );
+      expect(screen.getByRole('radiogroup', { name: 'Cuenta de recaudación' })).toHaveClass(
+        'kds-card-selector-group',
+        'kds-card-selector-group--list',
+      );
+    });
+
+    it('keeps the stacked layout by default', () => {
+      renderPair();
+      const card = screen.getByRole('radio', { name: 'Persona natural' }).closest('.kds-card-selector')!;
+      expect(card).not.toHaveClass('kds-card-selector--row');
+      expect(card).not.toHaveClass('kds-card-selector--compact');
+    });
+
+    it('layout="row" and layout="compact" add the row modifiers', () => {
+      render(
+        <>
+          <KdsCardSelector radio layout="row" name="cat" value="cobrar" title="Cobrar" />
+          <KdsCardSelector radio layout="compact" name="cuenta" value="cc1" title="Cuenta Corriente" />
+        </>,
+      );
+      const row = screen.getByRole('radio', { name: 'Cobrar' }).closest('.kds-card-selector')!;
+      expect(row).toHaveClass('kds-card-selector--row');
+      expect(row).not.toHaveClass('kds-card-selector--compact');
+      const compact = screen.getByRole('radio', { name: 'Cuenta Corriente' }).closest('.kds-card-selector')!;
+      expect(compact).toHaveClass('kds-card-selector--row', 'kds-card-selector--compact');
+    });
+
+    it('announces the badge with the option, before the description', () => {
+      render(
+        <KdsCardSelector
+          radio
+          layout="row"
+          name="producto"
+          value="pi"
+          badge="Cobros"
+          title="Pagos Instantáneos"
+          description="Cobra con transferencia bancaria."
+        />,
+      );
+      expect(screen.getByText('Cobros')).toHaveClass('kds-card-selector-badge', 'kds-card-selector-badge--info');
+      expect(screen.getByRole('radio', { name: 'Pagos Instantáneos' })).toHaveAccessibleDescription(
+        'Cobros Cobra con transferencia bancaria.',
+      );
+    });
+
+    it('a disabled option ("Pronto") cannot be picked', () => {
+      const onCheckedChange = vi.fn();
+      render(
+        <KdsCardSelector
+          radio
+          layout="row"
+          name="producto"
+          value="qr"
+          badge="Pronto"
+          badgeColor="neutral"
+          title="Pagos con QR"
+          disabled
+          onCheckedChange={onCheckedChange}
+        />,
+      );
+      const radio = screen.getByRole('radio', { name: 'Pagos con QR' });
+      expect(radio).toBeDisabled();
+      expect(screen.getByText('Pronto')).toHaveClass('kds-card-selector-badge--neutral');
+      fireEvent.click(screen.getByText('Pagos con QR'));
+      expect(onCheckedChange).not.toHaveBeenCalled();
+      expect(radio).not.toBeChecked();
+    });
   });
 });
