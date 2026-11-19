@@ -128,11 +128,18 @@ a.kds-btn:disabled {
     border-color: transparent;
 }
 
+/* Dark: BeerCSS dims every :disabled element with opacity .5; on top of the
+   white-alpha disabled colours that leaves the button almost invisible. The DS
+   colours already express the disabled state, so drop the extra dimming. */
+[data-theme="dark"] :is(button, a).kds-btn:disabled {
+    opacity: 1;
+}
+
 /* Primary button - Khipu purple */
 button.kds-btn-primary,
 a.kds-btn-primary {
     background: var(--kds-button-primary-bg, var(--kds-color-primary-main));  /* #8347AD */
-    color: var(--kds-color-primary-contrast);      /* #FFF light / dark-purple on dark (lavender bg) */
+    color: var(--kds-color-primary-contrast);      /* #FFF in both themes */
     border: none;
     box-shadow: 0 1px 2px rgba(131, 71, 173, .25);
 }
@@ -152,18 +159,6 @@ button.kds-btn-primary:focus-visible:not(:disabled),
 a.kds-btn-primary:active:not(:disabled),
 a.kds-btn-primary:focus-visible:not(:disabled) {
     background: var(--kds-button-primary-bg-hover, var(--kds-color-primary-dark));
-}
-
-/* Dark mode: the button is a light lavender with dark text, so hover/active must
-   LIGHTEN (not darken) — else primary-dark bg + dark contrast text = invisible.
-   Additive override; the light-mode rules above stay unchanged. */
-[data-theme="dark"] button.kds-btn-primary:hover:not(:disabled),
-[data-theme="dark"] a.kds-btn-primary:hover:not(:disabled),
-[data-theme="dark"] button.kds-btn-primary:active:not(:disabled),
-[data-theme="dark"] button.kds-btn-primary:focus-visible:not(:disabled),
-[data-theme="dark"] a.kds-btn-primary:active:not(:disabled),
-[data-theme="dark"] a.kds-btn-primary:focus-visible:not(:disabled) {
-    background: var(--kds-color-primary-light);
 }
 
 /* Override disabled para primary */
