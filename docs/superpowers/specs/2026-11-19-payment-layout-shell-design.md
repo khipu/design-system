@@ -19,6 +19,9 @@ El resultado de esta iniciativa son dos entregables (detallados en «Siguientes 
    (`Patterns/Payment Layout`) con ejemplos de código en GSP y en React.
 2. Una historia de Jira en KTUF para trackear el trabajo.
 
+Infografía complementaria (medidas en px, escritorio vs. mobile):
+https://claude.ai/artifact/VhikrJbAeH5ZsVaLB8p1fR
+
 ## Alcance y no-objetivos
 
 **En alcance:** las cajas estructurales del layout — jerarquía, composición, espaciado, color de
