@@ -128,11 +128,18 @@ a.kds-btn:disabled {
     border-color: transparent;
 }
 
+/* Dark: BeerCSS dims every :disabled element with opacity .5; on top of the
+   white-alpha disabled colours that leaves the button almost invisible. The DS
+   colours already express the disabled state, so drop the extra dimming. */
+[data-theme="dark"] :is(button, a).kds-btn:disabled {
+    opacity: 1;
+}
+
 /* Primary button - Khipu purple */
 button.kds-btn-primary,
 a.kds-btn-primary {
     background: var(--kds-button-primary-bg, var(--kds-color-primary-main));  /* #8347AD */
-    color: var(--kds-color-primary-contrast);      /* #FFF light / dark-purple on dark (lavender bg) */
+    color: var(--kds-color-primary-contrast);      /* #FFF in both themes */
     border: none;
     box-shadow: 0 1px 2px rgba(131, 71, 173, .25);
 }
@@ -152,18 +159,6 @@ button.kds-btn-primary:focus-visible:not(:disabled),
 a.kds-btn-primary:active:not(:disabled),
 a.kds-btn-primary:focus-visible:not(:disabled) {
     background: var(--kds-button-primary-bg-hover, var(--kds-color-primary-dark));
-}
-
-/* Dark mode: the button is a light lavender with dark text, so hover/active must
-   LIGHTEN (not darken) — else primary-dark bg + dark contrast text = invisible.
-   Additive override; the light-mode rules above stay unchanged. */
-[data-theme="dark"] button.kds-btn-primary:hover:not(:disabled),
-[data-theme="dark"] a.kds-btn-primary:hover:not(:disabled),
-[data-theme="dark"] button.kds-btn-primary:active:not(:disabled),
-[data-theme="dark"] button.kds-btn-primary:focus-visible:not(:disabled),
-[data-theme="dark"] a.kds-btn-primary:active:not(:disabled),
-[data-theme="dark"] a.kds-btn-primary:focus-visible:not(:disabled) {
-    background: var(--kds-color-primary-light);
 }
 
 /* Override disabled para primary */
@@ -279,6 +274,14 @@ a.kds-btn-text:hover:not(:disabled) {
 /* Dark: hover must lighten — primary-dark text is near-invisible on dark bg. */
 [data-theme="dark"] button.kds-btn-text:hover:not(:disabled),
 [data-theme="dark"] a.kds-btn-text:hover:not(:disabled) {
+    color: var(--kds-color-primary-light);
+}
+
+/* Dark: the brand purple (primary-main) is a fill colour; as text on the dark surface it
+   is only 3.1:1. Outlined and text buttons use the lighter brand tone (primary-light,
+   5.8:1). The white/success outlined variants and disabled buttons keep their colours. */
+[data-theme="dark"] :is(button, a).kds-btn-outlined:not(.kds-btn-outlined-white, .kds-btn-outlined-success, :disabled),
+[data-theme="dark"] :is(button, a).kds-btn-text:not(:disabled) {
     color: var(--kds-color-primary-light);
 }
 
@@ -1516,7 +1519,7 @@ a.kds-btn.kds-btn-md {
     content: "check";
     font-family: 'Material Symbols Outlined';
     position: absolute;
-    color: white;
+    color: var(--kds-color-success-contrast);
     font-size: 24px;
     font-weight: 400;
     left: 50%;
@@ -1614,21 +1617,18 @@ a.kds-btn.kds-btn-md {
 }
 
 /* --numbered: pending steps and the connector must be visible on a white card (the base
-   background-elevated #fafafa is ~1.04:1 against white). */
+   background-elevated #fafafa is ~1.04:1 against white). border-default is gray-200 in
+   light and translucent white in dark; the absolute greys painted near-white dots under
+   the light pending number on dark. */
 .kds-stepper--numbered::before {
-    background: var(--kds-color-gray-300);
+    background: var(--kds-color-border-default);
 }
 
 .kds-stepper--numbered .kds-step:not(.completed):not(.current):not(.skipped) .kds-step-indicator {
-    background: var(--kds-color-gray-200);
+    /* Layered on the stepper surface so the dot stays opaque when border-default is
+       translucent (dark): otherwise the connector would show through it. */
+    background: linear-gradient(var(--kds-color-border-default), var(--kds-color-border-default)) var(--kds-color-background-paper);
     box-shadow: none;
-}
-
-/* Dark: gray-200 stays light, so the light secondary text of the number vanished on it.
-   A fill mixed from the text color keeps the dot visible and the number readable; mixed
-   with the paper background (not transparent) so the connector does not show through. */
-[data-theme="dark"] .kds-stepper--numbered .kds-step:not(.completed):not(.current):not(.skipped) .kds-step-indicator {
-    background: color-mix(in srgb, var(--kds-color-text-primary) 16%, var(--kds-color-background-paper));
 }
 
 /* --numbered + --primary (onboarding): compact 28px dots, small bold number (white on the
@@ -1659,7 +1659,7 @@ a.kds-btn.kds-btn-md {
     left: -50%;
     right: 50%;
     height: 2px;
-    background: var(--kds-color-gray-300);
+    background: var(--kds-color-border-default);
     z-index: 0;
 }
 
