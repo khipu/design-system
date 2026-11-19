@@ -15,10 +15,10 @@ class KdsButtonTagLib {
         if (size) classes << "kds-btn-${size}"
         if (cssClass) classes << cssClass
 
-        def attrsString = attrs.collect { k, v -> "${k}=\"${v}\"" }.join(' ')
+        def attrsString = attrs.collect { k, v -> "${k}=\"${v?.toString()?.encodeAsHTML()}\"" }.join(' ')
 
         if (href) {
-            out << "<a href=\"${href}\" class=\"${classes.join(' ')}\"${disabled ? ' aria-disabled="true"' : ''} ${attrsString}>"
+            out << "<a href=\"${href.toString().encodeAsHTML()}\" class=\"${classes.join(' ')}\"${disabled ? ' aria-disabled="true"' : ''} ${attrsString}>"
             out << body()
             out << '</a>'
         } else {
