@@ -31,7 +31,7 @@ export interface KdsCardSelectorProps
   /**
    * Radio mode layout. `stacked` (default): radio top-right, icon over the title.
    * `row`: radio on the left, then the icon tile and the text (option lists such as
-   * "¿Qué quieres hacer?"). `compact`: `row` with less padding and no icon, for short
+   * "¿Qué quieres hacer?"). `compact`: `row` with less padding (usually without an icon), for short
    * options like a bank account (title + number).
    */
   layout?: KdsCardSelectorLayout;

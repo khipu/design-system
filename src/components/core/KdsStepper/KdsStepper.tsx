@@ -49,10 +49,19 @@ export interface KdsStepperStep {
   status?: KdsStepStatus;
   /** Shows a small "Opcional" mark under the label. */
   optional?: boolean;
-  /** Completed or skipped step: renders a link over the step to go back to it. */
+  /**
+   * Completed or skipped step: renders a link over the step to go back to it. Only
+   * same-site URLs are rendered (relative paths, or http(s) on the current origin): a
+   * `javascript:` URL or another site would come from bad flow data, so the step is shown
+   * without a link instead.
+   */
   href?: string;
-  /** Completed or skipped step: renders a button over the step (instead of `href`). */
-  onClick?: () => void;
+  /**
+   * Completed or skipped step: called on click. With `href` it is attached to the link
+   * (e.g. `event.preventDefault()` for client-side routing); without it the step renders a
+   * button.
+   */
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface KdsStepperStatusLabels {
@@ -64,20 +73,7 @@ export interface KdsStepperStatusLabels {
   optional?: string;
 }
 
-export interface KdsStepperProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Steps. Strings: labels of a linear stepper (status from `current`). Objects
-   * (`KdsStepperStep`): explicit status, optional mark and links back to completed steps.
-   */
-  steps: Array<string | KdsStepperStep>;
-  /**
-   * Índice 0-based del step actual.
-   * - Steps `< current` → `.completed` (verde con check)
-   * - Step `== current` → `.current` (azul info, o primary con `color="primary"`)
-   * - Steps `> current` → pending (gris)
-   * Optional when every step object has an explicit `status`.
-   */
-  current?: number;
+interface KdsStepperBaseProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Muestra el número de paso (1-based) dentro del indicador. Los pasos completados
    * mantienen el check. Aplica `.kds-stepper--numbered`.
@@ -100,6 +96,32 @@ export interface KdsStepperProps extends React.HTMLAttributes<HTMLDivElement> {
   statusLabels?: KdsStepperStatusLabels;
 }
 
+/**
+ * Steps are either all strings (classic linear stepper: `current` is required) or all
+ * `KdsStepperStep` objects (configurable flows: each step may carry its own `status`, so
+ * `current` is optional and only fills in the steps without one).
+ */
+export type KdsStepperProps = KdsStepperBaseProps &
+  (
+    | {
+        /** Labels of a linear stepper. */
+        steps: string[];
+        /**
+         * Índice 0-based del step actual.
+         * - Steps `< current` → `.completed` (verde con check)
+         * - Step `== current` → `.current` (azul info, o primary con `color="primary"`)
+         * - Steps `> current` → pending (gris)
+         */
+        current: number;
+      }
+    | {
+        /** Steps with explicit status, optional mark and links back to completed steps. */
+        steps: KdsStepperStep[];
+        /** Fills in the status of steps without an explicit `status`. */
+        current?: number;
+      }
+  );
+
 const DEFAULT_STATUS_LABELS: Required<KdsStepperStatusLabels> = {
   completed: 'completado',
   skipped: 'omitido',
@@ -110,6 +132,21 @@ function derivedStatus(index: number, current: number | undefined): KdsStepStatu
   if (current === undefined) return 'pending';
   if (index < current) return 'completed';
   return index === current ? 'current' : 'pending';
+}
+
+/**
+ * Same-site check for step links: relative paths, or http(s) URLs on the current origin.
+ * Parsing against the page URL also rejects tricks such as `//other.site` or
+ * `/\other.site` (both resolve to another origin) and any non-http scheme.
+ */
+export function isSameSiteHref(href: string): boolean {
+  const base = typeof window !== 'undefined' ? window.location.href : 'https://kds.invalid/';
+  try {
+    const url = new URL(href.trim(), base);
+    return (url.protocol === 'https:' || url.protocol === 'http:') && url.origin === new URL(base).origin;
+  } catch {
+    return false;
+  }
 }
 
 export const KdsStepper = forwardRef<HTMLDivElement, KdsStepperProps>(
@@ -130,7 +167,7 @@ export const KdsStepper = forwardRef<HTMLDivElement, KdsStepperProps>(
         )}
         {...props}
       >
-        {steps.map((step, i) => {
+        {(steps as Array<string | KdsStepperStep>).map((step, i) => {
           const indicator = <div className="kds-step-indicator">{numbered ? i + 1 : null}</div>;
 
           // Classic linear markup, unchanged (payment's mat:stepper renders the same).
@@ -150,16 +187,17 @@ export const KdsStepper = forwardRef<HTMLDivElement, KdsStepperProps>(
 
           const status = step.status ?? derivedStatus(i, current);
           const done = status === 'completed' || status === 'skipped';
-          const interactive = done && (step.href !== undefined || step.onClick !== undefined);
+          const href = done && step.href !== undefined && isSameSiteHref(step.href) ? step.href : undefined;
+          const interactive = done && (href !== undefined || step.onClick !== undefined);
           const statusText = done ? labels[status] : undefined;
-          // The link (or button) covers the whole step and carries its name, so the visible
-          // label is hidden from assistive tech to avoid reading it twice.
+          // The link (or button) covers the whole step and carries its name in visually
+          // hidden text, so the visible label is hidden from assistive tech (read once).
           const linkContent = (
-            <>
+            <span className="kds-sr-only">
               {step.label}
-              {step.optional && <span className="kds-step-status">, {labels.optional}</span>}
-              {statusText && <span className="kds-step-status">, {statusText}</span>}
-            </>
+              {step.optional && `, ${labels.optional}`}
+              {statusText && `, ${statusText}`}
+            </span>
           );
           return (
             <div
@@ -180,8 +218,8 @@ export const KdsStepper = forwardRef<HTMLDivElement, KdsStepperProps>(
                 {!interactive && statusText && <span className="kds-step-status">, {statusText}</span>}
               </div>
               {interactive &&
-                (step.href !== undefined ? (
-                  <a className="kds-step-link" href={step.href}>
+                (href !== undefined ? (
+                  <a className="kds-step-link" href={href} onClick={step.onClick}>
                     {linkContent}
                   </a>
                 ) : (

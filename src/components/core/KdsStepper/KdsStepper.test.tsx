@@ -1,9 +1,10 @@
+import type React from 'react';
 /**
  * KdsStepper - Test Suite
  */
 import { describe, it, expect, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { KdsStepper } from './KdsStepper';
+import { KdsStepper, isSameSiteHref } from './KdsStepper';
 
 const STEPS = ['A', 'B', 'C'];
 
@@ -140,6 +141,56 @@ describe('KdsStepper', () => {
         />,
       );
       expect(screen.queryByRole('link')).toBeNull();
+    });
+
+    it.each([
+      'javascript:alert(1)',
+      ' JavaScript:alert(1)',
+      'data:text/html,<b>x</b>',
+      '//evil.example/onboarding',
+      '/\\evil.example/onboarding',
+      'https://evil.example/onboarding',
+    ])('does not render a link for a non same-site href (%s)', (href) => {
+      const { container } = render(
+        <KdsStepper steps={[{ label: 'Perfil', href }, { label: 'Plan' }]} current={1} />,
+      );
+      expect(screen.queryByRole('link')).toBeNull();
+      // Shown as a plain completed step (status still read), not as a clickable one.
+      expect(container.querySelector('.kds-step')).not.toHaveClass('kds-step--interactive');
+      expect(screen.getByText(', completado')).toHaveClass('kds-step-status');
+    });
+
+    it.each(['/onboarding/perfil', 'perfil', '../perfil', '?step=1', '#perfil'])(
+      'accepts a same-site href (%s)',
+      (href) => {
+        expect(isSameSiteHref(href)).toBe(true);
+      },
+    );
+
+    it('accepts an absolute URL on the current origin', () => {
+      expect(isSameSiteHref(`${window.location.origin}/onboarding/perfil`)).toBe(true);
+    });
+
+    it('with href and onClick, the handler goes on the link and gets the event', () => {
+      const onClick = vi.fn((event: React.MouseEvent<HTMLElement>) => event.preventDefault());
+      render(<KdsStepper steps={[{ label: 'Perfil', href: '/a', onClick }, { label: 'Plan' }]} current={1} />);
+      const link = screen.getByRole('link', { name: 'Perfil, completado' });
+      fireEvent.click(link);
+      expect(onClick).toHaveBeenCalledTimes(1);
+      expect(onClick.mock.calls[0][0].defaultPrevented).toBe(true);
+      expect(screen.queryByRole('button')).toBeNull();
+    });
+
+    it('names a linked optional step with its optional mark', () => {
+      render(
+        <KdsStepper steps={[{ label: 'Contactos', optional: true, href: '/c' }, { label: 'Plan' }]} current={1} />,
+      );
+      expect(screen.getByRole('link', { name: 'Contactos, Opcional, completado' })).toBeInTheDocument();
+    });
+
+    it('a skipped step can link back too', () => {
+      render(<KdsStepper steps={[{ label: 'Plan', status: 'skipped', href: '/p' }]} />);
+      expect(screen.getByRole('link', { name: 'Plan, omitido' })).toBeInTheDocument();
     });
 
     it('statusLabels translates the texts', () => {

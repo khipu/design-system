@@ -575,11 +575,13 @@ export const CompactOption: Story = {
     <input type="radio" class="kds-card-selector-radio" id="cuenta-cc1" name="cuenta" value="cc1"
            aria-describedby="cuenta-cc1-num"/>
     <label for="cuenta-cc1" class="kds-card-selector-title">Cuenta Corriente</label>
-    <span class="kds-card-selector-description" id="cuenta-cc1-num">N° 0-000-1234567-8</span>
+    <span class="kds-card-selector-description" id="cuenta-cc1-num">N° •••• 4567-8</span>
   </div>
 </div>
 
-<!-- GSP -->
+<!-- GSP. Muestra solo el final del número (minimización de datos) y el controller debe
+     validar que accountId pertenece al comercio antes de usarlo (no confiar en el id que
+     llega del form). -->
 <div class="kds-card-selector-group kds-card-selector-group--list" role="radiogroup"
      aria-label="\${message(code: 'merchant.onboarding.account.subtitle')}">
   <g:each in="\${bankAccounts}" var="account" status="i">
@@ -587,7 +589,7 @@ export const CompactOption: Story = {
       <input type="radio" class="kds-card-selector-radio" id="account-\${i}" name="accountId"
              value="\${account.id}" aria-describedby="account-\${i}-num" required/>
       <label for="account-\${i}" class="kds-card-selector-title">\${account.typeName}</label>
-      <span class="kds-card-selector-description" id="account-\${i}-num">N° \${account.number}</span>
+      <span class="kds-card-selector-description" id="account-\${i}-num">N° •••• \${account.number[-6..-1]}</span>
     </div>
   </g:each>
 </div>`,
@@ -600,8 +602,8 @@ export const CompactOption: Story = {
     return (
       <KdsCardSelectorGroup label="Cuenta de recaudación" layout="list" className="kds-max-w-md">
         {[
-          ['cc1', 'N° 0-000-1234567-8'],
-          ['cc2', 'N° 0-000-7654321-0'],
+          ['cc1', 'N° •••• 4567-8'],
+          ['cc2', 'N° •••• 4321-0'],
         ].map(([value, number]) => (
           <KdsCardSelector
             key={value}
