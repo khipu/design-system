@@ -19,8 +19,8 @@ El resultado de esta iniciativa son dos entregables (detallados en «Siguientes 
    (`Patterns/Payment Layout`) con ejemplos de código en GSP y en React.
 2. Una historia de Jira en KTUF para trackear el trabajo.
 
-Infografía complementaria (medidas en px, escritorio vs. mobile):
-https://claude.ai/artifact/VhikrJbAeH5ZsVaLB8p1fR
+Infografía complementaria (medidas en px, modal vs. incrustado — ver «Cómo lo consume
+producción» más abajo): https://claude.ai/artifact/VhikrJbAeH5ZsVaLB8p1fR
 
 ## Alcance y no-objetivos
 
@@ -169,6 +169,30 @@ se realimentaría con el alto automático que reportan los iframes (mensaje `RES
 5. Un alias de token en `:root` no sirve para algo que un integrador debe poder sobreescribir más
    abajo en el DOM (ver `--kds-color-background-body` arriba) — tiene que ir como fallback en el
    punto de uso.
+
+## Cómo lo consume producción: modal vs. incrustado (khenshin-web)
+
+El breakpoint de la pieza 1 no depende del dispositivo real sino del ancho renderizado del
+`iframe`, y ese ancho lo deciden los dos modos de integración que documenta
+`khipu-client-web.md` e implementa `kws.js` (`kws/src/Khipu.ts`, en `khenshin-web`):
+
+- **Modal** (`modal: true`): kws.js tapa la página del comercio con un overlay
+  (`.khipu-overlay`, `rgba(0,0,0,.65)`) y centra un diálogo propio
+  (`.khipu-modal-content`) con `padding: 0`, `border-radius: 4px` y, por defecto,
+  `max-width: 450px` / `max-height: 860px` (`modalOptions`, que el comercio puede subir).
+  Como 450px < 768px, **el shell adentro siempre cae en la rama mobile de la pieza 1**:
+  padding-top/lateral en 0. El "sin espacio exterior" sale de dos cosas apiladas — el
+  diálogo de kws.js ya tiene padding 0, y el shell adentro también — no de una regla
+  especial para "modal". El gap interno de 12px entre invoice sticky y body card (piezas 3-4)
+  es el mismo de siempre, independiente del ancho.
+- **Incrustado** (`modal: false`): kws.js no agrega overlay ni caja — hace
+  `mountElement.appendChild(iframe)` y el ancho lo define el comercio en su propio layout.
+  Si le da ≥768px, el shell adentro activa la rama desktop (padding 10/8/32 de la pieza 1).
+  Si lo angosta por debajo de 768px, el resultado interno es idéntico al de modal, solo que
+  sin el overlay ni el diálogo flotante encima.
+
+Infografía con las medidas de ambos casos:
+https://claude.ai/artifact/VhikrJbAeH5ZsVaLB8p1fR
 
 ## Ejemplo — GSP
 
