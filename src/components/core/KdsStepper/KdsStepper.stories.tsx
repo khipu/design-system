@@ -327,7 +327,9 @@ export const ConfigurableFlow: Story = {
   </div>
 </div>
 
-<!-- GSP: los pasos vienen del flujo (lista de mapas con key, labelCode, status, optional).
+<!-- GSP: los pasos vienen del flujo (lista de mapas con key, labelCode, status, requirement).
+     - El backend usa enums (COMPLETED/SKIPPED/CURRENT/PENDING, REQUIRED/OPTIONAL): aquí se
+       normalizan a minúscula y a booleano, así sirve el enum tal cual o ya convertido.
      - El estado se traduce a un conjunto cerrado de clases: un valor inesperado no llega al class.
      - El enlace se arma con createLink a partir de la clave del paso, nunca con una URL de datos.
      - aria-current / aria-hidden llevan un valor fijo dentro del atributo ("step"/"false",
@@ -336,18 +338,20 @@ export const ConfigurableFlow: Story = {
 <g:set var="stepClass" value="\${[completed: ' completed', current: ' current', skipped: ' skipped']}"/>
 <div class="kds-stepper kds-stepper--numbered kds-stepper--primary kds-stepper--current-label">
   <g:each in="\${flowSteps}" var="step" status="i">
-    <g:set var="done" value="\${step.status in ['completed', 'skipped']}"/>
+    <g:set var="stepStatus" value="\${step.status?.toString()?.toLowerCase()}"/>
+    <g:set var="optional" value="\${step.optional || step.requirement?.toString() == 'OPTIONAL'}"/>
+    <g:set var="done" value="\${stepStatus in ['completed', 'skipped']}"/>
     <g:set var="stepName" value="\${message(code: step.labelCode)}"/>
-    <div class="kds-step\${stepClass[step.status] ?: ''}\${done ? ' kds-step--interactive' : ''}"
-         aria-current="\${step.status == 'current' ? 'step' : 'false'}">
+    <div class="kds-step\${stepClass[stepStatus] ?: ''}\${done ? ' kds-step--interactive' : ''}"
+         aria-current="\${stepStatus == 'current' ? 'step' : 'false'}">
       <div class="kds-step-indicator">\${i + 1}</div>
       <div class="kds-step-label" aria-hidden="\${done ? 'true' : 'false'}">
         \${stepName}
-        <g:if test="\${step.optional}"><span class="kds-step-optional"><g:message code="onboarding.step.optional"/></span></g:if>
+        <g:if test="\${optional}"><span class="kds-step-optional"><g:message code="onboarding.step.optional"/></span></g:if>
       </div>
       <g:if test="\${done}">
         <a class="kds-step-link" href="\${createLink(action: step.key)}">
-          <span class="kds-sr-only">\${stepName}<g:if test="\${step.optional}">, <g:message code="onboarding.step.optional"/></g:if>, <g:message code="onboarding.step.\${step.status}"/></span>
+          <span class="kds-sr-only">\${stepName}<g:if test="\${optional}">, <g:message code="onboarding.step.optional"/></g:if>, <g:message code="onboarding.step.\${stepStatus}"/></span>
         </a>
       </g:if>
     </div>

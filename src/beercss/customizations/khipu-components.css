@@ -1803,7 +1803,16 @@ a.kds-btn.kds-btn-md {
     border: 0;
     border-radius: var(--kds-radius-md);
     background: transparent;
+    /* BeerCSS gives every button `color: var(--on-primary)` and a ripple ::after tinted
+       with currentColor, which showed as a white veil on hover/focus in dark mode. */
+    color: inherit;
     cursor: pointer;
+}
+
+/* BeerCSS's ripple selector is `:is(…, nav.tabbed > a, …):not([class*=ripple])::after`,
+   specificity (0,2,3) because :is() takes its most specific option: three classes win. */
+.kds-step.kds-step--interactive .kds-step-link::after {
+    content: none;
 }
 
 /* The current step's label can be wider than its column (a long single-line label in a
