@@ -110,6 +110,8 @@ descartada a favor de la externa. Ver la pieza 6.
 | **Efecto sobre hermanos** | `.kds-invoice-sticky-wrap ~ *` recibe un `translateY` negativo proporcional al colapso, para que la card de cuerpo "suba" y ocupe el espacio que el header liberó. Es un efecto puramente visual (transform), el layout real no cambia. |
 | **Radio** | Solo las esquinas inferiores (`0 0 var(--kds-radius-card) var(--kds-radius-card)`) mientras está colapsando — el tope queda plano para que el logo del comercio en la esquina no se recorte. Con mouse (`hover: hover` + `pointer: fine`) se restaura el radio completo en las 4 esquinas. |
 | **Branding** | El logo de marca externo (`.kds-brand-row`, fuera de las cards) se muestra en desktop; en mobile se oculta y aparece el logo interno (`.kds-brand-inner`, dentro de la card sticky), que además encoge con el colapso. Es un swap por breakpoint, no una decisión de la pantalla. |
+| **Gotcha de nomenclatura** | `.kds-invoice-merchant` **no es texto** — es la caja de 64×64px del avatar/ícono del comercio (`background`, `border-radius`, `display: grid; place-items: center`). Poner ahí un nombre largo lo corta en 3 líneas dentro de una caja fija (se encontró al armar esta misma story). |
+| **Estructura interna real** | `.kds-invoice-header` (flex: monto+código a la izquierda, `.kds-invoice-merchant` a la derecha) seguido de `.kds-invoice-collapsible > .kds-invoice-summary > dl.kds-kv` con los pares "Pago a" / comercio y "Asunto" / motivo — ahí va el nombre del comercio, nunca en `.kds-invoice-merchant`. Estructura verificada contra `InvoiceContent` en `PaymentFlowReact.stories.tsx`, que a su vez documenta que "matches the HTML structure in payment-flow.html exactly". |
 
 ### 6. `.kds-secure-footer` (hijo directo de `.kds-screen`) — Footer seguro
 
@@ -179,12 +181,33 @@ una propuesta ilustrativa, no una API existente en `payment` — igual que en `O
 
     <div class="kds-screen active">
 
+      <%-- Contenido de KdsInvoiceSticky — fuera de alcance de esta spec. Estructura real
+           tomada de PaymentFlowReact.stories.tsx (InvoiceContent): .kds-invoice-header
+           (monto+código a la izquierda, avatar .kds-invoice-merchant a la derecha) seguido
+           de .kds-invoice-collapsible > .kds-invoice-summary > dl.kds-kv (Pago a / Asunto). --%>
       <div class="kds-invoice-sticky-wrap">
         <div class="kds-card-elevated kds-invoice-sticky">
-          <img class="kds-brand-inner" src="${merchantLogoUrl}" alt="" />
-          <div class="kds-invoice-amount">${amountFormatted}</div>
-          <div class="kds-invoice-merchant">${merchantName}</div>
-          <div class="kds-invoice-code">${operationCode}</div>
+          <header class="kds-invoice-header">
+            <div>
+              <p class="kds-invoice-amount">${amountFormatted}</p>
+              <p class="kds-invoice-code">
+                Código <span class="kds-invoice-code-value kds-invoice-code-value--lowercase">${operationCode}</span>
+              </p>
+            </div>
+            <div class="kds-invoice-merchant" aria-hidden="true">
+              <i class="material-symbols-outlined">storefront</i>
+            </div>
+          </header>
+          <div class="kds-invoice-collapsible">
+            <div class="kds-invoice-summary">
+              <dl class="kds-kv">
+                <dt>Pago a</dt>
+                <dd>${merchantName}</dd>
+                <dt>Asunto</dt>
+                <dd>${subject}</dd>
+              </dl>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -229,9 +252,27 @@ function PaymentScreen() {
 
           <div className="kds-invoice-sticky-wrap">
             <KdsInvoiceSticky>
-              <div className="kds-invoice-amount">{amountFormatted}</div>
-              <div className="kds-invoice-merchant">{merchantName}</div>
-              <div className="kds-invoice-code">{operationCode}</div>
+              <header className="kds-invoice-header">
+                <div>
+                  <p className="kds-invoice-amount">{amountFormatted}</p>
+                  <p className="kds-invoice-code">
+                    Código <span className="kds-invoice-code-value kds-invoice-code-value--lowercase">{operationCode}</span>
+                  </p>
+                </div>
+                <div className="kds-invoice-merchant" aria-hidden="true">
+                  <i className="material-symbols-outlined">storefront</i>
+                </div>
+              </header>
+              <div className="kds-invoice-collapsible">
+                <div className="kds-invoice-summary">
+                  <dl className="kds-kv">
+                    <dt>Pago a</dt>
+                    <dd>{merchantName}</dd>
+                    <dt>Asunto</dt>
+                    <dd>{subject}</dd>
+                  </dl>
+                </div>
+              </div>
             </KdsInvoiceSticky>
           </div>
 
