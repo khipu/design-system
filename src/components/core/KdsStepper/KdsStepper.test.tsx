@@ -150,6 +150,10 @@ describe('KdsStepper', () => {
       '//evil.example/onboarding',
       '/\\evil.example/onboarding',
       'https://evil.example/onboarding',
+      'java\tscript:alert(1)',
+      '\njavascript:alert(1)',
+      '',
+      '   ',
     ])('does not render a link for a non same-site href (%s)', (href) => {
       const { container } = render(
         <KdsStepper steps={[{ label: 'Perfil', href }, { label: 'Plan' }]} current={1} />,

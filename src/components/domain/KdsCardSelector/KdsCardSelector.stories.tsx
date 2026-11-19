@@ -579,9 +579,10 @@ export const CompactOption: Story = {
   </div>
 </div>
 
-<!-- GSP. Muestra solo el final del número (minimización de datos) y el controller debe
-     validar que accountId pertenece al comercio antes de usarlo (no confiar en el id que
-     llega del form). -->
+<!-- GSP. El número llega ya enmascarado desde el controller (account.maskedNumber, p. ej.
+     "•••• 4567"): el número completo no pasa por la vista (minimización de datos) y no hay
+     cortes de texto que fallen con números cortos. El controller debe validar que accountId
+     pertenece al comercio antes de usarlo (no confiar en el id que llega del form). -->
 <div class="kds-card-selector-group kds-card-selector-group--list" role="radiogroup"
      aria-label="\${message(code: 'merchant.onboarding.account.subtitle')}">
   <g:each in="\${bankAccounts}" var="account" status="i">
@@ -589,7 +590,7 @@ export const CompactOption: Story = {
       <input type="radio" class="kds-card-selector-radio" id="account-\${i}" name="accountId"
              value="\${account.id}" aria-describedby="account-\${i}-num" required/>
       <label for="account-\${i}" class="kds-card-selector-title">\${account.typeName}</label>
-      <span class="kds-card-selector-description" id="account-\${i}-num">N° •••• \${account.number[-6..-1]}</span>
+      <span class="kds-card-selector-description" id="account-\${i}-num">N° \${account.maskedNumber}</span>
     </div>
   </g:each>
 </div>`,

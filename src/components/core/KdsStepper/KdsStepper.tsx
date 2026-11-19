@@ -140,6 +140,8 @@ function derivedStatus(index: number, current: number | undefined): KdsStepStatu
  * `/\other.site` (both resolve to another origin) and any non-http scheme.
  */
 export function isSameSiteHref(href: string): boolean {
+  // An empty href resolves to the current page: a data error, not a step to go back to.
+  if (!href.trim()) return false;
   const base = typeof window !== 'undefined' ? window.location.href : 'https://kds.invalid/';
   try {
     const url = new URL(href.trim(), base);
