@@ -141,18 +141,22 @@ const lightModeColors = {
 // =============================================================================
 
 const darkModeColors = {
-  // Primary palette - Purple (Khipu brand) - From Figma K-Tokens
+  // Primary palette - Purple (Khipu brand). Fills keep the brand purple with white text,
+  // as in light mode (white on #8347AD is 6.1:1). The earlier placeholder (#E3B5FF, a pale
+  // pink-lilac) was never part of the brand. `light` is the brand purple mixed with 30%
+  // white (#A87EC6, same hue, 5.8:1 on the dark background): what dark mode uses where it
+  // must lighten (hovers, highlights), and the base of the translucent states.
   primary: {
-    main: '#E3B5FF',
-    light: '#F1D6FF',
-    dark: '#4C0676',
-    contrastText: 'rgba(76, 6, 118, 0.87)',
+    main: '#8347AD',
+    light: '#A87EC6',
+    dark: '#5B3179',
+    contrastText: '#FFFFFF',
     states: {
-      hover: 'rgba(227, 181, 255, 0.08)',
-      selected: 'rgba(227, 181, 255, 0.16)',
-      focus: 'rgba(227, 181, 255, 0.24)',
-      focusVisible: 'rgba(227, 181, 255, 0.40)',
-      outlinedBorder: 'rgba(227, 181, 255, 0.50)',
+      hover: 'rgba(168, 126, 198, 0.08)',
+      selected: 'rgba(168, 126, 198, 0.16)',
+      focus: 'rgba(168, 126, 198, 0.24)',
+      focusVisible: 'rgba(168, 126, 198, 0.40)',
+      outlinedBorder: 'rgba(168, 126, 198, 0.50)',
     },
   },
 
@@ -178,7 +182,7 @@ const darkModeColors = {
     hint: 'rgba(255, 255, 255, 0.38)',
     muted: 'rgba(255, 255, 255, 0.50)',        // Reduced emphasis
     strong: 'rgba(255, 255, 255, 0.95)',        // High emphasis
-    accent: 'rgba(227, 181, 255, 0.87)',        // Brand-tinted
+    accent: '#A87EC6',                          // Brand-tinted (primary.light, 5.8:1 on the dark background)
     tertiary: 'rgba(255, 255, 255, 0.60)',      // Third-level
     footer: 'rgba(255, 255, 255, 0.50)',        // Auxiliary
     code: '#d4d4d4',                            // Code block text color

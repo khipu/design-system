@@ -272,11 +272,11 @@ body.dark,
     /* QR featured row — dark mirror of the light purple→blue gradient (the
        light literals painted a light surface under adaptive white text). */
     --kds-qr-bg-gradient: linear-gradient(135deg, #1E1030 0%, #101C2C 100%);
-    --kds-qr-border: rgba(227, 181, 255, 0.28);              /* dark primary @ same alpha as light */
-    --kds-qr-focus-ring: rgba(227, 181, 255, 0.35);
+    --kds-qr-border: rgba(168, 126, 198, 0.28);              /* dark primary-light @ same alpha as light */
+    --kds-qr-focus-ring: rgba(168, 126, 198, 0.35);
     --kds-qr-avatar-bg: var(--kds-color-background-elevated);
-    --kds-qr-avatar-border: rgba(227, 181, 255, 0.3);
-    --kds-qr-badge-text: var(--kds-color-primary-contrast);  /* dark text on the lavender badge */
+    --kds-qr-avatar-border: rgba(168, 126, 198, 0.3);
+    --kds-qr-badge-text: var(--kds-color-primary-contrast);  /* white on the brand purple badge */
 
     /* Highlighted field — info-soft still resolves to a near-white band on
        dark, so mirror it as translucent info over the dark background. */

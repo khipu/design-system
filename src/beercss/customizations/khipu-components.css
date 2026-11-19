@@ -282,6 +282,14 @@ a.kds-btn-text:hover:not(:disabled) {
     color: var(--kds-color-primary-light);
 }
 
+/* Dark: the brand purple (primary-main) is a fill colour; as text on the dark surface it
+   is only 3.1:1. Outlined and text buttons use the lighter brand tone (primary-light,
+   5.8:1). The white/success outlined variants and disabled buttons keep their colours. */
+[data-theme="dark"] :is(button, a).kds-btn-outlined:not(.kds-btn-outlined-white, .kds-btn-outlined-success, :disabled),
+[data-theme="dark"] :is(button, a).kds-btn-text:not(:disabled) {
+    color: var(--kds-color-primary-light);
+}
+
 button.kds-btn-text:disabled,
 a.kds-btn-text:disabled {
     background: transparent;
