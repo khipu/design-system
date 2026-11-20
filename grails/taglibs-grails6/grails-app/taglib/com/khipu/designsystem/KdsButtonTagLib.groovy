@@ -6,14 +6,14 @@ class KdsButtonTagLib {
     def button = { attrs, body ->
         def type = attrs.remove('type') ?: 'primary'
         def size = attrs.remove('size')
-        def disabled = attrs.remove('disabled') == 'true'
+        def disabled = attrs.remove('disabled')?.toString() == 'true'
         def htmlType = attrs.remove('htmlType') ?: 'button'
         def href = attrs.remove('href')
         def cssClass = attrs.remove('cssClass')
 
         def classes = ['kds-btn', "kds-btn-${type}"]
         if (size) classes << "kds-btn-${size}"
-        if (cssClass) classes << cssClass
+        if (cssClass) classes << cssClass.toString().encodeAsHTML()
 
         def attrsString = attrs.collect { k, v -> "${k}=\"${v?.toString()?.encodeAsHTML()}\"" }.join(' ')
 

@@ -31,4 +31,32 @@ class KdsButtonTagLibSpec extends Specification implements TagLibUnitTest<KdsBut
         expect:
         applyTemplate('<kds:button type="primary" href="/start" disabled="true">Continuar</kds:button>').contains('aria-disabled="true"')
     }
+
+    void 'escapes href to prevent attribute/tag breakout'() {
+        given:
+        def payload = '"><script>alert(1)</script>'
+
+        expect:
+        def html = applyTemplate('<kds:button type="primary" href="${payload}">Pagar</kds:button>', [payload: payload])
+        !html.contains('<script>')
+        html.contains('href="&quot;&gt;')
+    }
+
+    void 'escapes passthrough attribute values'() {
+        given:
+        def payload = '"><script>alert(1)</script>'
+
+        expect:
+        def html = applyTemplate('<kds:button type="primary" data-note="${payload}">Pagar</kds:button>', [payload: payload])
+        !html.contains('<script>')
+        html.contains('data-note="&quot;&gt;')
+    }
+
+    void 'escapes cssClass'() {
+        given:
+        def payload = '"><script>alert(1)</script>'
+
+        expect:
+        !applyTemplate('<kds:button type="primary" cssClass="${payload}">Pagar</kds:button>', [payload: payload]).contains('<script>')
+    }
 }

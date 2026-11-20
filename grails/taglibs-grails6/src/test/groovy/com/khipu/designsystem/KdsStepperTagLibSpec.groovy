@@ -75,6 +75,15 @@ class KdsStepperTagLibSpec extends Specification implements TagLibUnitTest<KdsSt
         html.contains('<div class="kds-step-indicator">2</div>')
     }
 
+    void 'numbered accepts a real boolean, not just the string "true"'() {
+        given:
+        def steps = [[label: 'A']]
+
+        expect:
+        applyTemplate('<kds:stepper steps="${steps}" current="0" numbered="${numbered}"/>', [steps: steps, numbered: true])
+            .contains('kds-stepper--numbered')
+    }
+
     void 'color=primary adds the primary modifier'() {
         given:
         def steps = [[label: 'A']]
@@ -198,7 +207,7 @@ class KdsStepperTagLibSpec extends Specification implements TagLibUnitTest<KdsSt
         ]
     }
 
-    void 'escapes the label and href to prevent XSS'() {
+    void 'escapes the label to prevent XSS'() {
         given:
         def steps = [[label: '<script>alert(1)</script>', href: '/"><img src=x onerror=alert(1)>']]
 
@@ -206,7 +215,37 @@ class KdsStepperTagLibSpec extends Specification implements TagLibUnitTest<KdsSt
         def html = applyTemplate('<kds:stepper steps="${steps}" current="1"/>', [steps: steps])
 
         then:
+        // The malicious href is itself invalid URI syntax, so sameSiteHref rejects it and no
+        // link is rendered at all (covered by the non-same-site-href cases below) — this case
+        // only exercises label escaping. See 'escapes a valid href that needs escaping' for an
+        // href that actually reaches encodeAsHTML().
         !html.contains('<script>')
         !html.contains('<img ')
+    }
+
+    void 'escapes a valid href that needs escaping'() {
+        given:
+        def steps = [[label: 'Perfil', href: '?a=1&b=2']]
+
+        when:
+        def html = applyTemplate('<kds:stepper steps="${steps}" current="1"/>', [steps: steps])
+
+        then:
+        html.contains('href="?a=1&amp;b=2"')
+    }
+
+    void 'escapes cssClass'() {
+        given:
+        def steps = [[label: 'A']]
+        def payload = '"><script>alert(1)</script>'
+
+        when:
+        def html = applyTemplate(
+            '<kds:stepper steps="${steps}" current="0" cssClass="${payload}"/>',
+            [steps: steps, payload: payload]
+        )
+
+        then:
+        !html.contains('<script>')
     }
 }

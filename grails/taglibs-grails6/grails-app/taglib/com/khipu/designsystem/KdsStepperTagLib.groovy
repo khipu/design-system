@@ -12,9 +12,9 @@ class KdsStepperTagLib {
     def stepper = { attrs ->
         List steps = attrs.remove('steps') ?: []
         def current = attrs.remove('current')
-        boolean numbered = attrs.remove('numbered') == 'true'
+        boolean numbered = attrs.remove('numbered')?.toString() == 'true'
         boolean primary = attrs.remove('color') == 'primary'
-        boolean currentLabelOnly = attrs.remove('currentLabelOnly') == 'true'
+        boolean currentLabelOnly = attrs.remove('currentLabelOnly')?.toString() == 'true'
         Map statusLabels = DEFAULT_STATUS_LABELS + (Map) (attrs.remove('statusLabels') ?: [:])
         def cssClass = attrs.remove('cssClass')
 
@@ -22,7 +22,7 @@ class KdsStepperTagLib {
         if (numbered) classes << 'kds-stepper--numbered'
         if (primary) classes << 'kds-stepper--primary'
         if (currentLabelOnly) classes << 'kds-stepper--current-label'
-        if (cssClass) classes << cssClass
+        if (cssClass) classes << cssClass.toString().encodeAsHTML()
 
         out << "<div class=\"${classes.join(' ')}\">"
         steps.eachWithIndex { step, i ->
