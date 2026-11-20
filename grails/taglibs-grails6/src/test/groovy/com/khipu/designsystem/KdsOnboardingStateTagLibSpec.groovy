@@ -61,6 +61,17 @@ class KdsOnboardingStateTagLibSpec extends Specification implements TagLibUnitTe
         html.contains('href="/test/home"')
     }
 
+    void 'an explicit empty actions list drops the case actions entirely'() {
+        given:
+        def stateCase = OnboardingStateCase.RISK_PENDING
+
+        expect:
+        !applyTemplate(
+            '<kds:onboardingState case="${stateCase}" actions="${actions}"/>',
+            [stateCase: stateCase, actions: []]
+        ).contains('kds-btn-stack')
+    }
+
     void 'requires a case or an explicit status'() {
         when:
         applyTemplate('<kds:onboardingState title="Listo"/>')
