@@ -11,7 +11,22 @@ package com.khipu.designsystem
  *     to resolve `onboarding.state.<key>.title`/`.description` instead) and `actions` as
  *     explicit attrs — for a state screen that isn't one of the known cases.
  * Any explicit attr overrides what the `case` would have provided, so a known case can
- * also be used as a starting point and adjusted (e.g. a one-off extra action).
+ * also be used as a starting point and adjusted (e.g. a one-off extra action). Pass an
+ * explicit `actions="${[]}"` to drop a case's actions entirely.
+ *
+ * Consumer contract (not enforced by this taglib — fails silently if unmet):
+ *   - `createLink(action: ...)` is called with no `controller:`, so it resolves against
+ *     whatever controller renders the GSP this tag is used from. That controller needs
+ *     an action per `gspAction` used by whichever case(s) are rendered. For the 8 cases
+ *     this taglib covers, across all of them: `drafts`, `start`, `identity`, `support`,
+ *     `account`.
+ *   - Message codes must exist in the consuming app's i18n bundle: `onboarding.state.<key>
+ *     .title` / `.description` for every `OnboardingStateCase.key` used (riskPending,
+ *     riskByEmail, draftGone, flowUnavailable, identifierRestricted, signerIncomplete,
+ *     merchantBlocked, collectPending), plus each action's own `i18n` code (see each case's
+ *     `actions` in `OnboardingStateCase`). A missing code is NOT an error: Grails' default
+ *     `message()` behavior prints the code itself in the page (e.g. literally
+ *     "onboarding.state.riskPending.title"), so a missing translation ships silently.
  */
 class KdsOnboardingStateTagLib {
     static namespace = 'kds'
@@ -21,7 +36,7 @@ class KdsOnboardingStateTagLib {
         String key = attrs.remove('key') ?: stateCase?.key
         String status = attrs.remove('status') ?: stateCase?.status
         String icon = attrs.remove('icon') ?: stateCase?.icon
-        List<Map> actions = attrs.remove('actions') ?: stateCase?.actions ?: []
+        List<Map> actions = attrs.containsKey('actions') ? attrs.remove('actions') : (stateCase?.actions ?: [])
         String title = attrs.remove('title') ?: (key ? message(code: "onboarding.state.${key}.title") : null)
         String description = attrs.remove('description') ?:
             (key ? message(code: "onboarding.state.${key}.description", default: '') : null)
