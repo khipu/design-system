@@ -129,10 +129,13 @@ const MY_DRAFTS: Action = {
   i18n: 'onboarding.drafts.view',
 };
 
-/** Evaluación de riesgo en curso, con la persona en pantalla (la página se refresca sola). */
+/**
+ * Evaluación de riesgo en curso, con la persona en pantalla (la página se refresca sola).
+ * Ícono fijo de espera (`info`), no el spinner de `pending`.
+ */
 export const EsperandoEvaluacion = stateStory('1 · Esperando la evaluación de riesgo', {
   key: 'riskPending',
-  status: 'pending',
+  status: 'info',
   icon: 'hourglass_top',
   title: 'Estamos revisando la información de tu empresa',
   description:
@@ -225,8 +228,8 @@ export const NoHabilitado = stateStory('7 · Comercio no habilitado', {
  */
 export const CobroPendiente = stateStory('8 · Cobro pendiente de habilitación (fuera de Chile)', {
   key: 'collectPending',
-  status: 'pending',
-  icon: 'schedule',
+  status: 'info',
+  icon: 'pending_actions',
   title: 'Tu cuenta está creada',
   description:
     'Antes de que puedas cobrar, nuestro equipo de Operaciones revisará la cuenta. Te avisaremos por correo cuando esté habilitada.',
