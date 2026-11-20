@@ -171,8 +171,8 @@ export const AltaNoExiste = stateStory('3 · Alta vencida o cancelada', {
 /** El producto o el flujo dejó de estar disponible para nuevas altas. */
 export const NoDisponible = stateStory('4 · Producto o flujo no disponible', {
   key: 'flowUnavailable',
-  status: 'info',
-  icon: 'block',
+  status: 'warn',
+  icon: 'remove_shopping_cart',
   title: 'Este producto no está disponible por ahora',
   description:
     'No podemos continuar esta alta con el producto que elegiste. Revisa los otros productos disponibles para tu país.',
