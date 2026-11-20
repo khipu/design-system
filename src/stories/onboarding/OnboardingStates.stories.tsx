@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   KdsAlert,
@@ -6,6 +6,7 @@ import {
   KdsEmptyState,
   KdsSectionNote,
   KdsStatusBlock,
+  KdsStepper,
   KdsTypography,
   type KdsStatusType,
 } from '../../components/core';
@@ -236,83 +237,126 @@ export const CobroPendiente = stateStory('8 · Cobro pendiente de habilitación 
   actions: [{ label: 'Ir a mi cuenta', gspAction: 'account', i18n: 'onboarding.account.go' }],
 });
 
+const RESUMED_STEPS = [
+  'Perfil del comercio',
+  'Verificación de identidad',
+  'Información comercial',
+  'Selección de plan',
+  'Firma de contrato',
+];
+
 /**
- * El orden de los pasos cambió (CAM-06): aviso persistente (sin cerrar) con `KdsAlert`, arriba
- * de la pantalla en la que se retoma el alta.
+ * Card of a resumed flow screen, same markup as the flow cards of "On boarding/Flujo completo":
+ * title, optional notice, stepper and subtitle, spaced only by the card's gap.
  */
-export const OrdenCambio: Story = {
-  name: '9 · El orden de los pasos cambió (aviso)',
-  parameters: source(`<div class="kds-alert kds-info" role="status">
+function ResumedScreen({
+  notice,
+  step,
+  subtitle,
+  children,
+}: {
+  notice: React.ReactNode;
+  step: number;
+  subtitle: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="kds-card-elevated kds-flex kds-flex-col kds-gap-2">
+      <KdsTypography variant="heading2" as="h1" className="kds-m-0">
+        Creación de la cuenta de cobro
+      </KdsTypography>
+      {notice}
+      <KdsStepper steps={RESUMED_STEPS} current={step} numbered color="primary" currentLabelOnly />
+      <KdsTypography variant="body-large" as="h2" className="kds-m-0 kds-color-primary kds-fw-medium">
+        {subtitle}
+      </KdsTypography>
+      {children}
+    </div>
+  );
+}
+
+/** One-paragraph notice: the lead in bold inside the description (no separate title). */
+const noticeCode = (severity: 'info' | 'warning', icon: string, lead: string, text: string, key: string) => `<div class="kds-alert kds-${severity}" role="status">
   <div class="kds-alert-icon">
-    <i class="material-symbols-outlined">info</i>
+    <i class="material-symbols-outlined">${icon}</i>
   </div>
   <div class="kds-alert-content">
-    <p class="kds-alert-title">Actualizamos los pasos del alta</p>
-    <p class="kds-alert-description">
-      Guardamos lo que ya completaste. Te llevamos al primer paso que falta.
-    </p>
+    <p class="kds-alert-description"><strong>${lead}</strong> ${text}</p>
   </div>
 </div>
 
-<!-- GSP: se muestra mientras el flujo del borrador tenga cambios sin ver -->
-<g:if test="\${draft.flowChanged}">
-  <div class="kds-alert kds-info" role="status">
-    <div class="kds-alert-icon">
-      <i class="material-symbols-outlined">info</i>
-    </div>
-    <div class="kds-alert-content">
-      <p class="kds-alert-title"><g:message code="onboarding.state.flowChanged.title"/></p>
-      <p class="kds-alert-description"><g:message code="onboarding.state.flowChanged.description"/></p>
-    </div>
+<!-- GSP -->
+<div class="kds-alert kds-${severity}" role="status">
+  <div class="kds-alert-icon">
+    <i class="material-symbols-outlined">${icon}</i>
   </div>
-</g:if>`),
+  <div class="kds-alert-content">
+    <p class="kds-alert-description">
+      <strong><g:message code="onboarding.state.${key}.title"/></strong>
+      <g:message code="onboarding.state.${key}.description"/>
+    </p>
+  </div>
+</div>`;
+
+/**
+ * El orden de los pasos cambió (CAM-06): aviso persistente (sin cerrar) con `KdsAlert`, arriba
+ * del stepper de la pantalla en la que se retoma el alta. En GSP va dentro de
+ * `<g:if test="\${draft.flowChanged}">`.
+ */
+export const OrdenCambio: Story = {
+  name: '9 · El orden de los pasos cambió (aviso)',
+  parameters: source(
+    noticeCode(
+      'info',
+      'info',
+      'Actualizamos los pasos del alta.',
+      'Guardamos lo que ya completaste y te llevamos al primer paso que falta.',
+      'flowChanged',
+    ),
+  ),
   render: () => (
-    <div className="kds-flex kds-flex-col kds-gap-2">
-      <KdsAlert severity="info" title="Actualizamos los pasos del alta" role="status">
-        Guardamos lo que ya completaste. Te llevamos al primer paso que falta.
-      </KdsAlert>
-      <KdsTypography variant="heading3">Información comercial</KdsTypography>
-      <KdsTypography variant="body" color="secondary">
-        (Aquí sigue la pantalla pendiente del flujo.)
-      </KdsTypography>
-    </div>
+    <ResumedScreen
+      step={2}
+      subtitle="Completa los datos de contacto de tu empresa"
+      notice={
+        <KdsAlert severity="info" role="status">
+          <KdsTypography variant="strong">Actualizamos los pasos del alta.</KdsTypography> Guardamos lo
+          que ya completaste y te llevamos al primer paso que falta.
+        </KdsAlert>
+      }
+    />
   ),
 };
 
 /**
  * Contrato actualizado (CA-13): el contrato cambió después de que se aceptó y hay que
- * aceptarlo de nuevo. `KdsAlert` + `KdsContract`; la firma se habilita al aceptar.
+ * aceptarlo de nuevo. `KdsAlert` + `KdsContract` (mismo markup que "On boarding/Componentes →
+ * 8 · Firma de contrato"); la firma se habilita al aceptar.
  */
 export const ContratoActualizado: Story = {
   name: '10 · Contrato actualizado: aceptar de nuevo',
-  parameters: source(`<div class="kds-alert kds-warning" role="status">
-  <div class="kds-alert-icon">
-    <i class="material-symbols-outlined">warning</i>
-  </div>
-  <div class="kds-alert-content">
-    <p class="kds-alert-title">Actualizamos el contrato</p>
-    <p class="kds-alert-description">Léelo y acéptalo de nuevo para terminar tu alta.</p>
-  </div>
-</div>
-<!-- Luego, el contrato vigente con el mismo markup de "On boarding/Componentes → 8 · Firma de contrato" -->
-
-<!-- GSP -->
-<div class="kds-alert kds-warning" role="status">
-  <div class="kds-alert-icon">
-    <i class="material-symbols-outlined">warning</i>
-  </div>
-  <div class="kds-alert-content">
-    <p class="kds-alert-title"><g:message code="onboarding.state.contractUpdated.title"/></p>
-    <p class="kds-alert-description"><g:message code="onboarding.state.contractUpdated.description"/></p>
-  </div>
-</div>`),
+  parameters: source(
+    noticeCode(
+      'warning',
+      'warning',
+      'Actualizamos el contrato.',
+      'Léelo y acéptalo de nuevo para terminar tu alta.',
+      'contractUpdated',
+    ),
+  ),
   render: function ContractUpdatedStory() {
     const [accepted, setAccepted] = useState(false);
     return (
-      <div className="kds-flex kds-flex-col kds-gap-2">
-        <KdsAlert severity="warning" title="Actualizamos el contrato" role="status">
-          Léelo y acéptalo de nuevo para terminar tu alta.
-        </KdsAlert>
+      <ResumedScreen
+        step={4}
+        subtitle="Revisa y firma tu contrato"
+        notice={
+          <KdsAlert severity="warning" role="status">
+            <KdsTypography variant="strong">Actualizamos el contrato.</KdsTypography> Léelo y acéptalo
+            de nuevo para terminar tu alta.
+          </KdsAlert>
+        }
+      >
         <KdsContract name="acepta" accepted={accepted} onAcceptedChange={setAccepted}>
           <p>
             <strong>MANDATO PARA PERCIBIR EL PAGO</strong>
@@ -332,7 +376,7 @@ export const ContratoActualizado: Story = {
         <KdsButton fullWidth disabled={!accepted}>
           Aceptar y firmar
         </KdsButton>
-      </div>
+      </ResumedScreen>
     );
   },
 };
