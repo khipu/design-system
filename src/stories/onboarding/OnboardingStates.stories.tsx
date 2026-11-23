@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import {
   KdsAlert,
   KdsButton,
-  KdsEmptyState,
   KdsSectionNote,
   KdsStatusBlock,
   KdsStepper,
@@ -21,7 +20,7 @@ import { KdsBankList, KdsBankRow, KdsBottomSheet, KdsContract } from '../../comp
  * confirmación.
  *
  * Todo se arma con componentes existentes (`KdsStatusBlock`, `KdsAlert`, `KdsBankRow`,
- * `KdsEmptyState`, `KdsBottomSheet`, `KdsContract`): no hay componentes nuevos. Las vistas del
+ * `KdsBottomSheet`, `KdsContract`): no hay componentes nuevos. Las vistas del
  * backend son GSP en payment, así que cada historia trae su código HTML + GSP. Las claves i18n
  * son propuestas (`onboarding.state.*`): todavía no existen en payment.
  */
@@ -483,47 +482,21 @@ export const AltasEnCurso: Story = {
   ),
 };
 
-/** Sin altas en curso: `KdsEmptyState` y el camino para empezar una. */
-export const SinAltasEnCurso: Story = {
-  name: '12 · Sin altas en curso',
-  parameters: source(`<div class="kds-empty-state" role="status">
-  <i class="material-symbols-outlined" aria-hidden="true">inbox</i>
-  <div class="kds-empty-state-text">
-    <p class="kds-text-body">No tienes altas en curso</p>
-    <p class="kds-text-body kds-text-secondary">Las que empieces quedarán guardadas aquí por 90 días.</p>
-  </div>
-</div>
-<div class="kds-btn-stack">
-  <a href="/onboarding/start" class="kds-btn kds-btn-primary kds-btn-block"><span class="kds-btn-label">Empezar una alta</span></a>
-  <a href="/onboarding/support" class="kds-btn kds-btn-text kds-btn-block"><span class="kds-btn-label">Mi caso no está en el listado</span></a>
-</div>
-
-<!-- GSP -->
-<g:if test="\${!drafts}">
-  <div class="kds-empty-state" role="status">
-    <i class="material-symbols-outlined" aria-hidden="true">inbox</i>
-    <div class="kds-empty-state-text">
-      <p class="kds-text-body"><g:message code="onboarding.drafts.empty.title"/></p>
-      <p class="kds-text-body kds-text-secondary"><g:message code="onboarding.drafts.empty.description"/></p>
-    </div>
-  </div>
-</g:if>`),
-  render: () => (
-    <div>
-      <KdsEmptyState
-        icon="inbox"
-        title="No tienes altas en curso"
-        description="Las que empieces quedarán guardadas aquí por 90 días."
-      />
-      <div className="kds-btn-stack">
-        <KdsButton fullWidth>Empezar una alta</KdsButton>
-        <KdsButton variant="text" fullWidth>
-          Mi caso no está en el listado
-        </KdsButton>
-      </div>
-    </div>
-  ),
-};
+/**
+ * Sin altas en curso: misma pantalla de estado que el resto (`KdsStatusBlock` + acciones), con
+ * el camino para empezar una y el de soporte si su caso no aparece.
+ */
+export const SinAltasEnCurso = stateStory('12 · Sin altas en curso', {
+  key: 'draftsEmpty',
+  status: 'info',
+  icon: 'inbox',
+  title: 'No tienes altas en curso',
+  description: 'Las que empieces quedarán guardadas aquí por 90 días.',
+  actions: [
+    { label: 'Empezar una alta', gspAction: 'start', i18n: 'onboarding.draft.new' },
+    { label: 'Mi caso no está en el listado', variant: 'text', gspAction: 'support', i18n: 'onboarding.drafts.notListed' },
+  ],
+});
 
 /**
  * "Cancelar esta alta" (NAV-17, VEN-09): siempre visible en el flujo y con confirmación.
