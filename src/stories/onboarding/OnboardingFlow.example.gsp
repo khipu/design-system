@@ -523,7 +523,11 @@
      ===================================================================================== --%>
 <div class="kds-card-elevated kds-max-w-md kds-flex kds-flex-col kds-gap-2">
   <g:if test="${timedOut}">
-    <%-- Sin respuesta: el alta queda guardada y se avisa por correo cuando se pueda firmar --%>
+    <%-- Sin respuesta: el alta queda guardada y se avisa por correo cuando se pueda firmar.
+         Markup a mano mientras kds:onboardingState no acepte descriptionArgs (llega con el
+         PR #14, aún sin mergear). Con #14 en main, este bloque pasa a:
+         <kds:onboardingState case="${com.khipu.designsystem.OnboardingStateCase.RISK_BY_EMAIL}"
+                              descriptionArgs="${[contactEmail]}"/> --%>
     <g:render template="/merchant/onboardingHeader" model="[
         title: message(code: 'merchant.onboarding.legal.title'),
         steps: CONFIG_STEPS, current: 3]"/>
@@ -643,9 +647,13 @@
           } else setTimeout(poll, 1200);
         })
         // An expired session answers with the login page (not JSON) and lands here too.
+        // After the last retry the button becomes "Reintentar": a reload only when the user
+        // asks for it (no loop), and the screen does not go silent.
         .catch(function () {
           failures += 1;
           if (failures < MAX_FAILURES) setTimeout(poll, 1200 * Math.pow(2, failures));
+          else enable('${message(code: 'merchant.onboarding.riskEvaluation.retry').encodeAsJavaScript()}',
+                      window.location.href);
         });
     })();
   })();
@@ -664,7 +672,9 @@
       steps: CONFIG_STEPS, current: 4]"/>
   <%-- Riesgo rojo: el tope se informa antes de firmar, no solo en el éxito --%>
   <g:if test="${riskCap}">
-    <mat:alert type="warning" description="${message(code: 'merchant.onboarding.contract.riskCap', args: [kh.formatAmount(amount: riskCap, currency: merchant.currency)])}"/>
+    <%-- mat:alert imprime la descripción sin escapar y message() marca su resultado como
+         seguro: el argumento se escapa ANTES de entrar al mensaje, no después. --%>
+    <mat:alert type="warning" description="${message(code: 'merchant.onboarding.contract.riskCap', args: [kh.formatAmount(amount: riskCap, currency: merchant.currency).toString().encodeAsHTML()])}"/>
   </g:if>
   <g:else>
     <mat:alert type="success" descriptionCode="merchant.onboarding.contract.validated"/>
