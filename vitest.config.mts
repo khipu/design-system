@@ -26,6 +26,22 @@ export default defineConfig({
           // See: https://storybook.js.org/docs/writing-tests/integrations/vitest-addon
           storybookTest({ configDir: path.join(dirname, '.storybook') }),
         ],
+        // Pre-bundle these so Vite doesn't discover-then-reload mid-run: on a cold
+        // cache (every CI job) that reload kills the browser session outright
+        // ("Vite unexpectedly reloaded a test" / "Browser connection was closed").
+        optimizeDeps: {
+          include: [
+            'react',
+            'react-dom',
+            'react-dom/client',
+            'react/jsx-dev-runtime',
+            'react/jsx-runtime',
+            'clsx',
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-select',
+            '@radix-ui/react-tooltip',
+          ],
+        },
         test: {
           name: 'storybook',
           browser: {
