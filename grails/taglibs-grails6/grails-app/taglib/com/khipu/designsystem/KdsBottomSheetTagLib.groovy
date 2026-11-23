@@ -9,9 +9,25 @@ package com.khipu.designsystem
  * page needs `data-open-sheet="<id>"`; a close button inside needs
  * `data-close-sheet`.
  *
- * The body (optional extra content + the actions row) is written directly
- * by the caller — same as `kds:button`'s body, it is NOT escaped, since it
- * carries markup (e.g. `kds:button`/`g:form` calls for the actions).
+ * `khipu-components.css` targets `.kds-bottom-sheet-body` and
+ * `.kds-bottom-sheet-actions` as direct children of `.kds-bottom-sheet`
+ * (centering the progress checklist, the button reset, the row-reverse on
+ * desktop) — they must be siblings, never one nested inside the other. So
+ * this taglib's own body is NOT auto-wrapped in either class (that would
+ * force actions inside body, or vice-versa); instead, nest `kds:bottomSheetBody`
+ * (optional — only the two dialogs that have extra content before the
+ * actions use it) and `kds:bottomSheetActions` as siblings inside
+ * `kds:bottomSheet`, each wrapping itself in the right class:
+ *
+ *   <kds:bottomSheet id="..." title="...">
+ *     <kds:bottomSheetBody>...</kds:bottomSheetBody>   (optional)
+ *     <kds:bottomSheetActions>
+ *       <kds:button .../>
+ *     </kds:bottomSheetActions>
+ *   </kds:bottomSheet>
+ *
+ * Every body is written directly by the caller and NOT escaped — same as
+ * `kds:button`'s body — since it carries markup (`kds:button`/`g:form` calls).
  */
 class KdsBottomSheetTagLib {
     static namespace = 'kds'
@@ -35,6 +51,18 @@ class KdsBottomSheetTagLib {
         if (description) out << "<p class=\"kds-bottom-sheet-description\">${description.toString().encodeAsHTML()}</p>"
         out << body()
         out << '</div>'
+        out << '</div>'
+    }
+
+    def bottomSheetBody = { attrs, body ->
+        out << '<div class="kds-bottom-sheet-body">'
+        out << body()
+        out << '</div>'
+    }
+
+    def bottomSheetActions = { attrs, body ->
+        out << '<div class="kds-bottom-sheet-actions">'
+        out << body()
         out << '</div>'
     }
 }

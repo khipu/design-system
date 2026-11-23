@@ -5,6 +5,8 @@ class KdsSectionNoteTagLib {
 
     def sectionNote = { attrs, body ->
         String icon = (attrs.remove('icon') ?: 'info').toString()
+        // tone (-> kds-<tone>, e.g. "neutral") doesn't exist on the React KdsSectionNote -
+        // taglib-only addition, same as kds:alert's `lead`.
         String tone = attrs.remove('tone')
         String textCode = attrs.remove('textCode')
         def cssClass = attrs.remove('cssClass')

@@ -30,13 +30,18 @@ class KdsAlertTagLib {
         boolean closable = attrs.remove('closable')?.toString() == 'true'
         def cssClass = attrs.remove('cssClass')
 
+        // icon: String custom icon | boolean `false`/"false" hides it | boolean `true`/"true"
+        // (or omitted) falls back to the severity default - matching KdsAlert.tsx's
+        // `icon?: string | boolean`, where a literal `true` means "use the default", not
+        // the literal text "true".
         String icon
-        if (iconAttr?.toString() == 'false') {
+        String iconStr = iconAttr?.toString()
+        if (iconAttr == false || iconStr == 'false') {
             icon = null
-        } else if (iconAttr) {
-            icon = iconAttr.toString()
-        } else {
+        } else if (iconAttr == null || iconAttr == true || iconStr == 'true') {
             icon = DEFAULT_ICONS[severity]
+        } else {
+            icon = iconStr
         }
 
         String text = textCode ? message(code: textCode, default: textCode.encodeAsHTML()) : body()?.toString()

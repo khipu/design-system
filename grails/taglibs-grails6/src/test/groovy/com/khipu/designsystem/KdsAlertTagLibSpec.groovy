@@ -37,6 +37,12 @@ class KdsAlertTagLibSpec extends Specification implements TagLibUnitTest<KdsAler
             .contains('<i class="material-symbols-outlined">custom_icon</i>')
     }
 
+    void 'icon="${true}" (a real boolean, not the string) falls back to the severity default'() {
+        expect:
+        applyTemplate('<kds:alert severity="warning" icon="${iconValue}">Texto</kds:alert>', [iconValue: true])
+            .contains('<i class="material-symbols-outlined">warning</i>')
+    }
+
     void 'icon="false" hides the icon entirely'() {
         expect:
         !applyTemplate('<kds:alert severity="info" icon="false">Texto</kds:alert>').contains('kds-alert-icon')

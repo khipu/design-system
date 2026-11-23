@@ -51,4 +51,21 @@ class KdsBottomSheetTagLibSpec extends Specification implements TagLibUnitTest<K
             [payload: payload]
         ).contains('<script>')
     }
+
+    void 'bottomSheetBody and bottomSheetActions render as siblings, body before actions'() {
+        expect:
+        def html = applyTemplate('<kds:bottomSheet id="rectify-sheet" title="T"><kds:bottomSheetBody><ul><li>Paso</li></ul></kds:bottomSheetBody><kds:bottomSheetActions><button type="submit">Confirmar</button></kds:bottomSheetActions></kds:bottomSheet>')
+        html.contains('<div class="kds-bottom-sheet-body"><ul><li>Paso</li></ul></div>')
+        html.contains('<div class="kds-bottom-sheet-actions"><button type="submit">Confirmar</button></div>')
+        !html.contains('kds-bottom-sheet-actions"><div class="kds-bottom-sheet-body"')
+        !html.contains('kds-bottom-sheet-body"><div class="kds-bottom-sheet-actions"')
+        html.indexOf('kds-bottom-sheet-body') < html.indexOf('kds-bottom-sheet-actions')
+    }
+
+    void 'bottomSheetActions alone (no body) matches the cancel-dialog shape'() {
+        expect:
+        def html = applyTemplate('<kds:bottomSheet id="cancel-draft-sheet" title="T"><kds:bottomSheetActions><button>Confirmar</button></kds:bottomSheetActions></kds:bottomSheet>')
+        !html.contains('kds-bottom-sheet-body')
+        html.contains('<div class="kds-bottom-sheet-actions">')
+    }
 }

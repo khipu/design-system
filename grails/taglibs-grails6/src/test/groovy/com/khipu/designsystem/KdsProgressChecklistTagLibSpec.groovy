@@ -35,7 +35,22 @@ class KdsProgressChecklistTagLibSpec extends Specification implements TagLibUnit
 
         then:
         (html =~ /aria-current="step"/).findAll().size() == 1
-        html.contains('kds-progress-checklist-item--active" aria-current="step"')
+        html.contains('data-step="b" aria-current="step"')
+    }
+
+    void 'each li carries its key as data-step, escaped'() {
+        given:
+        def payload = '"><script>alert(1)</script>'
+        def steps = [
+            [key: 'identity', label: 'A', status: 'done'],
+            [key: payload, label: 'B', status: 'active'],
+        ]
+
+        expect:
+        def html = applyTemplate('<kds:progressChecklist steps="${steps}"/>', [steps: steps])
+        html.contains('data-step="identity"')
+        !html.contains('<script>')
+        html.contains('data-step="&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;"')
     }
 
     void 'an unknown status does not break rendering'() {

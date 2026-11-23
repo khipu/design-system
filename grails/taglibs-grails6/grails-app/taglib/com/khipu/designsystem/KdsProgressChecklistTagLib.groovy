@@ -31,8 +31,11 @@ class KdsProgressChecklistTagLib {
         String statusText = message(code: "validation.status.${status}", default: status.encodeAsHTML())
         String ariaCurrent = status == 'active' ? ' aria-current="step"' : ''
 
+        String key = step.key?.toString() ?: ''
+
         def sb = new StringBuilder()
-        sb << "<li class=\"kds-progress-checklist-item kds-progress-checklist-item--${status.encodeAsHTML()}\"${ariaCurrent}>"
+        sb << "<li class=\"kds-progress-checklist-item kds-progress-checklist-item--${status.encodeAsHTML()}\""
+        sb << " data-step=\"${key.encodeAsHTML()}\"${ariaCurrent}>"
         sb << '<span class="kds-progress-checklist-mark" aria-hidden="true">'
         switch (status) {
             case 'done':
