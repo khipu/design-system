@@ -17,14 +17,14 @@ package com.khipu.designsystem
  * Consumer contract (not enforced by this taglib — fails silently if unmet):
  *   - `createLink(action: ...)` is called with no `controller:`, so it resolves against
  *     whatever controller renders the GSP this tag is used from. That controller needs
- *     an action per `gspAction` used by whichever case(s) are rendered. For the 8 cases
+ *     an action per `gspAction` used by whichever case(s) are rendered. For the 9 cases
  *     this taglib covers, across all of them: `drafts`, `start`, `identity`, `support`,
  *     `account`.
  *   - Message codes must exist in the consuming app's i18n bundle: `onboarding.state.<key>
  *     .title` / `.description` for every `OnboardingStateCase.key` used (riskPending,
  *     riskByEmail, draftGone, flowUnavailable, identifierRestricted, signerIncomplete,
- *     merchantBlocked, collectPending), plus each action's own `i18n` code (see each case's
- *     `actions` in `OnboardingStateCase`). A missing code is NOT an error: Grails' default
+ *     merchantBlocked, collectPending, draftsEmpty), plus each action's own `i18n` code (see
+ *     each case's `actions` in `OnboardingStateCase`). A missing code is NOT an error: Grails' default
  *     `message()` behavior prints the code itself in the page (e.g. literally
  *     "onboarding.state.riskPending.title"), so a missing translation ships silently.
  */
@@ -37,9 +37,10 @@ class KdsOnboardingStateTagLib {
         String status = attrs.remove('status') ?: stateCase?.status
         String icon = attrs.remove('icon') ?: stateCase?.icon
         List<Map> actions = attrs.containsKey('actions') ? attrs.remove('actions') : (stateCase?.actions ?: [])
+        List descriptionArgs = (attrs.remove('descriptionArgs') ?: []).collect { it?.toString()?.encodeAsHTML() }
         String title = attrs.remove('title') ?: (key ? message(code: "onboarding.state.${key}.title") : null)
         String description = attrs.remove('description') ?:
-            (key ? message(code: "onboarding.state.${key}.description", default: '') : null)
+            (key ? message(code: "onboarding.state.${key}.description", args: descriptionArgs, default: '') : null)
         def cssClass = attrs.remove('cssClass')
 
         if (!status) {

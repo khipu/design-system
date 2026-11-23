@@ -19,12 +19,14 @@ class KdsButtonTagLib {
 
         if (href) {
             out << "<a href=\"${href.toString().encodeAsHTML()}\" class=\"${classes.join(' ')}\"${disabled ? ' aria-disabled="true"' : ''} ${attrsString}>"
+            out << '<span class="kds-btn-label">'
             out << body()
-            out << '</a>'
+            out << '</span></a>'
         } else {
             out << "<button type=\"${htmlType}\" class=\"${classes.join(' ')}\"${disabled ? ' disabled' : ''} ${attrsString}>"
+            out << '<span class="kds-btn-label">'
             out << body()
-            out << '</button>'
+            out << '</span></button>'
         }
     }
 }

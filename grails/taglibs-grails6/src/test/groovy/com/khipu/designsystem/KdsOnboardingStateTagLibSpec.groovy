@@ -61,6 +61,34 @@ class KdsOnboardingStateTagLibSpec extends Specification implements TagLibUnitTe
         html.contains('href="/test/home"')
     }
 
+    void 'DRAFTS_EMPTY renders its text-variant action as kds-btn-text'() {
+        given:
+        def stateCase = OnboardingStateCase.DRAFTS_EMPTY
+
+        expect:
+        def html = applyTemplate('<kds:onboardingState case="${stateCase}"/>', [stateCase: stateCase])
+        html.contains('data-status="info"')
+        html.contains('inbox')
+        html.contains('href="/test/start"')
+        html.contains('href="/test/support"')
+        html.contains('kds-btn kds-btn-text kds-btn-block')
+    }
+
+    void 'descriptionArgs are passed to the message and escaped'() {
+        given:
+        messageSource.addMessage('onboarding.state.riskByEmail.description', Locale.ENGLISH, 'Te avisaremos a {0}')
+        def payload = '<script>alert(1)</script>'
+
+        expect:
+        def html = applyTemplate(
+            '<kds:onboardingState status="info" title="Aviso" key="riskByEmail" descriptionArgs="${args}"/>',
+            [args: [payload]]
+        )
+        html.contains('Te avisaremos a')
+        html.contains('&lt;script&gt;')
+        !html.contains('<script>')
+    }
+
     void 'an explicit empty actions list drops the case actions entirely'() {
         given:
         def stateCase = OnboardingStateCase.RISK_PENDING
