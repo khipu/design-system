@@ -128,3 +128,125 @@ describe('khipu-init.js initContract (read-to-accept contract)', () => {
     expect(onRead).toHaveBeenCalledTimes(1);
   });
 });
+
+type SheetApi = {
+  initSheets: (root?: ParentNode) => void;
+  openSheet: (id: string, opener?: HTMLElement) => void;
+  closeSheet: (id: string) => void;
+};
+
+function mountSheet(dismissible = true) {
+  document.body.innerHTML = `
+    <button type="button" id="opener" data-open-sheet="confirm-sheet">Cancelar esta alta</button>
+    <div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="confirm-sheet" hidden
+         ${dismissible ? '' : 'data-sheet-dismissible="false"'}>
+      <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="t">
+        <h2 class="kds-bottom-sheet-title" id="t">¿Cancelar esta alta?</h2>
+        <div class="kds-bottom-sheet-actions">
+          <button type="submit" id="confirm">Sí, cancelar alta</button>
+          <button type="button" id="back" data-close-sheet>Volver</button>
+        </div>
+      </div>
+    </div>`;
+  const get = (id: string) => document.getElementById(id) as HTMLElement;
+  return { opener: get('opener'), scrim: get('confirm-sheet'), confirm: get('confirm'), back: get('back') };
+}
+
+const key = (target: HTMLElement, k: string, shiftKey = false) =>
+  target.dispatchEvent(new KeyboardEvent('keydown', { key: k, shiftKey, bubbles: true, cancelable: true }));
+
+describe('khipu-init.js initSheets (server-rendered bottom sheets)', () => {
+  const api = () => (window as unknown as { Khipu: SheetApi }).Khipu;
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('opens from data-open-sheet, focuses the first action and fires kds:sheet-open', () => {
+    const { opener, scrim, confirm } = mountSheet();
+    const onOpen = vi.fn();
+    scrim.addEventListener('kds:sheet-open', onOpen);
+    api().initSheets();
+    opener.click();
+    expect(scrim.hidden).toBe(false);
+    expect(document.activeElement).toBe(confirm);
+    expect(onOpen).toHaveBeenCalledTimes(1);
+  });
+
+  it('closes with data-close-sheet and returns the focus to the opener', () => {
+    const { opener, scrim, back } = mountSheet();
+    const onClose = vi.fn();
+    scrim.addEventListener('kds:sheet-close', onClose);
+    api().initSheets();
+    opener.click();
+    back.click();
+    expect(scrim.hidden).toBe(true);
+    expect(document.activeElement).toBe(opener);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('closes with Escape and with a click on the scrim', () => {
+    const { opener, scrim, confirm } = mountSheet();
+    api().initSheets();
+    opener.click();
+    key(confirm, 'Escape');
+    expect(scrim.hidden).toBe(true);
+    opener.click();
+    scrim.click();
+    expect(scrim.hidden).toBe(true);
+  });
+
+  it('ignores Escape and the scrim when data-sheet-dismissible="false"', () => {
+    const { opener, scrim, confirm, back } = mountSheet(false);
+    api().initSheets();
+    opener.click();
+    key(confirm, 'Escape');
+    scrim.click();
+    expect(scrim.hidden).toBe(false);
+    back.click();
+    expect(scrim.hidden).toBe(true);
+  });
+
+  it('keeps Tab inside the sheet', () => {
+    const { opener, confirm, back } = mountSheet();
+    api().initSheets();
+    opener.click();
+    back.focus();
+    key(back, 'Tab');
+    expect(document.activeElement).toBe(confirm);
+    key(confirm, 'Tab', true);
+    expect(document.activeElement).toBe(back);
+  });
+
+  it('initialises once and ignores openers pointing to a missing sheet', () => {
+    const { opener, scrim } = mountSheet();
+    const onOpen = vi.fn();
+    scrim.addEventListener('kds:sheet-open', onOpen);
+    api().initSheets();
+    api().initSheets();
+    opener.click();
+    expect(onOpen).toHaveBeenCalledTimes(1);
+
+    const stray = document.createElement('button');
+    stray.setAttribute('data-open-sheet', 'nope');
+    document.body.appendChild(stray);
+    api().initSheets();
+    expect(() => stray.click()).not.toThrow();
+  });
+
+  it('only opens bottom sheets: the id of another element is ignored', () => {
+    const { opener } = mountSheet();
+    opener.setAttribute('data-open-sheet', 'opener');
+    api().initSheets();
+    expect(() => opener.click()).not.toThrow();
+    expect(opener.hidden).toBe(false);
+  });
+
+  it('exposes openSheet / closeSheet', () => {
+    const { scrim } = mountSheet();
+    api().openSheet('confirm-sheet');
+    expect(scrim.hidden).toBe(false);
+    api().closeSheet('confirm-sheet');
+    expect(scrim.hidden).toBe(true);
+  });
+});

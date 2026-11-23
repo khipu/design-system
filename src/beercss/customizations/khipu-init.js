@@ -63,6 +63,7 @@
         initBankModal();
         initMerchantLogoBackdrop();
         initContract();
+        initSheets();
 
         console.log('Material Design initialization complete!');
     }
@@ -124,6 +125,97 @@
                 new ResizeObserver(check).observe(content);
             }
             check();
+        });
+    }
+
+    /**
+     * Server-rendered bottom sheets / dialogs (KTUF-498).
+     * A sheet is a `.kds-bottom-sheet-scrim[id]` rendered with `hidden`. Any element with
+     * `data-open-sheet="<id>"` opens it; inside it, `[data-close-sheet]` closes it, and so do
+     * Escape and a click on the scrim unless the scrim has `data-sheet-dismissible="false"`.
+     * On open the focus goes to the first action and stays inside the sheet (Tab cycles); on
+     * close it returns to the element that opened it. Only toggles `hidden`: no markup is
+     * generated. Fires `kds:sheet-open` / `kds:sheet-close` on the scrim.
+     * Vanilla mirror of KdsBottomSheet for server-side views (payment).
+     * @param {Element} root - Root element to scope the query (default: document)
+     */
+    var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), ' +
+        'textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    var sheetOpeners = {};
+
+    function sheetFocusables(scrim) {
+        // Called while the sheet is open: skip controls inside a nested hidden block.
+        return Array.prototype.filter.call(scrim.querySelectorAll(FOCUSABLE), function(el) {
+            return !el.closest('[hidden]');
+        });
+    }
+
+    function openSheet(id, opener) {
+        var scrim = document.getElementById(id);
+        if (!scrim || !scrim.classList.contains('kds-bottom-sheet-scrim')) return;
+        initSheet(scrim);
+        sheetOpeners[id] = opener || document.activeElement;
+        scrim.hidden = false;
+        var actions = scrim.querySelector('.kds-bottom-sheet-actions');
+        var first = (actions && actions.querySelector(FOCUSABLE)) || sheetFocusables(scrim)[0];
+        if (first) first.focus();
+        scrim.dispatchEvent(new CustomEvent('kds:sheet-open', { bubbles: true }));
+    }
+
+    function closeSheet(id) {
+        var scrim = document.getElementById(id);
+        if (!scrim || scrim.hidden) return;
+        scrim.hidden = true;
+        var opener = sheetOpeners[id];
+        delete sheetOpeners[id];
+        if (opener && typeof opener.focus === 'function' && document.contains(opener)) opener.focus();
+        scrim.dispatchEvent(new CustomEvent('kds:sheet-close', { bubbles: true }));
+    }
+
+    function initSheet(scrim) {
+        if (scrim.hasAttribute('data-kds-sheet-ready')) return;
+        scrim.setAttribute('data-kds-sheet-ready', '');
+        var dismissible = scrim.getAttribute('data-sheet-dismissible') !== 'false';
+
+        scrim.addEventListener('click', function(e) {
+            var closer = e.target.closest && e.target.closest('[data-close-sheet]');
+            if (closer && scrim.contains(closer)) {
+                closeSheet(scrim.id);
+            } else if (e.target === scrim && dismissible) {
+                closeSheet(scrim.id);
+            }
+        });
+
+        scrim.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && dismissible) {
+                e.preventDefault();
+                closeSheet(scrim.id);
+            } else if (e.key === 'Tab') {
+                var items = sheetFocusables(scrim);
+                if (!items.length) return;
+                var first = items[0];
+                var last = items[items.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        });
+    }
+
+    function initSheets(root) {
+        root = root || document;
+        root.querySelectorAll('.kds-bottom-sheet-scrim[id]').forEach(initSheet);
+        root.querySelectorAll('[data-open-sheet]').forEach(function(opener) {
+            if (opener.hasAttribute('data-kds-sheet-opener-ready')) return;
+            opener.setAttribute('data-kds-sheet-opener-ready', '');
+            opener.addEventListener('click', function(e) {
+                e.preventDefault();
+                openSheet(opener.getAttribute('data-open-sheet'), opener);
+            });
         });
     }
 
@@ -968,6 +1060,9 @@
     window.Khipu.initCopyableTable = initCopyableTable;
     window.Khipu.initCopyAllBtn = initCopyAllBtn;
     window.Khipu.initInfoTip = initInfoTip;
+    window.Khipu.initSheets = initSheets;
+    window.Khipu.openSheet = openSheet;
+    window.Khipu.closeSheet = closeSheet;
     window.Khipu.initBankModal = initBankModal;
     window.Khipu.initStickyInvoice = initStickyInvoice;
     window.Khipu.initHideOnScroll = initHideOnScroll;
