@@ -398,7 +398,10 @@
 
 <%-- =====================================================================================
      companyInfo.gsp — paso 4 de 5, pantalla 2/3: datos de la empresa y del firmante.
-     Nombre y RUT vienen del acceso bancario: bloqueados.
+     Datos verificados en solo lectura (KTUF-495): razón social, giro y dirección vienen del
+     SII/Regcheq (D-32) y el firmante de la identidad bancaria (BOR-08). No se editan: si están
+     mal se repite la verificación o se contacta a soporte (§11.5). Solo teléfono y correo se
+     envían en el formulario; el controller NO debe aceptar los campos verificados del request.
      ===================================================================================== --%>
 <g:form controller="merchant" action="companyInfoSubmit"
         class="kds-card-elevated kds-max-w-md kds-flex kds-flex-col kds-gap-2">
@@ -417,8 +420,13 @@
                        value="${company.rut}" group="false"/>
     </div>
   </div>
+  <%-- Sin name: los datos verificados no viajan en el formulario --%>
+  <mat:fieldLocked id="companyActivity" labelCode="merchant.onboarding.company.activity.label"
+                   value="${company.activity}" group="false"/>
+  <mat:fieldLocked id="companyAddress" labelCode="merchant.onboarding.company.address.label"
+                   value="${company.address}" group="false"/>
   <p class="kds-section-note kds-neutral">
-    <i class="material-symbols-outlined" aria-hidden="true">lock</i>
+    <i class="material-symbols-outlined" aria-hidden="true">verified</i>
     <span><g:message code="merchant.onboarding.company.source" args="${[bank.name]}"/></span>
   </p>
   <div class="kds-grid">
@@ -431,20 +439,28 @@
                       labelCode="merchant.onboarding.company.email.label" required="true"/>
     </div>
   </div>
-  <mat:textField name="businessActivity" bean="${onboarding}" value="${onboarding?.businessActivity}"
-                 labelCode="merchant.onboarding.company.activity.label" required="true"/>
-  <mat:textField name="address" bean="${onboarding}" value="${onboarding?.address}"
-                 labelCode="merchant.onboarding.company.address.label" required="true"/>
   <hr class="divider"/>
   <h3 class="kds-m-0 kds-text-label"><g:message code="merchant.onboarding.signer.title"/></h3>
   <div class="kds-grid">
     <div class="kds-col-sm-12 kds-col-md-6">
-      <mat:textField name="legalRepresentative" bean="${onboarding}" value="${onboarding?.legalRepresentative}"
-                     labelCode="merchant.onboarding.signer.name.label" required="true"/>
+      <mat:fieldLocked id="signerName" labelCode="merchant.onboarding.signer.name.label"
+                       value="${signer.name}" group="false"/>
     </div>
     <div class="kds-col-sm-12 kds-col-md-6">
-      <mat:textField name="legalRepresentativeRut" bean="${onboarding}" value="${onboarding?.legalRepresentativeRut}"
-                     labelCode="merchant.onboarding.signer.rut.label" required="true"/>
+      <mat:fieldLocked id="signerRut" labelCode="merchant.onboarding.signer.rut.label"
+                       value="${signer.rut}" group="false"/>
+    </div>
+  </div>
+  <p class="kds-section-note kds-neutral">
+    <i class="material-symbols-outlined" aria-hidden="true">verified</i>
+    <span><g:message code="merchant.onboarding.signer.source" args="${[bank.name]}"/></span>
+  </p>
+  <%-- Datos mal: se repite la verificación o se contacta a soporte (§11.5), no se editan --%>
+  <div class="kds-flex kds-flex-col kds-gap-1">
+    <span class="kds-text-body-small kds-text-secondary"><g:message code="merchant.onboarding.verified.wrong"/></span>
+    <div class="kds-flex kds-gap-1">
+      <mat:button type="text" size="sm" href="${createLink(action: 'selectBank')}" textCode="onboarding.identity.retry" cssClass="kds-flex-1"/>
+      <mat:button type="text" size="sm" href="${createLink(action: 'support')}" textCode="default.contactSupport" cssClass="kds-flex-1"/>
     </div>
   </div>
   <g:render template="/merchant/onboardingActions" model="[backAction: 'businessInfo']"/>

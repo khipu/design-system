@@ -328,12 +328,39 @@ export const AutorizacionBancaria: Story = {
  * contraste AA, foco neutro). KTUF-396 — ver `Components/Form Inputs/KdsTextField → ReadOnly`
  * y `KdsSelect → Solo lectura`.
  */
+/** Way out when verified data is wrong (§11.5): repeat the verification or contact support. */
+const VERIFIED_DATA_HELP: WithSource = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div class="kds-flex kds-flex-col kds-gap-1">
+  <span class="kds-text-body-small kds-text-secondary">¿Algún dato está mal?</span>
+  <div class="kds-flex kds-gap-1">
+    <a href="/onboarding/identity" class="kds-btn kds-btn-text kds-btn-sm kds-flex-1"><span class="kds-btn-label">Repetir la verificación</span></a>
+    <a href="/onboarding/support" class="kds-btn kds-btn-text kds-btn-sm kds-flex-1"><span class="kds-btn-label">Contactar a soporte</span></a>
+  </div>
+</div>
+
+<!-- GSP -->
+<div class="kds-flex kds-flex-col kds-gap-1">
+  <span class="kds-text-body-small kds-text-secondary"><g:message code="merchant.onboarding.verified.wrong"/></span>
+  <div class="kds-flex kds-gap-1">
+    <kds:button type="text" size="sm" href="\${createLink(action: 'identity')}" cssClass="kds-flex-1"><g:message code="onboarding.identity.retry"/></kds:button>
+    <kds:button type="text" size="sm" href="\${createLink(action: 'support')}" cssClass="kds-flex-1"><g:message code="default.contactSupport"/></kds:button>
+  </div>
+</div>`,
+      },
+    },
+  },
+};
+
 export const DatosPrecargados: Story = {
-  name: '5 · Datos precargados (solo lectura)',
+  name: '5 · Datos verificados (solo lectura)',
   parameters: htmlFrom(
     ['KdsTextField solo lectura', TextFieldStories.ReadOnly],
     ['KdsSelect solo lectura', SelectStories.ReadOnly],
     ['KdsSectionNote neutra (origen de los datos)', SectionNoteStories.Neutral],
+    ['¿Algún dato está mal? (repetir verificación / soporte)', VERIFIED_DATA_HELP],
   ),
   render: () => (
     <div className="kds-flex kds-flex-col kds-gap-2">
@@ -349,10 +376,26 @@ export const DatosPrecargados: Story = {
       />
       <KdsTextField label="Nombre de la empresa" value="Comercial Ficticia SpA" readOnly />
       <KdsTextField label="RUT de la empresa" value="76.543.210-3" readOnly />
-      <KdsSectionNote className="kds-neutral" icon="lock">
-        Datos obtenidos de tu cuenta en Banco Santander.
+      <KdsTextField label="Giro comercial" value="Venta al por menor de artículos de ferretería" readOnly />
+      <KdsTextField label="Dirección de la empresa" value="Avenida Ficticia 1234, Providencia" readOnly />
+      <KdsSectionNote className="kds-neutral" icon="verified">
+        Datos del Servicio de Impuestos Internos (SII) y de tu cuenta en Banco Santander.
       </KdsSectionNote>
       <KdsTextField label="Teléfono" defaultValue="+56 2 2345 6789" />
+      <KdsTextField label="Correo corporativo" type="email" defaultValue="contacto@comercialficticia.cl" />
+      <div className="kds-flex kds-flex-col kds-gap-1">
+        <KdsTypography variant="body-small" color="secondary" as="span">
+          ¿Algún dato está mal?
+        </KdsTypography>
+        <div className="kds-flex kds-gap-1">
+          <KdsButton variant="text" size="sm" className="kds-flex-1">
+            Repetir la verificación
+          </KdsButton>
+          <KdsButton variant="text" size="sm" className="kds-flex-1">
+            Contactar a soporte
+          </KdsButton>
+        </div>
+      </div>
     </div>
   ),
 };

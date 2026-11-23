@@ -248,6 +248,29 @@ function FlowCard({
   );
 }
 
+/**
+ * Way out when verified data is wrong (§11.5): it is not edited, the verification is repeated or
+ * support is contacted.
+ */
+function VerifiedDataHelp({ onRetry, onSupport }: { onRetry: () => void; onSupport: () => void }) {
+  return (
+    // Buttons are full width in the DS: two halves side by side, like Volver / Continuar.
+    <div className="kds-flex kds-flex-col kds-gap-1">
+      <KdsTypography variant="body-small" color="secondary" as="span">
+        ¿Algún dato está mal?
+      </KdsTypography>
+      <div className="kds-flex kds-gap-1">
+        <KdsButton variant="text" size="sm" className="kds-flex-1" onClick={onRetry}>
+          Repetir la verificación
+        </KdsButton>
+        <KdsButton variant="text" size="sm" className="kds-flex-1" onClick={onSupport}>
+          Contactar a soporte
+        </KdsButton>
+      </div>
+    </div>
+  );
+}
+
 /** Two fields side by side from tablet up, stacked on phones. */
 function FieldPair({ children }: { children: ReactNode }) {
   return <div className="kds-grid">{children}</div>;
@@ -568,6 +591,8 @@ export const FlujoCompleto: Story = {
               <KdsTypography variant="label" as="h3" className="kds-m-0">
                 Datos de la empresa
               </KdsTypography>
+              {/* Verified data (D-32 / BOR-08): read-only; a wrong value is fixed by repeating the
+                  verification (§11.5), not by editing it here. Only phone and email are editable. */}
               <FieldPair>
                 <Half>
                   <KdsTextField label="Nombre de la empresa" value={COMPANY.name} readOnly />
@@ -576,8 +601,10 @@ export const FlujoCompleto: Story = {
                   <KdsTextField label="RUT de la empresa" value={COMPANY.rut} readOnly />
                 </Half>
               </FieldPair>
-              <KdsSectionNote className="kds-neutral" icon="lock">
-                Datos obtenidos de tu cuenta en {data.banco}.
+              <KdsTextField label="Giro comercial" value={data.giro} readOnly />
+              <KdsTextField label="Dirección de la empresa" value={data.direccion} readOnly />
+              <KdsSectionNote className="kds-neutral" icon="verified">
+                Datos del Servicio de Impuestos Internos (SII) y de tu cuenta en {data.banco}.
               </KdsSectionNote>
               <FieldPair>
                 <Half>
@@ -587,33 +614,26 @@ export const FlujoCompleto: Story = {
                   <KdsTextField label="Correo corporativo" type="email" value={data.correo} onChange={(e) => set('correo', e.target.value)} />
                 </Half>
               </FieldPair>
-              <KdsTextField label="Giro comercial" value={data.giro} onChange={(e) => set('giro', e.target.value)} />
-              <KdsTextField label="Dirección de la empresa" value={data.direccion} onChange={(e) => set('direccion', e.target.value)} />
               <KdsDivider />
               <KdsTypography variant="label" as="h3" className="kds-m-0">
                 Datos del firmante
               </KdsTypography>
               <FieldPair>
                 <Half>
-                  <KdsTextField
-                    label="Representante legal"
-                    value={data.representante}
-                    onChange={(e) => set('representante', e.target.value)}
-                  />
+                  <KdsTextField label="Representante legal" value={data.representante} readOnly />
                 </Half>
                 <Half>
-                  <KdsTextField
-                    label="RUT del representante legal"
-                    value={data.representanteRut}
-                    onChange={(e) => set('representanteRut', e.target.value)}
-                  />
+                  <KdsTextField label="RUT del representante legal" value={data.representanteRut} readOnly />
                 </Half>
               </FieldPair>
-              {actions(
-                [data.telefono, data.correo, data.giro, data.direccion, data.representante, data.representanteRut].every(
-                  (v) => v.trim() !== '',
-                ),
-              )}
+              <KdsSectionNote className="kds-neutral" icon="verified">
+                Datos de la identidad que verificaste en {data.banco}.
+              </KdsSectionNote>
+              <VerifiedDataHelp
+                onRetry={() => go('banco')}
+                onSupport={() => setNotice('Aquí se abriría el contacto con soporte.')}
+              />
+              {actions([data.telefono, data.correo].every((v) => v.trim() !== ''))}
             </FlowCard>
           );
         case 'contactos': {
