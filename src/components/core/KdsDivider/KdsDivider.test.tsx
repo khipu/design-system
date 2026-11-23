@@ -34,4 +34,11 @@ describe('KdsDivider', () => {
     const { container } = render(<KdsDivider label="" />);
     expect(container.querySelector('hr')).toHaveClass('kds-hr');
   });
+
+  it('points the ref to the wrapper <div> when there is a label', () => {
+    const ref = { current: null as HTMLHRElement | null };
+    render(<KdsDivider ref={ref} label="o" />);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    expect(ref.current).toHaveClass('kds-divider-text');
+  });
 });
