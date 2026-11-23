@@ -21,8 +21,9 @@ import { KdsBottomSheet, KdsContract } from '../../components/domain';
  *
  * Todo se arma con componentes existentes (`KdsStatusBlock`, `KdsAlert`, la fila de
  * `KdsBankRow`, `KdsBottomSheet`, `KdsContract`): no hay componentes nuevos. Las vistas del
- * backend son GSP en payment, así que cada historia trae su código HTML + GSP. Las claves i18n
- * son propuestas (`onboarding.state.*`): todavía no existen en payment.
+ * backend son GSP en payment: cada historia trae el HTML (lo que el taglib debe emitir) y el GSP
+ * con los taglibs del DS (`kds:onboardingState`, `kds:button`) donde ya existen. Las claves i18n
+ * son propuestas (`onboarding.*`): todavía no existen en payment.
  */
 const meta: Meta = {
   title: 'On boarding/Estados del alta',
@@ -83,25 +84,12 @@ ${actions
   .map((a) => `  <a href="/onboarding/${a.gspAction}" class="${btnClass(a.variant)}"><span class="kds-btn-label">${a.label}</span></a>`)
   .join('\n')}
 </div>`;
-  const gsp = `<div class="kds-status-block" data-status="${status}">
-  <div class="kds-status-block-icon">
-    <i class="material-symbols-outlined">${icon}</i>
-  </div>
-  <div>
-    <h2 class="kds-status-block-title"><g:message code="onboarding.state.${key}.title"/></h2>
-    <p class="kds-status-block-description"><g:message code="onboarding.state.${key}.description"${
-      descriptionArgs ? ` args="\${${descriptionArgs}}"` : ''
-    }/></p>
-  </div>
-</div>
-<div class="kds-btn-stack">
-${actions
-  .map(
-    (a) =>
-      `  <mat:button type="${a.variant ?? 'primary'}" href="\${createLink(action: '${a.gspAction}')}" textCode="${a.i18n}" cssClass="kds-btn-block"/>`,
-  )
-  .join('\n')}
-</div>`;
+  const caseName = key.replace(/([A-Z])/g, '_$1').toUpperCase();
+  const descriptionAttr = descriptionArgs
+    ? `\n    description="\${message(code: 'onboarding.state.${key}.description', args: ${descriptionArgs})}"`
+    : '';
+  const gsp = `<%-- Taglib del DS (grails/taglibs-grails6). El HTML de arriba es lo que debe emitir. --%>
+<kds:onboardingState case="\${com.khipu.designsystem.OnboardingStateCase.${caseName}}"${descriptionAttr}/>`;
   return `${html}\n\n<!-- GSP -->\n${gsp}`;
 }
 
@@ -479,8 +467,8 @@ export const AltasEnCurso: Story = {
   </g:each>
 </div>
 <div class="kds-btn-stack">
-  <mat:button type="primary" href="\${createLink(action: 'start')}" textCode="onboarding.draft.new" cssClass="kds-btn-block"/>
-  <mat:button type="text" href="\${createLink(action: 'support')}" textCode="onboarding.drafts.notListed" cssClass="kds-btn-block"/>
+  <kds:button type="primary" href="\${createLink(action: 'start')}" cssClass="kds-btn-block"><g:message code="onboarding.draft.new"/></kds:button>
+  <kds:button type="text" href="\${createLink(action: 'support')}" cssClass="kds-btn-block"><g:message code="onboarding.drafts.notListed"/></kds:button>
 </div>`),
   render: () => (
     <div>
@@ -568,19 +556,19 @@ export const CancelarAlta: Story = {
 ${SHEET_SCRIPT}
 </script>
 
-<!-- GSP: cancelar es un POST con token. mat:button no pasa el atributo form, por eso el botón de
-     envío es un <button> con las clases del DS. -->
-<mat:button type="error-text" textCode="onboarding.cancel.open" data-open-sheet="cancel-draft-sheet"/>
+<!-- GSP: cancelar es un POST con token. kds:button pasa (escapados) form y data-*; mat:button de
+     payment descarta form, por eso no sirve aquí. -->
+<kds:button type="error-text" data-open-sheet="cancel-draft-sheet"><g:message code="onboarding.cancel.open"/></kds:button>
 <g:form action="cancel" useToken="true" name="cancelDraftForm" id="cancel-draft-form"></g:form>
 <div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="cancel-draft-sheet" hidden>
   <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="cancel-draft-title">
     <h2 class="kds-bottom-sheet-title" id="cancel-draft-title"><g:message code="onboarding.cancel.title"/></h2>
     <p class="kds-bottom-sheet-description"><g:message code="onboarding.cancel.description"/></p>
     <div class="kds-bottom-sheet-actions">
-      <button type="submit" form="cancel-draft-form" class="kds-btn kds-btn-error kds-btn-block">
+      <kds:button type="error" htmlType="submit" form="cancel-draft-form" cssClass="kds-btn-block">
         <g:message code="onboarding.cancel.confirm"/>
-      </button>
-      <mat:button type="outlined" textCode="default.back.link" cssClass="kds-btn-block" data-close-sheet="true"/>
+      </kds:button>
+      <kds:button type="outlined" cssClass="kds-btn-block" data-close-sheet="true"><g:message code="default.back.link"/></kds:button>
     </div>
   </div>
 </div>
@@ -656,8 +644,8 @@ export const RectificarDato: Story = {
 ${SHEET_SCRIPT}
 </script>
 
-<!-- GSP: invalidatedSteps viene del backend (pasos que dependen del bloque editado). El envío es
-     un <button form="profile-form">: mat:button no pasa el atributo form. -->
+<!-- GSP: invalidatedSteps viene del backend (pasos que dependen del bloque editado). kds:button
+     pasa el atributo form (mat:button de payment lo descarta). -->
 <div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="rectify-sheet" hidden>
   <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="rectify-title">
     <h2 class="kds-bottom-sheet-title" id="rectify-title"><g:message code="onboarding.rectify.title"/></h2>
@@ -674,10 +662,10 @@ ${SHEET_SCRIPT}
       </p>
     </div>
     <div class="kds-bottom-sheet-actions">
-      <button type="submit" form="profile-form" class="kds-btn kds-btn-primary kds-btn-block">
+      <kds:button type="primary" htmlType="submit" form="profile-form" cssClass="kds-btn-block">
         <g:message code="onboarding.rectify.confirm"/>
-      </button>
-      <mat:button type="outlined" textCode="onboarding.rectify.keep" cssClass="kds-btn-block" data-close-sheet="true"/>
+      </kds:button>
+      <kds:button type="outlined" cssClass="kds-btn-block" data-close-sheet="true"><g:message code="onboarding.rectify.keep"/></kds:button>
     </div>
   </div>
 </div>
