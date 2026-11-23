@@ -41,7 +41,12 @@ export { KdsInvoiceSticky, type KdsInvoiceStickyProps } from './KdsInvoiceSticky
 export { KdsInvoiceHeaderSkeleton, type KdsInvoiceHeaderSkeletonProps } from './KdsInvoiceHeaderSkeleton';
 export { KdsBottomSheet, type KdsBottomSheetProps } from './KdsBottomSheet';
 export { KdsSecureFooter, type KdsSecureFooterProps } from './KdsSecureFooter';
-export { KdsRecapList, type KdsRecapListProps, type KdsRecapItem } from './KdsRecapList';
+export {
+  KdsRecapList,
+  type KdsRecapListProps,
+  type KdsRecapItem,
+  type KdsRecapListLayout,
+} from './KdsRecapList';
 export { KdsMontoRow, type KdsMontoRowProps } from './KdsMontoRow';
 export { KdsMerchantTile, type KdsMerchantTileProps } from './KdsMerchantTile';
 export {

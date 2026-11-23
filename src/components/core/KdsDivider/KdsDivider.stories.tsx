@@ -70,3 +70,29 @@ export const HtmlMarkup: Story = {
     </div>
   ),
 };
+
+/**
+ * Con texto centrado — separa dos alternativas ("o"), p. ej. verificar con el banco o con la
+ * verificación alternativa en el onboarding (KTUF-468). Usa `.kds-divider-text`; dentro de una
+ * card el fondo del texto pasa a `paper` solo. El texto lo leen los lectores de pantalla.
+ */
+export const WithLabel: Story = {
+  name: 'Con texto ("o")',
+  args: { label: 'o' },
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<div class="kds-divider-text"><span>o</span></div>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '400px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
