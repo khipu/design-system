@@ -534,7 +534,8 @@
       <div>
         <h2 class="kds-status-block-title"><g:message code="merchant.onboarding.riskByEmail.title"/></h2>
         <p class="kds-status-block-description">
-          <g:message code="merchant.onboarding.riskByEmail.description" args="${[contactEmail]}"/>
+          <%-- El correo es dato del usuario: encodeAs explícito, sin depender del codec configurado --%>
+          <g:message code="merchant.onboarding.riskByEmail.description" args="${[contactEmail]}" encodeAs="HTML"/>
         </p>
       </div>
     </div>
@@ -617,6 +618,11 @@
       button.focus();
     }
 
+    // Failed requests retry with a growing delay and stop after a few: no reload loop that
+    // hammers the server; the "puedes salir" note stays and the user can come back later.
+    var failures = 0;
+    var MAX_FAILURES = 5;
+
     (function poll() {
       fetch('${createLink(action: 'validationStatus')}', { headers: { Accept: 'application/json' } })
         .then(function (r) {
@@ -624,6 +630,7 @@
           return r.json();
         })
         .then(function (result) {
+          failures = 0;
           render(result.steps);
           // Sin respuesta a tiempo: el servidor pinta el aviso por correo.
           if (result.timedOut) window.location.reload();
@@ -635,8 +642,11 @@
                    '${createLink(action: 'contract')}');
           } else setTimeout(poll, 1200);
         })
-        // A failed request (e.g. an expired session) reloads: the server renders the right state.
-        .catch(function () { setTimeout(function () { window.location.reload(); }, 3000); });
+        // An expired session answers with the login page (not JSON) and lands here too.
+        .catch(function () {
+          failures += 1;
+          if (failures < MAX_FAILURES) setTimeout(poll, 1200 * Math.pow(2, failures));
+        });
     })();
   })();
 </kh:script>
