@@ -512,26 +512,11 @@ export const SinAltasEnCurso = stateStory('12 · Sin altas en curso', {
 });
 
 /**
- * Opens/closes a confirmation sheet: the bundle has no handler for these attributes, so the
- * page carries this script (in payment, inside `<kh:script>`). Escape and the scrim also close.
- */
-const SHEET_SCRIPT = `(function () {
-  document.querySelectorAll('[data-open-sheet]').forEach(function (opener) {
-    var sheet = document.getElementById(opener.getAttribute('data-open-sheet'));
-    function close() { sheet.hidden = true; opener.focus(); }
-    opener.addEventListener('click', function () {
-      sheet.hidden = false;
-      sheet.querySelector('.kds-bottom-sheet-actions .kds-btn').focus();
-    });
-    sheet.querySelectorAll('[data-close-sheet]').forEach(function (b) { b.addEventListener('click', close); });
-    sheet.addEventListener('click', function (e) { if (e.target === sheet) close(); });
-    sheet.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-  });
-})();`;
-
-/**
  * "Cancelar esta alta" (NAV-17, VEN-09): siempre visible en el flujo y con confirmación.
- * `KdsBottomSheet variant="dialog"`; la acción destructiva usa `error`.
+ * `KdsBottomSheet variant="dialog"`; la acción destructiva usa `error`. En HTML/GSP lo abre y
+ * cierra el bundle (`Khipu.initSheets`: `data-open-sheet`, `data-close-sheet`, Escape, clic
+ * fuera, foco); `data-sheet-dismissible="false"` en el scrim impide cerrarlo con Escape o clic
+ * fuera.
  */
 export const CancelarAlta: Story = {
   name: '13 · Confirmar: cancelar esta alta',
@@ -552,9 +537,7 @@ export const CancelarAlta: Story = {
     </div>
   </div>
 </div>
-<script>
-${SHEET_SCRIPT}
-</script>
+<!-- Abrir/cerrar: khipu-init.js del bundle (Khipu.initSheets) maneja data-open-sheet / data-close-sheet -->
 
 <!-- GSP: cancelar es un POST con token. kds:button pasa (escapados) form y data-*; mat:button de
      payment descarta form, por eso no sirve aquí. -->
@@ -572,9 +555,7 @@ ${SHEET_SCRIPT}
     </div>
   </div>
 </div>
-<kh:script>
-${SHEET_SCRIPT}
-</kh:script>`),
+<!-- Abrir/cerrar: khipu-init.js del bundle (Khipu.initSheets) maneja data-open-sheet / data-close-sheet -->`),
   render: function CancelDraftStory() {
     const [open, setOpen] = useState(false);
     return (
@@ -640,9 +621,7 @@ export const RectificarDato: Story = {
     </div>
   </div>
 </div>
-<script>
-${SHEET_SCRIPT}
-</script>
+<!-- Abrir/cerrar: khipu-init.js del bundle (Khipu.initSheets) maneja data-open-sheet / data-close-sheet -->
 
 <!-- GSP: invalidatedSteps viene del backend (pasos que dependen del bloque editado). kds:button
      pasa el atributo form (mat:button de payment lo descarta). -->
@@ -669,9 +648,7 @@ ${SHEET_SCRIPT}
     </div>
   </div>
 </div>
-<kh:script>
-${SHEET_SCRIPT}
-</kh:script>`),
+<!-- Abrir/cerrar: khipu-init.js del bundle (Khipu.initSheets) maneja data-open-sheet / data-close-sheet -->`),
   render: function RectifyStory() {
     const [open, setOpen] = useState(false);
     return (
