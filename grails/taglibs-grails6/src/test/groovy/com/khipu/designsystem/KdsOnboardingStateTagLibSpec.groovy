@@ -50,6 +50,14 @@ class KdsOnboardingStateTagLibSpec extends Specification implements TagLibUnitTe
         ).contains('custom_icon')
     }
 
+    void 'a malicious key with no matching message code does not leak into the title unescaped'() {
+        given:
+        def payload = '"><script>alert(1)</script>'
+
+        expect:
+        !applyTemplate('<kds:onboardingState status="info" key="${payload}"/>', [payload: payload]).contains('<script>')
+    }
+
     void 'can be assembled by hand, with no case at all'() {
         expect:
         def html = applyTemplate(

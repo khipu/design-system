@@ -38,7 +38,12 @@ class KdsOnboardingStateTagLib {
         String icon = attrs.remove('icon') ?: stateCase?.icon
         List<Map> actions = attrs.containsKey('actions') ? attrs.remove('actions') : (stateCase?.actions ?: [])
         List descriptionArgs = (attrs.remove('descriptionArgs') ?: []).collect { it?.toString()?.encodeAsHTML() }
-        String title = attrs.remove('title') ?: (key ? message(code: "onboarding.state.${key}.title") : null)
+        // message()'s return is treated as already HTML-safe (a later .encodeAsHTML() on it
+        // is a no-op), so any tainted value reaching it as a `default:` must be escaped
+        // BEFORE this call, not after - including the message code itself when it's built
+        // from a caller-supplied `key` with no matching bundle entry.
+        String title = attrs.remove('title') ?:
+            (key ? message(code: "onboarding.state.${key}.title", default: "onboarding.state.${key}.title".encodeAsHTML()) : null)
         String description = attrs.remove('description') ?:
             (key ? message(code: "onboarding.state.${key}.description", args: descriptionArgs, default: '') : null)
         def cssClass = attrs.remove('cssClass')
@@ -61,7 +66,7 @@ class KdsOnboardingStateTagLib {
                     type: action.variant ?: 'primary',
                     href: createLink(action: action.gspAction),
                     cssClass: 'kds-btn-block'
-                ) { message(code: action.i18n) }
+                ) { message(code: action.i18n, default: action.i18n.toString().encodeAsHTML()) }
             }
             out << '</div>'
         }
