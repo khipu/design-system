@@ -17,14 +17,14 @@ package com.khipu.designsystem
  * Consumer contract (not enforced by this taglib — fails silently if unmet):
  *   - `createLink(action: ...)` is called with no `controller:`, so it resolves against
  *     whatever controller renders the GSP this tag is used from. That controller needs
- *     an action per `gspAction` used by whichever case(s) are rendered. For the 8 cases
+ *     an action per `gspAction` used by whichever case(s) are rendered. For the 9 cases
  *     this taglib covers, across all of them: `drafts`, `start`, `identity`, `support`,
  *     `account`.
  *   - Message codes must exist in the consuming app's i18n bundle: `onboarding.state.<key>
  *     .title` / `.description` for every `OnboardingStateCase.key` used (riskPending,
  *     riskByEmail, draftGone, flowUnavailable, identifierRestricted, signerIncomplete,
- *     merchantBlocked, collectPending), plus each action's own `i18n` code (see each case's
- *     `actions` in `OnboardingStateCase`). A missing code is NOT an error: Grails' default
+ *     merchantBlocked, collectPending, draftsEmpty), plus each action's own `i18n` code (see
+ *     each case's `actions` in `OnboardingStateCase`). A missing code is NOT an error: Grails' default
  *     `message()` behavior prints the code itself in the page (e.g. literally
  *     "onboarding.state.riskPending.title"), so a missing translation ships silently.
  */
@@ -37,9 +37,15 @@ class KdsOnboardingStateTagLib {
         String status = attrs.remove('status') ?: stateCase?.status
         String icon = attrs.remove('icon') ?: stateCase?.icon
         List<Map> actions = attrs.containsKey('actions') ? attrs.remove('actions') : (stateCase?.actions ?: [])
-        String title = attrs.remove('title') ?: (key ? message(code: "onboarding.state.${key}.title") : null)
+        List descriptionArgs = (attrs.remove('descriptionArgs') ?: []).collect { it?.toString()?.encodeAsHTML() }
+        // message()'s return is treated as already HTML-safe (a later .encodeAsHTML() on it
+        // is a no-op), so any tainted value reaching it as a `default:` must be escaped
+        // BEFORE this call, not after - including the message code itself when it's built
+        // from a caller-supplied `key` with no matching bundle entry.
+        String title = attrs.remove('title') ?:
+            (key ? message(code: "onboarding.state.${key}.title", default: "onboarding.state.${key}.title".encodeAsHTML()) : null)
         String description = attrs.remove('description') ?:
-            (key ? message(code: "onboarding.state.${key}.description", default: '') : null)
+            (key ? message(code: "onboarding.state.${key}.description", args: descriptionArgs, default: '') : null)
         def cssClass = attrs.remove('cssClass')
 
         if (!status) {
@@ -60,7 +66,7 @@ class KdsOnboardingStateTagLib {
                     type: action.variant ?: 'primary',
                     href: createLink(action: action.gspAction),
                     cssClass: 'kds-btn-block'
-                ) { message(code: action.i18n) }
+                ) { message(code: action.i18n, default: action.i18n.toString().encodeAsHTML()) }
             }
             out << '</div>'
         }
