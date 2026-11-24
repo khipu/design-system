@@ -15,7 +15,7 @@
     default.button.continue.label y default.button.send.label ya existen.
     Todas las demás hay que crearlas: el resto de merchant.onboarding.* (step, legal.title,
     banking, bank, bankRedirect, account, plan, businessInfo, industry, collectionModel,
-    monthlySales, service, company, signer, contact, riskEvaluation, riskByEmail, validated, validationError,
+    monthlySales, service, company, signer, contact, riskEvaluation, validated, validationError,
     contract, done), merchant.signContract.title, merchant.signContract.scroll.hint, consent.*,
     plan.recommended, validation.status.*, feedback.thanks.*, default.optional.label y
     default.loading.label.
@@ -524,26 +524,13 @@
 <div class="kds-card-elevated kds-max-w-md kds-flex kds-flex-col kds-gap-2">
   <g:if test="${timedOut}">
     <%-- Sin respuesta: el alta queda guardada y se avisa por correo cuando se pueda firmar.
-         Markup a mano mientras kds:onboardingState no acepte descriptionArgs (llega con el
-         PR #14, aún sin mergear). Con #14 en main, este bloque pasa a:
-         <kds:onboardingState case="${com.khipu.designsystem.OnboardingStateCase.RISK_BY_EMAIL}"
-                              descriptionArgs="${[contactEmail]}"/> --%>
+         kds:onboardingState pinta el bloque de estado y su acción ("Entendido" → drafts);
+         descriptionArgs se escapa dentro del taglib. --%>
     <g:render template="/merchant/onboardingHeader" model="[
         title: message(code: 'merchant.onboarding.legal.title'),
         steps: CONFIG_STEPS, current: 3]"/>
-    <div class="kds-status-block" data-status="info">
-      <div class="kds-status-block-icon">
-        <i class="material-symbols-outlined">mail</i>
-      </div>
-      <div>
-        <h2 class="kds-status-block-title"><g:message code="merchant.onboarding.riskByEmail.title"/></h2>
-        <p class="kds-status-block-description">
-          <%-- El correo es dato del usuario: encodeAs explícito, sin depender del codec configurado --%>
-          <g:message code="merchant.onboarding.riskByEmail.description" args="${[contactEmail]}" encodeAs="HTML"/>
-        </p>
-      </div>
-    </div>
-    <mat:button type="primary" href="${createLink(action: 'drafts')}" textCode="default.understood" cssClass="kds-btn-block"/>
+    <kds:onboardingState case="${com.khipu.designsystem.OnboardingStateCase.RISK_BY_EMAIL}"
+                         descriptionArgs="${[contactEmail]}"/>
   </g:if>
   <g:else>
     <g:render template="/merchant/onboardingHeader" model="[
@@ -551,32 +538,13 @@
         steps: CONFIG_STEPS, current: 3,
         subtitle: message(code: 'merchant.onboarding.riskEvaluation.subtitle'),
         lead: message(code: 'merchant.onboarding.riskEvaluation.lead', args: [company.name])]"/>
-    <%-- Envuelta en <div>: un <ul> después de otro elemento también recibe 1rem de BeerCSS --%>
+    <%-- Envuelta en <div>: un <ul> después de otro elemento también recibe 1rem de BeerCSS.
+         validationSteps: [{key, labelCode, status}]; cada <li> lleva data-step="<key>", que es
+         lo que usa el sondeo de abajo para actualizarlo. --%>
     <div>
-    <ul class="kds-progress-checklist" id="validation-steps" aria-live="polite">
-      <g:each in="${validationSteps}" var="step">
-        <g:if test="${step.status == 'active'}">
-          <li class="kds-progress-checklist-item kds-progress-checklist-item--active" aria-current="step"
-              data-step="${step.key}">
-        </g:if>
-        <g:else>
-          <li class="kds-progress-checklist-item kds-progress-checklist-item--${step.status}" data-step="${step.key}">
-        </g:else>
-          <span class="kds-progress-checklist-mark" aria-hidden="true">
-            <g:if test="${step.status == 'done'}"><i class="material-symbols-outlined">check</i></g:if>
-            <g:elseif test="${step.status == 'active'}"><span class="kds-dots-loader"><span></span><span></span><span></span></span></g:elseif>
-            <g:else><span class="kds-progress-checklist-dot"></span></g:else>
-          </span>
-          <span class="kds-progress-checklist-label"><g:message code="${step.labelCode}"/></span>
-          <span class="kds-progress-checklist-status">: <g:message code="validation.status.${step.status}"/></span>
-        </li>
-      </g:each>
-    </ul>
+      <kds:progressChecklist steps="${validationSteps}"/>
     </div>
-    <p class="kds-section-note kds-neutral">
-      <i class="material-symbols-outlined" aria-hidden="true">info</i>
-      <span><g:message code="merchant.onboarding.riskEvaluation.canLeave"/></span>
-    </p>
+    <kds:sectionNote icon="info" tone="neutral" textCode="merchant.onboarding.riskEvaluation.canLeave"/>
     <div class="kds-flex kds-gap-1">
       <mat:button type="outlined" href="${createLink(action: 'contacts')}" textCode="default.back.link" cssClass="kds-flex-1"/>
       <%-- Sin href: mat:button ignora disabled cuando renderiza un <a>. El script lo habilita. --%>
@@ -672,12 +640,14 @@
       steps: CONFIG_STEPS, current: 4]"/>
   <%-- Riesgo rojo: el tope se informa antes de firmar, no solo en el éxito --%>
   <g:if test="${riskCap}">
-    <%-- mat:alert imprime la descripción sin escapar y message() marca su resultado como
-         seguro: el argumento se escapa ANTES de entrar al mensaje, no después. --%>
-    <mat:alert type="warning" description="${message(code: 'merchant.onboarding.contract.riskCap', args: [kh.formatAmount(amount: riskCap, currency: merchant.currency).toString().encodeAsHTML()])}"/>
+    <%-- message() marca su resultado como seguro: el monto se escapa ANTES de entrar al
+         mensaje, no después. --%>
+    <kds:alert severity="warning"
+               lead="${message(code: 'merchant.onboarding.contract.riskCap.lead', args: [kh.formatAmount(amount: riskCap, currency: merchant.currency).toString().encodeAsHTML()])}"
+               textCode="merchant.onboarding.contract.riskCap.text"/>
   </g:if>
   <g:else>
-    <mat:alert type="success" descriptionCode="merchant.onboarding.contract.validated"/>
+    <kds:alert severity="success" textCode="merchant.onboarding.contract.validated"/>
   </g:else>
   <h2 class="kds-m-0 kds-color-primary kds-fw-medium"><g:message code="merchant.onboarding.contract.subtitle"/></h2>
   <h3 class="kds-m-0 kds-text-label"><g:message code="merchant.onboarding.signer.title"/></h3>
