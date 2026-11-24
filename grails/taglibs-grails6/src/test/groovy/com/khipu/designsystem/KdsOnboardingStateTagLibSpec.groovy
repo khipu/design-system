@@ -50,6 +50,14 @@ class KdsOnboardingStateTagLibSpec extends Specification implements TagLibUnitTe
         ).contains('custom_icon')
     }
 
+    void 'a malicious key with no matching message code does not leak into the title unescaped'() {
+        given:
+        def payload = '"><script>alert(1)</script>'
+
+        expect:
+        !applyTemplate('<kds:onboardingState status="info" key="${payload}"/>', [payload: payload]).contains('<script>')
+    }
+
     void 'can be assembled by hand, with no case at all'() {
         expect:
         def html = applyTemplate(
@@ -59,6 +67,34 @@ class KdsOnboardingStateTagLibSpec extends Specification implements TagLibUnitTe
         html.contains('data-status="success"')
         html.contains('<h2 class="kds-status-block-title">Listo</h2>')
         html.contains('href="/test/home"')
+    }
+
+    void 'DRAFTS_EMPTY renders its text-variant action as kds-btn-text'() {
+        given:
+        def stateCase = OnboardingStateCase.DRAFTS_EMPTY
+
+        expect:
+        def html = applyTemplate('<kds:onboardingState case="${stateCase}"/>', [stateCase: stateCase])
+        html.contains('data-status="info"')
+        html.contains('inbox')
+        html.contains('href="/test/start"')
+        html.contains('href="/test/support"')
+        html.contains('kds-btn kds-btn-text kds-btn-block')
+    }
+
+    void 'descriptionArgs are passed to the message and escaped'() {
+        given:
+        messageSource.addMessage('onboarding.state.riskByEmail.description', Locale.ENGLISH, 'Te avisaremos a {0}')
+        def payload = '<script>alert(1)</script>'
+
+        expect:
+        def html = applyTemplate(
+            '<kds:onboardingState status="info" title="Aviso" key="riskByEmail" descriptionArgs="${args}"/>',
+            [args: [payload]]
+        )
+        html.contains('Te avisaremos a')
+        html.contains('&lt;script&gt;')
+        !html.contains('<script>')
     }
 
     void 'an explicit empty actions list drops the case actions entirely'() {

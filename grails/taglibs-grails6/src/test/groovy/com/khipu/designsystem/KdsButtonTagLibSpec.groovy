@@ -8,13 +8,18 @@ class KdsButtonTagLibSpec extends Specification implements TagLibUnitTest<KdsBut
     void 'renders a button element with the kds-btn family by default'() {
         expect:
         applyTemplate('<kds:button type="primary">Pagar</kds:button>') ==
-            '<button type="button" class="kds-btn kds-btn-primary" >Pagar</button>'
+            '<button type="button" class="kds-btn kds-btn-primary" ><span class="kds-btn-label">Pagar</span></button>'
     }
 
     void 'renders an anchor element when href is set'() {
         expect:
         applyTemplate('<kds:button type="outlined" href="/start">Continuar</kds:button>') ==
-            '<a href="/start" class="kds-btn kds-btn-outlined" >Continuar</a>'
+            '<a href="/start" class="kds-btn kds-btn-outlined" ><span class="kds-btn-label">Continuar</span></a>'
+    }
+
+    void 'wraps the label in span.kds-btn-label'() {
+        expect:
+        applyTemplate('<kds:button type="primary">Pagar</kds:button>').contains('<span class="kds-btn-label">Pagar</span>')
     }
 
     void 'appends a size modifier class'() {
@@ -40,6 +45,15 @@ class KdsButtonTagLibSpec extends Specification implements TagLibUnitTest<KdsBut
         def html = applyTemplate('<kds:button type="primary" href="${payload}">Pagar</kds:button>', [payload: payload])
         !html.contains('<script>')
         html.contains('href="&quot;&gt;')
+    }
+
+    void 'passes form and data-* attributes through (used by the bottom-sheet dialogs)'() {
+        expect:
+        def html = applyTemplate(
+            '<kds:button type="primary" htmlType="submit" form="profile-form" data-open-sheet="rectify-sheet">Confirmar</kds:button>'
+        )
+        html.contains('form="profile-form"')
+        html.contains('data-open-sheet="rectify-sheet"')
     }
 
     void 'escapes passthrough attribute values'() {
