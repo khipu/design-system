@@ -2,10 +2,11 @@ package com.khipu.designsystem
 
 /**
  * Pre-configured cases for `kds:onboardingState`, one per state screen from the
- * "Estados del alta" story set (KTUF-498/531). Each case fixes the
- * `KdsStatusType` (`status`), the Material Symbols icon, and the follow-up
- * actions shown in `.kds-btn-stack`; the i18n message codes are derived from
- * `key` as `onboarding.state.<key>.title` / `.description`.
+ * "Estados del alta" story set (KTUF-498/531) that renders as `KdsStatusBlock` +
+ * `.kds-btn-stack` — 9 of the 14 screens in `OnboardingStates.stories.tsx`.
+ * Each case fixes the `KdsStatusType` (`status`), the Material Symbols icon, and
+ * the follow-up actions shown in `.kds-btn-stack`; the i18n message codes are
+ * derived from `key` as `onboarding.state.<key>.title` / `.description`.
  *
  * `kds:onboardingState` also accepts every one of these as an explicit attr
  * (`status`, `icon`, `actions`) to override a case's defaults, or to assemble
@@ -39,6 +40,10 @@ enum OnboardingStateCase {
     ]),
     COLLECT_PENDING('collectPending', 'info', 'pending_actions', [
         [gspAction: 'account', i18n: 'onboarding.account.go'],
+    ]),
+    DRAFTS_EMPTY('draftsEmpty', 'info', 'inbox', [
+        [gspAction: 'start', i18n: 'onboarding.draft.new'],
+        [gspAction: 'support', i18n: 'onboarding.drafts.notListed', variant: 'text'],
     ])
 
     /** Suffix of the i18n message codes: `onboarding.state.<key>.title`/`.description`. */
