@@ -3,14 +3,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 import {
   KdsAlert,
   KdsButton,
-  KdsEmptyState,
   KdsSectionNote,
   KdsStatusBlock,
   KdsStepper,
   KdsTypography,
   type KdsStatusType,
 } from '../../components/core';
-import { KdsBankList, KdsBankRow, KdsBottomSheet, KdsContract } from '../../components/domain';
+import { KdsBottomSheet, KdsContract } from '../../components/domain';
 
 /**
  * On boarding — estados del alta (KTUF-498). Pantallas que el backend del alta con borrador
@@ -20,10 +19,11 @@ import { KdsBankList, KdsBankRow, KdsBottomSheet, KdsContract } from '../../comp
  * cobro pendiente fuera de Chile; más la lista "Tus altas en curso" y los modales de
  * confirmación.
  *
- * Todo se arma con componentes existentes (`KdsStatusBlock`, `KdsAlert`, `KdsBankRow`,
- * `KdsEmptyState`, `KdsBottomSheet`, `KdsContract`): no hay componentes nuevos. Las vistas del
- * backend son GSP en payment, así que cada historia trae su código HTML + GSP. Las claves i18n
- * son propuestas (`onboarding.state.*`): todavía no existen en payment.
+ * Todo se arma con componentes existentes (`KdsStatusBlock`, `KdsAlert`, la fila de
+ * `KdsBankRow`, `KdsBottomSheet`, `KdsContract`): no hay componentes nuevos. Las vistas del
+ * backend son GSP en payment: cada historia trae el HTML (lo que el taglib debe emitir) y el GSP
+ * con los taglibs del DS (`kds:onboardingState`, `kds:button`) donde ya existen. Las claves i18n
+ * son propuestas (`onboarding.*`): todavía no existen en payment.
  */
 const meta: Meta = {
   title: 'On boarding/Estados del alta',
@@ -61,13 +61,15 @@ type StateScreen = {
   icon: string;
   title: string;
   description: string;
+  /** GSP expression passed as `args` to the description message, e.g. `[contactEmail]`. */
+  descriptionArgs?: string;
   actions: Action[];
 };
 
 const btnClass = (variant: Action['variant'] = 'primary') => `kds-btn kds-btn-${variant} kds-btn-block`;
 
 /** HTML + GSP of a state screen: `KdsStatusBlock` and its actions in a `.kds-btn-stack`. */
-function stateScreenCode({ key, status, icon, title, description, actions }: StateScreen) {
+function stateScreenCode({ key, status, icon, title, description, descriptionArgs, actions }: StateScreen) {
   const html = `<div class="kds-status-block" data-status="${status}">
   <div class="kds-status-block-icon">
     <i class="material-symbols-outlined">${icon}</i>
@@ -82,23 +84,12 @@ ${actions
   .map((a) => `  <a href="/onboarding/${a.gspAction}" class="${btnClass(a.variant)}"><span class="kds-btn-label">${a.label}</span></a>`)
   .join('\n')}
 </div>`;
-  const gsp = `<div class="kds-status-block" data-status="${status}">
-  <div class="kds-status-block-icon">
-    <i class="material-symbols-outlined">${icon}</i>
-  </div>
-  <div>
-    <h2 class="kds-status-block-title"><g:message code="onboarding.state.${key}.title"/></h2>
-    <p class="kds-status-block-description"><g:message code="onboarding.state.${key}.description"/></p>
-  </div>
-</div>
-<div class="kds-btn-stack">
-${actions
-  .map(
-    (a) =>
-      `  <mat:button type="${a.variant ?? 'primary'}" href="\${createLink(action: '${a.gspAction}')}" textCode="${a.i18n}" cssClass="kds-btn-block"/>`,
-  )
-  .join('\n')}
-</div>`;
+  const caseName = key.replace(/([A-Z])/g, '_$1').toUpperCase();
+  const descriptionAttr = descriptionArgs
+    ? `\n    description="\${message(code: 'onboarding.state.${key}.description', args: ${descriptionArgs})}"`
+    : '';
+  const gsp = `<%-- Taglib del DS (grails/taglibs-grails6). El HTML de arriba es lo que debe emitir. --%>
+<kds:onboardingState case="\${com.khipu.designsystem.OnboardingStateCase.${caseName}}"${descriptionAttr}/>`;
   return `${html}\n\n<!-- GSP -->\n${gsp}`;
 }
 
@@ -131,8 +122,9 @@ const MY_DRAFTS: Action = {
 };
 
 /**
- * Evaluación de riesgo en curso, con la persona en pantalla (la página se refresca sola).
- * Ícono fijo de espera (`info`), no el spinner de `pending`.
+ * Evaluación de riesgo en curso al retomar el alta (p. ej. desde "Tus altas en curso"). Dentro
+ * del flujo, la espera antes de firmar es la pantalla de evaluación con checklist (KTUF-493,
+ * `On boarding/Flujo completo`). Ícono fijo de espera (`info`), no el spinner de `pending`.
  */
 export const EsperandoEvaluacion = stateStory('1 · Esperando la evaluación de riesgo', {
   key: 'riskPending',
@@ -152,6 +144,7 @@ export const AvisoPorCorreo = stateStory('2 · Evaluación sin respuesta (aviso 
   title: 'Te avisaremos por correo',
   description:
     'La revisión está tomando más de lo normal. Guardamos tu avance y te escribiremos a ana.perez@correo.cl cuando puedas firmar el contrato.',
+  descriptionArgs: '[contactEmail]',
   actions: [{ label: 'Entendido', gspAction: 'drafts', i18n: 'default.understood' }],
 });
 
@@ -400,30 +393,43 @@ const DRAFTS: Draft[] = [
   },
 ];
 
-function DraftName({ draft }: { draft: Draft }) {
+/**
+ * One resumable draft: the same `<a class="kds-bank-row">` markup payment renders (a link to the
+ * first pending screen), not the `KdsBankRow` button, so the story shows the real markup.
+ */
+function DraftRow({ draft }: { draft: Draft }) {
   return (
-    <span className="kds-flex kds-flex-col">
-      <span>
-        {draft.merchant} · {draft.product}
+    <a href={`#resume-${draft.id}`} className="kds-bank-row">
+      <span className="kds-bank-row-name">
+        <span className="kds-flex kds-flex-col">
+          <span>
+            {draft.merchant} · {draft.product}
+          </span>
+          <span className="kds-text-body-small kds-text-secondary">
+            {draft.step} · {draft.expires}
+          </span>
+        </span>
       </span>
-      <KdsTypography variant="body-small" color="secondary" as="span">
-        {draft.step} · {draft.expires}
-      </KdsTypography>
-    </span>
+      <i className="material-symbols-outlined" aria-hidden="true">
+        chevron_right
+      </i>
+    </a>
   );
 }
 
 /**
- * "Tus altas en curso" (REA-01/02, D-23): se retoma siempre desde aquí. Cada alta es un
- * `KdsBankRow` sin logo (`hideLogo`) con nombre, producto, paso pendiente y vencimiento; al
- * elegirla se va a la primera pantalla pendiente. "Mi caso no está en el listado" lleva a
- * soporte.
+ * "Tus altas en curso" (REA-01/02, D-23): se retoma siempre desde aquí. Cada alta es un link con
+ * la fila de `KdsBankRow` (sin logo): nombre, producto, paso pendiente y vencimiento; lleva a la
+ * primera pantalla pendiente. "Mi caso no está en el listado" lleva a soporte. Sin `role="list"`:
+ * son links sueltos en un `.kds-bank-list`, no ítems de una lista.
  */
 export const AltasEnCurso: Story = {
   name: '11 · Tus altas en curso',
-  parameters: source(`<h2 class="kds-text-heading3">Tus altas en curso</h2>
-<p class="kds-text-body kds-text-secondary">Elige una para seguir donde la dejaste.</p>
-<div class="kds-bank-list" role="list">
+  parameters: source(`<div class="kds-flex kds-flex-col kds-gap-1">
+  <h2 class="kds-text-heading3 kds-m-0">Tus altas en curso</h2>
+  <div class="kds-text-body kds-text-secondary">Elige una para seguir donde la dejaste.</div>
+</div>
+<div class="kds-bank-list">
   <a href="/onboarding/resume/d1" class="kds-bank-row">
     <span class="kds-bank-row-name">
       <span class="kds-flex kds-flex-col">
@@ -440,9 +446,11 @@ export const AltasEnCurso: Story = {
 </div>
 
 <!-- GSP -->
-<h2 class="kds-text-heading3"><g:message code="onboarding.drafts.title"/></h2>
-<p class="kds-text-body kds-text-secondary"><g:message code="onboarding.drafts.subtitle"/></p>
-<div class="kds-bank-list" role="list">
+<div class="kds-flex kds-flex-col kds-gap-1">
+  <h2 class="kds-text-heading3 kds-m-0"><g:message code="onboarding.drafts.title"/></h2>
+  <div class="kds-text-body kds-text-secondary"><g:message code="onboarding.drafts.subtitle"/></div>
+</div>
+<div class="kds-bank-list">
   <g:each in="\${drafts}" var="draft">
     <g:link action="resume" id="\${draft.id}" class="kds-bank-row">
       <span class="kds-bank-row-name">
@@ -459,20 +467,24 @@ export const AltasEnCurso: Story = {
   </g:each>
 </div>
 <div class="kds-btn-stack">
-  <mat:button type="primary" href="\${createLink(action: 'start')}" textCode="onboarding.draft.new" cssClass="kds-btn-block"/>
-  <mat:button type="text" href="\${createLink(action: 'support')}" textCode="onboarding.drafts.notListed" cssClass="kds-btn-block"/>
+  <kds:button type="primary" href="\${createLink(action: 'start')}" cssClass="kds-btn-block"><g:message code="onboarding.draft.new"/></kds:button>
+  <kds:button type="text" href="\${createLink(action: 'support')}" cssClass="kds-btn-block"><g:message code="onboarding.drafts.notListed"/></kds:button>
 </div>`),
   render: () => (
-    <div className="kds-flex kds-flex-col kds-gap-1">
-      <KdsTypography variant="heading3">Tus altas en curso</KdsTypography>
-      <KdsTypography variant="body" color="secondary">
-        Elige una para seguir donde la dejaste.
-      </KdsTypography>
-      <KdsBankList>
+    <div>
+      <div className="kds-flex kds-flex-col kds-gap-1">
+        <KdsTypography variant="heading3" as="h2" className="kds-m-0">
+          Tus altas en curso
+        </KdsTypography>
+        <KdsTypography variant="body" color="secondary" as="div">
+          Elige una para seguir donde la dejaste.
+        </KdsTypography>
+      </div>
+      <div className="kds-bank-list">
         {DRAFTS.map((d) => (
-          <KdsBankRow key={d.id} hideLogo name={<DraftName draft={d} />} />
+          <DraftRow key={d.id} draft={d} />
         ))}
-      </KdsBankList>
+      </div>
       <div className="kds-btn-stack">
         <KdsButton fullWidth>Empezar una nueva alta</KdsButton>
         <KdsButton variant="text" fullWidth>
@@ -483,51 +495,28 @@ export const AltasEnCurso: Story = {
   ),
 };
 
-/** Sin altas en curso: `KdsEmptyState` y el camino para empezar una. */
-export const SinAltasEnCurso: Story = {
-  name: '12 · Sin altas en curso',
-  parameters: source(`<div class="kds-empty-state" role="status">
-  <i class="material-symbols-outlined" aria-hidden="true">inbox</i>
-  <div class="kds-empty-state-text">
-    <p class="kds-text-body">No tienes altas en curso</p>
-    <p class="kds-text-body kds-text-secondary">Las que empieces quedarán guardadas aquí por 90 días.</p>
-  </div>
-</div>
-<div class="kds-btn-stack">
-  <a href="/onboarding/start" class="kds-btn kds-btn-primary kds-btn-block"><span class="kds-btn-label">Empezar una alta</span></a>
-  <a href="/onboarding/support" class="kds-btn kds-btn-text kds-btn-block"><span class="kds-btn-label">Mi caso no está en el listado</span></a>
-</div>
-
-<!-- GSP -->
-<g:if test="\${!drafts}">
-  <div class="kds-empty-state" role="status">
-    <i class="material-symbols-outlined" aria-hidden="true">inbox</i>
-    <div class="kds-empty-state-text">
-      <p class="kds-text-body"><g:message code="onboarding.drafts.empty.title"/></p>
-      <p class="kds-text-body kds-text-secondary"><g:message code="onboarding.drafts.empty.description"/></p>
-    </div>
-  </div>
-</g:if>`),
-  render: () => (
-    <div>
-      <KdsEmptyState
-        icon="inbox"
-        title="No tienes altas en curso"
-        description="Las que empieces quedarán guardadas aquí por 90 días."
-      />
-      <div className="kds-btn-stack">
-        <KdsButton fullWidth>Empezar una alta</KdsButton>
-        <KdsButton variant="text" fullWidth>
-          Mi caso no está en el listado
-        </KdsButton>
-      </div>
-    </div>
-  ),
-};
+/**
+ * Sin altas en curso: misma pantalla de estado que el resto (`KdsStatusBlock` + acciones), con
+ * el camino para empezar una y el de soporte si su caso no aparece.
+ */
+export const SinAltasEnCurso = stateStory('12 · Sin altas en curso', {
+  key: 'draftsEmpty',
+  status: 'info',
+  icon: 'inbox',
+  title: 'No tienes altas en curso',
+  description: 'Las que empieces quedarán guardadas aquí por 90 días.',
+  actions: [
+    { label: 'Empezar una nueva alta', gspAction: 'start', i18n: 'onboarding.draft.new' },
+    { label: 'Mi caso no está en el listado', variant: 'text', gspAction: 'support', i18n: 'onboarding.drafts.notListed' },
+  ],
+});
 
 /**
  * "Cancelar esta alta" (NAV-17, VEN-09): siempre visible en el flujo y con confirmación.
- * `KdsBottomSheet variant="dialog"`; la acción destructiva usa `error`.
+ * `KdsBottomSheet variant="dialog"`; la acción destructiva usa `error`. En HTML/GSP lo abre y
+ * cierra el bundle (`Khipu.initSheets`: `data-open-sheet`, `data-close-sheet`, Escape, clic
+ * fuera, foco); `data-sheet-dismissible="false"` en el scrim impide cerrarlo con Escape o clic
+ * fuera.
  */
 export const CancelarAlta: Story = {
   name: '13 · Confirmar: cancelar esta alta',
@@ -535,33 +524,38 @@ export const CancelarAlta: Story = {
   <span class="kds-btn-label">Cancelar esta alta</span>
 </button>
 
+<!-- The form lives outside the sheet; its submit button points to it with form="" -->
+<form id="cancel-draft-form" method="post" action="/onboarding/cancel"></form>
 <div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="cancel-draft-sheet" hidden>
   <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="cancel-draft-title">
     <div class="kds-bottom-sheet-grabber" aria-hidden="true"></div>
     <h2 class="kds-bottom-sheet-title" id="cancel-draft-title">¿Cancelar esta alta?</h2>
     <p class="kds-bottom-sheet-description">Borraremos los datos que ingresaste y no podrás retomarla. Si quieres, puedes empezar otra después.</p>
     <div class="kds-bottom-sheet-actions">
-      <form method="post" action="/onboarding/cancel">
-        <button type="submit" class="kds-btn kds-btn-error kds-btn-block"><span class="kds-btn-label">Sí, cancelar alta</span></button>
-      </form>
+      <button type="submit" form="cancel-draft-form" class="kds-btn kds-btn-error kds-btn-block"><span class="kds-btn-label">Sí, cancelar alta</span></button>
       <button type="button" class="kds-btn kds-btn-outlined kds-btn-block" data-close-sheet><span class="kds-btn-label">Volver</span></button>
     </div>
   </div>
 </div>
+<!-- Abrir/cerrar: khipu-init.js del bundle (Khipu.initSheets) maneja data-open-sheet / data-close-sheet -->
 
-<!-- GSP: cancelar es un POST con el token del formulario (no un link) -->
+<!-- GSP: cancelar es un POST con token. kds:button pasa (escapados) form y data-*; mat:button de
+     payment descarta form, por eso no sirve aquí. -->
+<kds:button type="error-text" data-open-sheet="cancel-draft-sheet"><g:message code="onboarding.cancel.open"/></kds:button>
+<g:form action="cancel" useToken="true" name="cancelDraftForm" id="cancel-draft-form"></g:form>
 <div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="cancel-draft-sheet" hidden>
   <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="cancel-draft-title">
     <h2 class="kds-bottom-sheet-title" id="cancel-draft-title"><g:message code="onboarding.cancel.title"/></h2>
     <p class="kds-bottom-sheet-description"><g:message code="onboarding.cancel.description"/></p>
     <div class="kds-bottom-sheet-actions">
-      <g:form action="cancel" useToken="true">
-        <mat:button type="error" htmlType="submit" textCode="onboarding.cancel.confirm" cssClass="kds-btn-block"/>
-      </g:form>
-      <mat:button type="outlined" textCode="default.back" cssClass="kds-btn-block" onclick="this.closest('.kds-bottom-sheet-scrim').hidden = true"/>
+      <kds:button type="error" htmlType="submit" form="cancel-draft-form" cssClass="kds-btn-block">
+        <g:message code="onboarding.cancel.confirm"/>
+      </kds:button>
+      <kds:button type="outlined" cssClass="kds-btn-block" data-close-sheet="true"><g:message code="default.back.link"/></kds:button>
     </div>
   </div>
-</div>`),
+</div>
+<!-- Abrir/cerrar: khipu-init.js del bundle (Khipu.initSheets) maneja data-open-sheet / data-close-sheet -->`),
   render: function CancelDraftStory() {
     const [open, setOpen] = useState(false);
     return (
@@ -601,7 +595,12 @@ const INVALIDATED = ['Verificación de identidad', 'Información comercial'];
  */
 export const RectificarDato: Story = {
   name: '14 · Confirmar: cambiar un dato que invalida pasos',
-  parameters: source(`<div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="rectify-sheet" hidden>
+  parameters: source(`<!-- "Guardar cambio" of the edited block opens the sheet instead of submitting -->
+<button type="button" class="kds-btn kds-btn-outlined" data-open-sheet="rectify-sheet">
+  <span class="kds-btn-label">Guardar cambio</span>
+</button>
+
+<div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="rectify-sheet" hidden>
   <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="rectify-title">
     <div class="kds-bottom-sheet-grabber" aria-hidden="true"></div>
     <h2 class="kds-bottom-sheet-title" id="rectify-title">Si cambias este dato, tendrás que repetir algunos pasos</h2>
@@ -622,8 +621,10 @@ export const RectificarDato: Story = {
     </div>
   </div>
 </div>
+<!-- Abrir/cerrar: khipu-init.js del bundle (Khipu.initSheets) maneja data-open-sheet / data-close-sheet -->
 
-<!-- GSP: invalidatedSteps viene del backend (pasos que dependen del bloque editado) -->
+<!-- GSP: invalidatedSteps viene del backend (pasos que dependen del bloque editado). kds:button
+     pasa el atributo form (mat:button de payment lo descarta). -->
 <div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="rectify-sheet" hidden>
   <div class="kds-bottom-sheet kds-bottom-sheet--dialog" role="dialog" aria-modal="true" aria-labelledby="rectify-title">
     <h2 class="kds-bottom-sheet-title" id="rectify-title"><g:message code="onboarding.rectify.title"/></h2>
@@ -634,13 +635,20 @@ export const RectificarDato: Story = {
           <li><g:message code="onboarding.step.\${step.key}"/></li>
         </g:each>
       </ul>
+      <p class="kds-section-note kds-neutral">
+        <i class="material-symbols-outlined" aria-hidden="true">info</i>
+        <span><g:message code="onboarding.rectify.progressKept"/></span>
+      </p>
     </div>
     <div class="kds-bottom-sheet-actions">
-      <mat:button type="primary" htmlType="submit" form="profile-form" textCode="onboarding.rectify.confirm" cssClass="kds-btn-block"/>
-      <mat:button type="outlined" textCode="onboarding.rectify.keep" cssClass="kds-btn-block" onclick="this.closest('.kds-bottom-sheet-scrim').hidden = true"/>
+      <kds:button type="primary" htmlType="submit" form="profile-form" cssClass="kds-btn-block">
+        <g:message code="onboarding.rectify.confirm"/>
+      </kds:button>
+      <kds:button type="outlined" cssClass="kds-btn-block" data-close-sheet="true"><g:message code="onboarding.rectify.keep"/></kds:button>
     </div>
   </div>
-</div>`),
+</div>
+<!-- Abrir/cerrar: khipu-init.js del bundle (Khipu.initSheets) maneja data-open-sheet / data-close-sheet -->`),
   render: function RectifyStory() {
     const [open, setOpen] = useState(false);
     return (
