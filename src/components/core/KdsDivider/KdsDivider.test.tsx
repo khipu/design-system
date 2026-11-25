@@ -41,4 +41,14 @@ describe('KdsDivider', () => {
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
     expect(ref.current).toHaveClass('kds-divider-text');
   });
+
+  it('falls back to the line when the label is a boolean (label={cond && "o"})', () => {
+    const cond = false;
+    const { container, rerender } = render(<KdsDivider label={cond && 'o'} dashed />);
+    expect(container.querySelector('.kds-divider-text')).toBeNull();
+    expect(container.querySelector('hr')).toHaveClass('kds-hr-dashed');
+    rerender(<KdsDivider label={true} />);
+    expect(container.querySelector('.kds-divider-text')).toBeNull();
+    expect(container.querySelector('hr')).toHaveClass('kds-hr');
+  });
 });
