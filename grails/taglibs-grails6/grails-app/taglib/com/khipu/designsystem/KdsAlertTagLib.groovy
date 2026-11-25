@@ -7,6 +7,10 @@ package com.khipu.designsystem
  * KdsAlert's `role="alert"`: this taglib targets persistent, already-on-page
  * notices (e.g. "the step order changed"), which should announce politely,
  * not interrupt like a just-appeared alert.
+ *
+ * The body (or `textCode`) is plain text: it is HTML-escaped, so markup inside the tag is
+ * shown as text, not rendered (`<kds:alert><b>x</b></kds:alert>` prints `<b>x</b>`). For
+ * emphasis use `lead` (rendered in `<strong>`) instead of inline markup.
  */
 class KdsAlertTagLib {
     static namespace = 'kds'

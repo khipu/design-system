@@ -60,4 +60,41 @@ class KdsRecapListTagLibSpec extends Specification implements TagLibUnitTest<Kds
         expect:
         !applyTemplate('<kds:recapList items="${items}"/>', [items: items]).contains('<script>')
     }
+
+    void 'labelCode and placeholderCode resolve their messages'() {
+        given:
+        messageSource.addMessage('recap.label', Locale.ENGLISH, 'Teléfono')
+        messageSource.addMessage('recap.empty', Locale.ENGLISH, 'No informado')
+        def items = [[labelCode: 'recap.label', placeholderCode: 'recap.empty']]
+
+        expect:
+        applyTemplate('<kds:recapList items="${items}"/>', [items: items])
+            .contains('<span class="kds-key">Teléfono</span><span class="kds-value placeholder">No informado</span>')
+    }
+
+    void 'a missing labelCode / placeholderCode falls back to the code itself, escaped'() {
+        given:
+        def code = 'missing.<b>code</b>'
+        def items = [[labelCode: code, placeholderCode: code]]
+
+        expect:
+        def html = applyTemplate('<kds:recapList items="${items}"/>', [items: items])
+        html.contains('missing.&lt;b&gt;code&lt;/b&gt;')
+        !html.contains('<b>')
+    }
+
+    @Unroll
+    void 'boxed as a real Boolean (#boxed) -> #expectedClass'() {
+        given:
+        def items = [[label: 'A', value: 'B']]
+
+        expect:
+        applyTemplate('<kds:recapList items="${items}" boxed="${boxed}"/>', [items: items, boxed: boxed])
+            .startsWith("<ul class=\"${expectedClass}\">")
+
+        where:
+        boxed | expectedClass
+        true  | 'kds-recap-list kds-recap-list--boxed'
+        false | 'kds-recap-list'
+    }
 }
