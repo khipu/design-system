@@ -15,7 +15,7 @@
     default.button.continue.label y default.button.send.label ya existen.
     Todas las demás hay que crearlas: el resto de merchant.onboarding.* (step, legal.title,
     banking, bank, bankRedirect, account, plan, businessInfo, industry, collectionModel,
-    monthlySales, service, company, signer, contact, validating, validated, validationError,
+    monthlySales, service, company, signer, contact, riskEvaluation, validated, validationError,
     contract, done), merchant.signContract.title, merchant.signContract.scroll.hint, consent.*,
     plan.recommended, validation.status.*, feedback.thanks.*, default.optional.label y
     default.loading.label.
@@ -48,7 +48,8 @@
   <h2 class="kds-m-0 kds-color-primary kds-fw-medium">${subtitle}</h2>
 </g:if>
 <g:if test="${lead}">
-  <p class="kds-m-0">${lead}</p>
+  <%-- <div>, no <p>: BeerCSS suma 1rem sobre un <p> que sigue a otro elemento --%>
+  <div class="kds-text-body">${lead}</div>
 </g:if>
 
 
@@ -512,57 +513,50 @@
 
 
 <%-- =====================================================================================
-     validation.gsp — tras contactsSubmit: validación automática (modal no cerrable).
-     El servidor pinta el estado inicial; el script consulta el avance y, al terminar,
-     habilita "Continuar a la firma" (el modal NO se cierra solo).
+     riskEvaluation.gsp — tras contactsSubmit, solo si la evaluación de riesgo sigue pendiente
+     (D-29 / NAV-12: el contrato no se muestra antes de que termine). Si ya terminó, el
+     controller redirige directo a contract. Es una pantalla, no un modal: el avance está
+     guardado y se puede salir; el script consulta el avance y, al terminar, habilita
+     "Continuar a la firma".
+     model: validationSteps [{key, labelCode, status}], timedOut (sin respuesta a tiempo),
+            contactEmail
      ===================================================================================== --%>
-<div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open">
-  <div class="kds-bottom-sheet kds-bottom-sheet--dialog kds-bottom-sheet--center" role="dialog"
-       aria-modal="true" aria-labelledby="validating-title" aria-describedby="validating-desc">
-    <div class="kds-bottom-sheet-icon" id="validating-icon">
-      <progress class="circle indeterminate" aria-label="${message(code: 'default.loading.label')}"></progress>
+<div class="kds-card-elevated kds-max-w-md kds-flex kds-flex-col kds-gap-2">
+  <g:if test="${timedOut}">
+    <%-- Sin respuesta: el alta queda guardada y se avisa por correo cuando se pueda firmar.
+         kds:onboardingState pinta el bloque de estado y su acción ("Entendido" → drafts);
+         descriptionArgs se escapa dentro del taglib. --%>
+    <g:render template="/merchant/onboardingHeader" model="[
+        title: message(code: 'merchant.onboarding.legal.title'),
+        steps: CONFIG_STEPS, current: 3]"/>
+    <kds:onboardingState case="${com.khipu.designsystem.OnboardingStateCase.RISK_BY_EMAIL}"
+                         descriptionArgs="${[contactEmail]}"/>
+  </g:if>
+  <g:else>
+    <g:render template="/merchant/onboardingHeader" model="[
+        title: message(code: 'merchant.onboarding.legal.title'),
+        steps: CONFIG_STEPS, current: 3,
+        subtitle: message(code: 'merchant.onboarding.riskEvaluation.subtitle'),
+        lead: message(code: 'merchant.onboarding.riskEvaluation.lead', args: [company.name])]"/>
+    <%-- Envuelta en <div>: un <ul> después de otro elemento también recibe 1rem de BeerCSS.
+         validationSteps: [{key, labelCode, status}]; cada <li> lleva data-step="<key>", que es
+         lo que usa el sondeo de abajo para actualizarlo. --%>
+    <div>
+      <kds:progressChecklist steps="${validationSteps}"/>
     </div>
-    <h2 class="kds-bottom-sheet-title" id="validating-title">
-      <g:message code="merchant.onboarding.validating.title"/>
-    </h2>
-    <p class="kds-bottom-sheet-description" id="validating-desc">
-      <g:message code="merchant.onboarding.validating.description" args="${[company.name]}"/>
-    </p>
-    <div class="kds-bottom-sheet-body">
-      <ul class="kds-progress-checklist" id="validation-steps" aria-live="polite">
-        <g:each in="${validationSteps}" var="step">
-          <g:if test="${step.status == 'active'}">
-            <li class="kds-progress-checklist-item kds-progress-checklist-item--active" aria-current="step"
-                data-step="${step.key}">
-          </g:if>
-          <g:else>
-            <li class="kds-progress-checklist-item kds-progress-checklist-item--${step.status}" data-step="${step.key}">
-          </g:else>
-            <span class="kds-progress-checklist-mark" aria-hidden="true">
-              <g:if test="${step.status == 'done'}"><i class="material-symbols-outlined">check</i></g:if>
-              <g:elseif test="${step.status == 'active'}"><span class="kds-dots-loader"><span></span><span></span><span></span></span></g:elseif>
-              <g:else><span class="kds-progress-checklist-dot"></span></g:else>
-            </span>
-            <span class="kds-progress-checklist-label"><g:message code="${step.labelCode}"/></span>
-            <span class="kds-progress-checklist-status">: <g:message code="validation.status.${step.status}"/></span>
-          </li>
-        </g:each>
-      </ul>
+    <kds:sectionNote icon="info" tone="neutral" textCode="merchant.onboarding.riskEvaluation.canLeave"/>
+    <div class="kds-flex kds-gap-1">
+      <mat:button type="outlined" href="${createLink(action: 'contacts')}" textCode="default.back.link" cssClass="kds-flex-1"/>
+      <%-- Sin href: mat:button ignora disabled cuando renderiza un <a>. El script lo habilita. --%>
+      <mat:button type="primary" id="risk-continue" textCode="merchant.onboarding.riskEvaluation.wait"
+                  cssClass="kds-flex-1" disabled="true"/>
     </div>
-    <p class="kds-bottom-sheet-hint" id="validating-hint">
-      <g:message code="merchant.onboarding.validating.doNotClose"/>
-    </p>
-    <div class="kds-bottom-sheet-actions">
-      <%-- Deshabilitado hasta que TODOS los pasos están listos (o hasta un error, que lo vuelve
-           "Revisar mis datos"). Sin href: mat:button ignora disabled cuando renderiza un <a>. --%>
-      <mat:button type="primary" id="validating-finish" textCode="merchant.onboarding.validating.wait"
-                  cssClass="kds-btn-block" disabled="true"/>
-    </div>
-  </div>
+  </g:else>
 </div>
+<g:if test="${!timedOut}">
 <kh:script>
   (function () {
-    // validationStatus responde [{key, status}] con status: pending | active | done | error
+    // validationStatus responde {steps: [{key, status}], timedOut} con status: pending | active | done | error
     var MARKS = {
       done: '<i class="material-symbols-outlined">check</i>',
       error: '<i class="material-symbols-outlined">error</i>',
@@ -576,7 +570,7 @@
       done: '${message(code: 'validation.status.done').encodeAsJavaScript()}',
       error: '${message(code: 'validation.status.error').encodeAsJavaScript()}'
     };
-    var finish = document.getElementById('validating-finish');
+    var button = document.getElementById('risk-continue');
 
     function render(steps) {
       steps.forEach(function (s) {
@@ -589,37 +583,17 @@
       });
     }
 
-    // Ends the validation: result icon and texts, no hint, and the button as the only way out.
-    function finishWith(ok, title, description, label, href) {
-      document.getElementById('validating-icon').innerHTML = ok
-        ? '<i class="material-symbols-outlined kds-color-success" aria-hidden="true">check_circle</i>'
-        : '<i class="material-symbols-outlined kds-color-error" aria-hidden="true">error</i>';
-      document.getElementById('validating-title').textContent = title;
-      document.getElementById('validating-desc').textContent = description;
-      var hint = document.getElementById('validating-hint');
-      if (hint) hint.remove();
-      finish.disabled = false;
-      finish.textContent = label;
-      finish.addEventListener('click', function () { window.location.href = href; });
-      finish.focus();
+    function enable(label, href) {
+      button.disabled = false;
+      button.textContent = label;
+      button.addEventListener('click', function () { window.location.href = href; });
+      button.focus();
     }
 
-    function done() {
-      finishWith(true,
-        '${message(code: 'merchant.onboarding.validated.title').encodeAsJavaScript()}',
-        '${message(code: 'merchant.onboarding.validated.description').encodeAsJavaScript()}',
-        '${message(code: 'merchant.onboarding.validated.continue').encodeAsJavaScript()}',
-        '${createLink(action: 'contract')}');
-    }
-
-    // A failed step or a failed request (e.g. an expired session) never leaves the user stuck.
-    function failed() {
-      finishWith(false,
-        '${message(code: 'merchant.onboarding.validationError.title').encodeAsJavaScript()}',
-        '${message(code: 'merchant.onboarding.validationError.description').encodeAsJavaScript()}',
-        '${message(code: 'merchant.onboarding.validationError.review').encodeAsJavaScript()}',
-        '${createLink(action: 'companyInfo')}');
-    }
+    // Failed requests retry with a growing delay and stop after a few: no reload loop that
+    // hammers the server; the "puedes salir" note stays and the user can come back later.
+    var failures = 0;
+    var MAX_FAILURES = 5;
 
     (function poll() {
       fetch('${createLink(action: 'validationStatus')}', { headers: { Accept: 'application/json' } })
@@ -627,16 +601,32 @@
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
         })
-        .then(function (steps) {
-          render(steps);
-          if (steps.some(function (s) { return s.status === 'error'; })) failed();
-          else if (steps.every(function (s) { return s.status === 'done'; })) done();
-          else setTimeout(poll, 1200);
+        .then(function (result) {
+          failures = 0;
+          render(result.steps);
+          // Sin respuesta a tiempo: el servidor pinta el aviso por correo.
+          if (result.timedOut) window.location.reload();
+          else if (result.steps.some(function (s) { return s.status === 'error'; })) {
+            enable('${message(code: 'merchant.onboarding.validationError.review').encodeAsJavaScript()}',
+                   '${createLink(action: 'companyInfo')}');
+          } else if (result.steps.every(function (s) { return s.status === 'done'; })) {
+            enable('${message(code: 'merchant.onboarding.validated.continue').encodeAsJavaScript()}',
+                   '${createLink(action: 'contract')}');
+          } else setTimeout(poll, 1200);
         })
-        .catch(failed);
+        // An expired session answers with the login page (not JSON) and lands here too.
+        // After the last retry the button becomes "Reintentar": a reload only when the user
+        // asks for it (no loop), and the screen does not go silent.
+        .catch(function () {
+          failures += 1;
+          if (failures < MAX_FAILURES) setTimeout(poll, 1200 * Math.pow(2, failures));
+          else enable('${message(code: 'merchant.onboarding.riskEvaluation.retry').encodeAsJavaScript()}',
+                      window.location.href);
+        });
     })();
   })();
 </kh:script>
+</g:if>
 
 
 <%-- =====================================================================================
@@ -648,7 +638,17 @@
   <g:render template="/merchant/onboardingHeader" model="[
       title: message(code: 'merchant.onboarding.legal.title'),
       steps: CONFIG_STEPS, current: 4]"/>
-  <mat:alert type="success" descriptionCode="merchant.onboarding.contract.validated"/>
+  <%-- Riesgo rojo: el tope se informa antes de firmar, no solo en el éxito --%>
+  <g:if test="${riskCap}">
+    <%-- message() marca su resultado como seguro: el monto se escapa ANTES de entrar al
+         mensaje, no después. --%>
+    <kds:alert severity="warning"
+               lead="${message(code: 'merchant.onboarding.contract.riskCap.lead', args: [kh.formatAmount(amount: riskCap, currency: merchant.currency).toString().encodeAsHTML()])}"
+               textCode="merchant.onboarding.contract.riskCap.text"/>
+  </g:if>
+  <g:else>
+    <kds:alert severity="success" textCode="merchant.onboarding.contract.validated"/>
+  </g:else>
   <h2 class="kds-m-0 kds-color-primary kds-fw-medium"><g:message code="merchant.onboarding.contract.subtitle"/></h2>
   <h3 class="kds-m-0 kds-text-label"><g:message code="merchant.onboarding.signer.title"/></h3>
   <div class="kds-grid">
