@@ -75,6 +75,24 @@ class KdsAlertTagLibSpec extends Specification implements TagLibUnitTest<KdsAler
         ).contains('<script>')
     }
 
+    void 'a lead pre-resolved via message(args:) with a pre-escaped arg is not double-encoded'() {
+        // Matches PR #11's real usage: lead="${message(code: '...', args: [amount.encodeAsHTML()])}" -
+        // the GSP author escapes the arg BEFORE message() (same rule as descriptionArgs), then hands
+        // the already-resolved, already-escaped string straight to `lead`. This taglib must not
+        // escape it a second time.
+        given:
+        messageSource.addMessage('contract.riskCap.lead', Locale.ENGLISH, 'Tope: {0}')
+        def amount = 'Company & Co'
+
+        expect:
+        def html = applyTemplate(
+            '<kds:alert severity="warning" lead="${message(code: \'contract.riskCap.lead\', args: [amount.encodeAsHTML()])}">Texto</kds:alert>',
+            [amount: amount]
+        )
+        html.contains('<strong>Tope: Company &amp; Co</strong>')
+        !html.contains('&amp;amp;')
+    }
+
     void 'escapes cssClass'() {
         given:
         def payload = '"><script>alert(1)</script>'
