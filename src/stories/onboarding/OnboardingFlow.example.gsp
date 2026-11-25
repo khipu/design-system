@@ -100,8 +100,9 @@
 
 <%-- =====================================================================================
      _cancelDraftSheet.gsp — KTUF-496. Confirmación de "Cancelar esta alta". Se renderiza UNA
-     vez por vista de onboarding y FUERA del formulario de la pantalla (no se anidan forms),
-     p. ej. al final de la vista o en el layout del onboarding. El bundle lo abre y cierra
+     vez en cada vista que muestra _draftFooter.gsp y FUERA del formulario de la pantalla (no
+     se anidan forms): abajo, cada vista del borrador lo incluye justo después de su </g:form>.
+     Sin él, el botón data-open-sheet="cancel-draft-sheet" no abre nada (y no da error). El bundle lo abre y cierra
      (Khipu.initSheets: data-open-sheet / data-close-sheet, Escape, clic fuera, foco).
      Cancelar es un POST con token (no un link): el botón apunta al form con form="…".
      ===================================================================================== --%>
@@ -226,6 +227,8 @@
   </div>
   <g:render template="/merchant/onboardingActions" model="[draft: true]"/>
 </g:form>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 
 
 <%-- =====================================================================================
@@ -287,6 +290,8 @@
     </div>
   </div>
 </g:form>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 <kh:script>
   (function () {
     var form = document.getElementById('bankForm');
@@ -380,6 +385,8 @@
   </div>
   <g:render template="/merchant/onboardingActions" model="[backAction: 'selectBank', draft: true]"/>
 </g:form>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 
 
 <%-- =====================================================================================
@@ -420,6 +427,8 @@
   </div>
   <g:render template="/merchant/onboardingActions" model="[backAction: 'selectAccount', draft: true]"/>
 </g:form>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 
 
 <%-- =====================================================================================
@@ -448,6 +457,8 @@
               noSelection="['': message(code: 'merchant.onboarding.service.placeholder')]"/>
   <g:render template="/merchant/onboardingActions" model="[backAction: 'selectPlan', draft: true]"/>
 </g:form>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 
 
 <%-- =====================================================================================
@@ -519,6 +530,8 @@
   </div>
   <g:render template="/merchant/onboardingActions" model="[backAction: 'businessInfo', draft: true]"/>
 </g:form>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 
 
 <%-- =====================================================================================
@@ -555,6 +568,8 @@
   </g:each>
   <g:render template="/merchant/onboardingActions" model="[backAction: 'companyInfo', draft: true]"/>
 </g:form>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 <%-- payment imprime los scripts de las vistas con <kh:deferredScripts/> (layouts/material.gsp):
      van en <kh:script>, no en <asset:script>. --%>
 <kh:script>
@@ -623,6 +638,8 @@
   </g:else>
   <g:render template="/merchant/draftFooter"/>
 </div>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 <g:if test="${!timedOut}">
 <kh:script>
   (function () {
@@ -755,6 +772,8 @@
   </div>
   <g:render template="/merchant/draftFooter"/>
 </g:form>
+<%-- Fuera del formulario: la confirmación de "Cancelar esta alta" (una vez por vista) --%>
+<g:render template="/merchant/cancelDraftSheet"/>
 <kh:script>
   (function () {
     var accept = document.getElementById('agreeContract');
