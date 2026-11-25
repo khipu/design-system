@@ -9,16 +9,22 @@
   - Vistas que ya existen en payment: startOnboarding, selectCountry, selectCurrency,
     selectFlowType (aquí con el markup nuevo del DS). El resto son nuevas: los nombres de
     acciones y modelos son una propuesta.
+  - Acciones transversales (las usan también los taglibs del DS, p. ej. kds:onboardingState):
+    identity (repetir la verificación de identidad: el controller redirige a selectBank),
+    support, drafts ("Tus altas en curso"), start (nueva alta), account y cancel (POST).
+    Una sola acción por propósito: no enlazar selectBank directo para "repetir verificación".
   - Claves i18n: las de merchant.onboarding.start.*, merchant.progress.*, merchant.selectCurrency.title,
     merchant.onboarding.selectFlow.*, merchant.signContract.check.label, merchant.discoverySource.*,
     merchant.name.label, merchant.bankaccount.developer.name.message, default.back.link,
     default.button.continue.label y default.button.send.label ya existen.
     Todas las demás hay que crearlas: el resto de merchant.onboarding.* (step, legal.title,
     banking, bank, bankRedirect, account, plan, businessInfo, industry, collectionModel,
-    monthlySales, service, company, signer, contact, riskEvaluation, validated, validationError,
-    contract, done), merchant.signContract.title, merchant.signContract.scroll.hint, consent.*,
-    plan.recommended, validation.status.*, feedback.thanks.*, default.optional.label y
-    default.loading.label.
+    monthlySales, service, company, signer, contact, verified, riskEvaluation, validated,
+    validationError, contract, done), merchant.signContract.title, merchant.signContract.scroll.hint,
+    consent.*, plan.recommended, validation.status.*, feedback.thanks.*, default.optional.label y
+    default.loading.label; y las compartidas con "On boarding/Estados del alta" y los taglibs:
+    onboarding.state.*, onboarding.drafts.*, onboarding.draft.new, onboarding.cancel.*,
+    onboarding.identity.retry, default.contactSupport y default.understood.
   - Textos: varias claves existentes (p. ej. merchant.onboarding.selectFlow.*) tienen hoy un
     texto distinto al del prototipo que muestra la historia; hay que actualizarlas.
 --%>
@@ -460,7 +466,7 @@
   <div class="kds-flex kds-flex-col kds-gap-1">
     <span class="kds-text-body-small kds-text-secondary"><g:message code="merchant.onboarding.verified.wrong"/></span>
     <div class="kds-flex kds-gap-1">
-      <mat:button type="text" size="sm" href="${createLink(action: 'selectBank')}" textCode="onboarding.identity.retry" cssClass="kds-flex-1"/>
+      <mat:button type="text" size="sm" href="${createLink(action: 'identity')}" textCode="onboarding.identity.retry" cssClass="kds-flex-1"/>
       <mat:button type="text" size="sm" href="${createLink(action: 'support')}" textCode="default.contactSupport" cssClass="kds-flex-1"/>
     </div>
   </div>
@@ -669,12 +675,13 @@
   <h3 class="kds-m-0 kds-text-label"><g:message code="merchant.onboarding.signer.title"/></h3>
   <div class="kds-grid">
     <div class="kds-col-sm-12 kds-col-md-6">
+      <%-- Mismo origen que en companyInfo.gsp: la identidad bancaria (BOR-08) --%>
       <mat:fieldLocked id="signerName" labelCode="merchant.onboarding.signer.name.label"
-                       value="${onboarding.legalRepresentative}" group="false"/>
+                       value="${signer.name}" group="false"/>
     </div>
     <div class="kds-col-sm-12 kds-col-md-6">
       <mat:fieldLocked id="signerRut" labelCode="merchant.onboarding.signer.rut.label"
-                       value="${onboarding.legalRepresentativeRut}" group="false"/>
+                       value="${signer.rut}" group="false"/>
     </div>
   </div>
   <hr class="divider"/>
