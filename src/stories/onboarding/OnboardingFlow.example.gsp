@@ -242,8 +242,8 @@
   <div class="kds-grid">
     <div class="kds-col-sm-12 kds-col-md-6">
       <%-- Banca fija según el tipo de contribuyente (jurídica → Empresas) --%>
-      <mat:fieldLocked id="bankingDisplay" labelCode="merchant.onboarding.banking.label"
-                       value="${message(code: 'merchant.onboarding.banking.business')}" group="false"/>
+      <kds:fieldLocked id="bankingDisplay" labelCode="merchant.onboarding.banking.label"
+                       value="${message(code: 'merchant.onboarding.banking.business')}"/>
       <g:hiddenField name="banking" id="banking" value="BUSINESS"/>
     </div>
     <div class="kds-col-sm-12 kds-col-md-6">
@@ -466,19 +466,19 @@
   <h3 class="kds-m-0 kds-text-label"><g:message code="merchant.onboarding.company.title"/></h3>
   <div class="kds-grid">
     <div class="kds-col-sm-12 kds-col-md-6">
-      <mat:fieldLocked id="companyName" labelCode="merchant.onboarding.company.name.label"
-                       value="${company.name}" group="false"/>
+      <kds:fieldLocked id="companyName" labelCode="merchant.onboarding.company.name.label"
+                       value="${company.name}"/>
     </div>
     <div class="kds-col-sm-12 kds-col-md-6">
-      <mat:fieldLocked id="companyRut" labelCode="merchant.onboarding.company.rut.label"
-                       value="${company.rut}" group="false"/>
+      <kds:fieldLocked id="companyRut" labelCode="merchant.onboarding.company.rut.label"
+                       value="${company.rut}"/>
     </div>
   </div>
   <%-- Sin name: los datos verificados no viajan en el formulario --%>
-  <mat:fieldLocked id="companyActivity" labelCode="merchant.onboarding.company.activity.label"
-                   value="${company.activity}" group="false"/>
-  <mat:fieldLocked id="companyAddress" labelCode="merchant.onboarding.company.address.label"
-                   value="${company.address}" group="false"/>
+  <kds:fieldLocked id="companyActivity" labelCode="merchant.onboarding.company.activity.label"
+                   value="${company.activity}"/>
+  <kds:fieldLocked id="companyAddress" labelCode="merchant.onboarding.company.address.label"
+                   value="${company.address}"/>
   <p class="kds-section-note kds-neutral">
     <i class="material-symbols-outlined" aria-hidden="true">verified</i>
     <span><g:message code="merchant.onboarding.company.source" args="${[bank.name]}"/></span>
@@ -497,12 +497,12 @@
   <h3 class="kds-m-0 kds-text-label"><g:message code="merchant.onboarding.signer.title"/></h3>
   <div class="kds-grid">
     <div class="kds-col-sm-12 kds-col-md-6">
-      <mat:fieldLocked id="signerName" labelCode="merchant.onboarding.signer.name.label"
-                       value="${signer.name}" group="false"/>
+      <kds:fieldLocked id="signerName" labelCode="merchant.onboarding.signer.name.label"
+                       value="${signer.name}"/>
     </div>
     <div class="kds-col-sm-12 kds-col-md-6">
-      <mat:fieldLocked id="signerRut" labelCode="merchant.onboarding.signer.rut.label"
-                       value="${signer.rut}" group="false"/>
+      <kds:fieldLocked id="signerRut" labelCode="merchant.onboarding.signer.rut.label"
+                       value="${signer.rut}"/>
     </div>
   </div>
   <p class="kds-section-note kds-neutral">
@@ -724,12 +724,12 @@
   <div class="kds-grid">
     <div class="kds-col-sm-12 kds-col-md-6">
       <%-- Mismo origen que en companyInfo.gsp: la identidad bancaria (BOR-08) --%>
-      <mat:fieldLocked id="signerName" labelCode="merchant.onboarding.signer.name.label"
-                       value="${signer.name}" group="false"/>
+      <kds:fieldLocked id="signerName" labelCode="merchant.onboarding.signer.name.label"
+                       value="${signer.name}"/>
     </div>
     <div class="kds-col-sm-12 kds-col-md-6">
-      <mat:fieldLocked id="signerRut" labelCode="merchant.onboarding.signer.rut.label"
-                       value="${signer.rut}" group="false"/>
+      <kds:fieldLocked id="signerRut" labelCode="merchant.onboarding.signer.rut.label"
+                       value="${signer.rut}"/>
     </div>
   </div>
   <hr class="divider"/>
