@@ -115,37 +115,15 @@ export const Default: Story = {
   <footer class="kds-secure-footer">…</footer>
 </div>
 
-<!-- GSP: un form con dos submits; las secciones vienen del controller (textos validados con Legal) -->
+<!-- GSP con el taglib kds (KTUF-536): un form con dos submits (name="decision",
+     accept/reject); las secciones vienen del controller (textos validados con Legal):
+     sections = [[titleCode: '…', items: [[icon: 'check_circle', code: '…'], …]], …] -->
 <g:form action="consent" useToken="true">
   <div class="kds-screen active">
-    <section class="kds-card-elevated kds-consent-card" aria-labelledby="consent-title">
-      <div class="kds-consent-card-header">
-        <div class="kds-consent-card-title" role="heading" aria-level="2" id="consent-title">
-          <strong>Khipu</strong> <g:message code="consent.requestsAccessTo"/> <strong>\${bank.name}</strong>
-        </div>
-      </div>
-      <div class="kds-consent-card-body">
-        <g:each in="\${consentSections}" var="section" status="i">
-          <div class="kds-consent-card-section" role="group" aria-labelledby="consent-s\${i}">
-            <div class="kds-consent-card-section-title" role="heading" aria-level="3" id="consent-s\${i}">
-              <g:message code="\${section.titleCode}"/>
-            </div>
-            <ul class="kds-consent-card-items">
-              <g:each in="\${section.items}" var="item">
-                <li class="kds-consent-card-item">
-                  <i class="material-symbols-outlined" aria-hidden="true">\${item.icon}</i>
-                  <span><g:message code="\${item.code}"/></span>
-                </li>
-              </g:each>
-            </ul>
-          </div>
-        </g:each>
-        <div class="kds-consent-card-actions">
-          <mat:button type="primary" htmlType="submit" name="decision" value="accept" textCode="consent.accept" cssClass="kds-btn-block"/>
-          <mat:button type="outlined" htmlType="submit" name="decision" value="reject" textCode="consent.reject" cssClass="kds-btn-block"/>
-        </div>
-      </div>
-    </section>
+    <kds:consentCard id="consent" requester="Khipu" resource="\${bank.name}"
+                     sections="\${consentSections}"
+                     acceptCode="consent.accept" rejectCode="consent.reject"/>
+    <mat:secureFooter/>
   </div>
 </g:form>`,
       },

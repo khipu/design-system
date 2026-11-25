@@ -123,7 +123,7 @@ export const Default: Story = {
     <p>…</p>
   </div>
   <label class="checkbox kds-contract-accept">
-    <input type="checkbox" name="acepta" aria-describedby="contract-hint"/>
+    <input type="checkbox" id="contract-accept" name="acepta" aria-describedby="contract-hint"/>
     <span>Declaro que leí y acepto el contrato</span>
   </label>
   <div class="kds-contract-hint" id="contract-hint">
@@ -131,22 +131,15 @@ export const Default: Story = {
   </div>
 </div>
 
-<!-- GSP (payment, merchantUploadContract/showBillingPlanTerms.gsp): sin JS propio,
-     khipu-beercss.js habilita el checkbox al llegar al final -->
-<div class="kds-contract" data-kds-contract>
-  <div class="kds-contract-content" role="region" tabindex="0"
-       aria-label="\${message(code: 'merchant.signContract.title')}">
-    \${raw(contractContent)}
-  </div>
-  <label class="checkbox kds-contract-accept">
-    <input type="checkbox" id="agreeContract" name="agreeContract"
-           aria-describedby="contract-hint"/>
-    <span><g:message code="merchant.signContract.check.label"/></span>
-  </label>
-  <div class="kds-contract-hint" id="contract-hint">
-    <g:message code="merchant.signContract.scroll.hint"/>
-  </div>
-</div>
+<!-- GSP (payment, merchantUploadContract/showBillingPlanTerms.gsp) con el taglib kds
+     (KTUF-536). Sin JS propio: khipu-beercss.js habilita el checkbox al llegar al final.
+     El cuerpo NO se escapa: solo texto del sistema (plantilla vigente del contrato), nunca
+     datos ingresados por el usuario. -->
+<kds:contract id="contract" name="agreeContract" contentLabelCode="merchant.signContract.title"
+              acceptLabelCode="merchant.signContract.check.label"
+              hintCode="merchant.signContract.scroll.hint">
+  \${raw(contractContent)}
+</kds:contract>
 <button type="submit" id="sign-button" class="kds-btn kds-btn-primary kds-btn-block" disabled>
   <span class="kds-btn-label">Aceptar y firmar</span>
 </button>

@@ -103,32 +103,24 @@ export const Default: Story = {
   </span>
   <div class="kds-feedback-card-body">
     <div class="kds-feedback-card-text">
-      <div class="kds-feedback-card-title" id="feedback-title">¡Gracias por contarnos!</div>
+      <!-- tabindex="-1": al enviar, el foco pasa al título (el botón ya no existe) -->
+      <div class="kds-feedback-card-title" id="feedback-title" tabindex="-1">¡Gracias por contarnos!</div>
       <div class="kds-feedback-card-description">Tu respuesta nos ayuda a llegar a más negocios como el tuyo.</div>
     </div>
   </div>
 </section>
 
-<!-- GSP: la card como form; al volver con submitted=true se pinta el agradecimiento -->
+<!-- GSP con el taglib kds (KTUF-536): la card dentro del form; al volver con
+     submitted=true se pinta el agradecimiento. El cuerpo (los campos) solo se emite sin
+     enviar; el tag agrega el botón de envío. -->
 <g:form action="saveAcquisitionSource">
-  <section class="kds-feedback-card\${submitted ? ' kds-feedback-card--submitted' : ''}"
-           aria-labelledby="feedback-title" aria-live="polite">
-    <span class="kds-feedback-card-icon" aria-hidden="true">
-      <i class="material-symbols-outlined">\${submitted ? 'check' : 'auto_awesome'}</i>
-    </span>
-    <div class="kds-feedback-card-body">
-      <div class="kds-feedback-card-text">
-        <div class="kds-feedback-card-title" id="feedback-title">
-          <g:message code="\${submitted ? 'feedback.thanks.title' : 'feedback.source.title'}"/>
-        </div>
-      </div>
-      <g:unless test="\${submitted}">
-        <mat:select name="source" bean="\${feedback}" value="\${feedback?.source}" from="\${sources}"
-                    labelCode="feedback.source.label" noSelection="['': message(code: 'default.select')]"/>
-        <mat:button type="outlined" htmlType="submit" text="\${message(code: 'default.send')}"/>
-      </g:unless>
-    </div>
-  </section>
+  <kds:feedbackCard id="feedback" submitted="\${submitted}"
+                    titleCode="feedback.source.title" descriptionCode="feedback.source.description"
+                    thanksTitleCode="feedback.thanks.title" thanksDescriptionCode="feedback.thanks.description"
+                    submitLabelCode="default.send">
+    <mat:select name="source" bean="\${feedback}" value="\${feedback?.source}" from="\${sources}"
+                labelCode="feedback.source.label" noSelection="['': message(code: 'default.select')]"/>
+  </kds:feedbackCard>
 </g:form>`,
       },
     },
