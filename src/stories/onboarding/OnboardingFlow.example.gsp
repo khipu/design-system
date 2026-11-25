@@ -13,6 +13,9 @@
     identity (repetir la verificación de identidad: el controller redirige a selectBank),
     support, drafts ("Tus altas en curso"), start (nueva alta), account y cancel (POST).
     Una sola acción por propósito: no enlazar selectBank directo para "repetir verificación".
+  - Borrador (KTUF-496): desde selectFlowType cada pantalla muestra el aviso de guardado y
+    "Cancelar esta alta" (_draftFooter.gsp); la confirmación (_cancelDraftSheet.gsp) se
+    renderiza una vez por vista, fuera del formulario.
   - Claves i18n: las de merchant.onboarding.start.*, merchant.progress.*, merchant.selectCurrency.title,
     merchant.onboarding.selectFlow.*, merchant.signContract.check.label, merchant.discoverySource.*,
     merchant.name.label, merchant.bankaccount.developer.name.message, default.back.link,
@@ -23,7 +26,8 @@
     validationError, contract, done), merchant.signContract.title, merchant.signContract.scroll.hint,
     consent.*, plan.recommended, validation.status.*, feedback.thanks.*, default.optional.label y
     default.loading.label; y las compartidas con "On boarding/Estados del alta" y los taglibs:
-    onboarding.state.*, onboarding.drafts.*, onboarding.draft.new, onboarding.cancel.*,
+    onboarding.state.*, onboarding.drafts.*, onboarding.draft.new, onboarding.draft.autosave,
+    onboarding.cancel.* (open, title, description, confirm),
     onboarding.identity.retry, default.contactSupport y default.understood.
   - Textos: varias claves existentes (p. ej. merchant.onboarding.selectFlow.*) tienen hoy un
     texto distinto al del prototipo que muestra la historia; hay que actualizarlas.
@@ -61,7 +65,8 @@
 
 <%-- =====================================================================================
      _onboardingActions.gsp — Volver (link a la pantalla anterior) + Continuar (submit)
-     model: backAction (opcional), continueDisabled (opcional)
+     model: backAction (opcional), continueDisabled (opcional), draft (true desde que existe el
+            borrador: agrega el pie con el aviso de guardado y "Cancelar esta alta")
      ===================================================================================== --%>
 <div class="kds-flex kds-gap-1">
   <g:if test="${backAction}">
@@ -71,6 +76,47 @@
   <mat:button type="primary" htmlType="submit" textCode="default.button.continue.label"
               cssClass="kds-flex-1" disabled="${continueDisabled ? 'true' : 'false'}"/>
 </div>
+<g:if test="${draft}">
+  <g:render template="/merchant/draftFooter"/>
+</g:if>
+
+
+<%-- =====================================================================================
+     _draftFooter.gsp — KTUF-496. Mientras existe el borrador: aviso de guardado automático
+     (el avance se guarda en cada envío de pantalla; no hay botón "Guardar", REA-01) y
+     "Cancelar esta alta" siempre visible (NAV-17, VEN-09), que abre la confirmación.
+     Va DENTRO del formulario de la pantalla: solo es un botón type="button" que abre el
+     diálogo; el envío de la cancelación vive en _cancelDraftSheet.gsp, fuera del formulario.
+     ===================================================================================== --%>
+<div class="kds-flex kds-flex-col kds-gap-1">
+  <div class="kds-text-body-small kds-text-secondary kds-text-center">
+    <g:message code="onboarding.draft.autosave"/>
+  </div>
+  <kds:button type="error-text" size="sm" cssClass="kds-btn-block" data-open-sheet="cancel-draft-sheet">
+    <g:message code="onboarding.cancel.open"/>
+  </kds:button>
+</div>
+
+
+<%-- =====================================================================================
+     _cancelDraftSheet.gsp — KTUF-496. Confirmación de "Cancelar esta alta". Se renderiza UNA
+     vez por vista de onboarding y FUERA del formulario de la pantalla (no se anidan forms),
+     p. ej. al final de la vista o en el layout del onboarding. El bundle lo abre y cierra
+     (Khipu.initSheets: data-open-sheet / data-close-sheet, Escape, clic fuera, foco).
+     Cancelar es un POST con token (no un link): el botón apunta al form con form="…".
+     ===================================================================================== --%>
+<g:form action="cancel" useToken="true" name="cancelDraftForm" id="cancel-draft-form"></g:form>
+<kds:bottomSheet id="cancel-draft-sheet" title="${message(code: 'onboarding.cancel.title')}"
+                 description="${message(code: 'onboarding.cancel.description')}">
+  <kds:bottomSheetActions>
+    <kds:button type="error" htmlType="submit" form="cancel-draft-form" cssClass="kds-btn-block">
+      <g:message code="onboarding.cancel.confirm"/>
+    </kds:button>
+    <kds:button type="outlined" cssClass="kds-btn-block" data-close-sheet="true">
+      <g:message code="default.back.link"/>
+    </kds:button>
+  </kds:bottomSheetActions>
+</kds:bottomSheet>
 
 
 <%-- Constantes de los steppers (en el controller o en un service) --%>
@@ -178,7 +224,7 @@
       </div>
     </g:each>
   </div>
-  <g:render template="/merchant/onboardingActions"/>
+  <g:render template="/merchant/onboardingActions" model="[draft: true]"/>
 </g:form>
 
 
@@ -212,6 +258,7 @@
                 textCode="default.back.link" cssClass="kds-flex-1"/>
     <mat:button type="primary" id="bank-continue" textCode="default.button.continue.label" cssClass="kds-flex-1"/>
   </div>
+  <g:render template="/merchant/draftFooter"/>
 
   <%-- Aviso de redirección: primaria primero (a la derecha en escritorio, arriba en mobile) --%>
   <div class="kds-bottom-sheet-scrim kds-bottom-sheet-scrim--dialog open" id="bank-redirect" hidden>
@@ -331,7 +378,7 @@
       </div>
     </g:each>
   </div>
-  <g:render template="/merchant/onboardingActions" model="[backAction: 'selectBank']"/>
+  <g:render template="/merchant/onboardingActions" model="[backAction: 'selectBank', draft: true]"/>
 </g:form>
 
 
@@ -371,7 +418,7 @@
       </div>
     </g:each>
   </div>
-  <g:render template="/merchant/onboardingActions" model="[backAction: 'selectAccount']"/>
+  <g:render template="/merchant/onboardingActions" model="[backAction: 'selectAccount', draft: true]"/>
 </g:form>
 
 
@@ -399,7 +446,7 @@
   <mat:select name="service" bean="${onboarding}" value="${onboarding?.service}" from="${services}"
               labelCode="merchant.onboarding.service.label" required="true"
               noSelection="['': message(code: 'merchant.onboarding.service.placeholder')]"/>
-  <g:render template="/merchant/onboardingActions" model="[backAction: 'selectPlan']"/>
+  <g:render template="/merchant/onboardingActions" model="[backAction: 'selectPlan', draft: true]"/>
 </g:form>
 
 
@@ -470,7 +517,7 @@
       <mat:button type="text" size="sm" href="${createLink(action: 'support')}" textCode="default.contactSupport" cssClass="kds-flex-1"/>
     </div>
   </div>
-  <g:render template="/merchant/onboardingActions" model="[backAction: 'businessInfo']"/>
+  <g:render template="/merchant/onboardingActions" model="[backAction: 'businessInfo', draft: true]"/>
 </g:form>
 
 
@@ -506,7 +553,7 @@
                     checked="${onboarding?.sameContacts ? 'true' : 'false'}"/>
     </g:if>
   </g:each>
-  <g:render template="/merchant/onboardingActions" model="[backAction: 'companyInfo']"/>
+  <g:render template="/merchant/onboardingActions" model="[backAction: 'companyInfo', draft: true]"/>
 </g:form>
 <%-- payment imprime los scripts de las vistas con <kh:deferredScripts/> (layouts/material.gsp):
      van en <kh:script>, no en <asset:script>. --%>
@@ -574,6 +621,7 @@
                   cssClass="kds-flex-1" disabled="true"/>
     </div>
   </g:else>
+  <g:render template="/merchant/draftFooter"/>
 </div>
 <g:if test="${!timedOut}">
 <kh:script>
@@ -705,6 +753,7 @@
     <mat:button type="primary" htmlType="submit" id="sign-button" textCode="merchant.onboarding.contract.sign"
                 cssClass="kds-flex-1" disabled="true"/>
   </div>
+  <g:render template="/merchant/draftFooter"/>
 </g:form>
 <kh:script>
   (function () {
