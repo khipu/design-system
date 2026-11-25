@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useState, type ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   KdsAlert,
@@ -10,7 +10,6 @@ import {
   KdsSectionNote,
   KdsSelect,
   KdsSnackbar,
-  KdsSpinner,
   KdsStatusBlock,
   KdsStepper,
   KdsTextField,
@@ -41,8 +40,13 @@ import FLOW_GSP from './OnboardingFlow.example.gsp?raw';
  *
  * Orden: activación → país → moneda → tipo de contribuyente → (1) banco + aviso de
  * redirección → (2) autorización bancaria (fuera del panel) y cuenta de recaudación → (3) plan
- * → (4) información comercial en 3 pantallas + validación → (5) firma de contrato → cuenta
- * creada con la encuesta.
+ * → (4) información comercial en 3 pantallas + evaluación de riesgo → (5) firma de contrato →
+ * cuenta creada con la encuesta.
+ *
+ * Evaluación de riesgo (KTUF-493): el contrato no se muestra hasta que la evaluación termina
+ * (D-29 / NAV-12). Es una pantalla, no un diálogo: el avance queda guardado y se puede salir.
+ * El control "Resultado de la evaluación" recorre los casos: sin tope, con tope de $2.000.000
+ * (se informa antes de firmar y en el éxito) y sin respuesta (aviso por correo).
  *
  * El ingreso a la banca en línea (usuario y clave del banco) no está: es una página del banco,
  * fuera del DS. Bajo el ejemplo (pestaña Docs) está el flujo completo en GSP para payment
@@ -64,7 +68,6 @@ const meta: Meta = {
 };
 
 export default meta;
-type Story = StoryObj;
 
 const STEPS = [
   'Selección de banco',
@@ -153,6 +156,11 @@ const SOURCES = [
 
 const VALIDATION = ['Datos de la empresa', 'Representante legal', 'Evaluación de riesgo'];
 
+/** Outcome of the risk evaluation (story control). */
+type Risk = 'sin-tope' | 'con-tope' | 'sin-respuesta';
+
+const RISK_CAP = '$2.000.000';
+
 const COMPANY = { name: 'Comercial Ficticia SpA', rut: '76.543.210-3' };
 
 const REJECT_MESSAGE = 'Para crear la cuenta de cobro necesitas aceptar el contrato.';
@@ -169,6 +177,7 @@ const SCREENS = [
   'negocio',
   'empresa',
   'contactos',
+  'evaluacion',
   'firma',
   'exito',
 ] as const;
@@ -183,6 +192,7 @@ const STEP_OF: Partial<Record<Screen, number>> = {
   negocio: 3,
   empresa: 3,
   contactos: 3,
+  evaluacion: 3,
   firma: 4,
 };
 
@@ -242,7 +252,12 @@ function FlowCard({
           {subtitle}
         </KdsTypography>
       )}
-      {lead && <KdsTypography variant="body">{lead}</KdsTypography>}
+      {/* A <div>, not a <p>: BeerCSS adds 1rem above a <p> after a sibling, on top of the gap. */}
+      {lead && (
+        <KdsTypography variant="body" as="div">
+          {lead}
+        </KdsTypography>
+      )}
       {children}
     </div>
   );
@@ -285,23 +300,34 @@ function Half({ children }: { children: ReactNode }) {
  * vienen cargados; se pueden cambiar en cada pantalla. En mobile (≤ 768px) el panel pasa a
  * hamburguesa + drawer, el stepper muestra solo el paso actual y los modales son bottom sheets.
  */
-export const FlujoCompleto: Story = {
+export const FlujoCompleto: StoryObj<{ riesgo: Risk }> = {
   name: 'Flujo completo',
-  render: function OnboardingFlow() {
+  args: { riesgo: 'sin-tope' },
+  argTypes: {
+    riesgo: {
+      name: 'Resultado de la evaluación',
+      control: 'radio',
+      options: ['sin-tope', 'con-tope', 'sin-respuesta'],
+      description:
+        'Caso de la evaluación de riesgo: sin tope, con tope de $2.000.000 al mes (riesgo rojo) o sin respuesta (aviso por correo).',
+    },
+  },
+  render: function OnboardingFlow({ riesgo }) {
     const [screen, setScreen] = useState<Screen>('activa');
     const [data, setData] = useState<Data>(initialData);
     const [menuOpen, setMenuOpen] = useState(false);
     const [redirectOpen, setRedirectOpen] = useState(false);
-    const [validating, setValidating] = useState(false);
     const [validationStep, setValidationStep] = useState(0);
+    const [timedOut, setTimedOut] = useState(false);
     const [accepted, setAccepted] = useState(false);
     const [rejected, setRejected] = useState(0);
     const [notice, setNotice] = useState<string | null>(null);
     const [source, setSource] = useState('');
     const [surveySent, setSurveySent] = useState(false);
-    const finishRef = useRef<HTMLButtonElement>(null);
     const ids = useId();
     const validationDone = validationStep >= VALIDATION.length;
+    // Without an answer the evaluation stays on its last item until the email notice.
+    const stallAt = riesgo === 'sin-respuesta' ? VALIDATION.length - 1 : VALIDATION.length;
 
     const set = <K extends keyof Data>(key: K, value: Data[K]) => setData((d) => ({ ...d, [key]: value }));
     const go = (to: Screen) => {
@@ -336,16 +362,16 @@ export const FlujoCompleto: Story = {
           : d.contactos,
       }));
 
-    // Validation runs by itself; the dialog only closes with its own button when it ends.
+    // The evaluation runs by itself while its screen is open.
     useEffect(() => {
-      if (!validating || validationDone) return undefined;
+      if (screen !== 'evaluacion' || timedOut || validationDone) return undefined;
+      if (validationStep >= stallAt) {
+        const t = setTimeout(() => setTimedOut(true), 2600);
+        return () => clearTimeout(t);
+      }
       const t = setTimeout(() => setValidationStep((s) => s + 1), 1300);
       return () => clearTimeout(t);
-    }, [validating, validationDone, validationStep]);
-
-    useEffect(() => {
-      if (validating && validationDone) finishRef.current?.focus();
-    }, [validating, validationDone]);
+    }, [screen, timedOut, validationDone, validationStep, stallAt]);
 
     const actions = (canContinue = true, onContinue = next, label = 'Continuar') => (
       <div className="kds-flex kds-gap-1">
@@ -697,16 +723,64 @@ export const FlujoCompleto: Story = {
                 Object.values(commercial).every((v) => v.trim() !== ''),
                 () => {
                   setValidationStep(0);
-                  setValidating(true);
+                  setTimedOut(false);
+                  go('evaluacion');
                 },
               )}
             </FlowCard>
           );
         }
+        case 'evaluacion':
+          return timedOut ? (
+            <FlowCard title={companyTitle} step={step}>
+              <KdsStatusBlock
+                status="info"
+                icon="mail"
+                title="Te avisaremos por correo"
+                description={`La revisión está tomando más de lo normal. Guardamos tu avance y te escribiremos a ${data.contactos.comercial.email} cuando puedas firmar el contrato.`}
+              />
+              <KdsButton fullWidth onClick={() => setNotice('Aquí se abriría "Tus altas en curso".')}>
+                Entendido
+              </KdsButton>
+            </FlowCard>
+          ) : (
+            <FlowCard
+              title={companyTitle}
+              step={step}
+              subtitle="Estamos evaluando tu empresa"
+              lead={`Revisamos la información de ${COMPANY.name} y de su representante legal. Cuando terminemos, te mostraremos el contrato para firmar.`}
+            >
+              {/* Wrapped: a <ul> after a sibling also gets BeerCSS' 1rem on top of the gap. */}
+              <div>
+                <KdsProgressChecklist
+                  items={VALIDATION.map((label, i) => ({
+                    label,
+                    status: (i < validationStep
+                      ? 'done'
+                      : i === validationStep
+                        ? 'active'
+                        : 'pending') as KdsProgressChecklistStatus,
+                  }))}
+                />
+              </div>
+              <KdsSectionNote className="kds-neutral" icon="info">
+                Puedes salir de esta página: guardamos tu avance y, si la revisión se demora, te
+                avisaremos por correo.
+              </KdsSectionNote>
+              {actions(validationDone, () => go('firma'), validationDone ? 'Continuar a la firma' : 'Evaluando…')}
+            </FlowCard>
+          );
         case 'firma':
           return (
             <FlowCard title={companyTitle} step={step}>
-              <KdsAlert severity="success">Validamos tu información comercial.</KdsAlert>
+              {riesgo === 'con-tope' ? (
+                <KdsAlert severity="warning" role="status">
+                  <KdsTypography variant="strong">Podrás recibir hasta {RISK_CAP} al mes.</KdsTypography>{' '}
+                  Es el tope que fijó la evaluación de riesgo de tu empresa para esta cuenta de cobro.
+                </KdsAlert>
+              ) : (
+                <KdsAlert severity="success">Validamos tu información comercial.</KdsAlert>
+              )}
               <KdsTypography variant="body-large" as="h2" className="kds-m-0 kds-color-primary kds-fw-medium">
                 A continuación, revisa los detalles para la firma de tu contrato
               </KdsTypography>
@@ -765,7 +839,12 @@ export const FlujoCompleto: Story = {
           return (
             <div className="kds-max-w-md kds-flex kds-flex-col kds-gap-2">
               <FlowCard title="¡Listo! Creamos tu cuenta de cobro">
-                <KdsStatusBlock status="success" icon="check" title="Tu cuenta ya está habilitada para cobrar" />
+                <KdsStatusBlock
+                  status="success"
+                  icon="check"
+                  title="Tu cuenta ya está habilitada para cobrar"
+                  description={riesgo === 'con-tope' ? `Puedes recibir hasta ${RISK_CAP} al mes.` : undefined}
+                />
                 <div className="kds-flex kds-justify-center">
                   <KdsChip color="primary">{`${COMPANY.name} · ID 302.360`}</KdsChip>
                 </div>
@@ -839,53 +918,6 @@ export const FlujoCompleto: Story = {
             Tus credenciales están encriptadas de extremo a extremo. Khipu no almacena tus
             contraseñas bancarias.
           </KdsSectionNote>
-        </KdsBottomSheet>
-        <KdsBottomSheet
-          variant="dialog"
-          align="center"
-          open={validating}
-          onClose={() => undefined}
-          dismissible={false}
-          icon={
-            validationDone ? (
-              <i className="material-symbols-outlined kds-color-success" aria-hidden="true">
-                check_circle
-              </i>
-            ) : (
-              <KdsSpinner />
-            )
-          }
-          title={validationDone ? 'Validamos tu información' : 'Validando información comercial'}
-          description={
-            validationDone
-              ? 'Todo está en orden. Continúa para revisar y firmar tu contrato.'
-              : `Revisamos la información de ${COMPANY.name} y de su representante legal, y evaluamos el riesgo de tu empresa. Esto toma unos segundos.`
-          }
-          hint={validationDone ? undefined : 'No cierres esta ventana.'}
-          actions={
-            <KdsButton
-              ref={finishRef}
-              fullWidth
-              disabled={!validationDone}
-              onClick={() => {
-                setValidating(false);
-                go('firma');
-              }}
-            >
-              {validationDone ? 'Continuar a la firma' : 'Validando…'}
-            </KdsButton>
-          }
-        >
-          <KdsProgressChecklist
-            items={VALIDATION.map((label, i) => ({
-              label,
-              status: (i < validationStep
-                ? 'done'
-                : i === validationStep
-                  ? 'active'
-                  : 'pending') as KdsProgressChecklistStatus,
-            }))}
-          />
         </KdsBottomSheet>
         {rejected > 0 && (
           <KdsSnackbar key={`reject-${rejected}`} message={REJECT_MESSAGE} type="info" onClose={() => setRejected(0)} />

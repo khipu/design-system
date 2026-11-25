@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   KdsButton,
@@ -6,7 +6,6 @@ import {
   KdsSectionNote,
   KdsSelect,
   KdsSnackbar,
-  KdsSpinner,
   KdsStepper,
   KdsTextField,
   KdsTypography,
@@ -417,77 +416,49 @@ export const SeleccionDePlan: Story = {
 const VALIDATION = ['Datos de la empresa', 'Representante legal', 'Evaluación de riesgo'];
 
 /**
- * Validación de información comercial: `KdsBottomSheet dismissible={false}` (no se cierra
- * mientras corre) con `KdsProgressChecklist`. Al terminar no se cierra solo: el botón
- * "Validando" pasa a "Continuar a la firma" y es el único control que finaliza y cierra el
- * paso. KTUF-399 y KTUF-405 — ver
- * `Components/Feedback/KdsProgressChecklist` y `KdsBottomSheet → Onboarding: validando`.
+ * Evaluación de riesgo antes de firmar (KTUF-493): pantalla de espera, no un modal. Solo se
+ * muestra si la evaluación sigue pendiente; el contrato aparece cuando termina (D-29 / NAV-12).
+ * `KdsProgressChecklist` + `KdsSectionNote` (se puede salir: el avance está guardado). Si no
+ * hay respuesta a tiempo se avisa por correo (ver `On boarding/Estados del alta`). KTUF-399 —
+ * ver `Core/Feedback/KdsProgressChecklist`.
  */
 export const Validacion: Story = {
-  name: '7 · Validación de información',
-  parameters: htmlFrom(
-    ['KdsBottomSheet no cerrable', BottomSheetStories.OnboardingValidating],
-    ['KdsProgressChecklist', ChecklistStories.HtmlMarkup],
-  ),
-  render: function ValidationStory() {
-    const [open, setOpen] = useState(false);
+  name: '7 · Evaluación de riesgo (antes de firmar)',
+  parameters: htmlFrom(['KdsProgressChecklist', ChecklistStories.HtmlMarkup], ['KdsSectionNote (neutral)', SectionNoteStories.Neutral]),
+  render: function RiskEvaluationStory() {
     const [step, setStep] = useState(0);
     const done = step >= VALIDATION.length;
-    const finishRef = useRef<HTMLButtonElement>(null);
     useEffect(() => {
-      if (!open || done) return undefined;
+      if (done) return undefined;
       const t = setTimeout(() => setStep((s) => s + 1), 1300);
       return () => clearTimeout(t);
-    }, [open, done, step]);
-    // The sheet does not close by itself: the finish control gets the focus when enabled.
-    useEffect(() => {
-      if (open && done) finishRef.current?.focus();
-    }, [open, done]);
+    }, [done, step]);
     const items = VALIDATION.map((label, i) => ({
       label,
       status: (i < step ? 'done' : i === step ? 'active' : 'pending') as KdsProgressChecklistStatus,
     }));
     return (
-      <>
-        <KdsButton
-          onClick={() => {
-            setStep(0);
-            setOpen(true);
-          }}
-        >
-          Continuar
-        </KdsButton>
-        <KdsBottomSheet
-          variant="dialog"
-          align="center"
-          open={open}
-          onClose={() => undefined}
-          dismissible={false}
-          icon={
-            done ? (
-              <i className="material-symbols-outlined kds-color-success" aria-hidden="true">
-                check_circle
-              </i>
-            ) : (
-              <KdsSpinner />
-            )
-          }
-          title={done ? 'Validamos tu información' : 'Validando información comercial'}
-          description={
-            done
-              ? 'Todo está en orden. Continúa para revisar y firmar tu contrato.'
-              : 'Revisamos la información de Comercial Ficticia SpA y de su representante legal, y evaluamos el riesgo de tu empresa. Esto toma unos segundos.'
-          }
-          hint={done ? undefined : 'No cierres esta ventana.'}
-          actions={
-            <KdsButton ref={finishRef} fullWidth disabled={!done} onClick={() => setOpen(false)}>
-              {done ? 'Continuar a la firma' : 'Validando…'}
-            </KdsButton>
-          }
-        >
+      <div className="kds-card-elevated kds-flex kds-flex-col kds-gap-2">
+        <KdsTypography variant="body-large" as="h2" className="kds-m-0 kds-color-primary kds-fw-medium">
+          Estamos evaluando tu empresa
+        </KdsTypography>
+        {/* Wrapped: a <ul> after a sibling gets BeerCSS' 1rem on top of the gap. */}
+        <div>
           <KdsProgressChecklist items={items} />
-        </KdsBottomSheet>
-      </>
+        </div>
+        <KdsSectionNote className="kds-neutral" icon="info">
+          Puedes salir de esta página: guardamos tu avance y, si la revisión se demora, te
+          avisaremos por correo.
+        </KdsSectionNote>
+        <div className="kds-flex kds-gap-1">
+          <KdsButton variant="outlined" className="kds-flex-1" onClick={() => setStep(0)}>
+            Reiniciar
+          </KdsButton>
+          <KdsButton className="kds-flex-1" disabled={!done}>
+            {done ? 'Continuar a la firma' : 'Evaluando…'}
+          </KdsButton>
+        </div>
+      </div>
     );
   },
 };
