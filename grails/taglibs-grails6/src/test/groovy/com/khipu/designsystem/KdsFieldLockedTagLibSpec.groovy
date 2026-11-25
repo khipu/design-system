@@ -48,6 +48,15 @@ class KdsFieldLockedTagLibSpec extends Specification implements TagLibUnitTest<K
             .contains('<label for="a" class="active">some.missing.code</label>')
     }
 
+    void 'labelCode resolves a real, existing message'() {
+        given:
+        messageSource.addMessage('merchant.onboarding.company.activity.label', Locale.ENGLISH, 'Giro')
+
+        expect:
+        applyTemplate('<kds:fieldLocked id="activity" labelCode="merchant.onboarding.company.activity.label" value="Comercio"/>')
+            .contains('<label for="activity" class="active">Giro</label>')
+    }
+
     void 'escapes id, name, label and value'() {
         given:
         def payload = '"><script>alert(1)</script>'
