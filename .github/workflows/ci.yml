@@ -50,6 +50,43 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+  # Specs of the Grails 6 taglibs (grails/taglibs-grails6). Nothing else runs them: before
+  # this job, a failing taglib spec could be merged unnoticed. The module bundles the BeerCSS
+  # output, so `npm run build` has to produce dist/beercss first.
+  test-taglibs:
+    name: Test Grails taglibs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          validate-wrappers: false
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Run taglib specs
+        working-directory: grails/taglibs-grails6
+        run: ./gradlew test --no-daemon
+
+      - name: Upload test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: taglibs-test-report
+          path: grails/taglibs-grails6/build/reports/tests/test
+
   build-android:
     name: Build Android
     runs-on: ubuntu-latest

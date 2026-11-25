@@ -32,6 +32,18 @@ class KdsChipTagLibSpec extends Specification implements TagLibUnitTest<KdsChipT
             .contains('<span>some.missing.code</span>')
     }
 
+    void 'without text nor body renders an empty label span'() {
+        expect:
+        applyTemplate('<kds:chip color="neutral"/>') == '<span class="kds-badge neutral"><span></span></span>'
+    }
+
+    void 'the body is escaped: markup inside the tag is shown as text, not rendered'() {
+        expect:
+        def html = applyTemplate('<kds:chip color="neutral"><b>Fijo</b></kds:chip>')
+        html.contains('<span>&lt;b&gt;Fijo&lt;/b&gt;</span>')
+        !html.contains('<b>')
+    }
+
     void 'escapes color, icon, text and cssClass'() {
         given:
         def payload = '"><script>alert(1)</script>'

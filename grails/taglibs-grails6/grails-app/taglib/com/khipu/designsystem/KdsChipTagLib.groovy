@@ -4,6 +4,10 @@ package com.khipu.designsystem
  * Port of `KdsChip.tsx` (badge). No `onDelete`/close-button support here -
  * none of the current onboarding use cases need it, and it would need a
  * client-side handler this taglib can't provide.
+ *
+ * The body (or `textCode`) is plain text: it is HTML-escaped, so markup inside the tag is
+ * shown as text, not rendered (`<kds:chip><b>x</b></kds:chip>` prints `<b>x</b>`). For
+ * emphasis use the dedicated attribute instead of inline markup.
  */
 class KdsChipTagLib {
     static namespace = 'kds'
