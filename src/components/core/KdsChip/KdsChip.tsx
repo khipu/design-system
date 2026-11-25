@@ -9,13 +9,14 @@
  * - Icon prefix `<i>`: 14px, inline
  * - Close button (`.kds-badge-close`): 16×16 circular discreto, NO usa kds-btn
  *
- * Variantes de color: primary | success | error | warning | info
+ * Variantes de color: primary | success | error | warning | info | neutral
+ * (`neutral`: estado fijo sin carga semántica, p. ej. "Verificado" / "Fijo" en el onboarding).
  */
 
 import React, { forwardRef } from 'react';
 import { clsx } from '../utils';
 
-export type KdsChipColor = 'primary' | 'success' | 'error' | 'warning' | 'info';
+export type KdsChipColor = 'primary' | 'success' | 'error' | 'warning' | 'info' | 'neutral';
 
 export interface KdsChipProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Color variant. */

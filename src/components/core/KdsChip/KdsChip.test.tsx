@@ -19,4 +19,9 @@ describe('KdsChip', () => {
     await userEvent.click(deleteBtn);
     expect(onDelete).toHaveBeenCalledTimes(1);
   });
+
+  it('applies the neutral color class', () => {
+    render(<KdsChip color="neutral">Verificado</KdsChip>);
+    expect(screen.getByText('Verificado').parentElement).toHaveClass('kds-badge', 'neutral');
+  });
 });

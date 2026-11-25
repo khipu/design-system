@@ -729,7 +729,9 @@ a.kds-btn.kds-btn-md {
     background: color-mix(in srgb, var(--primary) 12%, transparent);
 }
 
-.kds-card-selector-badge--neutral {
+/* Also the neutral KdsChip ("Verificado" / "Fijo"): same tokens, both themes. */
+.kds-card-selector-badge--neutral,
+.kds-badge.neutral {
     color: var(--kds-color-text-secondary);
     background: color-mix(in srgb, var(--kds-color-text-primary) 8%, transparent);
 }
@@ -7990,6 +7992,28 @@ div.kds-invoice-header,
 
 .kds-recap-list .kds-value.placeholder {
     color: var(--kds-color-text-hint);
+}
+
+/* --columns: label column at 38% and the value beside it, both start-aligned (long values,
+   e.g. the onboarding review summary). */
+.kds-recap-list--columns li {
+    display: grid;
+    grid-template-columns: 38% 1fr;
+    gap: var(--kds-spacing-2);
+    align-items: start;
+}
+
+.kds-recap-list--columns .kds-value {
+    overflow-wrap: anywhere;
+}
+
+/* --boxed: framed recap for a highlighted fact (risk cap, case number). Same surface tokens
+   as .kds-summary-panel; compound selector so the base margin/padding reset does not win. */
+.kds-recap-list.kds-recap-list--boxed {
+    margin: 0;
+    padding: var(--kds-spacing-2);
+    border: var(--kds-border-width-sm) solid var(--kds-color-border-default);
+    border-radius: var(--kds-radius-card);
 }
 
 /* -- Button Success (green CTA) -- */

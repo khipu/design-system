@@ -60,4 +60,21 @@ describe('KdsRecapList', () => {
     render(<KdsRecapList ref={ref} items={[]} />);
     expect(ref.current).toBeInstanceOf(HTMLUListElement);
   });
+
+  it('keeps the inline layout and no frame by default', () => {
+    const { container } = render(<KdsRecapList items={items} />);
+    const ul = container.querySelector('ul');
+    expect(ul).not.toHaveClass('kds-recap-list--columns');
+    expect(ul).not.toHaveClass('kds-recap-list--boxed');
+  });
+
+  it('applies the columns layout', () => {
+    const { container } = render(<KdsRecapList items={items} layout="columns" />);
+    expect(container.querySelector('ul')).toHaveClass('kds-recap-list', 'kds-recap-list--columns');
+  });
+
+  it('applies the boxed frame, combinable with columns', () => {
+    const { container } = render(<KdsRecapList items={items} boxed layout="columns" />);
+    expect(container.querySelector('ul')).toHaveClass('kds-recap-list--boxed', 'kds-recap-list--columns');
+  });
 });

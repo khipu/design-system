@@ -69,6 +69,7 @@ export const AllColors: Story = {
         <KdsChip color="error">Error</KdsChip>
         <KdsChip color="warning">Advertencia</KdsChip>
         <KdsChip color="info">Información</KdsChip>
+        <KdsChip color="neutral">Neutro</KdsChip>
       </div>
     );
   },
@@ -108,6 +109,41 @@ export const HtmlMarkup: Story = {
         <i className="material-symbols-outlined">check_circle</i>
         <span>Pagado</span>
       </span>
+    </div>
+  ),
+};
+
+/**
+ * Neutro — estado fijo sin carga semántica, con ícono opcional. Onboarding: "Verificado" en
+ * los datos que vienen del SII/banco y "Fijo" en los que no se pueden cambiar (KTUF-468).
+ * Mismos tokens que el badge neutro de `KdsCardSelector`: se adapta solo al modo oscuro.
+ */
+export const Neutral: Story = {
+  name: 'Neutro (Verificado / Fijo)',
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<span class="kds-badge neutral">
+  <i class="material-symbols-outlined">verified</i>
+  <span>Verificado</span>
+</span>
+<span class="kds-badge neutral">
+  <i class="material-symbols-outlined">lock</i>
+  <span>Fijo</span>
+</span>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', gap: spacing[1] }}>
+      <KdsChip color="neutral" icon="verified">
+        Verificado
+      </KdsChip>
+      <KdsChip color="neutral" icon="lock">
+        Fijo
+      </KdsChip>
     </div>
   ),
 };
