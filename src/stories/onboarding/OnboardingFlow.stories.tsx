@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, useState, type ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   KdsAlert,
@@ -45,6 +45,9 @@ import FLOW_GSP from './OnboardingFlow.example.gsp?raw';
  *
  * Evaluación de riesgo (KTUF-493): el contrato no se muestra hasta que la evaluación termina
  * (D-29 / NAV-12). Es una pantalla, no un diálogo: el avance queda guardado y se puede salir.
+ * Borrador (KTUF-496): desde "Tipo de contribuyente" cada pantalla avisa que el avance se guarda
+ * al continuar (no hay botón "Guardar") y muestra "Cancelar esta alta", con confirmación.
+ *
  * El control "Resultado de la evaluación" recorre los casos: sin tope, con tope de $2.000.000
  * (se informa antes de firmar y en el éxito) y sin respuesta (aviso por correo).
  *
@@ -224,6 +227,42 @@ const initialData = () => ({
 type Data = ReturnType<typeof initialData>;
 
 /** Card of a flow screen: title, optional stepper, subtitle and content. */
+/**
+ * Screens where the draft already exists (it is born when the selection is sent, BOR-01): they
+ * show the autosave notice and "Cancelar esta alta" (KTUF-496).
+ */
+const DRAFT_SCREENS: ReadonlySet<Screen> = new Set<Screen>([
+  'tipo',
+  'banco',
+  'cuenta',
+  'plan',
+  'negocio',
+  'empresa',
+  'contactos',
+  'evaluacion',
+  'firma',
+]);
+
+/** Opens the cancel confirmation; null outside the draft screens. */
+const CancelDraftContext = createContext<(() => void) | null>(null);
+
+/**
+ * Footer of every draft screen: progress is saved on each "Continuar" (no "Guardar" button,
+ * REA-01) and "Cancelar esta alta" is always visible (NAV-17, VEN-09), with a confirmation.
+ */
+function DraftFooter({ onCancel }: { onCancel: () => void }) {
+  return (
+    <div className="kds-flex kds-flex-col kds-gap-1">
+      <KdsTypography variant="body-small" color="secondary" as="div" className="kds-text-center">
+        Guardamos tu avance cada vez que continúas.
+      </KdsTypography>
+      <KdsButton variant="error-text" size="sm" fullWidth onClick={onCancel}>
+        Cancelar esta alta
+      </KdsButton>
+    </div>
+  );
+}
+
 function FlowCard({
   title,
   step,
@@ -239,6 +278,7 @@ function FlowCard({
   lead?: string;
   children: ReactNode;
 }) {
+  const onCancelDraft = useContext(CancelDraftContext);
   return (
     <div className="kds-card-elevated kds-max-w-md kds-flex kds-flex-col kds-gap-2">
       <KdsTypography variant="heading2" as="h1" className="kds-m-0">
@@ -259,6 +299,7 @@ function FlowCard({
         </KdsTypography>
       )}
       {children}
+      {onCancelDraft && <DraftFooter onCancel={onCancelDraft} />}
     </div>
   );
 }
@@ -322,6 +363,7 @@ export const FlujoCompleto: StoryObj<{ riesgo: Risk }> = {
     const [accepted, setAccepted] = useState(false);
     const [rejected, setRejected] = useState(0);
     const [notice, setNotice] = useState<string | null>(null);
+    const [cancelOpen, setCancelOpen] = useState(false);
     const [source, setSource] = useState('');
     const [surveySent, setSurveySent] = useState(false);
     const ids = useId();
@@ -919,6 +961,35 @@ export const FlujoCompleto: StoryObj<{ riesgo: Risk }> = {
             contraseñas bancarias.
           </KdsSectionNote>
         </KdsBottomSheet>
+        <KdsBottomSheet
+          variant="dialog"
+          open={cancelOpen}
+          onClose={() => setCancelOpen(false)}
+          title="¿Cancelar esta alta?"
+          description="Borraremos los datos que ingresaste y no podrás retomarla. Si quieres, puedes empezar otra después."
+          actions={
+            <>
+              <KdsButton
+                variant="error"
+                fullWidth
+                onClick={() => {
+                  setCancelOpen(false);
+                  setData(initialData());
+                  setAccepted(false);
+                  go('activa');
+                  setNotice('Cancelamos el alta. Puedes empezar una nueva cuando quieras.');
+                }}
+              >
+                Sí, cancelar alta
+              </KdsButton>
+              <KdsButton variant="outlined" fullWidth onClick={() => setCancelOpen(false)}>
+                Volver
+              </KdsButton>
+            </>
+          }
+        >
+          {null}
+        </KdsBottomSheet>
         {rejected > 0 && (
           <KdsSnackbar key={`reject-${rejected}`} message={REJECT_MESSAGE} type="info" onClose={() => setRejected(0)} />
         )}
@@ -982,7 +1053,11 @@ export const FlujoCompleto: StoryObj<{ riesgo: Risk }> = {
             open={menuOpen}
             onClose={() => setMenuOpen(false)}
           />
-          <main className="kds-main-content">{content}</main>
+          <main className="kds-main-content">
+            <CancelDraftContext.Provider value={DRAFT_SCREENS.has(screen) ? () => setCancelOpen(true) : null}>
+              {content}
+            </CancelDraftContext.Provider>
+          </main>
         </div>
         <KdsFooter
           columns={[
