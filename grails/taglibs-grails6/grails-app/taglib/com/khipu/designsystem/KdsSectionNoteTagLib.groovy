@@ -1,5 +1,11 @@
 package com.khipu.designsystem
 
+/**
+ * Port of `KdsSectionNote.tsx`: `p.kds-section-note[.kds-<tone>]` with an icon and a text.
+ *
+ * The body (or `textCode`) is plain text: it is HTML-escaped, so markup inside the tag is
+ * shown as text, not rendered (`<kds:sectionNote><b>x</b></kds:sectionNote>` prints `<b>x</b>`).
+ */
 class KdsSectionNoteTagLib {
     static namespace = 'kds'
 
