@@ -179,3 +179,88 @@ export const HtmlMarkup: Story = {
     </div>
   ),
 };
+
+/**
+ * En caja (`boxed`) — un dato destacado dentro de un recuadro, con la superficie de
+ * `.kds-summary-panel`. Onboarding: el tope mensual por riesgo en la cuenta de recaudación y el
+ * N° de caso en los cierres (KTUF-468).
+ */
+export const Boxed: Story = {
+  name: 'En caja (tope / N° de caso)',
+  args: {
+    boxed: true,
+    items: [
+      { label: 'Tope mensual de recaudación', value: '$2.000.000' },
+      { label: 'N° de caso', value: '48213' },
+    ],
+  },
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<ul class="kds-recap-list kds-recap-list--boxed">
+  <li>
+    <span class="kds-key">Tope mensual de recaudación</span>
+    <span class="kds-value">$2.000.000</span>
+  </li>
+  <li>
+    <span class="kds-key">N° de caso</span>
+    <span class="kds-value">48213</span>
+  </li>
+</ul>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: 400 }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+/**
+ * Dos columnas (`layout="columns"`) — etiqueta al 38% y valor al lado, ambos alineados al
+ * inicio; los valores largos (correos, direcciones) parten línea sin romper la grilla. Para el
+ * resumen del onboarding (KTUF-468). Combinable con `boxed`.
+ */
+export const Columns: Story = {
+  name: 'Dos columnas (resumen)',
+  args: {
+    layout: 'columns',
+    items: [
+      { label: 'Razón social', value: 'Comercial Ficticia SpA' },
+      { label: 'RUT', value: '76.543.210-3' },
+      { label: 'Dirección', value: 'Av. Providencia 1234, oficina 56, Providencia, Región Metropolitana' },
+      { label: 'Correo de contacto', value: 'camila.rojas.ficticia@comercialficticia.cl' },
+      { label: 'Teléfono', placeholder: 'No informado' },
+    ],
+  },
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        type: 'code',
+        code: `<ul class="kds-recap-list kds-recap-list--columns">
+  <li>
+    <span class="kds-key">Razón social</span>
+    <span class="kds-value">Comercial Ficticia SpA</span>
+  </li>
+  <li>
+    <span class="kds-key">Teléfono</span>
+    <span class="kds-value placeholder">No informado</span>
+  </li>
+</ul>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: 480 }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
