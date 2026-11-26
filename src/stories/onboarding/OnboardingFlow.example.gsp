@@ -194,36 +194,26 @@
       title: message(code: 'merchant.onboarding.title'),
       steps: SETUP_STEPS, current: 2,
       subtitle: message(code: 'merchant.progress.select.flowType.subtitle')]"/>
-  <div class="kds-card-selector-group" role="radiogroup"
-       aria-label="${message(code: 'merchant.progress.select.flowType.subtitle')}">
+  <%-- Modo radio: el radio viaja en el form, sin JS. El cuerpo del tag
+       es el detalle (.kds-card-selector-details) y lleva markup. --%>
+  <kds:cardSelectorGroup label="${message(code: 'merchant.progress.select.flowType.subtitle')}">
     <g:each in="${[[type: OnboardingType.LEGAL_ENTITY, key: 'legal', icon: 'business', reqs: 4],
                    [type: OnboardingType.NATURAL, key: 'natural', icon: 'person', reqs: 2]]}" var="opt">
-      <div class="kds-card-selector kds-card-selector--radio">
-        <input type="radio" class="kds-card-selector-radio" id="flow-${opt.key}" name="flowType"
-               value="${opt.type.name()}" aria-describedby="flow-${opt.key}-desc" required
-               ${flowType == opt.type ? 'checked' : ''}/>
-        <span class="kds-card-selector-icon" aria-hidden="true">
-          <i class="material-symbols-outlined">${opt.icon}</i>
+      <kds:cardSelector id="flow-${opt.key}" name="flowType" value="${opt.type.name()}" required="true"
+                        checked="${flowType == opt.type}" icon="${opt.icon}"
+                        titleCode="merchant.onboarding.selectFlow.${opt.key}.title"
+                        descriptionCode="merchant.onboarding.selectFlow.${opt.key}.description">
+        <span class="kds-card-selector-eyebrow">
+          <g:message code="merchant.onboarding.selectFlow.${opt.key}.requirements.title"/>
         </span>
-        <label for="flow-${opt.key}" class="kds-card-selector-title">
-          <g:message code="merchant.onboarding.selectFlow.${opt.key}.title"/>
-        </label>
-        <span class="kds-card-selector-description" id="flow-${opt.key}-desc">
-          <g:message code="merchant.onboarding.selectFlow.${opt.key}.description"/>
-        </span>
-        <div class="kds-card-selector-details">
-          <span class="kds-card-selector-eyebrow">
-            <g:message code="merchant.onboarding.selectFlow.${opt.key}.requirements.title"/>
-          </span>
-          <ul>
-            <g:each in="${1..opt.reqs}" var="n">
-              <li><g:message code="merchant.onboarding.selectFlow.${opt.key}.requirements.${n}"/></li>
-            </g:each>
-          </ul>
-        </div>
-      </div>
+        <ul>
+          <g:each in="${1..opt.reqs}" var="n">
+            <li><g:message code="merchant.onboarding.selectFlow.${opt.key}.requirements.${n}"/></li>
+          </g:each>
+        </ul>
+      </kds:cardSelector>
     </g:each>
-  </div>
+  </kds:cardSelectorGroup>
   <g:render template="/merchant/onboardingActions" model="[draft: true]"/>
 </g:form>
 
@@ -317,36 +307,11 @@
      ===================================================================================== --%>
 <g:form controller="merchant" action="bankAuthorizationSubmit" useToken="true">
   <div class="kds-screen active kds-max-w-500 kds-mx-auto">
-    <section class="kds-card-elevated kds-consent-card" aria-labelledby="consent-title">
-      <div class="kds-consent-card-header">
-        <div class="kds-consent-card-title" role="heading" aria-level="2" id="consent-title">
-          <strong>Khipu</strong> <g:message code="consent.requestsAccessTo"/> <strong>${bank.name}</strong>
-        </div>
-      </div>
-      <div class="kds-consent-card-body">
-        <g:each in="${consentSections}" var="section" status="i">
-          <div class="kds-consent-card-section" role="group" aria-labelledby="consent-s${i}">
-            <div class="kds-consent-card-section-title" role="heading" aria-level="3" id="consent-s${i}">
-              <g:message code="${section.titleCode}"/>
-            </div>
-            <ul class="kds-consent-card-items">
-              <g:each in="${section.items}" var="item">
-                <li class="kds-consent-card-item">
-                  <i class="material-symbols-outlined" aria-hidden="true">${item.icon}</i>
-                  <span><g:message code="${item.code}"/></span>
-                </li>
-              </g:each>
-            </ul>
-          </div>
-        </g:each>
-        <div class="kds-consent-card-actions">
-          <mat:button type="primary" htmlType="submit" name="decision" value="accept"
-                      textCode="consent.accept" cssClass="kds-btn-block"/>
-          <mat:button type="outlined" htmlType="submit" name="decision" value="reject"
-                      textCode="consent.reject" cssClass="kds-btn-block"/>
-        </div>
-      </div>
-    </section>
+    <%-- sections = [[titleCode, items: [[icon, code]]]].
+         Los dos botones son submits del form (name="decision", value accept/reject). --%>
+    <kds:consentCard id="consent" requester="Khipu" resource="${bank.name}"
+                     sections="${consentSections}"
+                     acceptCode="consent.accept" rejectCode="consent.reject"/>
     <%-- Directo hijo de .kds-screen y fuera de la card --%>
     <mat:secureFooter/>
   </div>
@@ -363,21 +328,15 @@
       steps: CONFIG_STEPS, current: 1]"/>
   <mat:alert type="success" description="${message(code: 'merchant.onboarding.account.validated', args: [bank.name])}"/>
   <h2 class="kds-m-0 kds-color-primary kds-fw-medium"><g:message code="merchant.onboarding.account.subtitle"/></h2>
-  <div class="kds-card-selector-group" role="radiogroup"
-       aria-label="${message(code: 'merchant.onboarding.account.subtitle')}">
+  <%-- Número de cuenta ENMASCARADO (solo los últimos 4 dígitos, minimización, Ley 21.719): el controller
+       entrega account.maskedNumber y valida al recibir que accountId sea una cuenta del comercio. --%>
+  <kds:cardSelectorGroup label="${message(code: 'merchant.onboarding.account.subtitle')}">
     <g:each in="${bankAccounts}" var="account" status="i">
-      <div class="kds-card-selector kds-card-selector--radio">
-        <input type="radio" class="kds-card-selector-radio" id="account-${i}" name="accountId"
-               value="${account.id}" aria-describedby="account-${i}-number" required
-               ${i == 0 ? 'checked' : ''}/>
-        <span class="kds-card-selector-icon" aria-hidden="true">
-          <i class="material-symbols-outlined">account_balance</i>
-        </span>
-        <label for="account-${i}" class="kds-card-selector-title">${account.typeName}</label>
-        <span class="kds-card-selector-description" id="account-${i}-number">N° ${account.number}</span>
-      </div>
+      <kds:cardSelector id="account-${i}" name="accountId" value="${account.id}" required="true"
+                        checked="${i == 0}" icon="account_balance"
+                        title="${account.typeName}" description="N° ${account.maskedNumber}"/>
     </g:each>
-  </div>
+  </kds:cardSelectorGroup>
   <g:render template="/merchant/onboardingActions" model="[backAction: 'selectBank', draft: true]"/>
 </g:form>
 
@@ -391,33 +350,16 @@
       title: message(code: 'merchant.onboarding.legal.title'),
       steps: CONFIG_STEPS, current: 2,
       subtitle: message(code: 'merchant.onboarding.plan.subtitle')]"/>
-  <div class="kds-card-plan-group" role="radiogroup" aria-label="${message(code: 'merchant.onboarding.plan.subtitle')}">
+  <%-- Con name/value la card es seleccionable: el plan viaja como "plan". --%>
+  <kds:cardPlanGroup label="${message(code: 'merchant.onboarding.plan.subtitle')}">
     <g:each in="${plans}" var="plan">
-      <div class="kds-card-plan kds-card-plan--selectable${plan.recommended ? ' recommended' : ''}">
-        <input type="radio" class="kds-card-plan-radio" id="plan-${plan.code}" name="plan"
-               value="${plan.code}" required
-               aria-describedby="plan-${plan.code}-price${plan.recommended ? ' plan-' + plan.code + '-badge' : ''}"
-               ${plan.code == selectedPlan ? 'checked' : ''}/>
-        <div class="kds-card-plan-header">
-          <h3><label for="plan-${plan.code}">${plan.name}</label></h3>
-        </div>
-        <div class="kds-card-plan-price" id="plan-${plan.code}-price">
-          <span class="kds-price">${plan.feeDescription}</span>
-        </div>
-        <g:if test="${plan.description}">
-          <div class="kds-card-plan-description">${plan.description}</div>
-        </g:if>
-        <g:if test="${plan.recommended}">
-          <span class="kds-card-plan-badge" id="plan-${plan.code}-badge"><g:message code="plan.recommended"/></span>
-        </g:if>
-        <ul class="kds-card-plan-features kds-card-plan-features--check">
-          <g:each in="${plan.features}" var="feature">
-            <li><i class="material-symbols-outlined" aria-hidden="true">check</i>${feature}</li>
-          </g:each>
-        </ul>
-      </div>
+      <kds:cardPlan id="plan-${plan.code}" name="plan" value="${plan.code}" required="true"
+                    checked="${plan.code == selectedPlan}" title="${plan.name}"
+                    price="${plan.feeDescription}" description="${plan.description}"
+                    recommended="${plan.recommended}" badgeCode="${plan.recommended ? 'plan.recommended' : null}"
+                    features="${plan.features}" checkFeatures="true"/>
     </g:each>
-  </div>
+  </kds:cardPlanGroup>
   <g:render template="/merchant/onboardingActions" model="[backAction: 'selectAccount', draft: true]"/>
 </g:form>
 
@@ -734,19 +676,14 @@
   </div>
   <hr class="divider"/>
   <h3 class="kds-m-0 kds-text-label"><g:message code="merchant.onboarding.contract.review"/></h3>
-  <div class="kds-contract" data-kds-contract>
-    <div class="kds-contract-content" role="region" tabindex="0"
-         aria-label="${message(code: 'merchant.signContract.title')}">
-      ${raw(contractContent)}
-    </div>
-    <label class="checkbox kds-contract-accept">
-      <input type="checkbox" id="agreeContract" name="agreeContract" aria-describedby="contract-hint"/>
-      <span><g:message code="merchant.signContract.check.label"/></span>
-    </label>
-    <div class="kds-contract-hint" id="contract-hint">
-      <g:message code="merchant.signContract.scroll.hint"/>
-    </div>
-  </div>
+  <%-- El cuerpo es el texto del contrato y NO se escapa: solo
+       contenido del sistema (plantilla vigente del contrato), nunca datos ingresados por el
+       usuario. Emite data-kds-contract: Khipu.initContract (bundle) habilita el checkbox al
+       llegar al final. --%>
+  <kds:contract id="contract" name="agreeContract" contentLabelCode="merchant.signContract.title"
+                acceptLabelCode="merchant.signContract.check.label" hintCode="merchant.signContract.scroll.hint">
+    ${raw(contractContent)}
+  </kds:contract>
   <div class="kds-flex kds-gap-1">
     <mat:button type="outlined" id="reject-contract" textCode="merchant.onboarding.contract.reject"
                 cssClass="kds-flex-1"/>
@@ -757,7 +694,7 @@
 </g:form>
 <kh:script>
   (function () {
-    var accept = document.getElementById('agreeContract');
+    var accept = document.getElementById('contract-accept');
     var sign = document.getElementById('sign-button');
     accept.addEventListener('change', function () { sign.disabled = !accept.checked; });
     document.getElementById('reject-contract').addEventListener('click', function () {
@@ -789,28 +726,17 @@
   <%-- Acción nueva: la actual selectDiscoverySourceSubmit (encuesta al inicio) redirige a
        startOnboarding; esta guarda la respuesta y vuelve aquí con submitted = true. --%>
   <g:form action="onboardingDiscoverySourceSubmit">
-    <section class="kds-feedback-card${submitted ? ' kds-feedback-card--submitted' : ''}"
-             aria-labelledby="feedback-title">
-      <span class="kds-feedback-card-icon" aria-hidden="true">
-        <i class="material-symbols-outlined">${submitted ? 'check' : 'auto_awesome'}</i>
-      </span>
-      <div class="kds-feedback-card-body">
-        <div class="kds-feedback-card-text">
-          <div class="kds-feedback-card-title" id="feedback-title">
-            <g:message code="${submitted ? 'feedback.thanks.title' : 'merchant.onboarding.start.modal.title'}"/>
-          </div>
-          <div class="kds-feedback-card-description">
-            <g:message code="${submitted ? 'feedback.thanks.description' : 'merchant.onboarding.start.modal.subtitle'}"/>
-          </div>
-        </div>
-        <g:unless test="${submitted}">
-          <mat:select name="discoverySource" bean="${new Object()}" value="" from="${discoverySourceOptions}"
-                      optionKey="id" optionValue="label" labelCode="merchant.discoverySource.label"
-                      noSelection="['': message(code: 'merchant.discoverySource.not.select.label')]"
-                      required="true"/>
-          <mat:button type="outlined" htmlType="submit" textCode="default.button.send.label"/>
-        </g:unless>
-      </div>
-    </section>
+    <%-- El cuerpo (los campos) solo se muestra sin enviar;
+         el tag agrega el botón de envío y, enviado, el agradecimiento. --%>
+    <kds:feedbackCard id="feedback" submitted="${submitted}"
+                      titleCode="merchant.onboarding.start.modal.title"
+                      descriptionCode="merchant.onboarding.start.modal.subtitle"
+                      thanksTitleCode="feedback.thanks.title" thanksDescriptionCode="feedback.thanks.description"
+                      submitLabelCode="default.button.send.label">
+      <mat:select name="discoverySource" bean="${new Object()}" value="" from="${discoverySourceOptions}"
+                  optionKey="id" optionValue="label" labelCode="merchant.discoverySource.label"
+                  noSelection="['': message(code: 'merchant.discoverySource.not.select.label')]"
+                  required="true"/>
+    </kds:feedbackCard>
   </g:form>
 </div>

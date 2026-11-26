@@ -561,8 +561,8 @@ export const FlujoCompleto: StoryObj<{ riesgo: Risk }> = {
               </KdsTypography>
               <KdsCardSelectorGroup label="Cuenta de recaudación">
                 {[
-                  ['cc1', 'N° 0-000-1234567-8'],
-                  ['cc2', 'N° 0-000-7654321-0'],
+                  ['cc1', 'N° •••• 4567'],
+                  ['cc2', 'N° •••• 4321'],
                 ].map(([value, number]) => (
                   <KdsCardSelector
                     key={value}

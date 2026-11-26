@@ -38,6 +38,11 @@ describe('KdsConsentCard', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'Khipu solicita acceso a BCI' })).toBeInTheDocument();
   });
 
+  it('takes the heading connector from requestsAccessLabel', () => {
+    renderCard({ requestsAccessLabel: 'requests access to' });
+    expect(screen.getByRole('heading', { level: 2, name: 'Khipu requests access to BCI' })).toBeInTheDocument();
+  });
+
   it('renders each section as a labelled group with its items; icons are decorative', () => {
     const { container } = renderCard();
     const datos = screen.getByRole('group', { name: 'Datos solicitados' });

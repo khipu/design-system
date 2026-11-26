@@ -24,6 +24,11 @@ export interface KdsConsentCardProps extends Omit<React.HTMLAttributes<HTMLEleme
    * another language). It is still the card's accessible name.
    */
   heading?: React.ReactNode;
+  /**
+   * Connector between requester and resource in the default heading.
+   * @default 'solicita acceso a'
+   */
+  requestsAccessLabel?: string;
   subtitle?: string;
   /** Logo shown above the title (e.g. a KdsMerchantTile). */
   logo?: React.ReactNode;
@@ -53,6 +58,7 @@ export const KdsConsentCard = forwardRef<HTMLElement, KdsConsentCardProps>(
       requester,
       resource,
       heading,
+      requestsAccessLabel = 'solicita acceso a',
       subtitle,
       logo,
       sections,
@@ -80,7 +86,7 @@ export const KdsConsentCard = forwardRef<HTMLElement, KdsConsentCardProps>(
           <div className="kds-consent-card-title" role="heading" aria-level={2} id={titleId}>
             {heading ?? (
               <>
-                <strong>{requester}</strong> solicita acceso a <strong>{resource}</strong>
+                <strong>{requester}</strong> {requestsAccessLabel} <strong>{resource}</strong>
               </>
             )}
           </div>

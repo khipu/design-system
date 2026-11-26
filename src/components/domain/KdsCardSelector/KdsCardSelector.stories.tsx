@@ -220,27 +220,21 @@ export const RadioOption: Story = {
   <!-- …misma estructura para "natural" -->
 </div>
 
-<!-- GSP (payment, merchant/selectFlowType.gsp): sin JS ni hidden input, el radio viaja en el form -->
-<div class="kds-card-selector-group" role="radiogroup" aria-label="\${message(code: 'merchant.onboarding.selectFlow.title')}">
+<!-- GSP (payment, merchant/selectFlowType.gsp) con el taglib kds (KTUF-536).
+     Sin JS ni hidden input: el radio viaja en el form. El cuerpo del tag va en
+     .kds-card-selector-details y admite markup. -->
+<kds:cardSelectorGroup label="\${message(code: 'merchant.onboarding.selectFlow.title')}">
   <g:each in="\${[[type: OnboardingType.LEGAL_ENTITY, key: 'legal', icon: 'business'],
                  [type: OnboardingType.NATURAL, key: 'natural', icon: 'person']]}" var="opt">
-    <div class="kds-card-selector kds-card-selector--radio">
-      <input type="radio" class="kds-card-selector-radio" id="flow-\${opt.key}" name="flowType"
-             value="\${opt.type.name()}" aria-describedby="flow-\${opt.key}-desc"/>
-      <span class="kds-card-selector-icon" aria-hidden="true"><i class="material-symbols-outlined">\${opt.icon}</i></span>
-      <label for="flow-\${opt.key}" class="kds-card-selector-title">
-        <g:message code="merchant.onboarding.selectFlow.\${opt.key}.title"/>
-      </label>
-      <span class="kds-card-selector-description" id="flow-\${opt.key}-desc">
-        <g:message code="merchant.onboarding.selectFlow.\${opt.key}.description"/>
-      </span>
-      <div class="kds-card-selector-details">
-        <span class="kds-card-selector-eyebrow"><g:message code="merchant.onboarding.selectFlow.\${opt.key}.requirements.title"/></span>
-        <ul>…</ul>
-      </div>
-    </div>
+    <kds:cardSelector id="flow-\${opt.key}" name="flowType" value="\${opt.type.name()}" required="true"
+                      checked="\${flowType == opt.type}" icon="\${opt.icon}"
+                      titleCode="merchant.onboarding.selectFlow.\${opt.key}.title"
+                      descriptionCode="merchant.onboarding.selectFlow.\${opt.key}.description">
+      <span class="kds-card-selector-eyebrow"><g:message code="merchant.onboarding.selectFlow.\${opt.key}.requirements.title"/></span>
+      <ul>…</ul>
+    </kds:cardSelector>
   </g:each>
-</div>`,
+</kds:cardSelectorGroup>`,
       },
     },
   },

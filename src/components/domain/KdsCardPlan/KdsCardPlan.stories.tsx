@@ -255,35 +255,18 @@ export const Selectable: Story = {
   </div>
 </div>
 
-<!-- GSP (payment): un solo form, el plan elegido viaja como "plan" -->
+<!-- GSP (payment) con el taglib kds (KTUF-536): un solo form, el plan elegido viaja como "plan" -->
 <g:form action="selectPlan">
-  <div class="kds-card-plan-group" role="radiogroup" aria-label="\${message(code: 'plan.select.label')}">
+  <kds:cardPlanGroup label="\${message(code: 'plan.select.label')}">
     <g:each in="\${plans}" var="plan">
-      <div class="kds-card-plan kds-card-plan--selectable\${plan.recommended ? ' recommended' : ''}">
-        <input type="radio" class="kds-card-plan-radio" id="plan-\${plan.code}" name="plan"
-               value="\${plan.code}"\${plan.code == selectedPlan ? ' checked' : ''}
-               aria-describedby="plan-\${plan.code}-price\${plan.recommended ? ' plan-' + plan.code + '-badge' : ''}"/>
-        <div class="kds-card-plan-header">
-          <h3><label for="plan-\${plan.code}">\${plan.name}</label></h3>
-        </div>
-        <div class="kds-card-plan-price" id="plan-\${plan.code}-price">
-          <span class="kds-price">\${plan.feeDescription}</span>
-        </div>
-        <g:if test="\${plan.description}">
-          <div class="kds-card-plan-description">\${plan.description}</div>
-        </g:if>
-        <g:if test="\${plan.recommended}">
-          <span class="kds-card-plan-badge" id="plan-\${plan.code}-badge"><g:message code="plan.recommended"/></span>
-        </g:if>
-        <ul class="kds-card-plan-features kds-card-plan-features--check">
-          <g:each in="\${plan.features}" var="feature">
-            <li><i class="material-symbols-outlined" aria-hidden="true">check</i>\${feature}</li>
-          </g:each>
-        </ul>
-      </div>
+      <kds:cardPlan id="plan-\${plan.code}" name="plan" value="\${plan.code}" required="true"
+                    checked="\${plan.code == selectedPlan}" title="\${plan.name}"
+                    price="\${plan.feeDescription}" description="\${plan.description}"
+                    recommended="\${plan.recommended}" badgeCode="\${plan.recommended ? 'plan.recommended' : null}"
+                    features="\${plan.features}" checkFeatures="true"/>
     </g:each>
-  </div>
-  <mat:button type="primary" htmlType="submit" text="\${message(code: 'default.continue')}"/>
+  </kds:cardPlanGroup>
+  <kds:button type="primary" htmlType="submit"><g:message code="default.continue"/></kds:button>
 </g:form>`,
       },
     },
