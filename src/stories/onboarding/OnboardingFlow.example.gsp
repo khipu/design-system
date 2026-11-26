@@ -194,7 +194,7 @@
       title: message(code: 'merchant.onboarding.title'),
       steps: SETUP_STEPS, current: 2,
       subtitle: message(code: 'merchant.progress.select.flowType.subtitle')]"/>
-  <%-- KTUF-536 spec: kds:cardSelectorGroup + kds:cardSelector (modo radio). El cuerpo del tag
+  <%-- Modo radio: el radio viaja en el form, sin JS. El cuerpo del tag
        es el detalle (.kds-card-selector-details) y lleva markup. --%>
   <kds:cardSelectorGroup label="${message(code: 'merchant.progress.select.flowType.subtitle')}">
     <g:each in="${[[type: OnboardingType.LEGAL_ENTITY, key: 'legal', icon: 'business', reqs: 4],
@@ -307,7 +307,7 @@
      ===================================================================================== --%>
 <g:form controller="merchant" action="bankAuthorizationSubmit" useToken="true">
   <div class="kds-screen active kds-max-w-500 kds-mx-auto">
-    <%-- KTUF-536 spec: kds:consentCard. sections = [[titleCode, items: [[icon, code]]]].
+    <%-- sections = [[titleCode, items: [[icon, code]]]].
          Los dos botones son submits del form (name="decision", value accept/reject). --%>
     <kds:consentCard id="consent" requester="Khipu" resource="${bank.name}"
                      sections="${consentSections}"
@@ -328,7 +328,7 @@
       steps: CONFIG_STEPS, current: 1]"/>
   <mat:alert type="success" description="${message(code: 'merchant.onboarding.account.validated', args: [bank.name])}"/>
   <h2 class="kds-m-0 kds-color-primary kds-fw-medium"><g:message code="merchant.onboarding.account.subtitle"/></h2>
-  <%-- KTUF-536 spec. Número de cuenta ENMASCARADO (minimización, Ley 21.719): el controller
+  <%-- Número de cuenta ENMASCARADO (solo los últimos 4 dígitos, minimización, Ley 21.719): el controller
        entrega account.maskedNumber y valida al recibir que accountId sea una cuenta del comercio. --%>
   <kds:cardSelectorGroup label="${message(code: 'merchant.onboarding.account.subtitle')}">
     <g:each in="${bankAccounts}" var="account" status="i">
@@ -350,7 +350,7 @@
       title: message(code: 'merchant.onboarding.legal.title'),
       steps: CONFIG_STEPS, current: 2,
       subtitle: message(code: 'merchant.onboarding.plan.subtitle')]"/>
-  <%-- KTUF-536 spec: kds:cardPlanGroup + kds:cardPlan seleccionable (con name/value). --%>
+  <%-- Con name/value la card es seleccionable: el plan viaja como "plan". --%>
   <kds:cardPlanGroup label="${message(code: 'merchant.onboarding.plan.subtitle')}">
     <g:each in="${plans}" var="plan">
       <kds:cardPlan id="plan-${plan.code}" name="plan" value="${plan.code}" required="true"
@@ -676,7 +676,7 @@
   </div>
   <hr class="divider"/>
   <h3 class="kds-m-0 kds-text-label"><g:message code="merchant.onboarding.contract.review"/></h3>
-  <%-- KTUF-536 spec: kds:contract. El cuerpo es el texto del contrato y NO se escapa: solo
+  <%-- El cuerpo es el texto del contrato y NO se escapa: solo
        contenido del sistema (plantilla vigente del contrato), nunca datos ingresados por el
        usuario. Emite data-kds-contract: Khipu.initContract (bundle) habilita el checkbox al
        llegar al final. --%>
@@ -726,7 +726,7 @@
   <%-- Acción nueva: la actual selectDiscoverySourceSubmit (encuesta al inicio) redirige a
        startOnboarding; esta guarda la respuesta y vuelve aquí con submitted = true. --%>
   <g:form action="onboardingDiscoverySourceSubmit">
-    <%-- KTUF-536 spec: kds:feedbackCard. El cuerpo (los campos) solo se muestra sin enviar;
+    <%-- El cuerpo (los campos) solo se muestra sin enviar;
          el tag agrega el botón de envío y, enviado, el agradecimiento. --%>
     <kds:feedbackCard id="feedback" submitted="${submitted}"
                       titleCode="merchant.onboarding.start.modal.title"

@@ -92,7 +92,7 @@ export const Default: Story = {
       </select>
       <label for="source">¿Cómo nos conociste?</label>
     </div>
-    <button type="submit" class="kds-btn kds-btn-outlined"><span>Enviar</span></button>
+    <button type="submit" class="kds-btn kds-btn-outlined"><span class="kds-btn-label">Enviar</span></button>
   </div>
 </section>
 
